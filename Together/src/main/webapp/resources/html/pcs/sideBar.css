@@ -1,3 +1,69 @@
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  user-select: none;
+}
+
+input{
+  font-family: 'GmarketSansMedium';
+  background-color: inherit;
+  border: none;
+  outline: none;
+}
+input::placeholder{
+  font-family: 'GmarketSansMedium';
+}
+input:focus{
+  border: none;
+  outline: none;
+}
+
+textarea{
+  background-color: inherit;
+}
+
+
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body{
+  font-family: 'GmarketSansMedium';
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+ul{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+button{
+  cursor: pointer;
+}
+
+
+html{
+  background-color: lightgray;
+}
+
+button{
+  border: none;
+  background-color: inherit;
+  display: none;
+}
+
+/* 나중에 지우기 + common */
+
+
 .sideBar{
     position: fixed;
     top: 0;
@@ -5,6 +71,14 @@
     width: 680px;
     height: 100%;
     display: flex;
+}
+
+.sidebar-menu-box{
+  width: 60px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .sidebar-menu{
@@ -15,9 +89,19 @@
   border-right: none;
 
   border-radius: 30px 0px 0px 30px;
-  
-
   display: flex;
+  flex-direction: column;
+  padding : 30px 0px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-menu>div{
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sidebar-wrapper{
@@ -25,4 +109,206 @@
   height: 100%;
   background-color: #ffffff;
 
+}
+
+.title{
+  width: 100%;
+  height: 120px;
+  padding: 45px 50px;
+  border-bottom: 1.5px solid #e3e3e3;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+.title>span{
+  font-size: 32px;
+}
+.body{
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.talkMenu-box{
+  width: 71px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 3px;
+
+  background-color: #ffe9f3;
+  border-right: 1px solid #d7b2c2;
+}
+
+.talkMenu{
+  width: 71px;
+  height: 71px;
+  margin-bottom: 8px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.talkMenu:nth-child(2){
+  padding-top: 8px;
+}
+
+.talkMenu.select{
+  background-color: #ff4d8e;
+}
+.talkMenu.unselect>a>img{
+  filter: brightness(0) saturate(100%) invert(64%) sepia(76%) saturate(3835%) hue-rotate(321deg) brightness(115%) contrast(109%);
+}
+
+.noti{
+  width: 25px;
+  height: 25px;
+  background-color: #f4551e;
+  border-radius: 50%;
+  position: absolute;
+  font-size: 20px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.noti>span{
+  width: 25px;
+  height: 23px;
+  line-height: 25px;
+  text-align: center;
+}
+
+.noti-menu{
+  top: 15px;
+  left: 5px;
+}
+
+
+.content{
+  width: 549px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: right;
+  padding-right: 8px;
+}
+
+.search-area{
+  display: flex;
+  flex-direction: row;
+  width: 462px;
+  height: 60px;
+  border-bottom: 1px solid #b5b5b5;
+  padding: 4px 14px;
+  margin:0 39px;
+  margin-bottom: 4px;
+}
+
+.search-area>*>*{
+  display: flex;
+  flex-direction: row;
+}
+
+
+.button{
+  width: 34px;
+  height: 60px;
+  margin-left: 7px;
+  padding: 9px 0 9px 7px;
+}
+.button>img{
+  width: 27px;
+  height: 42px;
+}
+
+.button:hover{
+  cursor: pointer;
+}
+
+
+#sideBar-input{
+  height: 52px;
+  width: 393px;
+  
+  font-size: 24px;
+  padding-top: 15px;
+}
+
+
+
+.chat-room-box{
+  width: 100%;
+  padding:0 14px;
+}
+
+.chat-room{
+  width: 513px;
+  height: 127px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  margin: 22px 0;
+  display: flex;
+
+  /* 테두리 그라데이션 */
+  background-image: linear-gradient(white, white), linear-gradient(to left, #9969ff, #fd499a);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+
+  /* 그림자 */
+  box-shadow: rgba(253, 73, 154, 0.37) 0px 4px 10px;
+}
+
+
+
+.profile-box{
+  height: 127px;
+  width: 115px;
+}
+
+.profile{
+  width: 85px;
+  height: 85px;
+  border-radius: 35px;
+  margin: 23px 15px 18px 15px;
+}
+
+.chat{
+  width: 284px;
+  height: 127px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-name{
+  margin-top: 33px;
+  height: 23px;
+  font-size: 20px;
+}
+.chat-content{
+  margin-top: 10px;
+  font-size: 16px;
+  height: 18px;
+  white-space: nowrap;
+  color: #7a7a7a;
+  max-width: 280px;
+}
+
+.chat-info{
+  width: 112px;
+  height: 127px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.chat-time{
+  font-size: 16px;
+  margin-top: 83px;
+}
+
+.noti-chat{
+  top: 32px;
+  right: 36px;
 }
