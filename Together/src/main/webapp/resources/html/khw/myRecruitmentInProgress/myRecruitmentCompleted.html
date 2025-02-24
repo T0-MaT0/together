@@ -49,10 +49,10 @@
     
         <!-- 네비게이션 버튼 -->
         <nav id="nav-buttons">
-            <button onclick="location.href='recruiting.html'">모집 중</button>
-            <button onclick="location.href='completed.html'">모집 완료</button>
-            <button onclick="location.href='myPosts.html'">내가 쓴 글</button>
-            <button onclick="location.href='favorites.html'">찜한 목록</button>
+            <button >완료 09</button>
+            <button >내 09현황</button>
+            <button >댓글</button>
+            <button >리뷰</button>
         </nav>
         
         <div id="container"> <!-- 모든 내용을 감싸는 div -->
@@ -70,24 +70,30 @@
                 </div>
             </div>
 
-            <!-- 모집 목록 -->
-            <div id="recruit-list">
-                <input type="checkbox" class="checkbox">
-                <span style="font-size: 20px;">모집 완료 09</span>
+           <!-- 모집 목록 -->
+           <div id="recruit-list">
+            <div class="recruit-header">
+                <input type="checkbox" id="topcheckbox">
+                <span class="title">모집 완료 09</span>
+            </div>
 
                 <!-- 모집 카드 -->
                 <div class="recruit-card completed">
                     <input type="checkbox" class="checkbox">
                     <div class="recruit-info">
-                        <span class="badge red">모집 완료</span>
-                        <h3>물 24개 나누실 분</h3>
-                        <div class="details">
-                            <p>기간: -</p>
-                            <p>모집인원: 4/4</p>
+                        <div class="header">
+                            <span class="badge red">모집 완료</span>
+                            <h3>물 24개 나누실 분</h3>
                         </div>
-                        <div class="price">
-                            <span class="original">10000pt</span>
-                            <span class="sale">2500pt</span>
+                        <div class="info-footer">
+                            <div class="details">
+                                <span>기간: -</span>
+                                <span>모집인원: 4/4</span>
+                            </div>
+                            <div class="price">
+                                <span class="original">10000pt</span>
+                                <span class="sale">2500pt</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -95,15 +101,19 @@
                 <div class="recruit-card in-progress">
                     <input type="checkbox" class="checkbox">
                     <div class="recruit-info">
-                        <span class="badge blue">진행 중</span>
-                        <h3>햇반 36개 같이 사요</h3>
-                        <div class="details">
-                            <p>기간: -</p>
-                            <p>모집인원: 4/4</p>
+                        <div class="header">
+                            <span class="badge red">모집 완료</span>
+                            <h3>햇반 36개 같이 사요</h3>
                         </div>
-                        <div class="price">
-                            <span class="original">27900pt</span>
-                            <span class="sale">13950pt</span>
+                        <div class="info-footer">
+                            <div class="details">
+                                <span>기간: -</span>
+                                <span>모집인원: 4/4</span>
+                            </div>
+                            <div class="price">
+                                <span class="original">27900pt</span>
+                                <span class="sale">13950pt</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -111,20 +121,26 @@
                 <div class="recruit-card not-full">
                     <input type="checkbox" class="checkbox">
                     <div class="recruit-info">
-                        <span class="badge purple">모집 마감</span>
-                        <h3>후드티 1+1 하나씩 가져 갈 09인 구함</h3>
-                        <div class="details">
-                            <p>기간: -</p>
-                            <p>모집인원: 1/4</p>
+                        <div class="header">
+                            <span class="badge purple">모집 마감</span>
+                            <h3>후드티 1+1 하나씩 가져 갈 09인 구함</h3>
                         </div>
-                        <div class="price">
-                            <span class="original">29800pt</span>
-                            <span class="sale">14900pt</span>
+                        <div class="info-footer">
+                            <div class="details">
+                                <span>기간: -</span>
+                                <span>모집인원: 1/4</span>
+                            </div>
+                            <div class="price">
+                                <span class="original">29800pt</span>
+                                <span class="sale">14900pt</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <button class="create-btn">기록 삭제</button>
+                <div class="delete-btn-container">
+                    <button class="create-btn">기록 삭제</button>
+                </div>
             </div>
 
             
