@@ -1,0 +1,192 @@
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'GmarketSansMedium', sans-serif;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* 모집 상세 컨테이너 */
+#recruit-detail {
+    width: 882px;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin: 40px auto; /* 위아래 간격 추가 */
+}
+
+/* 상단 배지 */
+.badge {
+    background: #ffcc00;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* 제목 및 구매자 정보 */
+.recruit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* 이미지 캐러셀 */
+.image-carousel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.main-image {
+    width: 227px;
+    height: 376px;
+    border-radius: 8px;
+}
+
+.thumbnail-container {
+    display: flex;
+    flex-direction: column; 
+    gap: 20px; 
+    align-items: center; 
+    margin-left: 50px;
+}
+
+.thumbnail {
+    width: 238px;
+    height: 205px;
+    border-radius: 5px;
+}
+
+.carousel-btn {
+    background: none;
+    border: none;
+    font-size: 100px;
+    cursor: pointer;
+    opacity: 0.4; 
+    margin : 70px;
+}
+.carousel-btn:hover {
+    opacity: 1;
+}
+
+/* 상품 설명 */
+h3 {
+    margin: 10px 0;
+}
+
+.product-link {
+    color: blue;
+    text-decoration: underline;
+}
+
+/* 모집 정보 */
+.recruit-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.info-box, .price-box {
+    text-align: left;
+}
+
+.price-box {
+    text-align: right;
+}
+
+.original {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.sale {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff6600;
+}
+
+/* 참여하기 버튼 */
+.join-btn {
+    width: 100%;
+    background: #ff6600;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.join-btn:hover {
+    background: #cc5500;
+}
+
+/* 설명란 */
+.recruit-description textarea {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    resize: none;
+    font-family: 'GmarketSansMedium';
+}
+
+/* 댓글 입력 */
+.comment-section {
+    display: flex;
+    margin-top: 10px;
+}
+
+.comment-input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.comment-btn {
+    background: #ff6600;
+    border: none;
+    padding: 8px 12px;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.comment-btn:hover {
+    background: #cc5500;
+}
+
+/* 댓글 목록 */
+.comment-list {
+    margin-top: 10px;
+}
+
+.comment {
+    background: #f9f9f9;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+}
