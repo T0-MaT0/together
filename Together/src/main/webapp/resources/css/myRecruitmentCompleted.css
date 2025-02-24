@@ -1,0 +1,167 @@
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'GmarketSansMedium', sans-serif;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* 전체 컨테이너 */
+#container {
+    justify-content: center;
+    align-items: center;
+    width: 870px;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    position: relative;
+    background-color: white;
+    margin-bottom: 80px;
+}
+
+/* 네비게이션 버튼 */
+#nav-buttons {
+    
+    display: flex;
+    justify-content: baseline;
+    margin-top: 40px;
+    margin-bottom: -20px;
+    width: 100%;
+    background: white;
+    padding: 10px;
+    gap: 10px;
+}
+
+#nav-buttons button {
+    padding: 10px 10px;
+    border: none;
+    background: #ff1493;
+    color: white;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#nav-buttons button:hover {
+    background: #cc1274;
+}
+
+/* 프로필 섹션 */
+#profile {
+    width: 60%;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    margin-top: 50px;
+    box-shadow: 0px 2px 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.profile-info p {
+    margin: 4px 0;
+}
+
+.points span {
+    font-weight: bold;
+    color: #ff1493;
+}
+
+/* 모집 목록 */
+#recruit-list {
+    width: 80%;
+    margin: auto;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* 모집 카드 */
+.recruit-card {
+    display: flex;
+    align-items: flex-start;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #f9f9f9;
+}
+
+.checkbox {
+    margin-right: 10px;
+}
+
+.recruit-info {
+    flex: 1;
+}
+
+.recruit-card h3 {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+/* 가격 정보 정렬 */
+.details, .price {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.original {
+    text-decoration: line-through;
+    color: #888;
+}
+
+.sale {
+    color: #ff1493;
+    font-weight: bold;
+}
+
+/* 배지 스타일 */
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+.red { background: #ff4d4d; }
+.blue { background: #0099ff; }
+.purple { background: #800080; }
+
+/* 버튼 */
+.create-btn {
+    width: 15%;
+    background: #ff1493;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.create-btn:hover {
+    background: #cc1274;
+}
