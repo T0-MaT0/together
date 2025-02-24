@@ -27,6 +27,7 @@ header {
     align-items: center;
     width: 100%;
 }
+
 .logo-nav {
     display: flex;
     align-items: center;
@@ -47,13 +48,18 @@ header {
     text-decoration: none;
     color: #9969FF;
 }
-.main-nav .btn-get-game {
+
+.to-brand:hover:hover {
+    background-color: #9969FF;
+    transition-duration: 0.3s;
+    color: white;
+}
+.main-nav .btn-get-personal {
     background: #FD499A;
     color: white;
     padding: 5px 10px;
     border-radius: 5px;
     text-decoration: none;
-    border: 2px solid #FD499A;
 }
 .main-nav a {
     margin: 0 10px;
@@ -61,6 +67,7 @@ header {
     color: black;
 }
 .main-nav span {
+    margin: 0 10px;
     display: flex;
     align-items: center;
 }
@@ -90,6 +97,7 @@ header {
     border-top: 2px solid #ff66b2;
     border-bottom: 2px solid black;
 }
+
 .sub-nav .container {
     display: flex;
     justify-content: space-between;
@@ -98,20 +106,39 @@ header {
 .sub-nav .left-links {
     display: flex;
 }
+
 .sub-nav .right-links {
     display: flex;
 }
-.sub-nav a {
-    margin: 0 15px;
+.sub-nav .left-links span{
+    margin: 10px 0px;
+}
+.sub-nav .left-links a{
+    margin: 5px 15px;
     text-decoration: none;
     color: black;
 }
-main {
-    width: 100%;
-    max-width: 1080px;
-    min-height: 500px;
-    margin-bottom: 50px;
+.sub-nav .right-links a{
+    margin: 5px 15px;
+    text-decoration: none;
+    color: black;
 }
+
+.sub-nav .right-links a:nth-of-type(1){
+    margin: 10px 15px;
+}
+.sub-nav .right-links a:nth-of-type(2){
+    margin: 5px 15px;
+}
+
+.sub-nav .right-links span{
+    margin: 10px 0px;
+}
+.sub-nav a:hover{
+    color : #ff66b2;
+    transition-duration: 0.3s;
+}
+
 
 .footer-container {
     width: 100%;
@@ -153,6 +180,11 @@ main {
 }
 .footer-links span {
     color: black;
+}
+.footer-links a:nth-of-type(4),
+.footer-links a:nth-of-type(5),
+.footer-links a:nth-of-type(6){
+    margin: -5px 0px;
 }
 .footer-divider {
     width: 100%;
