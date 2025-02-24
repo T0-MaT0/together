@@ -192,7 +192,7 @@ button{
   flex-direction: column;
   align-items: center;
   justify-content: right;
-  padding-right: 8px;
+
 }
 
 .search-area{
@@ -204,6 +204,7 @@ button{
   padding: 4px 14px;
   margin:0 39px;
   margin-bottom: 4px;
+  margin-right: 8px;
 }
 
 .search-area>*>*{
@@ -241,6 +242,7 @@ button{
 .chat-room-box{
   width: 100%;
   padding:0 14px;
+  margin-right: 8px;
 }
 
 .chat-room{
@@ -271,8 +273,16 @@ button{
   width: 85px;
   height: 85px;
   border-radius: 35px;
+}
+
+.profile-inBox{
   margin: 23px 15px 18px 15px;
 }
+.profile-inTitle{
+  margin: 13px 0 13px 12px;
+}
+
+
 
 .chat{
   width: 284px;
@@ -311,4 +321,138 @@ button{
 .noti-chat{
   top: 32px;
   right: 36px;
+}
+
+/* chat Open */
+.profile-area{
+  width: 549px;
+  height: 112px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-area::after{
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, #FF4D8E, #A45FE3);
+}
+
+.title-profile-box{
+  height: 112px;
+  width: 98px;
+}
+
+.chat-title{
+  font-size: 24px;
+  width: 301px;
+}
+
+.chat-title>span{
+  margin-left: 24px;
+}
+
+.title-menu-box{
+  display: flex;
+  flex-direction: row;
+  width: 150px;
+  height: 112px;
+  padding-right: 10px;
+  align-items: center;
+}
+
+.title-menu{
+  height: 51px;
+  width: 51px;
+  margin-right: 19px;
+}
+
+.circle-gradation{
+  width: 51px;
+  height: 51px;
+  border: 1px solid transparent;
+  border-radius: 50%;
+
+  background-image: linear-gradient(white, white), linear-gradient(to right, #FF5BC3, #A45FE3);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle-gradation.plus>div{
+  width: 8px;
+  height: 8px;
+
+  border-radius: 50%;
+
+  margin: 0 3px;
+
+  background-image: linear-gradient(to right, #FF4D8E, #A45FE3);
+  mask: linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.circle-gradation.minus>div{
+  width: 31px;
+  height: 8px;
+
+  border-radius: 4px;
+  background-image: linear-gradient(to right, #FF4D8E, #A45FE3);
+  mask: linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+.chat-area{
+  background-color: #FFEAF3;
+  width: 549px;
+  height: calc(100%  - 408px);
+}
+
+.typing-area{
+  width: 549px;
+  height: 176px;
+
+  box-shadow: 0 -4px 15px 0 rgba(255, 77, 142, 0.25),
+              0 -4px 5px 0 rgba(164, 95, 227, 0.25) ;
+  display: flex;
+  flex-direction: row;
+}
+
+.textInput-area{
+  width: 472px;
+  height: 176px;
+}
+
+.textInput-area>div{
+  width: 441px;
+  height: 131px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  background-image: linear-gradient(white, white), linear-gradient(to right, #FF4D8E, #992E55);
+
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+
+  margin-left: 31px;
+  margin-top: 25px;
+
+}
+
+.typing-menu-box{
+  width: 77px;
+  height: 176px;
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-evenly;
+  align-items: center;
 }
