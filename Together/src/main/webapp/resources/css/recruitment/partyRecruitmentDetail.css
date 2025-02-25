@@ -18,20 +18,27 @@ body {
 #recruit-detail {
     width: 882px;
     background: white;
-    padding: 20px;
+    padding: 60px;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     text-align: center;
     margin: 40px auto; /* 위아래 간격 추가 */
 }
 
+.recruit-title{
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
 /* 상단 배지 */
 .badge {
     background: #ffcc00;
     color: white;
-    padding: 5px 10px;
+    padding: 10px 10px;
     border-radius: 5px;
     font-weight: bold;
+    margin: 20px;
 }
 
 /* 제목 및 구매자 정보 */
@@ -39,8 +46,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 50px;
 }
+
 
 /* 이미지 캐러셀 */
 .image-carousel {
@@ -93,20 +101,72 @@ h3 {
     text-decoration: underline;
 }
 
-/* 모집 정보 */
-.recruit-info {
+/* 모집 정보 전체 컨테이너 */
+.recruit-info-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* 양쪽 정렬 */
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* 왼쪽 섹션 (제주 삼다수 + 링크) */
+.product-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+/* 모집 정보 박스 */
+.info-box {
+    background-color: #eef2ff; /* 연한 파란색 배경 */
+    padding: 0px 30px 0px 0px;
+    width: 250PX;
+    border-radius: 15px;
+    text-align: end;
+}
+
+/* 모집 진행도 바 컨테이너 */
+.progress-container {
+    display: flex;
+    justify-content: end;
+}
+
+/* 진행도 바 */
+.progress-bar {
+    width: 60%;
+    height: 6px;
+    background-color: #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* 진행 상태 */
+.progress {
+    height: 100%;
+    background-color: #00ff6a; /* 초록색 진행 바 */
+    border-radius: 10px;
+    transition: width 0.5s ease-in-out;
+}
+.people {
+    font-size: 12px;
+    margin-top: -2px;
+}
+
+/* 가격 정보 컨테이너 */
+.price-container {
+    display: flex;
+    justify-content: space-between; /* 양쪽 정렬 */
+    align-items: center;
     margin-top: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
 }
 
-.info-box, .price-box {
+/* 왼쪽 설명 텍스트 */
+.price-info {
     text-align: left;
+    font-size: 14px;
 }
 
+/* 오른쪽 가격 정보 */
 .price-box {
     text-align: right;
 }
@@ -114,10 +174,11 @@ h3 {
 .original {
     text-decoration: line-through;
     color: #888;
+    font-weight: bold;
 }
 
 .sale {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     color: #ff6600;
 }
