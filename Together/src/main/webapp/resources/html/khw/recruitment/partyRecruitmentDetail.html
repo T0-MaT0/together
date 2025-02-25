@@ -49,9 +49,13 @@
     <main>
         <div id="recruit-detail">
             <div class="recruit-header">
-                <span class="badge yellow">3일 남음</span>
-                <h2>물 24개 나누실 분</h2>
-                <span class="buyer-info">구매중: 인성09</span>
+                <div id="title">
+                    <span class="badge yellow">모집 중</span>
+                    <span class="recruit-title">물 24개 나누실 분</span>
+                </div>
+                <div>
+                    <span class="buyer-info">구매중: 인성09</span>
+                </div>
             </div>
 
             <!-- 상품 이미지 캐러셀 -->
@@ -65,17 +69,35 @@
                 <button class="carousel-btn right">&gt;</button>
             </div>
 
-            <h3>제주 삼다수</h3>
-            <a href="#" class="product-link">🔗 링크 바로가기</a>
+            <!-- 모집 정보 전체 컨테이너 -->
+            <div class="recruit-info-container">
+                <!-- 왼쪽: 상품명 & 링크 -->
+                <div class="product-details">
+                    <h3>제주 삼다수</h3>
+                    <a href="#" class="product-link">🔗 링크 바로가기</a>
+                </div>
 
-            <p class="description">전례 구매시 필요한 금액
-                유저들과 함께 사기</p>
-
-            <!-- 기간, 모집인원, 가격 -->
-            <div class="recruit-info">
+                <!-- 모집 정보 박스 -->
                 <div class="info-box">
-                    <p>기간: <strong>22.01.13 ~ 22.02.01</strong></p>
-                    <p>모집인원: <strong>6개</strong></p>
+                    <p>기간 : <strong>22.01.13 ~ 22.02.01</strong></p>
+
+                    <!-- 진행도 바 -->
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 50%;"></div> <!-- 모집 진행도 25% -->
+                        </div>
+                    </div>
+                    <p class="people">모집인원: <strong>1 / 4</strong></p>
+
+                    <p class="items">1인당: <strong>6개</strong></p>
+                </div>
+            </div>
+
+           <!-- 가격 정보 컨테이너 -->
+            <div class="price-container">
+                <div class="price-info">
+                    <p>전제 구매 시 필요한 금액</p>
+                    <p><strong>유저들과 함께 사기</strong></p>
                 </div>
                 <div class="price-box">
                     <p class="original">10000원</p>
