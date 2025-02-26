@@ -1,20 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Side bar</title>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+
 <link rel="stylesheet" type="text/css" href="sideBar.css">
 
-</head>
-<body>
+
+<sideBar>
   <div class="sideBar" id="sideBar">
     <div class="sidebar-menu-box" id="sidebar-menu-box">
       <div class="sidebar-menu" >
         <div><a href=""><img src="images/X.svg" width="30px" height="30px" alt=""></a></div>
-        <div><a href=""><img src="images/favorite-cart.svg" width="32px" height="32px" alt=""></a></div>
-        <div><a href=""><img src="images/+.svg" width="31px" height="32px" alt=""></a></div>
-        <div><a href=""><img src="images/ArrowUp.svg" height="30px" alt=""></a></div>
-        <div><a href=""><img src="images/ArrowDown.svg" height="30px" alt=""></a></div>
+        <div><a href=""><img src="images/+.svg" alt=""></a></div>
+        <div><a href=""><img src="images/shop.svg" alt=""></a></div>
+        <div><a href=""><img src="images/ArrowUp.svg" alt=""></a></div>
+        <div><a href=""><img src="images/ArrowDown.svg" alt=""></a></div>
       </div>
     </div>
     <div class="sidebar-wrapper">
@@ -87,7 +86,7 @@
               <div class="chat-boxes">
                   <div class="chat-box">
                     <span>
-                      ㅎ??????ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ
+                      ㅎ??????
                     </span>
                   </div>
                   <div class="chat-box">
@@ -244,5 +243,4 @@
   </div>
 
   <script src="sideBarMain.js"></script>
-</body>
-</html>
+</sideBar>

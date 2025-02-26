@@ -1,29 +1,3 @@
-*{
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-  user-select: none;
-}
-
-input{
-  font-family: 'GmarketSansMedium';
-  background-color: inherit;
-  border: none;
-  outline: none;
-}
-input::placeholder{
-  font-family: 'GmarketSansMedium';
-}
-input:focus{
-  border: none;
-  outline: none;
-}
-
-textarea{
-  background-color: inherit;
-}
-
-
 @font-face {
   font-family: 'GmarketSansMedium';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
@@ -31,46 +5,79 @@ textarea{
   font-style: normal;
 }
 
-body{
+
+.sideBar input{
+  font-family: 'GmarketSansMedium';
+  background-color: inherit;
+  border: none;
+  outline: none;
+}
+
+.sideBar input::placeholder{
   font-family: 'GmarketSansMedium';
 }
 
-a{
+.sideBar input:focus{
+  border: none;
+  outline: none;
+}
+
+.sideBar textarea{
+  background-color: inherit;
+}
+
+.sideBar a{
   text-decoration: none;
   color: inherit;
 }
 
-ul{
+.sideBar ul{
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-button{
+.sideBar button{
   cursor: pointer;
-}
-
-
-html{
-  background-color: lightgray;
-}
-
-button{
   border: none;
   background-color: inherit;
   display: none;
 }
 
-/* 나중에 지우기 + common */
+
+html{
+  /* 나중에 지우기 + common */
+  background-color: lightgray;
+}
+
+
 
 
 .sideBar{
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 680px;
-    height: 100%;
-    display: flex;
+  position: fixed;
+  font-family: 'GmarketSansMedium';
+  top: 0;
+  right: -620px;
+  z-index: 100;
+  width: 680px;
+  height: 100%;
+  display: flex;
+  transition: transform 0.5s;
+}
+
+.sideBar *{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  user-select: none;
+}
+
+
+
+.active{
+
+  /* 620px 이동 */
+  transform: translateX(-620px);
 }
 
 .sidebar-menu-box{
@@ -162,8 +169,7 @@ button{
 }
 
 .noti{
-  width: 25px;
-  height: 25px;
+  
   background-color: #f4551e;
   border-radius: 50%;
   position: absolute;
@@ -173,14 +179,40 @@ button{
   justify-content: center;
   align-items: center;
 }
+
+.sidebar-menu>div:nth-of-type(2){
+  position: relative;
+}
+
+
+.noti-bar{
+  width: 20px;
+  height: 20px;
+  top: 8px;
+  right: 8px;
+}
+
+
 .noti>span{
+  
   width: 25px;
   height: 23px;
   line-height: 25px;
   text-align: center;
 }
 
+
+.noti-bar>span{
+  width: 20px;
+  height: 16px;
+  line-height: 20px;
+  font-size: 15px;
+  text-align: center;
+}
+
 .noti-menu{
+  width: 25px;
+  height: 25px;
   top: 15px;
   left: 5px;
 }
@@ -241,28 +273,70 @@ button{
 
 .chat-room-box{
   width: 100%;
-  padding:0 14px;
-  margin-right: 8px;
+  padding:0 18px 22px 14px;
+  height: calc(100vh - 184px);
+
+  box-shadow: inset 0 -4px 15px 0 rgba(255, 77, 142, 0.25),
+              inset 0 -4px 5px 0 rgba(164, 95, 227, 0.25),
+              inset 0 2px 15px 0 rgba(255, 77, 142, 0.25),
+              inset 0 2px 5px 0 rgba(164, 95, 227, 0.25) ;
+}
+
+.chat-room-box{
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.chat-room-box::-webkit-scrollbar {
+  width: 4px;
+}
+.chat-room-box::-webkit-scrollbar-thumb {
+  background: linear-gradient(to top , #FF4D8E, #A45FE3 , #FF4D8E);
+  border-radius: 6px;
+}
+
+.chat-room-box::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 
 .chat-room{
   width: 513px;
   height: 127px;
-  border: 1px solid transparent;
   border-radius: 10px;
   margin: 22px 0;
   display: flex;
+  
+  
+  border: 1px solid #e3e3e3;
+  /* 그림자 */
+  box-shadow: rgba(253, 73, 154, 0.37) 0px 4px 10px;
 
+  transition-duration: 0.4s;
+}
+
+.chat-room:hover{
   /* 테두리 그라데이션 */
+  border: 1px solid transparent;
+
   background-image: linear-gradient(white, white), linear-gradient(to left, #9969ff, #fd499a);
   background-origin: border-box;
   background-clip: content-box, border-box;
 
-  /* 그림자 */
-  box-shadow: rgba(253, 73, 154, 0.37) 0px 4px 10px;
+  box-shadow:  0 -1px 15px 0 rgba(255, 77, 142, 0.25),
+        0 -1px 5px 0 rgba(164, 95, 227, 0.25),
+        0 1px 15px 0 rgba(255, 77, 142, 0.25),
+        0 1px 5px 0 rgba(164, 95, 227, 0.25),
+        -2px 0 15px 0 rgba(255, 77, 142, 0.25),
+        -2px 0 5px 0 rgba(164, 95, 227, 0.25),
+        2px 0 15px 0 rgba(255, 77, 142, 0.25),
+        2px 0 5px 0 rgba(164, 95, 227, 0.25)
+  
 }
 
-
+img{
+  /* div 내에 크기 */
+  max-width: 100%;
+  max-height: 100%;
+}
 
 .profile-box{
   height: 127px;
@@ -319,6 +393,8 @@ button{
 }
 
 .noti-chat{
+  width: 25px;
+  height: 25px;
   top: 32px;
   right: 36px;
 }
@@ -484,6 +560,11 @@ button{
   flex-direction: column;
 
   padding: 14px 2px 11px 2px;
+
+  box-shadow: inset 0 -4px 15px 0 rgba(255, 77, 142, 0.25),
+              inset 0 -4px 5px 0 rgba(164, 95, 227, 0.25),
+              inset 0 2px 15px 0 rgba(255, 77, 142, 0.25),
+              inset 0 2px 5px 0 rgba(164, 95, 227, 0.25) ;
 }
 
 /* 스크롤바 */
@@ -492,35 +573,16 @@ button{
   overflow-x: hidden;
 }
 .chat-area::-webkit-scrollbar {
-  width: 15px;
+  width: 4px;
 }
 .chat-area::-webkit-scrollbar-thumb {
-  background-color: transparent;
+  background: linear-gradient(to top , #FF4D8E, #A45FE3 , #FF4D8E);
   border-radius: 6px;
-  position: relative;
-}
-
-.chat-area::-webkit-scrollbar-thumb::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: inherit;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 }
 
 .chat-area::-webkit-scrollbar-track {
-  background:none;
-  border:none;
+  background-color: transparent;
 }
-.scrollBar-backGround{
-  width: 15px;
-  background: linear-gradient(to bottom, purple, pink);
-}
-
 
 .chat-area>div{
   width: 100%; /* 전체 너비 지정 */
@@ -531,7 +593,7 @@ button{
   flex-shrink: 0;
 }
 
-.profile-box{
+.chat-area .profile-box{
   width: 53px;
   height: 53px;
   margin: 0 11px;
