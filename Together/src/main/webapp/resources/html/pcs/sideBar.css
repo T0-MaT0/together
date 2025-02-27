@@ -80,6 +80,19 @@ html{
   transform: translateX(-620px);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 .sidebar-menu-box{
   width: 60px;
   height: 100%;
@@ -136,16 +149,20 @@ html{
   display: flex;
 }
 
-.talkMenu-box{
-  width: 71px;
+.sideBox{
   height: 100%;
   display: flex;
   flex-direction: column;
   padding-top: 3px;
-
+  
   background-color: #ffe9f3;
   border-right: 1px solid #d7b2c2;
 }
+
+.talkMenus{
+  width: 71px;
+}
+
 
 .talkMenu{
   width: 71px;
@@ -178,6 +195,13 @@ html{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.select>.noti{
+  background-color: #68DE2C;
+  background-color: #3DE03E;
+  
+  color: white;
 }
 
 .sidebar-menu>div:nth-of-type(2){
@@ -222,9 +246,6 @@ html{
   width: 549px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: right;
-
 }
 
 .search-area{
@@ -670,4 +691,152 @@ img{
 
 .own>.chat-boxes{
   align-items: end;
+}
+
+
+
+/* 장바구니 */
+
+.pick.sideBox{
+  width: 41px;
+}
+
+
+
+#pickListBox{ /* 스크롤 박스 */
+  width: 579px;
+  height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: 33px 0;
+  margin: 0;
+}
+
+#pickListBox::-webkit-scrollbar {
+  width: 4px;
+}
+
+#pickListBox::-webkit-scrollbar-thumb {
+  background: linear-gradient(to top , #FF4D8E, #A45FE3 , #FF4D8E);
+  border-radius: 6px;
+}
+
+#pickListBox::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.itemBox{
+  width: 511px;
+  height: 192px;
+  
+  margin: 17px 33px;
+
+
+  /* flax로 줄어들지 않음 */
+  flex-shrink: 0;
+  display: flex;
+}
+
+.thumb{
+  width: 144px;
+  height: 192px;
+  border-radius: 20px;
+}
+
+.thumb>img{
+  width: 144px;
+  height: 192px;
+  object-fit: cover;
+  border-radius: 20px;
+
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+.digit{
+  width: 314px;
+  height: 192px;
+  padding-left: 19px;
+}
+
+.deleteBtn-area{
+  width: 53px;
+  height: 192px;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+}
+
+.digit>div:nth-of-type(1){
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 7px;
+  color: #FD499A;
+  height: 23px;
+}
+.digit>div:nth-of-type(2){
+  overflow: hidden;
+  height: 21px;
+  margin-top: 7px;
+}
+.digit>div:nth-of-type(3){
+  height: 36px;
+  margin-top: 14px;
+  color: #d7a9a9;
+  font-size: 16px;
+  /* 줄넘김 길이 줄이기 */
+  line-height: 18px;
+  
+}
+.digit>div:nth-of-type(4){
+  height: 18px;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.digit>div:nth-of-type(4)>:nth-child(1){
+  color: #7d7a7a;
+  font-size: 16px;
+}
+.digit>div:nth-of-type(4)>:nth-child(2){
+  color: #e101ff;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+
+.digit>div:nth-of-type(5){
+  margin-top: 16px;
+  margin-right: 12px;
+  float: right;
+  width: 180px;
+  height: 42px;
+  background-color: #FD499A;
+  color: white;
+  border-radius: 5px;
+
+  font-size: 20px;
+  text-align: center;
+  line-height: 42px;
+}
+
+
+
+
+
+
+
+
+/* 지우기 && 항상 마지막 */
+
+
+
+.hidden{
+  display: none;
 }
