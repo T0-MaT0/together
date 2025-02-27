@@ -143,7 +143,7 @@ h3 {
 /* 진행 상태 */
 .progress {
     height: 100%;
-    background-color: #00FF62; /* 초록색 진행 바 */
+    background-color: red; /* 초록색 진행 바 */
     border-radius: 10px;
     transition: width 0.5s ease-in-out;
 }
@@ -195,7 +195,7 @@ h3 {
     display: block;
     margin-left: auto;
     width: 10%;
-    background: #61C5FE;
+    background: #ffcc00;
     color: white;
     padding: 10px;
     border: none;
@@ -222,20 +222,12 @@ h3 {
     font-family: 'GmarketSansMedium';
 }
 
-
-
-/* 버튼 컨테이너 */
-.button-container {
-    display: flex;
-    justify-content: flex-end; /* 오른쪽 정렬 */
-    gap: 10px; /* 버튼 간격 */
-    margin-top: 10px;
-}
-
-/* 목록 및 수정 버튼 */
+/* 목록 버튼 */
 .list-btn {
-    background: #ffcc00;
+    display: block;
+    margin-left: auto;
     width: 10%;
+    background: #ffcc00;
     color: white;
     padding: 10px;
     border: none;
@@ -248,24 +240,6 @@ h3 {
 
 .list-btn:hover {
     background: #e6b800;
-}
-
-/* 수정 버튼 */
-.update-btn {
-    background: #C4C4C4;
-    width: 10%;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-    margin-bottom: 15px;
-}
-
-.update-btn:hover {
-    background: #7E42B4;
 }
 
 /* 댓글 입력 */
