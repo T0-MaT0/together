@@ -1,0 +1,96 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+main{
+    min-width: 1440px;
+    margin: 0 auto;
+}
+
+/* content */
+.content{
+    padding: 100px auto;
+}
+
+/* 옵션 영역 */
+#optionArea{
+    display: flex;
+}
+
+/* 제품 이미지 영역 */
+#optionArea>.product-img-area{
+    margin-right: 50px;
+}
+
+#optionArea>.product-img-area>img{
+    width: 520px;
+    height: 650px;
+    border: 1px solid black;
+}
+
+/* 제품 상세 내역 영역 */
+.option-detail-area{
+    width: 520px;
+    margin-left: 50px;
+    font-size: 20px;
+}
+
+.product-title{
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.border-top{
+    border-top: 2px solid #d9d9d9;
+    width: 100%;
+}
+
+.product-detail-area{
+    margin-top: 25px;
+    padding: 10px 0;
+    border-spacing: 0 15px;
+}
+
+.product-detail-area tr>td:first-child{
+    width: 170px;
+    height: 30px;
+}
+
+.product-option-area{
+    padding: 25px 0;
+    display: flex;
+}
+
+.product-option-area>span{
+    display: inline-block;
+    width: 170px;
+    height: 30px;
+}
+
+.product-option-area>select{
+    width: 350px;
+    font-size: 20px;
+}
+
+.minimum-order-quantity{
+    display: inline-block;
+    height: 82px;
+    padding: 25px 0;
+}
+
+.choice-option{
+    padding: 10px 0;
+    border-spacing: 0 15px;
+}
+
+.choice-option tr>td:nth-child(2)>input{
+    height: 20px;
+    width: 50px;
+}
