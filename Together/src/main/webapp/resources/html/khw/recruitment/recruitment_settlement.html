@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>recruitmentParticipation</title>
     <link rel="stylesheet" href="../../../css/header,footer.css">
-    <link rel="stylesheet" href="../../../css/recruitment/recruitmentParticipation.css">
+    <link rel="stylesheet" href="../../../css/recruitment/recruitment_settlement.css">
 
 </head>
 
@@ -47,52 +47,37 @@
     </nav>
 
     <main>
-        <div class="participation-container">
-            <!-- 참여하기 헤더 -->
-            <div class="participation-header">
-                <img src="recruitment.png" alt="참여 아이콘" class="participation-icon">
-                <h2>참여하기</h2>
+        <div class="settlement-container">
+            <!-- 정산하기 헤더 -->
+            <div class="settlement-header">
+                <h2>정산하기</h2>
             </div>
-
-            <!-- 제품 정보 -->
-            <div class="product-info">
-                <p><strong>제품:</strong> 제주 삼다수</p>
-                <p class="buyer-info">구매중: 인성09</p>
+    
+            <!-- 상품명 -->
+            <div class="product-name">
+                <p><strong>제주 삼다수</strong></p>
             </div>
-
-            <!-- 인원 선택 (왼쪽 정렬, 제주 삼다수 아래 배치) -->
-            <div class="participant-selection">
-                <label for="participant-count">선택 인원 수:</label>
-                <select id="participant-count">
-                    <option>1</option>
-                    <option>2</option>
-                    <option selected>3</option>
-                    <option>4</option>
-                </select>
+    
+            <!-- 결제 금액 -->
+            <div class="payment-info">
+                <p>내가 결제할 금액 : <span class="amount">5000원</span></p>
             </div>
-
-            <!-- 가격 정보 & 상품 이미지 -->
-            <div class="price-product-container">
-                <div class="price-info">
-                    <div class="sale-container">
-                        <p>전제 구매 시 필요한 금액</p>
-                        <span class="original">10000pt</span>
-                    </div>
-                    <div class="sale-container">
-                        <p>09인들과 함께 사기</p>
-                        <span class="sale">2500pt x 2</span>
-                    </div>
-                    <p class="total-price"><strong>총 5000pt</strong></p>
-                </div>
-                
-                <!-- 상품 이미지 -->
-                <div class="product-image">
-                    <img src="water2.png" alt="제품 이미지">
+    
+            <!-- 결제 수단 선택 -->
+            <div class="payment-selection">
+                <label for="payment-method">결제 수단 선택</label>
+                <div class="dropdown-container">
+                    <select id="payment-method">
+                        <option>결제 수단을 선택하세요</option>
+                        <option>무통장입금</option>
+                        <option>네이버페이</option>
+                        <option>카카오페이</option>
+                    </select>
                 </div>
             </div>
-
-            <!-- 참여하기 버튼 (가운데 정렬, 절반 크기) -->
-            <button class="participation-btn">참여하기</button>
+    
+            <!-- 결제하기 버튼 -->
+            <button class="payment-btn">결제하기</button>
         </div>
     </main>
 

@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>recruitmentParticipation</title>
+    <title>purchase_confirmation_review</title>
     <link rel="stylesheet" href="../../../css/header,footer.css">
-    <link rel="stylesheet" href="../../../css/recruitment/recruitmentParticipation.css">
+    <link rel="stylesheet" href="../../../css/recruitment_detail/purchase_confirmation_review.css">
 
 </head>
 
@@ -46,54 +46,32 @@
         </div>
     </nav>
 
-    <main>
-        <div class="participation-container">
-            <!-- 참여하기 헤더 -->
-            <div class="participation-header">
-                <img src="recruitment.png" alt="참여 아이콘" class="participation-icon">
-                <h2>참여하기</h2>
+    <main class="verification-container">
+        <main class="review-container">
+            <div class="review-header">
+                <h2 class="review-title">후기 남기기</h2>
+                <span class="member-type">파티원</span>
             </div>
-
-            <!-- 제품 정보 -->
-            <div class="product-info">
-                <p><strong>제품:</strong> 제주 삼다수</p>
-                <p class="buyer-info">구매중: 인성09</p>
-            </div>
-
-            <!-- 인원 선택 (왼쪽 정렬, 제주 삼다수 아래 배치) -->
-            <div class="participant-selection">
-                <label for="participant-count">선택 인원 수:</label>
-                <select id="participant-count">
-                    <option>1</option>
-                    <option>2</option>
-                    <option selected>3</option>
-                    <option>4</option>
-                </select>
-            </div>
-
-            <!-- 가격 정보 & 상품 이미지 -->
-            <div class="price-product-container">
-                <div class="price-info">
-                    <div class="sale-container">
-                        <p>전제 구매 시 필요한 금액</p>
-                        <span class="original">10000pt</span>
-                    </div>
-                    <div class="sale-container">
-                        <p>09인들과 함께 사기</p>
-                        <span class="sale">2500pt x 2</span>
-                    </div>
-                    <p class="total-price"><strong>총 5000pt</strong></p>
-                </div>
-                
-                <!-- 상품 이미지 -->
-                <div class="product-image">
-                    <img src="water2.png" alt="제품 이미지">
+    
+            <div class="profile-card">
+                <img src="tomato.png" alt="프로필 이미지" class="profile-img">
+                <div class="profile-info">
+                    <p><strong>등급 :</strong> 1등급</p>
+                    <p><strong>09에 미친사람</strong></p>
+                    <p>서울시 논현</p>
+                    <p class="join-date">2022.01.13 가입</p>
                 </div>
             </div>
-
-            <!-- 참여하기 버튼 (가운데 정렬, 절반 크기) -->
-            <button class="participation-btn">참여하기</button>
-        </div>
+    
+            <div class="star-rating">★★★★★</div>
+    
+            <textarea class="review-textarea" placeholder="자세한 후기를 남겨주세요."></textarea>
+    
+            <div class="button-group">
+                <button class="disable-btn" disabled>나중에 하기</button>
+                <button class="submit-btn">작성 완료</button>
+            </div>
+        </main>
     </main>
 
     <footer class="footer-container">

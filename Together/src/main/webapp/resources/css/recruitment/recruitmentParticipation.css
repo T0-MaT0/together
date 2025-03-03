@@ -14,13 +14,137 @@ body {
     justify-content: center;
 }
 
-/* 모집 상세 컨테이너 */
-#recruit-detail {
-    width: 882px;
+/* 참여하기 컨테이너 */
+.participation-container {
+    width: 500px;
     background: white;
-    padding: 60px;
+    padding: 20px;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     text-align: center;
-    margin: 40px auto; /* 위아래 간격 추가 */
+    margin: 40px auto;
+}
+
+/* 참여하기 헤더 */
+.participation-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.participation-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* 제품 정보 */
+.product-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* 구매자 정보 흐리게 */
+.buyer-info {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+}
+
+/* 인원 선택 */
+.participant-selection {
+    text-align: left;
+    margin: 10px 0;
+}
+
+.participant-selection select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/* 가격 정보와 상품 이미지를 양쪽 정렬 */
+.price-product-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px; 
+}
+
+/* 가격 정보 */
+.price-info {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 10px 0;
+    font-size: 14px;
+    flex: 1;
+    text-align: left;
+    position: relative;
+}
+
+/* 가격 정보 간격 조정 */
+.sale-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* total price 스타일 */
+.price-info .total-price {
+    border-top: 2px solid #986E15;
+    padding-top: 8px;
+    text-align: right; 
+    font-size: 18px;
+    color: black;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* 원래 가격 */
+.original {
+    text-decoration: line-through;
+    color: #888;
+    font-weight: bold;
+}
+
+/* 할인 가격 */
+.sale {
+    font-weight: bold;
+    color: #ff6600;
+}
+
+/* 상품 이미지 */
+.product-image {
+    flex-shrink: 0; 
+}
+
+.product-image img {
+    width: 160px;
+    height: auto;
+    border-radius: 8px;
+    margin: 10px 0;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5); 
+}
+
+/* 참여하기 버튼 */
+.participation-btn {
+    width: 50%; 
+    background: #ffcc00;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 15px auto 0;
+    display: block; 
+}
+
+.participation-btn:hover {
+    background: #e6b800;
 }
