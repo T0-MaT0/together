@@ -1,0 +1,137 @@
+/* 전체 스타일 */
+* {
+    box-sizing: border-box;
+    font-family: 'GmarketSansMedium', sans-serif;
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #fff;
+}
+
+.container {
+    width: 1086px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* 왼쪽 섹션 (공지사항, 고객센터) */
+#left-section {
+    width: 50%;
+}
+
+.notice-box, .customer-service-box {
+    border: 1px solid black;
+    padding: 16px;
+    margin : 50px;
+    border-radius: 8px;
+
+}
+
+.notice-title, .customer-title {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.notice-title::before {
+    content: "\1F4E3";
+    margin-right: 8px;
+}
+
+.customer-title::before {
+    content: "\1F4DE";
+    margin-right: 8px;
+}
+
+.notice-list div, .customer-info div {
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+/* 오른쪽 섹션 (FAQ, 버튼) */
+#right-section {
+    width: 50%;
+}
+
+.faq-box {
+    border: 1px solid black;
+    padding: 16px;
+    border-radius: 8px;
+    margin : 50px;
+}
+
+.faq-title {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.faq-title::before {
+    content: "\2753";
+    color: red;
+    margin-right: 8px;
+}
+
+.faq-category {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.faq-category div {
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.current {
+    border: 1px solid #ff4d94;
+    background-color: #ff4d94;
+    color: white;
+}
+
+.faq-list {
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* 하단 버튼 */
+.button-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.button-group button {
+    flex: 1;
+    padding: 16px;
+    border: 1px solid #ff4d94;
+    border-radius: 8px;
+    background-color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button-group button:hover {
+    background-color: #ff4d94;
+    color: white;
+}
