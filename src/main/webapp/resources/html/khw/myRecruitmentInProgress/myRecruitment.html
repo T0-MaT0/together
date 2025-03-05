@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myRecruitment</title>
+    <link rel="stylesheet" href="../../../css/header,footer.css">
+    <link rel="stylesheet" href="../../../css//myRecruitmentInProgress/myRecruitment.css">
+
+</head>
+
+<body>
+    <header class="container">
+        <div class="top-bar">
+            <div class="logo-nav">
+                <div class="logo"><a href=""><img src="../../../html/khw/logo1.png" alt="ToGether Logo"></a></div>
+                <span class="main-nav">
+                    <a href="#" class="to-brand">To 브랜드</a>
+                    <a href="#" class="btn-get-personal">Get 개인</a>
+                </span>
+            </div>
+            <div class="user-info">
+                <span>닉네임 | 00000pt</span>
+                <button class="btn-recruit  ">모집하기</button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="sub-nav">
+        <div class="container">
+            <div class="left-links">
+                <a href="#">공구 상품</a>
+                <span> | </span>
+                <a href="#">내 모집 중</a>
+                <span> | </span>
+                <a href="#">리뷰 후기</a>
+                <span> | </span>
+                <a href="#">고객 센터</a>
+            </div>
+            <div class="right-links">
+                <a href="#">마이페이지</a>
+                <span> | </span>
+                <a href="#">포인트 충전</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+
+        <!-- 네비게이션 버튼 -->
+        <nav id="nav-buttons">
+            <button >완료 09</button>
+            <button >내 09현황</button>
+            <button >댓글</button>
+            <button >리뷰</button>
+        </nav>
+
+        <div id="container"> <!-- 모든 내용을 감싸는 div -->
+
+
+
+            <!-- 상단 프로필 -->
+            <div id="profile">
+                <img src="tomato.png" alt="프로필 이미지" class="profile-img">
+                <div class="profile-info">
+                    <p class="grade">등급 : 1등급</p>
+                    <p class="nickname">09에 미친사람</p>
+                    <p class="location">내 지역 : 서울 논현</p>
+                    <p class="points">포인트 : <span>40000pt</span></p>
+                </div>
+            </div>
+
+            <!-- 모집 목록 -->
+            <div id="recruit-list">
+                <div class="recruit-header">
+                    <input type="checkbox" id="topcheckbox">
+                    <span class="title"> 내 09 파티</span>
+                </div>
+
+                <!-- 모집 카드 -->
+                <div class="recruit-card completed">
+                    <input type="checkbox" class="checkbox">
+                    <div class="recruit-info">
+                        <div class="header">
+                            <span class="badge red">모집 완료</span>
+                            <h3>물 24개 나누실 분</h3>
+                        </div>
+                        
+                        <div class="info-footer">
+                            <div class="details">
+                                <span class="period">기간: -</span>
+                                <span>모집인원: 4/4</span>
+                            </div>
+                            <div class="price">
+                                <span class="original">10000pt</span>
+                                <span class="sale">2500pt</span>
+                            </div>
+                        </div>
+
+                        <!-- 모집 진행도 바 -->
+                        <div class="progress-bar">
+                            <div class="progress red-bar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recruit-card in-progress">
+                    <input type="checkbox" class="checkbox">
+                    <div class="recruit-info">
+                        <div class="header">
+                            <span class="badge blue">모집 완료</span>
+                            <h3>햇반 36개 같이 사요</h3>
+                        </div>
+                        <div class="info-footer">
+                            <div class="details">
+                                <span>기간: -</span>
+                                <span>모집인원: 2/4</span>
+                            </div>
+                            <div class="price">
+                                <span class="original">27900pt</span>
+                                <span class="sale">13950pt</span>
+                            </div>
+                        </div>
+
+                        <!-- 모집 진행도 바 -->
+                        <div class="progress-bar">
+                            <div class="progress blue-bar" style="width: 50%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recruit-card not-full">
+                    <input type="checkbox" class="checkbox">
+                    <div class="recruit-info">
+                        <div class="header">
+                            <span class="badge purple">모집 마감</span>
+                            <h3>후드티 1+1 하나씩 가져 갈 09인 구함</h3>
+                        </div>
+                        <div class="info-footer">
+                            <div class="details">
+                                <span>기간: -</span>
+                                <span>모집인원: 1/4</span>
+                            </div>
+                            <div class="price">
+                                <span class="original">29800pt</span>
+                                <span class="sale">14900pt</span>
+                            </div>
+                        </div>
+
+                        <!-- 모집 진행도 바 -->
+                        <div class="progress-bar">
+                            <div class="progress purple-bar" style="width: 25%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="delete-btn-container">
+                    <button class="close-btn">09마감</button>
+                    <button class="delete-btn">09삭제</button>
+                </div>
+            </div>
+
+
+        </div> <!-- container 종료 -->
+
+
+    </main>
+
+    <footer class="footer-container">
+        <div class="footer-top">
+            <img src="../../../html/khw/logo1.png" alt="ToGether Logo">
+            <img src="../../../html/khw/footer image1.png" alt="Buy ToGether, Sell Together!">
+        </div>
+        <nav class="footer-links">
+            <a href="#">이용약관</a><span> | </span>
+            <a href="#">FAQ</a><span> | </span>
+            <a href="#">고객센터</a><span> | </span>
+            <a href="#">ToGether 소개</a><span> | </span>
+            <a href="#">To 브랜드</a><span> | </span>
+            <a href="#">Get 개인</a>
+        </nav>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <p>공동구매 플랫폼 ToGether<br>KH아카데미 G-Class 파이널 프로젝트</p>
+            <p>팀 ToMoto<br>조장 강현우 박규성 박천상 정이레 정현이</p>
+        </div>
+        <div class="footer-info">
+            <p>설명설명설명 대충팀소개<br>
+                설명설명설명 대충팀소개설명설명설명 대충팀소개<br>
+                설명설명설명 대충팀소개설명설명설명 대충팀소개설명설명설명</p>
+        </div>
+    </footer>
+</body>
+
+</html>

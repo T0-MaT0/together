@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Side bar</title>
+<link rel="stylesheet" type="text/css" href="sideBar.css">
+
+</head>
+<body>
+  <div class="sideBar active" id="sideBar">
+    <div class="sidebar-menu-box" id="sidebar-menu-box">
+      <div class="sidebar-menu" >
+        <div><a href=""><img src="images/X.svg" width="30px" height="30px" alt=""></a></div>
+        <div><a href=""><img src="images/favorite-cart.svg" width="32px" height="32px" alt=""></a></div>
+        <div><a href=""><img src="images/+.svg" width="31px" height="32px" alt=""></a></div>
+        <div><a href=""><img src="images/ArrowUp.svg" height="30px" alt=""></a></div>
+        <div><a href=""><img src="images/ArrowDown.svg" height="30px" alt=""></a></div>
+      </div>
+    </div>
+    <div class="sidebar-wrapper">
+      <div class="title">
+        <span>채팅</span>
+      </div>
+      <div class="body">
+        
+        <div class="talkMenu-box">
+          <div class="talkMenu unselect"><a href=""><img src="images/Home.svg" alt=""></a></div>
+          <div class="talkMenu select"><a href=""><img src="images/Chat.svg" alt=""></a><div class="noti noti-menu"><span>6</span></div></div>
+          <div class="talkMenu unselect"><a href=""><img src="images/Setting.svg" alt=""></a></div>
+        </div>
+        <div class="content">
+          <div class="search-area">
+            <label for="sideBar-input">
+              <form action="">
+                <input type="text" placeholder="검색" name="sideBar-input" id="sideBar-input">
+                <button type="submit" id="sideBar-search"></button>
+                <label for="sideBar-search">
+                  <div class="button" id="sideBar-button">
+                    <img src="images/Search.svg" alt="">
+                  </div>
+                </label>
+              </form>
+            </label>
+          </div>
+          <div class="chat-room-box">
+
+
+            <div class="chat-room">
+              <div class="profile-box">
+                <div class="profile profile-inBox">
+                  <img src="images/counselor.svg" alt="">
+                </div>
+              </div>
+              <div class="chat">
+                <div class="chat-name">투게더 상담사</div>
+                <div class="chat-content">안녕하세요. 상담하실 내용이 있으신..</div>
+              </div>
+              <div class="chat-info">
+                <div class="noti noti-chat"><span>2</span></div>
+                <div class="chat-time">오후 3:05</div>
+              </div>
+            </div>
+
+            <div class="chat-room">
+              <div class="profile-box">
+                <div class="profile profile-inBox">
+                  <img src="images/sample.png" alt="">
+                </div>
+              </div>
+              <div class="chat">
+                <div class="chat-name">모든지 공구</div>
+                <div class="chat-content">삼다수 정품 공구 선제시@@</div>
+              </div>
+              <div class="chat-info">
+                <div class="noti noti-chat"><span>3</span></div>
+                <div class="chat-time">오후 2:56</div>
+              </div>
+            </div>
+            
+
+
+            <div class="chat-room"></div>
+            <div class="chat-room"></div>
+            <div class="chat-room"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="sideBarMain.js"></script>
+</body>
+</html>
