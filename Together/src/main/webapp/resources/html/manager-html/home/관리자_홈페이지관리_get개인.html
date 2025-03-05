@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../manager-css/manager-common.css" />
+    <link rel="stylesheet" href="../../manager-css/dev/dev-select.css" />
+</head>
+
+<body>
+
+</body>
+
+<main>
+    
+    <!-- 사이드 메뉴 -->
+    <div id="container-side">
+        <!-- 로고 -->
+        <img src="../../image-manager/Group 2411.png" alt="로고 이미지">
+
+
+        <!-- 메뉴 -->
+        <div id="menu-items">
+            <div id="dash-board">대시보드</div>
+            <button class="accordion">고객관리</button>
+            <div class="panel">
+                <p>내용</p>
+                <p>내용</p>
+                <p>내용</p>
+            </div>
+
+            <button class="accordion">브랜드 관리</button>
+            <div class="panel">
+                <p>내용</p>
+            </div>
+
+            <button class="clicked">홈페이지 관리</button>
+            <div class="open-menu">
+                <p>내용</p>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- 위쪽 영역 -->
+    <header>
+        <div class="head-title">
+            <div>홈페이지 관리</div>
+             &nbsp; <div> - GET 개인</div>
+             <!-- &nbsp; <div> - TO 브랜드</div> -->
+             <!-- &nbsp; <div> - MAIN 홈</div> -->
+        </div>
+    </header>
+
+    <!-- 본문(중앙) -->
+    <div id="container-center">
+        
+        <section class="dev-board">
+            <h3>TOP 배너</h3>
+            <div class="topBannerArea">
+                <img class="bannerItem"/>
+                <input type="file" accept="image/*">
+
+                <img class="bannerItem"/>
+                <input type="file" accept="image/*">
+                
+                <img class="bannerItem"/>
+                <input type="file" accept="image/*">
+                
+
+                <img class="bannerItem"/>
+                <input type="file" accept="image/*">
+                
+                <img class="bannerItem"/>
+                <input type="file" accept="image/*">
+            </div>
+            <div class="btnArea">
+                <button>적용</button>
+            </div>
+        </section>
+
+        <section class="dev-board">
+            <h3>Mid 배너</h3>
+            <div class="MidBannerArea">
+                <img class="bannerItem"/>
+                <input type="file" accept="image/*">
+            </div>
+            <div class="btnArea">
+                <button>적용</button>
+            </div>
+        </section>
+        
+        
+        <section class="dev-board">
+            <h3>Mini 배너</h3>
+            <div class="bottomBannerArea">
+                
+                <img class="bannerItem"/>
+                <input type="file" accept="image/*">
+                
+                <img class="bannerItem"/>
+                <input type="file" accept="image/*">
+
+                <img class="bannerItem"/>
+                <input type="file" accept="image/*">
+
+            </div>
+            <div class="btnArea">
+                <button>적용</button>
+            </div>
+        </section>
+
+
+
+    </div>
+
+
+</main>
+
+<!-- 사이드 메뉴 기능 -->
+<script>
+    const acc = document.getElementsByClassName("accordion");
+
+    for (let i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            let panel = this.nextElementSibling;
+            console.log(panel.style.maxHeight);
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+
+    }
+</script>
+<script>
+const bannerItems = document.getElementsByClassName("bannerItem");
+const bannerInput = document.getElementsByTagName("input");
+
+for (let i = 0; i < bannerItems.length; i++) {
+    bannerItems[i].addEventListener("click", () => {
+        bannerInput[i].click();
+    });
+
+    bannerInput[i].addEventListener("change", function () {
+        const file = this.files[0]; 
+        
+        if (file) {
+            console.log("파일 선택됨");
+            const reader = new FileReader();
+
+            reader.readAsDataURL(file);
+
+            reader.onload = function (e) {
+                bannerItems[i].setAttribute("src", e.target.result);
+            };
+        } else {
+            console.log("파일 없음");
+            bannerItems[i].removeAttribute("src");
+            bannerInput[i].value = '';
+        }
+    });
+}
+
+
+
+
+</script>
+</body>
+
+</html>
