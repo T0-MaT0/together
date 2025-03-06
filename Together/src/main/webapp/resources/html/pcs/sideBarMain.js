@@ -65,19 +65,3 @@ document.getElementById("togglePage").addEventListener("click", e => {
     body.classList.toggle("hidden");
   }
 });
-
-const checkBox = document.querySelectorAll(".digit>div:nth-of-type(6)>img");
-const checkNo = document.querySelectorAll(".digit>div:nth-of-type(6)>input");
-
-
-for (let i = 0; i < checkBox.length; i++) {
-  checkBox[i].addEventListener("click", () => {
-    if (checkNo[i].value == 0) {
-      checkNo[i].value = 1;
-      checkBox[i].setAttribute("src", "images/checkmark.svg");
-    } else {
-      checkNo[i].value = 0;
-      checkBox[i].setAttribute("src", "images/checknon.svg");
-    }
-  });
-}

@@ -746,51 +746,21 @@ img{
   width: 144px;
   height: 192px;
   border-radius: 20px;
-  z-index: 5;
-  display: inline-block;
-  position: relative;
-
-}
-
-
-.soldOut::after{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 144px;
-  height: 192px;
-
-  border-radius: 20px;
-  
-  content: '품 절';
-  background-color: rgba(0, 0, 0, 0.5);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: white;
-  font-size: 24px;
 }
 
 .thumb>img{
-  display: block;
-
   width: 144px;
   height: 192px;
   object-fit: cover;
   border-radius: 20px;
 
   box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
-  
 }
 
 .digit{
   width: 314px;
   height: 192px;
   padding-left: 19px;
-
-  position: relative;
 }
 
 .deleteBtn-area{
@@ -816,20 +786,16 @@ img{
 }
 .digit>div:nth-of-type(3){
   height: 36px;
-  margin-top: 10px;
+  margin-top: 14px;
   color: #d7a9a9;
   font-size: 16px;
   /* 줄넘김 길이 줄이기 */
   line-height: 18px;
-  text-decoration: line-through;
-  text-decoration-color: black;
-  text-decoration-thickness: 2px;
-
-  text-align: end;
   
 }
 .digit>div:nth-of-type(4){
   height: 18px;
+  margin-top: 6px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -846,60 +812,24 @@ img{
 
 
 .digit>div:nth-of-type(5){
-  
-  margin-top: 18px;
-  width: 150px;
+  margin-top: 16px;
+  margin-right: 12px;
+  float: right;
+  width: 180px;
   height: 42px;
   background-color: #FD499A;
   color: white;
   border-radius: 5px;
-  display: flex;
-  justify-content: space-around;
-  text-align: left;
-  line-height: 45px;
+
   font-size: 20px;
-}
-
-.digit>div:nth-of-type(5)>input{
-  width: 40px;
-  color: white;
-  font-size: 20px;
-
-  line-height: 45px;
-
-  
-}
-
-.digit>div:nth-of-type(6){
-  float: right;
-  width: 53px;
-  height: 53px;
-  position: absolute;
-
-  right: 0;
-  bottom: 5px;
-}
-
-.digit>div:nth-of-type(6)>img{
-  transition-duration: 1s;
-  width: 53px;
-  height: 53px;
-  cursor: pointer;
-
-}
-
-.digit>div:nth-of-type(6)>input{
-  display: none;
+  text-align: center;
+  line-height: 42px;
 }
 
 
 
-/* 사이드바 검색 */
 
 
-.sideBox.search{
-  width: 98px;
-}
 
 
 
