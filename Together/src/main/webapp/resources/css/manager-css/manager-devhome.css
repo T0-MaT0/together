@@ -1,0 +1,94 @@
+/* 왼쪽 사이드 메뉴 - 홈페이지 관리 */
+#menu-items > button.clicked{
+    background: black;
+    color: white;
+    cursor: pointer;
+    padding: 13px 0 13px 25px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 20px;
+}
+
+#menu-items > div.open-menu{
+    padding: 0 18px;
+    background-color: white;
+    max-height: 100%;
+    overflow: hidden;
+
+}
+
+/* --------------------------------------- */
+
+#container-center{
+    display: grid;
+    grid-template-columns:repeat(6, 150px);
+    grid-template-rows: 318px 140px;
+    grid-template-areas: 
+    "m m p p b b"
+    "al al al faq faq faq"
+    ;
+    gap:25px;
+
+}
+
+.dev-board{
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid #eeeeee85;
+    box-shadow: 0px 2px 12px 1px rgba(0, 0, 0, 0.217);
+    transition: 0.2s;
+    
+}
+
+.dev-board:hover{
+    transform: translateY(-5px);
+}
+
+.main{grid-area: m;}
+.private{grid-area: p;}
+.brand{grid-area: b;}
+.alert{grid-area: al;}
+.faq{grid-area: faq;}
+
+/* ---------------------------------------------------- */
+/* 메인 개인 브랜드 버튼 */
+.dev-title{
+    font-size: 24px;
+    margin: 10px 0 0 15px;    
+
+}
+
+
+.img-card > .img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.img-card > .img >img{
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+/* ----------------------------------------------------------- */
+/* 공지사항 FAQ 버튼 */
+
+.dev-card-title{
+    font-size: 30px;
+}
+
+.one-card{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.one-card > img{
+    object-fit: contain;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+}

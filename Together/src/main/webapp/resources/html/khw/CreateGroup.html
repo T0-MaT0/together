@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreateGroup</title>
+    <link rel="stylesheet" href="../../css/header,footer.css">
+    <link rel="stylesheet" href="../../css/CreateGroup.css">
+</head>
+<body>
+    <header class="container">
+        <div class="top-bar">
+            <div class="logo-nav">
+                <div class="logo"><img src="logo1.png" alt="ToGether Logo"></div>
+                <span class="main-nav">
+                    <a href="#" class="to-brand">To 브랜드</a>
+                    <a href="#" class="btn-get-game">Get 게임</a>
+                </span>
+            </div>
+            <div class="user-info">
+                <span>닉네임 | 00000pt</span>
+                <button class="btn-recruit">모집하기</button>
+            </div>
+        </div>
+    </header>
+    
+    <nav class="sub-nav">
+        <div class="container">
+            <div class="left-links">
+                <a href="#">공구 상품</a>
+                <span> | </span>
+                <a href="#">내 모집 중</a>
+                <span> | </span>
+                <a href="#">리뷰 후기</a>
+                <span> | </span>
+                <a href="#">고객 센터</a>
+            </div>
+            <div class="right-links">
+                <a href="#">마이페이지</a>
+                <span> | </span>
+                <a href="#">포인트 충전</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div id="main-container">
+        <main>
+            <div class="recruitment-form">
+                <div class="form-title">제목을 입력해 주세요</div>
+                <div class="form-group">
+                    <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                        <label for="category">카테고리 선택:</label>
+                        <div class="url-input" style="flex: 1; display: flex; align-items: center;">
+                            <span>🔍</span>
+                            <select id="category" style="flex: 1; border: none; background: transparent;">
+                                <option value="fashion">패션 - 상의</option>
+                                <option value="electronics">전자 제품</option>
+                                <option value="home">생활 용품</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea id="description" rows="4" style="resize: none;" placeholder="O9 상품에 대해 설명해주세요"></textarea>
+                </div>
+
+
+                <div class="image-upload">
+                    <div class="image-container" >
+                        <p>대표 이미지를 지정해 주세요</p>
+                        <img src="sample-image.png" alt="대표 이미지" >
+                        <input type="file" id="file-upload-group" >
+                    </div>
+                    <div class="file-upload-group">
+                        <label for="file-upload-group" class="btn-file-select" >파일 선택</label>
+
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label>상품 사이트 URL:</label>
+                    <div class="url-input">
+                        <input type="text" placeholder="구매 링크">
+                    </div>
+                </div>
+                <div class="form-section">
+                    <div class="form-box">
+                        <p><strong>마감 기한</strong></p>
+                        <p>📅 시작 날짜 ~ 마감 날짜</p>
+                        <p><strong>O9 지역</strong></p>
+                        <button class="btn-create">찾기</button>
+                    </div>
+                    <div class="form-box">
+                        <p><strong>총 인원</strong></p>
+                        <input type="text" placeholder="인원 수를 입력하세요">
+                        <p><strong>내 선택 수량</strong></p>
+                        <input type="text" placeholder="내가 선택한 수량을 입력하세요">
+                    </div>
+                    <div class="form-box">
+                        <p><strong>총 금액</strong></p>
+                        <input type="text" placeholder="총 금액을 입력하세요">
+                    </div>
+                </div>
+            </div>
+            <div class="btn-submit-container">
+                <button class="btn-submit">O9 만들기</button>
+            </div>
+        </main>
+    </div>
+    
+    <footer class="footer-container">
+        <div class="footer-top">
+            <img src="logo1.png" alt="ToGether Logo">
+            <img src="footer image1.png" alt="Buy ToGether, Sell Together!">
+        </div>
+        <nav class="footer-links">
+            <a href="#">이용약관</a><span> | </span>
+            <a href="#">FAQ</a><span> | </span>
+            <a href="#">고객센터</a><span> | </span>
+            <a href="#">ToGether 소개</a><span> | </span>
+            <a href="#">To 브랜드</a><span> | </span>
+            <a href="#">Get 게임</a>
+        </nav>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <p>공동구매 플랫폼 ToGether<br>KH아카데미 G-Class 파이널 프로젝트</p>
+            <p>팀 ToMoto<br>조장 강현우 박규성 박천상 정이레 정현이</p>
+        </div>
+        <div class="footer-info">
+            <p>설명설명설명 대충팀소개<br>
+               설명설명설명 대충팀소개설명설명설명 대충팀소개<br>
+               설명설명설명 대충팀소개설명설명설명 대충팀소개설명설명설명</p>
+        </div>
+    </footer>
+</body>
+</html>
