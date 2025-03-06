@@ -608,7 +608,7 @@ img{
 .chat-area>div{
   width: 100%; /* 전체 너비 지정 */
   min-height: 53px;
-  margin-top: 13px;
+  margin-top: 30px;
   
   display: flex;
   flex-shrink: 0;
@@ -677,12 +677,14 @@ img{
   flex-direction: row;
   justify-content: left;
   text-align: left;
+  position: relative;
 }
 
 .own{
   flex-direction: row-reverse;
   justify-content: right;
   text-align: left;
+  position: relative;
 }
 
 .other>.chat-boxes{
@@ -693,6 +695,21 @@ img{
   align-items: end;
 }
 
+.nickname{
+  position: absolute;
+  top: -20px;
+  width: 200px;
+  padding: 0 3.5px;
+}
+
+.own>.nickname{
+  right: 10px;
+  text-align: right;
+}
+.other>.nickname{
+  left: -20px;
+  text-align: left;
+}
 
 
 /* 장바구니 */
