@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>브랜드 상품 주문</title>
+
+    <link rel="stylesheet" href="../../../resources/css/businessOrder-style.css">
+
+    <script src="https://kit.fontawesome.com/f8edd1a12b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <section class="order-header">
+        <div class="header-up">
+            <a href="#">
+                <img src="../../../resources/images/business/logo.png">
+            </a>
+            <span>To 브랜드</span>
+            <i class="fa-regular fa-user"></i>
+        </div>
+        <div class="header-down">
+            <a href="#">주문/결제</a>
+        </div>
+    </section>
+    <main>
+        <section class="content">
+            <div>
+                <div>
+                    <div class="title-area">
+                        <h3>배송지</h3>
+                        <button>내 주소</button>
+                    </div>
+                    <div class="input-area">
+                        <input type="text" name="orderAddress" placeholder="우편번호" maxlength="6">
+                        <button type="button">주소 검색</button>
+                    </div>
+                    <div class="input-area">
+                        <input type="text" name="orderAddress" placeholder="도로명/지번 주소">
+                    </div>
+                    <div class="input-area">
+                        <input type="text" name="orderAddress" placeholder="상세 주소">
+                    </div>
+                </div>
+                <div>
+                    <div class="title-area">
+                        <h3>주문 상품</h3>
+                    </div>
+                    <div>
+                        <span>제품 이름이 긴 상품</span>
+                        <img src="../../../resources/images/business/product.png">
+                    </div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>옵션</td>
+                                <td>블랙,라지-1개</td>
+                                <td>5,000원</td>
+                            </tr>
+                            <tr>
+                                <td>옵션</td>
+                                <td>화이트,라지-2개</td>
+                                <td>10,000원</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">합계</td>
+                                <td>15,000원</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <div>
+                        <div>
+                            <img src="../../../resources/images/business/logo.png">
+                            <span>머니</span>
+                        </div>
+                        <button>충전하기</button>
+                    </div>
+                    <div>
+                        <span>현재 포인트</span>
+                        <span>1,150원</span>
+                    </div>
+                    <div>
+                        <span>총 주문금액</span>
+                        <span>15,000원</span>
+                    </div>
+                    <div>
+                        <span>합계</span>
+                        <span>-13,850원</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span>결제 예상 금액</span>
+                <span>15,000원</span>
+                <button>포인트로 결제하기</button>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
