@@ -791,7 +791,7 @@ img{
 .unselectAll{
   width: 120px;
   height: 45px;
-  background-color: #FD499A;
+  background-color: #A45FE3;
   color: white;
   border-radius: 7px;
   display: flex;
@@ -805,7 +805,7 @@ img{
 .buyBtn{
   width: 180px;
   height: 60px;
-  background: linear-gradient(to left, #FF4D8E, #A45FE3);
+  background: linear-gradient(to right bottom, #FF4D8E, #A45FE3);
   color: white;
   border-radius: 9px;
   display: flex;
@@ -819,7 +819,7 @@ img{
 .selectAll{
   width: 120px;
   height: 45px;
-  background-color: #A45FE3;
+  background-color: #FD499A;
   color: white;
   border-radius: 7px;
   display: flex;
@@ -973,6 +973,8 @@ img{
   text-align: left;
   line-height: 45px;
   font-size: 20px;
+
+  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.25);
 }
 
 .digit>div:nth-of-type(5)>input{
@@ -1015,6 +1017,67 @@ img{
 .sideBox.search{
   width: 98px;
 }
+
+.content.search{
+  width: 522px;
+}
+
+.Search-box{
+  width: 500px;
+  height: 60px;
+  border-bottom: solid 1px #b5b5b5;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 10px;
+}
+
+#sideBarSearchInput{
+  width: 393px;
+  height: 52px;
+  font-size: 24px;
+  padding-top: 15px;
+}
+
+#sideBarSearchBtn{
+  height: 60px;
+  padding-top: 15px;
+  cursor: pointer;
+}
+
+.category{
+  width: 98px;
+  height: 50px;
+  border-bottom: solid 1px #ffffff;
+
+  border-radius: 50px 0 0 50px;
+
+  background-color: #ffbbda;
+  color: white;
+  margin-bottom: 4px;
+
+  display: flex;
+  justify-content: left;
+  align-items: center;
+
+  padding-left: 16px;
+  font-size: 16px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-weight: 500;
+
+}
+
+
+.selected.category{
+  background-color: #ff499a
+}  
+
+
+
+
+
+
+
 
 
 
