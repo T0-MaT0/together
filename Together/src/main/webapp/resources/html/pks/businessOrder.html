@@ -25,20 +25,20 @@
     </section>
     <main>
         <section class="content">
-            <div>
+            <div class="content-left">
                 <div>
                     <div class="title-area">
                         <h3>배송지</h3>
-                        <button>내 주소</button>
+                        <button class="btn">내 주소</button>
                     </div>
-                    <div class="input-area">
+                    <div class="content-row">
                         <input type="text" name="orderAddress" placeholder="우편번호" maxlength="6">
-                        <button type="button">주소 검색</button>
+                        <button class="btn" type="button">주소검색</button>
                     </div>
-                    <div class="input-area">
+                    <div class="content-row">
                         <input type="text" name="orderAddress" placeholder="도로명/지번 주소">
                     </div>
-                    <div class="input-area">
+                    <div class="content-row">
                         <input type="text" name="orderAddress" placeholder="상세 주소">
                     </div>
                 </div>
@@ -46,52 +46,52 @@
                     <div class="title-area">
                         <h3>주문 상품</h3>
                     </div>
-                    <div>
+                    <div class="content-row">
                         <span>제품 이름이 긴 상품</span>
                         <img src="../../../resources/images/business/product.png">
                     </div>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>옵션</td>
-                                <td>블랙,라지-1개</td>
-                                <td>5,000원</td>
-                            </tr>
-                            <tr>
-                                <td>옵션</td>
-                                <td>화이트,라지-2개</td>
-                                <td>10,000원</td>
-                            </tr>
-                            <tr>
-                                <td colspan="2">합계</td>
-                                <td>15,000원</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="content-row">
+                        <div>
+                            <span class="violet-color">옵션</span> 
+                            <span>블랙,라지-1개</span>
+                        </div>
+                        <span>5,000원</span>
+                    </div>
+                    <div class="content-row">
+                        <div>
+                            <span class="violet-color">옵션</span> 
+                            <span>화이트,라지-2개</span>
+                        </div>
+                        <span>10,000원</span>
+                    </div>
+                    <div class="content-row">
+                        <span class="violet-color">합계</span> 
+                        <span>15,000원</span>
+                    </div>
                 </div>
                 <div>
-                    <div>
+                    <div class="title-area">
                         <div>
                             <img src="../../../resources/images/business/logo.png">
                             <span>머니</span>
                         </div>
-                        <button>충전하기</button>
+                        <button class="btn">충전하기</button>
                     </div>
-                    <div>
+                    <div class="content-row">
                         <span>현재 포인트</span>
-                        <span>1,150원</span>
+                        <span class="violet-color">1,150원</span>
                     </div>
-                    <div>
-                        <span>총 주문금액</span>
+                    <div class="content-row">
+                        <span class="violet-color">총 주문금액</span>
                         <span>15,000원</span>
                     </div>
-                    <div>
-                        <span>합계</span>
+                    <div class="content-row">
+                        <span class="violet-color">합계</span>
                         <span>-13,850원</span>
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="content-right">
                 <span>결제 예상 금액</span>
                 <span>15,000원</span>
                 <button>포인트로 결제하기</button>
