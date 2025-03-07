@@ -21,7 +21,7 @@
     </div>
     <div class="sidebar-wrapper">
       <div class="title">
-        <span id="title">내가 찜한 목록</span>
+        <span id="title">장바구니</span>
       </div>
       <div class="body hidden" id="CHAT">
 
@@ -68,6 +68,7 @@
 
           <div class="chat-area">
             <div class="other">
+              <div class="nickname">투게더</div>
               <div class="profile-box">
                 <div class="profile profile-inChat">
                   <img src="images/counselor.svg" alt="">
@@ -85,6 +86,7 @@
             </div>
 
             <div class="own">
+              <div class="nickname">일이삼사오육칠팔구</div>
               <div class="profile-box">
                 <div class="profile profile-inChat">
                   <img src="images/sample.png" alt="">
@@ -105,6 +107,7 @@
             </div>
 
             <div class="other">
+              <div class="nickname">투게더</div>
               <div class="profile-box">
                 <div class="profile profile-inChat">
                   <img src="images/counselor.svg" alt="">
@@ -130,47 +133,14 @@
             </div>
 
             <div class="own">
+              <div class="nickname">커비</div>
               <div class="profile-box">
                 <div class="profile profile-inChat">
                   <img src="images/sample.png" alt="">
                 </div>
               </div>
               <div class="chat-boxes">
-                <div class="chat-box">
-                  <span>
-                    ???
-                  </span>
-                </div>
-                <div class="chat-box">
-                  <span>
-                    ??
-                  </span>
-                </div>
-                <div class="chat-box">
-                  <span>
-                    ??
-                  </span>
-                </div>
-                <div class="chat-box">
-                  <span>
-                    ??
-                  </span>
-                </div>
-                <div class="chat-box">
-                  <span>
-                    ??
-                  </span>
-                </div>
-                <div class="chat-box">
-                  <span>
-                    ??
-                  </span>
-                </div>
-                <div class="chat-box">
-                  <span>
-                    ??
-                  </span>
-                </div>
+                
                 <div class="chat-box">
                   <span>
                     ??
@@ -188,6 +158,49 @@
                 </div>
                 
                 
+              </div>
+            </div>
+
+
+            <div class="other">
+              <div class="nickname">돌돌이</div>
+              <div class="profile-box">
+                <div class="profile profile-inChat">
+                  <img src="images/imageSample.png" alt="">
+                </div>
+              </div>
+              <div class="chat-boxes">
+                <div class="chat-box">
+                  <span>
+                    안녕하세요! 😊
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="other">
+              <div class="nickname">투게더</div>
+              <div class="profile-box">
+                <div class="profile profile-inChat">
+                  <img src="images/counselor.svg" alt="">
+                </div>
+              </div>
+              <div class="chat-boxes">
+                <div class="chat-box">
+                  <span>
+                    안녕하세요! 😊
+                  </span>
+                </div>
+                <div class="chat-box">
+                  <span>
+                    안녕
+                  </span>
+                </div>
+                <div class="chat-box">
+                  <span>
+                    안녕
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -309,7 +322,7 @@
 
 
             <div class="itemBox">
-              <div class="thumb">
+              <div class="thumb soldOut">
                 <img src="images/imageSample.png" alt="">
               </div>
               <div class="digit">
@@ -323,7 +336,16 @@
                   <div>500원</div>
                 </div>
                 <div>
-                  <div>참가</div>
+
+                  <div>수량 : </div>
+                  <!-- js 객체로 묶어서 넘기기 -->
+                  <input type="number" value="0" disabled>
+                </div>
+                <div>
+                  
+                  <img src="images/checknon.svg" alt="">
+                  <input type="hidden" value="0">
+                  
                 </div>
               </div>
               <div class="deleteBtn-area">
@@ -368,8 +390,11 @@
                   <span>10000원(원가)<br>참가 모집 : 3 / 4명</span>
                 </div>
                 <div>
-                  <div>공구슈킹</div>
-                  <div>500원</div>
+
+                  <div>수량 : </div>
+                  <!-- js 객체로 묶어서 넘기기 -->
+                  <input type="number" value="3" min="1">
+
                 </div>
                 <div>
                   <div>참가</div>
@@ -381,11 +406,46 @@
             </div>
 
 
+            <div class="itemBox">
+              <div class="thumb">
+                <img src="images/imageSample.png" alt="">
+              </div>
+              <div class="digit">
+                <div><span>제품이름이 긴 상다수</span></div>
+                <div><span>삼다수 16묶음 (500ml X 16) </span></div>
+                <div>
+                  <span>3000원(원가)</span>
+                </div>
+                <div>
+                  <div>제주청정수(주)</div>
+                  <div>2780원</div>
+                </div>
+                <div>
+                  <div>수량 : </div>
+                  <!-- js 객체로 묶어서 넘기기 -->
+                  <input type="number" value="1" min="1">
+                </div>
+                <div>
+                  
+                  <img src="images/checknon.svg" alt="">
+                  <input type="hidden" value="0">
+                  
+                </div>
+              </div>
+              <div class="deleteBtn-area">
+                <a href=""><img src="images/X.svg" alt=""></a>
+              </div>
+            </div>
 
 
 
 
+          </div>
 
+          <div id="buyBtn-box">
+            <div class="selectAll">전부 선택</div>
+            <div class="buyBtn">주 문 하 기</div>
+            <div class="unselectAll">전부 해제</div>
           </div>
         </div>
       </div>
