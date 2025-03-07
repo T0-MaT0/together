@@ -1,0 +1,171 @@
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+/* 해더 */
+.order-header{
+    max-width: 100%;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.header-up{
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.header-up>*{
+    min-width: 150px;
+}
+
+.header-up>a{
+    display: flex;
+    align-items: center;
+}
+
+.header-up>a>img{
+    height: 50px;
+}
+
+.header-up>span{
+    text-align: center;
+}
+
+.header-up>i{
+    text-align: right;
+}
+
+.header-down{
+    width: 100%;
+}
+
+.header-down>a{
+    width: 100%;
+    height: 75px;
+    background-color: #9969ff;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main{
+    margin:0 auto 5vh auto;
+    display: flex;
+    justify-content: center;
+}
+
+.content{
+    display: flex;
+}
+
+/* 오른쪽 내용 */
+.content-left{
+    margin-right: 5vw;
+    width: 55vw;
+}
+
+.content-left>div{
+    padding-bottom: 3vh;
+    border-bottom: 0.3vh solid #9969ff;
+}
+
+/* 제목 */
+.title-area{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5vh;
+}
+
+.title-area>h3{
+    color: #9969ff;
+    font-size: 3vw;
+}
+
+.title-area>div{
+    display: flex;
+    align-items: center;
+}
+
+.title-area>div>img{
+    width: 10vw;
+    margin-right: 1vw;
+}
+
+.title-area>div>span{
+    font-size: 3vw;
+    background-image: linear-gradient(to right, #9969ff, #ff54a1);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 행 단위 스타일 지정 */
+.content-row{
+    width: 45vw;
+    height: 7vh;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom : 0.2vh solid #ddd;
+}
+
+.content-row > * {
+    font-size: 2vw;
+    font-weight: bold;
+}
+
+/* 행 내부 input 태그 */
+.content-row > input{
+    width: 100%;
+    height: 100%;
+    border: none;
+    outline: none;
+    font-weight: normal;
+}
+
+.violet-color{
+    color: #9969ff;
+}
+
+.content-row>img{
+    width: 7vw;
+    height: 7vw;
+    margin-bottom: 0.4vh;
+    border: 0.1vw solid #ddd;
+}
+
+/* 내부 input 요소 focus 시 */
+.content-row:focus-within{ 
+    border-bottom-color: #9969ff;
+}
+
+/* 버튼 스타일 */
+.btn{
+    border: none;
+    border-radius: 0.5vw;
+    background-color: #9969ff;
+    color: white;
+    width: 8vw;
+    height: 3vh;
+    font-size: 1.5vw;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* 왼쪽 내용 */
+.content-right{
+    width: 20vw;
+}

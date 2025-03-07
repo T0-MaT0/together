@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion> <!-- Maven 2 버전 이후 POM의 경우 항상 4.0.0 -->
 	<groupId>edu.kh</groupId> <!-- 최상위 패키지 1, 2레벨 -->
 	<artifactId>project</artifactId> <!-- 최상위 패키지 3레벨 == context-path -->
-	<name>boardProject</name> <!-- 프로젝트 명 -->
+	<name>Together</name> <!-- 프로젝트 명 -->
 	<packaging>war</packaging>  <!-- 배포 형식 -->
 	<version>1.0.0--BUILD-SNAPSHOT</version>
 
@@ -226,10 +226,26 @@
 	          <artifactId>commons-fileupload</artifactId>
 	          <version>1.5</version>
 	      </dependency>
+	      
+	      <!-- Spring WebSocket -->
+	      <!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
+	      <dependency>
+	         <groupId>org.springframework</groupId>
+	         <artifactId>spring-websocket</artifactId>
+	         <version>${org.springframework-version}</version>
+	      </dependency>
+	      
+	      <!--Java에서 JSON을 쉽게 다룰 수 있게 해주는 구글 라이브러리  -->
+	      <!-- GSON 라이브러리 -->
+	      <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+	      <dependency>
+	          <groupId>com.google.code.gson</groupId>
+	          <artifactId>gson</artifactId>
+	          <version>2.9.0</version>
+	      </dependency>
 	
 
 	</dependencies>
-
 	<!-- build : 프로젝트 빌드 시 사용되는 플러그인 추가 및 버전 정보 설정 -->
 	<build>
 		<plugins>
