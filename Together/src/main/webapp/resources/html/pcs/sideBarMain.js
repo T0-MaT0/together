@@ -8,17 +8,27 @@ for (i = 0; i < aTags.length; i++) {
   });
 }
 
+const sideBar = document.getElementById("sideBar");
+const sideBarBox = document.getElementById("sidebar-menu-box");
+const sideBarClose = document.getElementById("sideBar-close");
 
-document.getElementById("sidebar-menu-box").addEventListener("click", function() {
-  document.getElementById("sideBar").classList.add("active");
-  /* 밑의 이벤트 발생 전까지 본 이벤트 차단 */
+
+
+sideBarBox.addEventListener("click", function(e) {
+  if (sideBar.classList.contains("active") || !sideBarClose.classList.contains("activate")) {
+    return;
+  }
+  sideBar.classList.add("active");
+  sideBarClose.classList.remove("activate");
 });
 
-
-document.getElementById("sideBar-close").addEventListener("click", function() {
-  document.getElementById("sideBar").classList.remove("active");
-  event.stopPropagation();
+sideBarClose.addEventListener("click", function(e) {
+  e.stopPropagation();
+  sideBar.classList.toggle("active");
+  console.log("remove active");
+  sideBarClose.classList.toggle("activate");
 });
+
 
 
 
@@ -57,7 +67,7 @@ document.getElementById("togglePage").addEventListener("click", e => {
     flag = 1;
   } else {
     e.target.setAttribute("src", "images/favorite-cart.svg");
-    document.getElementById("title").innerText = '내가 찜한 목록';
+    document.getElementById("title").innerText = '장바구니';
     flag = 0;
   }
 
