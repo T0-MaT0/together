@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>브랜드 수정/등록 페이지</title>
+
+    <link rel="stylesheet" href="../../../resources/css/businessWrite-style.css">
+
+    <script src="https://kit.fontawesome.com/f8edd1a12b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <main>
+        <!-- header.jsp -->
+
+        <section class="content">
+            <section id="optionArea">
+                <div class="product-img">
+                    <img src="../../../resources/images/business/product.png">
+                    <span class="x-btn">&times;</span>
+                </div>
+                <div class="option-detail-area">
+                    <input type="text" class="product-title" value="제품 이름이 긴 상품">
+                    <table class="product-info-area border-top">
+                        <tbody>
+                            <tr>
+                                <td>브랜드</td>
+                                <td><input type="text" value="제품 회사 이름"></td>
+                            </tr>
+                            <tr>
+                                <td>판매가</td>
+                                <td><input type="text" value="10,000"></td>
+                            </tr>
+                            <tr>
+                                <td>배송비</td>
+                                <td><input type="text" value="무료"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="product-option-area border-top">
+                        <span>상품명</span>
+                        <div class="option-input-area">
+                            <div>
+                                <input type="text" placeholder="옵션을 입력해 주세요">
+                                <span>+</span>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="옵션을 입력해 주세요">
+                                <span>-</span>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="옵션을 입력해 주세요">
+                                <span>-</span>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="옵션을 입력해 주세요">
+                                <span>-</span>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="옵션을 입력해 주세요">
+                                <span>-</span>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="옵션을 입력해 주세요">
+                                <span>-</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stock-area border-top">
+                        <span>재고</span>
+                        <input type="text" value="50">
+                    </div>
+                </div>
+            </section>
+            <section class="product-content border-top">
+                <nav class="content-nav" id="productImg">
+                    <ul>
+                        <li><a href="#productImg">상품사진선택</a></li>
+                        |
+                        <li><a href="#productDetail">상품상세정보</a></li>
+                    </ul>
+                </nav>
+                <h3>상품 사진 선택</h3>
+                <div class="product-img">
+                    <div>
+                        <img src="../../../resources/images/business/product.png">
+                        <span class="x-btn">&times;</span>
+                    </div>
+                    <div>
+                        <img src="../../../resources/images/business/product.png">
+                        <span class="x-btn">&times;</span>
+                    </div>
+                </div>
+            </section>
+            <section class="product-content border-top">
+                <nav class="content-nav" id="productDetail">
+                    <ul>
+                        <li><a href="#productImg">상품사진선택</a></li>
+                        |
+                        <li><a href="#productDetail">상품상세정보</a></li>
+                    </ul>
+                </nav>
+                <textarea name="" id="">사업자가 작성한 상품 상세 정보 내용</textarea>
+            </section>
+            <div class="btn-area">
+                <button class="btn">취소하기</button>
+                <button class="btn">등록하기</button>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
