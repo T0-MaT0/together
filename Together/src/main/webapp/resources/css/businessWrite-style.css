@@ -84,7 +84,7 @@ main{
     height: 30px;
 }
 
-.product-info-area input{
+.product-info-area input,.product-info-area select{
     width: 100%;
     height: 30px;
     padding-left: 10px;
