@@ -146,7 +146,9 @@ main{
     height: 400px;
     display: flex;
     align-items: center;
+
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
 }
 
 .list-area img{transition: transform 0.3s ease;}
@@ -196,9 +198,6 @@ main{
     color: white;
 }
 
-.hidden{
-    display: none;
-}
 
 /* 페이지네이션*/
 .pagination{

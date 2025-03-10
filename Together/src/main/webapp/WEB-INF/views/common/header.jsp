@@ -3,6 +3,8 @@
 
 <link rel="stylesheet" href="/resources/css/header,footer.css">
 
+
+
 <header class="container">
     <div class="top-bar">
         <div class="logo-nav">
@@ -13,8 +15,10 @@
             </span>
         </div>
         <div class="user-info">
-            <span>닉네임 | 00000pt</span>
-            <button class="btn-recruit  ">모집하기</button>
+            <c:if test="${!empty loginMember}">
+                <span>${loginMember.memberNick} | ${loginMember.point}pt</span>
+                <button class="btn-recruit  ">모집하기</button>
+            </c:if>
         </div>
     </div>
 </header>
@@ -31,9 +35,18 @@
             <a href="#">고객 센터</a>
         </div>
         <div class="right-links">
-            <a href="#">마이페이지</a>
-            <span> | </span>
-            <a href="#">포인트 충전</a>
+            <c:if test="${!empty loginMember}">
+                <a href="#">마이페이지</a>
+                <span> | </span>
+                <a href="#">포인트 충전</a>
+                <span> | </span>
+                <a href="/member/logout">로그아웃</a>
+            </c:if>
+            <c:if test="${empty loginMember}">
+                <a href="/member/login">로그인</a>
+                <span> | </span>
+                <a  href="/member/signup">회원 가입</a>
+            </c:if>
         </div>
     </div>
 </nav>

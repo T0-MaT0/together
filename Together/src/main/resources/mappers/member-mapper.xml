@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+	<!-- namespace : 공간(영역, 태그)의 이름 -->
+
+	<!-- mapper 파일 생성 시 아래 태그 반드시 삭제!!! -->
+	<!-- <cache-ref namespace=""/> -->
+
+	<!-- resultMap - SELECT 조회 결과(ResultSet) 컬럼명과 컬럼 값을 옮겨 담을 DTO의 필드명이 같지 않을 
+		때 이를 매핑 시켜 SELECT시 자동으로 담기게하는 역할 -속성 type : 연결할 DTO (패키지명 + 클래스명 또는 별칭) id 
+		: 만들어진 resultMap을 지칭할 식별명(이름) <id> 태그 : PK 역할 컬럼 - 필드 매핑 <result> 태그 : <id>제외 
+		나머지 -->
+
+	<resultMap type="Member" id="member_rm">
+
+	    <!-- 기본 키 -->
+	    <id property="memberNo" column="MEMBER_NO" />
+	
+	    <!-- 일반 컬럼 매핑 -->
+	    <result property="memberId" column="MEMBER_ID" />
+	    <result property="memberPw" column="MEMBER_PW" />
+	    <result property="memberNick" column="MEMBER_NICK" />
+	    <result property="memberName" column="MEMBER_NAME" />
+	    <result property="memberAddr" column="MEMBER_ADDR" />
+	    <result property="memberTel" column="MEMBER_TEL" />
+	    <result property="profileImg" column="PROFILE_IMG" />
+	    <result property="enrollDate" column="ENROLL_DATE" />
+	    <result property="memberEmail" column="MEMBER_EMAIL" />
+	    <result property="memberDelFl" column="MEMBER_DEL_FL" />
+	    <result property="authority" column="AUTHORITY" />
+	    <result property="memberGrade" column="MEMBER_GRADE" />
+	    <result property="memberBirth" column="MEMBER_BIRTH" />
+	    <result property="point" column="POINT" />
+
+	</resultMap>
+
+	
+	<select id="login" parameterType="Member" resultMap="member_rm">
+		SELECT 
+        MEMBER_NO, MEMBER_ID, MEMBER_PW,
+        MEMBER_NICK, MEMBER_NAME, MEMBER_ADDR,
+        MEMBER_TEL, PROFILE_IMG, 
+        TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD HH24:MI:SS') AS ENROLL_DATE,
+        MEMBER_EMAIL, AUTHORITY, MEMBER_GRADE,
+        TO_CHAR(MEMBER_BIRTH, 'YYYY-MM-DD') AS MEMBER_BIRTH,
+        POINT
+	    FROM MEMBER
+	    WHERE MEMBER_DEL_FL = 'N'
+	    AND MEMBER_ID = #{memberId}
+	</select>
+
+</mapper>
