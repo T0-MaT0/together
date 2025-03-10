@@ -15,7 +15,7 @@
 
 <body>
 
-
+	<jsp:include page="/WEB-INF/views/common/header.jsp" />
     
     <section class="hero">
         <div class="hero-content">
@@ -220,6 +220,7 @@
         </div>
     </section>
 
+	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/main.js"></script>
 
 </body>
