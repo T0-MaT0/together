@@ -14,7 +14,6 @@
 </head>
 
 <body>
-
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
     
     <section class="hero">
@@ -22,6 +21,7 @@
             <img src="/resources/images/mainJHI/mainbanner.png" alt="">
         </div>
     </section>
+    
     
     <section class="purchase-section">
         <h2 class="main-product-title">😺개인 공동구매에 참여해보세요😺</h2>

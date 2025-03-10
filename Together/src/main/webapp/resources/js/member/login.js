@@ -11,7 +11,7 @@ if(loginFrm != null){
         // 아이디가 입력되지 않은 경우
         if(memberId.value.trim() == ""){
 
-            alert("이메일을 입력해주세요");
+            alert("아이디를 입력해주세요");
             e.preventDefault(); // 제출 못하게 막기
             memberId.focus(); // 아이디 input 태그에 초점 맞추기
             memberId.value = ""; // 잘못 입력된 값 제거

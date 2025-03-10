@@ -135,6 +135,8 @@ button{
     width: 192px;
     height: 43px;
     text-align: center;
+    text-decoration: none;
+    color: black;
 
 
 }

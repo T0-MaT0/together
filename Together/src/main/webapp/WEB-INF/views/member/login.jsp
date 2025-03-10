@@ -34,19 +34,20 @@
     
                     <div class="member-bar">
                         <div id="under-line-personal"></div>
-                        <div class="member-type font-bold">개인회원</div>
-                        <div class="member-type">기업회원</div>
+                        <a class="member-type font-bold">개인회원</a>
+                        <a class="member-type">기업회원</a>
                     </div>
-                    <div><input type="text" name="memberId" placeholder="아이디" class="input-box id-box" value="${cookie.saveId.value}"></div>
+                    <div><input type="text" name="memberId" placeholder="아이디" class="input-box id-box" autocomplete="off" value="${cookie.saveId.value}"></div>
                     <div><input type="password" name="memberPw" placeholder="비밀번호" class="input-box"></div>
+                    
                     <%-- 쿠키에 saveId가 있는 경우--%>
-                    <c:if test="${ !empty cookie.saveId.value}">
-                        <%-- chk 변수 생성(page scope)--%>
-                        <c:set var="chk" value="checked"/>
-                    </c:if>
+                    <c:if test="${!empty cookie.saveId.value}">
+		                    	<c:set var="save" value="checked"/>
+		            </c:if>
+
                     <div id="check-box-div">
-                        <label class="check-box-div-div font-12"><input type="checkbox" id="save-login">로그인 유지</label>
-                        <label class="check-box-div-div font-12"><input type="checkbox" name="saveId" id="saveId" ${chk}>아이디 저장</label>
+                        <label class="check-box-div-div font-12"><input type="checkbox"  id="save-login">로그인 유지</label>
+                        <label class="check-box-div-div font-12"><input type="checkbox" name="saveId" id="saveId" ${save}>아이디 저장</label>
                     </div>
                     <div id="security-test">
                         <img src="/resources/images/mainJHI/simpleCapcha.png" alt="" class="c">
@@ -82,6 +83,6 @@
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="/resources/js/login.js"></script>
+    <script src="/resources/js/member/login.js"></script>
 </body>
 </html>
