@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>브랜드 메인 페이지</title>
+    <title>브랜드 목록 페이지</title>
 
+    <link rel="stylesheet" href="../../../resources/css/header,footer.css">
     <link rel="stylesheet" href="../../../resources/css/mainBusiness-style.css">
 </head>
 <body>
@@ -13,7 +14,13 @@
         <!-- header.jsp -->
 
         <section class="content">
-            <img src="../../../resources/images/business/businessbanner.png">
+            <div class="banner">
+                <img src="../../../resources/images/business/banner.png">
+                <div class="banner-text">
+                    Buy Together,<br>
+                    <span>Sell Together!</span>
+                </div>
+            </div>
 
             <section class="boardList">
                 <div class="title-area">
@@ -119,7 +126,7 @@
                         <div class="product-img-area">
                             <img src="../../../resources/images/business/product.png">
                         </div>
-                        <div class="product-info">
+                        <div class="product-info hidden">
                             <span>제품 이름이 긴 상품</span>
                             <div class="product-price-area">
                                 <span>5000원</span>
