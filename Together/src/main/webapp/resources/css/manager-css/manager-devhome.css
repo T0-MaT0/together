@@ -39,7 +39,6 @@
     border: 2px solid #eeeeee85;
     box-shadow: 0px 2px 12px 1px rgba(0, 0, 0, 0.217);
     transition: 0.2s;
-    
 }
 
 .dev-board:hover{
@@ -92,3 +91,5 @@
     width: 70px;
     height: 70px;
 }
+
+/* -------------------------------------------------------------- */
