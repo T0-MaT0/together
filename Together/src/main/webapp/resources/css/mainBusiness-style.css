@@ -151,9 +151,26 @@ main{
 
 }
 
-.list-area img{transition: transform 0.3s ease;}
-.list-area img:hover{
-    transform: scale(1.5);
+.list-area img{transition: transform 0.3s ease-in-out;}
+.list-area>div:hover img{transform: scale(1.5);}
+.list-area>div:hover .product-info{opacity: 1;}
+
+.product-info{
+    width: 300px;
+    height: 400px;
+    position: absolute;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product-info>span{
+    font-size: 24px;
+    color: white;
 }
 
 .product-detail-area{
