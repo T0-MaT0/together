@@ -305,7 +305,7 @@ buildNumber.properties
 
 
 # 추가
-
+pom.properties
 .pom.properties
 MANIFEST.MF
 *.log
