@@ -27,3 +27,11 @@
            설명설명설명 대충팀소개설명설명설명 대충팀소개설명설명설명</p>
     </div>
 </footer>
+<c:if test="${!empty message}">
+
+    <script>
+        alert('${message}');
+    </script>
+
+
+</c:if>

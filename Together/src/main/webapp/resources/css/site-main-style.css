@@ -140,15 +140,20 @@ body {
 
 
 .start-button {
+    display: inline-block;
     background: linear-gradient(to right, #d36aff, #ff66c4);
+    width: 313px;
+    height: 65px;
     border: none;
     padding: 12px 30px;
-    border-radius: 20px;
-    font-size: 16px;
+    border-radius: 15px;
+    font-size: 24px;
     color: white;
     cursor: pointer;
-    margin-left: 180px;
+    margin-left: 100px;
     margin-top: 44px;
+    text-align: center;
+    text-decoration: none;
 }
 
 .start-button:hover {
