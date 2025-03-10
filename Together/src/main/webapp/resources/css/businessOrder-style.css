@@ -14,6 +14,8 @@ a{
     max-width: 100%;
     font-size: 30px;
     font-weight: bold;
+    position: sticky;
+    top: 0;
 }
 
 .header-up{
@@ -23,6 +25,7 @@ a{
     justify-content: space-between;
     align-items: center;
     padding: 5px;
+    background-color: white;
 }
 
 .header-up>*{
@@ -44,14 +47,11 @@ a{
 
 .header-up>i{
     text-align: right;
-}
-
-.header-down{
-    width: 100%;
+    cursor: pointer;
 }
 
 .header-down>a{
-    width: 100%;
+    min-width: 450px;
     height: 75px;
     background-color: #9969ff;
     color: white;
@@ -61,7 +61,7 @@ a{
 }
 
 main{
-    margin:0 auto 5vh auto;
+    margin:0 auto 50px auto;
     display: flex;
     justify-content: center;
 }
@@ -70,15 +70,15 @@ main{
     display: flex;
 }
 
-/* 오른쪽 내용 */
+/* 왼쪽 내용 */
 .content-left{
-    margin-right: 5vw;
-    width: 55vw;
+    margin-right: 50px;
+    min-width: 500px;
 }
 
 .content-left>div{
-    padding-bottom: 3vh;
-    border-bottom: 0.3vh solid #9969ff;
+    padding-bottom: 25px;
+    border-bottom: 3px solid #9969ff;
 }
 
 /* 제목 */
@@ -86,12 +86,12 @@ main{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 5vh;
+    margin: 50px 0 25px 0;
 }
 
 .title-area>h3{
     color: #9969ff;
-    font-size: 3vw;
+    font-size: 26px;
 }
 
 .title-area>div{
@@ -100,12 +100,12 @@ main{
 }
 
 .title-area>div>img{
-    width: 10vw;
-    margin-right: 1vw;
+    width: 100px;
+    margin-right: 10px;
 }
 
 .title-area>div>span{
-    font-size: 3vw;
+    font-size: 26px;
     background-image: linear-gradient(to right, #9969ff, #ff54a1);
     -webkit-background-clip: text;
     color: transparent;
@@ -113,17 +113,17 @@ main{
 
 /* 행 단위 스타일 지정 */
 .content-row{
-    width: 45vw;
-    height: 7vh;
+    width: 100%;
+    height: 50px;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom : 0.2vh solid #ddd;
+    border-bottom : 2px solid #ddd;
 }
 
 .content-row > * {
-    font-size: 2vw;
+    font-size: 20px;
     font-weight: bold;
 }
 
@@ -140,11 +140,15 @@ main{
     color: #9969ff;
 }
 
+.minus{
+    color: #ff54a1;
+}
+
 .content-row>img{
-    width: 7vw;
-    height: 7vw;
-    margin-bottom: 0.4vh;
-    border: 0.1vw solid #ddd;
+    width: 50px;
+    height: 50px;
+    margin-bottom: 1px;
+    border: 1px solid #ddd;
 }
 
 /* 내부 input 요소 focus 시 */
@@ -155,17 +159,142 @@ main{
 /* 버튼 스타일 */
 .btn{
     border: none;
-    border-radius: 0.5vw;
+    border-radius: 5px;
     background-color: #9969ff;
     color: white;
-    width: 8vw;
-    height: 3vh;
-    font-size: 1.5vw;
+    width: 75px;
+    height: 35px;
+    font-size: 15px;
     font-weight: bold;
     cursor: pointer;
 }
 
-/* 왼쪽 내용 */
+/* 오른쪽 내용 */
 .content-right{
-    width: 20vw;
+    width: 300px;
+    height: 200px;
+    padding: 20px;
+    margin-top: 50px;
+
+    position: sticky;
+    top: 150px;
+
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    font-weight: bold;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.content-right>span:nth-child(2){
+    text-align: right;
+}
+
+.content-right>button{
+    height: 40px;
+    font-weight: bold;
+    color: white;
+    background-color: #9969ff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.content-box{
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    min-width: 800px;
+}
+
+.small{
+    font-size: 10px;
+    color: #999999;
+}
+
+.delivery{
+    display: flex;
+    flex-direction: column;
+}
+
+.delivery>span:last-child{
+    margin-top: 15px;
+}
+
+.title{
+    margin: 25px 0;
+}
+
+.business-title{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+}
+
+.business-title>div{
+    display: flex;
+    flex-direction: column;
+}
+
+.business-title>div>span:first-child{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.business-title>button{
+    background-color: white;
+    border: 1px solid #999;
+    border-radius: 10px;
+    width: 75px;
+    cursor: pointer;
+}
+
+.business-title>button:hover{
+    background-color: #9969ff;
+    color: white;
+    border: none;
+}
+
+.option-area{
+    display: flex;
+    margin-top: 10px;
+}
+
+.option-area>img{
+    width: 75px;
+    height: 75px;
+    margin-right: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.option-area>div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.total-price{
+    color: #9969ff;
+    display: flex;
+    justify-content: space-between;
+}
+
+.price-area{
+    display: flex;
+    justify-content: space-between;
+    border-left: 3px solid #ddd;
+    margin-top: 10px;
+    padding-left: 10px;
+    color: #999999;
+}
+
+.price-area>div{
+    display: flex;
+    flex-direction: column;
 }
