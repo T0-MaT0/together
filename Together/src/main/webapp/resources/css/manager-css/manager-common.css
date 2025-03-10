@@ -100,17 +100,21 @@ main{
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s ease-out;
+
   }
 
 
   /* 내용 메뉴 */
   .panel> p{
     margin-left: 28px;
+    padding-left: 10px;
     font-size: 18px;
-    margin: 0;
+    margin: 0 25px;
     padding: 15px 0;
     display: flex;
     align-items: center;
+
+    
   }
 
   /* ---------------------------------------------------------- */
