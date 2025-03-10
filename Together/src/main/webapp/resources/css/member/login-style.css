@@ -1,0 +1,266 @@
+*{
+    box-sizing: border-box;
+    font-family: 'GmarketSansMedium';
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+body{
+    margin: 0;
+}
+
+button{
+    cursor: pointer;
+    margin: 0px;
+    padding: 0px;
+}
+.login-container{
+    background-color: white;
+    border: 1px solid #4B4B4B;
+    width: 1086px;
+    height: 753px;
+    border-radius: 50px;
+    padding: 0;
+    display: flex;
+    margin : 100px 0;
+
+}
+
+#left {
+    width: 542.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+#logo{
+    margin-bottom: 30px;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: bold;
+}
+#content{
+    font-size: 14px;
+}
+#signUp-button-personal{
+
+    width: 320px;
+    height: 53px;
+    color: white;
+    background-color: #FF54A1;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+
+    
+}
+#signUp-button-company{
+
+    width: 320px;
+    height: 53px;
+    color: white;
+    background-color: #B862FF;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+
+    
+}
+
+#center {
+    margin: 107px 0;
+    background-color: #4B4B4B;
+    width: 1px;
+    height: 586px;
+}
+
+#right{
+    width: 542.5px;
+    text-align: center;
+    margin-top: 62px;
+    
+}
+
+#right > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+
+}
+
+
+
+.member-bar{
+
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+#under-line-personal{
+    height: 4px;
+    background-color: #FF54A1;
+    position: absolute;
+    width: 192px;
+    left: 79px;
+    top: 40px;
+
+
+}
+#under-line-company{
+    height: 4px;
+    background-color: #B862FF;
+    position: absolute;
+    width: 192px;
+    left: 271px;
+    top: 40px;
+
+
+}
+
+.member-type{
+    font-size: 24px;
+    width: 192px;
+    height: 43px;
+    text-align: center;
+
+
+}
+
+.input-box{
+    width: 320px;
+    height: 53px;
+    border-radius: 10px;
+    border: 1px solid black;
+    padding-left: 10px;
+
+
+}
+
+.id-box{
+
+    margin-top: 27px;
+}
+
+.font-bold{
+    font-weight: bold;
+}
+
+#check-box-div{
+    margin: 20px 0;
+    margin-right: 80px;
+    display: flex;
+    gap: 40px;
+}
+
+.check-box-div-div {
+    display: flex;
+    gap: 15px;
+}
+
+#security-test {
+    margin-top: 20px;
+    gap: 10px;
+
+}
+
+.check-captcha-code {
+    width: 184px;
+    height: 36px;
+    border-radius: 5px;
+    border: #4B4B4B solid 1px;
+    padding-left: 5px;
+
+}
+
+.captcha-button {
+    width: 52px;
+    height: 18px;
+    font-size: 10px;
+
+    border-radius: 3px;
+    border: 1px solid #4B4B4B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.captcha-button-div{
+    display: flex;
+    margin-right: 195px;
+    gap: 5px;
+}
+
+.font-12{
+    font-size: 12px;
+    color: #535353;
+}
+
+
+.find-div{
+    margin-right: 150px;
+    gap: 10px;
+    color: #535353;
+}
+
+.find-div > a{
+    text-decoration: none;
+    color: #535353;
+}
+
+#sns-login{
+    margin-right: 210px;
+    margin-top: 40px;
+}
+
+
+#kakao-logo{
+    height: 39px;
+
+}
+
+#kakao-login{
+    width: 320px;
+    height: 53px;
+    background-color: #FEE500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#google-login{
+    width: 320px;
+    height: 53px;
+    background-color: #ffffff;
+    border: 1px solid #535353;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#login-button{
+
+    margin-top: 10px;
+    width: 320px;
+    height: 56px;
+    border-radius: 10px;
+    background:linear-gradient(to right, #FF54A1, #B862FF);
+    color: #ffffff;
+    border: none;
+}

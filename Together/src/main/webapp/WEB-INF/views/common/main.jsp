@@ -133,7 +133,7 @@
                 <p>📦 개인도! 사업자도! 누구나 공동구매 가능! 🛍️</p>
                 <p>🤔 이렇게 쉬운데, 아직도 안 해보셨나요? 😆</p>
                 <p>💡 더 싸게 사고, 더 많이 팔고 싶다면? 지금 가입하세요! 💥</p>
-                <button class="start-button">공동구매 시작하기</button>
+                <a class="start-button" href="/member/login">공동구매 시작하기</a>
             </div>
             <div class="image-content">
                 <img src="/resources/images/mainJHI/main3.png" alt="손을 모으는 이미지">

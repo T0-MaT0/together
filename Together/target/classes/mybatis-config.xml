@@ -8,14 +8,12 @@
 	</settings>
 	
 	<typeAliases>
-		<!-- 예시 -->
-		<!-- <typeAlias type="edu.kh.project.board.model.dto.Board"
-			alias="Board" /> -->
+		<typeAlias type="edu.kh.project.member.model.dto.Member"
+			alias="Member" />
 	</typeAliases>
 	
 	<mappers>
-		<!-- 예시 -->
-		<!-- <mapper resource="/mappers/board-mapper.xml" /> -->
+		<mapper resource="/mappers/member-mapper.xml" />
 	</mappers>
 
 </configuration>
