@@ -3,18 +3,20 @@
 
 <link rel="stylesheet" href="/resources/css/header,footer.css">
 
-
-
 <header class="container">
     <div class="top-bar">
         <div class="logo-nav">
-            <div class="logo"><a href=""><img src="/resources/images/mainJHI/logo.png" alt="ToGether Logo"></a></div>
+            <div class="logo"><a href="/"><img src="/resources/images/mainJHI/logo.png" alt="ToGether Logo"></a></div>
             <span class="main-nav">
                 <!-- boardCD가 2이면 브랜드 버튼 클래스 변경 -->
-                <a href="#" class="to-brand <c:if test='${boardCD == 2}'>btn-get-personal</c:if>'">To 브랜드</a>
+                <c:set var="code" value="to-brand"/>
+                <c:if test='${boardCode == 2}'>
+                    <c:set var="code" value="btn-get-personal"/>
+                </c:if>
+                <a href="/board/2" class="${code}">To 브랜드</a>
                 
                 <!-- boardCD가 1이면 개인 버튼 클래스 변경 -->
-                <a href="#" class="to-gain <c:if test='${boardCD == 1}'>btn-get-gain</c:if>'">Get 개인</a>
+                <a href="#" class="to-gain <c:if test='${boardCD == 1}'>btn-get-gain</c:if>">Get 개인</a>
             </span>
         </div>
         <div class="user-info">
