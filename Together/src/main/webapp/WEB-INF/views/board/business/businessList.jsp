@@ -1,6 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<c:set var="title" value="${param.query}/부모 카테고리>자식 카테고리"/>
+
+<c:if test="${param.category=='hot'}">
+    <c:set var="title" value="지금 🔥HOT🔥한 상품들"/>
+</c:if>
+
+<c:if test="${param.category=='new'}">
+    <c:set var="title" value="🆕새로 올라온 상품들🆕"/>
+</c:if>
+
+<c:if test="${param.category=='hot'||param.category=='new'}">
+    <c:set var="toggleId" value="${param.category}"/>
+</c:if>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,13 +43,14 @@
                 </div>
             </div>
 
+            
             <section class="boardList">
                 <div class="title-area">
-                    <a href="/board/2/search?search=">지금 🔥HOT🔥한 상품들</a>
+                    <span>${title}</span>
 
-                    <input type="checkbox" id="hotListToggle" class="list-toggle" checked>
+                    <input type="checkbox" id="${toggleId}ListToggle" class="list-toggle hidden">
 
-                    <label for="hotListToggle">
+                    <label for="${toggleId}ListToggle">
                         <div class="list-style">
                             <div></div>
                             <div></div>
@@ -49,8 +64,8 @@
                         <div class="product-img-area">
                             <img src="../../../resources/images/business/product.png">
                         </div>
-                        <div class="product-detail-area">
-                            <span>제품 회사 이름</span>
+                        <div class="product-info">
+                            <span class="hidden">제품 회사 이름</span>
                             <span>제품 이름이 긴 상품</span>
                             <div class="product-price-area">
                                 <span>5000원</span>
@@ -63,8 +78,8 @@
                         <div class="product-img-area">
                             <img src="../../../resources/images/business/product.png">
                         </div>
-                        <div class="product-detail-area">
-                            <span>제품 회사 이름</span>
+                        <div class="product-info">
+                            <span class="hidden">제품 회사 이름</span>
                             <span>제품 이름이 긴 상품</span>
                             <div class="product-price-area">
                                 <span>5000원</span>
@@ -77,8 +92,8 @@
                         <div class="product-img-area">
                             <img src="../../../resources/images/business/product.png">
                         </div>
-                        <div class="product-detail-area">
-                            <span>제품 회사 이름</span>
+                        <div class="product-info">
+                            <span class="hidden">제품 회사 이름</span>
                             <span>제품 이름이 긴 상품</span>
                             <div class="product-price-area">
                                 <span>5000원</span>
@@ -91,8 +106,8 @@
                         <div class="product-img-area">
                             <img src="../../../resources/images/business/product.png">
                         </div>
-                        <div class="product-detail-area">
-                            <span>제품 회사 이름</span>
+                        <div class="product-info">
+                            <span class="hidden">제품 회사 이름</span>
                             <span>제품 이름이 긴 상품</span>
                             <div class="product-price-area">
                                 <span>5000원</span>
@@ -105,8 +120,8 @@
                         <div class="product-img-area">
                             <img src="../../../resources/images/business/product.png">
                         </div>
-                        <div class="product-detail-area">
-                            <span>제품 회사 이름</span>
+                        <div class="product-info">
+                            <span class="hidden">제품 회사 이름</span>
                             <span>제품 이름이 긴 상품</span>
                             <div class="product-price-area">
                                 <span>5000원</span>
@@ -119,8 +134,8 @@
                         <div class="product-img-area">
                             <img src="../../../resources/images/business/product.png">
                         </div>
-                        <div class="product-detail-area">
-                            <span>제품 회사 이름</span>
+                        <div class="product-info">
+                            <span class="hidden">제품 회사 이름</span>
                             <span>제품 이름이 긴 상품</span>
                             <div class="product-price-area">
                                 <span>5000원</span>
@@ -199,5 +214,6 @@
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/main.js"></script>
+    <script src="/resources/js/business/businessList.js"></script>
 </body>
 </html>
