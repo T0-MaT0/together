@@ -3,6 +3,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
 
 
+<c:set var="menuName" value="customer"/> <!-- 사이드 메뉴 설정 -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +20,7 @@
             height: 550px;
         }
     </style>
+    
 </head>
 
 <body>
@@ -28,14 +31,13 @@
     
     <!-- 사이드 메뉴 -->
     <jsp:include page="/WEB-INF/views/manager/common/sideMenu.jsp"/>
-
-
+    
 
     <!-- 위쪽 영역 -->
     <header>
         <div class="head-title">
             <div>고객 관리</div>
-             &nbsp; <div> - 회원상태</div>
+             &nbsp; <div> - 고객 상태</div>
         </div>
     </header>
 
