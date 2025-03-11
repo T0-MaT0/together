@@ -105,17 +105,43 @@ main{
 
 
   /* 내용 메뉴 */
-  .panel> p{
-    margin-left: 28px;
-    padding-left: 10px;
+  .panel> a{
+    display: block;
     font-size: 18px;
     margin: 0 25px;
     padding: 15px 0;
     display: flex;
     align-items: center;
-
-    
+    color:black;
+    text-decoration: none;
   }
+
+
+  /* 세부 메뉴 */
+  .panel> a:hover{
+    text-decoration: underline;
+  }
+
+
+  #menu-items > button.clicked{
+    background-color: #FD499A;
+    color: white;
+    cursor: pointer;
+    padding: 13px 0 13px 25px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 20px;
+}
+
+#menu-items > div.open-menu{
+    padding: 0 18px;
+    margin: 0 25px;
+    background-color: white;
+    max-height: 100%;
+    overflow: hidden;
+}
 
   /* ---------------------------------------------------------- */
 
