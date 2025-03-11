@@ -9,7 +9,7 @@
 	
 	<typeAliases>
 		<typeAlias type="edu.kh.project.member.model.dto.Member"
-			alias="Member" /> 
+			alias="Member" />
 	</typeAliases>
 	
 	<mappers>
