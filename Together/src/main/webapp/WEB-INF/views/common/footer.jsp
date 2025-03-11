@@ -5,8 +5,8 @@
 
 <footer class="footer-container">
     <div class="footer-top">
-        <img src="logo1.png" alt="ToGether Logo">
-        <img src="footer image1.png" alt="Buy ToGether, Sell Together!">
+        <img src="/resources/images/mainJHI/logo1.png" alt="ToGether Logo">
+        <img src="/resources/images/mainJHI/footer image1.png" alt="Buy ToGether, Sell Together!">
     </div>
     <nav class="footer-links">
         <a href="#">이용약관</a><span> | </span>

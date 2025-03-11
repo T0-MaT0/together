@@ -53,13 +53,31 @@ header {
     color: #9969FF;
     
 }
+.main-nav .to-gain {
+    border: 1px solid #FD499A;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #FD499A;
+    
+}
 
-.to-brand:hover:hover {
+.to-brand:hover {
     background-color: #9969FF;
     transition-duration: 0.3s;
     color: white;
 }
+.to-gain:hover {
+    background-color: #FD499A;
+    transition-duration: 0.3s;
+    color: white;
+}
 .main-nav .btn-get-personal {
+    background: #9969FF;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.main-nav .btn-get-gain {
     background: #FD499A;
     color: white;
     border-radius: 5px;
@@ -189,6 +207,8 @@ header {
     margin-bottom: 20px;
 }
 .footer-links a {
+    display: flex;
+    align-items: center;
     text-decoration: none;
     color: black;
 }
