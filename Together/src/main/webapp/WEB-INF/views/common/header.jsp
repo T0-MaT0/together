@@ -45,7 +45,7 @@
             <c:if test="${empty loginMember}">
                 <a href="/member/login">로그인</a>
                 <span> | </span>
-                <a  href="/member/signUp1">회원 가입</a>
+                <a  href="/member/signup">회원 가입</a>
             </c:if>
         </div>
     </div>

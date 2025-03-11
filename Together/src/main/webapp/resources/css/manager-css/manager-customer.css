@@ -1,6 +1,24 @@
 
 /* 왼쪽 사이드 메뉴 - 고객 관리 */
+#menu-items > button.clicked{
+    background-color: #FD499A;
+    color: white;
+    cursor: pointer;
+    padding: 13px 0 13px 25px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 20px;
+}
 
+#menu-items > div.open-menu{
+    padding: 0 18px;
+    background-color: white;
+    max-height: 100%;
+    overflow: hidden;
+
+}
 
 #container-center{
     display: grid;

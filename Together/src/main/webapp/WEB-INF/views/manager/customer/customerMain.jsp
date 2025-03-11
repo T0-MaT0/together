@@ -4,7 +4,7 @@
 
 
 <c:set var="url" value="/manageCustomer/"/>
-<c:set var="menuName" value="customer"/> <!-- 사이드 메뉴 설정 -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,10 +14,6 @@
     <title>Document</title>
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/manager-customer.css" />
-    <script>
-        // 사이드 메뉴 설정
-        const menuName = "${menuName}";
-    </script>
 </head>
 
 <body>
