@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>브랜드 메인 페이지</title>
+    <title>브랜드 목록 페이지</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -31,7 +31,7 @@
 
             <section class="boardList">
                 <div class="title-area">
-                    <a href="/board/2/search?query=지금 🔥HOT🔥한 상품들">지금 🔥HOT🔥한 상품들</a>
+                    <a href="/board/2/search?search=">지금 🔥HOT🔥한 상품들</a>
 
                     <input type="checkbox" id="hotListToggle" class="list-toggle" checked>
 
@@ -47,7 +47,7 @@
                 <div class="list-area">
                     <div>
                         <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
+                            <img src="../../../resources/images/business/product.png">
                         </div>
                         <div class="product-detail-area">
                             <span>제품 회사 이름</span>
@@ -61,7 +61,7 @@
                     
                     <div>
                         <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
+                            <img src="../../../resources/images/business/product.png">
                         </div>
                         <div class="product-detail-area">
                             <span>제품 회사 이름</span>
@@ -75,7 +75,7 @@
                     
                     <div>
                         <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
+                            <img src="../../../resources/images/business/product.png">
                         </div>
                         <div class="product-detail-area">
                             <span>제품 회사 이름</span>
@@ -89,7 +89,7 @@
                     
                     <div>
                         <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
+                            <img src="../../../resources/images/business/product.png">
                         </div>
                         <div class="product-detail-area">
                             <span>제품 회사 이름</span>
@@ -103,7 +103,7 @@
                     
                     <div>
                         <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
+                            <img src="../../../resources/images/business/product.png">
                         </div>
                         <div class="product-detail-area">
                             <span>제품 회사 이름</span>
@@ -117,10 +117,52 @@
                     
                     <div>
                         <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
+                            <img src="../../../resources/images/business/product.png">
                         </div>
                         <div class="product-detail-area">
                             <span>제품 회사 이름</span>
+                            <span>제품 이름이 긴 상품</span>
+                            <div class="product-price-area">
+                                <span>5000원</span>
+                                <span>10000원</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="product-img-area">
+                            <img src="../../../resources/images/business/product.png">
+                        </div>
+                        <div class="product-info">
+                            <span class="hidden">제품 회사 이름</span>
+                            <span>제품 이름이 긴 상품</span>
+                            <div class="product-price-area">
+                                <span>5000원</span>
+                                <span>10000원</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="product-img-area">
+                            <img src="../../../resources/images/business/product.png">
+                        </div>
+                        <div class="product-info">
+                            <span class="hidden">제품 회사 이름</span>
+                            <span>제품 이름이 긴 상품</span>
+                            <div class="product-price-area">
+                                <span>5000원</span>
+                                <span>10000원</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="product-img-area">
+                            <img src="../../../resources/images/business/product.png">
+                        </div>
+                        <div class="product-info">
+                            <span class="hidden">제품 회사 이름</span>
                             <span>제품 이름이 긴 상품</span>
                             <div class="product-price-area">
                                 <span>5000원</span>
@@ -130,97 +172,28 @@
                     </div>
                 </div>
             </section>
+            <div class="pagination-area">
+                <ul class="pagination">
+                    <li><a href="#">&lt;&lt;</a></li>
 
-            <section class="boardList">
-                <div class="title-area">
-                    <a href="/board/2/search?query=🆕새로 올라온 상품들🆕">🆕새로 올라온 상품들🆕</a>
+                    <li><a href="#">&lt;</a></li>
+                    
+                    <li><a class="current">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">6</a></li>
+                    <li><a href="#">7</a></li>
+                    <li><a href="#">8</a></li>
+                    <li><a href="#">9</a></li>
+                    <li><a href="#">10</a></li>
+                    
+                    <li><a href="#">&gt;</a></li>
 
-                    <input type="checkbox" id="newListToggle" class="list-toggle">
-
-                    <label for="newListToggle">
-                        <div class="list-style">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </label>
-                </div>
-
-                <div class="list-area">
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                    <li><a href="#">&gt;&gt;</a></li>
+                </ul>
+            </div>
         </section>
     </main>
 
