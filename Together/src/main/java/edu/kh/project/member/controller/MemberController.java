@@ -81,26 +81,26 @@ public class MemberController {
 	}
 	
 	// 로그아웃
-		@GetMapping("/logout")
-		public String logout(SessionStatus status, HttpSession session,
-				RedirectAttributes ra) {
-			
-			status.setComplete();
-
-			return "redirect:/";
-			}
+	@GetMapping("/logout")
+	public String logout(SessionStatus status, HttpSession session,
+			RedirectAttributes ra) {
+		
+		status.setComplete();
+	
+		return "redirect:/";
+		}
 		
 
 
-		// 현재 클래스에서 발생하는 모든 예외를 모아서 처리
-		public String exceptionHandler(Exception e, Model model) {
-			
-			e.printStackTrace();
-			
-			model.addAttribute("e", e);
-			
-			return "common/error";
-		}
+	// 현재 클래스에서 발생하는 모든 예외를 모아서 처리
+	public String exceptionHandler(Exception e, Model model) {
+		
+		e.printStackTrace();
+		
+		model.addAttribute("e", e);
+		
+		return "common/error";
+	}
 	
 	
 }
