@@ -55,7 +55,6 @@ public class MemberController {
 			, HttpServletResponse resp
 			, RedirectAttributes ra) {
 
-		System.out.println(saveId);
 		
 		Member loginMember = service.login(inputMember);
 		System.out.println("loginMember : " + loginMember);

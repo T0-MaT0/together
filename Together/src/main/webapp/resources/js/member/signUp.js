@@ -7,9 +7,11 @@ const checkObj = {
     "memberName" : false,
     "memberBirth" : false,
     "memberEmail": false,
+    "emailAuthKey" : false,
     "memberNickname": false,
     "memberTel": false,
-    "authKey" : false
+    "memberAddress" : false,
+    "agree" : false
 };
 
 
@@ -23,7 +25,6 @@ const idMessage = document.getElementById("idMessage");
 memberId.addEventListener("input", function () {
     // 아이디 미 작성시
     if (memberId.value.trim().length == 0) {
-        idMessage.classList.remove("confirm", "error");
         idMessage.innerText ="";
         checkObj.memberId = false;
         return;
@@ -56,7 +57,7 @@ const pwMessage = document.getElementById("pwMessage");
 memberPw.addEventListener("input", function () {
     // 비밀번호 미 작성시
     if (memberPw.value.trim().length == 0) {
-        pwMessage.classList.remove("confirm", "error");
+        
         pwMessage.innerText = "";
         checkObj.memberPw = false;
         return;
@@ -137,7 +138,7 @@ memberBirth.addEventListener("input", function () {
     if (memberBirth.value.trim().length == 0) {
         checkObj.memberBirth = false;
         birthMessage.innerText = "";
-        birthMessage.classList.remove("confirm", "error");
+        
         return;
     }
 
@@ -174,14 +175,24 @@ const emailMessage = document.getElementById("emailMessage");
 
 memberEmail.addEventListener("input", function () {
 
+    // 이메일 미 작성시
+    if (memberEmail.value.trim().length == 0) {
+        checkObj.memberEmail = false;
+        emailMessage.innerText = "";
+        
+        return;
+    }
+
     const reqExp = /^[A-Za-z\d\-\_]{4,}@\w+(\.\w+){1,3}$/;
 
 
     if(reqExp.test(memberEmail.value)){ // 이메일 유효한 경우
 
+        
+
         /*****************************************************************/
         fetch("/dupCheck/email?email=" + memberEmail.value)
-        .then(response => response.text()) // 응답 객체 -> 파싱(parsing, 데이터 형태 변환)
+        .then(response => response.text())
         .then(count => {
             if(count == 1){
                 emailMessage.innerText = "이미 사용중인 이메일입니다."
@@ -199,11 +210,6 @@ memberEmail.addEventListener("input", function () {
         })
         .catch( e => {console.log(e)})
 
-        
-        emailMessage.innerText = "유효한 형식입니다.";
-        checkObj.memberEmail = true;
-        emailMessage.classList.add("confirm");
-        emailMessage.classList.remove("error");
     } else {
         emailMessage.innerText = "유효하지 않은 이메일 형식입니다.";
         checkObj.memberEmail = false;
@@ -232,7 +238,7 @@ sendAuthKeyBtn.addEventListener("click", function(){
     authSec = 59;
 
 
-    checkObj.authKey = false;
+    checkObj.emailAuthKey = false;
 
 
     if(checkObj.memberEmail){ // 중복이 아닌 이메일인 경우
@@ -274,7 +280,7 @@ sendAuthKeyBtn.addEventListener("click", function(){
            
             // 남은 시간이 0분 0초인 경우
             if(authMin == 0 && authSec == 0){
-                checkObj.authKey = false;
+                checkObj.emailAuthKey = false;
                 clearInterval(authTimer);
                 return;
             }
@@ -326,12 +332,12 @@ checkAuthKeyBtn.addEventListener("click", function(){
                 clearInterval(authTimer);
                 authKeyMessage.innerText = "인증되었습니다.";
                 authKeyMessage.classList.add("confirm");
-                checkObj.authKey = true;
+                checkObj.emailAuthKey = true;
 
 
             } else{
                 alert("인증번호가 일치하지 않습니다.")
-                checkObj.authKey = false;
+                checkObj.emailAuthKey = false;
             }
         })
         .catch(err => console.log(err));
@@ -368,19 +374,19 @@ memberNickname.addEventListener("input", function () {
 
     // 닉네임 미 작성시
     if (memberNickname.value.trim().length == 0) {
-        nickMessage.classList.remove("confirm", "error");
-        nickMessage.innerText = "영어/숫자/한글 2~10글자 사이로 작성해주세요.";
+        
+        nickMessage.innerText = "";
         checkObj.memberNickname = false;
         return;
     }
 
     // 닉네임 정규식
-    const reqExp = /^[\d\w가-힣]{2,10}$/;
+    const reqExp = /^[A-Za-z0-9가-힣]{2,10}$/;
 
     if(reqExp.test(memberNickname.value)){
 
         fetch("/dupCheck/nickname?nickname=" + memberNickname.value)
-        .then(response => response.text()) // 응답 객체 -> 파싱(parsing, 데이터 형태 변환)
+        .then(response => response.text())
         .then(count => {
             if(count == 1){
                 nickMessage.innerText = "이미 사용중인 닉네임입니다."
@@ -398,12 +404,6 @@ memberNickname.addEventListener("input", function () {
         })
         .catch( e => {console.log(e)})
 
-
-
-
-        nickMessage.innerText = "유효한 닉네임 형식입니다.";
-        checkObj.memberNickname = true;
-        nickMessage.classList.remove("error");
     } else {
         nickMessage.innerText = "유효하지 않은 닉네임 형식입니다.";
         checkObj.memberNickname = false;
@@ -420,8 +420,7 @@ const telMessage = document.getElementById("telMessage");
 memberTel.addEventListener("input", function () {
     // 전화번호 미 작성시
     if (memberTel.value.trim().length == 0) {
-        telMessage.classList.remove("confirm", "error");
-        telMessage.innerText = "전화번호를 입력해주세요. (- 제외)";
+        telMessage.innerText = "";
         checkObj.memberTel = false;
         return;
     }
@@ -447,6 +446,8 @@ memberTel.addEventListener("input", function () {
 })
 
 
+
+
 // 회원 가입 form 태그가 제출 되었을 때
 const signUpFrm = document.getElementById("signUpFrm");
 
@@ -461,33 +462,30 @@ signUpFrm.addEventListener("submit", function(e) {
     }
     
     let message = "";
-    // checkObj에 모든 value가 true인지 검사
     
-    // 배열용 향상된 for문 (for ... of)
-    // -> iterator(반복자) 속성을 지닌 배열, 유사 배열 사용 가능
-
-    // 객체용 향상된 for문 (for ... in)
-    // -> JS 객체가 가지고 있는 key를 순서대로 하나씩 꺼내는 반복문
     for (let key in checkObj) { 
-        // 점 표기법(obj.property)을 사용하는 경우 속성 이름이 고정
-        // 대괄호 표기법(obj["property"])을 사용하는 경우는 변수를 통해 동적으로 속성 이름을 지정 가능
+       
         if (!checkObj[key]) {
             switch (key) {
-                case "memberEmail": message = "이메일이"; break;
+                case "memberId": message = "아이디가"; break;
                 case "memberPw": message = "비밀번호가"; break;
                 case "memberPwConfirm": message = "비밀번호 확인이"; break;
+                case "memberName": message = "이름이"; break;
+                case "memberBirth": message = "생년월일이"; break;
+                case "memberEmail": message = "이메일이"; break;
+                case "emailAuthKey": message = "이메일 인증번호가"; break;
                 case "memberNickname": message = "닉네임이"; break;
                 case "memberTel": message = "전화번호가"; break;
-                case "authKey": message = "이메일 인증번호가"; break;
+                case "memberAddress": message = "주소가"; break;
+                case "agree": message = "약관 동의가"; break;
+                
             }
 
             message += " 유효하지 않습니다.";
-            alert(message); // 0000가 유효하지 않습니다. 알림창
+            alert(message); 
 
-            // 유효하지 않은 input 태그로 focus
-            // -> key와 input의 id를 똑같이 지정
             document.getElementById(key).focus();
-            // form 태그 기본 이벤트 제거
+
             e.preventDefault();
             return false; 
 
