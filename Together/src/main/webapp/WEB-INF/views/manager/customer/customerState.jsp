@@ -15,6 +15,13 @@
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/customer/customer-list.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <script>
+        // 사이드 메뉴 설정
+        const menuName = "${menuName}";
+        const menuNumber = 0;
+    </script>
+
     <style>
         #container-center > section.cus-board.graph-card{
             height: 550px;
