@@ -1,6 +1,8 @@
+/* 메인 요청 주소 */
+
 /* 고객 관리 */
 const customerBtn = document.querySelector("#customerBtn");
-console.log('connect');
+// console.log('connect');
 
 customerBtn.addEventListener("click", ()=>{
     location.href = "customer";
@@ -21,3 +23,18 @@ const homeBtn = document.querySelector("#homeBtn");
 homeBtn.addEventListener("click", ()=>{
     location.href = "home";
 })
+
+/* -------------------------------------------------------------------------------- */
+
+/* 고객 관리 ajax */
+function MenageCustomerCount() {
+    console.log('connect!!');
+    // fetch("inquiry")
+    // .then(resp=>resp.text())
+    // .then()
+}
+
+
+
+/* 로딩 */
+document.addEventListener("DOMContentLoaded", ()=>{})

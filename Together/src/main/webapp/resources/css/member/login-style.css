@@ -48,33 +48,27 @@ button{
 #content{
     font-size: 14px;
 }
-#signUp-button-personal{
-
+.signUp-button{
     width: 320px;
     height: 53px;
     color: white;
-    background-color: #FF54A1;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 30px;
+    text-decoration: none;
 
-    
 }
-#signUp-button-company{
+.personal{
 
-    width: 320px;
-    height: 53px;
-    color: white;
+    background-color: #FF54A1;
+
+}
+.company{
+
     background-color: #B862FF;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 30px;
 
-    
 }
 
 #center {
@@ -108,26 +102,19 @@ button{
     justify-content: center;
     align-items: center;
 }
-
-#under-line-personal{
+.under-line{
     height: 4px;
-    background-color: #FF54A1;
     position: absolute;
     width: 192px;
-    left: 79px;
     top: 40px;
-
-
 }
-#under-line-company{
-    height: 4px;
+.personal-line{
+    background-color: #FF54A1;
+    left: 79px;
+}
+.company-line{
     background-color: #B862FF;
-    position: absolute;
-    width: 192px;
     left: 271px;
-    top: 40px;
-
-
 }
 
 .member-type{
