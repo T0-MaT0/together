@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="recruitmentMapper">
+	
+	<resultMap type="RecruitmentRoomDTO" id="recruitmentRoom_rm">
+	    <id property="recruitmentNo" column="RECRUITMENT_NO" />
+        <result property="maxParticipants" column="MAX_PARTICIPANTS"/>
+	    <result property="recruitmentStatus" column="RECRUITMENT_STATUS"/>
+	    <result property="recCreatedDate" column="REC_CREATED_DATE"/>
+	    <result property="recEndDate" column="REC_END_DATE"/>
+	    <result property="region" column="REGION"/>
+	    <result property="productUrl" column="PRODUCT_URL"/>
+	    <result property="qrCode" column="QR_CODE"/>
+	    <result property="boardNo" column="BOARD_NO"/>
+	    <result property="boardCode" column="BOARD_CD"/>
+	    <result property="productName" column="productName"/>
+	    
+	    <result property="productPrice" column="PRODUCT_PRICE"/>
+	    <result property="productCount" column="PRODUCT_COUNT"/>
+	    <result property="deliveryFee" column="DELIVERY_FEE"/>
+	    <result property="readCount" column="READ_COUNT"/>
+	    <result property="categoryNo" column="CATEGORY_NO"/>
+	
+	    <result property="hostName" column="hostName"/>
+	    <result property="hostGrade" column="hostGrade"/>
+	    <result property="hostProfile" column="hostProfile"/>
+	</resultMap>
+		
+
+	 <!-- 개인 공동구매 모집방 목록 조회 (BOARD_CD = 1인 경우) -->
+	<select id="selectRecruitmentList" resultMap="recruitmentRoom_rm">
+	    SELECT 
+		    r.RECRUITMENT_NO, 
+		    r.MAX_PARTICIPANTS, 
+		    r.RECRUITMENT_STATUS, 
+		    r.REC_CREATED_DATE, 
+		    r.REC_END_DATE, 
+		    r.REGION, 
+		    r.PRODUCT_URL, 
+		    r.QR_CODE, 
+		    r.BOARD_NO, 
+		    bt.BOARD_CD,
+		    b.BOARD_TITLE AS productName,   
+		    p.PRODUCT_PRICE, 
+		    p.PRODUCT_COUNT, 
+		    p.DELIVERY_FEE, 
+		    p.READ_COUNT, 
+		    p.CATEGORY_NO,
+		
+		    (SELECT mp.MEMBER_NICK 
+		     FROM RECRUITMENT_PARTICIPANT rp
+		     JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
+		     WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
+		     ORDER BY rp.JOIN_DATE ASC
+		     FETCH FIRST 1 ROWS ONLY) AS hostName,
+		
+		    (SELECT mp.MEMBER_GRADE 
+		     FROM RECRUITMENT_PARTICIPANT rp
+		     JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
+		     WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
+		     ORDER BY rp.JOIN_DATE ASC
+		     FETCH FIRST 1 ROWS ONLY) AS hostGrade
+		
+		
+		FROM RECRUITMENT_ROOM r
+		JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO  
+		JOIN BOARD_TYPE bt ON b.BOARD_CD = bt.BOARD_CD  
+		JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO  
+		WHERE bt.BOARD_CD = 1
+		ORDER BY r.REC_CREATED_DATE DESC
+	</select>
+	
+	<!-- 조회수 높은 순 목록 조회 -->
+	<select id="selectRecruitmentListByViewCount" resultMap="recruitmentRoom_rm">
+	    SELECT 
+		    r.RECRUITMENT_NO, 
+		    r.MAX_PARTICIPANTS, 
+		    r.RECRUITMENT_STATUS, 
+		    r.REC_CREATED_DATE, 
+		    r.REC_END_DATE, 
+		    r.REGION, 
+		    r.PRODUCT_URL, 
+		    r.QR_CODE, 
+		    r.BOARD_NO, 
+		    bt.BOARD_CD,
+		    b.BOARD_TITLE AS productName,   
+		    p.PRODUCT_PRICE, 
+		    p.PRODUCT_COUNT, 
+		    p.DELIVERY_FEE, 
+		    p.READ_COUNT, 
+		    p.CATEGORY_NO,
+		
+		    (SELECT mp.MEMBER_NICK 
+		     FROM RECRUITMENT_PARTICIPANT rp
+		     JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
+		     WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
+		     ORDER BY rp.JOIN_DATE ASC
+		     FETCH FIRST 1 ROWS ONLY) AS hostName,
+		
+		    (SELECT mp.MEMBER_GRADE 
+		     FROM RECRUITMENT_PARTICIPANT rp
+		     JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
+		     WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
+		     ORDER BY rp.JOIN_DATE ASC
+		     FETCH FIRST 1 ROWS ONLY) AS hostGrade
+		
+		
+		FROM RECRUITMENT_ROOM r
+		JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO  
+		JOIN BOARD_TYPE bt ON b.BOARD_CD = bt.BOARD_CD  
+		JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO  
+		WHERE bt.BOARD_CD = 1
+		ORDER BY p.READ_COUNT DESC
+	</select>
+
+    <!-- 현재 참가자 수 조회 -->
+    <select id="countParticipants" resultType="int">
+        SELECT COUNT(*) 
+        FROM RECRUITMENT_PARTICIPANT
+        WHERE RECRUITMENT_NO = #{recruitmentNo}
+    </select>
+
+    <!-- 개인 공동구매 모집방 상세 조회 -->
+    <select id="selectRecruitmentDetail" resultMap="recruitmentRoom_rm">
+        SELECT * FROM RECRUITMENT_ROOM
+        WHERE RECRUITMENT_NO = #{recruitmentNo}
+    </select>
+</mapper>
