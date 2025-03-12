@@ -13,35 +13,21 @@
 </head>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 <body>
-    <nav class="sub-nav">
-        <div class="container">
-            <div class="left-links">
-                <a href="#">공구 상품</a>
-                <span> | </span>
-                <a href="#">내 모집 중</a>
-                <span> | </span>
-                <a href="#">리뷰 후기</a>
-                <span> | </span>
-                <a href="#">고객 센터</a>
-            </div>
-            <div class="right-links">
-                <a href="#">마이페이지</a>
-                <span> | </span>
-                <a href="#">포인트 충전</a>
-            </div>
-        </div>
-    </nav>
 
     <main class="myinfo-container">
+
+    ${loginMember}
+        
+
         <!-- 프로필 섹션 -->
         <section class="profile-section">
             <div class="profile-card">
-                <img src="tomato.png" alt="프로필 이미지" class="profile-img">
+                <img src="/resources/images/mypage/together.png" alt="프로필 이미지" class="profile-img">
                 <div class="profile-info">
-                    <p><strong>등급 :</strong> 1등급</p>
-                    <p><strong>09에 미친사람</strong></p>
-                    <p>내 지역 : 서울 논현</p>
-                    <p class="points">포인트 : 40000pt</p>
+                    <p><strong>등급 :</strong> ${loginMember.memberGrade}등급</p>
+                    <p><strong>${loginMember.memberNick}</strong></p>
+                    <p>내 지역 : ${loginMember.memberAddr}</p>
+                    <p class="points">포인트 : ${loginMember.point}원</p>
                 </div>
                 <button class="edit-btn">설정</button>
             </div>
@@ -235,5 +221,5 @@
         </div>
     </main>
 </body>
-
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 </html>
