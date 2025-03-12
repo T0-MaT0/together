@@ -47,6 +47,7 @@
 	    FROM MEMBER
 	    WHERE MEMBER_DEL_FL = 'N'
 	    AND MEMBER_ID = #{memberId}
+	    AND (AUTHORITY = #{authority} OR AUTHORITY = 1)
 	</select>
 
 </mapper>

@@ -125,7 +125,6 @@
     border: 1px #A3A3A3 solid;
     padding: 0 8px;
     font-size: 12px;
-    margin-bottom: 15px;
     
 }
 
@@ -149,7 +148,6 @@
     border-radius: 10px;
     border: 1px solid #A3A3A3;
     position: relative;
-    margin-bottom: 15px;
 }
 
 .make-line{
@@ -209,11 +207,32 @@
     margin-bottom: 20px;
 }
 
+#pink-box label{
+    margin-top: 15px;
+}
+
+.area-margin{
+    margin-top: 15px;
+}
+
+.signUp-message{
+    margin-right: auto;
+    margin-left: 40px;
+}
+
 .error{
     color: red;
 }
 
 .confirm{
     color: green;
+}
+
+.marginTop-10{
+    margin-top: 10px;
+}
+
+.marginBottom {
+    margin-bottom: 15px;
 }
 

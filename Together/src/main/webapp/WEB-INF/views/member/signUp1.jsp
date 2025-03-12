@@ -7,12 +7,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>개인 회원가입</title>
+    
     <link rel="stylesheet" href="/resources/css/member/signUp-personal.css">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-    <div id="main-content">
+    <div class="main-content">
 
         <img src="/images/companyLogo.png" alt="">
         <div id="change-member-type">
@@ -37,7 +38,7 @@
                     placeholder="영어, 숫자 6~16자 이내로 입력" maxlength="30" autocomplete="off">
         
                 </div>
-                <span class="signUp-message confirm" id="idMessage"></span>
+                <span class="signUp-message" id="idMessage"></span>
         
         
         
@@ -204,6 +205,7 @@
 
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+    
     <script src="/resources/js/member/signUp.js"></script>
 
 

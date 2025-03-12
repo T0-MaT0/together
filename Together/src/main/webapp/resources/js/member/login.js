@@ -32,6 +32,40 @@ if(loginFrm != null){
         
     })
 }
+document.addEventListener("DOMContentLoaded", function () {
+    const memberTypes = document.querySelectorAll(".member-type");
+    const authorityInput = document.getElementById("authority-input");
+    const goToSignUp = document.getElementById("goToSignUp");
+    const underLine = document.getElementById("underLine");
+  
+    
+  
+    memberTypes.forEach(type => {
+      type.addEventListener("click", function () {
+  
+        memberTypes.forEach(t => t.classList.remove("font-bold"));
+        this.classList.add("font-bold");
+  
+        const selectedType = this.dataset.type;
+  
+        if (selectedType === "personal") {
+          authorityInput.value = "2";
+          goToSignUp.classList.add("personal");
+          goToSignUp.classList.remove("company");
+          goToSignUp.innerText ="개인 회원가입";
+          underLine.classList.add("personal-line");
+          underLine.classList.remove("company-line");
+        } else if (selectedType === "company") {
+          authorityInput.value = "3";
+          goToSignUp.classList.add("company");
+          goToSignUp.classList.remove("personal");
+          goToSignUp.innerText ="기업 회원가입";
+          underLine.classList.add("company-line");
+          underLine.classList.remove("personal-line");
 
+        }
+      });
+    });
+  });
 
 

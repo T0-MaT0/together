@@ -444,6 +444,26 @@ memberTel.addEventListener("input", function () {
 
 
 })
+document.addEventListener("DOMContentLoaded", function () {
+    const allAgree = document.getElementById("all-agree");
+    const checkboxes = document.querySelectorAll(
+      "#use-agree, #userdataPS-agree, #userdateOP-agree, #email-agree, #sns-agree"
+    );
+  
+    // 1. 전체 동의 클릭 시 - 모두 체크 or 해제
+    allAgree.addEventListener("change", function () {
+      const isChecked = this.checked;
+      checkboxes.forEach(chk => chk.checked = isChecked);
+    });
+  
+    // 2. 개별 체크박스 변경 시 - 전체 체크 여부 확인
+    checkboxes.forEach(chk => {
+      chk.addEventListener("change", function () {
+        const allChecked = Array.from(checkboxes).every(chk => chk.checked);
+        allAgree.checked = allChecked;
+      });
+    });
+  });
 
 
 

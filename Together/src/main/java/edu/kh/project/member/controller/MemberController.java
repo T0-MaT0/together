@@ -55,7 +55,7 @@ public class MemberController {
 			, HttpServletResponse resp
 			, RedirectAttributes ra) {
 
-		
+		System.out.println(inputMember);
 		Member loginMember = service.login(inputMember);
 		System.out.println("loginMember : " + loginMember);
 		
@@ -67,7 +67,7 @@ public class MemberController {
 			
 			model.addAttribute("loginMember", loginMember);
 			
-			Cookie cookie = new Cookie("saveId", loginMember.getMemberEmail());
+			Cookie cookie = new Cookie("saveId", loginMember.getMemberId());
 			if(saveId != null) { 
 				cookie.setMaxAge(60 * 60 * 24 * 30);
 			} else {
