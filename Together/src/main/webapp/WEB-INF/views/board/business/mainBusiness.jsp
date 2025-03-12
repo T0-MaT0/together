@@ -1,5 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+<c:set var="businessHotList" value="${map.businessHotList}"/>
+<c:set var="businessNewList" value="${map.businessNewList}"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -45,89 +49,28 @@
                 </div>
 
                 <div class="list-area">
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
+                    <!-- 상품 목록 조회 결과가 비어있지 않다면 -->
+                    <c:if test="${!empty businessHotList}">
+                        <c:forEach var="product" items="${businessHotList}">
+                            <div>
+                                <div class="product-img-area">
+                                    <img src="/resources/images/business/product.png">
+                                </div>
+                                <div class="product-info">
+                                    <span class="hidden">${product.memberNickname}</span>
+                                    <span>${product.boardTitle}</span>
+                                    <div class="product-price-area">
+                                        <span>
+                                            <fmt:formatNumber value="${product.productPrice / 2}" type="number" maxFractionDigits="0"/>원
+                                        </span>
+                                        <span>
+                                            <fmt:formatNumber value="${product.productPrice}" type="number" maxFractionDigits="0"/>원
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
+                        </c:forEach>
+                    </c:if>
                 </div>
             </section>
 
@@ -147,84 +90,28 @@
                 </div>
 
                 <div class="list-area">
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
+                    <!-- 상품 목록 조회 결과가 비어있지 않다면 -->
+                    <c:if test="${!empty businessNewList}">
+                        <c:forEach var="product" items="${businessNewList}">
+                            <div>
+                                <div class="product-img-area">
+                                    <img src="/resources/images/business/product.png">
+                                </div>
+                                <div class="product-info">
+                                    <span class="hidden">${product.memberNickname}</span>
+                                    <span>${product.boardTitle}</span>
+                                    <div class="product-price-area">
+                                        <span>
+                                            <fmt:formatNumber value="${product.productPrice / 2}" type="number" maxFractionDigits="0"/>원
+                                        </span>
+                                        <span>
+                                            <fmt:formatNumber value="${product.productPrice}" type="number" maxFractionDigits="0"/>원
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="product-img-area">
-                            <img src="/resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
+                        </c:forEach>
+                    </c:if>
                 </div>
             </section>
         </section>

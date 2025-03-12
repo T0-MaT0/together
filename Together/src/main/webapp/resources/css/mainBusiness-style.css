@@ -178,7 +178,6 @@ main{
 }
 .product-price-area>span:last-child{
     color: #9969FF;
-    text-decoration: line-through;
 }
 
 .product-info{

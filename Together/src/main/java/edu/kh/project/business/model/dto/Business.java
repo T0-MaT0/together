@@ -1,4 +1,4 @@
-package edu.kh.project.business.dto;
+package edu.kh.project.business.model.dto;
 
 import java.util.List;
 
@@ -34,14 +34,14 @@ public class Business {
 	private String profileImage;
 	
 	// 서브쿼리
-	private String patentCategoryName;
+	private String parentCategoryName;
 	private String thumbnail;
 	
 	// 상품 옵션 목록
 	private List<BusinessOption> optionList;
 	
 	// 이미지 목록
-//	private List<BoardImage> imageList;
+	private List<BusinessImage> imageList;
 
 	// 댓글 목록
 //	private List<Comment> commentList;

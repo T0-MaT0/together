@@ -1,5 +1,6 @@
 package edu.kh.project.business.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import edu.kh.project.business.service.BusinessService;
+import edu.kh.project.business.model.service.BusinessService;
 
 @Controller
 @RequestMapping("/board")
@@ -21,7 +22,15 @@ public class BusinessController {
 	// 사업자 메인 화면
 	@GetMapping("/{boardCode:2}")
 	public String selectBusinessList(
-			@PathVariable("boardCode") int boardCode) {
+			@PathVariable("boardCode") int boardCode,
+			Model model) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("boardCode", boardCode);
+		
+		Map<String, Object> map = service.selectBusinessList(paramMap, 1);
+		
+		model.addAttribute("map", map);
+		
 		return "board/business/mainBusiness";
 	}
 	
@@ -29,9 +38,14 @@ public class BusinessController {
 	@GetMapping("/{boardCode:2}/search")
 	public String searchBusinessList(
 			@PathVariable("boardCode") int boardCode,
-			@RequestParam Map<String, Object> pranmMap,
+			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+			@RequestParam Map<String, Object> paramMap,
 			Model model) {
-		Map<String, Object> map;
+		paramMap.put("boardCode", boardCode);
+		
+		Map<String, Object> map = service.selectBusinessList(paramMap, cp);
+		
+		model.addAttribute("map", map);
 		
 		return "board/business/businessList";
 	}
