@@ -13,7 +13,7 @@
 
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-    <div id="main-content">
+    <div class="main-content">
 
         <img src="/images/companyLogo.png" alt="">
         <div id="change-company-type">
@@ -23,18 +23,20 @@
 
         
     
-        <form action="/company/signUp" method="POST" name="signUpFrm" id="signUpFrm">
+        <form action="/member/signUp1" method="POST" name="signUpFrm" id="signUpFrm">
     
 
             <div id="pink-box">
 
+                <input type="hidden" name="authority" id="authority-input" value="3">
+
             
                 <div id="ps-notice"><span class="required">★</span> 는 필수입력사항 입니다</div>
-                <label for="companyId">
+                <label for="memberId">
                     <span class="required">★</span> 아이디
                 </label>
                 <div class="signUp-input-area">
-                    <input type="text" name="companyId" id="companyId"
+                    <input type="text" name="memberId" id="memberId"
                     placeholder="영어, 숫자 6~16자 이내로 입력" maxlength="30" autocomplete="off">
         
                 </div>
@@ -43,21 +45,21 @@
         
         
                 <!-- 비밀번호/비밀번호 확인 입력 -->
-                <label for="companyPw">
+                <label for="memberPw">
                     <span class="required">★</span> 비밀번호
                 </label>
         
         
                 <div class="signUp-input-area">
-                    <input type="password" name="companyPw" id="companyPw"
+                    <input type="password" name="memberPw" id="memberPw"
                     placeholder="영어, 숫자, 특수문자(!,@,#,-,_) 6~20자 사이로 입력" maxlength="20" >
                 </div>
 
-                <label for="companyPwConfirm">
+                <label for="memberPwConfirm">
                     <span class="required">★</span> 비밀번호 확인
                 </label>
                 <div class="signUp-input-area">
-                    <input type="password" name="companyPwConfirm" id="companyPwConfirm"
+                    <input type="password" name="memberPwConfirm" id="memberPwConfirm"
                     placeholder="비밀번호 확인" maxlength="20" >
                 </div>
         
@@ -65,28 +67,28 @@
                 <span class="signUp-message" id="pwMessage"></span>
         
         
-                <label for="companyName">
+                <label for="memberName">
                     <span class="required">★</span> 이름
                 </label>
                 <div class="signUp-input-area">
-                    <input type="text" name="companyName" id="companyName"
+                    <input type="text" name="memberName" id="memberName"
                     placeholder="홍길동" maxlength="20" >
                 </div>
         
-                <label for="companyBirth">
+                <label for="memberBirth">
                     <span class="required">★</span> 생년월일
                 </label>
                 <div class="signUp-input-area">
-                    <input type="text" name="companyBirth" id="companyBirth"
+                    <input type="text" name="memberBirth" id="memberBirth"
                     placeholder="생년월일 8자리 입력" maxlength="20" >
                 </div>
         
         
-                <label for="companyEmail">
+                <label for="memberEmail">
                     <span class="required">★</span> 이메일
                 </label>
                 <div class="signUp-input-area button-relative-area">
-                    <input type="text" name="companyEmail" id="companyEmail"
+                    <input type="text" name="memberEmail" id="memberEmail"
                     placeholder="인증받을 이메일을 입력" maxlength="30" autocomplete="off">
                    
                     <button id="sendAuthKeyBtn" type="button">인증번호 전송</button>
@@ -103,13 +105,13 @@
                 <span class="signUp-message" id="authKeyMessage"></span>
                
         
-                <label for="companyNickname">
+                <label for="memberNick">
                     <span class="required">★</span> 사업자명
                 </label>
         
         
                 <div class="signUp-input-area">
-                    <input type="text" name="companyNickname" id="companyNickname" placeholder="2~13자 이내로 입력해주세요." maxlength="13" >
+                    <input type="text" name="memberNick" id="memberNick" placeholder="2~13자 이내로 입력해주세요." maxlength="13" >
                 </div>
         
         
@@ -118,30 +120,30 @@
 
 
                 
-                <label for="companyPostNo">
+                <label for="businessNo">
                     <span class="required">★</span> 사업자 등록번호
                 </label>
         
         
                 <div class="signUp-input-area button-relative-area">
-                    <input type="text" name="companyPostNo" id="companyPostNo" placeholder="- 제외하고 10자리 숫자" maxlength="10" >
-                    <button id="checkCompanyPostNo" type="button" class="button-style">확인</button>
+                    <input type="text" name="businessNo" id="businessNo" placeholder="- 제외하고 10자리 숫자" maxlength="10" >
+                    <button id="checkBusinessNo" type="button" class="button-style">확인</button>
                 </div>
         
         
-                <span class="signUp-message" id="postNoMessage"></span>
+                <span class="signUp-message" id="businessNoMessage"></span>
         
         
         
         
                 <!-- 전화번호 입력 -->
-                <label for="companyTel">
+                <label for="memberTel">
                     <span class="required">★</span> 전화번호
                 </label>
         
         
                 <div class="signUp-input-area">
-                    <input type="text" name="companyTel" id="companyTel" placeholder="-를 제외하고 숫자만 입력" maxlength="11">
+                    <input type="text" name="memberTel" id="memberTel" placeholder="-를 제외하고 숫자만 입력" maxlength="11">
                 </div>
         
         
@@ -153,25 +155,25 @@
         
         
                 <!-- 주소 입력 -->
-                <label for="companyAddress">
+                <label for="memberAddr">
                     <span class="required">★</span>
                     주소</label>
         
         
                 <div class="signUp-input-area button-relative-area marginBottom">
-                    <input type="text" name="companyAddress" id="companyAddress" placeholder="우편번호" maxlength="6" id="sample6_postcode">
+                    <input type="text" name="memberAddr" id="memberAddr" placeholder="우편번호" maxlength="6" id="sample6_postcode">
                    
                     <button type="button" onclick="sample6_execDaumPostcode()" class="button-style">검색</button>
                 </div>
         
         
                 <div class="signUp-input-area">
-                    <input type="text" name="companyAddress" placeholder="도로명/지번 주소" id="sample6_address">
+                    <input type="text" name="memberAddr" placeholder="도로명/지번 주소" id="sample6_address">
                 </div>
         
         
                 <div class="signUp-input-area  area-margin">
-                    <input type="text" name="companyAddress" placeholder="상세 주소" id="sample6_detailAddress">
+                    <input type="text" name="memberAddr" placeholder="상세 주소" id="sample6_detailAddress">
                 </div>
     
 

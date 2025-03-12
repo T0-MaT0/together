@@ -1,7 +1,3 @@
-*{
-    box-sizing: border-box;
-    font-family: 'GmarketSansMedium';
-}
 
 @font-face {
     font-family: 'GmarketSansMedium';
@@ -10,6 +6,10 @@
     font-style: normal;
 }
 
+*{
+    box-sizing: border-box;
+    font-family: 'GmarketSansMedium';
+}
 
 body{
     margin: 0;

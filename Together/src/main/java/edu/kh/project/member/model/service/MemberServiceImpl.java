@@ -3,6 +3,7 @@ package edu.kh.project.member.model.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kh.project.member.model.dao.MemberDAO;
 import edu.kh.project.member.model.dto.Member;
@@ -48,6 +49,20 @@ public class MemberServiceImpl implements MemberService{
 		}
 		
 		return loginMember;
+	}
+	
+	@Transactional(rollbackFor = {Exception.class})
+	// -> 예외가 발생하면 rollback
+	// 발생하지 않으면 Service 종료 시 commit
+	@Override
+	public int signUp(Member inputMember) {
+		
+
+		inputMember.setMemberPw(bcrypt.encode(inputMember.getMemberPw()));
+		
+		int result = dao.signUp(inputMember);
+		
+		return result;
 	}
 	
 

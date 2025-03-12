@@ -49,5 +49,19 @@
 	    AND MEMBER_ID = #{memberId}
 	    AND (AUTHORITY = #{authority} OR AUTHORITY = 1)
 	</select>
+	
+	<insert id="signUp" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int"
+			keyProperty="memberNo">
+			SELECT SEQ_MEMBER_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO "MEMBER"
+		VALUES(${memberNo}, #{memberId}, #{memberPw}, #{memberNick}
+		, #{memberName}, #{memberAddr}, #{memberTel}, NULL
+		, SYSDATE, #{memberEmail}, DEFAULT, ${authority}, DEFAULT, TO_DATE(#{memberBirth}, 'YYYYMMDD'), DEFAULT)
+	</insert>
+	
+
+		
 
 </mapper>
