@@ -3,7 +3,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
 
 <c:set var="menuName" value="brand"/> <!-- 사이드 메뉴 설정 -->
-
 <!DOCTYPE html>
 <html lang="en">
 

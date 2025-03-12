@@ -3,7 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
 
 <c:set var="menuName" value="brand"/> <!-- 사이드 메뉴 설정 -->
-
+<c:set var="menuNumber" value="3"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +19,7 @@
     <script>
         // 사이드 메뉴 설정
         const menuName = "${menuName}";
+        const menuNumber = "${menuNumber}";
     </script>
     <style>
         #container-center > section.cus-board.graph-card{

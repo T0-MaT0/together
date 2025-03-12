@@ -164,3 +164,10 @@
 #container-center > section.cus-board.graph-card{
     height: 400px;
 }
+
+
+/* ---------------------------------------------------------------- */
+/* 성과 데이터 색 */
+#menu-items > div.open-menu > a:nth-child(5){
+    color:#6700CF;
+}
