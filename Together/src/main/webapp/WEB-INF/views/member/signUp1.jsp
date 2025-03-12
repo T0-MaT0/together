@@ -7,12 +7,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>개인 회원가입</title>
+    
     <link rel="stylesheet" href="/resources/css/member/signUp-personal.css">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-    <div id="main-content">
+    <div class="main-content">
 
         <img src="/images/companyLogo.png" alt="">
         <div id="change-member-type">
@@ -37,7 +38,7 @@
                     placeholder="영어, 숫자 6~16자 이내로 입력" maxlength="30" autocomplete="off">
         
                 </div>
-                <span class="signUp-message confirm" id="idMessage"></span>
+                <span class="signUp-message" id="idMessage"></span>
         
         
         
@@ -87,15 +88,15 @@
                 </label>
                 <div class="signUp-input-area button-relative-area">
                     <input type="text" name="memberEmail" id="memberEmail"
-                    placeholder="인증받을 이메일을 입력해주세요" maxlength="30" autocomplete="off">
+                    placeholder="인증받을 이메일을 입력" maxlength="30" autocomplete="off">
                    
                     <button id="sendAuthKeyBtn" type="button">인증번호 전송</button>
                 </div>
-                <span class="signUp-message " id="emailMessage">메일을 받을 수 있는 이메일을 입력해주세요.</span>
+                <span class="signUp-message " id="emailMessage"></span>
         
         
         
-                <div class="signUp-input-area button-relative-area">
+                <div class="signUp-input-area button-relative-area marginTop-10">
                     <input type="text" name="authKey" id="authKey" s placeholder="인증번호 입력" maxlength="6" autocomplete="off" >
                    
                     <button id="checkAuthKeyBtn" type="button" class="button-style">확인</button>
@@ -111,11 +112,11 @@
         
         
                 <div class="signUp-input-area">
-                    <input type="text" name="memberNickname" id="memberNickname" placeholder="3~10자 이내로 입력해주세요" maxlength="10" >
+                    <input type="text" name="memberNickname" id="memberNickname" placeholder="영어/숫자/한글 2~10자 이내로 입력" maxlength="10" >
                 </div>
         
         
-                <span class="signUp-message " id="nickMessage">한글,영어,숫자로만 2~10글자</span>
+                <span class="signUp-message " id="nickMessage"></span>
         
         
         
@@ -127,11 +128,11 @@
         
         
                 <div class="signUp-input-area">
-                    <input type="text" name="memberTel" id="memberTel" placeholder="-를 제외하고 숫자만 입력해주세요" maxlength="11">
+                    <input type="text" name="memberTel" id="memberTel" placeholder="-를 제외하고 숫자만 입력" maxlength="11">
                 </div>
         
         
-                <span class="signUp-message " id="telMessage">전화번호를 입력해주세요.(- 제외)</span>
+                <span class="signUp-message " id="telMessage"></span>
         
         
         
@@ -144,8 +145,8 @@
                     주소</label>
         
         
-                <div class="signUp-input-area button-relative-area">
-                    <input type="text" name="memberAddress" id="memberAddress" placeholder="우편번호" maxlength="6" id="sample6_postcode">
+                <div class="signUp-input-area button-relative-area marginBottom">
+                    <input type="text" name="memberAddress" placeholder="우편번호" maxlength="6" id="sample6_postcode">
                    
                     <button type="button" onclick="sample6_execDaumPostcode()" class="button-style">검색</button>
                 </div>
@@ -162,7 +163,7 @@
     
 
                 <div>
-                    <img id="not-robot" src="/images/notrobot.png" alt="">
+                    <img id="not-robot" src="/resources/images/mainJHI/notrobot.png" alt="">
                 </div>
 
                 
@@ -204,6 +205,8 @@
 
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+    
+    <script src="/resources/js/member/signUp.js"></script>
 
 
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -231,7 +234,7 @@
         }
     </script>
 
-    <script src="/resources/js/member/signUp.js"></script>
+    
 
     
 </body>
