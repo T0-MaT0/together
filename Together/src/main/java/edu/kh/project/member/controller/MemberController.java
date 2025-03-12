@@ -95,61 +95,44 @@ public class MemberController {
 	}
 	
 	// 개인 회원 가입 진행 
-	/*@PostMapping("/signUp1")
-	public String signUp(Member inputMember, String[] memberAddress
+	@PostMapping("/signUp1")
+	public String signUp(Member inputMember, String[] memberAddr, String businessNo
 			, RedirectAttributes ra) {
 		
-		// Member inputMember : 커맨드 객체(제출된 파라미터가 저장된 객체)
-		// RedirectAttributes ra : 리다이렉트 시 데이터를 request scope로 전달하는 객체
-		
-		// 1234^^^서울시^^^강남구
-		// 주소 구분자 , -> ^^^ 변경
-		// String addr = inputMember.getMemberAddress().replaceAll(",", "^^^");
-		// inputMember.setMemberAddress(addr);
-		// -> 클라이언트가 ,를 직접 입력하면 문제 발생
-		
-		// 주소를 입력하지 않은 경우 (,,) null로 변경
-		if(inputMember.getMemberAddress().equals(",,")) {
+
+		if(inputMember.getMemberAddr().equals(",,")) {
 			
-			inputMember.setMemberAddress(null);
+			inputMember.setMemberAddr(null);
 			
-		} else { // 주소를 입력한 경우
-			// String.join("구분자", String[])
-			// 배열의 요소를 하나의 문자열로 변경
-			// 단, 요소 사이에 "구분자" 추가
+		} else { 
 			
-			String addr = String.join("^^^", memberAddress);
-			inputMember.setMemberAddress(addr);
+			String addr = String.join("^^^", memberAddr);
+			inputMember.setMemberAddr(addr);
 			
 		}
-		// 회원 가입 서비스 호출
+
 		int result = service.signUp(inputMember);
-		
-		// 가입 여부에 따라서 주소 작성
-		
+
 		String path = "redirect:";
 		String message = null;
 		
-		if(result > 0) { // 가입 성공
-			// 메인 페이지
+		if(result > 0) {
+			
+			if()
+
 			path += "/";
-			message = inputMember.getMemberNickname() + "님의 가입을 환영합니다.";
+			message = inputMember.getMemberNick() + "님의 가입을 환영합니다.";
 			
 		} else {
-			// 회원 가입 페이지
-			path += "/member/signUp"; // 절대 경로
-			// path += "signUp"; // 상대 경로
+			path += "/member/signUp"; 
 			message = "회원 가입 실패.";
 		}
 		
-		
-		
-		// 리다이렉트 시 session에 잠깐 올라갔다가 내려오도록 세팅
 		ra.addFlashAttribute("message", message);
 		
 		
 		return path;
-	}*/
+	}
 		
 
 

@@ -23,10 +23,12 @@
 
         
     
-        <form action="/member/signUp" method="POST" name="signUpFrm" id="signUpFrm">
+        <form action="/member/signUp1" method="POST" name="signUpFrm" id="signUpFrm">
     
 
             <div id="pink-box">
+
+                <input type="hidden" name="authority" id="authority-input" value="2">
 
             
                 <div id="ps-notice"><span class="required">★</span> 는 필수입력사항 입니다</div>
@@ -106,13 +108,13 @@
         
         
                 
-                <label for="memberNickname">
+                <label for="memberNick">
                     <span class="required">★</span> 닉네임
                 </label>
         
         
                 <div class="signUp-input-area">
-                    <input type="text" name="memberNickname" id="memberNickname" placeholder="영어/숫자/한글 2~10자 이내로 입력" maxlength="10" >
+                    <input type="text" name="memberNick" id="memberNick" placeholder="영어/숫자/한글 2~10자 이내로 입력" maxlength="10" >
                 </div>
         
         
@@ -140,25 +142,25 @@
         
         
                 <!-- 주소 입력 -->
-                <label for="memberAddress">
+                <label for="memberAddr">
                     <span class="required">★</span>
                     주소</label>
         
         
                 <div class="signUp-input-area button-relative-area marginBottom">
-                    <input type="text" name="memberAddress" placeholder="우편번호" maxlength="6" id="sample6_postcode">
+                    <input type="text" name="memberAddr" placeholder="우편번호" maxlength="6" id="sample6_postcode">
                    
                     <button type="button" onclick="sample6_execDaumPostcode()" class="button-style">검색</button>
                 </div>
         
         
                 <div class="signUp-input-area">
-                    <input type="text" name="memberAddress" placeholder="도로명/지번 주소" id="sample6_address">
+                    <input type="text" name="memberAddr" placeholder="도로명/지번 주소" id="sample6_address">
                 </div>
         
         
                 <div class="signUp-input-area area-margin">
-                    <input type="text" name="memberAddress" placeholder="상세 주소" id="sample6_detailAddress">
+                    <input type="text" name="memberAddr" placeholder="상세 주소" id="sample6_detailAddress">
                 </div>
     
 

@@ -8,7 +8,7 @@ const checkObj = {
     "memberBirth" : false,
     "memberEmail": false,
     "emailAuthKey" : false,
-    "memberNickname": false,
+    "memberNick": false,
     "memberTel": false,
     "memberAddress" : false,
     "agree" : false
@@ -367,36 +367,36 @@ checkAuthKeyBtn.addEventListener("click", function(){
 
 
 
-const memberNickname = document.getElementById("memberNickname");
+const memberNick = document.getElementById("memberNick");
 const nickMessage = document.getElementById("nickMessage");
 
-memberNickname.addEventListener("input", function () {
+memberNick.addEventListener("input", function () {
 
     // 닉네임 미 작성시
-    if (memberNickname.value.trim().length == 0) {
+    if (memberNick.value.trim().length == 0) {
         
         nickMessage.innerText = "";
-        checkObj.memberNickname = false;
+        checkObj.memberNick = false;
         return;
     }
 
     // 닉네임 정규식
     const reqExp = /^[A-Za-z0-9가-힣]{2,10}$/;
 
-    if(reqExp.test(memberNickname.value)){
+    if(reqExp.test(memberNick.value)){
 
-        fetch("/dupCheck/nickname?nickname=" + memberNickname.value)
+        fetch("/dupCheck/nickname?nickname=" + memberNick.value)
         .then(response => response.text())
         .then(count => {
             if(count == 1){
                 nickMessage.innerText = "이미 사용중인 닉네임입니다."
-                checkObj.memberNickname = false;
+                checkObj.memberNick = false;
                 nickMessage.classList.add("error");
                 nickMessage.classList.remove("confirm");
             } 
             if(count == 0){
                 nickMessage.innerText = "사용 가능한 닉네임입니다."
-                checkObj.memberNickname = true;
+                checkObj.memberNick = true;
                 nickMessage.classList.add("confirm");
                 nickMessage.classList.remove("error");
             }
@@ -406,7 +406,7 @@ memberNickname.addEventListener("input", function () {
 
     } else {
         nickMessage.innerText = "유효하지 않은 닉네임 형식입니다.";
-        checkObj.memberNickname = false;
+        checkObj.memberNick = false;
         nickMessage.classList.add("error");
         nickMessage.classList.remove("confirm");
     }
@@ -480,8 +480,35 @@ signUpFrm.addEventListener("submit", function(e) {
     } else {
         checkObj.memberName = true;
     }
+
+    // 필수 체크 유무 검사
+    const useAgree = document.getElementById("use-agree");
+    const userdataPsAgree = document.getElementById("userdataPS-agree");
+
+    if(useAgree.isChecked && userdataPsAgree.isChecked){
+        checkObj.agree = true;
+    } else{
+        checkObj.agree = false;
+    }
+
+    checkObj.emailAuthKey =true;
+
+    // 주소 유무 검사
+    const sample6_postcode = document.getElementById("sample6_postcode");
+    const sample6_address = document.getElementById("sample6_address");
+    const sample6_detailAddress = document.getElementById("sample6_detailAddress");
+
+    if(sample6_postcode.trim().length != 0 
+        && sample6_address.trim().length != 0 
+        && sample6_detailAddress.trim().length != 0){
+            checkObj.memberAddress = true;
+        }else{
+            checkObj.memberAddress = false;
+        }
+
     
     let message = "";
+
     
     for (let key in checkObj) { 
        
@@ -494,7 +521,7 @@ signUpFrm.addEventListener("submit", function(e) {
                 case "memberBirth": message = "생년월일이"; break;
                 case "memberEmail": message = "이메일이"; break;
                 case "emailAuthKey": message = "이메일 인증번호가"; break;
-                case "memberNickname": message = "닉네임이"; break;
+                case "memberNick": message = "닉네임이"; break;
                 case "memberTel": message = "전화번호가"; break;
                 case "memberAddress": message = "주소가"; break;
                 case "agree": message = "약관 동의가"; break;
