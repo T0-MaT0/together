@@ -159,3 +159,11 @@
 #container-center > section.cus-board.graph-card{
     height: 400px;
 }
+
+
+/* ------------------------------------------------------------------- */
+
+/* 메뉴 상품판매 색 */
+#menu-items > div.open-menu > a:nth-child(1){
+    color: #6700CF!important;
+}

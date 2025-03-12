@@ -163,3 +163,10 @@
 #container-center > section.cus-board.graph-card{
     height: 400px;
 }
+
+/* ------------------------------------------------------------------ *
+/* 제휴 신청 메뉴 색 */
+
+#menu-items > div.open-menu > a:nth-child(3){
+    color:#6700CF;
+}

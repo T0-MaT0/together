@@ -160,11 +160,13 @@ main{
 }
 
 .pink{
-  color: #fd499a !important;
+  color: #FD499A !important;
 }
+
+
   /* ---------------------------------------------------------- */
 
-  /* header 부분 */
+  /* header 부분 */ 
 
   header{
     background-color:transparent;
