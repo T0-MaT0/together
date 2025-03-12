@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import edu.kh.project.business.model.dao.BusinessDao;
 import edu.kh.project.business.model.dto.Business;
-import edu.kh.project.business.model.dto.Pagination;
+import edu.kh.project.common.model.dto.Pagination;
 
 @Service
 public class BusinessServiceIml implements BusinessService {
@@ -31,8 +31,14 @@ public class BusinessServiceIml implements BusinessService {
 				map.put("businessNewList", businessNewList);
 			} else {
 				int listCount = dao.getListCount(paramMap);
+				
 				Pagination pagination = new Pagination(cp, listCount);
 				pagination.setLimit(9);
+				
+				List<Business> businessList = dao.selectBusinessList(paramMap, pagination);
+				
+				map.put("businessList", businessList);
+				map.put("pagination", pagination);
 			}
 		}
 		

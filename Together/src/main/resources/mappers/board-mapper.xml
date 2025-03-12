@@ -56,7 +56,7 @@
 		<result property="boardNo" column="BOARD_NO" />
 	</resultMap>
 	
-	<!-- 상품 목록 조회(조회수, 최신순, 검색) -->
+	<!-- 상품 목록 조회(메인 화면) -->
 	<select id="selectBusinessList" resultMap="business_rm">
 		SELECT B.BOARD_NO, B.BOARD_TITLE, P.READ_COUNT, P.PRODUCT_PRICE, 
 			M.MEMBER_NICK, C.CATEGORY_NAME,
@@ -75,6 +75,27 @@
 			READ_COUNT DESC,
 		</if>
 		BOARD_NO DESC FETCH FIRST 6 ROWS ONLY
+	</select>
+	
+	<!-- 상품 목록 조회(조회수, 최신순, 검색) -->
+	<select id="selectSearchBusinessList" resultMap="business_rm">
+		SELECT B.BOARD_NO, B.BOARD_TITLE, P.READ_COUNT, P.PRODUCT_PRICE, 
+			M.MEMBER_NICK, C.CATEGORY_NAME,
+			(SELECT PC.CATEGORY_NAME FROM CATEGORY PC 
+			WHERE C.PARENT_CATEGORY_NO = PC.CATEGORY_NO) PARENT_CATEGORY_NAME,
+			(SELECT I.IMG_PATH || I.IMG_RENAME FROM	IMG I	
+			WHERE I.IMG_TYPE_NO = B.BOARD_NO AND IMG_LEVEL = 0
+			AND IMG_TYPE = 1) THUMBNAIL
+		FROM BOARD B
+		JOIN PRODUCT P ON(P.BOARD_NO = B.BOARD_NO) 
+		JOIN "MEMBER" M ON(M.MEMBER_NO = B.MEMBER_NO)
+		JOIN CATEGORY C ON(C.CATEGORY_NO = P.CATEGORY_NO)
+		WHERE BOARD_DEL_FL = 'N' AND BOARD_CD = #{boardCode}
+		ORDER BY
+		<if test='category=="hot"'>
+			READ_COUNT DESC,
+		</if>
+		BOARD_NO DESC
 	</select>
 	
 	<!-- 특정 상품 삭제되지 않은 게시글 조회 -->
