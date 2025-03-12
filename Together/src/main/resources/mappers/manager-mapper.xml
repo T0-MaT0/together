@@ -9,11 +9,11 @@
 		WHERE BOARD_CD = 6
 	</select>
 	
-	<select>
+	<!-- <select>
 		SELECT COUNT(*) 
 		FROM BOARD
 		JOIN BOARD_TYPE USING(BOARD_CD)
 		WHERE BOARD_CD = 8
-	</select>
+	</select> -->
 
 </mapper>

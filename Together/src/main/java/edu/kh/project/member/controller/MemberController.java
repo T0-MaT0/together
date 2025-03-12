@@ -118,7 +118,7 @@ public class MemberController {
 		
 		if(result > 0) {
 			
-			if()
+			// if()
 
 			path += "/";
 			message = inputMember.getMemberNick() + "님의 가입을 환영합니다.";
