@@ -15,7 +15,7 @@ body {
 }
 
 .main-container {
-    width: 1086px;
+    width: 1120px;
 }
 
 /* 배너 (이미지 적용) */
@@ -39,7 +39,7 @@ body {
 .product-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
+    gap: 10px;
 }
 
 /* NEW 공동구매 (광고 1개 + 상품 2개) */
@@ -53,12 +53,13 @@ body {
 
 /* 상품 스타일 */
 .product {
+
     background-color: #fff;
     padding: 10px;
     border-radius: 8px;
     text-align: left;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 15px;
+    margin: 10px;
 }
 
 .product img {
@@ -220,3 +221,58 @@ body {
 .more-btn:hover {
     background-color: #e60073;
 }
+
+
+.popular-product-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.banner-product-group {
+    display: grid;
+    width: 100%;
+}
+
+/* 광고 1개 + 상품 2개 */
+.banner-product-group.small-group {
+    grid-template-columns: 2fr 1fr 1fr; 
+}
+
+/* 상품 4개 */
+.banner-product-group.large-group {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+/* 각 product-group의 내부 아이템의 높이를 고정하여 정렬 맞추기 */
+.banner-product-group .product,
+.banner-product-group .new-banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* 항상 상단 정렬 */
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 100%; /* 높이 동일하게 유지 */
+    box-sizing: border-box;
+}
+
+.banner-product-group .new-banner img,
+.banner-product-group .product img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.banner-product-group .product-name,
+.banner-product-group .seller-info {
+    text-align: center;
+    margin-top: 5px;
+}
+
+

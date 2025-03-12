@@ -12,8 +12,7 @@
 		<typeAlias type="edu.kh.project.business.model.dto.Business" alias="Business" />
 		<typeAlias type="edu.kh.project.business.model.dto.BusinessImage" alias="BusinessImage" />
 		<typeAlias type="edu.kh.project.business.model.dto.BusinessOption" alias="BusinessOption" />
-		<typeAlias type="edu.kh.project.individual.dto.Recruitment"
-			alias="RecruitmentRoomDTO" />
+		<typeAlias type="edu.kh.project.individual.dto.Recruitment" alias="RecruitmentRoomDTO" />
 	</typeAliases>
 	
 	<mappers>
