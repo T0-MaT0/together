@@ -10,12 +10,15 @@
 	<typeAliases>
 		<typeAlias type="edu.kh.project.member.model.dto.Member"
 			alias="Member" />
+		<typeAlias type="edu.kh.project.individual.dto.Recruitment"
+			alias="RecruitmentRoomDTO" />
 	</typeAliases>
 	
 	<mappers>
 
 		<mapper resource="/mappers/member-mapper.xml" />
 		<mapper resource="/mappers/ajax-mapper.xml" />
+		<mapper resource="/mappers/recruitmentMapper.xml" />
 
 	</mappers>
 
