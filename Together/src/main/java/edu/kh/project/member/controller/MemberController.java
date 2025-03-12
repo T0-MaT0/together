@@ -34,10 +34,15 @@ public class MemberController {
 		return "member/login";
 	}
 	
-	// 회원가입 전용 화면 이동
-	@GetMapping("/signUp")
-	public String signUp() {
-		return "member/signUp";
+	// 개인 회원가입 전용 화면 이동
+	@GetMapping("/signUp1")
+	public String signUp1() {
+		return "member/signUp1";
+	}
+	// 개인 회원가입 전용 화면 이동
+	@GetMapping("/signUp2")
+	public String signUp2() {
+		return "member/signUp2";
 	}
 	
 	/** 로그인 요청 처리 
@@ -50,8 +55,7 @@ public class MemberController {
 			, HttpServletResponse resp
 			, RedirectAttributes ra) {
 
-		System.out.println(saveId);
-		
+		System.out.println(inputMember);
 		Member loginMember = service.login(inputMember);
 		System.out.println("loginMember : " + loginMember);
 		
@@ -63,7 +67,7 @@ public class MemberController {
 			
 			model.addAttribute("loginMember", loginMember);
 			
-			Cookie cookie = new Cookie("saveId", loginMember.getMemberEmail());
+			Cookie cookie = new Cookie("saveId", loginMember.getMemberId());
 			if(saveId != null) { 
 				cookie.setMaxAge(60 * 60 * 24 * 30);
 			} else {
@@ -81,26 +85,66 @@ public class MemberController {
 	}
 	
 	// 로그아웃
-		@GetMapping("/logout")
-		public String logout(SessionStatus status, HttpSession session,
-				RedirectAttributes ra) {
-			
-			status.setComplete();
+	@GetMapping("/logout")
+	public String logout(SessionStatus status, HttpSession session,
+			RedirectAttributes ra) {
+		
+		status.setComplete();
+	
+		return "redirect:/";
+	}
+	
+	// 개인 회원 가입 진행 
+	@PostMapping("/signUp1")
+	public String signUp(Member inputMember, String[] memberAddr, String businessNo
+			, RedirectAttributes ra) {
+		
 
-			return "redirect:/";
-			}
+		if(inputMember.getMemberAddr().equals(",,")) {
+			
+			inputMember.setMemberAddr(null);
+			
+		} else { 
+			
+			String addr = String.join("^^^", memberAddr);
+			inputMember.setMemberAddr(addr);
+			
+		}
+
+		int result = service.signUp(inputMember);
+
+		String path = "redirect:";
+		String message = null;
+		
+		if(result > 0) {
+			
+			if()
+
+			path += "/";
+			message = inputMember.getMemberNick() + "님의 가입을 환영합니다.";
+			
+		} else {
+			path += "/member/signUp"; 
+			message = "회원 가입 실패.";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		
+		
+		return path;
+	}
 		
 
 
-		// 현재 클래스에서 발생하는 모든 예외를 모아서 처리
-		public String exceptionHandler(Exception e, Model model) {
-			
-			e.printStackTrace();
-			
-			model.addAttribute("e", e);
-			
-			return "common/error";
-		}
+	// 현재 클래스에서 발생하는 모든 예외를 모아서 처리
+	public String exceptionHandler(Exception e, Model model) {
+		
+		e.printStackTrace();
+		
+		model.addAttribute("e", e);
+		
+		return "common/error";
+	}
 	
 	
 }

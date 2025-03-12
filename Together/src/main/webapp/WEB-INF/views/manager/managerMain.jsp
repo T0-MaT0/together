@@ -51,12 +51,12 @@
                 <!-- 문의 개수 -->
                 <div class="chart-board ch-number">
                     <div>문의 개수</div>
-                    <div>10</div>
+                    <div>${customerQuestCount}</div>
                 </div>
 
                 <!-- 신고 개수 -->
                 <div class="chart-board ch-number">
-                    <div>신고 개수</div>  
+                    <div>신고 수</div>  
                     <div>0</div>  
                 </div>                
             </div>
@@ -68,19 +68,19 @@
                 </div>
                 <!-- 제휴 문의 -->
                 <div class="chart-board ch-number">
-                    <div>제휴 문의</div>
+                    <div>제휴 신청</div>
                     <div>10</div>
                 </div>
 
                 <!-- 광고 신청 제의 건수 -->
                 <div class="chart-board ch-number">
-                    <div>광고 문의</div>
+                    <div>광고 신청</div>
                     <div>10</div>
                 </div>
 
                 <!-- 신고 문의 -->
                 <div class="chart-board ch-number">
-                    <div>신고 문의</div>
+                    <div>신고 수</div>
                     <div>10</div>
                 </div>
 
@@ -179,7 +179,7 @@
 
 <script>
     const xValues = ["고객 모집", "브랜드 상품"];
-    const yValues = [55, 49];
+    const yValues = [10000, 50000];
     const barColors = [
     "#DC143C",
     // "#FF6347",

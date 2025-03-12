@@ -10,6 +10,12 @@ public interface MemberService {
 	 */
 	Member login(Member inputMember);
 
+
+	/** 회원 가입 서비스(암호화 작업 필요)
+	 * @param inputMember
+	 * @return result(0:실패, 1:성공)
+	 */
+	int signUp(Member inputMember);
 	
 
 }

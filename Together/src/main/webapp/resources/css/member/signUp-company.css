@@ -1,0 +1,242 @@
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+* { 
+    box-sizing: border-box;
+    font-family: 'GmarketSansMedium';
+}
+
+body{
+    margin: 0;
+}
+
+.main-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction : column;
+   
+    margin : 100px 0;
+    padding: 0;
+    margin : 100px 0;
+    
+    font-family: 'GmarketSansMedium';
+}
+
+
+#notice-header{
+    margin-bottom: 30px;
+    width: 600px;
+}
+
+#notice-header-title{
+    margin-bottom: 30px;
+    font-size: 24px;
+    text-align: center;
+    
+}
+
+#change-company-type{
+    width: 360px;
+    height: 52px;
+    border: 1px;
+    box-shadow : 0 0 4px 0 #B862FF;
+    border-radius: 10px;
+    display: flex;
+
+    margin-bottom: 35px;
+    margin-top: 20px;
+} 
+
+
+#change-company-type div{
+    width: 180px;
+    height: 52px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#company-type-company{
+    box-shadow : 0 0 15px 0 #B862FF;
+    border-radius: 10px;
+    background-color: #B862FF;
+}
+#pink-box {
+    padding-top: 15px;
+    width: 360px;
+    height: 1401px;
+    box-shadow : 0 0 15px 0 #B862FF;
+    border-radius: 10px;
+
+    align-items: center;
+    flex-direction : column;
+    display: flex;
+
+
+    font-size: 12px;
+
+
+}
+
+#signUpFrm label {
+
+    width: 295px;
+    
+    text-align: left;
+    padding-left: 12px;
+    margin-bottom: 7px;
+}
+
+#ps-notice{
+    width: 310px;
+    text-align: right;
+}
+
+
+
+
+
+#sendAuthKeyBtn{
+    position: absolute;
+    width: 104px;
+    height: 45px;
+    border-radius: 10px;
+    background-color: #918F8F;
+    color: white;
+    border: none;
+    
+}
+.button-style{
+    position: absolute;
+    width: 66px;
+    height: 44px;
+    border-radius: 10px;
+    background-color: #918F8F;
+    color: white;
+    border: none;
+    top: 0;
+}
+
+
+.signUp-input-area input{
+    width: 295px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px #A3A3A3 solid;
+    padding: 0 8px;
+    font-size: 12px;
+    
+}
+
+#memberEmail {
+    width: 191px;
+    height: 99%;
+    border: none;
+
+}
+
+#memberAddr,#authKey, #businessNo{
+    width: 229px;
+    height: 99%;
+    border: none;
+}
+
+
+.button-relative-area{
+    width: 295px;
+    height: 45px;
+    border-radius: 10px;
+    border: 1px solid #A3A3A3;
+    position: relative;
+}
+
+.make-line{
+    width: 282px;
+    height: 0;
+    border: 1px solid #A3A3A3;
+}
+
+.agree-area{
+    display: flex;
+    justify-content: left;
+    gap: 10px;
+    margin: 2px 0;
+    color: #A3A3A3;
+}
+
+.agree-area label{
+    width: 220px !important;
+    padding: 0 !important;
+    margin: 5px 10px !important;
+}
+
+.agree-area input{
+    width: 18px;
+}
+
+#all-agree-text{
+    color: black;
+}
+
+
+.hidden{
+    display: none;
+}
+
+
+#signUpBtn{
+    margin-top: 45px;
+    width: 360px;
+    height: 52px;
+    border-radius: 10px;
+    background-color: #B862FF;
+    box-shadow : 0 0 15px 0 #B862FF;
+    font-size: 16px;
+    color: white;
+    border: none;
+}
+
+.required{
+    color: #B862FF;
+}
+
+#not-robot{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+#pink-box label{
+    margin-top: 15px;
+}
+
+.area-margin{
+    margin-top: 15px;
+}
+
+.signUp-message{
+    margin-right: auto;
+    margin-left: 40px;
+}
+
+.error{
+    color: red;
+}
+
+.confirm{
+    color: green;
+}
+
+.marginTop-10{
+    margin-top: 10px;
+}
+
+.marginBottom {
+    margin-bottom: 15px;
+}
+

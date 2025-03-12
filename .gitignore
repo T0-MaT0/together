@@ -315,3 +315,6 @@ MANIFEST.MF
 Together/.classpath
 Together/.project
 Together/target/classes/edu/kh/project/HomeController.class
+Servers/
+Together/Together.iml
+Together/.vscode/settings.json

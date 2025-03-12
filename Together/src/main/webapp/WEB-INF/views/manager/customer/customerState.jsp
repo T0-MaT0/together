@@ -3,6 +3,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
 
 
+<c:set var="menuName" value="customer"/> <!-- 사이드 메뉴 설정 -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,11 +15,19 @@
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/customer/customer-list.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+
+    <script>
+        // 사이드 메뉴 설정
+        const menuName = "${menuName}";
+        const menuNumber = 0;
+    </script>
+
     <style>
         #container-center > section.cus-board.graph-card{
             height: 550px;
         }
     </style>
+    
 </head>
 
 <body>
@@ -28,14 +38,13 @@
     
     <!-- 사이드 메뉴 -->
     <jsp:include page="/WEB-INF/views/manager/common/sideMenu.jsp"/>
-
-
+    
 
     <!-- 위쪽 영역 -->
     <header>
         <div class="head-title">
             <div>고객 관리</div>
-             &nbsp; <div> - 회원상태</div>
+             &nbsp; <div> - 고객 상태</div>
         </div>
     </header>
 

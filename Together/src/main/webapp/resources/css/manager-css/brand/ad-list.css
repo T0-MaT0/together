@@ -164,3 +164,9 @@
 #container-center > section.cus-board.graph-card{
     height: 400px;
 }
+
+/* -------------------------------------------------------------------- */
+/* 광고 신청 색 */
+#menu-items > div.open-menu > a:nth-child(4){
+    color:#6700CF;
+}

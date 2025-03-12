@@ -1,15 +1,43 @@
 package edu.kh.project.manager.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import edu.kh.project.manager.model.service.ManagerService;
 
 @Controller
 @RequestMapping("/manager")
 public class ManagerController {
 	
+	@Autowired
+	private ManagerService service;
+	
 	//관리자 메인
 	@GetMapping("/main")
-	public String managerMain() {
+	public String managerMain(Model model) {
+		
+		// 고객 문의 수 조회
+		int customerQuestCount = service.customerQuestionCount();
+		model.addAttribute("customerQuestCount", customerQuestCount);
+		
+		// 고객 신고 수
+			
+		// 브랜드 제휴 수
+		int brandQuestCount = service.brandQuestCount();
+		// 브랜드 광고 신청 수
+		
+		// 브랜드 신고 수
+		
+		//브랜드 상품 수/ 고객 모집글 수
+		
+		// 회원 수, 브랜드 수
+		
 		
 		return "manager/managerMain";
 	}
@@ -31,4 +59,6 @@ public class ManagerController {
 	public String manageHome() {
 		return "manager/home/manageHome";
 	}
+	
+
 }

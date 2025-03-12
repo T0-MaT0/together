@@ -3,6 +3,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
 
 
+<c:set var="menuName" value="customer"/> <!-- 사이드 메뉴 설정 -->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,6 +15,12 @@
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/customer/report-list.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/modal.css" />
+
+    <script>
+        // 사이드 메뉴 설정
+        const menuName = "${menuName}";
+        const menuNumber = 3;
+    </script>
 </head>
 
 <body>

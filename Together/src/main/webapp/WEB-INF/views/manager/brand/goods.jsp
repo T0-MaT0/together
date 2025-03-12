@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
 
+<c:set var="menuName" value="brand"/> <!-- 사이드 메뉴 설정 -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,7 +13,10 @@
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/brand/product-list.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-    
+    <script>
+        // 사이드 메뉴 설정
+        const menuName = "${menuName}";
+    </script>
     <style>
         #container-center > section.cus-board.graph-card{
             height: 500px;

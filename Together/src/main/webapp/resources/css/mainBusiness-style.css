@@ -78,9 +78,6 @@ main{
     font-weight: bold;
 }
 
-/* 상품리스트 스타일 체크 박스 */
-.list-toggle{display: none;}
-
 /* 상품리스트 스타일 */
 .list-style{
     width: 40px;
@@ -93,30 +90,15 @@ main{
     background-color: #D9D9D9;
 }
 
-/* #hotListToggle 체크X */
-#hotListToggle+label>div>div:nth-child(2){
+/* list-toggle 체크X */
+.list-toggle+label>div>div:nth-child(2){
     height: 10px;
     background-color: #D9D9D9;
     transition: height 0.3s ease, margin 0.3s ease;
 }
 
-/* #hotListToggle 체크O */
-#hotListToggle:checked+label>div>div:nth-child(2){
-    margin: 3px 0;
-    height: 4px;
-    background-color: #D9D9D9;
-    transition: height 0.3s ease, margin 0.3s ease;
-}
-
-/* #newListToggle 체크X */
-#newListToggle+label>div>div:nth-child(2){
-    height: 10px;
-    background-color: #D9D9D9;
-    transition: height 0.3s ease, margin 0.3s ease;
-}
-
-/* #newListToggle 체크O */
-#newListToggle:checked+label>div>div:nth-child(2){
+/* list-toggle 체크O */
+.list-toggle:checked+label>div>div:nth-child(2){
     margin: 3px 0;
     height: 4px;
     background-color: #D9D9D9;
@@ -196,7 +178,6 @@ main{
 }
 .product-price-area>span:last-child{
     color: #9969FF;
-    text-decoration: line-through;
 }
 
 .product-info{
@@ -215,6 +196,9 @@ main{
     color: white;
 }
 
+.hidden{
+    display: none;
+}
 
 /* 페이지네이션*/
 .pagination{
