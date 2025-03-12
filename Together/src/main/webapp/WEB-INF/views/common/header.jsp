@@ -16,7 +16,11 @@
                 <a href="/board/2" class="${code}">To 브랜드</a>
                 
                 <!-- boardCD가 1이면 개인 버튼 클래스 변경 -->
-                <a href="#" class="to-gain <c:if test='${boardCD == 1}'>btn-get-gain</c:if>">Get 개인</a>
+                <c:set var="code" value="to-gain"/>
+                <c:if test='${boardCode == 1}'>
+                    <c:set var="code" value="btn-get-gain"/>
+                </c:if>
+                <a href="/Individual/1" class="${code}">Get 개인</a>
             </span>
         </div>
         <div class="user-info">

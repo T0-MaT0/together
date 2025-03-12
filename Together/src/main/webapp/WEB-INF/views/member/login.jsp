@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>개인 로그인</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
     <link rel="stylesheet" href="/resources/css/member/login-style.css">
 </head>
 <body>
@@ -22,7 +22,7 @@
                     <h2 class="title">ToGether에 오신 것을</h2>
                     <h2 class="title">환영합니다.</h2>
                     <h5 id="content">ToGether는 공동구매 사이트 입니다.</h5>
-                    <a src="#" id="signUp-button-personal">개인 회원가입</a>
+                    <a src="#" class="signUp-button personal" id="goToSignUp">개인 회원가입</a>
                 </div>
             </section>
             <section id="center"></section>
@@ -33,10 +33,11 @@
                 <section id="right">
     
                     <div class="member-bar">
-                        <div id="under-line-personal"></div>
-                        <a class="member-type font-bold">개인회원</a>
-                        <a class="member-type">기업회원</a>
+                        <div class="under-line personal-line" id="underLine"></div>
+                        <a class="member-type font-bold" data-type="personal">개인회원</a>
+                        <a class="member-type" data-type="company">기업회원</a>
                     </div>
+                    <input type="hidden" name="authority" id="authority-input" value="2">
                     <div><input type="text" name="memberId" placeholder="아이디" class="input-box id-box" autocomplete="off" value="${cookie.saveId.value}"></div>
                     <div><input type="password" name="memberPw" placeholder="비밀번호" class="input-box"></div>
                     
@@ -82,7 +83,7 @@
 
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
     <script src="/resources/js/member/login.js"></script>
 </body>
 </html>

@@ -35,10 +35,10 @@
                 </label>
                 <div class="signUp-input-area">
                     <input type="text" name="companyId" id="companyId"
-                    placeholder="6~16자 이내로 입력해주세요." maxlength="30" autocomplete="off">
+                    placeholder="영어, 숫자 6~16자 이내로 입력" maxlength="30" autocomplete="off">
         
                 </div>
-                <span class="signUp-message hidden" id="idMessage">6~16자 이내로 입력해주세요.</span>
+                <span class="signUp-message" id="idMessage"></span>
         
         
         
@@ -50,7 +50,7 @@
         
                 <div class="signUp-input-area">
                     <input type="password" name="companyPw" id="companyPw"
-                    placeholder="비밀번호" maxlength="20" >
+                    placeholder="영어, 숫자, 특수문자(!,@,#,-,_) 6~20자 사이로 입력" maxlength="20" >
                 </div>
 
                 <label for="companyPwConfirm">
@@ -62,7 +62,7 @@
                 </div>
         
         
-                <span class="signUp-message hidden" id="pwMessage">영어,숫자,특수문자(!,@,#,-,_) 6~20글자 사이로 입력해주세요.</span>
+                <span class="signUp-message" id="pwMessage"></span>
         
         
                 <label for="companyName">
@@ -87,15 +87,15 @@
                 </label>
                 <div class="signUp-input-area button-relative-area">
                     <input type="text" name="companyEmail" id="companyEmail"
-                    placeholder="인증받을 이메일을 입력해주세요" maxlength="30" autocomplete="off">
+                    placeholder="인증받을 이메일을 입력" maxlength="30" autocomplete="off">
                    
                     <button id="sendAuthKeyBtn" type="button">인증번호 전송</button>
                 </div>
-                <span class="signUp-message hidden" id="emailMessage">메일을 받을 수 있는 이메일을 입력해주세요.</span>
+                <span class="signUp-message" id="emailMessage"></span>
         
         
         
-                <div class="signUp-input-area button-relative-area">
+                <div class="signUp-input-area button-relative-area marginTop-10">
                     <input type="text" name="authKey" id="authKey" s placeholder="인증번호 입력" maxlength="6" autocomplete="off" >
                    
                     <button id="checkAuthKeyBtn" type="button" class="button-style">확인</button>
@@ -113,7 +113,7 @@
                 </div>
         
         
-                <span class="signUp-message hidden" id="nickMessage">2~13자 이내로 입력해주세요.</span>
+                <span class="signUp-message" id="nickMessage"></span>
         
 
 
@@ -129,7 +129,7 @@
                 </div>
         
         
-                <span class="signUp-message hidden" id="postNoMessage">- 제외하고 10자리 숫자</span>
+                <span class="signUp-message" id="postNoMessage"></span>
         
         
         
@@ -141,11 +141,11 @@
         
         
                 <div class="signUp-input-area">
-                    <input type="text" name="companyTel" id="companyTel" placeholder="-를 제외하고 숫자만 입력해주세요" maxlength="11">
+                    <input type="text" name="companyTel" id="companyTel" placeholder="-를 제외하고 숫자만 입력" maxlength="11">
                 </div>
         
         
-                <span class="signUp-message hidden" id="telMessage">전화번호를 입력해주세요.(- 제외)</span>
+                <span class="signUp-message" id="telMessage"></span>
         
         
         
@@ -158,7 +158,7 @@
                     주소</label>
         
         
-                <div class="signUp-input-area button-relative-area">
+                <div class="signUp-input-area button-relative-area marginBottom">
                     <input type="text" name="companyAddress" id="companyAddress" placeholder="우편번호" maxlength="6" id="sample6_postcode">
                    
                     <button type="button" onclick="sample6_execDaumPostcode()" class="button-style">검색</button>
@@ -170,13 +170,13 @@
                 </div>
         
         
-                <div class="signUp-input-area">
+                <div class="signUp-input-area  area-margin">
                     <input type="text" name="companyAddress" placeholder="상세 주소" id="sample6_detailAddress">
                 </div>
     
 
                 <div>
-                    <img id="not-robot" src="/images/notrobot.png" alt="">
+                    <img id="not-robot" src="/resources/images/mainJHI/notrobot.png" alt="">
                 </div>
 
                 
