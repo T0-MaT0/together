@@ -69,7 +69,7 @@
                 <!-- 제휴 문의 -->
                 <div class="chart-board ch-number">
                     <div>제휴 신청</div>
-                    <div>10</div>
+                    <div>${brandQuestCount}</div>
                 </div>
 
                 <!-- 광고 신청 제의 건수 -->
