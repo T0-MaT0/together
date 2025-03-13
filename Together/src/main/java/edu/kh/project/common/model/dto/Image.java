@@ -1,4 +1,4 @@
-package edu.kh.project.business.model.dto;
+package edu.kh.project.common.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BusinessImage {
+public class Image {
 	private int imageNo;
 	private String imagePath;
 	private String imageReName;
