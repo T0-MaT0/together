@@ -54,11 +54,13 @@
                         <c:forEach var="product" items="${businessHotList}">
                             <div>
                                 <div class="product-img-area">
-                                    <img src="/resources/images/business/product.png">
+                                    <a href="#">
+                                        <img src="/resources/images/business/product.png">
+                                    </a>
                                 </div>
                                 <div class="product-info">
                                     <span>${product.memberNickname}</span>
-                                    <span>${product.boardTitle}</span>
+                                    <a href="#">${product.boardTitle}</a>
                                     <div class="product-price-area">
                                         <!-- <span>
                                             <fmt:formatNumber value="${product.productPrice / 2}" type="number" maxFractionDigits="0"/>원
@@ -93,13 +95,15 @@
                     <!-- 상품 목록 조회 결과가 비어있지 않다면 -->
                     <c:if test="${!empty businessNewList}">
                         <c:forEach var="product" items="${businessNewList}">
-                            <div>
+                            <div class="product-item">
                                 <div class="product-img-area">
-                                    <img src="/resources/images/business/product.png">
+                                    <a href="#">
+                                        <img src="/resources/images/business/product.png">
+                                    </a>
                                 </div>
                                 <div class="product-info">
                                     <span>${product.memberNickname}</span>
-                                    <span>${product.boardTitle}</span>
+                                    <a href="#">${product.boardTitle}</a>
                                     <div class="product-price-area">
                                         <span>
                                             <fmt:formatNumber value="${product.productPrice}" type="number" maxFractionDigits="0"/>원

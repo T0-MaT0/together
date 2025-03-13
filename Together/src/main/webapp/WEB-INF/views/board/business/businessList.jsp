@@ -73,11 +73,13 @@
                         <c:forEach var="product" items="${businessList}">
                             <div>
                                 <div class="product-img-area">
-                                    <img src="/resources/images/business/product.png">
+                                    <a href="#">
+                                        <img src="/resources/images/business/product.png">
+                                    </a>
                                 </div>
                                 <div class="product-info">
-                                    <span class="hidden">${product.memberNickname}</span>
-                                    <span>${product.boardTitle}</span>
+                                    <span>${product.memberNickname}</span>
+                                    <a href="#">${product.boardTitle}</a>
                                     <div class="product-price-area">
                                         <span>
                                             <fmt:formatNumber value="${product.productPrice}" type="number" maxFractionDigits="0"/>원

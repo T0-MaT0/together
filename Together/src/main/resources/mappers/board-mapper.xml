@@ -35,11 +35,11 @@
 					ofType="BusinessOption" />
 		<collection property="imageList" select="selectImageList"
 					column="BOARD_NO" javaType="java.util.ArrayList"
-					ofType="BusinessImage" />
+					ofType="Image" />
 	</resultMap>
 	
-	<!-- BusinessImage resultMap -->
-	<resultMap type="BusinessImage" id="businessImage_rm">
+	<!-- Image resultMap -->
+	<resultMap type="Image" id="image_rm">
 		<id property="imageNo" column="IMG_NO" />
 		<result property="imagePath" column="IMG_PATH" />
 		<result property="imageReName" column="IMG_RENAME" />
@@ -105,7 +105,7 @@
 	</select>
 	
 	<!-- 특정 상품 이미지 조회 -->
-	<select id="selectImageList" resultMap="businessImage_rm">
+	<select id="selectImageList" resultMap="image_rm">
 		SELECT * FROM IMG WHERE IMG_TYPE = 1 AND IMG_TYPE_NO = #{boardNo} ORDER BY IMG_LEVEL
 	</select>
 	
