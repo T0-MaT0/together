@@ -60,7 +60,7 @@
                     </div>
                     <div><button id="login-button">로그인</button></div>
                     <div class="font-12 find-div">
-                        <a href="#" id="find-id">아이디 찾기</a>|
+                        <a href="/member/findId" id="find-id">아이디 찾기</a>|
                         <a href="#" id="find-pw">비밀번호 찾기</a>
                     </div>
                     <div class="font-12" id="sns-login">SNS 간편 로그인</div>

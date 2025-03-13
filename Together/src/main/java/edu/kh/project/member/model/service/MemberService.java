@@ -1,5 +1,6 @@
 package edu.kh.project.member.model.service;
 
+import edu.kh.project.member.model.dto.Company;
 import edu.kh.project.member.model.dto.Member;
 
 public interface MemberService {
@@ -11,11 +12,18 @@ public interface MemberService {
 	Member login(Member inputMember);
 
 
-	/** 회원 가입 서비스(암호화 작업 필요)
+	/** 회원 가입 서비스(암호화 작업 필요)(개인/기업 모두)
 	 * @param inputMember
 	 * @return result(0:실패, 1:성공)
 	 */
 	int signUp(Member inputMember);
+
+
+	/** 회원 가입 서비스(기업만 계좌번호관련)
+	 * @param inputCompany
+	 * @return result(0:실패, 1:성공)
+	 */
+	int signUpCompany(Company inputCompany);
 	
 
 }

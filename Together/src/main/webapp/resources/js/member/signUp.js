@@ -14,6 +14,11 @@ const checkObj = {
     "agree" : false
 };
 
+const checkObjCompany = {
+    "businessNo" : false,
+    "bankName" : false,
+    "bankNo" : false
+};
 
 
 
@@ -29,6 +34,8 @@ memberId.addEventListener("input", function () {
         checkObj.memberId = false;
         return;
     }
+
+    // 아이디 중복검사해야함
 
     // 아이디 정규식
     const reqExp = /^[a-zA-Z0-9]{6,16}$/;
@@ -47,6 +54,7 @@ memberId.addEventListener("input", function () {
         idMessage.classList.remove("confirm");
     }
 });
+
 
 // 비밀번호/비밀번호 확인 유효성 검사
 const memberPw = document.getElementById("memberPw");
@@ -465,8 +473,105 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+// 사업자 등록 번호 유효성 검사
+const businessNo = document.getElementById("businessNo");
+const businessNoMessage = document.getElementById("businessNoMessage");
+
+businessNo.addEventListener("input", function () {
+    
+
+    // 사업자 등록 번호 미 작성 시
+    if (businessNo.value.trim().length == 0) {
+        businessNoMessage.innerText = "";
+        checkObjCompany.businessNo = false;
+        return;
+    }
 
 
+    // 사업자 등록 번호 정규식 (10자리 숫자)
+    const regExp = /^[0-9]{10}$/;
+
+    if (regExp.test(businessNo.value)) {
+        if (isValidBusinessNo(businessNo.value)) {
+            businessNoMessage.innerText = "유효한 사업자 등록 번호입니다.";
+            checkObjCompany.businessNo = true;
+            businessNoMessage.classList.add("confirm");
+            businessNoMessage.classList.remove("error");
+        } else {
+            businessNoMessage.innerText = "유효하지 않은 사업자 등록 번호입니다.";
+            checkObjCompany.businessNo = false;
+            businessNoMessage.classList.add("error");
+            businessNoMessage.classList.remove("confirm");
+        }
+    } else {
+        businessNoMessage.innerText = "사업자 등록 번호는 10자리 숫자로 입력해주세요.";
+        checkObjCompany.businessNo = false;
+        businessNoMessage.classList.add("error");
+        businessNoMessage.classList.remove("confirm");
+    }
+});
+
+// 사업자 등록 번호 유효성 검사 함수
+function isValidBusinessNo(no) {
+    const weights = [1, 3, 7, 1, 3, 7, 1, 3, 5];
+    let sum = 0;
+
+    for (let i = 0; i < 9; i++) {
+        sum += parseInt(no[i]) * weights[i];
+    }
+
+    sum += Math.floor((parseInt(no[8]) * 5) / 10);
+    const checkDigit = (10 - (sum % 10)) % 10;
+
+    return checkDigit === parseInt(no[9]);
+}
+
+
+// 은행 유효성 검사
+const bankName = document.getElementById("bankName");
+// 계좌번호 유효성 검사
+const bankNo = document.getElementById("bankNo");
+const bankMessage = document.getElementById("bankMessage");
+
+bankName.addEventListener("change", function () {
+    if (bankName.value) {
+        checkObjCompany.bankName = true;
+        bankMessage.innerText = "";
+    } else {
+        checkObjCompany.bankName = false;
+        bankMessage.innerText = "은행을 선택해주세요.";
+        bankMessage.classList.add("error");
+        bankMessage.classList.remove("confirm");
+    }
+});
+
+// 계좌번호 입력 시 유효성 검사
+bankNo.addEventListener("input", function () {
+    const bankNoValue = bankNo.value.trim();
+
+    // 계좌번호 미입력 시
+    if (bankNoValue.length === 0) {
+        bankMessage.innerText = "";
+        checkObjCompany.bankNo = false;
+        return;
+    }
+
+    // 계좌번호 숫자만 허용
+    const regExp = /^[0-9]{10,14}$/;
+
+    if (regExp.test(bankNoValue)) {
+        // 계좌번호 확인 api 적용예정
+        checkObjCompany.bankNo = true;
+        bankMessage.innerText = "유효한 계좌번호 입니다.";
+        bankMessage.classList.add("confirm");
+        bankMessage.classList.remove("error");
+    } else {
+        checkObjCompany.bankNo = false;
+        bankMessage.innerText = "유효하지 않은 계좌번호 입니다.";
+        bankMessage.classList.add("error");
+        bankMessage.classList.remove("confirm");
+    }
+});
 
 // 회원 가입 form 태그가 제출 되었을 때
 const signUpFrm = document.getElementById("signUpFrm");
@@ -491,6 +596,7 @@ signUpFrm.addEventListener("submit", function(e) {
         checkObj.agree = false;
     }
 
+    // 임시로 true로 지정
     checkObj.emailAuthKey =true;
 
     // 주소 유무 검사
@@ -508,6 +614,7 @@ signUpFrm.addEventListener("submit", function(e) {
 
     
     let message = "";
+    const authority = document.getElementById("authority-input");
 
     
     for (let key in checkObj) { 
@@ -535,6 +642,29 @@ signUpFrm.addEventListener("submit", function(e) {
 
             e.preventDefault();
             return false; 
+
+        }
+    }
+
+    if(authority.value == 3){
+        for (let key in checkObjCompany) { 
+           
+            if (!checkObjCompany[key]) {
+                switch (key) {
+                    case "businessNo": message = "사업자 번호가"; break;
+                    case "bankName": message = "은행이"; break;
+                    case "bankNo": message = "계좌 번호가"; break;
+                }
+    
+                message += " 유효하지 않습니다.";
+                alert(message); 
+    
+                document.getElementById(key).focus();
+    
+                e.preventDefault();
+                return false; 
+    
+            }
 
         }
     }

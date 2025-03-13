@@ -1,0 +1,213 @@
+*{
+    box-sizing: border-box;
+    font-family: 'GmarketSansMedium';
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+body{
+    margin: 0;
+}
+
+.find-container{
+    width: 1086px;
+    padding: 0;
+    margin-top: 50px;
+    margin-bottom: 100px;
+
+}
+#title{
+    font-size: 32px;
+    margin: 55px;
+}
+
+.find-button-section{
+    display: flex;
+
+}
+.find-button-section div{
+    height: 50px;
+    width: 480px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    margin: 0;
+
+}
+.yes-click{
+    border-left: 1px solid #A3A3A3;
+    border-right: 1px solid #A3A3A3;
+    border-top: 1px solid #A3A3A3;
+}
+
+.no-click-company{
+    border-bottom: 1px solid #A3A3A3;
+    background-color: #CBB2FF;
+    color: white;
+}
+
+.no-click{
+    border-bottom: 1px solid #A3A3A3;
+    background-color: #FFBEDB;
+    color: white;
+}
+.find-content{
+    height: 600px;
+    width: 960px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-left: 1px solid #A3A3A3;
+    border-right: 1px solid #A3A3A3;
+    border-bottom: 1px solid #A3A3A3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#find-id-info{
+    margin-bottom: 60px;
+    margin-left: 30px;
+}
+.input-area{
+    width: 758px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+
+}
+.input-area input{
+    width: 336px;
+    height: 38px;
+}
+.input-area label{
+    margin-left: 40px;
+}
+
+.area-first{
+    border-top: 1px solid #FF54A1;
+}
+#memberName{
+    margin-left: 130px;
+}
+.area-middle{
+    border-top: 1px solid #A3A3A3;
+    border-bottom: 1px solid #A3A3A3;
+}
+#sendAuthKeyBtn{
+    color: white;
+    background-color: #A3A3A3;
+    width: 120px;
+    height: 38px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+}
+#memberEmail{
+    margin-left: 78px;
+    margin-right: 30px;
+}
+.area-last {
+    border-bottom: 1px solid #FF54A1;
+    
+}
+#memberId, #signUpDate, #companyId{
+    margin-left: 115px;
+    padding-left: 10px;
+}
+
+#emailCheck{
+    margin-left: 92px;
+}
+
+#new-pw-check-area, #company-no-area, #birth-area, #signUpDate-area{
+    border-top: 1px solid #A3A3A3;
+}
+
+#memberBirth{
+    margin-left: 98px;
+    padding-left: 10px;
+}
+#memberNewPw, #companyNewPw{
+    margin-left: 100px;
+}
+#newPwCheck{
+    margin-left: 86px;
+}
+#companyEmail{
+    margin-left: 78px;
+    margin-right: 30px;
+}
+#companyNo{
+    margin-left: 46px;
+
+}
+
+#findIdBtn, #findPwBtn{
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FF54A1;
+    width: 212px;
+    height: 60px;
+    color: white;
+    margin-top: 40px;
+    margin-left: 255px;
+    font-size: 20px;
+}
+
+#goBackLogin{
+    margin-top: 40px;
+    width: 212px;
+    height: 60px;
+    border: none;
+    background-color: #FF54A1;
+    color: white;
+    margin-left: 102px;
+    font-size: 20px;
+}
+#changePwPage{
+    margin-top: 40px;
+    width: 212px;
+    height: 60px;
+    border: none;
+    background-color: #A3A3A3;
+    color: white;
+    margin-top: 40px;
+    margin-left: 123px;
+    font-size: 20px;
+}
+
+#change-pw{
+    margin-top: 60px;
+    width: 212px;
+    height: 60px;
+    color: #ffffff;
+    font-size: 20px;
+    border: none;
+    background-color: #FF54A1;
+    margin-left: 268px;
+}
+
+.company{
+    background-color: #B862FF !important;
+}
+
+
+
+.company-first{
+    border-top: 1px solid #B862FF;
+}
+
+.company-last{
+    border-bottom: 1px solid #B862FF;
+}

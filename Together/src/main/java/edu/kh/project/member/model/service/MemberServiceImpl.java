@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.kh.project.member.model.dao.MemberDAO;
+import edu.kh.project.member.model.dto.Company;
 import edu.kh.project.member.model.dto.Member;
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,6 +64,17 @@ public class MemberServiceImpl implements MemberService{
 		int result = dao.signUp(inputMember);
 		
 		return result;
+	}
+
+	@Transactional(rollbackFor = {Exception.class})
+	@Override
+	public int signUpCompany(Company inputCompany) {
+		
+		
+		// 계좌번호 보통 암호화 예정
+		
+		
+		return dao.signUpCompany(inputCompany);
 	}
 	
 
