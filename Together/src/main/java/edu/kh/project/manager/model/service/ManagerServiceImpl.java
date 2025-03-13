@@ -21,6 +21,11 @@ public class ManagerServiceImpl implements ManagerService {
 	public int brandQuestCount() {
 		return dao.brandQuestCount();
 	}
+
+	@Override
+	public int brandAdCount() {
+		return dao.brandAdCount();
+	}
 	
 	
 	

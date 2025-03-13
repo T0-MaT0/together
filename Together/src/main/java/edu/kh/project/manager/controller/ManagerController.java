@@ -30,7 +30,10 @@ public class ManagerController {
 			
 		// 브랜드 제휴 수
 		int brandQuestCount = service.brandQuestCount();
+		model.addAttribute("brandQuestCount", brandQuestCount);
 		// 브랜드 광고 신청 수
+		int brandAdCount = service.brandAdCount();
+		model.addAttribute("brandAdCount", brandAdCount);
 		
 		// 브랜드 신고 수
 		

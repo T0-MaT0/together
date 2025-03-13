@@ -13,4 +13,9 @@ public interface ManagerService {
 	 */
 	int brandQuestCount();
 
+	/** 브랜드 광고 문의 개수 조회
+	 * @return
+	 */
+	int brandAdCount();
+
 }
