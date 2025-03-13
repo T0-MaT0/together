@@ -52,7 +52,7 @@
                     <!-- 상품 목록 조회 결과가 비어있지 않다면 -->
                     <c:if test="${!empty businessHotList}">
                         <c:forEach var="product" items="${businessHotList}">
-                            <div>
+                            <div class="product-item">
                                 <div class="product-img-area">
                                     <a href="#">
                                         <img src="/resources/images/business/product.png">

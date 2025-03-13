@@ -71,7 +71,7 @@
                 <div class="list-area">
                     <c:if test="${!empty businessList}">
                         <c:forEach var="product" items="${businessList}">
-                            <div>
+                            <div class="product-item">
                                 <div class="product-img-area">
                                     <a href="#">
                                         <img src="/resources/images/business/product.png">
