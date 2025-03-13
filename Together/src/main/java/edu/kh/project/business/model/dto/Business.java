@@ -2,6 +2,7 @@ package edu.kh.project.business.model.dto;
 
 import java.util.List;
 
+import edu.kh.project.common.model.dto.Image;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -41,7 +42,7 @@ public class Business {
 	private List<BusinessOption> optionList;
 	
 	// 이미지 목록
-	private List<BusinessImage> imageList;
+	private List<Image> imageList;
 
 	// 댓글 목록
 //	private List<Comment> commentList;

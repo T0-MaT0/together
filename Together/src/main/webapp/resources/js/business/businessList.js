@@ -7,21 +7,16 @@ boardLists.forEach(boardList=>{
     const productImgAreas = boardList.querySelectorAll(".product-img-area");
     listToggle.addEventListener("change", ()=>{
         let classChange;
-        let classHidden;
         if(listToggle.checked){
             classChange = "product-detail-area";
-            classHidden = "";
         } else {
             classChange = "product-info";
-            classHidden = "hidden";
         }
 
         productImgAreas.forEach(productImgArea=>{
             const productInfo=productImgArea.nextElementSibling;
-            const firstChild = productInfo.firstElementChild;
             
             productInfo.classList=classChange;
-            firstChild.classList = classHidden;
         });
     });
 });
