@@ -18,7 +18,7 @@ public class Recruitment {
     private String recruitmentStatus; // 모집 상태 (모집 중, 완료 등)
     private String recCreatedDate;   // 모집 생성일 (MM/DD HH:mm)
     private String recEndDate;       // 모집 마감일 (MM/DD HH:mm)
-    private int region;              // 지역
+    private String region;              // 지역
     private String productUrl;       // 상품 URL
     private int qrCode;              // QR 코드
     private int boardNo;             // 게시글 번호
