@@ -57,12 +57,12 @@
                                     <img src="/resources/images/business/product.png">
                                 </div>
                                 <div class="product-info">
-                                    <span class="hidden">${product.memberNickname}</span>
+                                    <span>${product.memberNickname}</span>
                                     <span>${product.boardTitle}</span>
                                     <div class="product-price-area">
-                                        <span>
+                                        <!-- <span>
                                             <fmt:formatNumber value="${product.productPrice / 2}" type="number" maxFractionDigits="0"/>원
-                                        </span>
+                                        </span> -->
                                         <span>
                                             <fmt:formatNumber value="${product.productPrice}" type="number" maxFractionDigits="0"/>원
                                         </span>
@@ -98,12 +98,9 @@
                                     <img src="/resources/images/business/product.png">
                                 </div>
                                 <div class="product-info">
-                                    <span class="hidden">${product.memberNickname}</span>
+                                    <span>${product.memberNickname}</span>
                                     <span>${product.boardTitle}</span>
                                     <div class="product-price-area">
-                                        <span>
-                                            <fmt:formatNumber value="${product.productPrice / 2}" type="number" maxFractionDigits="0"/>원
-                                        </span>
                                         <span>
                                             <fmt:formatNumber value="${product.productPrice}" type="number" maxFractionDigits="0"/>원
                                         </span>
