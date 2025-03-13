@@ -15,7 +15,7 @@ body {
 }
 
 .main-container {
-    width: 1120px;
+    width: 1080px;
 }
 
 /* 배너 (이미지 적용) */
@@ -95,6 +95,7 @@ body {
     padding: 8px 15px;
     cursor: pointer;
     border-radius: 5px;
+    margin-left: 10px;
 }
 
 .join-btn:hover {
@@ -247,19 +248,33 @@ body {
 }
 
 /* 각 product-group의 내부 아이템의 높이를 고정하여 정렬 맞추기 */
-.banner-product-group .product,
-.banner-product-group .new-banner {
+.banner-product-group .product {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* 항상 상단 정렬 */
+    align-items: baseline;
+    justify-content: flex-start; 
     background-color: #fff;
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    height: 100%; /* 높이 동일하게 유지 */
+    height: 100%; 
     box-sizing: border-box;
 }
+
+.banner-product-group .new-banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 100%; 
+    box-sizing: border-box;
+}
+
+
 
 .banner-product-group .new-banner img,
 .banner-product-group .product img {
