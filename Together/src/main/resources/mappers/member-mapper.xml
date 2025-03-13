@@ -61,6 +61,11 @@
 		, SYSDATE, #{memberEmail}, DEFAULT, ${authority}, DEFAULT, TO_DATE(#{memberBirth}, 'YYYYMMDD'), DEFAULT)
 	</insert>
 	
+	<insert id="inputCompany">
+		INSERT INTO "COMPANY"
+		VALUES(${memberNo}, ${businessNo}, #{bankName}, #{bankNo}, DEFAULT)
+	</insert>
+	
 
 		
 

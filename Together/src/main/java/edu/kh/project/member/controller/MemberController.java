@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.kh.project.member.model.dto.Company;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.service.MemberService;
 
@@ -39,10 +40,20 @@ public class MemberController {
 	public String signUp1() {
 		return "member/signUp1";
 	}
-	// 개인 회원가입 전용 화면 이동
+	// 기업 회원가입 전용 화면 이동
 	@GetMapping("/signUp2")
 	public String signUp2() {
 		return "member/signUp2";
+	}
+	// 아이디 찾기 화면 이동
+	@GetMapping("/findId")
+	public String findId() {
+		return "member/findId";
+	}
+	// 비밀번호 찾기 화면 이동
+	@GetMapping("/findPw")
+	public String findPw() {
+		return "member/findPw";
 	}
 	
 	/** 로그인 요청 처리 
@@ -96,8 +107,11 @@ public class MemberController {
 	
 	// 개인 회원 가입 진행 
 	@PostMapping("/signUp1")
-	public String signUp(Member inputMember, String[] memberAddr, String businessNo
-			, RedirectAttributes ra) {
+	public String signUp(Member inputMember, String[] memberAddr, Company inputCompany, 
+			 RedirectAttributes ra) {
+		
+		System.out.println("inputMember : " + inputMember);
+		System.out.println("inputCompany : " + inputCompany);
 		
 
 		if(inputMember.getMemberAddr().equals(",,")) {
@@ -116,19 +130,31 @@ public class MemberController {
 		String path = "redirect:";
 		String message = null;
 		
-		if(result > 0) {
+		// 기업 회원일 경우
+		if(inputMember.getAuthority() == 3) {
 			
-
-			/* if() */
-
-
-			path += "/";
-			message = inputMember.getMemberNick() + "님의 가입을 환영합니다.";
+			int result2 = service.signUpCompany(inputCompany);
 			
-		} else {
-			path += "/member/signUp"; 
-			message = "회원 가입 실패.";
+			if(result2 > 0) {
+				path += "/";
+				message = inputMember.getMemberNick() + "님의 가입을 환영합니다.";
+				
+			} else {
+				path += "/member/signUp2"; 
+				message = "회원 가입 실패.";
+			}
+			
+		} else { // 개인 회원일 경우
+			if(result > 0) {
+				path += "/";
+				message = inputMember.getMemberNick() + "님의 가입을 환영합니다.";
+				
+			} else {
+				path += "/member/signUp1"; 
+				message = "회원 가입 실패.";
+			}
 		}
+		
 		
 		ra.addFlashAttribute("message", message);
 		
