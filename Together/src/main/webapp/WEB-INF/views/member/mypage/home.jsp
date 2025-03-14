@@ -18,7 +18,27 @@
 
     ${loginMember}
         
+            <!-- 사이드바 -->
+            <div class="sidebar">
+                <ul>
+                    <li class="home">마이 홈</li>
+                    <li class="section-title">주문/모집</li>
+                    <li class="section-title">관심 상품</li>
+                    <li class="sub-item">찜한 상품</li>
+                    <li class="sub-item">최근 구매 상품</li>
+                    <li class="section-title">리뷰 작성</li>
+                    <li class="sub-item">작성 가능한 리뷰</li>
+                    <li class="sub-item">내가 작성한 리뷰</li>
+                    <li class="section-title">관심스토어</li>
+                    <li class="qna">Q&A</li>
+                </ul>
+            </div>
 
+
+        <div class="myinfo-content-wrapper">
+
+           <!-- 메인 콘텐츠 -->
+            <section class="myinfo-main-content">
         <!-- 프로필 섹션 -->
         <section class="profile-section">
             <div class="profile-card">
@@ -32,26 +52,6 @@
                 <button class="edit-btn">설정</button>
             </div>
         </section>
-
-        <div class="myinfo-content-wrapper">
-            <!-- 사이드바 -->
-            <aside class="sidebar">
-                <ul>
-                    <li class="home">마이 홈</li>
-                    <li class="section-title">주문/모집</li>
-                    <li class="section-title">관심 상품</li>
-                    <li class="sub-item">찜한 상품</li>
-                    <li class="sub-item">최근 구매 상품</li>
-                    <li class="section-title">리뷰 작성</li>
-                    <li class="sub-item">작성 가능한 리뷰</li>
-                    <li class="sub-item">내가 작성한 리뷰</li>
-                    <li class="section-title">관심스토어</li>
-                    <li class="qna">Q&A</li>
-                </ul>
-            </aside>
-
-           <!-- 메인 콘텐츠 -->
-            <section class="myinfo-main-content">
                <!-- 상단 바 -->
                 <div class="top-bar2">
                     <div class="top-menu">
