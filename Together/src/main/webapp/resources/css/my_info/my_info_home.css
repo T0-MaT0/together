@@ -5,20 +5,6 @@
     font-style: normal;
 }
 
-/* 삭제 예정 */
-header{
-  margin: auto;
-  width: 1200px;
-  height: 500px;
-  background-color: #365ee4;
-}
-footer{
-  margin: auto;
-  width: 1200px;
-  height: 500px;
-  background-color: #ff6600;
-}
-
 body *{
     font-family: 'GmarketSansMedium', sans-serif;
     margin: 0;
@@ -29,50 +15,63 @@ body *{
 
 /* 전체 페이지 컨테이너 */
 .myinfo-container {
-    width: 100%;
-    overflow: hidden; /* 추가 */
+  width: 100%;
+  position: relative;
+  display: flex;
+  
 }
 
 /* 메인 콘텐츠 */
 .myinfo-content-wrapper {
+
   display: flex;
-  flex: 1;
   width: 1200px; 
+  margin: auto;
+  top: 0;
+  left: 50%;
+  flex-shrink: 0;
+  padding : 20px;
+
 }
 
-
 /* 사이드바 스타일 */
-.sidebar{
+.sidebar {
+  flex-shrink: 0;
   display: flex;
   position: sticky;
-  top: 0; /* 수정 */
+  top: 20px;
+  left: calc(50% - 700px);
   flex-direction: column;
   width: 160px;
   height: 600px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1),
+              0px -1px 10px rgba(0, 0, 0, 0.1),
+              1px 0px 10px rgba(0, 0, 0, 0.1),
+              -1px 0px 10px rgba(0, 0, 0, 0.1);
   padding: 10px 0;
   text-align: center;
   z-index: 90000;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 /* 프로필 섹션 */
 .profile-section {
   margin: auto;
-  width: 100%;
+  width: 950px;
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
 }
 .profile-card {
-  width: 800px;
+  width: 950px;
   background: #fff;
   padding: 20px;
   border-radius: 12px;
   display: flex;
   align-items: center;
-  margin-left: 50px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
   position: relative;
 }
@@ -180,8 +179,18 @@ body *{
     width: 1000px;
     background: white;
     border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2),
+                0px -1px 10px rgba(0, 0, 0, 0.2),
+                1px 0px 10px rgba(0, 0, 0, 0.2),
+                -1px 0px 10px rgba(0, 0, 0, 0.2);
     transition: margin 0.3s ease-in-out;
+
+    padding: 20px;
+    background-color: #d9d9d9;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
@@ -196,11 +205,12 @@ body *{
     padding: 30px;
     margin-bottom: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    width: 950px;
 }
 
 /* 상단 바 스타일 */
 .top-bar2 {
-    width: 95%;
+    width: 950px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -246,6 +256,7 @@ body *{
     border-radius: 50%;
     background: #f5f5f5; 
     padding: 5px;
+    object-fit: cover;
 }
 
 .menu-item p {
@@ -270,11 +281,11 @@ body *{
 
 /* 추천 상품 캐러셀 */
 .recommendation-section {
-    width: 95%;
+    width: 950px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    padding: 20px;
+    padding: 20px 40px;
     margin-bottom: 30px;
 }
 
@@ -315,7 +326,7 @@ body *{
     gap: 10px;
     overflow: hidden;
     position: relative;
-    width: 100%;
+    width: 870px;
     padding: 10px 0;
 }
 
