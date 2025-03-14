@@ -15,6 +15,10 @@ public class AjaxDAO {
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	
+	public String dupCheckId(String id) {
+		return sqlSession.selectOne("ajaxMapper.dupCheckId", id);
+	}
 
 	public String dupCheckEmail(String email) {
 		return sqlSession.selectOne("ajaxMapper.dupCheckEmail", email);
@@ -36,4 +40,6 @@ public class AjaxDAO {
 	public List<Map<String, Object>> searchQueryList(String query) {
 		return sqlSession.selectList("ajaxMapper.searchQueryList", query);
 	}
+
+	
 }

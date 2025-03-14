@@ -7,6 +7,13 @@ import java.util.Map;
 import edu.kh.project.member.model.dto.Member;
 
 public interface AjaxService {
+	
+	
+	/** 아이디 중복 체크
+	 * @param id
+	 * @return
+	 */
+	String dupCheckId(String id);
 
 	
 	/** 이메일 중복 체크
@@ -38,5 +45,7 @@ public interface AjaxService {
 	 * @return
 	 */
 	List<Map<String, Object>> searchQueryList(String query);
+
+	
 
 }

@@ -14,6 +14,12 @@ public class AjaxServiceImpl implements AjaxService{
 	
 	@Autowired
 	private AjaxDAO dao;
+	
+	@Override
+	public String dupCheckId(String id) {
+		return dao.dupCheckId(id);
+	}
+
 
 	@Override
 	public String dupCheckEmail(String email) {
@@ -41,4 +47,5 @@ public class AjaxServiceImpl implements AjaxService{
 		return dao.searchQueryList(query);
 	}
 
+	
 }
