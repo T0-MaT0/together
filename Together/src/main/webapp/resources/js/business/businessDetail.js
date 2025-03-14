@@ -1,19 +1,11 @@
 console.log("businessDetail.js");
 
 document.addEventListener("DOMContentLoaded", ()=>{
-    loadReviewList();
-    loadReplyList();
+    loadList();
 });
 
-const loadReviewList = ()=>{
-    fetch(location.pathname+"/reviewList")
-    .then(resp=>resp.json())
-    .then(list=>renderList(list))
-    .catch(err=>console.log(err));
-};
-
-const loadReplyList = ()=>{
-    fetch(location.pathname+"/replyList")
+const loadList = ()=>{
+    fetch(location.pathname+"/list")
     .then(resp=>resp.json())
     .then(list=>renderList(list))
     .catch(err=>console.log(err));
