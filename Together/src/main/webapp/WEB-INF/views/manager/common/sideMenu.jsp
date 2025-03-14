@@ -5,7 +5,7 @@
   <!-- 사이드 메뉴 -->
   <div id="container-side">
     <!-- 로고 -->
-     <a href="/manager/main">
+     <a href="/managerArea/main">
          <img src="/resources/images/image-manager/Group 2411.png" alt="로고 이미지" >
      </a>
 
@@ -70,21 +70,21 @@
     customerMenu.addEventListener("click", (e)=>{
         // 고객 페이지인 경우 거부
         if(location.pathname.indexOf("/manager/customer") != -1) return;
-        location.href="/manager/customer";
+        location.href="/managerArea/customer";
     })
 
     // 브랜드 메뉴
     brandMenu.addEventListener("click", ()=>{
         // 브랜드 페이지인 경우 거부
         if(location.pathname.indexOf("/manager/brand") != -1) return;
-        location.href="/manager/brand";
+        location.href="/managerArea/brand";
     })
 
     // 홈페이지 메뉴
     homePageMenu.addEventListener("click", ()=>{
         // 홈페이지 인 경우 거부
         if(location.pathname.indexOf("/manager/home") != -1) return;
-        location.href="/manager/home";
+        location.href="/managerArea/home";
     })
 
     

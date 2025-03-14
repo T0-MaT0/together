@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import edu.kh.project.manager.model.service.ManagerService;
 
 @Controller
-@RequestMapping("/manager")
+@RequestMapping("/managerArea")
 public class ManagerController {
 	
 	@Autowired
