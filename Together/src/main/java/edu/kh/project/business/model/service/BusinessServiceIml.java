@@ -44,4 +44,9 @@ public class BusinessServiceIml implements BusinessService {
 		
 		return map;
 	}
+
+	@Override
+	public Business selectBusiness(Map<String, Object> map) {
+		return dao.selectBusiness(map);
+	}
 }

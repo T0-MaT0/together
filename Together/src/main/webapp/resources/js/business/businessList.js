@@ -37,8 +37,8 @@ boardLists.forEach(boardList=>{
         });
     });
 
-    function productInfoClick(){
-        window.location.href="#"
+    function productInfoClick(e){
+        window.location.href=e.target.getAttribute("url");
     }
 
     function imgScaleUp(event){

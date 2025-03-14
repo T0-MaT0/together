@@ -29,4 +29,8 @@ public class BusinessDao {
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 		return sqlSession.selectList("boardMapper.selectSearchBusinessList", paramMap, rowBounds);
 	}
+
+	public Business selectBusiness(Map<String, Object> map) {
+		return sqlSession.selectOne("boardMapper.selectBusiness", map);
+	}
 }
