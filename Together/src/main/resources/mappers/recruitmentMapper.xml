@@ -30,44 +30,44 @@
 	 <!-- 개인 공동구매 모집방 목록 조회 (BOARD_CD = 1인 경우) -->
 	<select id="selectRecruitmentList" resultMap="recruitmentRoom_rm">
 	    SELECT 
-		    r.RECRUITMENT_NO, 
-		    r.MAX_PARTICIPANTS, 
-		    r.RECRUITMENT_STATUS, 
-		    r.REC_CREATED_DATE, 
-		    r.REC_END_DATE, 
-		    r.REGION, 
-		    r.PRODUCT_URL, 
-		    r.QR_CODE, 
-		    r.BOARD_NO, 
-		    bt.BOARD_CD,
-		    b.BOARD_TITLE AS productName,   
-		    p.PRODUCT_PRICE, 
-		    p.PRODUCT_COUNT, 
-		    p.DELIVERY_FEE, 
-		    p.READ_COUNT, 
-		    p.CATEGORY_NO,
-		
-		    (SELECT mp.MEMBER_NICK 
-		     FROM RECRUITMENT_PARTICIPANT rp
-		     JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
-		     WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
-		     ORDER BY rp.JOIN_DATE ASC
-		     FETCH FIRST 1 ROWS ONLY) AS hostName,
-		
-		    (SELECT mp.MEMBER_GRADE 
-		     FROM RECRUITMENT_PARTICIPANT rp
-		     JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
-		     WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
-		     ORDER BY rp.JOIN_DATE ASC
-		     FETCH FIRST 1 ROWS ONLY) AS hostGrade
-		
-		
-		FROM RECRUITMENT_ROOM r
-		JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO  
-		JOIN BOARD_TYPE bt ON b.BOARD_CD = bt.BOARD_CD  
-		JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO  
-		WHERE bt.BOARD_CD = 1
-		ORDER BY r.REC_CREATED_DATE DESC
+	        r.RECRUITMENT_NO, 
+	        r.MAX_PARTICIPANTS, 
+	        r.RECRUITMENT_STATUS, 
+	        r.REC_CREATED_DATE, 
+	        r.REC_END_DATE, 
+	        r.REGION, 
+	        r.PRODUCT_URL, 
+	        r.QR_CODE, 
+	        r.BOARD_NO, 
+	        bt.BOARD_CD,
+	        b.BOARD_TITLE AS productName,   
+	        p.PRODUCT_PRICE, 
+	        p.PRODUCT_COUNT, 
+	        p.DELIVERY_FEE, 
+	        p.READ_COUNT, 
+	        p.CATEGORY_NO,
+	
+	        (SELECT mp.MEMBER_NICK 
+	         FROM RECRUITMENT_PARTICIPANT rp
+	         JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
+	         WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
+	         ORDER BY rp.JOIN_DATE ASC
+	         FETCH FIRST 1 ROWS ONLY) AS hostName,
+	
+	        (SELECT mp.MEMBER_GRADE 
+	         FROM RECRUITMENT_PARTICIPANT rp
+	         JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
+	         WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
+	         ORDER BY rp.JOIN_DATE ASC
+	         FETCH FIRST 1 ROWS ONLY) AS hostGrade
+	
+	    FROM RECRUITMENT_ROOM r
+	    JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO  
+	    JOIN BOARD_TYPE bt ON b.BOARD_CD = bt.BOARD_CD  
+	    JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO  
+	    WHERE bt.BOARD_CD = 1
+	    ORDER BY r.REC_CREATED_DATE DESC
+	    FETCH FIRST 8 ROWS ONLY 
 	</select>
 	
 	<!-- 조회수 높은 순 목록 조회 -->
