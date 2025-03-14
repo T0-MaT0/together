@@ -56,7 +56,7 @@
                             <div class="product-item">
                                 <div class="product-img-area">
                                     <a href="${url}${product.boardNo}">
-                                        <img src="/resources/images/business/product.png">
+                                        <img src="${product.imageList[0].imagePath}${product.imageList[0].imageReName}">
                                     </a>
                                 </div>
                                 <div class="product-info" url="${url}${product.boardNo}">
@@ -99,7 +99,7 @@
                             <div class="product-item">
                                 <div class="product-img-area">
                                     <a href="${url}${product.boardNo}">
-                                        <img src="/resources/images/business/product.png">
+                                        <img src="${product.imageList[0].imagePath}${product.imageList[0].imageReName}">
                                     </a>
                                 </div>
                                 <div class="product-info" url="${url}${product.boardNo}">
