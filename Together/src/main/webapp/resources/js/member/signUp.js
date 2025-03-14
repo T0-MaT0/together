@@ -34,10 +34,27 @@ memberId.addEventListener("input", function () {
 
     // 아이디 유효한 경우
     if (reqExp.test(memberId.value)) {
-        checkObj.memberId = true;
-        idMessage.innerText = "유효한 아이디 형식입니다.";
-        idMessage.classList.add("confirm");
-        idMessage.classList.remove("error");
+
+
+        /*****************************************************************/
+        fetch("/dupCheck/id?id=" + memberId.value)
+        .then(response => response.text())
+        .then(count => {
+            if(count == 1){
+                idMessage.innerText = "이미 사용중인 아이디입니다."
+                checkObj.memberId = false;
+                idMessage.classList.add("error");
+                idMessage.classList.remove("confirm");
+            } 
+            if(count == 0){
+                idMessage.innerText = "사용 가능한 아이디입니다."
+                checkObj.memberId = true;
+                idMessage.classList.add("confirm");
+                idMessage.classList.remove("error");
+            }
+
+        })
+        .catch( e => {console.log(e)})
 
     } else {
         checkObj.memberId = false;
@@ -468,6 +485,9 @@ useAgree.addEventListener("input", validateAgreeInputs);
 userdataPsAgree.addEventListener("input", validateAgreeInputs);
 
 // --------------------------------------------------------------------------
+// -------------------------------------------------------------------------
+// 여기부턴 사업자만
+
 
 const signUpFrm = document.getElementById("signUpFrm");
 
