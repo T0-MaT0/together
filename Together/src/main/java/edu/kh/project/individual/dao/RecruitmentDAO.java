@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.kh.project.individual.dto.Image;
 import edu.kh.project.individual.dto.Recruitment;
 
 @Repository
@@ -44,6 +45,22 @@ public class RecruitmentDAO {
 	 */
 	public List<Recruitment> selectRecruitmentListByViewCount(Map<String, Object> paramMap) {
 		return sqlSession.selectList("recruitmentMapper.selectRecruitmentListByViewCount", paramMap);
+	}
+
+	/** 이미지 리스트 조회
+	 * @param recruitmentNo
+	 * @return
+	 */
+	public List<Image> selectAllBannerImages() {
+	    return sqlSession.selectList("recruitmentMapper.selectAllBannerImages");
+	}
+
+	/** 내 모집 중 현황
+	 * @param memberNo
+	 * @return
+	 */
+	public List<Recruitment> selectMyRecruitmentList(Integer memberNo) {
+		return sqlSession.selectList("recruitmentMapper.selectMyRecruitmentList", memberNo);
 	}
 
 	

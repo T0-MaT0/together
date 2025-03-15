@@ -1,6 +1,7 @@
 package edu.kh.project.individual.dto;
 
 import java.util.Date;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -40,4 +41,16 @@ public class Recruitment {
     private String hostName;   // 방장 닉네임
     private int hostGrade;     // 방장 등급
     private String hostProfile; // 방장 프로필 이미지
+    
+    // 멤버 정보 추가
+    private String memberNick;
+    private String memberAddr;
+    private int point;
+    private String memberGrade;
+    private String profileImg;
+    
+    // 이미지 관련 정보
+    private List<Image> imageList;   // 모집방 관련 이미지 리스트 (상품 이미지 포함)
+    private String thumbnail;        // 대표 썸네일 이미지
+    private List<Image> mainBannerList;
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <link rel="stylesheet" href="/resources/css/header,footer.css">
 
@@ -35,13 +36,24 @@
 <nav class="sub-nav">
     <div class="container2">
         <div class="left-links">
-            <a href="#">공구 상품</a>
-            <span> | </span>
-            <a href="#">내 모집 중</a>
-            <span> | </span>
-            <a href="#">리뷰 후기</a>
-            <span> | </span>
-            <a href="#">고객 센터</a>
+            <c:choose>
+                <c:when test="${boardCode == 1}">
+                    <a href="/Individual/detail">모집 상품</a>
+                    <span> | </span>
+                    <a href="/myRecruitment">내 모집 중</a>
+                    <span> | </span>
+                    <a href="#">고객 센터</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="#">공구 상품</a>
+                    <span> | </span>
+                    <a href="#">내 모집 중</a>
+                    <span> | </span>
+                    <a href="#">리뷰 후기</a>
+                    <span> | </span>
+                    <a href="#">고객 센터</a>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div class="right-links">
             <c:if test="${!empty loginMember}">
@@ -73,3 +85,4 @@
         </div>
     </div>
 </nav>
+<script src="/resources/js/header.js"></script>

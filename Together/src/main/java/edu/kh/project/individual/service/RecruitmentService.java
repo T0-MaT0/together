@@ -2,6 +2,7 @@ package edu.kh.project.individual.service;
 
 import java.util.List;
 
+
 import edu.kh.project.individual.dto.Recruitment;
 
 public interface RecruitmentService {
@@ -14,5 +15,8 @@ public interface RecruitmentService {
 
 	// 조회순 글
 	List<Recruitment> selectRecruitmentListByViewCount(int boardCode, int memberNo);
+
+	// 내 모집 중 현황
+	List<Recruitment> getMyRecruitmentList(Integer memberNo);
 
 }

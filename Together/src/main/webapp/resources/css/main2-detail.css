@@ -27,9 +27,6 @@ body {
     display: block;
     margin-bottom: 20px;
 }
-.left-links a:nth-of-type(1){
-    color: hotpink;
-}
 
 /* DETAIL 섹션 스타일 */
 .detail-products {
@@ -47,10 +44,12 @@ body {
 /* 상품 목록 그리드 - 한 줄에 3개씩, 간격 조정 */
 .product-grid {
     display: grid;
+    height: auto;
     grid-template-columns: repeat(3, 1fr);
     gap: 40px; 
     justify-content: center;
     margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 /* 상품 카드 스타일 - 세로 길이 증가 */
@@ -60,7 +59,7 @@ body {
     border-radius: 12px;
     text-align: left;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-    height: 450px; 
+    margin-bottom: 30px;
 }
 
 .product img {
