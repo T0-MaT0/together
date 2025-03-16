@@ -56,11 +56,11 @@ public class RecruitmentDAO {
 	}
 
 	/** 내 모집 중 현황
-	 * @param memberNo
+	 * @param paramMap
 	 * @return
 	 */
-	public List<Recruitment> selectMyRecruitmentList(Integer memberNo) {
-		return sqlSession.selectList("recruitmentMapper.selectMyRecruitmentList", memberNo);
+	public List<Recruitment> selectMyRecruitmentList(Map<String, Object> paramMap) {
+		return sqlSession.selectList("recruitmentMapper.selectMyRecruitmentList", paramMap);
 	}
 
 	

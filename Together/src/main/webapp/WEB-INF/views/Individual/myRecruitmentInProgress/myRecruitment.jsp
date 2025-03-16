@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,8 +23,8 @@
 
         <!-- 네비게이션 버튼 -->
         <nav id="nav-buttons">
-            <button >모집 완료</button>
-            <button >내 모집현황</button>
+            <button onclick="filterRecruitment('completed')" class="${selectedKey eq 'completed' ? 'selected' : ''}">모집 완료</button>
+            <button onclick="filterRecruitment('myRecruitment')" class="${selectedKey eq 'myRecruitment' ? 'selected' : ''}">내 모집현황</button>
             <button >댓글</button>
             <button >리뷰</button>
         </nav>
@@ -49,27 +51,40 @@
                     <span class="title"> 내 09 파티</span>
                 </div>
                 
-                <c:forEach var="recruitment" items="${recruitmentList}">
+                <c:forEach var="recruitment" items="${recruitments}">
                     <div class="recruit-card ${recruitment.recruitmentStatus eq '모집 완료' ? 'completed' : 'in-progress'}">
                         <input type="checkbox" class="checkbox">
                         <div class="recruit-info">
                             <div class="header">
-                                <span class="badge ${recruitment.recruitmentStatus eq '모집 완료' ? 'red' : 'blue'}">
-                                    ${recruitment.recruitmentStatus}
-                                </span>
-                                <h3>${recruitment.productName}</h3>
+                                <c:if test="${recruitment.recruitmentStatus eq '진행' or recruitment.recruitmentStatus eq '마감'}">
+                                    <span class="badge ${recruitment.recruitmentStatus eq '마감' ? 'purple' : 'blue'}">
+                                        ${recruitment.recruitmentStatus}
+                                    </span>
+                                </c:if>
+                                <h3>${recruitment.productName != null ? recruitment.productName : '상품명 없음'}</h3>
                             </div>
                             
                             <div class="info-footer">
                                 <div class="details">
-                                    <span class="period">기간: ${recruitment.recCreatedDate} ~ ${recruitment.recEndDate}</span>
-                                    <span>모집인원: ${recruitment.currentParticipants}/${recruitment.maxParticipants}</span>
+                                    <span class="period">📅 생성일: 
+                                        <c:out value="${fn:substring(recruitment.recCreatedDate, 5, 10)}" /> 
+                                        <c:out value="${fn:substring(recruitment.recCreatedDate, 11, 16)}" /> ~
+                                    </span>
+                                    <span>⏳ 마감일: 
+                                        <c:out value="${fn:substring(recruitment.recEndDate, 5, 10)}" /> 
+                                        <c:out value="${fn:substring(recruitment.recEndDate, 11, 16)}" />
+                                    </span>
+                                    <span>👥 모집인원: ${recruitment.currentParticipants}/${recruitment.maxParticipants}</span>
                                 </div>
                                 <div class="price">
                                     <span class="original">${recruitment.productPrice}pt</span>
                                     <span class="sale">
                                         <c:set var="discount" value="${recruitment.productPrice / recruitment.maxParticipants}" />
                                         <fmt:formatNumber value="${discount}" type="number" maxFractionDigits="0" />pt
+                                    </span>
+                                    <c:set var="progress" value="${(recruitment.currentParticipants / recruitment.maxParticipants) * 100}" />
+                                    <span class="progress-label">
+                                        <c:out value="${fn:substringBefore(progress, '.')}" />%
                                     </span>
                                 </div>
                             </div>
@@ -78,7 +93,8 @@
                             <div class="progress-bar">
                                 <c:set var="progress" value="${(recruitment.currentParticipants * 100) / recruitment.maxParticipants}" />
                                 <div class="progress ${recruitment.recruitmentStatus eq '모집 완료' ? 'red-bar' : 'blue-bar'}" 
-                                     style="width: ${progress}%;"></div>
+                                     style="width: ${progress}%;">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -97,7 +113,7 @@
     </main>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
-    <script src="/resources/js/individual/individualMain.js"></script>
+    <script src="/resources/js/individual/myRecruitment.js"></script>
 </body>
 
 </html>

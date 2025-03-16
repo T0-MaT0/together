@@ -17,6 +17,6 @@ public interface RecruitmentService {
 	List<Recruitment> selectRecruitmentListByViewCount(int boardCode, int memberNo);
 
 	// 내 모집 중 현황
-	List<Recruitment> getMyRecruitmentList(Integer memberNo);
+	List<Recruitment> getMyRecruitmentList(Integer memberNo, String key);
 
 }

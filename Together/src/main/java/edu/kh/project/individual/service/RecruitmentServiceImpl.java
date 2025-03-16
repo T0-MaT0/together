@@ -84,8 +84,13 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
 	// 내 모집 중 현황 조회
 	@Override
-	public List<Recruitment> getMyRecruitmentList(Integer memberNo) {
-		return dao.selectMyRecruitmentList(memberNo);
+	public List<Recruitment> getMyRecruitmentList(Integer memberNo, String key) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("member_no", memberNo);
+	    paramMap.put("key", key);
+		return dao.selectMyRecruitmentList(paramMap);
 	}
+
+	
 	
 }
