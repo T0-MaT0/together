@@ -23,10 +23,10 @@
 
         <!-- 네비게이션 버튼 -->
         <nav id="nav-buttons">
-            <button onclick="filterRecruitment('completed')" class="${selectedKey eq 'completed' ? 'selected' : ''}">모집 완료</button>
-            <button onclick="filterRecruitment('myRecruitment')" class="${selectedKey eq 'myRecruitment' ? 'selected' : ''}">내 모집현황</button>
-            <button >댓글</button>
-            <button >리뷰</button>
+            <button data-key="completed" class="${key eq 'completed' ? 'selected' : ''}">모집 완료</button>
+            <button data-key="myRecruitment" class="${key eq 'myRecruitment' ? 'selected' : ''}">내 모집현황</button>
+            <button data-key="comments" class="${key eq 'comments' ? 'selected' : ''}">댓글</button>
+            <button data-key="reviews" class="${key eq 'reviews' ? 'selected' : ''}">리뷰</button>
         </nav>
 
         <div id="container"> <!-- 모든 내용을 감싸는 div -->
@@ -56,11 +56,11 @@
                         <input type="checkbox" class="checkbox">
                         <div class="recruit-info">
                             <div class="header">
-                                <c:if test="${recruitment.recruitmentStatus eq '진행' or recruitment.recruitmentStatus eq '마감'}">
-                                    <span class="badge ${recruitment.recruitmentStatus eq '마감' ? 'purple' : 'blue'}">
-                                        ${recruitment.recruitmentStatus}
-                                    </span>
-                                </c:if>
+                                <span class="badge 
+                                    ${recruitment.recruitmentStatus eq '완료' ? 'red' :
+                                    (recruitment.recruitmentStatus eq '마감' ? 'purple' : 'blue')}">
+                                    ${recruitment.recruitmentStatus}
+                                </span>
                                 <h3>${recruitment.productName != null ? recruitment.productName : '상품명 없음'}</h3>
                             </div>
                             
