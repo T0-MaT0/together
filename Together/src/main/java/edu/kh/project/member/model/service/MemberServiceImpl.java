@@ -33,7 +33,6 @@ public class MemberServiceImpl implements MemberService{
 		
 
 
-		
 		// dao 메소드 호출
 		Member loginMember = dao.login(inputMember);
 		

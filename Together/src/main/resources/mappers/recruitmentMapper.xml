@@ -13,7 +13,7 @@
 	    <result property="qrCode" column="QR_CODE"/>
 	    <result property="boardNo" column="BOARD_NO"/>
 	    <result property="boardCode" column="BOARD_CD"/>
-	    <result property="productName" column="productName"/>
+	    <result property="productName" column="PRODUCT_NAME"/>
 	    
 	    <result property="productPrice" column="PRODUCT_PRICE"/>
 	    <result property="productCount" column="PRODUCT_COUNT"/>
@@ -58,7 +58,7 @@
 	        r.QR_CODE, 
 	        r.BOARD_NO, 
 	        bt.BOARD_CD,
-	        b.BOARD_TITLE AS productName,   
+	        b.BOARD_TITLE AS PRODUCT_NAME,   
 	        p.PRODUCT_PRICE, 
 	        p.PRODUCT_COUNT, 
 	        p.DELIVERY_FEE, 
@@ -108,7 +108,7 @@
 	        r.QR_CODE, 
 	        r.BOARD_NO, 
 	        bt.BOARD_CD,
-	        b.BOARD_TITLE AS productName,   
+	        b.BOARD_TITLE AS PRODUCT_NAME,   
 	        p.PRODUCT_PRICE, 
 	        p.PRODUCT_COUNT, 
 	        p.DELIVERY_FEE, 
@@ -174,31 +174,46 @@
         WHERE RECRUITMENT_NO = #{recruitmentNo}
     </select>
     
-    <select id="selectMyRecruitmentList" resultMap="recruitmentRoom_rm">
-       SELECT 
-		    RR.RECRUITMENT_NO, 
-		    RR.RECRUITMENT_STATUS, 
-		    RR.REC_CREATED_DATE, 
-		    RR.REC_END_DATE, 
-		    RP.JOIN_DATE, 
-		    RP.CANCEL_DATE, 
-		    RR.MAX_PARTICIPANTS, 
-		    (SELECT COUNT(*) FROM RECRUITMENT_PARTICIPANT RP WHERE RP.RECRUITMENT_NO = RR.RECRUITMENT_NO) AS CURRENT_PARTICIPANTS, 
-		    B.BOARD_TITLE AS PRODUCT_NAME, 
-		    P.PRODUCT_PRICE, 
-		    P.PRODUCT_COUNT, 
-		    M.MEMBER_NICK, 
-		    M.MEMBER_ADDR, 
-		    M.POINT, 
-		    M.MEMBER_GRADE, 
-		    M.PROFILE_IMG 
-		FROM RECRUITMENT_ROOM RR
-		JOIN BOARD B ON RR.BOARD_NO = B.BOARD_NO
-		JOIN PRODUCT P ON B.BOARD_NO = P.BOARD_NO
-		JOIN MEMBER M ON RR.MEMBER_NO = M.MEMBER_NO
-		LEFT JOIN RECRUITMENT_PARTICIPANT RP ON RR.RECRUITMENT_NO = RP.RECRUITMENT_NO
-		WHERE RR.BOARD_NO IN (SELECT BOARD_NO FROM BOARD WHERE BOARD_CD = 1 AND BOARD_DEL_FL = 'N')
-		AND (RR.MEMBER_NO = #{member_no} OR RP.MEMBER_NO = #{member_no})
-		ORDER BY RR.RECRUITMENT_NO DESC
-    </select>
+     <select id="selectMyRecruitmentList" resultMap="recruitmentRoom_rm">
+	    SELECT 
+	        RR.RECRUITMENT_NO, 
+	        RR.RECRUITMENT_STATUS, 
+	        RR.REC_CREATED_DATE, 
+	        RR.REC_END_DATE, 
+	        RP.JOIN_DATE, 
+	        RP.CANCEL_DATE, 
+	        RR.MAX_PARTICIPANTS, 
+	        (SELECT COUNT(*) FROM RECRUITMENT_PARTICIPANT RP 
+	         WHERE RP.RECRUITMENT_NO = RR.RECRUITMENT_NO) AS CURRENT_PARTICIPANTS, 
+	        B.BOARD_TITLE AS PRODUCT_NAME, 
+	        P.PRODUCT_PRICE, 
+	        P.PRODUCT_COUNT, 
+	        M.MEMBER_NICK, 
+	        M.MEMBER_ADDR, 
+	        M.POINT, 
+	        M.MEMBER_GRADE, 
+	        NVL(M.PROFILE_IMG, '/resources/images/mypage/관리자 프로필.webp') AS HOST_PROFILE 
+	    FROM RECRUITMENT_ROOM RR
+	    JOIN BOARD B ON RR.BOARD_NO = B.BOARD_NO
+	    JOIN BOARD_TYPE BT ON B.BOARD_CD = BT.BOARD_CD 
+	    JOIN PRODUCT P ON B.BOARD_NO = P.BOARD_NO
+	    JOIN MEMBER M ON RR.MEMBER_NO = M.MEMBER_NO
+	    LEFT JOIN RECRUITMENT_PARTICIPANT RP 
+	        ON RR.RECRUITMENT_NO = RP.RECRUITMENT_NO AND RP.MEMBER_NO = #{member_no}
+	    WHERE BT.BOARD_CD = 1 
+	    AND B.BOARD_DEL_FL = 'N'
+	    AND (RR.MEMBER_NO = #{member_no} OR RP.MEMBER_NO IS NOT NULL)
+	
+	    <choose>
+	        <when test="key == 'completed'">
+	            AND RR.RECRUITMENT_STATUS = '완료'  
+	        </when>
+	
+	        <when test="key == 'myRecruitment'">
+	            AND RR.RECRUITMENT_STATUS IN ('진행', '마감')  
+	        </when>
+	    </choose>
+	
+	    ORDER BY RR.RECRUITMENT_NO DESC;
+	</select>
 </mapper>

@@ -87,6 +87,7 @@ public class RecruitmentController {
  	// 내 모집 현황 조회
  	@GetMapping("/myRecruitment")
     public String myRecruitment(
+    		@RequestParam(value = "key", required = false, defaultValue = "myRecruitment") String key,
             Model model,
             @SessionAttribute(value = "loginMember", required = false) Member loginMember,
             RedirectAttributes redirectAttributes) {
@@ -98,9 +99,10 @@ public class RecruitmentController {
  	    }
  		
  		int memberNo = loginMember.getMemberNo();
-        List<Recruitment> recruitments = service.getMyRecruitmentList(memberNo);
+        List<Recruitment> recruitments = service.getMyRecruitmentList(memberNo, key);
         model.addAttribute("recruitments", recruitments);
         model.addAttribute("boardCode", boardCode);
+        model.addAttribute("selectedKey", key);
 
         return "Individual/myRecruitmentInProgress/myRecruitment";
     }
