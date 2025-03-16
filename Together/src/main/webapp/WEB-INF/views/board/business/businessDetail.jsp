@@ -29,7 +29,7 @@
         <section class="content">
             <section id="optionArea">
                 <div class="product-img">
-                    <img src="../../../resources/images/business/product.png">
+                    <img src="${business.imageList[0].imagePath}${business.imageList[0].imageReName}">
                 </div>
                 <div class="option-detail-area">
                     <span class="product-title">${business.boardTitle}</span>

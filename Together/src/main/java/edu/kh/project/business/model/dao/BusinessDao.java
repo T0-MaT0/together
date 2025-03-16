@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import edu.kh.project.business.model.dto.Business;
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.common.model.dto.Review;
 
 @Repository
 public class BusinessDao {
@@ -32,5 +34,25 @@ public class BusinessDao {
 
 	public Business selectBusiness(Map<String, Object> map) {
 		return sqlSession.selectOne("boardMapper.selectBusiness", map);
+	}
+
+	public int getReviewListCount(Map<String, Object> paramMap) {
+		return sqlSession.selectOne("boardMapper.getReviewListCount", paramMap);
+	}
+
+	public int getReplyListCount(Map<String, Object> paramMap) {
+		return sqlSession.selectOne("boardMapper.getReplyListCount", paramMap);
+	}
+
+	public List<Review> selectReviewList(Map<String, Object> paramMap, Pagination pagination) {
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("boardMapper.selectReviewList", paramMap, rowBounds);
+	}
+	
+	public List<Reply> selectReplyList(Map<String, Object> paramMap, Pagination pagination) {
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("boardMapper.selectReplyList", paramMap, rowBounds);
 	}
 }

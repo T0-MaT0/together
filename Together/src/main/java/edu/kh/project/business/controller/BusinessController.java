@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -91,7 +92,18 @@ public class BusinessController {
 	}
 	
 	// 게시글 상세 화면에 리뷰 목록 조회
-	public Map<String, Object> selectList() {
-		return null;
+	@GetMapping("/{boardCode:2}/{boardNo:[0-9]+}/list")
+	@ResponseBody
+	public Map<String, Object> selectList(@PathVariable("boardCode") int boardCode,
+			@PathVariable("boardNo") int boardNo,
+			@RequestParam(value = "reviewCp", required = false, defaultValue = "1") int reviewCp,
+			@RequestParam(value = "replyCp", required = false, defaultValue = "1") int replyCp,
+			@RequestParam Map<String, Object> paramMap) {
+		paramMap.put("boardCode", boardCode);
+		paramMap.put("boardNo", boardNo);
+		
+		Map<String, Object> map = service.selectList(paramMap, reviewCp, replyCp);
+		
+		return map;
 	}
 }

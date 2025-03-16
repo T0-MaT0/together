@@ -96,7 +96,7 @@
 		ORDER BY OPTION_NO
 	</select>
 	
-	<!-- 특정 상품 리뷰 조회 -->
+	<!-- 특정 상품 리뷰 목록 조회 -->
 	<select id="selectReviewList" resultMap="review_rm">
 		SELECT * FROM REVIEW 
 		WHERE REVIEW_TYPE = ${boardCode} 
@@ -104,7 +104,7 @@
 		ORDER BY REVIEW_NO
 	</select>
 	
-	<!-- 특정 상품 문의 조회 -->
+	<!-- 특정 상품 문의 목록 조회 -->
 	<select id="selectReplyList" resultMap="reply_rm">
 		SELECT * FROM REPLY 
 		WHERE REPLY_TYPE = 1 
@@ -154,7 +154,7 @@
 		BOARD_NO DESC
 	</select>
 	
-	<!-- 특정 상품 삭제되지 않은 게시글 조회 -->
+	<!-- 특정 상품의 삭제되지 않은 게시글 조회 -->
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*) FROM BOARD 
 		WHERE BOARD_CD = #{boardCode} AND BOARD_DEL_FL = 'N'
@@ -170,5 +170,21 @@
 		WHERE BOARD_DEL_FL = 'N' 
 		AND BOARD_CD = ${boardCode} 
 		AND BOARD_NO = ${boardNo}
+	</select>
+	
+	<!-- 특정 상품의 삭제되지 않은 리뷰 목록 조회 -->
+	<select id="getReviewListCount" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW 
+		WHERE REVIEW_TYPE = #{boardCode} 
+		AND REVIEW_TYPE_NO = #{boardNo}
+		AND REVIEW_DEL_FL = 'N'
+	</select>
+	
+	<!-- 특정 상품의 삭제되지 않은 문의 목록 조회 -->
+	<select id="getReplyListCount" resultType="_int">
+		SELECT COUNT(*) FROM REPLY 
+		WHERE REPLY_TYPE = 1
+		AND REPLY_TYPE_NO = #{boardNo}
+		AND REPLY_DEL_FL = 'N'
 	</select>
 </mapper>

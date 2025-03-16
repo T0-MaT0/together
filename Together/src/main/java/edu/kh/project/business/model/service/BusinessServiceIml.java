@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import edu.kh.project.business.model.dao.BusinessDao;
 import edu.kh.project.business.model.dto.Business;
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.common.model.dto.Review;
 
 @Service
 public class BusinessServiceIml implements BusinessService {
@@ -48,5 +50,26 @@ public class BusinessServiceIml implements BusinessService {
 	@Override
 	public Business selectBusiness(Map<String, Object> map) {
 		return dao.selectBusiness(map);
+	}
+
+	@Override
+	public Map<String, Object> selectList(Map<String, Object> paramMap, int reviewCp, int replyCp) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int listCount = dao.getReviewListCount(paramMap);
+		Pagination pagination = new Pagination(reviewCp, listCount);
+		List<Review> reviewList = dao.selectReviewList(paramMap, pagination);
+		
+		map.put("reviewList", reviewList);
+		map.put("reviewPagination", pagination);
+		
+		listCount = dao.getReplyListCount(paramMap);
+		pagination = new Pagination(replyCp, listCount);
+		List<Reply> replyList = dao.selectReplyList(paramMap, pagination);
+		
+		map.put("replyList", replyList);
+		map.put("replyPagination", pagination);
+		
+		return map;
 	}
 }

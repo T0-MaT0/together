@@ -11,6 +11,14 @@ const loadList = ()=>{
     .catch(err=>console.log(err));
 };
 
-const renderList=list=>{
-    console.log(list);
+const renderList=map=>{
+    console.log(map);
+    const reviewCounts = document.querySelectorAll('.content-nav a[href="#review"] span');
+    const replyCounts = document.querySelectorAll('.content-nav a[href="#q&a"] span');
+    reviewCounts.forEach(reviewCount=>{
+        reviewCount.textContent = map.reviewPagination.listCount;
+    });
+    replyCounts.forEach(replyCount=>{
+        replyCount.textContent = map.replyPagination.listCount;
+    });
 }
