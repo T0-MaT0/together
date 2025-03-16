@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Recruitment;
 import edu.kh.project.individual.service.RecruitmentService;
 import edu.kh.project.member.model.dto.Member;
@@ -106,8 +108,54 @@ public class RecruitmentController {
 
         return "Individual/myRecruitmentInProgress/myRecruitment";
     }
+ 	
+ 	// 댓글 조회
+ 	@GetMapping("/myRecruitment/comments")
+    public String myRecruitmentComments(
+            @SessionAttribute(value = "loginMember", required = false) Member loginMember,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+
+ 		int boardCode = 1;
+        if (loginMember == null) {
+            redirectAttributes.addFlashAttribute("message", "로그인을 먼저 해주세요.");
+            return "redirect:/member/login";
+        }
+
+        int memberNo = loginMember.getMemberNo();
+        List<Reply> comments = service.getMyRecruitmentComments(memberNo);
+
+        model.addAttribute("comments", comments);
+        model.addAttribute("boardCode", boardCode);
+        model.addAttribute("key", "comments");
+
+        return "Individual/myRecruitmentInProgress/myRecruitmentComment";  
+    }
         
-    
+ 	
+ 	// 리뷰 조회
+ 	@GetMapping("/myRecruitment/reviews")
+    public String myRecruitmentReviews(
+            @SessionAttribute(value = "loginMember", required = false) Member loginMember,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+
+ 		int boardCode = 1;
+
+        if (loginMember == null) {
+            redirectAttributes.addFlashAttribute("message", "로그인을 먼저 해주세요.");
+            return "redirect:/member/login";
+        }
+
+        int memberNo = loginMember.getMemberNo();
+        List<Review> reviews = service.getMyRecruitmentReviews(memberNo);
+
+        model.addAttribute("reviews", reviews);
+        model.addAttribute("key", "reviews"); 
+        model.addAttribute("boardCode", boardCode);
+
+        return "Individual/myRecruitmentInProgress/myRecruitmentReview";  
+    }
 	
 	
 }

@@ -40,7 +40,7 @@
                 <c:when test="${boardCode == 1}">
                     <a href="/Individual/detail">모집 상품</a>
                     <span> | </span>
-                    <a href="/myRecruitment">내 모집 중</a>
+                    <a href="/myRecruitment?key=myRecruitment">내 모집 중</a>
                     <span> | </span>
                     <a href="#">고객 센터</a>
                 </c:when>

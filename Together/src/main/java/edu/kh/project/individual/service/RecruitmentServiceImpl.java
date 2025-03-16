@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dao.RecruitmentDAO;
 import edu.kh.project.individual.dto.Image;
 import edu.kh.project.individual.dto.Recruitment;
@@ -89,6 +91,17 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 	    paramMap.put("member_no", memberNo);
 	    paramMap.put("key", key);
 		return dao.selectMyRecruitmentList(paramMap);
+	}
+
+	// 내 댓글 조회
+	@Override
+	public List<Reply> getMyRecruitmentComments(int memberNo) {
+		return dao.selectMyRecruitmentComments(memberNo);
+	}
+
+	@Override
+	public List<Review> getMyRecruitmentReviews(int memberNo) {
+		return dao.selectMyRecruitmentReviews(memberNo);
 	}
 
 	
