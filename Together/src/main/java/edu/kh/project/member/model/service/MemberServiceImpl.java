@@ -61,6 +61,7 @@ public class MemberServiceImpl implements MemberService{
 		inputMember.setMemberPw(bcrypt.encode(inputMember.getMemberPw()));
 		
 		int result = dao.signUp(inputMember);
+
 		
 		return result;
 	}

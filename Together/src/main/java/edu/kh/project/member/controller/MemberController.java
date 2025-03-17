@@ -126,6 +126,12 @@ public class MemberController {
 		}
 
 		int result = service.signUp(inputMember);
+		
+		System.out.println("다시 나온 inputMember : " + inputMember);
+		
+		inputCompany.setMemberNo(inputMember.getMemberNo());
+		
+		System.out.println("다시 세팅한 inputCompany : " + inputCompany);
 
 		String path = "redirect:";
 		String message = null;

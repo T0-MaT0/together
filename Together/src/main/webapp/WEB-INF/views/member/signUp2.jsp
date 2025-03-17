@@ -82,6 +82,7 @@
                     <input type="text" name="memberBirth" id="memberBirth"
                     placeholder="생년월일 8자리 입력" maxlength="20" >
                 </div>
+                <span class="signUp-message" id="birthMessage"></span>
         
         
                 <label for="memberEmail">
