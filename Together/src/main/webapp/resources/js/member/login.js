@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
           goToSignUp.classList.add("personal");
           goToSignUp.classList.remove("company");
           goToSignUp.innerText ="개인 회원가입";
+          goToSignUp.href = "/member/signUp1";
           underLine.classList.add("personal-line");
           underLine.classList.remove("company-line");
         } else if (selectedType === "company") {
@@ -60,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
           goToSignUp.classList.add("company");
           goToSignUp.classList.remove("personal");
           goToSignUp.innerText ="기업 회원가입";
+          goToSignUp.href = "/member/signUp2";
           underLine.classList.add("company-line");
           underLine.classList.remove("personal-line");
 

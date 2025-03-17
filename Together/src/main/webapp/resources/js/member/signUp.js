@@ -13,6 +13,12 @@ const checkObj = {
     "memberAddr" : false,
     "agree" : false
 };
+
+const checkObjCompany = {
+    "businessNo" : false,
+    "bankName": false,
+    "bankNo": false
+};
 //--------------------------------------------------------------------
 // 아이디 유효성 검사
 const memberId = document.getElementById("memberId");
@@ -27,7 +33,7 @@ memberId.addEventListener("input", function () {
         return;
     }
 
-    // 아이디 중복검사해야함
+    
 
     // 아이디 정규식
     const reqExp = /^[a-zA-Z0-9]{6,16}$/;
@@ -35,7 +41,7 @@ memberId.addEventListener("input", function () {
     // 아이디 유효한 경우
     if (reqExp.test(memberId.value)) {
 
-
+        // 아이디 중복검사
         /*****************************************************************/
         fetch("/dupCheck/id?id=" + memberId.value)
         .then(response => response.text())
@@ -207,6 +213,7 @@ memberEmail.addEventListener("input", function () {
 
         
 
+        // 이메일 중복 검사
         /*****************************************************************/
         fetch("/dupCheck/email?email=" + memberEmail.value)
         .then(response => response.text())
@@ -488,6 +495,127 @@ userdataPsAgree.addEventListener("input", validateAgreeInputs);
 // -------------------------------------------------------------------------
 // 여기부턴 사업자만
 
+const businessNo = document.getElementById("businessNo");
+const businessNoMessage = document.getElementById("businessNoMessage");
+
+// 둘다 널이 아닐때만 
+if (businessNo && businessNoMessage) {
+    businessNo.addEventListener("input", function () {
+         // 사업자 등록번호 미작성 시
+         if (businessNo.value.trim().length === 0) {
+            checkObjCompany.businessNo = false;
+            businessNoMessage.innerText = "";
+            businessNoMessage.classList.remove("error", "confirm");
+            return;
+        }
+    
+        // 숫자 10자리 정규식 (하이픈 없이 숫자만)
+        const regExp = /^\d{10}$/;
+    
+        if (!regExp.test(businessNo.value.trim())) {
+            businessNoMessage.innerText = "유효하지 않은 사업자등록번호입니다.";
+            checkObjCompany.businessNo = false;
+            businessNoMessage.classList.add("error");
+            businessNoMessage.classList.remove("confirm");
+            return;
+        }
+
+        checkObjCompany.businessNo = true;
+        businessNoMessage.innerText = "유효한 사업자등록번호입니다.";
+        checkObjCompany.businessNo = true;
+        businessNoMessage.classList.add("confirm");
+        businessNoMessage.classList.remove("error");
+    
+        /* // 사업자등록번호 유효성 검사는 단순한 검증 알고리즘
+        function isValidBusinessNumber(bno) {
+        
+            const checkSum = [1, 3, 7, 1, 3, 7, 1, 3];
+            let sum = 0;
+        
+            for (let i = 0; i < 8; i++) {
+                sum += parseInt(bno[i], 10) * checkSum[i];
+            }
+        
+            // 9번째 자리는 (bno[8] * 5)의 각 자리 더하기
+            const temp = parseInt(bno[8], 10) * 5;
+            sum += Math.floor(temp / 10) + (temp % 10);
+        
+            const checkDigit = (10 - (sum % 10)) % 10;
+        
+            return checkDigit === parseInt(bno[9], 10);
+        }
+    
+        // 카카오 2148884194 
+        // 국세청에 실제 등록된 번호는 가끔 검증공식과 다르게 등록된 예외 케이스가 존재
+        if (isValidBusinessNumber(businessNo.value.trim())) {
+            
+            businessNoMessage.innerText = "사업자 등록번호가 유효합니다.";
+            checkObjCompany.businessNo = true;
+            businessNoMessage.classList.add("confirm");
+            businessNoMessage.classList.remove("error");
+        } else {
+            console.log(businessNo.value.trim());
+            businessNoMessage.innerText = "사업자 등록번호가 유효하지 않습니다.";
+            checkObjCompany.businessNo = false;
+            businessNoMessage.classList.add("error");
+            businessNoMessage.classList.remove("confirm");
+        } */
+    });
+
+}
+
+const bankName = document.getElementById("bankName");
+const bankNo = document.getElementById("bankNo");
+const bankMessage = document.getElementById("bankMessage");
+
+function validateBankInfo() {
+    const bankValue = bankName.value.trim();
+    const bankNoValue = bankNo.value.trim();
+
+    // 1. 은행 선택 여부
+    if (!bankValue) {
+        bankMessage.innerText = "은행을 선택해주세요.";
+        checkObjCompany.bankName = false;
+        checkObjCompany.bankNo = false;
+        bankMessage.classList.add("error");
+        bankMessage.classList.remove("confirm");
+        return;
+    } else {
+        checkObjCompany.bankName = true;
+    }
+
+    // 2. 계좌번호 입력 여부
+    if (bankNoValue.length === 0) {
+        bankMessage.innerText = "계좌번호를 입력해주세요.";
+        checkObjCompany.bankNo = false;
+        bankMessage.classList.add("error");
+        bankMessage.classList.remove("confirm");
+        return;
+    }
+
+    // 3. 계좌번호 정규식
+    const regExp = /^[0-9]{6,20}$/;
+
+    if (!regExp.test(bankNoValue)) {
+        bankMessage.innerText = "계좌번호는 숫자만 입력해주세요. (6~20자리)";
+        checkObjCompany.bankNo = false;
+        bankMessage.classList.add("error");
+        bankMessage.classList.remove("confirm");
+        return;
+    }
+
+    // 모든 조건 통과
+    bankMessage.innerText = "정상적인 계좌정보입니다.";
+    checkObjCompany.bankNo = true;
+    bankMessage.classList.add("confirm");
+    bankMessage.classList.remove("error");
+}
+
+if (bankNo) { bankNo.addEventListener("input", validateBankInfo)}
+
+if (bankName) { bankName.addEventListener("change", validateBankInfo)}
+
+
 
 const signUpFrm = document.getElementById("signUpFrm");
 
@@ -498,9 +626,10 @@ signUpFrm.addEventListener("submit", function(e) {
     checkObj.emailAuthKey = true;  // 이 값을 true로 설정해야 합니다.
     // "checkObj"의 상태를 체크하는 부분 (반드시 "false"인 항목을 출력)
     let message = "";
-    for (let item in checkObj) {
+    // 확인용
+    /* for (let item in checkObj) {
         alert(item + ": " + checkObj[item]); // 각 항목의 상태를 알림으로 출력
-    }
+    } */
 
     // 모든 필드를 확인하여 유효하지 않은 값이 있을 경우
     for (let key in checkObj) {
@@ -535,82 +664,8 @@ signUpFrm.addEventListener("submit", function(e) {
             return false; // 중단
         }
     }
-
-});
-
-/* // 회원 가입 form 태그가 제출 되었을 때
-
-signUpFrm.addEventListener("submit", function(e) {
-
-    // 이름 유무 검사
-    const memberName = document.getElementById("memberName");
-    if (memberName.value.trim().length === 0) {
-        checkObj.memberName = false;
-    } else {
-        checkObj.memberName = true;
-    }
-
-    // 필수 체크 유무 검사
-    const useAgree = document.getElementById("use-agree");
-    const userdataPsAgree = document.getElementById("userdataPS-agree");
-
-    if(useAgree.isChecked && userdataPsAgree.isChecked){
-        checkObj.agree = true;
-    } else{
-        checkObj.agree = false;
-    }
-
-    // 임시로 true로 지정
-    checkObj.emailAuthKey =true;
-
-    // 주소 유무 검사
-    const sample6_postcode = document.getElementById("sample6_postcode");
-    const sample6_address = document.getElementById("sample6_address");
-    const sample6_detailAddress = document.getElementById("sample6_detailAddress");
-
-    if(sample6_postcode.trim().length != 0 
-        && sample6_address.trim().length != 0 
-        && sample6_detailAddress.trim().length != 0){
-            checkObj.memberAddress = true;
-        }else{
-            checkObj.memberAddress = false;
-        }
-
-    
-    let message = "";
     const authority = document.getElementById("authority-input");
-
-    
-    for (let key in checkObj) { 
-       
-        if (!checkObj[key]) {
-            switch (key) {
-                case "memberId": message = "아이디가"; break;
-                case "memberPw": message = "비밀번호가"; break;
-                case "memberPwConfirm": message = "비밀번호 확인이"; break;
-                case "memberName": message = "이름이"; break;
-                case "memberBirth": message = "생년월일이"; break;
-                case "memberEmail": message = "이메일이"; break;
-                case "emailAuthKey": message = "이메일 인증번호가"; break;
-                case "memberNick": message = "닉네임이"; break;
-                case "memberTel": message = "전화번호가"; break;
-                case "memberAddress": message = "주소가"; break;
-                case "agree": message = "약관 동의가"; break;
-                
-            }
-
-            message += " 유효하지 않습니다.";
-            alert(message); 
-
-            document.getElementById(key).focus();
-
-            e.preventDefault();
-            return false; 
-
-        }
-    }
-
-    if(authority.value == 3){
+    if(authority.value == "3"){
         for (let key in checkObjCompany) { 
            
             if (!checkObjCompany[key]) {
@@ -632,4 +687,6 @@ signUpFrm.addEventListener("submit", function(e) {
 
         }
     }
-}) */
+
+});
+

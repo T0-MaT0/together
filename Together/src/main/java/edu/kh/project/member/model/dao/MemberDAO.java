@@ -26,6 +26,18 @@ public class MemberDAO {
 	public int signUpCompany(Company inputCompany) {
 		return sqlSession.insert("memberMapper.inputCompany", inputCompany);
 	}
+	
+	public Member findId(Member inputMember) {
+		return sqlSession.selectOne("memberMapper.findId", inputMember);
+	}
+
+	public Member findPw(Member inputMember) {
+		return sqlSession.selectOne("memberMapper.findPw", inputMember);
+	}
+
+	public int changePw(Member inputMember) {
+		return sqlSession.update("memberMapper.changePw", inputMember);
+	}
 
 
 }
