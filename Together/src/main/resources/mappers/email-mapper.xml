@@ -13,7 +13,7 @@
 		INSERT INTO "AUTH_KEY"
 		VALUES(SEQ_AUTH_KEY_NO.NEXTVAL, #{authkey}, #{email}, DEFAULT)
 	</insert>
-	<select id="checkAuthKey" result>
+	<select id="checkAuthKey">
 		SELECT COUNT(*) FROM "AUTH_KEY"
 		WHERE EMAIL = #{email}
 		AND CODE = #{inputKey}
