@@ -42,7 +42,7 @@
                     <span> | </span>
                     <a href="/myRecruitment?key=myRecruitment">내 모집 중</a>
                     <span> | </span>
-                    <a href="#">고객 센터</a>
+                    <a href="/customer/customerMain">고객 센터</a>
                 </c:when>
                 <c:otherwise>
                     <a href="#">공구 상품</a>
