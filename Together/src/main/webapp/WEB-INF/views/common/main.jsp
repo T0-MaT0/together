@@ -20,6 +20,8 @@
             <img src="/resources/images/mainJHI/mainbanner.png" alt="">
         </div>
     </section>
+
+    
     
     
     <section class="purchase-section">
