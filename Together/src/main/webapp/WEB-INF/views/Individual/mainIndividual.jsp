@@ -45,7 +45,7 @@
                             varStatus="status">
                             <c:if test="${status.index < fn:length(recruitmentList)}">
                                 <div class="product">
-                                    <img src="/resources/images/individual/main/water2.png" alt="제품 이미지">
+                                    <img src="/resources/images/product/1.jpg" alt="제품 이미지">
                                     <p class="seller-info">${recruitment.hostName} (등급:
                                         ${recruitment.hostGrade})</p>
                                     <p class="product-name">${recruitment.productName}</p>
