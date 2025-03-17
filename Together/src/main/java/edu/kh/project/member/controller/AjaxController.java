@@ -20,6 +20,15 @@ public class AjaxController {
 	@Autowired
 	private AjaxService service;
 	
+	
+	@GetMapping("/dupCheck/id")
+	@ResponseBody
+	public String dupCheckId(String id) {
+
+		return service.dupCheckId(id);
+	}
+
+	
 	@GetMapping("/dupCheck/email")
 	@ResponseBody
 	public String dupCheckEmail(String email) {

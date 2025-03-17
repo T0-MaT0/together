@@ -244,3 +244,8 @@ header {
     color: black;
     margin-top: 15px;
 }
+
+.sub-nav .left-links a.active {
+    color: #ff66b2;
+    font-weight: bold;
+}

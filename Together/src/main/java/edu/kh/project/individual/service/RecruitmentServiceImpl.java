@@ -1,5 +1,6 @@
 package edu.kh.project.individual.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,8 +8,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
+import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dao.RecruitmentDAO;
+import edu.kh.project.individual.dto.Image;
 import edu.kh.project.individual.dto.Recruitment;
 
 @Service
@@ -25,13 +30,23 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         paramMap.put("memberNo", memberNo);
 
         List<Recruitment> recruitments = dao.selectRecruitmentList(paramMap);
-
+        List<Image> bannerImages = dao.selectAllBannerImages();
+        
+        List<Image> mainBannerList = new ArrayList<>();
+        for (Image img : bannerImages) {
+            if (img.getImageType() == 6 && img.getImageLevel() == 2) { // 메인 배너 조건
+                mainBannerList.add(img); // 리스트에 추가
+            }
+        }
+        
         // 참가자 수 설정
         for (Recruitment recruitment : recruitments) {
             int currentParticipants = dao.countParticipants(recruitment.getRecruitmentNo());
             recruitment.setCurrentParticipants(currentParticipants);
+            
+            recruitment.setImageList(bannerImages);
+            recruitment.setMainBannerList(mainBannerList);
         }
-
         return recruitments;
     }
 
@@ -49,14 +64,46 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         paramMap.put("memberNo", memberNo);
 
         List<Recruitment> recruitments = dao.selectRecruitmentListByViewCount(paramMap);
-
+        List<Image> bannerImages = dao.selectAllBannerImages();
+        
+        List<Image> mainBannerList = new ArrayList<>();
+        for (Image img : bannerImages) {
+            if (img.getImageType() == 6 && img.getImageLevel() == 2) { // 메인 배너 조건
+                mainBannerList.add(img); // 리스트에 추가
+            }
+        }
+        
         // 참가자 수 설정
         for (Recruitment recruitment : recruitments) {
             int currentParticipants = dao.countParticipants(recruitment.getRecruitmentNo());
             recruitment.setCurrentParticipants(currentParticipants);
+            recruitment.setImageList(bannerImages);
+            recruitment.setMainBannerList(mainBannerList);
         }
 
         return recruitments;
 	}
+
+	// 내 모집 중 현황 조회
+	@Override
+	public List<Recruitment> getMyRecruitmentList(Integer memberNo, String key) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("member_no", memberNo);
+	    paramMap.put("key", key);
+		return dao.selectMyRecruitmentList(paramMap);
+	}
+
+	// 내 댓글 조회
+	@Override
+	public List<Reply> getMyRecruitmentComments(int memberNo) {
+		return dao.selectMyRecruitmentComments(memberNo);
+	}
+
+	@Override
+	public List<Review> getMyRecruitmentReviews(int memberNo) {
+		return dao.selectMyRecruitmentReviews(memberNo);
+	}
+
+	
 	
 }

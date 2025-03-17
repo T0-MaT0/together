@@ -53,9 +53,6 @@ body {
     background: #cc1274;
 }
 
-#nav-buttons button:nth-of-type(2){
-    background-color: #6700CF;
-}
 
 /* 프로필 섹션 */
 #profile {

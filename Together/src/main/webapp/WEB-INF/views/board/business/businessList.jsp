@@ -42,6 +42,7 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
     
+    ${pagination}
     <main>
         <section class="content">
             <div class="banner">
@@ -71,10 +72,10 @@
                 <div class="list-area">
                     <c:if test="${!empty businessList}">
                         <c:forEach var="product" items="${businessList}">
-                            <div>
+                            <div class="product-item">
                                 <div class="product-img-area">
                                     <a href="#">
-                                        <img src="/resources/images/business/product.png">
+                                        <img src="${product.imageList[0].imagePath}${product.imageList[0].imageReName}">
                                     </a>
                                 </div>
                                 <div class="product-info">
