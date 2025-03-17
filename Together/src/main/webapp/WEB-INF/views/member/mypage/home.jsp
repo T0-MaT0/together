@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +31,7 @@
           <h2 class="home-title">내 정보</h2>
 				<section class="profile-section">
 					<div class="profile-card">
-						<img src="/resources/images/mypage/together.png" alt="프로필 이미지"
+						<img src="${loginMember.profileImg}" alt="프로필 이미지"
 							class="profile-img">
 						<div class="profile-info">
 							<p>
@@ -39,8 +40,10 @@
 							<p>
 								<strong>${loginMember.memberNick}</strong>
 							</p>
-							<p>내 지역 : ${loginMember.memberAddr.split('^^^')[0]}</p>
-							<p class="points">포인트 : ${loginMember.point}pt</p>
+              <c:set var="addrs" value="${loginMember.memberAddr}" />
+              <c:set var="addrArr" value="${fn:split(addrs, '^^^')}" />
+			  <p>내 지역 : ${addrArr[1]}</p>
+              <p class="points">포인트 : ${loginMember.point}pt</p>
 						</div>
 						<button class="edit-btn">설정</button>
 					</div>
@@ -132,13 +135,14 @@
 				</section>
 
 				<!-- 구매 이력 -->
-				<section class="purchase-history">
-					<h3>구매 상품 2</h3>
-					<div class="purchase-item">
+				<section class="purchase-history" id="purchase-history">
+					<h3>구매 이력</h3>
+					<div class="purchase-item" id="purchase-item">
 						<a href="#" class="item-container">
-							<div class="item-box"></div>
+							<div class="item-box"><img src="" alt=""></div>
 							<p class="item-title">상품 설명 1</p>
-						</a> <a href="#" class="item-container">
+						</a> 
+            <a href="#" class="item-container">
 							<div class="item-box"></div>
 							<p class="item-title">상품 설명 2</p>
 						</a>
@@ -216,4 +220,9 @@
 	</main>
 </body>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+<script>
+<%-- 전역변수로 값 넘기기 --%>
+  const memberNo = "${loginMember.memberNo}";
+</script>
+<script src="/resources/js/member/mypage.js"></script>
 </html>
