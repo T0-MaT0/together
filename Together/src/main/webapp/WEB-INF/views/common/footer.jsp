@@ -10,11 +10,21 @@
     </div>
     <nav class="footer-links">
         <a href="#">이용약관</a><span> | </span>
-        <a href="#">FAQ</a><span> | </span>
-        <a href="#">고객센터</a><span> | </span>
-        <a href="#">ToGether 소개</a><span> | </span>
-        <a href="#">To 브랜드</a><span> | </span>
-        <a href="#">Get 개인</a>
+        <a href="/customer/FAQBoard">FAQ</a><span> | </span>
+        <a href="/customer/customerMain">고객센터</a><span> | </span>
+        <!-- boardCD가 2이면 브랜드 버튼 클래스 변경 -->
+        <c:set var="code" value="to-brand"/>
+        <c:if test='${boardCode == 2}'>
+            <c:set var="code" value="btn-get-personal"/>
+        </c:if>
+        <a href="/board/2" class="${code}">To 브랜드</a><span> | </span>
+        
+        <!-- boardCD가 1이면 개인 버튼 클래스 변경 -->
+        <c:set var="code" value="to-gain"/>
+        <c:if test='${boardCode == 1}'>
+            <c:set var="code" value="btn-get-gain"/>
+        </c:if>
+        <a href="/Individual/1" class="${code}">Get 개인</a>
     </nav>
     <div class="footer-divider"></div>
     <div class="footer-bottom">

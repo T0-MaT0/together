@@ -59,15 +59,9 @@
                                 <c:set var="discount" value="${Math.ceil(recruitment.productPrice / recruitment.maxParticipants).intValue()}" />                                
 
                                 <div class="product">
-<<<<<<< HEAD
-                                    <img src="/resources/images/product/1.jpg" alt="제품 이미지">
-                                    <p class="seller-info">${recruitment.hostName} (등급:
-                                        ${recruitment.hostGrade})</p>
-=======
                                     <img src="${recruitment.thumbnail != null ? recruitment.thumbnail : '/resources/images/mypage/관리자 프로필.webp'}" 
                                         alt="제품 이미지">
                                     <p class="seller-info">${recruitment.hostName} (등급: ${recruitment.hostGrade})</p>
->>>>>>> 286e623eb2388ca6146507b877cc16f81cf3a127
                                     <p class="product-name">${recruitment.productName}</p>
                                     <p class="discount-price">${discount}원</p>
                                     <p class="original-price">${recruitment.productPrice}원 (원가)</p>
