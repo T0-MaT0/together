@@ -19,7 +19,7 @@ if (purchaseHistory) {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: memberNo
-      })
+    })
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -47,7 +47,82 @@ if (purchaseHistory) {
           purchaseItem.appendChild(itemContainer);
         });
 
-      })
+        if (data.length === 0) {
+          const noItem = document.createElement("p");
+          noItem.textContent = "구매 이력이 없습니다.";
+          purchaseItem.appendChild(noItem);
+        } else {
+          /* 구매 기록의  카테고리 set */
+          /* 유사 상품 추천 */
+          const purchaseCategory = new Set();
+          data.forEach(item => {
+            purchaseCategory.add(item.categoryNo + ":" + item.category);
+          });
+
+          const categoryFilter = document.getElementById("category-filter");
+          categoryFilter.innerHTML = "";
+
+          purchaseCategory.forEach(category => {
+            const categoryNo = category.split(":")[0];
+            const categoryName = category.split(":")[1];
+
+            const categoryBtn = document.createElement("button");
+            categoryBtn.classList.add("category-btn");
+            categoryBtn.innerText = categoryName;
+            categoryBtn.setAttribute("data-category", categoryNo);
+            categoryFilter.appendChild(categoryBtn);
+            categoryBtn.addEventListener("click", () => {
+              const categoryBtns = document.querySelectorAll(".category-btn");
+              categoryBtns.forEach(btn => {
+                btn.classList.remove("selected");
+              });
+              categoryBtn.classList.add("selected");
+
+              fetch("/mypage/categoryPick", {
+                method: "post",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ memberNo: memberNo, categoryNo: categoryNo })
+              })
+                .then(response => response.json())
+                .then(data => {
+                  console.log(data);
+                  const purchaseItem = document.getElementById("purchase-item");
+                  purchaseItem.innerHTML = "";
+                  data.forEach(/* item => {
+                  const itemContainer = document.createElement("a");
+                  itemContainer.href = '/board/' + parseInt(item.boardCode) + '/' + item.boardNo;
+                  itemContainer.classList.add("item-container");
+
+                  const itemBox = document.createElement("div");
+                  itemBox.classList.add("item-box");
+
+                  const itemImg = document.createElement("img");
+                  itemImg.setAttribute("src", item.imgPath);
+
+                  itemBox.appendChild(itemImg);
+                  const itemTitle = document.createElement("p");
+                  itemTitle.classList.add("item-title");
+                  itemTitle.textContent = item.boardTitle;
+
+                  itemContainer.appendChild(itemBox);
+                  itemContainer.appendChild(itemTitle);
+
+                  purchaseItem.appendChild(itemContainer);
+                } */ );
+
+                  /*                 if (data.length === 0) {
+                                    const noItem = document.createElement("p");
+                                    noItem.textContent = "구매 이력이 없습니다.";
+                                    purchaseItem.appendChild(noItem);
+                                  } */
+                });
+
+            });
+
+          })
+
+        }
+      });
   }
 }
 

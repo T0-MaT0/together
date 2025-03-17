@@ -12,4 +12,5 @@ public class Product {
     private int price;
     private int readCount;
     private String category;
+    private int categoryNo;
 }

@@ -93,10 +93,11 @@
 		<result property="price" column="PRICE" />
 		<result property="readCount" column="READ_COUNT" />
 		<result property="category" column="CATEGORY_NAME" />
+		<result property="categoryNo" column="CATEGORY_NO"/>
 	</resultMap>
 
 	<select id="getPurchaseHistory" resultMap="product_rm">
-		SELECT BOARD_NO , BOARD_TITLE , BOARD_CONTENT , BOARD_CD , IMG_PATH || IMG_RENAME IMG_PATH, PRODUCT_PRICE PRICE, READ_COUNT , CATEGORY_NAME
+		SELECT BOARD_NO , BOARD_TITLE , BOARD_CONTENT , BOARD_CD , IMG_PATH || IMG_RENAME IMG_PATH, PRODUCT_PRICE PRICE, READ_COUNT , CATEGORY_NAME, CATEGORY_NO 
 		FROM (SELECT ORDER_NO, BOARD_NO
 			  FROM "ORDER"
 			  WHERE MEMBER_NO = ${memberNo}

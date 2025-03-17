@@ -90,7 +90,7 @@
 					</h3>
 
 					<!-- 카테고리 필터 -->
-					<div class="category-filter">
+					<div class="category-filter" id="category-filter">
 						<button class="selected">에어포스1카카오</button>
 						<button>게이밍무선마우스</button>
 						<button>닭양념육</button>
