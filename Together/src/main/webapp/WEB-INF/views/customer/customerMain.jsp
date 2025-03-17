@@ -14,7 +14,7 @@
         <section id="left-section">
             <!-- 공지사항 -->
             <div class="notice-box">
-                <div class="notice-title">공지사항</div>
+                <div class="notice-title" onclick="location.href='/customer/noticeBoardList'">공지사항</div>
                 <div class="notice-list">
                     <div>[업데이트] 공동구매 채팅 기능 추가</div>
                     <div>[공지] 설 연휴 고객센터 운영 안내</div>
@@ -38,7 +38,7 @@
         <section id="right-section">
             <!-- 자주 묻는 질문 -->
             <div class="faq-box">
-                <div class="faq-title">자주 묻는 질문 (FAQ)</div>
+                <div class="faq-title" onclick="location.href='/customer/FAQBoard'">자주 묻는 질문 (FAQ)</div>
                 <div class="faq-category">
                     <div class="current">회원 계정</div>
                     <div>공동 구매</div>
@@ -57,10 +57,10 @@
             
             <!-- 하단 버튼 -->
             <div class="button-group">
-                <button>1:1 문의하기</button>
-                <button>공지사항</button>
-                <button>자주 묻는 질문</button>
-                <button>실시간 채팅 문의</button>
+                <a href="#">1:1 문의하기</a>
+                <a href="/customer/noticeBoardList">공지사항</a>
+                <a href="/customer/FAQBoard">자주 묻는 질문</a>
+                <a href="#">실시간 채팅 문의</a>
             </div>
         </section>
     </section>

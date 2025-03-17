@@ -118,7 +118,7 @@ body {
     margin-top: 20px;
 }
 
-.button-group button {
+.button-group a {
     flex: 1;
     padding: 16px;
     border: 1px solid #ff4d94;
@@ -126,9 +126,17 @@ body {
     background-color: white;
     cursor: pointer;
     font-size: 16px;
+
+    
+     display: flex;
+     justify-content: center;
+     align-items: center;    
+     text-align: center; 
+     text-decoration: none;
+     color: black;
 }
 
-.button-group button:hover {
+.button-group a:hover {
     background-color: #ff4d94;
     color: white;
 }

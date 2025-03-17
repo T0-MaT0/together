@@ -21,6 +21,21 @@ public class CustomerController {
 	public String customerMain() {
 		return "customer/customerMain";
 	}
-
+	//  FAQ 페이지 가져옴
+	@GetMapping("/FAQBoard")
+	public String FAQBoard() {
+		return "customer/FAQBoard";
+	}
+	//  공지사항 리스트 페이지 가져옴
+	@GetMapping("/noticeBoardList")
+	public String noticeBoardList() {
+		return "customer/noticeBoardList";
+	}
+	//  공지사항 디테일 페이지 가져옴
+	@GetMapping("/noticeBoardDetail")
+	public String noticeBoardDetail() {
+		return "customer/noticeBoardDetail";
+	}
+		
 
 }

@@ -24,6 +24,7 @@
 		<mapper resource="/mappers/board-mapper.xml" />
 		<mapper resource="/mappers/manager-mapper.xml" />
 		<mapper resource="/mappers/recruitmentMapper.xml" />
+		<mapper resource="/mappers/email-mapper.xml" />
 	</mappers>
 
 </configuration>
