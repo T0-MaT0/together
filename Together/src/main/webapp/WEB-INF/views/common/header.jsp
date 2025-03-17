@@ -52,7 +52,7 @@
                 </c:if>
                 
                 <!-- 로그인한 모든 사용자 -->
-                <a href="/member/mypage">마이페이지</a>
+                <a href="/mypage/home">마이페이지</a>
                 <span> | </span>
         
                 <!-- 일반 회원만 포인트 충전 가능 -->

@@ -5,20 +5,20 @@
     
 <div class="mypage-sidebar">
 	<ul>
-    <div class="main-item home"><a href="mypage/home">마이 홈</a></div>
-    <div class="main-item section-title"><a href="mypage/order">주문/모집</a></div>
-    <div class="main-item section-title "><a href="mypage">관심 상품</a>
-      <div class="sub-item"><a href="">찜한 상품</a></div>
-      <div class="sub-item"><a href="">최근 구매 상품</a></div>
+    <div class="main-item home"><a href="home">마이 홈</a></div>
+    <div class="main-item section-title orders"><a href="orders">주문/모집</a></div>
+    <div class="main-item section-title wishlist recentPurchase"><a href="wishlist">관심 상품</a>
+      <div class="sub-item wishlist"><a href="wishlist">찜한 상품</a></div>
+      <div class="sub-item recentPurchase"><a href="recentPurchase">최근 구매 상품</a></div>
     </div>
-    <div class="main-item section-title selected"><a href="">리뷰 작성</a>
-      <div class="sub-item"><a href="">작성 가능한 리뷰</a></div>
-      <div class="sub-item"><a href="">내가 작성한 리뷰</a></div>
+    <div class="main-item section-title writableReview writtenReview"><a href="writableReview">리뷰 작성</a>
+      <div class="sub-item writableReview"><a href="writableReview">작성 가능한 리뷰</a></div>
+      <div class="sub-item writtenReview"><a href="writtenReview">내가 작성한 리뷰</a></div>
     </div>
-    <div class="main-item section-title"><a href="">관심스토어</a></div>
-    <div class="main-item qna"><a href="">Q&A</a></div>
+    <div class="main-item section-title favoriteStore"><a href="favoriteStore">관심스토어</a></div>
+    <div class="main-item qna QnA"><a href="QnA">Q&A</a></div>
 	</ul>
 </div>
 
 
-<script link></script>
+<script src="/resources/js/member/mypage-sidebar.js"></script>

@@ -68,7 +68,7 @@
   color: #555;
   overflow: hidden;
   height: 0;
-  transition-duration: 0.7s;
+  transition-duration: 0.5s;
   transition-timing-function: ease;
 }
 
@@ -79,7 +79,24 @@
   height: auto;
   padding-top: 12px;
   padding-bottom: 8px;
+  
 }
+.mypage-sidebar .main-item.hover>.sub-item{
+  border-top: 1px solid #ddd;
+  overflow: visible;
+  line-height: 15px;
+  height: auto;
+  padding-top: 12px;
+  padding-bottom: 8px;
+}
+
+.sub-item.selected{
+  background: rgba(0, 0, 0, 0.08);
+  font-weight: bold;
+  color: black;
+}
+
+
 
 /* Q&A */
 .mypage-sidebar .qna {

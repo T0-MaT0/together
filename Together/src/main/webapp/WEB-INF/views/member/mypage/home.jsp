@@ -10,6 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>my_info_home</title>
 <link rel="stylesheet" href="/resources/css/my_info/my_info_home.css">
+<link rel="stylesheet" href="/resources/css/my_info/mypage.css">
 
 </head>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -26,6 +27,7 @@
 			<!-- 메인 콘텐츠 -->
 			<section class="myinfo-main-content">
 				<!-- 프로필 섹션 -->
+          <h2 class="home-title">내 정보</h2>
 				<section class="profile-section">
 					<div class="profile-card">
 						<img src="/resources/images/mypage/together.png" alt="프로필 이미지"
@@ -37,8 +39,8 @@
 							<p>
 								<strong>${loginMember.memberNick}</strong>
 							</p>
-							<p>내 지역 : ${loginMember.memberAddr}</p>
-							<p class="points">포인트 : ${loginMember.point}원</p>
+							<p>내 지역 : ${loginMember.memberAddr.split('^^^')[0]}</p>
+							<p class="points">포인트 : ${loginMember.point}pt</p>
 						</div>
 						<button class="edit-btn">설정</button>
 					</div>
@@ -163,7 +165,7 @@
 				</section>
 
 				<!-- 찜한 상품 -->
-				<section class="wishlist">
+				<section class="wishlist-area">
 					<h3>찜한 상품 3</h3>
 					<div class="wishlist-section">
 						<h4>전체</h4>
