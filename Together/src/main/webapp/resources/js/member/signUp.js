@@ -623,7 +623,7 @@ const signUpFrm = document.getElementById("signUpFrm");
 signUpFrm.addEventListener("submit", function(e) {
 
     // 이메일 인증 상태 처리
-    checkObj.emailAuthKey = true;  // 이 값을 true로 설정해야 합니다.
+    // checkObj.emailAuthKey = true;  // 이 값을 true로 설정해야 합니다.
     // "checkObj"의 상태를 체크하는 부분 (반드시 "false"인 항목을 출력)
     let message = "";
     // 확인용
