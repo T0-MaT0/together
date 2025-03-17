@@ -65,6 +65,35 @@ public class MemberServiceImpl implements MemberService{
 		
 		return result;
 	}
+	
+	@Override
+	public Member findId(Member inputMember) {
+
+		Member findMember = dao.findId(inputMember);
+		
+		return findMember;
+	}
+	
+	@Override
+	public Member findPw(Member inputMember) {
+
+		Member findMember = dao.findPw(inputMember);
+		
+		return findMember;
+	}
+
+	@Transactional(rollbackFor = {Exception.class})
+	@Override
+	public int changePw(Member inputMember) {
+
+		inputMember.setMemberPw(bcrypt.encode(inputMember.getMemberPw()));
+		
+		int result = dao.changePw(inputMember);
+		
+		return result;
+
+
+	}
 
 	@Transactional(rollbackFor = {Exception.class})
 	@Override

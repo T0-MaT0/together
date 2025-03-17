@@ -24,6 +24,27 @@ public interface MemberService {
 	 * @return result(0:실패, 1:성공)
 	 */
 	int signUpCompany(Company inputCompany);
+
+
+	
+	
+	/** 아이디 찾기 서비스
+	 * @param inputMember (email)
+	 * @return email 일치하는 회원 정보 또는 null
+	 */
+	Member findId(Member inputMember);
+
+	/** 비밀번호 바꾸기 전 확인 서비스
+	 * @param inputMember (email)
+	 * @return 일치하는 회원 정보 또는 null
+	 */
+	Member findPw(Member inputMember);
+	
+	/** 비밀번호 변경 서비스
+	 * @param inputMember
+	 * @return result(0:실패, 1:성공)
+	 */
+	int changePw(Member inputMember);
 	
 
 }
