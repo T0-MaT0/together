@@ -1,4 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="pagination" value="${map.pagination}"/>
+<c:set var="noticeList" value="${map.noticeList}"/>
+<c:if test="${!empty param.query}">
+    <c:set var="qs" value="&key=${param.key}&query=${param.query}"/>
+</c:if>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +15,7 @@
     <link rel="stylesheet" href="/resources/css/customer/noticeBoardList-style.css">
 </head>
 <body>
+    ${map}
     <jsp:include page="/WEB-INF/views/common/header.jsp" />
     <div id="main-content">
 
@@ -64,87 +72,67 @@
                     </thead>
     
                     <tbody>
-                        <tr>
-                            <td>355</td>
-                            <td><a href="#">
-                                [업데이트] 공동구매 채팅 기능 추가 🚀
-                            </a></td>
-                            <td>2024-02-10</td>
-                        </tr>
-                        <tr>
-                            <td>354</td>
-                            <td><a href="#">
-                                [공지] 설 연휴 고객센터 운영 시간 안내 🏡
-                            </a></td>
-                            <td>2024-02-05</td>
-                        </tr>
-                        <tr>
-                            <td>353</td>
-                            <td><a href="#">
-                                [점검] 2월 15일(목) 서버 점검 예정 ⚙️
-                            </a></td>
-                            <td>2024-02-01</td>
-                        </tr>
-                        <tr>
-                            <td>352</td>
-                            <td><a href="#">
-                                [이벤트] 신규 회원 웰컴 쿠폰 증정 🎁
-                            </a></td>
-                            <td>2024-01-28</td>
-                        </tr>
-                        <tr>
-                            <td>351</td>
-                            <td><a href="#">
-                                [안내] 공동구매 취소 및 환불 정책 변경 📜
-                            </a></td>
-                            <td>2024-01-20</td>
-                        </tr>
-                        <tr>
-                            <td>350</td>
-                            <td><a href="#">
-                                [기능 추가] 공동구매 알림 설정 기능 도입 🔔
-                            </a></td>
-                            <td>2024-01-15</td>
-                        </tr>
-                        <tr>
-                            <td>349</td>
-                            <td><a href="#">
-                                [이벤트] 친구 초대하면 적립금 지급 💰
-                            </a></td>
-                            <td>2024-01-10</td>
-                        </tr>
-                        <tr>
-                            <td>348</td>
-                            <td><a href="#">
-                                [업데이트] 공동구매 리뷰 기능 추가 ✍️
-                            </a></td>
-                            <td>2024-01-05</td>
-                        </tr>
-                        <tr>
-                            <td>347</td>
-                            <td><a href="#">
-                                [주의] 사기 피해 예방 안내 🚨
-                            </a></td>
-                            <td>2023-12-30</td>
-                        </tr>
-                        <tr>
-                            <td>346</td>
-                            <td><a href="#">
-                                [점검] 1월 5일 시스템 안정화 작업 🔧 
-                            </a></td>
-                            <td>2023-12-25</td>
-                        </tr>
-        
+
+                        <c:forEach var="notice" items="${noticeList}">
+                            <tr>
+                                <td>${notice.boardNo}</td>
+                                <td><a href="/customer/noticeBoardDetail/${notice.boardNo}">
+                                    ${notice.boardTitle}
+                                </a></td>
+                                <td>${notice.bCreateDate}</td>
+                            </tr>    
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
 
     
         </section>
-    
-        <section id="pageNAtion">
-            <<  <  1 2 3 4 5  >  >> 
-        </section>
+
+        <div class="pagination-area">
+
+
+
+            <c:set var="url" value="/customer/noticeBoardList?cp="/>
+
+
+            <ul class="pagination">
+            
+                <!-- 첫 페이지로 이동 -->
+                <li><a href="${url}1${qs}">&lt;&lt;</a></li>
+
+                <!-- 이전 목록 마지막 번호로 이동 -->
+                <li><a href="${url}${pagination.prevPage}${qs}">&lt;</a></li>
+
+                
+                <!-- 특정 페이지로 이동 -->
+                
+                <!-- 범위가 정해진 일반 for문 사용-->
+                <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}">
+                    <c:choose>
+                        <c:when test="${pagination.currentPage == i}">
+                            <!-- 현재 페이지인 경우 -->
+                            <li><a class="current">${i}</a></li>
+                        </c:when>
+
+                        <c:otherwise>
+                            <!-- 현재 페이지가 아닌 경우 -->
+                            <li><a href="${url}${i}${qs}">${i}</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach> 
+                
+                <!-- 다음 목록 시작 번호로 이동 -->
+                <li><a href="${url}${pagination.nextPage}${qs}">&gt;</a></li>
+
+                <!-- 끝 페이지로 이동 -->
+                <li><a href="${url}${pagination.maxPage}${qs}">&gt;&gt;</a></li>
+
+            </ul>
+        </div>
+
+        <a>글작성하기</a>
+
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
