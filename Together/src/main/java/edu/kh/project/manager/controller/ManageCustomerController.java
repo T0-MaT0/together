@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.kh.project.manager.model.service.CustomerService;
+import edu.kh.project.manager.model.service.ManageCustomerService;
 
 @Controller
 @RequestMapping("/manageCustomer")
 public class ManageCustomerController {
 	@Autowired
-	private CustomerService service;
+	private ManageCustomerService service;
 	
 	//고객 규모 리스트 화면 
 	@GetMapping("/state")

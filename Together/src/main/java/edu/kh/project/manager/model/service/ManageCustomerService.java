@@ -2,7 +2,7 @@ package edu.kh.project.manager.model.service;
 
 import java.util.Map;
 
-public interface CustomerService {
+public interface ManageCustomerService {
 
 	
 	

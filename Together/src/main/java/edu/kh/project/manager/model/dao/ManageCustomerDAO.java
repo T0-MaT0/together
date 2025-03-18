@@ -13,7 +13,7 @@ import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.manager.model.dto.Report;
 
 @Repository
-public class CustomerDAO {
+public class ManageCustomerDAO {
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;

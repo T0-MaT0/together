@@ -27,7 +27,8 @@ public class ManagerController {
 		model.addAttribute("customerQuestCount", customerQuestCount);
 		
 		// 고객 신고 수
-			
+		
+		
 		// 브랜드 제휴 수
 		int brandQuestCount = service.brandQuestCount();
 		model.addAttribute("brandQuestCount", brandQuestCount);
@@ -36,6 +37,8 @@ public class ManagerController {
 		model.addAttribute("brandAdCount", brandAdCount);
 		
 		// 브랜드 신고 수
+		
+		
 		
 		//브랜드 상품 수/ 고객 모집글 수
 		

@@ -8,15 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.kh.project.common.model.dto.Pagination;
-import edu.kh.project.manager.model.dao.CustomerDAO;
+import edu.kh.project.manager.model.dao.ManageCustomerDAO;
 import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.manager.model.dto.Report;
 
 @Service
-public class CustomerServiceImpl implements CustomerService{
+public class ManagerCustomerServiceImpl implements ManageCustomerService{
 
 	@Autowired
-	private CustomerDAO dao;
+	private ManageCustomerDAO dao;
 
 	//고객 상태 목록 조회
 	@Override
