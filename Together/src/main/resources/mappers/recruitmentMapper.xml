@@ -302,9 +302,15 @@
 	
 	<!-- 모집글 방장의 memberNo 조회 -->
 	<select id="getHostMemberNo" parameterType="int" resultType="int">
-	    SELECT MEMBER_NO 
-        FROM RECRUITMENT_ROOM 
-        WHERE BOARD_NO = #{boardNo}
+	    SELECT MEMBER_NO
+	    FROM RECRUITMENT_PARTICIPANT
+	    WHERE RECRUITMENT_NO = (
+	        SELECT RECRUITMENT_NO
+	        FROM RECRUITMENT_ROOM
+	        WHERE BOARD_NO = #{boardNo}
+	    )
+	    ORDER BY JOIN_DATE ASC
+	    FETCH FIRST 1 ROWS ONLY 
 	</select>
 	
 	<!-- 모집 상태 '마감'으로 업데이트 -->
@@ -314,4 +320,30 @@
 	    WHERE BOARD_NO = #{boardNo}
 	</update>
 	
+	<!-- 모집글 삭제 상태 변경 -->
+	 <update id="deleteRecruitment">
+        UPDATE BOARD 
+        SET BOARD_DEL_FL = 'Y' 
+        WHERE BOARD_NO = #{boardNo}
+    </update>
+    
+    <!-- 선택된 댓글 삭제 -->
+    <update id="updateReplyStatus">
+	    UPDATE REPLY
+	    SET REPLY_DEL_FL = 'Y'
+	    WHERE REPLY_NO IN
+	    <foreach item="replyNo" collection="replyNos" open="(" separator="," close=")">
+	        #{replyNo}
+	    </foreach>
+	</update>
+	
+	<!-- 선택 리뷰 삭제 -->
+	<update id="deleteReviews">
+	    UPDATE REVIEW
+	    SET REVIEW_DEL_FL = 'Y'
+	    WHERE REVIEW_NO IN
+	    <foreach collection="list" item="reviewNo" separator="," open="(" close=")">
+	        #{reviewNo}
+	    </foreach>
+	</update>
 </mapper>

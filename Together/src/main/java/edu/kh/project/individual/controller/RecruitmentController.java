@@ -156,6 +156,25 @@ public class RecruitmentController {
 
         return "Individual/myRecruitmentInProgress/myRecruitmentReview";  
     }
+ 	
+ 	// 모집창 경로
+ 	@GetMapping("/group/create")
+ 	public String createGroup(
+ 	        @SessionAttribute(value = "loginMember", required = false) Member loginMember,
+ 	        RedirectAttributes redirectAttributes,
+ 	        Model model) {
+ 	    
+ 	    int boardCode = 1; // 모집 게시판 코드
+
+ 	    if (loginMember == null) {
+ 	        redirectAttributes.addFlashAttribute("message", "로그인을 먼저 해주세요.");
+ 	        return "redirect:/member/login";
+ 	    }
+
+ 	    model.addAttribute("boardCode", boardCode);
+
+ 	    return "Individual/CreateGroup"; 
+ 	}
 	
 	
 }

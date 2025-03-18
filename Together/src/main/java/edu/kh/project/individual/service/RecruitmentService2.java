@@ -10,6 +10,15 @@ public interface RecruitmentService2 {
 	// 모집글 상태 변경
 	void updateRecruitmentStatus(int boardNo);
 
+	// 모집글 삭제 변경
+	void deleteRecruitment(int boardNo);
+
+	// 선택 댓글 삭제
+	boolean deleteComments(List<Integer> replyNos);
+
+	// 선택 리뷰 삭제
+	boolean deleteReviews(List<Integer> reviewNos);
+
 
 	
 

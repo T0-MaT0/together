@@ -25,6 +25,27 @@ public class RecruitmentServiceImpl2 implements RecruitmentService2{
 		dao.updateRecruitmentStatus(boardNo);
 	}
 
+	// 모집글 삭제 변경
+	@Override
+	public void deleteRecruitment(int boardNo) {
+		dao.deleteRecruitment(boardNo);
+
+	}
+
+	// 선택 댓글 삭제
+	@Override
+	public boolean deleteComments(List<Integer> replyNos) {
+		int updatedRows = dao.updateReplyStatus(replyNos);
+        return updatedRows > 0; // 업데이트 성공 여부 반환
+	}
+
+	// 선택 리뷰 삭제
+	@Override
+	public boolean deleteReviews(List<Integer> reviewNos) {
+		 int updatedRows = dao.deleteReviews(reviewNos);
+	        return updatedRows > 0;
+	}
+
 	
 	
 }
