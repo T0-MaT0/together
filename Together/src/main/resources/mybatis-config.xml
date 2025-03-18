@@ -16,6 +16,7 @@
 		<typeAlias type="edu.kh.project.common.model.dto.Reply" alias="Reply" />
 		<typeAlias type="edu.kh.project.individual.dto.Recruitment" alias="RecruitmentRoomDTO" />
 		<typeAlias type="edu.kh.project.individual.dto.Image" alias="Image2" />
+		<typeAlias type="edu.kh.project.member.model.dto.Board" alias="Board" />
 	</typeAliases>
 	
 	<mappers>
@@ -25,6 +26,7 @@
 		<mapper resource="/mappers/manager-mapper.xml" />
 		<mapper resource="/mappers/recruitmentMapper.xml" />
 		<mapper resource="/mappers/email-mapper.xml" />
+		<mapper resource="/mappers/customer-mapper.xml" />
 	</mappers>
 
 </configuration>

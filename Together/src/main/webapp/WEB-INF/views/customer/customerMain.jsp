@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,9 +11,10 @@
 <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp" />
     <section class="customer-container">
+        ${map}
         <!-- 왼쪽 섹션 -->
         <section id="left-section">
-            <!-- 공지사항 -->
+<!--         
             <div class="notice-box">
                 <div class="notice-title" onclick="location.href='/customer/noticeBoardList'">공지사항</div>
                 <div class="notice-list">
@@ -23,7 +25,19 @@
                     <div>[공지] 설 연휴 고객센터 운영 안내</div>
                     <div>[점검] 2월 15일 서버 점검 예정</div>
                 </div>
+            </div> -->
+            <!-- 공지사항 -->
+            <div class="notice-box">
+                <div class="notice-title" onclick="location.href='/customer/noticeBoardList'">공지사항</div>
+                <div class="notice-list">
+                    <c:forEach var="notice" items="${map.noticeList}" varStatus="status">
+                        <c:if test="${status.index < 6}">
+                            <div>${notice.boardTitle}</div>
+                        </c:if>
+                    </c:forEach>
+                </div>
             </div>
+
             <!-- 고객센터 -->
             <div class="customer-service-box">
                 <div class="customer-title">고객센터</div>
@@ -65,5 +79,6 @@
         </section>
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+    <script src="/resources/js/customer/customerMain.js"></script>
 </body>
 </html>

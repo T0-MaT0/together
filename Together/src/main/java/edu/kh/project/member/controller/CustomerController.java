@@ -1,7 +1,10 @@
 package edu.kh.project.member.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -18,7 +21,14 @@ public class CustomerController {
 
 	// 고객센터 메인 페이지 가져옴
 	@GetMapping("/customerMain")
-	public String customerMain() {
+	public String customerMain(Model model) {
+		
+		Map<String, Object> map = service.selectBoardList();
+		
+		System.out.println(map);
+		
+		model.addAttribute("map", map);
+		
 		return "customer/customerMain";
 	}
 	//  FAQ 페이지 가져옴
@@ -36,6 +46,7 @@ public class CustomerController {
 	public String noticeBoardDetail() {
 		return "customer/noticeBoardDetail";
 	}
-		
+	
+
 
 }

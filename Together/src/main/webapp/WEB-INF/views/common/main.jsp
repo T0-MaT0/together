@@ -21,7 +21,7 @@
         </div>
     </section>
 
-    
+    <a href="/customer/customerMain">고객센터</a>
     
     
     <section class="purchase-section">
