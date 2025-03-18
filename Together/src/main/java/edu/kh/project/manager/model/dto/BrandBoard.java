@@ -15,4 +15,5 @@ public class BrandBoard {
     private String createDate;
     private int productCount;
     private String boardDelFl;
+    private String state;
 }

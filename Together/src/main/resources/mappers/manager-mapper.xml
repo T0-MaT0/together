@@ -52,8 +52,8 @@
 	
 	
 	<resultMap type="BrandBoard" id="Brand_Board"></resultMap>
-	
 	<resultMap type="LookData" id="LookData"></resultMap>
+	<resultMap type="BrandProfile" id="BrandProfile"></resultMap>
 	
 	<!-- ===================================================================== -->
 	
@@ -78,9 +78,140 @@
 		WHERE BOARD_CD = 7
 	</select>
 
+	
+	
+	<!-- 브랜드 상품 판매 건수 -->
+	<select id="brandTotalSellCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE BOARD_CD = 2
+	</select>
+	
+	<select id="sellingCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD 
+		WHERE BOARD_CD = 2
+		AND BOARD_DEL_FL = 'N'
+	</select>
+	
+	<select id="soldCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD 
+		WHERE BOARD_CD = 2
+		AND BOARD_DEL_FL = 'Y'
+	</select>
+	
+	<select id="quantityCount" resultType="_int">
+		SELECT SUM(NVL(QUANTITY,0))
+		FROM BOARD 
+		JOIN PRODUCT USING(BOARD_NO)
+		LEFT JOIN "ORDER" USING(BOARD_NO)
+		WHERE BOARD_CD = 2
+	</select>
 
-
-
+	<!-- 브랜드 대상 신고  -->
+	<!-- 대기 수  -->
+	<select id="watiCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM REPORT
+		WHERE REPORT_STATUS ='대기'
+	</select>
+	<!-- 반려 수 -->
+	<select id="returnCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM REPORT
+		WHERE REPORT_STATUS ='반려'
+	</select>
+	<!-- 경고 수 -->
+	<select id="warnCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM REPORT
+		WHERE REPORT_STATUS ='경고'		
+	</select>
+	<!-- 블랙 수 -->
+	<select id="blackCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM REPORT
+		WHERE REPORT_STATUS ='블랙'	
+	</select>
+	
+	<!-- 제휴 문의 -->
+	<select id="totalApplyCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM BOARD
+		WHERE BOARD_CD = 8
+	</select>
+	
+	<select id="waitApplyCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM BOARD
+		WHERE BOARD_CD = 8
+		AND B_STATE IS NULL	
+	</select>
+	<select id="acceptApplyCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM BOARD
+		WHERE BOARD_CD = 8
+		AND B_STATE = '승인'	
+	</select>
+	
+	<select id="refuseApplyCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM BOARD
+		WHERE BOARD_CD = 8
+		AND B_STATE = '거절'	
+	</select>
+	
+	
+	
+	<!-- 광고 문의 -->
+	<select id="totalPromCount" resultType="_int">
+		SELECT COUNT(*)  
+		FROM BOARD
+		WHERE BOARD_CD = 7	
+	</select>
+	
+	<select id="waitPromCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM BOARD
+		WHERE BOARD_CD = 7
+		AND B_STATE IS NULL	
+	</select>
+	
+	<select id="acceptPromCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM BOARD
+		WHERE BOARD_CD = 7
+		AND B_STATE = '승인'	
+	</select>
+	
+	<select id="refusePromCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM BOARD
+		WHERE BOARD_CD = 7
+		AND B_STATE = '거절'	
+	</select>
+	
+	<!-- 제휴 문의 목록 5개 조회  -->
+	<select id="mainApplyList" resultMap="Brand_Board">
+		SELECT MEMBER_NICK BRAND_NAME, BOARD_TITLE,TO_CHAR(B_CREATE_DATE,'YYYY-MM-DD') CREATE_DATE,  NVL(B_STATE, '대기') STATE
+		FROM (SELECT *
+				FROM BOARD
+				JOIN MEMBER USING(MEMBER_NO)
+				WHERE BOARD_CD = 8
+				ORDER BY B_CREATE_DATE DESC )
+		WHERE ROWNUM BETWEEN 1 AND 5
+	</select>
+	<!-- 광고 문의 목록 5개 조회  -->	
+	<select id="mainPromList" resultMap="Brand_Board">
+		SELECT MEMBER_NICK BRAND_NAME, BOARD_TITLE, TO_CHAR(B_CREATE_DATE,'YYYY-MM-DD') CREATE_DATE , NVL(B_STATE, '대기') STATE
+		FROM (SELECT *
+				FROM BOARD
+				JOIN MEMBER USING(MEMBER_NO)
+				WHERE BOARD_CD = 7
+				ORDER BY B_CREATE_DATE DESC )
+		WHERE ROWNUM BETWEEN 1 AND 5	
+	</select>
 	<!--=================== MANAGE CUSTOMER =============================-->
 	
 	
@@ -339,4 +470,67 @@
 		ORDER BY QUANTITY DESC, READ_COUNT DESC)
 		WHERE ROWNUM BETWEEN 1 AND 6	
 	</select>
+	
+	<!-- 브랜드 프로필 조회 -->
+	<select id="brandProfileSelect" resultMap="BrandProfile">
+		SELECT M.MEMBER_NO , MEMBER_NICK, MEMBER_ID, MEMBER_NAME 
+				, TO_CHAR(MEMBER_BIRTH, 'YYYY-MM-DD') MEMBER_BIRTH 
+				, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') ENROLL_DATE , MEMBER_EMAIL , MEMBER_TEL , MEMBER_ADDR 
+				,DECODE(PERMISSION_FL,'N','미제휴','Y','제휴') PERMISSIONT_FL
+				,(SELECT COUNT(*) FROM REPLY R WHERE R.MEMBER_NO = M.MEMBER_NO) REPLY_COUNT
+				,(SELECT COUNT(*) FROM BOARD B WHERE B.MEMBER_NO= M.MEMBER_NO AND BOARD_CD=2) PRODUCT_COUNT
+				,(SELECT COUNT(*) FROM BOARD B WHERE B.MEMBER_NO= M.MEMBER_NO AND BOARD_CD=7) PROM_COUNT
+				,(SELECT COUNT(*) FROM BOARD B WHERE B.MEMBER_NO= M.MEMBER_NO AND BOARD_CD=6) COUNSEL_COUNT
+				,(SELECT COUNT(*) FROM REPORT REP WHERE REPORT_STATUS ='경고' AND REP.REPORTED_USER_NO = M.MEMBER_NO) WRAN_COUNT
+				,(SELECT COUNT(*) FROM REPORT REP WHERE REPORTED_USER_NO = M.MEMBER_NO) REPORTED_COUNT
+				,(SELECT COUNT(*) FROM REPORT REP WHERE REP.MEMBER_NO = M.MEMBER_NO) REPORT_COUNT
+				,TO_CHAR(BUSINESS_NO, '9999999999')BUSINESS_NO, BANK_NAME , BANK_NO 
+		FROM MEMBER M
+		JOIN COMPANY C ON(M.MEMBER_NO = C.MEMBER_NO)
+		WHERE M.MEMBER_NO =(SELECT B.MEMBER_NO FROM BOARD B WHERE BOARD_NO = #{boardNo})	
+	</select>
+	
+	<!-- 브랜드 프로필 게시글 수 조회  -->
+	<select id="brandProfileBoardCount" resultType="_int">
+		<if test="boardCode==-1">
+			SELECT COUNT(*)
+			FROM REPORT
+			WHERE REPORTED_USER_NO =(SELECT MEMBER_NO FROM BOARD WHERE BOARD_NO= #{boardNo})
+		</if>
+		<if test="boardCode==-2">
+			SELECT COUNT(*)
+			FROM REPLY 
+			WHERE MEMBER_NO =(SELECT MEMBER_NO FROM BOARD WHERE BOARD_NO = #{boardNo})		
+		</if>
+		<if test="boardCode > 0">
+			SELECT COUNT(*) 
+			FROM BOARD
+			WHERE MEMBER_NO =(SELECT MEMBER_NO FROM BOARD WHERE BOARD_NO= #{boardNo})
+			AND BOARD_CD = #{boardCode}
+		</if>
+	</select>
+	
+	<!-- 브랜드 프로필 게시글 조회 -->
+	<select id="brandProfileProducts" resultMap="Brand_Board">
+		<if test="boardCode == -1">
+			SELECT REPORT_NO BOARD_NO, REPORT_TITLE BOARD_TITLE, TO_CHAR(REPORT_DATE, 'YYYY-MM-DD') CREATE_DATE
+					,REPORT_STATUS BOARD_DEL_FL
+			FROM REPORT
+			WHERE REPORTED_USER_NO =(SELECT MEMBER_NO FROM BOARD WHERE BOARD_NO= #{boardNo})
+		</if>
+		<if test="boardCode==-2">
+			SELECT REPLY_NO BOARD_NO, SUBSTR(REPLY_CONTENT, 1, 10)||'....' BOARD_TITLE, TO_CHAR(REPLY_CREATE_DATE,'YYYY-MM-DD') CREATE_DATE,
+					DECODE(REPLY_DEL_FL, 'N','미삭제','Y','삭제') 
+			FROM REPLY 
+			WHERE MEMBER_NO =(SELECT MEMBER_NO FROM BOARD WHERE BOARD_NO = #{boardNo})		
+		</if>
+		<if test="boardCode > 0">
+			SELECT BOARD_NO,BOARD_TITLE,TO_CHAR(B_CREATE_DATE,'YYYY-MM-DD') CREATE_DATE, DECODE(BOARD_DEL_FL,'N','판매','Y','종료') BOARD_DEL_FL
+			FROM BOARD
+			WHERE MEMBER_NO =(SELECT MEMBER_NO FROM BOARD WHERE BOARD_NO= #{boardNo})
+			AND BOARD_CD = #{boardCode}
+		</if>
+	</select>
+	
+	
 </mapper>

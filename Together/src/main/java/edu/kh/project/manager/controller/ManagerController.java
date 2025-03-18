@@ -1,6 +1,5 @@
 package edu.kh.project.manager.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,12 @@ public class ManagerController {
 	
 	//브랜드 관리 화면
 	@GetMapping("/brand")
-	public String manageBrand() {
+	public String manageBrand(Model model) {
+		
+		Map<String, Object> map = service.selectNum();
+		
+		model.addAttribute("map", map);
+		
 		return "manager/brand/brandMain";
 	}
 	

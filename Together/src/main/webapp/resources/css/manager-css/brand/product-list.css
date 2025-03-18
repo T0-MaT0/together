@@ -87,7 +87,8 @@
     justify-items: center;
     justify-content: center;
     align-items: center;
-    padding: 10px 0;
+    padding: 9.5px 0;
+    cursor: pointer;
 }
 
 .list >img{
@@ -143,7 +144,6 @@
     justify-content: center;
     list-style-type: none;
     font-size: 13px;
-
     position: absolute;
     right: 0;
     left: 0;

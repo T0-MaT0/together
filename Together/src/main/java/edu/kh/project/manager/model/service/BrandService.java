@@ -33,5 +33,13 @@ public interface BrandService {
 	 * @return
 	 */
 	Map<String, Object> dataLook(int cp);
+
+	/** Brand Profile
+	 * @param boardNo
+	 * @param brandBoardCode 
+	 * @param cp 
+	 * @return
+	 */
+	Map<String, Object> brandProfile(int boardNo, int cp, int brandBoardCode);
 	
 }
