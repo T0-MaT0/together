@@ -47,4 +47,32 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+    function setupCheckboxSelection(containerId) {
+        const topCheckbox = document.querySelector(`#${containerId} .title-checkbox input[type="checkbox"]`);
+        const checkboxes = document.querySelectorAll(`#${containerId} .checkbox`);
+
+        if (!topCheckbox || checkboxes.length === 0) return;
+
+        // 전체 선택 체크박스 클릭 이벤트
+        topCheckbox.addEventListener("change", function () {
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = topCheckbox.checked;
+            });
+        });
+
+        // 개별 체크박스 클릭 시 전체 선택 체크박스 상태 업데이트
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", function () {
+                topCheckbox.checked = [...checkboxes].every(cb => cb.checked);
+            });
+        });
+    }
+
+    // 댓글 체크박스 기능 적용
+    setupCheckboxSelection("comment-list");
+
+    // 리뷰 체크박스 기능 적용
+    setupCheckboxSelection("review-list");
+    
 });

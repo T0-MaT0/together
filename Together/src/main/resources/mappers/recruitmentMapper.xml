@@ -203,6 +203,7 @@
         WHERE RECRUITMENT_NO = #{recruitmentNo}
     </select>
     
+    <!-- 내가 참여중인 모집방 조회 -->
      <select id="selectMyRecruitmentList" resultMap="recruitmentRoom_rm">
 	    SELECT 
 	        RR.RECRUITMENT_NO, 
@@ -215,6 +216,7 @@
 	        (SELECT COUNT(*) FROM RECRUITMENT_PARTICIPANT RP 
 	         WHERE RP.RECRUITMENT_NO = RR.RECRUITMENT_NO) AS CURRENT_PARTICIPANTS, 
 	        B.BOARD_TITLE AS PRODUCT_NAME, 
+	        B.BOARD_NO,
 	        P.PRODUCT_PRICE, 
 	        P.PRODUCT_COUNT, 
 	        M.MEMBER_NICK, 
@@ -246,6 +248,7 @@
 	    ORDER BY RR.RECRUITMENT_NO DESC
 	</select>
 	
+	<!-- 내가 작성한 댓글 조회 -->
 	<select id="selectMyRecruitmentComments" resultMap="reply_rm">
 	    SELECT 
 	        R.REPLY_NO, 
@@ -273,6 +276,7 @@
 	    ORDER BY R.REPLY_CREATE_DATE DESC
 	</select>
 	
+	<!-- 내가 작성한 리뷰 조회 -->
 	<select id="selectMyRecruitmentReviews" resultMap="review_rm">
 	    SELECT 
 	        R.REVIEW_NO, 
@@ -295,5 +299,19 @@
 	    AND R.REVIEW_DEL_FL = 'N'  
 	    ORDER BY R.REVIEW_CREATED_DATE DESC
 	</select>
+	
+	<!-- 모집글 방장의 memberNo 조회 -->
+	<select id="getHostMemberNo" parameterType="int" resultType="int">
+	    SELECT MEMBER_NO 
+        FROM RECRUITMENT_ROOM 
+        WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<!-- 모집 상태 '마감'으로 업데이트 -->
+	<update id="updateRecruitmentStatus">
+	    UPDATE RECRUITMENT_ROOM 
+	    SET RECRUITMENT_STATUS = '마감' 
+	    WHERE BOARD_NO = #{boardNo}
+	</update>
 	
 </mapper>
