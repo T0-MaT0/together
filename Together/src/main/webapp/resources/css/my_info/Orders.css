@@ -1,0 +1,217 @@
+
+.orders-section {
+    width: 95%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.recruitment-section{
+    width: 95%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.store-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.order-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.order-left {
+    width: 100px;
+    height: 100px;
+}
+
+.order-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.order-info {
+    flex-grow: 1;
+    padding: 0 15px;
+}
+
+.order-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.order-desc {
+    font-size: 14px;
+    color: #555;
+}
+
+.order-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.badge {
+    background: #28a745;
+    color: white;
+    font-size: 12px;
+    padding: 3px 6px;
+    border-radius: 4px;
+    margin-left: 5px;
+}
+
+.order-detail a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 14px;
+}
+
+.order-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.review-btn, .reorder-btn {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.review-btn:hover {
+    background: #28a745;
+    color: white;
+}
+
+.reorder-btn:hover {
+    background: #007bff;
+    color: white;
+}
+
+.recruitment-container {
+    display: flex;
+    gap: 20px;
+}
+
+.recruitment-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.recruitment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.recruitment-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+}
+
+.recruitment-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 30%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    transition: transform 0.2s ease-in-out;
+}
+
+.recruitment-card:hover .recruitment-img {
+    transform: scale(1.1);
+}
+
+.status-label {
+    width: 30%;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+.status-label.closed {
+    background: red;
+    color: white;
+}
+
+.status-label.open {
+    background: blue;
+    color: white;
+}
+
+.recruitment-info {
+    width: 100%;
+    text-align: left;
+    margin-top: 10px;
+}
+
+.recruitment-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.recruitment-date, .recruitment-participants {
+    font-size: 14px;
+    color: #555;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #ddd;
+    border-radius: 4px;
+    margin-top: 10px;
+    position: relative;
+}
+
+.progress {
+    height: 100%;
+    background: red;
+    border-radius: 4px;
+}
+
+.progress2 {
+    height: 100%;
+    background: rgb(47, 245, 47);
+    border-radius: 4px;
+}
+

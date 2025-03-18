@@ -7,6 +7,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.common.model.dto.Review;
+import edu.kh.project.individual.dto.Image;
 import edu.kh.project.individual.dto.Recruitment;
 
 @Repository
@@ -44,6 +47,39 @@ public class RecruitmentDAO {
 	 */
 	public List<Recruitment> selectRecruitmentListByViewCount(Map<String, Object> paramMap) {
 		return sqlSession.selectList("recruitmentMapper.selectRecruitmentListByViewCount", paramMap);
+	}
+
+	/** 이미지 리스트 조회
+	 * @param recruitmentNo
+	 * @return
+	 */
+	public List<Image> selectAllBannerImages() {
+	    return sqlSession.selectList("recruitmentMapper.selectAllBannerImages");
+	}
+
+	/** 내 모집 중 현황
+	 * @param paramMap
+	 * @return
+	 */
+	public List<Recruitment> selectMyRecruitmentList(Map<String, Object> paramMap) {
+		return sqlSession.selectList("recruitmentMapper.selectMyRecruitmentList", paramMap);
+	}
+
+	
+	/** 내 댓글 조회
+	 * @param memberNo
+	 * @return
+	 */
+	public List<Reply> selectMyRecruitmentComments(int memberNo) {
+		return sqlSession.selectList("recruitmentMapper.selectMyRecruitmentComments", memberNo);
+	}
+
+	/** 내 리뷰 조회
+	 * @param memberNo
+	 * @return
+	 */
+	public List<Review> selectMyRecruitmentReviews(int memberNo) {
+		return sqlSession.selectList("recruitmentMapper.selectMyRecruitmentReviews", memberNo);	
 	}
 
 	

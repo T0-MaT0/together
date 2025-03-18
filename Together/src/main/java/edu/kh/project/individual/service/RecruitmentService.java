@@ -2,6 +2,8 @@ package edu.kh.project.individual.service;
 
 import java.util.List;
 
+import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Recruitment;
 
 public interface RecruitmentService {
@@ -14,5 +16,14 @@ public interface RecruitmentService {
 
 	// 조회순 글
 	List<Recruitment> selectRecruitmentListByViewCount(int boardCode, int memberNo);
+
+	// 내 모집 중 현황
+	List<Recruitment> getMyRecruitmentList(Integer memberNo, String key);
+
+	// 내 댓글 조회
+	List<Reply> getMyRecruitmentComments(int memberNo);
+
+	// 내 리뷰 조회
+	List<Review> getMyRecruitmentReviews(int memberNo);
 
 }

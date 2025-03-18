@@ -132,7 +132,6 @@ header {
 .sub-nav .container2 {
     display: flex;
     justify-content: space-between;
-    margin: 0 auto;
 }
 .sub-nav .left-links {
     display: flex;
@@ -157,20 +156,24 @@ header {
     color: black;
 }
 
- .sub-nav .right-links a{
-    margin: 10px 15px;
-} 
 
 
 .sub-nav .right-links span{
+    align-items: center;
     margin: 10px 0px;
 }
 .sub-nav a:hover{
     color : #ff66b2;
     transition-duration: 0.3s;
 }
+.sub-nav .right-links a {
+    line-height: 1; 
+    display: inline-flex;
+    align-items: center; 
+}
 
 
+/* footer */
 .footer-container {
     width: 100%;
     max-width: 1900px;
@@ -243,4 +246,9 @@ header {
     font-size: 12px;
     color: black;
     margin-top: 15px;
+}
+
+.sub-nav .left-links a.active {
+    color: #ff66b2;
+    font-weight: bold;
 }

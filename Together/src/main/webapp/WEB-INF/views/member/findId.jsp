@@ -12,12 +12,14 @@
     <section class="find-container">
         <div id="title">개인 회원 아이디 찾기</div>
         <div class="find-button-section">
-            <div id="find-id-section" class="yes-click">아이디 찾기</div>
-            <div id="find-pw-section" class="no-click" onclick="location.href='/member/findPw'"">비밀번호 찾기</div>
+            <div id="find-id-section" class="yes-click" onclick="location.href='/member/findId'">아이디 찾기</div>
+            <div id="find-pw-section" class="no-click" onclick="location.href='/member/findPw'">비밀번호 찾기</div>
         </div>
+        
         <div class="find-content">
-            <form action="#" method="POST" name="findIdFrm" id="findIdFrm">
+            <form action="/member/findId" method="POST" name="findIdFrm" id="findIdFrm">
 
+                <input type="hidden" name="authority" id="authority-input" value="2">
 
                 <div id="find-id-info">회원정보에  등록된 이메일로 아이디를 찾을 수 있습니다.</div>
                 <div id="name-area" class="input-area area-first">
@@ -39,6 +41,37 @@
     </section>
     
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+
+    <script>
+        document.getElementById("findIdFrm").addEventListener("submit", function(e) {
+        const memberName = document.getElementById("memberName");
+        const memberEmail = document.getElementById("memberEmail");
+        const emailCheck = document.getElementById("emailCheck");
+
+        if (memberName.value.trim() === "") {
+            alert("이름을 입력해주세요.");
+            memberName.focus();
+            e.preventDefault();
+            return;
+        }
+
+        if (memberEmail.value.trim() === "") {
+            alert("이메일을 입력해주세요.");
+            memberEmail.focus();
+            e.preventDefault();
+            return;
+        }
+
+        if (emailCheck.value.trim() === "") {
+            alert("이메일 인증번호를 입력해주세요.");
+            emailCheck.focus();
+            e.preventDefault();
+            return;
+        }
+
+        // 모든 입력이 올바르면 제출 진행
+    });
+    </script>
     
 </body>
 </html>

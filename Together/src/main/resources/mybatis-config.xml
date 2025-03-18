@@ -15,7 +15,7 @@
 		<typeAlias type="edu.kh.project.common.model.dto.Review" alias="Review" />
 		<typeAlias type="edu.kh.project.common.model.dto.Reply" alias="Reply" />
 		<typeAlias type="edu.kh.project.individual.dto.Recruitment" alias="RecruitmentRoomDTO" />
-		
+
 		<!-- manager  -->
 		<typeAlias type="edu.kh.project.manager.model.dto.CustomerBoard" alias="CustomerBoard"/>
 		<typeAlias type="edu.kh.project.manager.model.dto.QuestCustomer" alias="QuestCustomer"/>
@@ -23,6 +23,9 @@
 		
 		<typeAlias type="edu.kh.project.manager.model.dto.BrandBoard" alias="BrandBoard"/>
 		<typeAlias type="edu.kh.project.manager.model.dto.LookData" alias="LookData"/>
+
+		<typeAlias type="edu.kh.project.individual.dto.Image" alias="Image2" />
+
 	</typeAliases>
 	
 	<mappers>
@@ -31,6 +34,7 @@
 		<mapper resource="/mappers/board-mapper.xml" />
 		<mapper resource="/mappers/manager-mapper.xml" />
 		<mapper resource="/mappers/recruitmentMapper.xml" />
+		<mapper resource="/mappers/email-mapper.xml" />
 	</mappers>
 
 </configuration>
