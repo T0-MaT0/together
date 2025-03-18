@@ -532,5 +532,19 @@
 		</if>
 	</select>
 	
+	<!-- 신고 상세 페이지 조회 -->
+	<select id="reportDetailSelect" resultType="Report">
+		SELECT REPORT_NO, REPORT_TITLE, REPORT_DETAIL
+				, (SELECT MEMBER_NICK FROM MEMBER M WHERE  M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK
+				, MEMBER_NO 
+				, REPORT_TYPE, REPORT_TYPE_NO
+				, REPORT_M_REPLY REPLY
+				, (SELECT MEMBER_NICK FROM MEMBER WHERE R.REPORTED_USER_NO = MEMBER_NO) REPORTED_USER_NICK
+				, REPORTED_USER_NO 
+				, REPORT_STATUS 
+		FROM REPORT R
+		WHERE REPORT_NO = ${reportNo}
+	</select>
+	
 	
 </mapper>

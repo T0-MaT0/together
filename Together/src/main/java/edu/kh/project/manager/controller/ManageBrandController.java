@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.manager.model.service.BrandService;
 
 @Controller
@@ -79,7 +81,7 @@ public class ManageBrandController {
 	}
 	
 	
-	
+	//-------------------------------------------------------------------------------
 	//브랜드 프로필 조회
 	@GetMapping("/brandProfile/{brandBoardCode}")
 	public String brandProfile(@RequestParam( value="cp",required=false,defaultValue = "1") int cp
@@ -94,6 +96,13 @@ public class ManageBrandController {
 		System.out.println(map.get("brandList"));
 		
 		return "/manager/brand/brandProfile";
+	}
+	
+	// 브랜드 신고 상세 조회
+	@GetMapping(value="/reportDetail" , produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Report reportDetail(int reportNo) {
+		return service.reportDetailSelect(reportNo);
 	}
 	
 }

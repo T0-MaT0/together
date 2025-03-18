@@ -136,7 +136,7 @@
             <div class="subMenu-area">
                 <c:if test="${brandBoardCode==2}">
                     <a href="${brandUrl}2?boardNo=${boardNo}" class="select">상품</a>
-                    <c:set var="boardTitle" value="상품 판매 목록"/>
+                    <c:set var="boardTitle" value="판매 상품 목록"/>
                 </c:if>
                 <c:if test="${brandBoardCode!=2}">
                     <a href="${brandUrl}2?boardNo=${boardNo}" >상품</a>
@@ -193,15 +193,19 @@
                     <div>상태</div>
                 </div>
 
-                <c:forEach var="brand" items="${map.brandList}">
-                    <div class="list item bottom-line">
-                        <div>${brand.boardNo}</div>
-                        <div>${brand.boardTitle}</div>
-                        <div>${brand.createDate}</div>
-                        <div>${brand.boardDelFl}</div>
-                    </div>
-                </c:forEach>
-                
+                <c:if test="${!empty map.brandList}">
+                    <c:forEach var="brand" items="${map.brandList}">
+                        <div class="list item bottom-line">
+                            <div>${brand.boardNo}</div>
+                            <div>${brand.boardTitle}</div>
+                            <div>${brand.createDate}</div>
+                            <div>${brand.boardDelFl}</div>
+                        </div>
+                    </c:forEach>
+                </c:if>
+                <c:if test="${empty map.brandList}">
+                    <div class="noBoard"> 게시글이 존재하지 않습니다. </div>
+                </c:if>                
                 
             </div>
 

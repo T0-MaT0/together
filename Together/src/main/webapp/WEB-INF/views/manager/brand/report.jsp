@@ -29,7 +29,7 @@
 
 <main>
     
-     <!-- 사이드 메뉴 -->
+      <!-- modal -->
      <jsp:include page="/WEB-INF/views/manager/common/sideMenu.jsp"/>
 
 
@@ -76,7 +76,7 @@
                         <div>${report.reportNo}</div>
                         <div>${report.memberNick}</div>
                         <div>${report.reportedUserNick}</div>
-                        <div class="clickList">${report.reportTitle}</div>
+                        <div  class="clickList"onclick="clickTitle(${report.reportNo})">${report.reportTitle}</div>
                         <div>${report.reportDate}</div>
                         <div>${report.reportStatus}</div>
                     </div>
@@ -121,56 +121,8 @@
 
         
     </div>
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2> 신고</h2>
 
-            <div class="modalInner brandInner">
-
-                <div class="modalTop">
-                    <!-- <div class="modalTitle">
-                        <strong>제목:</strong> 정말 나쁜 말을 했어요! 마상입었어요!
-                    </div> -->
-                    <div class="modalReport">
-                        <strong>제목:</strong> 정말 품질 나쁜 물품을 팔았어요! 식중독에 걸렸어요!!
-                    </div>
-                    <div class="modal-submit">  
-                        <select name="modalSubmit" id="modalSubmit" class="modalSubmit barndSubmit">
-                            <option disabled selected>선택</option>
-                            <option>반려</option>
-                            <option>블랙</option>
-                            <option>경고</option>
-                        </select>
-                    </div>
-                    <div class="memberName">
-                        <strong>회원명:</strong> 폼폼푸리 
-                    </div>
-                </div>
-
-                <div class="modalMid">
-                    <div>내용</div>
-                    <div  class="customerText">asdfasdf</div>
-                    <!-- <textarea name="managerText" class="customerText">ㅁㄴㅇㄹㅁㄴㅇㄹ</textarea> -->
-                </div>
-
-                <div class="midBtn barndBtn">
-                    <button>브랜드 정보 조회</button>
-                    <button>문제 상품 조회</button>
-                </div>
-                <div class="modalBottom">
-                    <div>답변</div>
-                    <!-- <div class="managerReportText">ㅁㄴㅇㄹㅁㄴㅇㄹ</div> -->
-                    <textarea name="managerReportText" class="managerReportText">ㅁㄴㅇㄹㅁㄴㅇㄹ</textarea>
-                </div>
-                <div class="modal-btn barndBtn">
-                    <button>처리</button>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
+    <jsp:include page="/WEB-INF/views/manager/common/modal.jsp"/>
 </main>
 
 <script src="/resources/js/manager-js/modal.js"></script>

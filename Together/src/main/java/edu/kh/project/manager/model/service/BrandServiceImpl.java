@@ -12,6 +12,7 @@ import edu.kh.project.manager.model.dao.BrandDAO;
 import edu.kh.project.manager.model.dto.BrandBoard;
 import edu.kh.project.manager.model.dto.BrandProfile;
 import edu.kh.project.manager.model.dto.QuestCustomer;
+import edu.kh.project.manager.model.dto.Report;
 
 @Service
 public class BrandServiceImpl implements BrandService {
@@ -138,6 +139,13 @@ public class BrandServiceImpl implements BrandService {
 
 
 		return map;
+	}
+
+	
+	// report detail ajax
+	@Override
+	public Report reportDetailSelect(int reportNo) {
+		return dao.reportDetailSelect(reportNo);
 	}
 
 

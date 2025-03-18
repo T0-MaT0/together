@@ -2,6 +2,8 @@ package edu.kh.project.manager.model.service;
 
 import java.util.Map;
 
+import edu.kh.project.manager.model.dto.Report;
+
 public interface BrandService {
 
 	/** 상품 리스트 조회
@@ -41,5 +43,11 @@ public interface BrandService {
 	 * @return
 	 */
 	Map<String, Object> brandProfile(int boardNo, int cp, int brandBoardCode);
+
+	/** 브랜드 신고 조회
+	 * @param reportNo
+	 * @return
+	 */
+	Report reportDetailSelect(int reportNo);
 	
 }
