@@ -3,6 +3,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
 
 <c:set var="menuName" value="brand"/> <!-- 사이드 메뉴 설정 -->
+
+<c:set var="pagination" value="${map.pagination}"/>
+<c:set var="dataLookList" value="${map.dataLookList}"/>
+
 <c:set var="menuNumber" value="4"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,7 +47,7 @@
 
     <!-- 본문(종앙) -->
     <div id="container-center">
-        <section class="cus-board list-card">
+        <section class="cus-board list-card mainBoard">
             <!-- 성과 데이터 리스트 -->
             <div class="board-title bottom-line">
                 <div class="title">성과 데이터</div>
@@ -63,204 +67,56 @@
                     <div>순위</div>
                     <div>브랜드</div>
                     <div>상품명</div>
-                    <div>판매기간</div>
+                    <div>판매일자</div>
                     <div>클릭수</div>
                     <div>판매수</div>
                 </div>
                 
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
+                <c:forEach  items="${dataLookList}" var="data">
+                    <div class="list item bottom-line">
+                        <div>${data.boardNo}</div>
+                        <div>${data.brandName}</div>
+                        <div>${data.boardTitle}</div>
+                        <div>${data.createDate}</div>
+                        <div>${data.readCount}</div>
+                        <div>${data.quantity}</div>
+                    </div>
+                </c:forEach>
                 
-                <div class="list item bottom-line">
+                <!-- <div class="list item bottom-line">
                     <div>1</div>
                     <div>델몬트</div>
                     <div>사과, 오렌지 주스 세트</div>
                     <div>2025.02.25 - 2025.02.10</div>
                     <div>10000</div>
                     <div>10000</div>
-                </div>
+                </div> -->
                 
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>델몬트</div>
-                    <div>사과, 오렌지 주스 세트</div>
-                    <div>2025.02.25 - 2025.02.10</div>
-                    <div>10000</div>
-                    <div>10000</div>
-                </div>
-
-    
+ 
 
             </div>
 
+            <c:set var="urlCp" value="/manageBrand/dataLook?cp="></c:set>
             <ul id="pagination">
-                <li>&lt;&lt;</li>
-                <li>&lt;</li>
-                <li class="curr">1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>10</li>
-                <li>&gt;</li>
-                <li>&gt;&gt;</li>
+                <li><a href="${urlCp}1">&lt;&lt;</a></li>
+                <li><a href="${urlCp}${pagination.prevPage}">&lt;</a></li>
+                
+                    <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}">
+                        <c:choose>
+                            <c:when test="${pagination.currentPage == i}">
+                                <!-- 현재 페이지인 경우 -->
+                                <li class="curr">${i}</li>
+                            </c:when>
+            
+                            <c:otherwise>
+                                <!-- 현재 페이지가 아닌 경우 -->
+                                <li><a href="${urlCp}${i}">${i}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>                
+                
+                <li><a href="${urlCp}${pagination.nextPage}">&gt;</a></li>
+                <li><a href="${urlCp}${pagination.maxPage}">&gt;&gt;</a></li>
             </ul>
 
         </section>
@@ -283,48 +139,22 @@
                 
             </div>
             
-            <div class="graph-container">
+            <c:forEach var="i" begin="0" end="${map.dataRank.size() - 1}">
+                <div class="graph-container">
+                    <div class="label">${i+1}. ${map.dataRank[i].BRAND_NAME}</div>
+                    <div class="graphArea">
+                        <div class="graphBar blue"></div><!-- ${dataRank.READ_COUNT} -->
+                        <div class="graphBar red"></div><!-- ${dataRank.QUANTITY} -->
+                    </div>
+                </div>
+            </c:forEach>
+            <!-- <div class="graph-container">
                 <div class="label">1. 델몬트</div>
                 <div class="graphArea">
                     <div class="graphBar blue"></div>
                     <div class="graphBar red"></div>
                 </div>
-            </div>
-            <div class="graph-container">
-                <div class="label">1. 델몬트</div>
-                <div class="graphArea">
-                    <div class="graphBar blue"></div>
-                    <div class="graphBar red"></div>
-                </div>
-            </div>
-            <div class="graph-container">
-                <div class="label">1. 델몬트</div>
-                <div class="graphArea">
-                    <div class="graphBar blue"></div>
-                    <div class="graphBar red"></div>
-                </div>
-            </div>
-            <div class="graph-container">
-                <div class="label">1. 델몬트</div>
-                <div class="graphArea">
-                    <div class="graphBar blue"></div>
-                    <div class="graphBar red"></div>
-                </div>
-            </div>
-            <div class="graph-container">
-                <div class="label">1. 델몬트</div>
-                <div class="graphArea">
-                    <div class="graphBar blue"></div>
-                    <div class="graphBar red"></div>
-                </div>
-            </div>
-            <div class="graph-container">
-                <div class="label">1. 델몬트</div>
-                <div class="graphArea">
-                    <div class="graphBar blue"></div>
-                    <div class="graphBar red"></div>
-                </div>
-            </div>
+            </div> -->
         </section>
 
         
@@ -332,6 +162,7 @@
 
 
 </main>
+
 
 </body>
 
