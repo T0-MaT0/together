@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -75,6 +76,24 @@ public class ManageBrandController {
 		Map<String, Object> map = service.dataLook(cp);
 		model.addAttribute("map", map);
 		return "/manager/brand/dataLook";
+	}
+	
+	
+	
+	//브랜드 프로필 조회
+	@GetMapping("/brandProfile/{brandBoardCode}")
+	public String brandProfile(@RequestParam( value="cp",required=false,defaultValue = "1") int cp
+							,int boardNo, Model model
+							, @PathVariable("brandBoardCode") int brandBoardCode) {
+		
+		
+		Map<String, Object> map = service.brandProfile(boardNo, cp, brandBoardCode);
+		model.addAttribute("map",map);
+		model.addAttribute("brandBoardCode",brandBoardCode);
+		model.addAttribute("boardNo", boardNo);
+		System.out.println(map.get("brandList"));
+		
+		return "/manager/brand/brandProfile";
 	}
 	
 }

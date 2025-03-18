@@ -108,7 +108,7 @@ html, body {
 
 .status-area{
     display: grid;
-    grid-template-columns: repeat(3, 110px);
+    grid-template-columns: repeat(4, 110px);
     grid-template-rows: repeat(2, 100px);
     justify-content: center;
     gap: 10px;
@@ -157,6 +157,8 @@ html, body {
 
     display: grid;
     grid-template-columns: 90px 330px;
+
+    align-items: center;
 }
 
 .info-item > div:nth-of-type(2){
@@ -253,10 +255,13 @@ html, body {
 #pagination{
     display: flex;
     justify-content: center;
-
     list-style-type: none;
-
     font-size: 13px;
+
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
 
 #pagination >li{
@@ -269,9 +274,15 @@ html, body {
    font-weight: bolder;
 }
 
+#pagination > li>a{
+    color: black;
+    text-decoration: none;
+}
+
 
 /* ------------------------------------------- */
 /* 문의이력 보드 */
 #container-center > section:nth-child(2){
     height: 637px;
+    position: relative;
 }

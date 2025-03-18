@@ -1,5 +1,6 @@
 package edu.kh.project.manager.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.manager.model.dto.BrandBoard;
+import edu.kh.project.manager.model.dto.BrandProfile;
 import edu.kh.project.manager.model.dto.QuestCustomer;
 
 @Repository
@@ -148,6 +151,48 @@ public class BrandDAO {
 	public List<Map<String, Object>> dataRank() {
 		return sqlSession.selectList("managerMapper.dataRank");
 	}
+
+	
+	/** 브랜드 프로필 조회
+	 * @param boardNo
+	 * @return
+	 */
+	public BrandProfile brandProfileSelect(int boardNo) {
+		return sqlSession.selectOne("managerMapper.brandProfileSelect", boardNo);
+	}
+
+	
+	
+	/** 브랜드 프로필 게시글 수
+	 * @param boardNo
+	 * @param brandBoardCode
+	 * @return
+	 */
+	public int brandProfileBoardCount(int boardNo, int brandBoardCode) {
+		Map<String, Object> brandMap = new HashMap<>();
+		brandMap.put("boardCode", brandBoardCode);
+		brandMap.put("boardNo", boardNo);
+		
+		return sqlSession.selectOne("managerMapper.brandProfileBoardCount",brandMap);
+	}
+	/** 브랜드 프로필 리스트 목록 조회
+	 * @param pagination 
+	 * @param brandBoardCode
+	 * @param boardNo 
+	 * @return
+	 */
+	public List<BrandBoard> brandProfileProducts(Pagination pagination, int brandBoardCode, int boardNo) {
+		
+		Map<String, Object> brandMap = new HashMap<>();
+		brandMap.put("boardCode", brandBoardCode);
+		brandMap.put("boardNo", boardNo);
+		
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		
+		return sqlSession.selectList("managerMapper.brandProfileProducts", brandMap, rowBounds);
+	}
+
 
 
 

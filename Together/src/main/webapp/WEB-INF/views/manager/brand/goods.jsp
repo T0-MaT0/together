@@ -74,7 +74,7 @@
                 </div>
                 
                 <c:forEach  items="${goodsList}" var="goods">
-                    <div class="list item bottom-line">
+                    <div class="list item bottom-line" onClick="brandProfile(${goods.boardNo})">
                         <div>${goods.boardNo}</div>
                         <div>${goods.brandName}</div>
                         <div>${goods.productTitle}</div>
@@ -186,6 +186,8 @@
     });
 
 </script>
+
+<script src="/resources/js/manager-js/brand/brand.js"></script>
 
 </body>
 
