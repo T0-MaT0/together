@@ -1,3 +1,40 @@
+// 리뷰 삭제
+const deleteReviewBtn = document.querySelector(".delete-selected"); // 리뷰 삭제 버튼
+
+deleteReviewBtn.addEventListener("click", function () {
+    // 체크된 리뷰 체크박스 가져오기
+    const checkedBoxes = document.querySelectorAll(".checkbox:checked");
+
+    if (checkedBoxes.length === 0) {
+        alert("삭제할 리뷰를 선택해주세요.");
+        return;
+    }
+
+    // 체크된 리뷰들의 reviewNo 수집
+    const reviewNos = Array.from(checkedBoxes).map(checkbox => {
+
+        return parseInt(checkbox.dataset.reviewno || checkbox.getAttribute("data-reviewno"), 10);
+    });
+
+    // AJAX 요청
+    fetch("/review/deleteReviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reviewNos })
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("서버 응답:", data);
+            if (data.success) {
+                alert("선택한 리뷰가 삭제되었습니다.");
+                location.reload();
+            } else {
+                alert(data.message || "삭제 실패: 오류 발생");
+            }
+        })
+        .catch(error => console.error("삭제 요청 실패:", error));
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     const buttons = document.querySelectorAll("#nav-buttons button");
 
@@ -39,9 +76,9 @@ document.addEventListener("DOMContentLoaded", function () {
             // URL 변경 (필터 적용)
             let newKey = button.getAttribute("data-key");
             if (newKey === "comments") {
-                window.location.href = "/myRecruitment/comments";  
+                window.location.href = "/myRecruitment/comments";
             } else if (newKey === "reviews") {
-                window.location.href = "/myRecruitment/reviews";  
+                window.location.href = "/myRecruitment/reviews";
             } else {
                 window.location.href = "/myRecruitment?key=" + newKey;
             }
@@ -69,50 +106,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // 댓글 체크박스 기능 적용
-    setupCheckboxSelection("comment-list");
 
     // 리뷰 체크박스 기능 적용
     setupCheckboxSelection("review-list");
-    
-    
 
-    
+
+
+
 });
-
-
-// 삭제 버튼 ajax
-const deleteBtn = document.querySelector(".delete-selected");
-
-deleteBtn.addEventListener("click", function () {
-    // 체크된 체크박스 가져오기
-    const checkedBoxes = document.querySelectorAll(".checkbox:checked");
-
-    if (checkedBoxes.length === 0) {
-        alert("삭제할 댓글을 선택해주세요.");
-        return;
-    }
-
-    // 체크된 댓글들의 replyNo 수집
-    const replyNos = Array.from(checkedBoxes).map(checkbox => {
-
-        // data-replyno 값이 undefined라면 checkbox.getAttribute 사용
-        return parseInt(checkbox.dataset.replyno || checkbox.getAttribute("data-replyno"), 10);
-    });
-    fetch("/reply/deleteComments", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ replyNos })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert("선택한 댓글이 삭제되었습니다.");
-            location.reload();
-        } else {
-            alert(data.message || "삭제 실패: 오류 발생");
-        }
-    })
-    .catch(error => console.error("Error:", error));
-});
-
