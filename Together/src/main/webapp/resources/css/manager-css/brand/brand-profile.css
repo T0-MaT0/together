@@ -286,3 +286,11 @@ html, body {
     height: 637px;
     position: relative;
 }
+
+
+/* -------------------------------------------- */
+
+.noBoard{
+    padding: 10px 0;
+    margin: auto;
+}

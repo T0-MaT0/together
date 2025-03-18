@@ -13,6 +13,7 @@ import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.manager.model.dto.BrandBoard;
 import edu.kh.project.manager.model.dto.BrandProfile;
 import edu.kh.project.manager.model.dto.QuestCustomer;
+import edu.kh.project.manager.model.dto.Report;
 
 @Repository
 public class BrandDAO {
@@ -191,6 +192,14 @@ public class BrandDAO {
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 		
 		return sqlSession.selectList("managerMapper.brandProfileProducts", brandMap, rowBounds);
+	}
+
+	/** report detail ajax
+	 * @param reportNo
+	 * @return
+	 */
+	public Report reportDetailSelect(int reportNo) {
+		return sqlSession.selectOne("managerMapper.reportDetailSelect", reportNo);
 	}
 
 
