@@ -3,6 +3,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
 
 <c:set var="menuName" value="brand"/> <!-- 사이드 메뉴 설정 -->
+
+<c:set var="pagination" value="${map.pagination}"/>
+<c:set var="applyList" value="${map.applyList}"/>
+
 <c:set var="menuNumber" value="2"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +52,7 @@
 
     <!-- 본문(종앙) -->
     <div id="container-center">
-        <section class="cus-board list-card">
+        <section class="cus-board list-card mainBoard">
             <!-- 제휴 신청 리스트 -->
             <div class="board-title bottom-line">
                 <div class="title">제휴 신청</div>
@@ -73,94 +77,40 @@
                     <div>상태</div>
                 </div>
                 
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div class="clickList">저희는 고품질 주스를 판매하는 업체입니다.</div>
-                    <div>2025.02.25</div>
-                    <div>대기</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div class="clickList">저희는 고품질 주스를 판매하는 업체입니다.</div>
-                    <div>2025.02.25</div>
-                    <div>거절</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div class="clickList">저희는 고품질 주스를 판매하는 업체입니다.</div>
-                    <div>2025.02.25</div>
-                    <div>승인</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div class="clickList">저희는 고품질 주스를 판매하는 업체입니다.</div>
-                    <div>2025.02.25</div>
-                    <div>대기</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div class="clickList">저희는 고품질 주스를 판매하는 업체입니다.</div>
-                    <div>2025.02.25</div>
-                    <div>거절</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div class="clickList">저희는 고품질 주스를 판매하는 업체입니다.</div>
-                    <div>2025.02.25</div>
-                    <div>승인</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div class="clickList">저희는 고품질 주스를 판매하는 업체입니다.</div>
-                    <div>2025.02.25</div>
-                    <div>대기</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div class="clickList">저희는 고품질 주스를 판매하는 업체입니다.</div>
-                    <div>2025.02.25</div>
-                    <div>거절</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div class="clickList">저희는 고품질 주스를 판매하는 업체입니다.</div>
-                    <div>2025.02.25</div>
-                    <div>승인</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div class="clickList">저희는 고품질 주스를 판매하는 업체입니다.</div>
-                    <div>2025.02.25</div>
-                    <div>승인</div>
-                </div>
+                <c:forEach  items="${applyList}" var="apply">
+                    <div class="list item bottom-line">
+                        <div>${apply.boardNo}</div>
+                        <div>${apply.brandName}</div>
+                        <div class="clickList">${apply.boardTitle}</div>
+                        <div>${apply.createDate}</div>
+                        <div>${apply.boardDelFl}</div>
+                    </div>
+                </c:forEach>
+
 
             </div>
 
+            <c:set var="urlCp" value="/manageBrand/apply?cp="></c:set>
             <ul id="pagination">
-                <li>&lt;&lt;</li>
-                <li>&lt;</li>
-                <li class="curr">1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>10</li>
-                <li>&gt;</li>
-                <li>&gt;&gt;</li>
+                <li><a href="${urlCp}1">&lt;&lt;</a></li>
+                <li><a href="${urlCp}${pagination.prevPage}">&lt;</a></li>
+                
+                    <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}">
+                        <c:choose>
+                            <c:when test="${pagination.currentPage == i}">
+                                <!-- 현재 페이지인 경우 -->
+                                <li class="curr">${i}</li>
+                            </c:when>
+            
+                            <c:otherwise>
+                                <!-- 현재 페이지가 아닌 경우 -->
+                                <li><a href="${urlCp}${i}">${i}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>                
+                
+                <li><a href="${urlCp}${pagination.nextPage}">&gt;</a></li>
+                <li><a href="${urlCp}${pagination.maxPage}">&gt;&gt;</a></li>
             </ul>
 
         </section>
@@ -173,7 +123,7 @@
                 <div class="title">총 제휴 건수</div>
             </div>
             <div class="customer-count">
-                <div class="count">5,000,000,000 건</div>
+                <div class="count">${map.listCount} 건</div>
                 <progress id="progressBar" value="100" max="100"></progress>
             </div>
         
@@ -238,18 +188,18 @@
                 </div>
                 <div class="modal-btn barndBtn">
                     <button>처리</button>
+                    ${map.applyStateCount[0]}
                 </div>
             </div>
 
         </div>
     </div>
-
 </main>
 
 
 <script>
     const xValues = ["대기","승인", "거절"];
-    const yValues = [55, 49,40];
+    const yValues = [${map.applyStateCount[0].COUNT}, ${map.applyStateCount[1].COUNT} ,${map.applyStateCount[2].COUNT}];
     const barColors = [
     "#DC143C",
     // "#FF6347",
