@@ -1,4 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="pagination" value="${map.pagination}"/>
+<c:set var="FAQList" value="${map.FAQList}"/>
+<c:set var="boardCode" value="${map.boardCode}"/>
+<c:if test="${!empty param.query}">
+    <c:set var="qs" value="&key=${param.key}&query=${param.query}"/>
+</c:if>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,14 +35,22 @@
     
         <section id="FAQ-content">
 
+            <!-- <div id="button-content">
+                <div class="current-focus" id="allFAQ">전체</div>
+                <div id="memberFAQ">회원/계정</div>
+                <div id="togetherFAQ">공동구매</div>
+                <div id="buyFAQ">결제/환불</div>
+                <div id="shipFAQ">수령/배송</div>
+                <div id="guitarFAQ">기타</div>
+            </div> -->
             <div id="button-content">
-                <div class="current-focus">전체</div>
-                <div>회원/계정</div>
-                <div>공동구매</div>
-                <div>결제/환불</div>
-                <div>수령/배송</div>
-                <div>기타</div>
-            </div>
+                <div class="faq-btn current-focus" data-code="0">전체</div>
+                <div class="faq-btn" data-code="9">회원/계정</div>
+                <div class="faq-btn" data-code="10">공동구매</div>
+                <div class="faq-btn" data-code="11">결제/환불</div>
+                <div class="faq-btn" data-code="12">수령/배송</div>
+                <div class="faq-btn" data-code="13">기타</div>
+              </div>
 
 
          
@@ -47,55 +62,15 @@
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td onclick="openAnswer()">Q. 회원가입은 어떻게 하나요?</td>
-                        <td>▼</td>
-                    </tr>
-                    <tr class="answer-style">
-                        <td colspan='2'>A. 이메일 또는 소셜 로그인(네이버, 카카오, 구글)으로 가입할 수 있습니다.</td>
-                    </tr>
-                    <tr>
-                        <td onclick="openAnswer()">Q. 비밀번호를 잊어버렸어요. 어떻게 찾을 수 있나요?</td>
-                        <td>▼</td>
-                    </tr>
-                    <tr class="answer-style hidden-answer">
-                        <td colspan='2'>A. 로그인 페이지에서 ‘비밀번호 찾기’를 눌러 이메일을 통해 재설정할 수 있습니다.</td>
-                    </tr>
-                    <tr>
-                        <td onclick="openAnswer()">Q. 닉네임을 변경할 수 있나요? </td>
-                        <td>▼</td>
-                    </tr>
-                    <tr class="hidden-answer">
-                        <td colspan='2'>A. 마이페이지 > 계정 설정에서 변경 가능합니다.</td>
-                    </tr>
-                    <tr>
-                        <td onclick="openAnswer()">Q. 계정을 탈퇴하려면 어떻게 해야 하나요?</td>
-                        <td>▼</td>
-                    </tr>
-                    <tr class="hidden-answer">
-                        <td colspan='2'>A. 마이페이지 > 설정 > 계정 탈퇴에서 가능합니다. 단, 진행 중인 공동구매가 있을 경우 탈퇴가 제한됩니다.</td>
-                    </tr>
-                    <tr>
-                        <td onclick="openAnswer()">Q. 이메일/SMS 알림을 받고 싶지 않아요. 설정을 변경할 수 있나요?</td>
-                        <td>▼</td>
-                    </tr>
-                    <tr class="hidden-answer">
-                        <td colspan='2'>A. 마이페이지 > 알림 설정에서 원하는 알림만 선택하여 받을 수 있습니다.</td>
-                    </tr>
-                    <tr>
-                        <td onclick="openAnswer()">Q. 공동구매는 어떻게 진행되나요?</td>
-                        <td>▼</td>
-                    </tr>
-                    <tr class="hidden-answer">
-                        <td colspan='2'>A. 참여자가 일정 인원 이상 모이면 자동으로 결제가 진행되며, 이후 판매자가 상품을 배송합니다.</td>
-                    </tr>
-                    <tr>
-                        <td onclick="openAnswer()">Q. 공동구매 모집은 얼마나 걸리나요? </td>
-                        <td>▼</td>
-                    </tr>
-                    <tr class="hidden-answer">
-                        <td colspan='2'>A. 상품마다 모집 기한이 다르며, 상세 페이지에서 확인할 수 있습니다.</td>
-                    </tr>
+                    <c:forEach var="FAQ" items="${FAQList}">
+                        <tr>
+                            <td onclick="openAnswer(event)">Q. ${FAQ.boardTitle}</td>
+                            <td>▼</td>
+                        </tr>
+                        <tr class="answer-style hidden-answer">
+                            <td colspan='2'>A. ${FAQ.boardContent}</td>
+                        </tr>  
+                    </c:forEach>
                 </tbody>
             </table>
 
@@ -104,11 +79,50 @@
     
         </section>
     
-        <section id="pageNAtion">
-            <<  <  1 2 3 4 5  >  >> 
-        </section>
+        <div class="pagination-area">
+
+
+
+            <c:set var="url" value="/customer/FAQBoard/${boardCode}?cp="/>
+
+
+            <ul class="pagination">
+            
+                <!-- 첫 페이지로 이동 -->
+                <li><a href="${url}1${qs}">&lt;&lt;</a></li>
+
+                <!-- 이전 목록 마지막 번호로 이동 -->
+                <li><a href="${url}${pagination.prevPage}${qs}">&lt;</a></li>
+
+                
+                <!-- 특정 페이지로 이동 -->
+                
+                <!-- 범위가 정해진 일반 for문 사용-->
+                <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}">
+                    <c:choose>
+                        <c:when test="${pagination.currentPage == i}">
+                            <!-- 현재 페이지인 경우 -->
+                            <li><a class="current">${i}</a></li>
+                        </c:when>
+
+                        <c:otherwise>
+                            <!-- 현재 페이지가 아닌 경우 -->
+                            <li><a href="${url}${i}${qs}">${i}</a></li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach> 
+                
+                <!-- 다음 목록 시작 번호로 이동 -->
+                <li><a href="${url}${pagination.nextPage}${qs}">&gt;</a></li>
+
+                <!-- 끝 페이지로 이동 -->
+                <li><a href="${url}${pagination.maxPage}${qs}">&gt;&gt;</a></li>
+
+            </ul>
+        </div>
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+    <script src="/resources/js/customer/FAQ.js"></script>
 
     
 

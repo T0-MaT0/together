@@ -25,6 +25,7 @@
 		<typeAlias type="edu.kh.project.manager.model.dto.LookData" alias="LookData"/>
 
 		<typeAlias type="edu.kh.project.individual.dto.Image" alias="Image2" />
+		<typeAlias type="edu.kh.project.member.model.dto.Board" alias="Board" />
 
 	</typeAliases>
 	
@@ -35,6 +36,7 @@
 		<mapper resource="/mappers/manager-mapper.xml" />
 		<mapper resource="/mappers/recruitmentMapper.xml" />
 		<mapper resource="/mappers/email-mapper.xml" />
+		<mapper resource="/mappers/customer-mapper.xml" />
 	</mappers>
 
 </configuration>

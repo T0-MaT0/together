@@ -140,3 +140,11 @@ body {
     background-color: #ff4d94;
     color: white;
 }
+
+.noticeTitle{
+    text-decoration: none;
+    color: black;
+}
+.noticeTitle:hover{
+    text-decoration : underline;
+}
