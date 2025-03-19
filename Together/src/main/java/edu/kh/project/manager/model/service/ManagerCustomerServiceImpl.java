@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.manager.model.dao.ManageCustomerDAO;
+import edu.kh.project.manager.model.dto.CustomerBoard;
 import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.manager.model.dto.Report;
 
@@ -103,6 +104,19 @@ public class ManagerCustomerServiceImpl implements ManageCustomerService{
 		map.put("pagination", pagination);
 		
 		return map;
+	}
+
+	// 고객 문의 상세 페이지 조회
+	@Override
+	public CustomerBoard questDetail(int boardNo) {
+		return dao.questDetail(boardNo);
+	}
+
+	
+	// 고객 신고 상세 페이지 조회
+	@Override
+	public Report reportDetail(int reportNo) {
+		return dao.reportDetail(reportNo);
 	}
 
 

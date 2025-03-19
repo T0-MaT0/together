@@ -169,3 +169,12 @@
 #container-center > section.cus-board.graph-card{
     height: 400px;
 }
+
+/* 클릭 */
+.clickArea{
+    cursor: pointer;
+}
+
+.clickArea:active{
+    background-color: rgba(0, 0, 0, 0.082);
+}

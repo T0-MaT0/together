@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import edu.kh.project.manager.model.dao.ManagerDAO;
 import edu.kh.project.manager.model.dto.BrandBoard;
+import edu.kh.project.manager.model.dto.Report;
+import edu.kh.project.member.model.dto.Member;
 
 @Service
 public class ManagerServiceImpl implements ManagerService {
@@ -107,6 +109,89 @@ public class ManagerServiceImpl implements ManagerService {
 		
 		map.put("applyList", applyList);
 		map.put("promList", promList);
+		
+		
+		return map;
+	}
+
+
+	//고객 메인 화면 실적 수 조회
+	@Override
+	public Map<String, Object> customerMain() {
+		Map<String, Object> map = new HashMap<>();
+		
+		//총 회원 수
+		int customerTotalCount = dao.customerTotalCount();
+		map.put("customerTotalCount", customerTotalCount);
+		// 신규 가입 수
+		int customerNewCount = dao.customerNewCount();
+		map.put("customerNewCount", customerNewCount);
+		
+		// 회원 탈퇴 수
+		int customerOutCount = dao.customerOutCount();
+		map.put("customerOutCount", customerOutCount);
+		
+		// 블랙 리스트
+		int customerBlackCount = dao.customerBlackCount();
+		map.put("customerBlackCount", customerBlackCount);
+		
+		
+		//고객 상태 리스트 목록 조회
+		List<Member> customerStateList = dao.customerStateList();
+		map.put("customerStateList", customerStateList);
+		
+		
+		// 총 공구 모집 수
+		int GatherTotalCount = dao.GatherTotalCount();
+		map.put("GatherTotalCount", GatherTotalCount);
+		// 성사된 모집
+		int GatherSuccessCount = dao.GatherSuccessCount();
+		map.put("GatherSuccessCount", GatherSuccessCount);
+		// 취소된 모집
+		int GatherCancelCount = dao.GatherCancelCount();
+		map.put("GatherCancelCount", GatherCancelCount);
+		// 정지된 모집
+		int GatherStopCount = dao.GatherStopCount();
+		map.put("GatherStopCount", GatherStopCount);
+		
+		
+		
+		// 총 문의 개수
+		int questTotalCount = dao.questTotalCount();
+		map.put("questTotalCount", questTotalCount);
+		// 미처리 문의
+		int questWaitCount = dao.questWaitCount();
+		map.put("questWaitCount", questWaitCount);
+		// 처리 문의
+		int questAcceptCount = dao.questAcceptCount();
+		map.put("questAcceptCount", questAcceptCount);
+		
+		
+		//고객 신고
+		String customerReport = "3, 4, 5";
+		//미처리
+		int customerWaitReport = dao.customerWaitReport(customerReport);
+		map.put("customerWaitReport", customerWaitReport);
+		//처리
+		int customerDoneReport = dao.customerDoneReport(customerReport);
+		map.put("customerDoneReport", customerDoneReport);
+		
+		//모집글 신고
+		customerReport = "2";
+		//미처리
+		int gatherWaitReport = dao.gatherWaitReport(customerReport);
+		map.put("gatherWaitReport", gatherWaitReport);
+		//처리
+		int gatherDoneReport = dao.gatherDoneReport(customerReport);
+		map.put("gatherDoneReport", gatherDoneReport);
+		
+		
+		//고객 신고 리스트 목록 조회
+		List<Report> customerReportFourList = dao.customerReportFourList();
+		map.put("customerReportFourList", customerReportFourList);
+		//모집글 신고 리스트 목록 조회
+		List<Report> gatherReportFourList = dao.gatherReportFourList();
+		map.put("gatherReportFourList", gatherReportFourList);
 		
 		
 		return map;

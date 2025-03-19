@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class Report {
 	
+	private String reportTypeName;
 	private String reportType;
 	private int reportTypeNo;
 	
@@ -25,4 +26,5 @@ public class Report {
 	private String reportStatus;
 	
 	private String reply;
+	
 }

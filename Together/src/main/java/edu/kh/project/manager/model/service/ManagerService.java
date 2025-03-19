@@ -24,4 +24,9 @@ public interface ManagerService {
 	 */
 	Map<String, Object> selectNum();
 
+	/** 고객 메인 화면 실적 수 조회
+	 * @return
+	 */
+	Map<String, Object> customerMain();
+
 }

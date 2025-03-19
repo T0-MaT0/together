@@ -1,3 +1,7 @@
 console.log("asdf");
 
-const clickArea = document.getElementsByClassName;
+
+
+function customerState(memberNo){
+    console.log(memberNo);
+}

@@ -91,6 +91,7 @@
 
 #list-area >.item{
     font-size: 13px;
+    cursor: pointer;
 }
 
 .mainBoard{

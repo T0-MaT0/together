@@ -202,6 +202,14 @@ public class BrandDAO {
 		return sqlSession.selectOne("managerMapper.reportDetailSelect", reportNo);
 	}
 
+	/** 제휴 문의 상세 조회 ajax
+	 * @param boardNo
+	 * @return
+	 */
+	public BrandBoard boardDetailSelect(Map<String, Object> map) {
+		return sqlSession.selectOne("managerMapper.boardDetailSelect", map);
+	}
+
 
 
 

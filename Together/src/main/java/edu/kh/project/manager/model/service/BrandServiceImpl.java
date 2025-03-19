@@ -148,6 +148,13 @@ public class BrandServiceImpl implements BrandService {
 		return dao.reportDetailSelect(reportNo);
 	}
 
+	
+	// 제휴 문의 상세 조회 ajax
+	@Override
+	public BrandBoard boardDetailSelect(Map<String, Object> map) {
+		return dao.boardDetailSelect(map);
+	}
+
 
 
 }

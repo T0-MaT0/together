@@ -1,5 +1,6 @@
 package edu.kh.project.manager.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.kh.project.manager.model.dto.BrandBoard;
 import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.manager.model.service.BrandService;
 
@@ -105,4 +107,17 @@ public class ManageBrandController {
 		return service.reportDetailSelect(reportNo);
 	}
 	
+	
+	// 브랜드 제휴 상세 조회
+	@GetMapping(value="/boardDetail/{boardCode}", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public BrandBoard applyDetail(int boardNo
+						, @PathVariable("boardCode") int boardCode) {
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("boardNo", boardNo);
+		map.put("boardCode", boardCode);
+		
+		return service.boardDetailSelect(map);
+	}
 }

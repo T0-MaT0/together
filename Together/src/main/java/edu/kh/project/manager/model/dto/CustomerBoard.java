@@ -8,11 +8,18 @@ import lombok.ToString;
 @Getter
 @ToString
 public class CustomerBoard {
-	private int boardNo;
+	
+	private int memberNo;
 	private String memberNick;
+	
+	private int boardNo;
 	private String boardTitle;
+	private String boardContent;
+	
 	private String createDate;
 	private String endDate;
 	private String recruitmentStatus;
 	private String boardDelFl;
+	
+	private String reply;
 }

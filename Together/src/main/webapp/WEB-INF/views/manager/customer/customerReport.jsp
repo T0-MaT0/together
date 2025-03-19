@@ -79,7 +79,7 @@
                         <div>${report.reportNo}</div>
                         <div>${report.memberNick}</div>
                         <div>${report.reportedUserNick}</div>
-                        <div class="clickList">${report.reportTitle}</div>
+                        <div class="clickList" onclick="customerReport(${report.reportNo})">${report.reportTitle}</div>
                         <div>${report.reportDate}</div>
                         <div>${report.reportStatus}</div>
                     </div>
@@ -147,7 +147,10 @@
                         </select>
                     </div>
                     <div class="memberName">
-                        <strong>회원명:</strong> 폼폼푸리 
+                        <strong>신고자:</strong> 폼폼푸리 
+                    </div>
+                    <div class="reportedName">
+                        <strong>신고대상:</strong> 폼폼푸리 
                     </div>
                 </div>
 
@@ -158,8 +161,8 @@
                 </div>
 
                 <div class="midBtn">
-                    <button>피신고인 정보 조회</button>
-                    <button>문제 댓글/게시글 조회</button>
+                    <button id="infoBtn" onclick="goProfile()">브랜드 정보 조회</button>
+                    <button id="BoardBtn">문제 상품 조회</button>
                 </div>
                 <div class="modalBottom">
                     <div>답변</div>

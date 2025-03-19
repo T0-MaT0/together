@@ -76,7 +76,7 @@
                         <div>${report.reportNo}</div>
                         <div>${report.memberNick}</div>
                         <div>${report.reportedUserNick}</div>
-                        <div  class="clickList"onclick="clickTitle(${report.reportNo})">${report.reportTitle}</div>
+                        <div  class="clickList"onclick="clickReport(${report.reportNo})">${report.reportTitle}</div>
                         <div>${report.reportDate}</div>
                         <div>${report.reportStatus}</div>
                     </div>
