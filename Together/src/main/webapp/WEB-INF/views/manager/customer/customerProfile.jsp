@@ -1,3 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
+
+<c:set var="menuName" value="customer"/> <!-- 사이드 메뉴 설정 -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,8 +10,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../manager-css/manager-common.css" />
-    <link rel="stylesheet" href="../../manager-css/customer/customer-profile.css" />
+    <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
+    <link rel="stylesheet" href="/resources/css/manager-css/customer/customer-profile.css" />
+    <script>
+        // 사이드 메뉴 설정
+        const menuName = "${menuName}";
+    </script>
 </head>
 
 <body>
@@ -16,34 +25,7 @@
 <main>
     
     <!-- 사이드 메뉴 -->
-    <div id="container-side">
-        <!-- 로고 -->
-        <img src="../../image-manager/Group 2411.png" alt="로고 이미지">
-
-
-        <!-- 메뉴 -->
-        <div id="menu-items">
-            <div id="dash-board">대시보드</div>
-            <button class="accordion">고객관리</button>
-            <div class="panel">
-                <p>내용</p>
-                <p>내용</p>
-                <p>내용</p>
-            </div>
-
-            <button class="clicked">브랜드 관리</button>
-            <div class="open-menu">
-                <p>내용</p>
-            </div>
-
-            <button class="accordion">홈페이지 관리</button>
-            <div class="panel">
-                <p>내용</p>
-            </div>
-
-        </div>
-
-    </div>
+    <jsp:include page="/WEB-INF/views/manager/common/sideMenu.jsp"/>
 
 
     <!-- 위쪽 영역 -->
@@ -66,7 +48,7 @@
             </div>
 
             <div class="profile-area">
-                <img src="../../image-manager/profile.png" alt="프로필">
+                <img src="/resources/images/image-manager/profile.png" alt="프로필">
                 <div class="nickname">닉네임</div>
             </div>
 
@@ -84,6 +66,10 @@
                     <div class="status-content">10</div>
                 </div>
                 <div class="ch-number">
+                    <div class="status-title">구매상품</div>
+                    <div class="status-content">10</div>
+                </div>
+                <div class="ch-number">
                     <div class="status-title">경고</div>
                     <div class="status-content">2</div>
                 </div>
@@ -92,7 +78,11 @@
                     <div class="status-content">10</div>
                 </div>
                 <div class="ch-number">
-                    <div class="status-title">문의</div>
+                    <div class="status-title">피신고</div>
+                    <div class="status-content">10</div>
+                </div>
+                <div class="ch-number">
+                    <div class="status-title">1:1문의</div>
                     <div class="status-content">10</div>
                 </div>
             </div>

@@ -80,7 +80,7 @@
                     <div>상태</div>
                 </div>
                 <c:forEach  items="${stateList}" var="state">
-                    <div class="list item bottom-line clickArea">
+                    <div class="list item bottom-line clickArea" onclick="customerState(${state.memberNo})">
                         <div>${state.memberNo}</div>
                         <img src="/resources/images/image-manager/profile.png" alt="프로필">
                         <div>${state.memberNick}</div>
@@ -98,123 +98,6 @@
                     <div>2025.02.25</div>
                     <div>2025.02.26</div>
                     <div>탈퇴</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>3</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>식빵맨</div>
-                    <div>sick@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>블랙</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div>pom@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>회원</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>2</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>호빵맨</div>
-                    <div>hopang@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>탈퇴</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>3</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>식빵맨</div>
-                    <div>sick@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>블랙</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div>pom@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>회원</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>2</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>호빵맨</div>
-                    <div>hopang@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>탈퇴</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>3</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>식빵맨</div>
-                    <div>sick@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>블랙</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div>pom@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>회원</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>2</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>호빵맨</div>
-                    <div>hopang@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>탈퇴</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>3</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>식빵맨</div>
-                    <div>sick@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>블랙</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div>pom@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>회원</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>2</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>호빵맨</div>
-                    <div>hopang@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>탈퇴</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>3</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>식빵맨</div>
-                    <div>sick@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>블랙</div>
                 </div> -->
 
             </div>

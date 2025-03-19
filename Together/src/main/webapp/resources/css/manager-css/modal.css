@@ -69,7 +69,7 @@
     align-items: center;
     border-radius: 10px;
 }
-.modalTitle{margin-left: 10px; width: 700px; text-align: left; font-weight: normal;}
+.modalTitle{margin-left: 10px; width: 500px; text-align: left; font-weight: normal;}
 .modalTitle>strong{margin-right: 5px; font-size: 18px;}
 .memberName{font-weight: normal; margin-right: 10px; }
 .memberName>strong{margin-right: 5px; font-size: 18px;}

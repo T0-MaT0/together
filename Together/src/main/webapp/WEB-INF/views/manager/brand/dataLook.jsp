@@ -73,7 +73,7 @@
                 </div>
                 
                 <c:forEach  items="${dataLookList}" var="data">
-                    <div class="list item bottom-line">
+                    <div class="list item bottom-line" onclick="brandProfile(${data.boardNo})">
                         <div>${data.boardNo}</div>
                         <div>${data.brandName}</div>
                         <div>${data.boardTitle}</div>
@@ -163,7 +163,7 @@
 
 </main>
 
-
+<script src="/resources/js/manager-js/brand/brand.js"></script>
 </body>
 
 </html>

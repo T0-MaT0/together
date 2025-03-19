@@ -81,7 +81,7 @@
                     <div class="list item bottom-line">
                         <div>${apply.boardNo}</div>
                         <div>${apply.brandName}</div>
-                        <div class="clickList">${apply.boardTitle}</div>
+                        <div class="clickList" onclick="clickApply(${apply.boardNo})">${apply.boardTitle}</div>
                         <div>${apply.createDate}</div>
                         <div>${apply.boardDelFl}</div>
                     </div>
@@ -188,7 +188,6 @@
                 </div>
                 <div class="modal-btn barndBtn">
                     <button>처리</button>
-                    ${map.applyStateCount[0]}
                 </div>
             </div>
 

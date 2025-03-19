@@ -55,7 +55,7 @@
 	<resultMap type="LookData" id="LookData"></resultMap>
 	<resultMap type="BrandProfile" id="BrandProfile"></resultMap>
 	
-	<!-- ===================================================================== -->
+	<!-- ===============================  MAIN  ====================================== -->
 	
 	<select id="customerQuestionCount" resultType="_int">
 		SELECT COUNT(*) 
@@ -214,6 +214,74 @@
 	</select>
 	<!--=================== MANAGE CUSTOMER =============================-->
 	
+	<!-- *** CUSTOMER MAIN *** -->
+	<!-- 총 회원 수  -->
+	<select id="customerTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE MEMBER_DEL_FL ='N'
+	</select>
+	<!-- 탈퇴 회원 수 -->
+	<select id="customerOutCount" resultType="_int">
+		SELECT COUNT(*) FROM "MEMBER" 
+		WHERE MEMBER_DEL_FL ='Y'
+	</select>
+	<!-- 블랙 회원 수 -->
+	<select id="customerBlackCount" resultType="_int">
+		SELECT COUNT(*) FROM "MEMBER" 
+		WHERE MEMBER_DEL_FL ='B'	
+	</select>
+	
+	
+	<!-- 성사된 모집 수-->
+	<select id="GatherSuccessCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM BOARD B
+		JOIN "MEMBER" M ON(B.MEMBER_NO= M.MEMBER_NO)
+		JOIN RECRUITMENT_ROOM R ON(R.BOARD_NO = B.BOARD_NO)
+		WHERE BOARD_CD  = 1
+		AND RECRUITMENT_STATUS = '완료'
+	</select>
+	
+	<!-- 취소된 모집 글 수  -->
+	<select id="GatherCancelCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM BOARD B
+		JOIN "MEMBER" M ON(B.MEMBER_NO= M.MEMBER_NO)
+		JOIN RECRUITMENT_ROOM R ON(R.BOARD_NO = B.BOARD_NO)
+		WHERE BOARD_CD  = 1
+		AND BOARD_DEL_FL = 'Y'	
+	</select>
+	
+	<!-- 정지된 모집글 수 -->
+	<select id="GatherStopCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM BOARD B
+		JOIN "MEMBER" M ON(B.MEMBER_NO= M.MEMBER_NO)
+		JOIN RECRUITMENT_ROOM R ON(R.BOARD_NO = B.BOARD_NO)
+		WHERE BOARD_CD  = 1
+		AND RECRUITMENT_STATUS = '정지'
+		AND BOARD_DEL_FL = 'Y'
+	</select>
+	
+	<!-- 미처리/처리 문의 -->
+	<select id="questWaitCount" resultType="_int">
+		SELECT COUNT(*) 
+		FROM BOARD
+		WHERE BOARD_CD = 6
+		AND BOARD_DEL_FL =#{fl}
+	</select>
+	
+	<!-- 미처리/처리 고객 신고 수 -->
+	<select id="customerWaitDoneReport" resultType="_int">
+		SELECT COUNT(*)
+		FROM REPORT R
+		WHERE REPORT_TYPE IN (${customerReport})
+		AND REPORT_STATUS IN(${str})
+	</select>
+	
+	
+	<!-- ** CUSTOMER MAIN END **  -->
+	
 	
 	<!-- 고객 상태 목록 수 -->
 	<select id="customerStateCount" resultType="_int">
@@ -241,7 +309,7 @@
 	
 	<!-- 신규 회원 수 -->
 	<select id="newCustomerCount" resultType='_int'>
-		SELECT * FROM MEMBER WHERE ENROLL_DATE BETWEEN SYSDATE-7 AND SYSDATE 
+		SELECT COUNT(*) FROM MEMBER WHERE ENROLL_DATE BETWEEN SYSDATE-7 AND SYSDATE 
 		AND MEMBER_DEL_FL ='N'
 	</select>
 	
@@ -252,7 +320,6 @@
 		GROUP BY MEMBER_DEL_FL
 	</select>
 	
-	<!-- ========================================================================= -->
 	<!-- 고객 모집글 목록 수 -->
 	<select id="customerboardCount" resultType="_int">
 		SELECT COUNT(*) 
@@ -290,6 +357,15 @@
 	
 	<!-- 정지 취소 -->
 	
+	
+	<!-- 고객 문의 상세 페이지 조회  -->
+	<select id="questDetail" resultMap="Cus_board">
+		SELECT BOARD_NO, BOARD_TITLE, MEMBER_NICK ,  MEMBER_NO , BOARD_CONTENT, BOARD_DEL_FL 
+				,(SELECT REPLY_CONTENT FROM REPLY WHERE REPLY_TYPE=1 AND BOARD_NO = REPLY_TYPE_NO) REPLY
+		FROM BOARD
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE BOARD_NO = ${boardNo}
+	</select>
 	
 	<!-- ================================================================ -->
 	
@@ -537,7 +613,9 @@
 		SELECT REPORT_NO, REPORT_TITLE, REPORT_DETAIL
 				, (SELECT MEMBER_NICK FROM MEMBER M WHERE  M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK
 				, MEMBER_NO 
-				, REPORT_TYPE, REPORT_TYPE_NO
+				, DECODE(REPORT_TYPE, 1,'브랜드 상품글',2,'개인 모집글',3,'댓글',4,'채팅',5,'리뷰') REPORT_TYPE_NAME
+				, REPORT_TYPE
+				, REPORT_TYPE_NO
 				, REPORT_M_REPLY REPLY
 				, (SELECT MEMBER_NICK FROM MEMBER WHERE R.REPORTED_USER_NO = MEMBER_NO) REPORTED_USER_NICK
 				, REPORTED_USER_NO 
@@ -546,5 +624,14 @@
 		WHERE REPORT_NO = ${reportNo}
 	</select>
 	
+	<!-- 제휴/광고/1:1 문의 상세 페이지 조회  -->
+	<select id="boardDetailSelect" resultMap="Brand_Board">
+			SELECT BOARD_NO, BOARD_TITLE, MEMBER_NICK BRAND_NAME, MEMBER_NO, NVL(B_STATE, '대기') STATE, BOARD_CONTENT
+					,(SELECT REPLY_CONTENT FROM REPLY WHERE REPLY_TYPE=1 AND BOARD_NO = REPLY_TYPE_NO) REPLY
+			FROM BOARD
+			JOIN MEMBER USING(MEMBER_NO)
+			WHERE BOARD_CD = #{boardCode}
+			AND BOARD_NO = #{boardNo}
+	</select>
 	
 </mapper>

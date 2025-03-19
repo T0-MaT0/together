@@ -81,7 +81,7 @@
                     <div class="list item bottom-line">
                         <div>${prom.boardNo}</div>
                         <div>${prom.brandName}</div>
-                        <div class="clickList">${prom.boardTitle}</div>
+                        <div class="clickList" onclick="clickProm(${prom.boardNo})">${prom.boardTitle}</div>
                         <div>${prom.createDate}</div>
                         <div>${prom.boardDelFl}</div>
                     </div>

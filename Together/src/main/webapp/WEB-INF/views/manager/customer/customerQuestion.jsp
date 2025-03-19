@@ -81,7 +81,7 @@
                             <img src="${quest.profileImg}" alt="프로필">
                         </c:if>
                         <div>${quest.memberNick}</div>
-                        <div class="clickList">${quest.boardTitle}</div>
+                        <div class="clickList" onclick="customerQuest(${quest.boardNo})">${quest.boardTitle}</div>
                         <div>${quest.createDate}</div>
                         <div>${quest.boardDelFl}</div>
                     </div>
@@ -91,79 +91,6 @@
                     <img src="/resources/images/image-manager/profile.png" alt="프로필">
                     <div>폼폼프리</div>
                     <div class="clickList">문의할게 있어요!! 상품 판매하고 싶은데...</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">모집글이 올라가지 않아요!!! 그래서 환불하려고요!</div>
-                    <div>2025.02.25</div>
-                    <div>처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">광고 이미지를 바꾸고 싶습니다.</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">문의할게 있어요!! 상품 판매하고 싶은데...</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">모집글이 올라가지 않아요!!! 그래서 환불하려고요!</div>
-                    <div>2025.02.25</div>
-                    <div>처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">광고 이미지를 바꾸고 싶습니다.</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-     
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">광고 이미지를 바꾸고 싶습니다.</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">문의할게 있어요!! 상품 판매하고 싶은데...</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">모집글이 올라가지 않아요!!! 그래서 환불하려고요!</div>
-                    <div>2025.02.25</div>
-                    <div>처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">광고 이미지를 바꾸고 싶습니다.</div>
                     <div>2025.02.25</div>
                     <div>미처리</div>
                 </div> -->
@@ -228,7 +155,7 @@
                     <textarea name="managerText" class="managerText">ㅁㄴㅇㄹㅁㄴㅇㄹ</textarea>
                 </div>
                 <div class="modal-btn">
-                    <button>제출</button>
+                    <!-- <button>제출</button> -->
                 </div>
             </div>
 

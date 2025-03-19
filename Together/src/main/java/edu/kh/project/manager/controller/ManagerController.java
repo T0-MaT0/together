@@ -49,7 +49,11 @@ public class ManagerController {
 	
 	//고객 관리 화면
 	@GetMapping("/customer")
-	public String manageCustomer() {
+	public String manageCustomer(Model model) {
+		Map<String, Object> map = service.customerMain();
+		
+		model.addAttribute("map", map);
+		
 		return "manager/customer/customerMain";
 	}
 	

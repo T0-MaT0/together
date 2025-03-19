@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.kh.project.manager.model.dto.CustomerBoard;
+import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.manager.model.service.ManageCustomerService;
 
 @Controller
@@ -76,5 +78,32 @@ public class ManageCustomerController {
 	public Map<String, Object> reportSelect(@RequestParam( value="cp",required=false,defaultValue = "1") int cp
 											) {
 		return  service.reportSelect(cp);
+	}
+	
+	
+	
+	// 고객 문의 상세 페이지 조회
+	@GetMapping(value="/questDetail", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public CustomerBoard questDetail(int boardNo) {
+		
+		return service.questDetail(boardNo);
+	}
+	
+	@GetMapping(value="/reportDetail", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Report reportDetail(int reportNo) {
+		return service.reportDetail(reportNo);
+	}
+	
+	/// 고객 프로필 화면 -------------------------------------
+	
+	//고객 프로필 화면
+	@GetMapping("/customerProfile")
+	public String customerProfile(int memberNo) {
+		
+		
+		
+		return "/manager/customer/customerProfile";
 	}
 }

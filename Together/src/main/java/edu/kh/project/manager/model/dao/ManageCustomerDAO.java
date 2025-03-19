@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.manager.model.dto.CustomerBoard;
 import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.manager.model.dto.Report;
 
@@ -132,6 +133,24 @@ public class ManageCustomerDAO {
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 		
 		return sqlSession.selectList("managerMapper.reportSelect", null, rowBounds );
+	}
+
+
+	/** 고객 문의 상세 페이지 조회
+	 * @param boardNo
+	 * @return
+	 */
+	public CustomerBoard questDetail(int boardNo) {
+		return sqlSession.selectOne("managerMapper.questDetail", boardNo);
+	}
+
+
+	/** 고객 신고 상세 페이지 조회
+	 * @param reportNo
+	 * @return
+	 */
+	public Report reportDetail(int reportNo) {
+		return sqlSession.selectOne("managerMapper.reportDetailSelect", reportNo);
 	}
 
 
