@@ -137,24 +137,31 @@ body {
 
 /* 참가 버튼 */
 .join-btn {
-    background-color: #FD499A;
-    color: white;
+    padding: 10px 10px;
     font-size: 14px;
-    font-weight: bold;
     border: none;
-    padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
+    width: 30%;
+    margin-left: 10px;
 }
 
-.join-btn:hover {
-    background-color: #E101FF;
-}
-
-/* 마감된 참가 버튼 */
-.join-btn.closed {
-    background-color: #9969FF;
+/* 진행 중 버튼 (참가 가능) */
+.active-btn {
+    background-color: #ff4d6d; /* 핫핑크 */
     color: white;
+    font-weight: bold;
+}
+
+.active-btn:hover {
+    background-color: #ff1a4b;
+}
+
+/* 마감된 버튼 (비활성화) */
+.closed-btn {
+    background-color: #b0b0b0; /* 회색 */
+    color: white;
+    font-weight: bold;
     cursor: not-allowed;
 }
 

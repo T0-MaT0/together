@@ -97,9 +97,25 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 		return dao.selectMyRecruitmentComments(memberNo);
 	}
 
+	// 내가 쓴 리뷰 조회
 	@Override
 	public List<Review> getMyRecruitmentReviews(int memberNo) {
 		return dao.selectMyRecruitmentReviews(memberNo);
+	}
+
+	// 모집방 상세 내용 조회 
+	@Override
+	public Recruitment selectRecruitmentRoomDetail(int recruitmentNo ,int boardNo) {
+		  // 모집 상세 정보 조회
+	    Recruitment recruitment = dao.selectRecruitmentRoomDetail(recruitmentNo, boardNo);
+
+	    if (recruitment != null) {
+	        // 참가자 수 조회
+	        int currentParticipants = dao.countParticipants(recruitmentNo);
+	        recruitment.setCurrentParticipants(currentParticipants);
+	    }
+
+	    return recruitment;
 	}
 
 	

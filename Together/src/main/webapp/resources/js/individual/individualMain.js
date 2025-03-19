@@ -56,13 +56,14 @@ function renderRecruitmentList() {
     for (let i = currentRecruitmentIndex; i < endIndex; i++) {
         const recruitment = recruitmentData[i];
         const progress = (recruitment.currentParticipants / recruitment.maxParticipants) * 100;
-        const isClosed = recruitment.currentParticipants >= recruitment.maxParticipants;
         const discount = Math.ceil(recruitment.productPrice / recruitment.maxParticipants);
 
         grid.innerHTML += `
             <div class="product">
                 <img src="${recruitment.thumbnail != null ? recruitment.thumbnail : '/resources/images/mypage/관리자 프로필.webp'}" 
                 alt="제품 이미지">
+                ${recruitment.recruitmentNo}
+                ${recruitment.boardNo}
                 <p class="seller-info">${recruitment.hostName} (등급: ${recruitment.hostGrade})</p>
                 <p class="product-name">${recruitment.productName}</p>
                 <p class="discount-price">${discount}원</p>
@@ -77,8 +78,10 @@ function renderRecruitmentList() {
                             <div class="progress-fill" style="width: ${progress}%;"></div>
                         </div>
                     </div>
-                    <button class="join-btn ${isClosed ? 'closed' : ''}">
-                        ${isClosed ? '마감' : '참가'}
+                    <button class="join-btn ${recruitment.recruitmentStatus == '마감' ? 'closed-btn' : 'active-btn'}"
+                            data-recruitment-no="${recruitment.recruitmentNo}"
+                            data-board-no="${recruitment.boardNo}">
+                        ${recruitment.recruitmentStatus == '진행' ? '참가' : recruitment.recruitmentStatus}
                     </button>
                 </div>
             </div>
@@ -97,7 +100,6 @@ function renderExtraRecruitmentList() {
     for (let i = currentExtraIndex; i < endIndex; i++) {
         const recruitment = extraRecruitments[i];
         const progress = (recruitment.currentParticipants / recruitment.maxParticipants) * 100;
-        const isClosed = recruitment.currentParticipants >= recruitment.maxParticipants;
         const discount = Math.ceil(recruitment.productPrice / recruitment.maxParticipants);
 
         grid.innerHTML += `
@@ -118,8 +120,10 @@ function renderExtraRecruitmentList() {
                             <div class="progress-fill" style="width: ${progress}%;"></div>
                         </div>
                     </div>
-                    <button class="join-btn ${isClosed ? 'closed' : ''}">
-                        ${isClosed ? '마감' : '참가'}
+                  <button class="join-btn ${recruitment.recruitmentStatus == '마감' ? 'closed-btn' : 'active-btn'}"
+                            data-recruitment-no="${recruitment.recruitmentNo}"
+                            data-board-no="${recruitment.boardNo}">
+                        ${recruitment.recruitmentStatus == '진행' ? '참가' : recruitment.recruitmentStatus}
                     </button>
                 </div>
             </div>
@@ -158,4 +162,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     setInterval(showNextAdImage, 5000); 
+});
+
+
+
+document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("join-btn")) {
+        if (event.target.classList.contains("closed-btn")) {
+            alert("이미 마감된 공동구매입니다.");
+            return;
+        }
+
+        // 버튼의 data-recruitment-no 값 가져오기
+        const recruitmentNo = event.target.getAttribute("data-recruitment-no");
+        const boardNo = event.target.getAttribute("data-board-no");
+
+        if (recruitmentNo) {
+
+        window.location.href = `/partyRecruitmentList/${recruitmentNo}/${boardNo}`;
+        }
+    }
 });

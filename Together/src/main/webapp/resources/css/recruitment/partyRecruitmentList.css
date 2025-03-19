@@ -53,42 +53,47 @@ body {
 /* 이미지 캐러셀 */
 .image-carousel {
     position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.carousel-track-wrapper {
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-track {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 15px;
+    transition: transform 0.5s ease-in-out;
+    white-space: nowrap;
 }
 
-.main-image {
-    width: 227px;
-    height: 376px;
-    border-radius: 8px;
-}
-
-.thumbnail-container {
-    display: flex;
-    flex-direction: column; 
-    gap: 20px; 
-    align-items: center; 
-    margin-left: 50px;
-}
-
-.thumbnail {
-    width: 238px;
-    height: 205px;
-    border-radius: 5px;
+.carousel-image {
+    flex: 0 0 calc(100% / 3); /* 한 줄에 3개만 보이도록 설정 */
+    max-width: 250px;
+    margin: 5px;
 }
 
 .carousel-btn {
-    background: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
     border: none;
-    font-size: 100px;
+    padding: 10px;
     cursor: pointer;
-    opacity: 0.4; 
-    margin : 70px;
+    z-index: 10; /* 버튼이 이미지보다 위로 오도록 설정 */
 }
-.carousel-btn:hover {
-    opacity: 1;
+
+.carousel-btn.left {
+    left: 0px;
+}
+
+.carousel-btn.right {
+    right: 0px;
 }
 
 /* 상품 설명 */
