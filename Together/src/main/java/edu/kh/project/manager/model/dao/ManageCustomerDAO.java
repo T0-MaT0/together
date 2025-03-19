@@ -1,5 +1,6 @@
 package edu.kh.project.manager.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.manager.model.dto.CustProfileBoard;
 import edu.kh.project.manager.model.dto.CustomerBoard;
+import edu.kh.project.manager.model.dto.CustomerProfile;
 import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.manager.model.dto.Report;
 
@@ -152,6 +155,46 @@ public class ManageCustomerDAO {
 	public Report reportDetail(int reportNo) {
 		return sqlSession.selectOne("managerMapper.reportDetailSelect", reportNo);
 	}
+
+
+	/** 고객 프로필 조회
+	 * @param memberNo
+	 * @return
+	 */
+	public CustomerProfile customerProfile(int memberNo) {
+		return sqlSession.selectOne("managerMapper.customerProfile", memberNo);
+	}
+
+
+	/** 프로필 게시판 목록 수 조회
+	 * @param boardCode
+	 * @param memberNo
+	 * @return
+	 */
+	public int cusProfileBoardCount(int boardCode, int memberNo) {
+		Map <String, Object> map = new HashMap<>();
+		map.put("boardCode",boardCode);
+		map.put("memberNo", memberNo);
+		return sqlSession.selectOne("managerMapper.cusProfileBoardCount", map);
+	}
+
+
+	/** 프로필 게시판 목록 조회
+	 * @param pagination
+	 * @return
+	 */
+	public List<CustProfileBoard> cusProfileBoardList(Pagination pagination, int boardCode, int memberNo) {
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		
+		Map <String, Object> map = new HashMap<>();
+		map.put("boardCode",boardCode);
+		map.put("memberNo", memberNo);
+		
+		return sqlSession.selectList("managerMapper.cusProfileBoardList", map, rowBounds);
+	}
+
+
 
 
 

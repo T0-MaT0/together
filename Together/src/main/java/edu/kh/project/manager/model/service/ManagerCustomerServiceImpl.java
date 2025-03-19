@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.manager.model.dao.ManageCustomerDAO;
+import edu.kh.project.manager.model.dto.CustProfileBoard;
 import edu.kh.project.manager.model.dto.CustomerBoard;
+import edu.kh.project.manager.model.dto.CustomerProfile;
 import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.manager.model.dto.Report;
 
@@ -117,6 +119,33 @@ public class ManagerCustomerServiceImpl implements ManageCustomerService{
 	@Override
 	public Report reportDetail(int reportNo) {
 		return dao.reportDetail(reportNo);
+	}
+
+	///-----------고객 프로필---------------
+	
+	// 고객 프로필 조회
+	@Override
+	public CustomerProfile customerProfile(int memberNo) {
+		return dao.customerProfile(memberNo);
+	}
+
+	// 고객 프로필 게시판 조회
+	@Override
+	public Map<String, Object> profileBoardList(int cp, int boardCode, int memberNo) {
+		int listCount = dao.cusProfileBoardCount(boardCode, memberNo);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		List<CustProfileBoard> boardList = dao.cusProfileBoardList(pagination, boardCode, memberNo);
+		
+		List<Map<String, Object>> cusBoardStateCount = dao.cusBoardStateCount();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pagination", pagination);
+		map.put("boardList", boardList);
+		
+		
+		
+		return map;
 	}
 
 

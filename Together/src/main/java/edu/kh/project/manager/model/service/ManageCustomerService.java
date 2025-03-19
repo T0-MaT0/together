@@ -2,7 +2,9 @@ package edu.kh.project.manager.model.service;
 
 import java.util.Map;
 
+import edu.kh.project.manager.model.dto.CustProfileBoard;
 import edu.kh.project.manager.model.dto.CustomerBoard;
+import edu.kh.project.manager.model.dto.CustomerProfile;
 import edu.kh.project.manager.model.dto.Report;
 
 public interface ManageCustomerService {
@@ -48,6 +50,22 @@ public interface ManageCustomerService {
 	 * @return
 	 */
 	Report reportDetail(int reportNo);
+
+
+	/** 고객 프로필 조회
+	 * @return
+	 */
+	CustomerProfile customerProfile(int memberNo);
+
+
+
+	/** 고객 프로필 화면 게시판 조회
+	 * @param cp
+	 * @param boardCode
+	 * @param memberNo 
+	 * @return
+	 */
+	Map<String, Object> profileBoardList(int cp, int boardCode, int memberNo);
 
 
 

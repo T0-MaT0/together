@@ -42,87 +42,97 @@
             <div class="board-title bottom-line">
                 <div class="title">회원 프로필</div>
                 <div class="btn-area">
-                    <a href="#">블랙</a>
-                    <a href="#">경고</a>
+                    <a href="report?memberNo=${profile.memberNo}">블랙</a>
+                    <a href="report?memberNo=${profile.memberNo}">경고</a>
                 </div>
             </div>
 
             <div class="profile-area">
-                <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                <div class="nickname">닉네임</div>
+                <c:if test="${empty profile.profileImg}">
+                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
+                </c:if>
+                <c:if test="${!empty profile.profileImg}">
+                    <img src="${profile.profileImg}" alt="프로필">
+                </c:if>
+                <div class="nickname">${profile.memberNick}</div>
             </div>
 
             <div class="status-area">
                 <div class="ch-number">
                     <div class="status-title">상태</div>
-                    <div class="status-content">회원</div>
+                    <div class="status-content">${profile.state}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">댓글</div>
-                    <div class="status-content">10</div>
+                    <div class="status-content">${profile.replyCount}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">모집글</div>
-                    <div class="status-content">10</div>
+                    <div class="status-content">${profile.getherCount}</div>
                 </div>
                 <div class="ch-number">
-                    <div class="status-title">구매상품</div>
-                    <div class="status-content">10</div>
+                    <div class="status-title">주문상품</div>
+                    <div class="status-content">${profile.orderCount}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">경고</div>
-                    <div class="status-content">2</div>
+                    <div class="status-content">${profile.warnCount}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">신고</div>
-                    <div class="status-content">10</div>
+                    <div class="status-content">${profile.reportCount}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">피신고</div>
-                    <div class="status-content">10</div>
+                    <div class="status-content">${profile.reportedCount}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">1:1문의</div>
-                    <div class="status-content">10</div>
+                    <div class="status-content">${profile.questCount}</div>
                 </div>
             </div>
 
             <div class="info-wrap">
                 <div class="info-item">
-                    <div>아이디: </div> <div>kimmara</div>
+                    <div>아이디: </div> <div>${profile.memberId}</div>
                 </div>
                 <div class="info-item">
-                    <div>이름: </div> <div>김마리</div>
+                    <div>이름: </div> <div>${profile.memberName}</div>
                 </div>
                 <div class="info-item">
-                    <div>생년월일: </div> <div>2000.01.01</div>
+                    <div>생년월일: </div> <div>${profile.memberBirth}</div>
                 </div>
                 <div class="info-item">
-                    <div>가입일자: </div> <div>2000.01.01</div>
+                    <div>가입일자: </div> <div>${profile.enrollDate}</div>
                 </div>
                 <div class="info-item">
-                    <div>이메일: </div> <div>mari@gmail.com</div>
+                    <div>이메일: </div> <div>${profile.memberEmail}</div>
                 </div>
                 <div class="info-item">
-                    <div>전화번호: </div> <div>010-1234-1234</div>
+                    <div>전화번호: </div> <div>${profile.memberTel}</div>
                 </div>
+
+                <c:set var="addressParts" value="${fn:split(profile.memberAddr, '^^^')}" />
+
                 <div class="info-item">
-                    <div>주소: </div> <div>122228</div>
+                    <div>주소: </div> <div>${addressParts[0]}</div>
                 </div>
                 <div class="address">
-                    <div>122228</div>
+                    <div>${addressParts[1]}</div>
                 </div>
                 <div class="address">
-                    <div>122228</div>
+                    <div>${addressParts[2]}</div>
                 </div>
             </div>
 
         </section>
         <section class="pro-board">
             <div class="subMenu-area">
-                <a href="#" class="select">문의</a>
-                <a href="#" >신고</a>
-                <a href="#">경고</a>
+                <a class="select" onclick="boardList(0)">모집글</a>
+                <a onclick="boardList(1)" >문의</a>
+                <a onclick="boardList(2)" >주문상품</a>
+                <a onclick="boardList(3)">신고</a>
+                <a onclick="boardList(5)" >댓글</a>
             </div>
         
             <div class="board-title">
@@ -230,24 +240,7 @@
 
 
 </main>
-
-<script>
-    const acc = document.getElementsByClassName("accordion");
-
-    for (let i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            let panel = this.nextElementSibling;
-            console.log(panel.style.maxHeight);
-            if (panel.style.maxHeight) {
-                panel.style.maxHeight = null;
-            } else {
-                panel.style.maxHeight = panel.scrollHeight + "px";
-            }
-        });
-
-    }
-</script>
+<script src="/resources/js/manager-js/customer/manageCustomer.js"></script>
 </body>
 
 </html>
