@@ -44,9 +44,9 @@
      <property name="username" value="TOGETHER" />
      <property name="password" value="To_gether0" /> 
       
-     	 <!-- <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" />
- 		 <property name="username" value="together" />
-    	 <property name="password" value="together1234" /> -->
+<!--      	 <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" /> -->
+<!--  		 <property name="username" value="together" /> -->
+<!--     	 <property name="password" value="together1234" /> -->
 
       
       

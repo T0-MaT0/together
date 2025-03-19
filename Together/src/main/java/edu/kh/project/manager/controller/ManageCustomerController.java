@@ -1,16 +1,20 @@
 package edu.kh.project.manager.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.kh.project.manager.model.dto.CustProfileBoard;
 import edu.kh.project.manager.model.dto.CustomerBoard;
+import edu.kh.project.manager.model.dto.CustomerProfile;
 import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.manager.model.service.ManageCustomerService;
 
@@ -100,10 +104,23 @@ public class ManageCustomerController {
 	
 	//고객 프로필 화면
 	@GetMapping("/customerProfile")
-	public String customerProfile(int memberNo) {
+	public String customerProfile(int memberNo, Model model) {
 		
-		
+		CustomerProfile profile = service.customerProfile(memberNo);
+		model.addAttribute("profile", profile);
 		
 		return "/manager/customer/customerProfile";
+	}
+	
+	// 목록 조회 화면
+	@GetMapping(value="/customerProfile/{boardCode}", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> customerProfile(@RequestParam( value="cp",required=false,defaultValue = "1") int cp
+								,@PathVariable("boardCode") int boardCode
+								,int memberNo) {
+		
+		Map<String, Object> map = service.profileBoardList(cp, boardCode, memberNo );
+		
+		return map;
 	}
 }
