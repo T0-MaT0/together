@@ -175,6 +175,39 @@ public class RecruitmentController {
 
  	    return "Individual/CreateGroup"; 
  	}
+ 	
+ 	// 모집창 상세 경로
+ 	@GetMapping("/partyRecruitmentList/{recruitmentNo}/{boardNo}")
+ 	public String partyRecruitmentList(
+ 			@PathVariable("recruitmentNo") int recruitmentNo,
+ 			@PathVariable("boardNo") int boardNo,
+ 	        @SessionAttribute(value = "loginMember", required = false) Member loginMember,
+ 	        RedirectAttributes redirectAttributes,
+ 	        Model model) {
+ 	    
+ 	    int boardCode = 1; // 모집 게시판 코드
+	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
+	    
+	    System.out.println("boardNo : " + boardNo);
+
+ 	    if (loginMember == null) {
+ 	        redirectAttributes.addFlashAttribute("message", "로그인을 먼저 해주세요.");
+ 	        return "redirect:/member/login";
+ 	    }
+ 	    Recruitment recruitmentDetail = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo);
+ 	    System.out.println("recruitmentDetail :" +recruitmentDetail);
+ 	   if (recruitmentDetail == null) {
+ 	        redirectAttributes.addFlashAttribute("message", "해당 모집글을 찾을 수 없습니다.");
+ 	        return "redirect:/partyRecruitmentList";
+ 	    }
+ 	   
+	    model.addAttribute("recruitmentDetail", recruitmentDetail);
+	    model.addAttribute("boardCode", boardCode);
+	    model.addAttribute("boardNo", boardNo);
+
+
+ 	    return "Individual/partyRecruitmentList"; 
+ 	}
 	
 	
 }

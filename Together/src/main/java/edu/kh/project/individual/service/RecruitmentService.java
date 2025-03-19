@@ -26,4 +26,7 @@ public interface RecruitmentService {
 	// 내 리뷰 조회
 	List<Review> getMyRecruitmentReviews(int memberNo);
 
+	// 모집방 내용 상세 조회
+	Recruitment selectRecruitmentRoomDetail(int recruitmentNo, int boardNo);
+
 }
