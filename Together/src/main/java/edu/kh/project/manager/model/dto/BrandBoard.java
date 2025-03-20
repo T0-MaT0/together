@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class BrandBoard {
     private int boardNo;
+    private int memberNo;
     private String brandName;
     private String boardTitle;
     private String productTitle;

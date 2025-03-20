@@ -10,6 +10,8 @@ import lombok.ToString;
 public class QuestCustomer {
 
 	private int boardNo;
+	private int memberNo;
+	
 	private String profileImg;
 	private String memberNick;
 	private String boardTitle;
