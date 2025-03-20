@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MypageService {
     List<Product> getPurchaseHistory(int memberNo);
+
+    List<Product> getCategoryPick(int categoryNo);
 }

@@ -22,7 +22,6 @@ if (purchaseHistory) {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         const purchaseItem = document.getElementById("purchase-item");
         purchaseItem.innerHTML = "";
         data.forEach(item => {
@@ -63,10 +62,10 @@ if (purchaseHistory) {
           categoryFilter.innerHTML = "";
 
           purchaseCategory.forEach(category => {
-            const categoryNo = category.split(":")[0];
-            const categoryName = category.split(":")[1];
+            let categoryNo = category.split(":")[0];
+            let categoryName = category.split(":")[1];
 
-            const categoryBtn = document.createElement("button");
+            let categoryBtn = document.createElement("button");
             categoryBtn.classList.add("category-btn");
             categoryBtn.innerText = categoryName;
             categoryBtn.setAttribute("data-category", categoryNo);
@@ -77,47 +76,58 @@ if (purchaseHistory) {
                 btn.classList.remove("selected");
               });
               categoryBtn.classList.add("selected");
-
+              let cateNo = categoryBtn.getAttribute("data-category");
+              console.log(cateNo);
               fetch("/mypage/categoryPick", {
                 method: "post",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ memberNo: memberNo, categoryNo: categoryNo })
+                body: cateNo
               })
-                .then(response => response.json())
-                .then(data => {
-                  console.log(data);
-                  const purchaseItem = document.getElementById("purchase-item");
-                  purchaseItem.innerHTML = "";
-                  data.forEach(/* item => {
-                  const itemContainer = document.createElement("a");
-                  itemContainer.href = '/board/' + parseInt(item.boardCode) + '/' + item.boardNo;
-                  itemContainer.classList.add("item-container");
+              .then(response => response.json())
+              .then(data => {
+                console.log(data);
+                const carousel = document.getElementById("carousel");
+                carousel.innerHTML = "";
+                data.forEach(
+                  item => {
+                    const carouselItem = document.createElement("div");
+                    carouselItem.classList.add("carousel-item");
 
-                  const itemBox = document.createElement("div");
-                  itemBox.classList.add("item-box");
+                    const a = document.createElement("a");
+                    a.href = '/board/' + parseInt(item.boardCode) + '/' + item.boardNo;
 
-                  const itemImg = document.createElement("img");
-                  itemImg.setAttribute("src", item.imgPath);
+                    const img = document.createElement("img");
+                    img.src = item.imgPath;
+                    img.alt = item.boardTitle;
 
-                  itemBox.appendChild(itemImg);
-                  const itemTitle = document.createElement("p");
-                  itemTitle.classList.add("item-title");
-                  itemTitle.textContent = item.boardTitle;
+                    const productName = document.createElement("p");
+                    productName.classList.add("product-name");
+                    productName.textContent = item.boardTitle;
 
-                  itemContainer.appendChild(itemBox);
-                  itemContainer.appendChild(itemTitle);
+                    const productPrice = document.createElement("p");
+                    productPrice.classList.add("product-price");
+                    productPrice.textContent = item.price + "원";
 
-                  purchaseItem.appendChild(itemContainer);
-                } */ );
+                    a.appendChild(img);
+                    a.appendChild(productName);
+                    a.appendChild(productPrice);
 
-                  /*                 if (data.length === 0) {
-                                    const noItem = document.createElement("p");
-                                    noItem.textContent = "구매 이력이 없습니다.";
-                                    purchaseItem.appendChild(noItem);
-                                  } */
-                });
+                    carouselItem.appendChild(a);
+                    carousel.appendChild(carouselItem);
+                  }
+                );
+
+                if (data.length === 0) {
+                  const noItem = document.createElement("p");
+                  noItem.textContent = "추천 상품이 없습니다.";
+                  carousel.appendChild(noItem);
+                }
+
+              });
 
             });
+            const firstCategoryBtn = document.getElementsByClassName("category-btn")[0];
+            firstCategoryBtn.classList.add("selected");
 
           })
 

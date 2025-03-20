@@ -91,22 +91,17 @@
 
 					<!-- 카테고리 필터 -->
 					<div class="category-filter" id="category-filter">
-						<button class="selected">에어포스1카카오</button>
-						<button>게이밍무선마우스</button>
-						<button>닭양념육</button>
-						<button>제첵</button>
-						<button>풋살화</button>
-						<button>사무용의자</button>
 					</div>
 
 					<div class="carousel-container">
-						<button class="carousel-btn left-btn">&lt;</button>
 
-						<div class="carousel">
+						<div class="carousel" id="carousel">
 							<div class="carousel-item">
-								<img src="상품1.png" alt="상품1">
-								<p class="product-name">국내매장품 나이키...</p>
-								<p class="product-price">195,000원</p>
+                <a href="">
+								  <img src="상품1.png" alt="상품1">
+								  <p class="product-name">국내매장품 나이키...</p>
+								  <p class="product-price">195,000원</p>
+                </a>
 							</div>
 							<div class="carousel-item">
 								<img src="상품2.png" alt="상품2">
@@ -130,7 +125,6 @@
 							</div>
 						</div>
 
-						<button class="carousel-btn right-btn">&gt;</button>
 					</div>
 				</section>
 
@@ -138,14 +132,6 @@
 				<section class="purchase-history" id="purchase-history">
 					<h3>구매 이력</h3>
 					<div class="purchase-item" id="purchase-item">
-						<a href="#" class="item-container">
-							<div class="item-box"><img src="" alt=""></div>
-							<p class="item-title">상품 설명 1</p>
-						</a> 
-            <a href="#" class="item-container">
-							<div class="item-box"></div>
-							<p class="item-title">상품 설명 2</p>
-						</a>
 					</div>
 				</section>
 

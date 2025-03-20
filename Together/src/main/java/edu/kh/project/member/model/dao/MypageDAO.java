@@ -17,4 +17,8 @@ public class MypageDAO {
     public List<Product> getPurchaseHistory(int memberNo) {
         return sqlSession.selectList("mypageMapper.getPurchaseHistory", memberNo);
     }
+
+    public List<Product> getCategoryPick(int categoryNo) {
+        return sqlSession.selectList("mypageMapper.getCategoryPick", categoryNo);
+    }
 }

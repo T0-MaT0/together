@@ -17,4 +17,7 @@ public class MypageServiceImpl implements MypageService {
     public List<Product> getPurchaseHistory(int memberNo) {
         return dao.getPurchaseHistory(memberNo);
     }
+
+    @Override
+    public List<Product> getCategoryPick(int categoryNo) { return dao.getCategoryPick(categoryNo); }
 }
