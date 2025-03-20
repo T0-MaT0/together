@@ -119,22 +119,8 @@
 				</section>
 
 				<!-- 관심 스토어 -->
-				<section class="interest-store">
+				<section class="interest-store" id="interestStore">
 					<h3>관심 스토어</h3>
-					<div class="store-list">
-						<div class="store-circle">
-							<img src="브랜드1.png" alt="기업1">
-							<p class="store-name">기업명1</p>
-						</div>
-						<div class="store-circle">
-							<img src="브랜드2.png" alt="기업2">
-							<p class="store-name">기업명2</p>
-						</div>
-						<div class="store-circle">
-							<img src="브랜드2.png" alt="기업3">
-							<p class="store-name">기업명3</p>
-						</div>
-					</div>
 				</section>
 
 				<!-- 찜한 상품 -->

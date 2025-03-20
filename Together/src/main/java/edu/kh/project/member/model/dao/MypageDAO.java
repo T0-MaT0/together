@@ -1,6 +1,7 @@
 package edu.kh.project.member.model.dao;
 
 
+import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,9 @@ public class MypageDAO {
 
     public List<Product> getPickProduct(int memberNo) {
         return sqlSession.selectList("mypageMapper.getPickProduct", memberNo);
+    }
+
+    public List<Member> recommendBrand(int memberNo) {
+        return sqlSession.selectList("mypageMapper.recommendBrand", memberNo);
     }
 }

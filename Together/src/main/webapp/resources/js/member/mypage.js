@@ -158,6 +158,61 @@ function getRecommendBrand() {
   .then(response => response.json())
   .then(data => {
     console.log(data);
+    /* <section class="interest-store" id="interest-store">
+					<h3>관심 스토어</h3>
+					<div class="store-list">
+						<div class="store-circle">
+							<img src="브랜드1.png" alt="기업1">
+							<p class="store-name">기업명1</p>
+						</div>
+						<div class="store-circle">
+							<img src="브랜드2.png" alt="기업2">
+							<p class="store-name">기업명2</p>
+						</div>
+						<div class="store-circle">
+							<img src="브랜드2.png" alt="기업3">
+							<p class="store-name">기업명3</p>
+						</div>
+					</div>
+				</section> */
+
+    const interestStore = document.getElementById("interestStore");
+    interestStore.innerHTML = "";
+    const h3 = document.createElement("h3");
+    h3.textContent = "관심 스토어";
+
+    const storeList = document.createElement("div");
+    storeList.classList.add("store-list");
+
+    interestStore.appendChild(h3);
+    interestStore.appendChild(storeList);
+
+    data.forEach(item => {
+      const storeCircle = document.createElement("div");
+      storeCircle.classList.add("store-circle");
+
+      const a = document.createElement("a");
+      a.href = '/brand/' + item.memberNo;
+      const img = document.createElement("img");
+      if (item.profileImg === null) {
+        item.profileImg = "/resources/images/mypage/common/Seller.png";
+      }
+      img.src = item.profileImg;
+      img.alt = item.memberNick;
+
+      const storeName = document.createElement("p");
+      storeName.classList.add("store-name");
+      storeName.textContent = item.memberNick;
+
+      a.appendChild(img);
+      a.appendChild(storeName);
+
+      storeCircle.appendChild(a);
+      storeList.appendChild(storeCircle);
+    });
+
+
+
   });
     
 }
@@ -189,6 +244,12 @@ function pickProduct() {
 
     const allProductList = document.createElement("div");
     allProductList.classList.add("product-list");
+
+    if (data.length === 0) {
+      const noItem = document.createElement("p");
+      noItem.textContent = "찜한 상품이 없습니다.";
+      allProductList.appendChild(noItem);
+    }
 
     /* data의 boardTitle 길이 13자로 조절 */
     data.map (item => {
@@ -284,5 +345,6 @@ function pickProduct() {
 document.addEventListener("DOMContentLoaded", function () {
   getPurchaseHistory();
   pickProduct();
+  getRecommendBrand();
 
 });
