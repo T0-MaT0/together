@@ -270,8 +270,12 @@ html, body {
 }
 
 .curr{
-   color:#6700CF;
-   font-weight: bolder;
+    margin: 5px 10px;
+    font-weight: normal;
+    padding: 6px 10px 4px;
+    background-color: #b573f7;
+    border-radius: 5px;
+    color: white;
 }
 
 #pagination > li>a{
@@ -292,5 +296,18 @@ html, body {
 
 .noBoard{
     padding: 10px 0;
+    margin: auto;
+}
+
+/* -------------------------------- */
+/* 문의이력 보드 */
+#container-center > section:nth-child(2){
+    height: 637px;
+}
+
+
+/* 존재하지 않은 게시물 */
+#list-area > div.notFound{
+    padding: 15px 0;
     margin: auto;
 }

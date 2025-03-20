@@ -249,19 +249,27 @@ html, body {
 }
 
 
+#container-center > section:nth-child(2){position: relative;}
 /* 페이지네이션 */
 #pagination{
     display: flex;
     justify-content: center;
-
     list-style-type: none;
-
     font-size: 13px;
+
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
 
 #pagination >li{
     margin: 5px 10px;
     font-weight: normal;
+    padding: 6px 10px 4px;
+    background-color: #ff98c6;
+    border-radius: 5px;
+    color: white;
 }
 
 .curr{
@@ -274,4 +282,11 @@ html, body {
 /* 문의이력 보드 */
 #container-center > section:nth-child(2){
     height: 637px;
+}
+
+
+/* 존재하지 않은 게시물 */
+#list-area > div.notFound{
+    padding: 15px 0;
+    margin: auto;
 }

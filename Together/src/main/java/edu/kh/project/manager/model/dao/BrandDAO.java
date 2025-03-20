@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.manager.model.dto.BrandBoard;
 import edu.kh.project.manager.model.dto.BrandProfile;
+import edu.kh.project.manager.model.dto.BrandProfileBoard;
 import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.manager.model.dto.Report;
 
@@ -153,46 +154,6 @@ public class BrandDAO {
 		return sqlSession.selectList("managerMapper.dataRank");
 	}
 
-	
-	/** 브랜드 프로필 조회
-	 * @param boardNo
-	 * @return
-	 */
-	public BrandProfile brandProfileSelect(int boardNo) {
-		return sqlSession.selectOne("managerMapper.brandProfileSelect", boardNo);
-	}
-
-	
-	
-	/** 브랜드 프로필 게시글 수
-	 * @param boardNo
-	 * @param brandBoardCode
-	 * @return
-	 */
-	public int brandProfileBoardCount(int boardNo, int brandBoardCode) {
-		Map<String, Object> brandMap = new HashMap<>();
-		brandMap.put("boardCode", brandBoardCode);
-		brandMap.put("boardNo", boardNo);
-		
-		return sqlSession.selectOne("managerMapper.brandProfileBoardCount",brandMap);
-	}
-	/** 브랜드 프로필 리스트 목록 조회
-	 * @param pagination 
-	 * @param brandBoardCode
-	 * @param boardNo 
-	 * @return
-	 */
-	public List<BrandBoard> brandProfileProducts(Pagination pagination, int brandBoardCode, int boardNo) {
-		
-		Map<String, Object> brandMap = new HashMap<>();
-		brandMap.put("boardCode", brandBoardCode);
-		brandMap.put("boardNo", boardNo);
-		
-		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
-		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
-		
-		return sqlSession.selectList("managerMapper.brandProfileProducts", brandMap, rowBounds);
-	}
 
 	/** report detail ajax
 	 * @param reportNo
@@ -211,8 +172,52 @@ public class BrandDAO {
 	}
 
 
+	
+	/// *** 브랜드 프로필 ***///
 
+	
+	/** 브랜드 프로필 조회
+	 * @param boardNo
+	 * @return
+	 */
+	public BrandProfile brandProfileSelect(int memberNo) {
+		return sqlSession.selectOne("managerMapper.brandProfileSelect", memberNo);
+	}
 
+	
+	
+	/** 브랜드 프로필 게시글 수
+	 * @param boardNo
+	 * @param brandBoardCode
+	 * @return
+	 */
+	public int brandProfileBoardCount(int memberNo, int brandBoardCode) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("boardCode", brandBoardCode);
+		map.put("memberNo", memberNo);
+		
+		return sqlSession.selectOne("managerMapper.brandProfileBoardCount",map);
+	}
+	
+	/// *** PROFILE END ***
+	
+	/** 브랜드 프로필 리스트 목록 조회
+	 * @param pagination 
+	 * @param brandBoardCode
+	 * @param boardNo 
+	 * @return
+	 */
+	public List<BrandProfileBoard> brandProfileProducts(Pagination pagination, int brandBoardCode, int memberNo) {
+		
+		Map<String, Object> brandMap = new HashMap<>();
+		brandMap.put("boardCode", brandBoardCode);
+		brandMap.put("memberNo", memberNo);
+		
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		
+		return sqlSession.selectList("managerMapper.brandProfileProducts", brandMap, rowBounds);
+	}
 
 
 

@@ -82,7 +82,12 @@
                 <c:forEach  items="${stateList}" var="state">
                     <div class="list item bottom-line clickArea" onclick="customerState(${state.memberNo})">
                         <div>${state.memberNo}</div>
-                        <img src="/resources/images/image-manager/profile.png" alt="프로필">
+                        <c:if test="${empty state.profileImg}">
+                            <img src="/resources/images/image-manager/profile.png" alt="프로필">
+                        </c:if>
+                        <c:if test="${!empty state.profileImg}">
+                            <img src="${state.profileImg}" alt="프로필">
+                        </c:if>
                         <div>${state.memberNick}</div>
                         <div>${state.memberEmail}</div>
                         <div>${state.enrollDate}</div>

@@ -32,9 +32,9 @@
 
         <button class="accordion" id="homePageMenu">홈페이지 관리</button>
         <div class="panel">
-            <a href="/manageHome/mainPage">메인 PAGE</a>
-            <a href="/manageHome/privatePage">GET 개인 PAGE</a>
-            <a href="/manageHome/brandPage">TO 브랜드 PAGE</a>
+            <a href="/manageHome/mainPage?no=1">메인 PAGE</a>
+            <a href="/manageHome/privatePage?no=2">GET 개인 PAGE</a>
+            <a href="/manageHome/brandPage?no=3">TO 브랜드 PAGE</a>
         </div>
 
     </div>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import edu.kh.project.manager.model.dto.BrandBoard;
+import edu.kh.project.manager.model.dto.BrandProfile;
 import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.manager.model.service.BrandService;
 
@@ -84,21 +85,7 @@ public class ManageBrandController {
 	
 	
 	//-------------------------------------------------------------------------------
-	//브랜드 프로필 조회
-	@GetMapping("/brandProfile/{brandBoardCode}")
-	public String brandProfile(@RequestParam( value="cp",required=false,defaultValue = "1") int cp
-							,int boardNo, Model model
-							, @PathVariable("brandBoardCode") int brandBoardCode) {
-		
-		
-		Map<String, Object> map = service.brandProfile(boardNo, cp, brandBoardCode);
-		model.addAttribute("map",map);
-		model.addAttribute("brandBoardCode",brandBoardCode);
-		model.addAttribute("boardNo", boardNo);
-		System.out.println(map.get("brandList"));
-		
-		return "/manager/brand/brandProfile";
-	}
+
 	
 	// 브랜드 신고 상세 조회
 	@GetMapping(value="/reportDetail" , produces="application/json; charset=UTF-8")
@@ -120,4 +107,31 @@ public class ManageBrandController {
 		
 		return service.boardDetailSelect(map);
 	}
+	
+	// **  부랜드 프로필 **
+	//브랜드 프로필 조회
+	
+	@GetMapping("/brandProfile")
+	public String brandProfile(int memberNo, Model model) {
+		
+		BrandProfile profile = service.brandProfile(memberNo);
+		model.addAttribute("profile", profile);
+		
+		return "/manager/brand/brandProfile";
+	}
+	
+	
+	@GetMapping("/brandProfile/{boardCode}")
+	@ResponseBody
+	public Map<String, Object> brandProfile(@RequestParam( value="cp",required=false,defaultValue = "1") int cp
+								,int memberNo
+								, @PathVariable("boardCode") int boardCode) {
+		
+		
+		Map<String, Object> map = service.profileBoardList(cp, boardCode, memberNo);
+		
+		return map;
+	}
+	
+	// ** brand Profile End**//
 }

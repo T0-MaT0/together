@@ -128,11 +128,11 @@
         </section>
         <section class="pro-board">
             <div class="subMenu-area">
-                <a class="select" onclick="boardList(0)">모집글</a>
-                <a onclick="boardList(1)" >문의</a>
-                <a onclick="boardList(2)" >주문상품</a>
-                <a onclick="boardList(3)">신고</a>
-                <a onclick="boardList(5)" >댓글</a>
+                <a class="select" onclick="boardList(0, ${profile.memberNo})">모집글</a>
+                <a onclick="boardList(1, ${profile.memberNo},1)" >문의</a>
+                <a onclick="boardList(2, ${profile.memberNo},1)" >주문상품</a>
+                <a onclick="boardList(3, ${profile.memberNo},1)">신고</a>
+                <a onclick="boardList(4, ${profile.memberNo},1)" >댓글</a>
             </div>
         
             <div class="board-title">
@@ -154,84 +154,18 @@
                     <div>문의일자</div>
                     <div>상태</div>
                 </div>
-                <div class="list item bottom-line">
+                <!-- <div class="list item bottom-line">
                     <div>1</div>
                     <div>문의할게 있어요!! 상품 판매...</div>
                     <div>2025.02.25</div>
                     <div>미처리</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>문의할게 있어요!! 상품 판매...</div>
-                    <div>2025.02.25</div>
-                    <div>처리</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>문의할게 있어요!! 상품 판매...</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>문의할게 있어요!! 상품 판매...</div>
-                    <div>2025.02.25</div>
-                    <div>처리</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>문의할게 있어요!! 상품 판매...</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>문의할게 있어요!! 상품 판매...</div>
-                    <div>2025.02.25</div>
-                    <div>처리</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>문의할게 있어요!! 상품 판매...</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>문의할게 있어요!! 상품 판매...</div>
-                    <div>2025.02.25</div>
-                    <div>처리</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>문의할게 있어요!! 상품 판매...</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <div>문의할게 있어요!! 상품 판매...</div>
-                    <div>2025.02.25</div>
-                    <div>처리</div>
-                </div>
+                </div> -->
                 
             </div>
 
             <ul id="pagination">
-                <li>&lt;&lt;</li>
-                <li>&lt;</li>
-                <li class="curr">1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>10</li>
-                <li>&gt;</li>
-                <li>&gt;&gt;</li>
+                <!-- <li>&lt;</li>
+                <li>&gt;</li> -->
             </ul>
 
         </section>

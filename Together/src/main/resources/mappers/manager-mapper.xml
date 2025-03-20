@@ -58,6 +58,7 @@
 	<resultMap type="BrandBoard" id="Brand_Board"></resultMap>
 	<resultMap type="LookData" id="LookData"></resultMap>
 	<resultMap type="BrandProfile" id="BrandProfile"></resultMap>
+	<resultMap type="BrandProfileBoard" id="BrandProfileBoard"></resultMap>
 	
 	<!-- ===============================  MAIN  ====================================== -->
 	
@@ -460,15 +461,16 @@
 		</if>
 		<if test="boardCode == 4">
 			SELECT COUNT(*)
+			FROM REPLY 
+			WHERE MEMBER_NO  = ${memberNo}
+		</if>
+		<if test="boardCode == 5">
+			SELECT COUNT(*)
 			FROM REPORT 
 			WHERE MEMBER_NO = ${memberNo}
 			ORDER BY CREATE_DATE DESC		
 		</if>
-		<if test="boardCode == 5">
-			SELECT COUNT(*)
-			FROM REPLY 
-			WHERE MEMBER_NO  = ${memberNo}
-		</if>
+
 	</select>
 	
 	<!-- 프로필 화면에서 게시판 목록 조회 -->
@@ -481,7 +483,7 @@
 			FROM BOARD B
 			JOIN RECRUITMENT_ROOM R ON(R.BOARD_NO = B.BOARD_NO)
 			WHERE BOARD_CD  = 1
-			AND R.MEMBER_NO = ${memberNo}
+			AND B.MEMBER_NO = ${memberNo}
 			ORDER BY B_CREATE_DATE			
 		</if>
 		<if test="boardCode == 1">
@@ -501,7 +503,7 @@
 				,QUANTITY STATE
 			FROM "ORDER" O
 			WHERE MEMBER_NO = ${memberNo}
-			ORDER BY ORDER_NO DESC;		
+			ORDER BY ORDER_NO DESC	
 		</if>
 		<if test="boardCode == 3">
 			SELECT REPORT_NO NO
@@ -513,15 +515,6 @@
 			ORDER BY REPORT_NO DESC
 		</if>
 		<if test="boardCode == 4">
-			SELECT REPORT_NO NO
-					,REPORT_TITLE TITLE 
-					,TO_CHAR(REPORT_DATE, 'YYYY-MM-DD') CREATE_DATE
-					,REPORT_STATUS STATE
-			FROM REPORT 
-			WHERE MEMBER_NO = ${memberNo}
-			ORDER BY CREATE_DATE DESC		
-		</if>
-		<if test="boardCode == 5">
 			SELECT REPLY_NO NO 
 					,SUBSTR(REPLY_CONTENT, 1 ,10) ||'...' TITLE
 					,TO_CHAR(REPLY_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE
@@ -530,6 +523,16 @@
 			WHERE MEMBER_NO  = ${memberNo}
 			ORDER BY CREATE_DATE DESC		
 		</if>
+		<if test="boardCode == 5">
+			SELECT REPORT_NO NO
+					,REPORT_TITLE TITLE 
+					,TO_CHAR(REPORT_DATE, 'YYYY-MM-DD') CREATE_DATE
+					,REPORT_STATUS STATE
+			FROM REPORT 
+			WHERE MEMBER_NO = ${memberNo}
+			ORDER BY CREATE_DATE DESC		
+		</if>
+		
 	</select>
 	
 	<!-- ** customer Profile end ** -->
@@ -549,7 +552,7 @@
 	
 	<!-- 상품 목록 조회  -->
 	<select id="goodsList" resultMap="Brand_Board">
-		SELECT BOARD_NO , MEMBER_NICK BRAND_NAME, BOARD_TITLE PRODUCT_TITLE
+		SELECT MEMBER_NO, BOARD_NO , MEMBER_NICK BRAND_NAME, BOARD_TITLE PRODUCT_TITLE
 				, TO_CHAR(B_CREATE_DATE,'YYYY-MM-DD') CREATE_DATE
 				,(SELECT PRODUCT_COUNT FROM PRODUCT P WHERE B.BOARD_NO= P.BOARD_NO)  PRODUCT_COUNT
 				, DECODE(BOARD_DEL_FL,'N', '판매','Y', '종료') BOARD_DEL_FL
@@ -678,66 +681,131 @@
 		WHERE ROWNUM BETWEEN 1 AND 6	
 	</select>
 	
+	<!-- ** BOARD PROFILE **  -->
 	<!-- 브랜드 프로필 조회 -->
 	<select id="brandProfileSelect" resultMap="BrandProfile">
-		SELECT M.MEMBER_NO , MEMBER_NICK, MEMBER_ID, MEMBER_NAME 
-				, TO_CHAR(MEMBER_BIRTH, 'YYYY-MM-DD') MEMBER_BIRTH 
-				, TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD') ENROLL_DATE , MEMBER_EMAIL , MEMBER_TEL , MEMBER_ADDR 
-				,DECODE(PERMISSION_FL,'N','미제휴','Y','제휴') PERMISSIONT_FL
-				,(SELECT COUNT(*) FROM REPLY R WHERE R.MEMBER_NO = M.MEMBER_NO) REPLY_COUNT
-				,(SELECT COUNT(*) FROM BOARD B WHERE B.MEMBER_NO= M.MEMBER_NO AND BOARD_CD=2) PRODUCT_COUNT
-				,(SELECT COUNT(*) FROM BOARD B WHERE B.MEMBER_NO= M.MEMBER_NO AND BOARD_CD=7) PROM_COUNT
-				,(SELECT COUNT(*) FROM BOARD B WHERE B.MEMBER_NO= M.MEMBER_NO AND BOARD_CD=6) COUNSEL_COUNT
-				,(SELECT COUNT(*) FROM REPORT REP WHERE REPORT_STATUS ='경고' AND REP.REPORTED_USER_NO = M.MEMBER_NO) WRAN_COUNT
-				,(SELECT COUNT(*) FROM REPORT REP WHERE REPORTED_USER_NO = M.MEMBER_NO) REPORTED_COUNT
-				,(SELECT COUNT(*) FROM REPORT REP WHERE REP.MEMBER_NO = M.MEMBER_NO) REPORT_COUNT
-				,TO_CHAR(BUSINESS_NO, '9999999999')BUSINESS_NO, BANK_NAME , BANK_NO 
+		SELECT MEMBER_NO , MEMBER_NICK, PROFILE_IMG 
+			,(SELECT DECODE(PERMISSION_FL,'N','미제휴','Y','제휴') FROM COMPANY C WHERE C.MEMBER_NO = M.MEMBER_NO ) COMPANY_STATE
+		   ,DECODE(MEMBER_DEL_FL, 'N','회원', 'Y','탈퇴','B','블랙') STATE
+		   ,(SELECT COUNT(*)FROM REPLY R WHERE R.MEMBER_NO = M.MEMBER_NO) REPLY_COUNT
+		   ,(SELECT COUNT(*) FROM BOARD B WHERE B.MEMBER_NO= M.MEMBER_NO AND BOARD_CD=2) PRODUCT_COUNT
+		   ,(SELECT COUNT(*)FROM BOARD B WHERE B.MEMBER_NO = M.MEMBER_NO AND BOARD_CD=1) GETHER_COUNT
+		   ,(SELECT COUNT(*) FROM BOARD B WHERE B.MEMBER_NO= M.MEMBER_NO AND BOARD_CD=7 AND BOARD_DEL_FL ='Y') PROM_COUNT
+		   ,(SELECT SUM(NVL(QUANTITY, 0)) FROM "ORDER" O, BOARD B, MEMBER M WHERE O.BOARD_NO  = B.BOARD_NO AND B.MEMBER_NO = M.MEMBER_NO AND M.MEMBER_NO = 2 ) SELL_COUNT
+		   ,(SELECT COUNT(*)FROM REPORT WHERE REPORTED_USER_NO = M.MEMBER_NO AND REPORT_STATUS ='경고') WARN_COUNT
+		   ,(SELECT COUNT(*)FROM REPORT RP WHERE RP.MEMBER_NO = M.MEMBER_NO) REPORT_COUNT
+		   ,(SELECT COUNT(*)FROM REPORT WHERE REPORTED_USER_NO = M.MEMBER_NO) REPORTED_COUNT
+		   ,(SELECT COUNT(*)FROM BOARD B WHERE B.MEMBER_NO = M.MEMBER_NO AND BOARD_CD = 6) QUEST_COUNT
+		   , MEMBER_ID
+		   , MEMBER_NAME
+		   , TO_CHAR(MEMBER_BIRTH,'YYYY-MM-DD') MEMBER_BIRTH
+		   , TO_CHAR(ENROLL_DATE ,'YYYY-MM-DD') ENROLL_DATE
+		   ,MEMBER_EMAIL 
+		   , MEMBER_TEL 
+		   ,(SELECT TO_CHAR(BUSINESS_NO, '9999999999') FROM COMPANY C WHERE C.MEMBER_NO = M.MEMBER_NO) BUSINESS_NO
+		   , (SELECT BANK_NAME FROM COMPANY C WHERE C.MEMBER_NO = M.MEMBER_NO) BANK_NAME
+		   , (SELECT BANK_NO FROM COMPANY C WHERE C.MEMBER_NO = M.MEMBER_NO) BANK_NO
+		   , MEMBER_ADDR 
 		FROM MEMBER M
-		JOIN COMPANY C ON(M.MEMBER_NO = C.MEMBER_NO)
-		WHERE M.MEMBER_NO =(SELECT B.MEMBER_NO FROM BOARD B WHERE BOARD_NO = #{boardNo})	
+		WHERE MEMBER_NO = ${memberNo}
 	</select>
+	
 	
 	<!-- 브랜드 프로필 게시글 수 조회  -->
 	<select id="brandProfileBoardCount" resultType="_int">
-		<if test="boardCode==-1">
+		<if test="boardCode==0">
 			SELECT COUNT(*)
-			FROM REPORT
-			WHERE REPORTED_USER_NO =(SELECT MEMBER_NO FROM BOARD WHERE BOARD_NO= #{boardNo})
+			FROM BOARD B
+			WHERE BOARD_CD  = 2
+			AND B.MEMBER_NO = ${memberNo}
+			ORDER BY B_CREATE_DATE			
 		</if>
-		<if test="boardCode==-2">
+		<if test="boardCode==1">
+			SELECT COUNT(*)
+			FROM BOARD
+			WHERE BOARD_CD = 6
+			AND MEMBER_NO = ${memberNo}
+		</if>
+		<if test="boardCode==2">
+			SELECT COUNT(*)
+			FROM BOARD B WHERE B.MEMBER_NO= ${memberNo} AND BOARD_CD=7		
+		</if>
+		<if test="boardCode==3">
+			SELECT COUNT(*)
+			FROM REPORT 
+			WHERE REPORTED_USER_NO = ${memberNo}
+		</if>
+		<if test="boardCode==4">
 			SELECT COUNT(*)
 			FROM REPLY 
-			WHERE MEMBER_NO =(SELECT MEMBER_NO FROM BOARD WHERE BOARD_NO = #{boardNo})		
+			WHERE MEMBER_NO  = ${memberNo}
 		</if>
-		<if test="boardCode > 0">
-			SELECT COUNT(*) 
-			FROM BOARD
-			WHERE MEMBER_NO =(SELECT MEMBER_NO FROM BOARD WHERE BOARD_NO= #{boardNo})
-			AND BOARD_CD = #{boardCode}
+		<if test="boardCode==5">
+			SELECT COUNT(*)
+			FROM REPORT 
+			WHERE MEMBER_NO = ${memberNo}
 		</if>
 	</select>
 	
 	<!-- 브랜드 프로필 게시글 조회 -->
-	<select id="brandProfileProducts" resultMap="Brand_Board">
-		<if test="boardCode == -1">
-			SELECT REPORT_NO BOARD_NO, REPORT_TITLE BOARD_TITLE, TO_CHAR(REPORT_DATE, 'YYYY-MM-DD') CREATE_DATE
-					,REPORT_STATUS BOARD_DEL_FL
-			FROM REPORT
-			WHERE REPORTED_USER_NO =(SELECT MEMBER_NO FROM BOARD WHERE BOARD_NO= #{boardNo})
+	<select id="brandProfileProducts" resultMap="BrandProfileBoard">
+		<if test="boardCode==0">
+			SELECT B.BOARD_NO NO, 
+					BOARD_TITLE TITLE, 
+					TO_CHAR( B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE
+					,DECODE(BOARD_DEL_FL, 'N','판매','Y','완료') STATE 
+			FROM BOARD B
+			WHERE BOARD_CD  = 2
+			AND B.MEMBER_NO = ${memberNo}
+			ORDER BY B_CREATE_DATE			
 		</if>
-		<if test="boardCode==-2">
-			SELECT REPLY_NO BOARD_NO, SUBSTR(REPLY_CONTENT, 1, 10)||'....' BOARD_TITLE, TO_CHAR(REPLY_CREATE_DATE,'YYYY-MM-DD') CREATE_DATE,
-					DECODE(REPLY_DEL_FL, 'N','미삭제','Y','삭제') 
-			FROM REPLY 
-			WHERE MEMBER_NO =(SELECT MEMBER_NO FROM BOARD WHERE BOARD_NO = #{boardNo})		
-		</if>
-		<if test="boardCode > 0">
-			SELECT BOARD_NO,BOARD_TITLE,TO_CHAR(B_CREATE_DATE,'YYYY-MM-DD') CREATE_DATE, DECODE(BOARD_DEL_FL,'N','판매','Y','종료') BOARD_DEL_FL
+		<if test="boardCode==1">
+			SELECT BOARD_NO NO
+					, BOARD_TITLE TITLE
+					, TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE
+					, DECODE(BOARD_DEL_FL, 'N', '대기','Y','처리 완료') STATE 
 			FROM BOARD
-			WHERE MEMBER_NO =(SELECT MEMBER_NO FROM BOARD WHERE BOARD_NO= #{boardNo})
-			AND BOARD_CD = #{boardCode}
+			WHERE BOARD_CD = 6
+			AND MEMBER_NO = ${memberNo}
+			ORDER BY B_CREATE_DATE DESC
+		</if>
+		<if test="boardCode==2">
+			SELECT BOARD_NO NO
+					, BOARD_TITLE TITLE
+					, TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE
+					, NVL(B_STATE, '대기') STATE 
+			FROM BOARD B WHERE B.MEMBER_NO= ${memberNo} AND BOARD_CD=7		
+		</if>
+		<if test="boardCode==3">
+			SELECT REPORT_NO NO
+					,REPORT_TITLE TITLE 
+					,TO_CHAR(REPORT_DATE, 'YYYY-MM-DD') CREATE_DATE
+					,REPORT_STATUS STATE
+			FROM REPORT 
+			WHERE REPORTED_USER_NO = ${memberNo}
+			ORDER BY REPORT_NO DESC		
+		</if>
+		<if test="boardCode==4">
+			SELECT REPLY_NO NO 
+					,SUBSTR(REPLY_CONTENT, 1 ,10) ||'...' TITLE
+					,TO_CHAR(REPLY_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE
+					,SECRET_REPLY_STATUS  STATE
+			FROM REPLY 
+			WHERE MEMBER_NO  = ${memberNo}
+			ORDER BY CREATE_DATE DESC			
+		</if>
+		<if test="boardCode==5">
+			SELECT REPORT_NO NO
+					,REPORT_TITLE TITLE 
+					,TO_CHAR(REPORT_DATE, 'YYYY-MM-DD') CREATE_DATE
+					,REPORT_STATUS STATE
+			FROM REPORT 
+			WHERE MEMBER_NO = ${memberNo}
+			ORDER BY CREATE_DATE DESC		
 		</if>
 	</select>
+	<!--** BOARD PROFILE END **-->
+	
 	
 	<!-- 신고 상세 페이지 조회 -->
 	<select id="reportDetailSelect" resultType="Report">

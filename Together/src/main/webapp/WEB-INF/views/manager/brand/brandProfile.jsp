@@ -44,77 +44,82 @@
             <div class="board-title bottom-line">
                 <div class="title">브랜드 프로필</div>
                 <div class="btn-area">
-                    <a href="#">블랙</a>
-                    <a href="#">경고</a>
+                    <a href="report?memberNo=${profile.memberNo}">블랙</a>
+                    <a href="report?memberNo=${profile.memberNo}">경고</a>
                 </div>
             </div>
             <div class="profile-area">
-                <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                <div class="nickname">${brandProfile.memberNick}</div>
+                <c:if test="${empty profile.profileImg}">
+                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
+                </c:if>
+                <c:if test="${!empty profile.profileImg}">
+                    <img src="${profile.profileImg}" alt="프로필">
+                </c:if>
+                <div class="nickname">${profile.memberNick}</div>
             </div>
 
             <div class="status-area">
                 <div class="ch-number">
                     <div class="status-title">상태</div>
-                    <div class="status-content">${brandProfile.permissionTFl}</div>
+                    <div class="status-content">${profile.state}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">댓글</div>
-                    <div class="status-content">${brandProfile.replyCount}</div>
+                    <div class="status-content">${profile.replyCount}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">판매상품</div>
-                    <div class="status-content">${brandProfile.productCount}</div>
+                    <div class="status-content">${profile.productCount}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">광고문의</div>
-                    <div class="status-content">${brandProfile.promCount}</div>
+                    <div class="status-content">${profile.promCount}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">경고</div>
-                    <div class="status-content">${brandProfile.wranCount}</div>
+                    <div class="status-content">${profile.warnCount}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">신고</div>
-                    <div class="status-content">${brandProfile.reportCount}</div>
+                    <div class="status-content">${profile.reportCount}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">피신고</div>
-                    <div class="status-content">${brandProfile.reportedCount}</div>
+                    <div class="status-content">${profile.reportedCount}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">1:1문의</div>
-                    <div class="status-content">${brandProfile.counselCount}</div>
+                    <div class="status-content">${profile.questCount}</div>
                 </div>
             </div>
 
             <div class="info-wrap">
                 <div class="info-item">
-                    <div>아이디: </div> <div>${brandProfile.memberId}</div>
+                    <div>아이디: </div> <div>${profile.memberId}</div>
                 </div>
                 <div class="info-item">
-                    <div>이름: </div> <div>${brandProfile.memberName}</div>
+                    <div>이름: </div> <div>${profile.memberName}</div>
                 </div>
                 <div class="info-item">
-                    <div>생년월일: </div> <div>${brandProfile.memberBirth}</div>
+                    <div>생년월일: </div> <div>${profile.memberBirth}</div>
                 </div>
                 <div class="info-item">
-                    <div>가입일자: </div> <div>${brandProfile.enrollDate}</div>
+                    <div>가입일자: </div> <div>${profile.enrollDate}</div>
                 </div>
                 <div class="info-item">
-                    <div>이메일: </div> <div>${brandProfile.memberEmail}</div>
+                    <div>이메일: </div> <div>${profile.memberEmail}</div>
                 </div>
                 <div class="info-item">
-                    <div>전화번호: </div> <div>${brandProfile.memberTel}</div>
+                    <div>전화번호: </div> <div>${profile.memberTel}</div>
                 </div>
                 <div class="info-item">
-                    <div>등록 번호: </div> <div>${brandProfile.businessNo}</div>
+                    <div>등록 번호: </div> <div>${profile.businessNo}</div>
                 </div>
                 <div class="info-item">
-                    <div>계좌 번호: </div> <div>${brandProfile.bankNo}(${brandProfile.bankName})</div>
+                    <div>계좌 번호: </div> <div>${profile.bankNo}(${profile.bankName})</div>
                 </div>
                 
-                <c:set var="addressParts" value="${fn:split(brandProfile.memberAddr, '^^^')}" />
+                <c:set var="addressParts" value="${fn:split(profile.memberAddr, '^^^')}" />
                 
                 <div class="info-item">
                     <div>주소: </div> <div>${addressParts[0]}</div>
@@ -134,47 +139,15 @@
             <c:set var="brandUrl" value="/manageBrand/brandProfile/"></c:set>
 
             <div class="subMenu-area">
-                <c:if test="${brandBoardCode==2}">
-                    <a href="${brandUrl}2?boardNo=${boardNo}" class="select">상품</a>
-                    <c:set var="boardTitle" value="판매 상품 목록"/>
-                </c:if>
-                <c:if test="${brandBoardCode!=2}">
-                    <a href="${brandUrl}2?boardNo=${boardNo}" >상품</a>
-                </c:if>
-                <c:if test="${brandBoardCode==6}">
-                    <a href="${brandUrl}6?boardNo=${boardNo}" class="select">1:1문의</a>
-                    <c:set var="boardTitle" value="1:1문의 목록"/>
-                </c:if>
-                <c:if test="${brandBoardCode!=6}">
-                    <a href="${brandUrl}6?boardNo=${boardNo}" >1:1문의</a>
-                </c:if>
-                <c:if test="${brandBoardCode==7}">
-                    <a href="${brandUrl}7?boardNo=${boardNo}" class="select">광고</a>
-                    <c:set var="boardTitle" value="광고 문의 목록"/>
-                </c:if>
-                <c:if test="${brandBoardCode!=7}">
-                    <a href="${brandUrl}7?boardNo=${boardNo}" >광고</a>
-                </c:if>
-                <c:if test="${brandBoardCode==-1}">
-                    <a href="${brandUrl}-1?boardNo=${boardNo}" class="select">신고</a>
-                    <c:set var="boardTitle" value="신고한 목록"/>
-                </c:if>
-                <c:if test="${brandBoardCode!=-1}">
-                    <a href="${brandUrl}-1?boardNo=${boardNo}" >신고</a>
-                </c:if>
-                <c:if test="${brandBoardCode==-2}">
-                    <a href="${brandUrl}-2?boardNo=${boardNo}" class="select">댓글</a>
-                    <c:set var="boardTitle" value="작성한 댓글 목록"/>
-                </c:if>
-                <c:if test="${brandBoardCode!=-2}">
-                    <a href="${brandUrl}-2?boardNo=${boardNo}" >댓글</a>
-                </c:if>
+                <a class="select" onclick="boardList(0, ${profile.memberNo})">상품</a>
+                <a onclick="boardList(1, ${profile.memberNo}, 1)" >문의</a>
+                <a onclick="boardList(2, ${profile.memberNo}, 1)" >광고</a>
+                <a onclick="boardList(3, ${profile.memberNo}, 1)">신고</a>
+                <a onclick="boardList(4, ${profile.memberNo}, 1)" >댓글</a>
             </div>
-        
-
 
             <div class="board-title">
-                <div class="title">${boardTitle}</div>
+                <div class="title"></div>
                 <div class="select-area">
                     <select name="customerStatus" id="customerStatus">
                         <option>전체</option>
@@ -193,43 +166,11 @@
                     <div>상태</div>
                 </div>
 
-                <c:if test="${!empty map.brandList}">
-                    <c:forEach var="brand" items="${map.brandList}">
-                        <div class="list item bottom-line">
-                            <div>${brand.boardNo}</div>
-                            <div>${brand.boardTitle}</div>
-                            <div>${brand.createDate}</div>
-                            <div>${brand.boardDelFl}</div>
-                        </div>
-                    </c:forEach>
-                </c:if>
-                <c:if test="${empty map.brandList}">
-                    <div class="noBoard"> 게시글이 존재하지 않습니다. </div>
-                </c:if>                
-                
             </div>
 
-            <c:set var="urlCp" value="/manageBrand/brandProfile/${brandBoardCode}?boardNo=${boardNo}&cp="></c:set>
             <ul id="pagination">
-                <li><a href="${urlCp}1">&lt;&lt;</a></li>
-                <li><a href="${urlCp}${pagination.prevPage}">&lt;</a></li>
-                
-                    <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}">
-                        <c:choose>
-                            <c:when test="${pagination.currentPage == i}">
-                                <!-- 현재 페이지인 경우 -->
-                                <li class="curr">${i}</li>
-                            </c:when>
-            
-                            <c:otherwise>
-                                <!-- 현재 페이지가 아닌 경우 -->
-                                <li><a href="${urlCp}${i}">${i}</a></li>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>                
-                
-                <li><a href="${urlCp}${pagination.nextPage}">&gt;</a></li>
-                <li><a href="${urlCp}${pagination.maxPage}">&gt;&gt;</a></li>
+                <!-- <li>&lt;</li>
+                <li>&gt;</li> -->
             </ul>
 
         </section>
@@ -239,23 +180,7 @@
 
 </main>
 
-<script>
-    const acc = document.getElementsByClassName("accordion");
-
-    for (let i = 0; i < acc.length; i++) {
-        acc[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            let panel = this.nextElementSibling;
-            console.log(panel.style.maxHeight);
-            if (panel.style.maxHeight) {
-                panel.style.maxHeight = null;
-            } else {
-                panel.style.maxHeight = panel.scrollHeight + "px";
-            }
-        });
-
-    }
-</script>
+<script src="/resources/js/manager-js/brand/brand.js"></script>
 </body>
 
 </html>

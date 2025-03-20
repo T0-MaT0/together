@@ -74,7 +74,7 @@
                 </div>
                 
                 <c:forEach  items="${goodsList}" var="goods">
-                    <div class="list item bottom-line" onClick="brandProfile(${goods.boardNo})">
+                    <div class="list item bottom-line clickArea" onclick="boardProduct(${goods.memberNo})">
                         <div>${goods.boardNo}</div>
                         <div>${goods.brandName}</div>
                         <div>${goods.productTitle}</div>
