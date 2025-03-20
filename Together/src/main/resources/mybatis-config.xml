@@ -48,6 +48,7 @@
 
 		<mapper resource="/mappers/email-mapper.xml" />
 		<mapper resource="/mappers/customer-mapper.xml" />
+		<mapper resource="/mappers/main-mapper.xml" />
 
 	</mappers>
 
