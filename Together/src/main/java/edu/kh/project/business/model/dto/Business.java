@@ -38,6 +38,9 @@ public class Business {
 	private String parentCategoryName;
 	private String thumbnail;
 	
+	// 배너 목록
+	private List<Image> bannerList;
+	
 	// 상품 옵션 목록
 	private List<BusinessOption> optionList;
 	

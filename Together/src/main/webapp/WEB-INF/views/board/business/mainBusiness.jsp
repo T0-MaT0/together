@@ -27,7 +27,7 @@
     <main>
         <section class="content">
             <div class="banner">
-                <img src="/resources/images/business/banner.png">
+                <img src="" id="bannerImg">
                 <div class="banner-text">
                     Buy Together,<br>
                     <span>Sell Together!</span>
@@ -56,7 +56,7 @@
                             <div class="product-item">
                                 <div class="product-img-area">
                                     <a href="${url}${product.boardNo}">
-                                        <img src="${product.imageList[0].imagePath}${product.imageList[0].imageReName}">
+                                        <img src="${product.thumbnail}">
                                     </a>
                                 </div>
                                 <div class="product-info" url="${url}${product.boardNo}">
@@ -99,7 +99,7 @@
                             <div class="product-item">
                                 <div class="product-img-area">
                                     <a href="${url}${product.boardNo}">
-                                        <img src="${product.imageList[0].imagePath}${product.imageList[0].imageReName}">
+                                        <img src="${product.thumbnail}">
                                     </a>
                                 </div>
                                 <div class="product-info" url="${url}${product.boardNo}">
@@ -121,6 +121,9 @@
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/main.js"></script>
+    <script>
+        const bannerList = JSON.parse(`${bannerList}`);
+    </script>
     <script src="/resources/js/business/businessList.js"></script>
 </body>
 </html>

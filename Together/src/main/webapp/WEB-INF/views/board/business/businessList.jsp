@@ -42,11 +42,10 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
     
-    ${pagination}
     <main>
         <section class="content">
             <div class="banner">
-                <img src="/resources/images/business/banner.png">
+                <img src="" id="bannerImg">
                 <div class="banner-text">
                     Buy Together,<br>
                     <span>Sell Together!</span>
@@ -74,13 +73,13 @@
                         <c:forEach var="product" items="${businessList}">
                             <div class="product-item">
                                 <div class="product-img-area">
-                                    <a href="#">
+                                    <a href="/board/${boardCode}/${product.boardNo}">
                                         <img src="${product.imageList[0].imagePath}${product.imageList[0].imageReName}">
                                     </a>
                                 </div>
-                                <div class="product-info">
+                                <div class="product-info" url="/board/${boardCode}/${product.boardNo}">
                                     <span>${product.memberNickname}</span>
-                                    <a href="#">${product.boardTitle}</a>
+                                    <a href="/board/${boardCode}/${product.boardNo}">${product.boardTitle}</a>
                                     <div class="product-price-area">
                                         <span>
                                             <fmt:formatNumber value="${product.productPrice}" type="number" maxFractionDigits="0"/>원
@@ -120,6 +119,9 @@
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/main.js"></script>
+    <script>
+        const bannerList = JSON.parse(`${bannerList}`);
+    </script>
     <script src="/resources/js/business/businessList.js"></script>
 </body>
 </html>
