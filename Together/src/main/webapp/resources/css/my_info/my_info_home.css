@@ -16,6 +16,12 @@
 
 }
 
+main.myinfo-container a{
+  text-decoration: none;
+  color: inherit;
+}
+
+
 .profile-card {
   width: 950px;
   background: #fff;
@@ -357,7 +363,8 @@
 /* 찜한 상품 */
 .product-list {
     display: flex;
-    gap: 20px;
+    gap: 35px;
+    margin: 20px 0;
 }
 
 .product-item {

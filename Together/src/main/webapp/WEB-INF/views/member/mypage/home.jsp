@@ -31,8 +31,18 @@
           <h2 class="home-title">내 정보</h2>
 				<section class="profile-section">
 					<div class="profile-card">
-						<img src="${loginMember.profileImg}" alt="프로필 이미지"
-							class="profile-img">
+            <c:if test="${empty loginMember.profileImg}">
+              <c:if test="${loginMember.authority == 2}">
+              <img src="/resources/images/mypage/common/user.png" alt="프로필 이미지" class="profile-img">
+              </c:if>
+              <c:if test="${loginMember.authority == 3}">
+              <img src="/resources/images/mypage/common/Seller.png" alt="프로필 이미지" class="profile-img">
+              </c:if>
+            </c:if>
+            <c:if test="${not empty loginMember.profileImg}">
+              <img src="${loginMember.profileImg}" alt="프로필 이미지" class="profile-img">
+            </c:if>
+
 						<div class="profile-info">
 							<p>
 								<strong>등급 :</strong> ${loginMember.memberGrade}등급
@@ -54,7 +64,7 @@
 						<div class="menu-item">
 							<img src="/resources/images/mypage/common/주문배송.png" alt="주문 배송">
 							<p>주문 배송</p>
-							<span>0</span>
+							<span></span>
 						</div>
 						<div class="menu-item">
 							<img src="/resources/images/mypage/common/장바구니.png" alt="장바구니">
@@ -96,33 +106,6 @@
 					<div class="carousel-container">
 
 						<div class="carousel" id="carousel">
-							<div class="carousel-item">
-                <a href="">
-								  <img src="상품1.png" alt="상품1">
-								  <p class="product-name">국내매장품 나이키...</p>
-								  <p class="product-price">195,000원</p>
-                </a>
-							</div>
-							<div class="carousel-item">
-								<img src="상품2.png" alt="상품2">
-								<p class="product-name">나이키 에어포스1...</p>
-								<p class="product-price">183,000원</p>
-							</div>
-							<div class="carousel-item">
-								<img src="상품3.png" alt="상품3">
-								<p class="product-name">VXE MAD R 잠자...</p>
-								<p class="product-price">34,900원</p>
-							</div>
-							<div class="carousel-item">
-								<img src="상품4.png" alt="상품4">
-								<p class="product-name">펄사 X3 무선 게이...</p>
-								<p class="product-price">119,000원</p>
-							</div>
-							<div class="carousel-item">
-								<img src="상품4.png" alt="상품5">
-								<p class="product-name">펄사 X3 무선 게이...</p>
-								<p class="product-price">119,000원</p>
-							</div>
 						</div>
 
 					</div>
@@ -136,70 +119,12 @@
 				</section>
 
 				<!-- 관심 스토어 -->
-				<section class="interest-store">
+				<section class="interest-store" id="interestStore">
 					<h3>관심 스토어</h3>
-					<div class="store-list">
-						<div class="store-circle">
-							<img src="브랜드1.png" alt="기업1">
-							<p class="store-name">기업명1</p>
-						</div>
-						<div class="store-circle">
-							<img src="브랜드2.png" alt="기업2">
-							<p class="store-name">기업명2</p>
-						</div>
-						<div class="store-circle">
-							<img src="브랜드2.png" alt="기업3">
-							<p class="store-name">기업명3</p>
-						</div>
-					</div>
 				</section>
 
 				<!-- 찜한 상품 -->
-				<section class="wishlist-area">
-					<h3>찜한 상품 3</h3>
-					<div class="wishlist-section">
-						<h4>전체</h4>
-						<div class="product-list">
-							<div class="product-item">
-								<img src="상품1.png" alt="상품1">
-								<p class="product-name">나이키 에어포스 1</p>
-								<p class="product-price">120,000원</p>
-							</div>
-							<div class="product-item">
-								<img src="상품2.png" alt="상품2">
-								<p class="product-name">여수 쑥 떡</p>
-								<p class="product-price">12,000원</p>
-							</div>
-							<div class="product-item">
-								<img src="상품3.png" alt="상품3">
-								<p class="product-name">경북주 12도</p>
-								<p class="product-price">25,200원</p>
-							</div>
-						</div>
-
-						<h4>신발</h4>
-						<div class="product-list">
-							<div class="product-item">
-								<img src="상품1.png" alt="상품4">
-								<p class="product-name">나이키 에어포스 1</p>
-								<p class="product-price">120,000원</p>
-							</div>
-						</div>
-
-						<h4>식품</h4>
-						<div class="product-list">
-							<div class="product-item">
-								<img src="상품2.png" alt="상품5">
-								<p class="product-name">여수 쑥 떡</p>
-								<p class="product-price">12,000원</p>
-							</div>
-							<div class="product-item">
-								<img src="상품2.png" alt="상품6">
-								<p class="product-name">경북주 12도</p>
-								<p class="product-price">25,200원</p>
-							</div>
-						</div>
-					</div>
+				<section class="wishlist-area" id="wishlist-area">
 				</section>
 			</section>
 		</div>
