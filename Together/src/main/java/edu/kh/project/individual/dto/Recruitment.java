@@ -32,7 +32,7 @@ public class Recruitment {
 
     // 공동구매 상품 DTO
     private String productName;  // 상품명
-    private String productContent; // 상품내용
+    private String boardContent; // 상품내용
     private int productPrice;    // 상품 가격
     private int productCount;    // 상품 재고 수량
     private int deliveryFee;     // 배송비
@@ -41,7 +41,7 @@ public class Recruitment {
 
     // 방장 정보
     private String hostName;   // 방장 닉네임
-    private int hostGrade;     // 방장 등급
+    private String hostGrade;     // 방장 등급
     private String hostProfile; // 방장 프로필 이미지
     
     // 멤버 정보 추가

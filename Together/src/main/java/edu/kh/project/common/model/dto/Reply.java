@@ -21,4 +21,7 @@ public class Reply {
     private String boardTitle;          // 댓글이 달린 게시글 제목 (JOIN BOARD)
     private int boardNo;                // 댓글이 속한 게시글 번호
     private int replyCount;				// 대댓글 개수 추가
+    private String profileImg;			// 댓글 맴버 프로필이미지
+    private String memberNick;			// 댓글 맴버 닉네임
+    
 }

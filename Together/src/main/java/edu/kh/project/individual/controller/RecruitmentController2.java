@@ -52,7 +52,6 @@ public class RecruitmentController2 {
         int loginMemberNo = requestData.get("loginMemberNo");
 
         Map<String, Object> response = new HashMap<>();
-        System.out.println("🔹 삭제 요청: boardNo=" + boardNo + ", loginMemberNo=" + loginMemberNo);
         int hostMemberNo = service.getHostMemberNo(boardNo); 
 
         if (hostMemberNo != loginMemberNo) {
@@ -70,14 +69,12 @@ public class RecruitmentController2 {
     // 선택 댓글 삭제
     @PostMapping("/reply/deleteComments")
     public ResponseEntity<String> deleteComments(@RequestBody String jsonRequest) {
-        System.out.println("원본 요청 JSON: " + jsonRequest);
 
         // JSON을 파싱하여 replyNos 리스트 추출
         JsonObject jsonObject = gson.fromJson(jsonRequest, JsonObject.class);
         java.lang.reflect.Type listType = new TypeToken<List<Integer>>(){}.getType();
         List<Integer> replyNos = gson.fromJson(jsonObject.get("replyNos"), listType);
 
-        System.out.println("삭제할 댓글 번호들: " + replyNos);
 
         // 서비스 호출하여 댓글 삭제
         boolean isDeleted = service.deleteComments(replyNos);
@@ -102,6 +99,9 @@ public class RecruitmentController2 {
       
         return ResponseEntity.ok(response);
     }
+    
+    // 댓글 등록
+    
         
       
 }
