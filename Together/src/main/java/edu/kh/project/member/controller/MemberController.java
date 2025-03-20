@@ -56,6 +56,12 @@ public class MemberController {
 		return "member/findPw";
 	}
 	
+	// 비밀번호 변경 화면 이동
+	@GetMapping("/changePw")
+	public String changePw() {
+		return "member/changePw";
+	}
+	
 	/** 로그인 요청 처리 
 	 * @return 메인페이지 redirect 주소
 	 */
@@ -126,6 +132,12 @@ public class MemberController {
 		}
 
 		int result = service.signUp(inputMember);
+		
+		System.out.println("다시 나온 inputMember : " + inputMember);
+		
+		inputCompany.setMemberNo(inputMember.getMemberNo());
+		
+		System.out.println("다시 세팅한 inputCompany : " + inputCompany);
 
 		String path = "redirect:";
 		String message = null;
@@ -161,6 +173,68 @@ public class MemberController {
 		
 		return path;
 	}
+	
+	// 개인 아이디 찾기
+	@PostMapping("/findId")
+	public String findId(Member inputMember , Model model) {
+
+		System.out.println("inputMember : " + inputMember);
+		Member findMember = service.findId(inputMember);
+		System.out.println("findMember : " + findMember);
+
+		model.addAttribute("findMember", findMember);
+		
+		return "member/findIdResult";
+	}
+
+	// 개인 패스워드 재설정을 위한 확인
+	@PostMapping("/findPw")
+	public String findPw(Member inputMember, Model model , RedirectAttributes ra) {
+
+		System.out.println("inputMember : " + inputMember);
+		Member findMember = service.findPw(inputMember);
+
+		String path = "";
+		
+
+		if (findMember == null){
+
+			path = "redirect:/member/findPw"; 
+			String message = "일치하는 회원이 없습니다.";
+			ra.addFlashAttribute("message", message);
+
+		} else{
+			model.addAttribute("findMember", findMember);
+			path = "/member/changePw";
+
+		}
+
+		
+		return path;
+	}
+
+	@PostMapping("/changePw")
+	public String changePw(Member inputMember, RedirectAttributes ra) {
+
+		System.out.println("비번 변경 inputMember : " + inputMember);
+		int result = service.changePw(inputMember);
+
+		String path = "redirect:";
+		String message = null;
+
+		if(result > 0){
+			message = "비밀번호 변경 성공.";
+			path += "/";
+		} else{
+			message = "비밀번호 변경 실패.";
+			path += "/member/findPw";
+		}
+		ra.addFlashAttribute("message", message);
+
+		return path;
+	
+	}
+	 
 		
 
 

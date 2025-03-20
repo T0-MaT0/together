@@ -24,3 +24,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("join-btn")) {
+        if (event.target.classList.contains("closed-btn")) {
+            alert("이미 마감된 공동구매입니다.");
+            return;
+        }
+
+        // 버튼의 data-recruitment-no 값 가져오기
+        const recruitmentNo = event.target.getAttribute("data-recruitment-no");
+        const boardNo = event.target.getAttribute("data-board-no");
+
+        if (recruitmentNo) {
+
+        window.location.href = `/partyRecruitmentList/${recruitmentNo}/${boardNo}`;
+        }
+    }
+});

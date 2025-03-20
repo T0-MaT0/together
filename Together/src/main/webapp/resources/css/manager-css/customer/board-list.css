@@ -23,7 +23,7 @@
 #container-center{
     display: grid;
     grid-template-columns: 700px 400px;
-    grid-template-rows: 136px 605px;
+    grid-template-rows: 136px auto;
     grid-template-areas: 
     "li c"
     "li g"
@@ -40,6 +40,11 @@
     box-shadow: 0px 2px 12px 1px rgba(0, 0, 0, 0.217);
 
 }
+.mainList{
+    height: 550px;
+    position:relative;
+}
+
 
 .list-card{grid-area: li;}
 .count-card{grid-area: c;}
@@ -82,7 +87,7 @@
     justify-items: center;
     justify-content: center;
     align-items: center;
-    padding: 5px 0;
+    padding: 10px 0;
 }
 
 .list >img{
@@ -100,7 +105,7 @@
     background-color: #FD499A;
     color: white;
     border-radius: 5px;
-    padding-top: 7px;
+    padding-top: 13px;
 }
 
 
@@ -136,10 +141,14 @@
 #pagination{
     display: flex;
     justify-content: center;
-
     list-style-type: none;
-
     font-size: 13px;
+
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom:0;
+
 }
 
 #pagination >li{
@@ -152,6 +161,11 @@
    font-weight: bold;
 }
 
+
+#pagination >li >a{
+    color: black;
+    text-decoration: none;
+}
 
 /* ---------------------------------------------------------------- */
 

@@ -40,9 +40,9 @@
                 <c:when test="${boardCode == 1}">
                     <a href="/Individual/detail">모집 상품</a>
                     <span> | </span>
-                    <a href="/myRecruitment">내 모집 중</a>
+                    <a href="/myRecruitment?key=myRecruitment">내 모집 중</a>
                     <span> | </span>
-                    <a href="#">고객 센터</a>
+                    <a href="/customer/customerMain">고객 센터</a>
                 </c:when>
                 <c:otherwise>
                     <a href="#">공구 상품</a>
@@ -64,7 +64,7 @@
                 </c:if>
                 
                 <!-- 로그인한 모든 사용자 -->
-                <a href="/member/mypage">마이페이지</a>
+                <a href="/mypage/home">마이페이지</a>
                 <span> | </span>
         
                 <!-- 일반 회원만 포인트 충전 가능 -->

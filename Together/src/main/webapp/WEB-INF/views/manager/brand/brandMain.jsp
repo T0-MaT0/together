@@ -43,25 +43,25 @@
         <!-- 판매 -->
         <section class="brand-board">
             <div class="board-title">
-                <div>판매 실적</div> <a href="${url}goods">상세 보기 ></a>
+                <div>상품 판매 건수</div> <a href="${url}goods">상세 보기 ></a>
             </div>
             <div class="board-content">
                 <!-- 총 판매건 진행중 판매 중지 판매 완료 -->
                  <div class="ch-number">
-                    <div>총 판매</div>
-                    <div>0</div>
+                    <div>총 상품</div>
+                    <div>${map.totalSellCount}</div>
                  </div>
                  <div class="ch-number">
                     <div>진행 중</div>
-                    <div>0</div>
+                    <div>${map.sellingCount}</div>
                  </div>
                  <div class="ch-number">
-                    <div>판매 중지</div>
-                    <div>0</div>
+                    <div>판매 종료</div>
+                    <div>${map.soldCount}</div>
                  </div>
                  <div class="ch-number">
-                    <div>판매 완료</div>
-                    <div>0</div>
+                    <div>총 판매수량</div>
+                    <div>${map.quantityCount}</div>
                  </div>
             </div>
         </section>
@@ -69,24 +69,24 @@
         <!-- 신고 -->
         <section class="brand-board">
             <div class="board-title">
-                <div>브랜드관련 신고</div> <a href="${url}report">상세 보기 ></a>
+                <div>브랜드 대상 신고</div> <a href="${url}report">상세 보기 ></a>
             </div>
             <div class="board-content">
                  <div class="ch-number">
-                    <div>미처리 건</div>
-                    <div>0</div>
+                    <div>대기</div>
+                    <div>${map.waitCount}</div>
                  </div>
                  <div class="ch-number">
                     <div>반려</div>
-                    <div>0</div>
+                    <div>${map.returnCount}</div>
                  </div>
                  <div class="ch-number">
                     <div>경고</div>
-                    <div>0</div>
+                    <div>${map.warnCount}</div>
                  </div>
                  <div class="ch-number">
                     <div>블랙</div>
-                    <div>0</div>
+                    <div>${map.blackCount}</div>
                  </div>
             </div>
         </section>
@@ -94,43 +94,44 @@
         <!-- 제휴 신청 현황 -->
         <section class="brand-board">
             <div class="board-title">
-                <div>제휴 신청</div> <a href="${url}apply">상세 보기 ></a>
+                <div>제휴 문의</div> <a href="${url}apply">상세 보기 ></a>
             </div>
             
             <div class="board-content">
                  <div class="ch-number">
                     <div>총 건수</div>
-                    <div>0</div>
+                    <div>${map.totalApplyCount}</div>
                  </div>
                  <div class="ch-number">
                     <div>대기</div>
-                    <div>0</div>
+                    <div>${map.waitApplyCount}</div>
                  </div>
                  <div class="ch-number">
                     <div>승인</div>
-                    <div>0</div>
+                    <div>${map.acceptApplyCount}</div>
                  </div>
                  <div class="ch-number">
                     <div>거절</div>
-                    <div>0</div>
+                    <div>${map.refuseApplyCount}</div>
                  </div>
             </div>
 
             <div class="board-list">
-
                 <div class="ch-list">
                         <div>브랜드명</div>
                         <div>상품명</div>
                         <div>신청일자</div>
                         <div>상태</div>
                 </div>
-                <div class="ch-list bottom-line">
-                        <div>햇반</div>
-                        <div>햇반 10팩</div>
-                        <div>2025.02.24</div>
-                        <div>대기</div>
-                </div>
-                <div class="ch-list bottom-line">
+                <c:forEach var="apply" items="${map.applyList}">
+                    <div class="ch-list bottom-line">
+                            <div>${apply.brandName}</div>
+                            <div>${apply.boardTitle}</div>
+                            <div>${apply.createDate}</div>
+                            <div>${apply.state}</div>
+                    </div>
+                </c:forEach>
+                <!-- <div class="ch-list bottom-line">
                         <div>델몬트</div>
                         <div>델몬트 사과주스 팩 40개</div>
                         <div>2025.02.24</div>
@@ -153,7 +154,7 @@
                         <div>초코, 바닐라, 딸기 세트</div>
                         <div>2025.02.24</div>
                         <div>대기</div>
-                </div>
+                </div> -->
 
             </div>
         </section>
@@ -161,25 +162,25 @@
         <!-- 광고 신청 현황 -->
         <section class="brand-board">
             <div class="board-title">
-                <div>광고 신청</div> <a href="${url}promotion">상세 보기 ></a>
+                <div>광고 문의</div> <a href="${url}promotion">상세 보기 ></a>
             </div>
             
             <div class="board-content">
                 <div class="ch-number">
                    <div>진행 중</div>
-                   <div>0</div>
+                   <div>${map.totalPromCount}</div>
                 </div>
                 <div class="ch-number">
                    <div>대기</div>
-                   <div>0</div>
+                   <div>${map.waitPromCount}</div>
                 </div>
                 <div class="ch-number">
                    <div>승인</div>
-                   <div>0</div>
+                   <div>${map.acceptPromCount}</div>
                 </div>
                 <div class="ch-number">
                    <div>거절</div>
-                   <div>0</div>
+                   <div>${map.refusePromCount}</div>
                 </div>
            </div>
 
@@ -191,13 +192,15 @@
                         <div>신청일자</div>
                         <div>상태</div>
                 </div>
-                <div class="ch-list bottom-line">
-                        <div>햇반</div>
-                        <div>햇반 10팩</div>
-                        <div>2025.02.24</div>
-                        <div>대기</div>
-                </div>
-                <div class="ch-list bottom-line">
+                <c:forEach var="prom" items="${map.promList}">
+                    <div class="ch-list bottom-line">
+                        <div>${prom.brandName}</div>
+                        <div>${prom.boardTitle}</div>
+                        <div>${prom.createDate}</div>
+                        <div>${prom.state}</div>
+                    </div>
+                </c:forEach>
+                <!-- <div class="ch-list bottom-line">
                         <div>델몬트</div>
                         <div>델몬트 사과주스 팩 40개</div>
                         <div>2025.02.24</div>
@@ -220,7 +223,7 @@
                         <div>초코, 바닐라, 딸기 세트</div>
                         <div>2025.02.24</div>
                         <div>진행중</div>
-                </div>
+                </div> -->
 
             </div>
         </section>

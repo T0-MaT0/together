@@ -53,42 +53,52 @@ body {
 /* 이미지 캐러셀 */
 .image-carousel {
     position: relative;
+    width: 700px; /* 원하는 크기로 조정 */
+    overflow: hidden;
+}
+
+.carousel-track-wrapper {
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-track {
     display: flex;
-    align-items: center;
+    transition: transform 0.5s ease-in-out;
+    white-space: nowrap;
+}
+
+.carousel-item {
+    flex: 0 0 100%;
+    width: 100%;
+    display: flex;
     justify-content: center;
-    margin-bottom: 15px;
+    align-items: center;
 }
 
-.main-image {
-    width: 227px;
-    height: 376px;
-    border-radius: 8px;
-}
-
-.thumbnail-container {
-    display: flex;
-    flex-direction: column; 
-    gap: 20px; 
-    align-items: center; 
-    margin-left: 50px;
-}
-
-.thumbnail {
-    width: 238px;
-    height: 205px;
-    border-radius: 5px;
+.carousel-item img {
+    width: 100%;
+    max-width: 500px;
 }
 
 .carousel-btn {
-    background: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
     border: none;
-    font-size: 100px;
+    padding: 10px;
     cursor: pointer;
-    opacity: 0.4; 
-    margin : 70px;
+    z-index: 10;
 }
-.carousel-btn:hover {
-    opacity: 1;
+
+.carousel-btn.left {
+    left: 10px;
+}
+
+.carousel-btn.right {
+    right: 10px;
 }
 
 /* 상품 설명 */
@@ -194,8 +204,8 @@ h3 {
 .join-btn {
     display: block;
     margin-left: auto;
-    width: 10%;
-    background: #ffcc00;
+    width: 15%;
+    background: #61C5FE;
     color: white;
     padding: 10px;
     border: none;
@@ -222,24 +232,49 @@ h3 {
     font-family: 'GmarketSansMedium';
 }
 
+/* 버튼을 감싸는 컨테이너 */
+.button-container {
+    display: flex;
+    gap: 10px; /* 버튼 간격 */
+    justify-content: flex-end; /* 🔹 버튼을 오른쪽 정렬 */
+    margin-top: 20px;
+    padding-right: 20px; /* 오른쪽 여백 */
+}
+
+/* 공통 버튼 스타일 */
+.edit-btn2, .list-btn {
+    width: 140px;
+    height: 45px;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+}
+
+/* 수정 버튼 */
+.edit-btn2 {
+    background: white;
+    color: #FF66B2; /* 핑크 계열 */
+    border: 2px solid #FF66B2; /* 🔹 테두리 추가 */
+}
+
+.edit-btn2:hover {
+    background: #FF66B2;
+    color: white;
+}
+
 /* 목록 버튼 */
 .list-btn {
-    display: block;
-    margin-left: auto;
-    width: 10%;
-    background: #ffcc00;
-    color: white;
-    padding: 10px;
+    background: #FFD700; /* 노랑 */
+    color: black;
     border: none;
-    border-radius: 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-    margin-bottom: 15px;
 }
 
 .list-btn:hover {
-    background: #e6b800;
+    background: #E6B800;
 }
 
 /* 댓글 입력 */

@@ -55,7 +55,6 @@
                             <c:if test="${status.index < fn:length(recruitmentList)}">
                                 <!-- 참가율(%) 계산 -->
                                 <c:set var="progress" value="${(recruitment.currentParticipants * 100.0) / recruitment.maxParticipants}" />
-                                <c:set var="isClosed" value="${recruitment.currentParticipants >= recruitment.maxParticipants}" />
                                 <c:set var="discount" value="${Math.ceil(recruitment.productPrice / recruitment.maxParticipants).intValue()}" />                                
 
                                 <div class="product">
@@ -86,8 +85,10 @@
                                                 <div class="progress-fill" style="width: <fmt:formatNumber value='${progress}' type='number' maxFractionDigits='1' />%;"></div>
                                             </div>
                                         </div>
-                                        <button class="join-btn ${isClosed ? 'closed' : ''}">
-                                            ${isClosed ? '마감' : '참가'}
+                                        <button class="join-btn ${recruitment.recruitmentStatus == '마감' ? 'closed-btn' : 'active-btn'}"
+                                                data-recruitment-no="${recruitment.recruitmentNo}"
+                                                data-board-no="${recruitment.boardNo}">
+                                            ${recruitment.recruitmentStatus == '진행' ? '참가' : recruitment.recruitmentStatus}
                                         </button>
                                     </div>
                                 </div>
@@ -100,7 +101,6 @@
                         <c:forEach var="recruitment" items="${recruitmentList}" begin="${i+2}" end="${i+5}" varStatus="status">
                             <c:if test="${status.index < fn:length(recruitmentList)}">
                                 <c:set var="progress" value="${(recruitment.currentParticipants * 100.0) / recruitment.maxParticipants}" />
-                                <c:set var="isClosed" value="${recruitment.currentParticipants >= recruitment.maxParticipants}" />
                                 <c:set var="discount" value="${Math.ceil(recruitment.productPrice / recruitment.maxParticipants).intValue()}" />                                
 
                                 <div class="product">
@@ -129,8 +129,10 @@
                                                 <div class="progress-fill" style="width: <fmt:formatNumber value='${progress}' type='number' maxFractionDigits='1' />%;"></div>
                                             </div>
                                         </div>
-                                        <button class="join-btn ${isClosed ? 'closed' : ''}">
-                                            ${isClosed ? '마감' : '참가'}
+                                        <button class="join-btn ${recruitment.recruitmentStatus == '마감' ? 'closed-btn' : 'active-btn'}"
+                                                data-recruitment-no="${recruitment.recruitmentNo}"
+                                                data-board-no="${recruitment.boardNo}">
+                                            ${recruitment.recruitmentStatus == '진행' ? '참가' : recruitment.recruitmentStatus}
                                         </button>
                                     </div>
                                 </div>
@@ -146,7 +148,6 @@
                         <c:forEach var="recruitment" items="${recruitmentList}" begin="${i+6}" end="${i+7}" varStatus="status">
                             <c:if test="${status.index < fn:length(recruitmentList)}">
                                 <c:set var="progress" value="${(recruitment.currentParticipants * 100.0) / recruitment.maxParticipants}" />
-                                <c:set var="isClosed" value="${recruitment.currentParticipants >= recruitment.maxParticipants}" />
                                 <c:set var="discount" value="${Math.ceil(recruitment.productPrice / recruitment.maxParticipants).intValue()}" />
 
                                 <div class="product">
@@ -176,8 +177,10 @@
                                                 <div class="progress-fill" style="width: <fmt:formatNumber value='${progress}' type='number' maxFractionDigits='1' />%;"></div>
                                             </div>
                                         </div>
-                                        <button class="join-btn ${isClosed ? 'closed' : ''}">
-                                            ${isClosed ? '마감' : '참가'}
+                                        <button class="join-btn ${recruitment.recruitmentStatus == '마감' ? 'closed-btn' : 'active-btn'}"
+                                                data-recruitment-no="${recruitment.recruitmentNo}"
+                                                data-board-no="${recruitment.boardNo}">
+                                            ${recruitment.recruitmentStatus == '진행' ? '참가' : recruitment.recruitmentStatus}
                                         </button>
                                     </div>
                                 </div>

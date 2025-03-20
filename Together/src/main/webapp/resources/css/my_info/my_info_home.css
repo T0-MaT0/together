@@ -1,61 +1,3 @@
-@font-face {
-    font-family: 'GmarketSansMedium';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-body *{
-    font-family: 'GmarketSansMedium', sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-
-}
-
-/* 전체 페이지 컨테이너 */
-.myinfo-container {
-  width: 100%;
-  position: relative;
-  display: flex;
-  
-}
-
-/* 메인 콘텐츠 */
-.myinfo-content-wrapper {
-
-  display: flex;
-  width: 1200px; 
-  margin: auto;
-  top: 0;
-  left: 50%;
-  flex-shrink: 0;
-  padding : 20px;
-
-}
-
-/* 사이드바 스타일 */
-.sidebar {
-  flex-shrink: 0;
-  display: flex;
-  position: sticky;
-  top: 20px;
-  left: calc(50% - 700px);
-  flex-direction: column;
-  width: 160px;
-  height: 600px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1),
-              0px -1px 10px rgba(0, 0, 0, 0.1),
-              1px 0px 10px rgba(0, 0, 0, 0.1),
-              -1px 0px 10px rgba(0, 0, 0, 0.1);
-  padding: 10px 0;
-  text-align: center;
-  z-index: 90000;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
 
 /* 프로필 섹션 */
 .profile-section {
@@ -65,6 +7,21 @@ body *{
   justify-content: center;
   margin-bottom: 20px;
 }
+
+.home-title{
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    display: inline-block;
+
+}
+
+main.myinfo-container a{
+  text-decoration: none;
+  color: inherit;
+}
+
+
 .profile-card {
   width: 950px;
   background: #fff;
@@ -94,15 +51,6 @@ body *{
   font-weight: bold;
 }
 
-/* 포인트를 오른쪽 아래로 정렬 */
-.points {
-  position: absolute;
-  bottom: 15px;
-  right: 20px;
-  font-size: 22px; 
-  font-weight: bold;
-  color: #ff6600;
-}
 
 /* 수정 버튼 */
 .edit-btn {
@@ -123,75 +71,6 @@ body *{
 
 
 
-/* 리스트 스타일 */
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* 사이드바 클릭 가능하게 설정 */
-.sidebar ul li {
-    cursor: pointer;
-    padding: 10px 15px;
-    transition: background 0.2s ease-in-out;
-}
-
-.sidebar ul li:hover {
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
-}
-
-/* 마이 홈 */
-.sidebar .home {
-    font-size: 20px;
-    font-weight: bold;
-    color: green;
-    padding: 12px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-/* 섹션 제목 */
-.sidebar .section-title {
-    font-size: 20px;
-    font-weight: bold;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-/* 서브 항목 */
-.sidebar .sub-item {
-    font-size: 15px;
-    padding: 8px 0;
-    color: #555;
-}
-
-/* Q&A */
-.sidebar .qna {
-    font-size: 14px;
-    font-weight: bold;
-    padding: 12px 0;
-    border-top: 1px solid #ddd;
-}
-
-/* 메인 콘텐츠 */
-.myinfo-main-content {
-    width: 1000px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2),
-                0px -1px 10px rgba(0, 0, 0, 0.2),
-                1px 0px 10px rgba(0, 0, 0, 0.2),
-                -1px 0px 10px rgba(0, 0, 0, 0.2);
-    transition: margin 0.3s ease-in-out;
-
-    padding: 20px;
-    background-color: #d9d9d9;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
 
 
 /* 공통 섹션 스타일  */
@@ -199,7 +78,7 @@ body *{
 .recommendation-section, 
 .purchase-history, 
 .interest-store, 
-.wishlist {
+.wishlist-area {
     background: white;
     border-radius: 12px;
     padding: 30px;
@@ -404,6 +283,8 @@ body *{
     color: inherit; 
 }
 
+
+
 .item-container {
     display: flex;
     flex-direction: column;
@@ -422,6 +303,13 @@ body *{
     justify-content: center;
     cursor: pointer; 
     transition: transform 0.2s ease-in-out;
+}
+
+.item-box>img{
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 20px;
 }
 
 .item-box:hover {
@@ -475,7 +363,8 @@ body *{
 /* 찜한 상품 */
 .product-list {
     display: flex;
-    gap: 20px;
+    gap: 35px;
+    margin: 20px 0;
 }
 
 .product-item {

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
+import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dao.RecruitmentDAO;
 import edu.kh.project.individual.dto.Image;
 import edu.kh.project.individual.dto.Recruitment;
@@ -84,8 +84,40 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
 	// 내 모집 중 현황 조회
 	@Override
-	public List<Recruitment> getMyRecruitmentList(Integer memberNo) {
-		return dao.selectMyRecruitmentList(memberNo);
+	public List<Recruitment> getMyRecruitmentList(Integer memberNo, String key) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("member_no", memberNo);
+	    paramMap.put("key", key);
+		return dao.selectMyRecruitmentList(paramMap);
 	}
+
+	// 내 댓글 조회
+	@Override
+	public List<Reply> getMyRecruitmentComments(int memberNo) {
+		return dao.selectMyRecruitmentComments(memberNo);
+	}
+
+	// 내가 쓴 리뷰 조회
+	@Override
+	public List<Review> getMyRecruitmentReviews(int memberNo) {
+		return dao.selectMyRecruitmentReviews(memberNo);
+	}
+
+	// 모집방 상세 내용 조회 
+	@Override
+	public Recruitment selectRecruitmentRoomDetail(int recruitmentNo ,int boardNo) {
+		  // 모집 상세 정보 조회
+	    Recruitment recruitment = dao.selectRecruitmentRoomDetail(recruitmentNo, boardNo);
+
+	    if (recruitment != null) {
+	        // 참가자 수 조회
+	        int currentParticipants = dao.countParticipants(recruitmentNo);
+	        recruitment.setCurrentParticipants(currentParticipants);
+	    }
+
+	    return recruitment;
+	}
+
+	
 	
 }

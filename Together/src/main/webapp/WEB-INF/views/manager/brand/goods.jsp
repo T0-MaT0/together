@@ -3,6 +3,10 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
 
 <c:set var="menuName" value="brand"/> <!-- 사이드 메뉴 설정 -->
+
+<c:set var="pagination" value="${map.pagination}"/>
+<c:set var="goodsList" value="${map.goodsList}"/>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +50,7 @@
 
     <!-- 본문(종앙) -->
     <div id="container-center">
-        <section class="cus-board list-card">
+        <section class="cus-board list-card mainBoard">
             <!-- 판매 상품 -->
             <div class="board-title bottom-line">
                 <div class="title">판매 상품</div>
@@ -54,208 +58,64 @@
                     <select name="customerStatus" id="customerStatus">
                         <option>전체</option>
                         <option>판매</option>
-                        <option>중지</option>
-                        <option>완료</option>
+                        <option>종료</option>
                     </select>
                 </div>
             </div>
-
             <!-- 리스트 내역 -->
-            
             <div id="list-area">
                 <div class="list">
                     <div>번호</div>
                     <div>브랜드</div>
                     <div>상품명</div>
                     <div>신청일자</div>
-                    <div>종료일자</div>
+                    <div>재고</div>
                     <div>상태</div>
                 </div>
                 
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>판매</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>중지</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>완료</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>판매</div>
-                </div>
-                <div class="list item bottom-line">
+                <c:forEach  items="${goodsList}" var="goods">
+                    <div class="list item bottom-line clickArea" onclick="boardProduct(${goods.memberNo})">
+                        <div>${goods.boardNo}</div>
+                        <div>${goods.brandName}</div>
+                        <div>${goods.productTitle}</div>
+                        <div>${goods.createDate}</div>
+                        <div>${goods.productCount}</div>
+                        <div>${goods.boardDelFl}</div>
+                    </div>
+    
+                </c:forEach>
+                <!-- <div class="list item bottom-line">
                     <div>10001</div>
                     <div>델몬트</div>
                     <div>오렌지, 포도, 사과 세트</div>
                     <div>2025.02.25</div>
                     <div>2025.02.25</div>
                     <div>중지</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>완료</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>판매</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>중지</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>완료</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>판매</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>중지</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>완료</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>판매</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>중지</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>완료</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>판매</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>중지</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>완료</div>
-                </div>
-                
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>판매</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>델몬트</div>
-                    <div>오렌지, 포도, 사과 세트</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>중지</div>
-                </div>
+                </div> -->
 
             </div>
 
+            <c:set var="urlCp" value="/manageBrand/goods?cp="></c:set>
             <ul id="pagination">
-                <li>&lt;&lt;</li>
-                <li>&lt;</li>
-                <li class="curr">1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>10</li>
-                <li>&gt;</li>
-                <li>&gt;&gt;</li>
+                <li><a href="${urlCp}1">&lt;&lt;</a></li>
+                <li><a href="${urlCp}${pagination.prevPage}">&lt;</a></li>
+                
+                    <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}">
+                        <c:choose>
+                            <c:when test="${pagination.currentPage == i}">
+                                <!-- 현재 페이지인 경우 -->
+                                <li class="curr">${i}</li>
+                            </c:when>
+            
+                            <c:otherwise>
+                                <!-- 현재 페이지가 아닌 경우 -->
+                                <li><a href="${urlCp}${i}">${i}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>                
+                
+                <li><a href="${urlCp}${pagination.nextPage}">&gt;</a></li>
+                <li><a href="${urlCp}${pagination.maxPage}">&gt;&gt;</a></li>
             </ul>
 
         </section>
@@ -268,7 +128,7 @@
                 <div class="title">총 상품 수</div>
             </div>
             <div class="customer-count">
-                <div class="count">5,000,000,000 개</div>
+                <div class="count">${map.goodsBoardCount} 개</div>
                 <progress id="progressBar" value="100" max="100"></progress>
             </div>
         
@@ -297,11 +157,12 @@
 
 
 </main>
-
+<c:set var="sell" value="${map.goodsStateCount[0].COUNT}"/>
+<c:set var="done" value="${map.goodsStateCount[1].COUNT}"/>
 
 <script>
-    const xValues = ["판매","중지", "완료"];
-    const yValues = [55, 49,40];
+    const xValues = ["판매","종료"];
+    const yValues = [${sell},${done}];
     const barColors = [
     "#DC143C",
     // "#FF6347",
@@ -325,6 +186,8 @@
     });
 
 </script>
+
+<script src="/resources/js/manager-js/brand/brand.js"></script>
 
 </body>
 

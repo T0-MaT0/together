@@ -1,0 +1,96 @@
+
+
+.qa-section {
+    width: 95%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.qa-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.qa-count {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.qa-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.qa-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    background: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.qa-link {
+    text-decoration: none;
+    display: block;
+}
+
+.qa-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+.qa-img:hover {
+    transform: scale(1.1);
+}
+
+.qa-info {
+    flex-grow: 1;
+    padding-left: 15px;
+}
+
+.qa-title a {
+    text-decoration: none;
+    color: black;
+    font-size: 14px;
+}
+
+.qa-title a:hover {
+    color: #009688;
+}
+
+.qa-category {
+    font-size: 14px;
+    color: #777;
+}
+
+.qa-answers {
+    font-size: 14px;
+    color: #555;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.qa-btn {
+    padding: 5px 10px;
+    border: 1px solid #28a745;
+    background: white;
+    color: #28a745;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.qa-btn:hover {
+    background: #28a745;
+    color: white;
+}

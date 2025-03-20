@@ -7,7 +7,7 @@
 	<artifactId>project</artifactId> <!-- 최상위 패키지 3레벨 == context-path -->
 	<name>Together</name> <!-- 프로젝트 명 -->
 	<packaging>war</packaging>  <!-- 배포 형식 -->
-	<version>1.0.0--BUILD-SNAPSHOT</version>
+	<version>ROOT</version>
 
 	<!-- properties : 메이븐이 적용된 프로젝트에서 공통적으로 사용할 값을 작성하는 태그(전연 변수) -->
 	<properties>
