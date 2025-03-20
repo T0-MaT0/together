@@ -1,6 +1,28 @@
 console.log("businessList.js");
 
 const boardLists = document.querySelectorAll(".boardList");
+const bannerImg = document.getElementById("bannerImg");
+
+// 배너 이미지 삽입
+let index = 0;
+document.addEventListener("DOMContentLoaded", () => {
+    console.log(bannerList);
+
+    // 초기 배너 설정
+    updateBanner();
+
+    // 3초마다 배너 변경
+    setInterval(() => {
+        index = (index + 1) % bannerList.length; // 마지막 배너 후 처음으로 순환
+        updateBanner();
+    }, 3000);
+});
+
+// 배너 업데이트 함수
+function updateBanner() {
+    let banner = bannerList[index].imagePath + bannerList[index].imageReName;
+    bannerImg.setAttribute("src", banner);
+};
 
 boardLists.forEach(boardList=>{
     let listToggle = boardList.querySelector(".list-toggle");

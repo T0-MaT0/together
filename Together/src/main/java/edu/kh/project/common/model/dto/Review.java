@@ -1,5 +1,7 @@
 package edu.kh.project.common.model.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,4 +19,11 @@ public class Review {
 	private int reviewType;
 	private int reviewTypeNo;
 	private int memberNo;
+	
+	private String memberNickname;
+	private String memberProfile;
+	private String businessThumbnail;
+	
+	private List<Image> imageList;
+	private List<Reply> replyList;
 }

@@ -10,4 +10,12 @@ public interface BusinessService {
 	Business selectBusiness(Map<String, Object> map);
 
 	Map<String, Object> selectList(Map<String, Object> paramMap, int reviewCp, int replyCp);
+
+	int pickCheck(Map<String, Object> map);
+
+	int updateReadCount(int boardNo);
+
+	Map<String, Object> selectReviewList(Map<String, Object> paramMap, int reviewCp);
+
+	Map<String, Object> selectReplyList(Map<String, Object> paramMap, int replyCp);
 }

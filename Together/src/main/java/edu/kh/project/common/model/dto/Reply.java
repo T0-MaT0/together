@@ -1,5 +1,7 @@
 package edu.kh.project.common.model.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,4 +19,10 @@ public class Reply {
 	private int replyType;
 	private int replyTypeNo;
 	private int parentNo;
+	
+	private String memberNickname;
+
+	private String thumbnail;
+	
+	private List<Reply> commentList;
 }

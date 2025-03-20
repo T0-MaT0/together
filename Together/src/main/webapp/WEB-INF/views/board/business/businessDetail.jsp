@@ -24,7 +24,7 @@
 
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
-    ${business}
+    
     <main>
         <section class="content">
             <section id="optionArea">
@@ -59,12 +59,12 @@
                         </tbody>
                     </table>
                     <div class="product-option-area border-top">
-                        <span>상품명</span>
-                        <select name="" id="">
-                            <option value="">-[필수] 옵션을 선택해 주세요</option>
+                        <span>상품 옵션</span>
+                        <select name="" id="productOption">
+                            <option value="default">-[필수] 옵션을 선택해 주세요</option>
                             <option disabled>--------------------------------------</option>
                             <c:forEach var="option" items="${business.optionList}">
-                                <option value="">${option.optionName}</option>
+                                <option value="${option.optionName}">${option.optionName}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -73,34 +73,23 @@
                         <span>${business.productCount}개</span>
                     </div>
                     <table class="choice-option border-top">
-                        <tbody>
-                            <tr>
-                                <td>사업자가 작성한 욥션1</td>
-                                <td><input type="number" value="1" min="1"><span>&times</span></td>
-                                <td>10,000원</td>
-                            </tr>
-                            <tr>
-                                <td>사업자가 작성한 욥션2</td>
-                                <td><input type="number" value="1" min="1"><span>&times</span></td>
-                                <td>10,000원</td>
-                            </tr>
-                        </tbody>
+                        <tbody id="choiceOption"></tbody>
                     </table>
                     <div class="total-area border-top">
                         <div class="price-area">
-                            <span>TOTAL: 20,000원</span>
-                            <span>(2개)</span>
+                            TOTAL: <span id="totalPriceArea">0</span>원
+                            (<span id="totalCountArea">0</span>개)
                         </div>
                         <div class="buy-area">
-                            <i class="fa-regular fa-heart" id="businessLike"></i>
-                            <i class="fa-solid fa-cart-shopping" id="businessCart"></i>
+                            <i class="fa-regular fa-heart"></i>
+                            <i class="fa-solid fa-cart-shopping"></i>
                             <button>혼자 구매</button>
                             <button>공동 구매</button>
                         </div>
                         <div>
                             <button>REPORT</button>
-                            <button>REVIEW 0</button>
-                            <button>Q & A 0</button>
+                            <a href="#review">REVIEW <span>0</span></a>
+                            <a href="#q&a">Q & A <span>0</span></a>
                         </div>
                     </div>
                 </div>
@@ -118,8 +107,18 @@
                     </ul>
                 </nav>
                 <div class="product-img">
-                    <img src="../../../resources/images/business/product.png">
-                    <img src="../../../resources/images/business/product.png">
+                    <c:choose>
+                        <c:when test="${fn:length(business.imageList)==1}">
+                            <img src="${business.imageList[0].imagePath}${business.imageList[0].imageReName}">
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach var="image" items="${business.imageList}">
+                                <c:if test="${image.imageLevel!=0}">
+                                    <img src="${image.imagePath}${image.imageReName}">
+                                </c:if>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
                 </div>
                 <div>${business.boardContent}</div>
             </section>
@@ -179,7 +178,7 @@
                         <li><a href="#q&a">상품문의 <span>0</span></a></li>
                     </ul>
                 </nav>
-                <div class="list-area">
+                <div class="list-area review-area">
                     <h3>REVIEW</h3>
                     <table>
                         <thead>
@@ -191,69 +190,16 @@
                                 <th>작성일</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1500</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td>제목 이름이 긴 상품</td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                            <tr>
-                                <td>1499</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td>제목 이름이 긴 상품</td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                            <tr>
-                                <td>1498</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td>제목 이름이 긴 상품</td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                            <tr>
-                                <td>1497</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td>제목 이름이 긴 상품</td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                            <tr>
-                                <td>1496</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td>제목 이름이 긴 상품</td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                        </tbody>
+                        <tbody id="reviewListArea"></tbody>
                     </table>
                     <div class="btn-area">
-                        <button>리뷰작성</button>
-                        <button>모두보기</button>
+                        <c:if test="${!empty loginMember}">
+                            <button onclick="openPopup('view')">리뷰작성</button>
+                        </c:if>
+                        <a href="/board/2/reviewList">모두보기</a>
                     </div>
                     <div class="pagination-area">
-                        <ul class="pagination">
-                            <li><a href="#">&lt;&lt;</a></li>
-        
-                            <li><a href="#">&lt;</a></li>
-                            
-                            <li><a class="current">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">6</a></li>
-                            <li><a href="#">7</a></li>
-                            <li><a href="#">8</a></li>
-                            <li><a href="#">9</a></li>
-                            <li><a href="#">10</a></li>
-                            
-                            <li><a href="#">&gt;</a></li>
-        
-                            <li><a href="#">&gt;&gt;</a></li>
-                        </ul>
+                        <ul class="pagination" id="reviewPaginationArea"></ul>
                     </div>
                 </div>
             </section>
@@ -271,7 +217,20 @@
                 </nav>
                 <div class="list-area">
                     <h3>Q & A</h3>
-                    <span>주문, 반품, 교환, 배송, 입금, 기타 등 모든 궁금한 사항을 남겨 주세요~</span>
+                    <div>
+                        <span>주문, 반품, 교환, 배송, 입금, 기타 등 모든 궁금한 사항을 남겨 주세요~</span>
+                        <div>
+                            <label>
+                                <input type="checkbox" id="myQNA">
+                                내 Q&A 보기
+                            </label>
+                            |
+                            <label>
+                                <input type="checkbox" id="notSecret">
+                                비밀글 제외
+                            </label>
+                        </div>
+                    </div>
                     <table>
                         <thead>
                             <tr>
@@ -282,112 +241,16 @@
                                 <th>작성일</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="qna-current">
-                                <td>1500</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td><a href="#">기타 문의🔒</a></td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                            <tr class="current-detail">
-                                <td colspan="5">사용자가 문의한 내용</td>
-                            </tr>
-                            <tr class="current-detail">
-                                <td colspan="3">판매자가 사용자의 문의에 답변한 내용</td>
-                                <td>판매자</td>
-                                <td>2025-03-03</td>
-                            </tr>
-                            <tr>
-                                <td>1499</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td><a href="#">주문 조회🔒</a></td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                            <tr>
-                                <td>1498</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td><a href="#">반품 & 교환 문의🔒</a></td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                            <tr>
-                                <td>1497</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td>배송 문의🔒</td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                            <tr>
-                                <td>1496</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td>입금 확인🔒</td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                            <tr>
-                                <td>1495</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td><a href="#">기타 문의</a></td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                            <tr>
-                                <td>1494</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td>주문 조회</td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                            <tr>
-                                <td>1493</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td>반품 & 교환 문의</td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                            <tr>
-                                <td>1492</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td>배송 문의</td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                            <tr>
-                                <td>1491</td>
-                                <td><img src="../../../resources/images/business/product.png"></td>
-                                <td>입금 확인</td>
-                                <td>닉네임</td>
-                                <td>2025-02-24</td>
-                            </tr>
-                        </tbody>
+                        <tbody id="replyListArea"></tbody>
                     </table>
                     <div class="btn-area">
-                        <button>리뷰작성</button>
-                        <button>모두보기</button>
+                        <c:if test="${!empty loginMember}">
+                            <button onclick="openPopup('ply')">문의작성</button>
+                        </c:if>
+                        <a href="/board/2/replyList">모두보기</a>
                     </div>
                     <div class="pagination-area">
-                        <ul class="pagination">
-                            <li><a href="#">&lt;&lt;</a></li>
-        
-                            <li><a href="#">&lt;</a></li>
-                            
-                            <li><a class="current">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">6</a></li>
-                            <li><a href="#">7</a></li>
-                            <li><a href="#">8</a></li>
-                            <li><a href="#">9</a></li>
-                            <li><a href="#">10</a></li>
-                            
-                            <li><a href="#">&gt;</a></li>
-        
-                            <li><a href="#">&gt;&gt;</a></li>
-                        </ul>
+                        <ul class="pagination" id="replyPaginationArea"></ul>
                     </div>
                 </div>
             </section>
@@ -395,87 +258,53 @@
     </main>
         
     <section class="fixed-option-bar">
-        <span><!-- ﹀ -->︿</span>
-        <section class="option-area hidden">
-            <select name="" id="">
-                <option value="">-[필수] 옵션을 선택해 주세요</option>
-                <option disabled>--------------------------------------</option>
-                <c:forEach var="option" items="${business.optionList}">
-                    <option value="">${option.optionName}</option>
-                </c:forEach>
-            </select>
-            <div class="choice-option-area">
-                <div>
-                    <span>사업자가 작성한 옵션1</span>
-                    <span class="x-btn">&times;</span>
-                </div>
-                <div>
-                    <span>10,000원</span>
-                    <div class="counter">
-                        <button class="btn">-</button>
-                        <input type="text" class="count" value="1">
-                        <button class="btn">+</button>
-                    </div>
-                </div>
+        <section class="fixed-option-area">
+            <div class="product-option-area">
+                <span>상품 옵션</span>
+                <select name="" id="fixedOption">
+                    <option value="default">-[필수] 옵션을 선택해 주세요</option>
+                    <option disabled>--------------------------------------</option>
+                    <c:forEach var="option" items="${business.optionList}">
+                        <option value="${option.optionName}">${option.optionName}</option>
+                    </c:forEach>
+                </select>
             </div>
-            <div class="total-price-area">
-                <span>무료배송</span>
-                <div>
-                    <div>
-                        <span>TOTAL:</span>
-                        <span>1개</span>
-                    </div>
-                    <div>
-                        <span>TOTAL:</span>
-                        <span>10,000원</span>
-                    </div>                        
+            <table class="choice-option">
+                <tbody id="fixedChoiceOption"></tbody>
+            </table>
+            <div class="total-area">
+                <div class="price-area">
+                    TOTAL: <span id="fixedTotalPriceArea">0</span>원
+                    (<span id="fixedTotalCountArea">0</span>개)
+                </div>
+                <div class="buy-area">
+                    <i class="fa-regular fa-heart"></i>
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <button>혼자 구매</button>
+                    <button>공동 구매</button>
                 </div>
             </div>
         </section>
-        <div class="choice-btn-area">
-            <button>10,000~<br>혼자 주문하기</button>
-            <button>5,000~<br>공동 구매 모집하기</button>
-        </div>
+        <span class="fixed-option-btn" onclick="changeOptionBar(this)">옵션보기></span>
     </section>
 
     <div class="modal hide">
-        <div>
-            <div class="modal-img-area">
-                <img src="../../../resources/images/business/product.png">
-                <img src="../../../resources/images/business/product.png">
-                <img src="../../../resources/images/business/product.png">
-            </div>
+        <div id="modalContent">
+            <div class="modal-img-area"></div>
             <div class="modal-detail-area">
-                <div class="rating-area">
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-solid fa-star"></i>
-                    <i class="fa-regular fa-star"></i>
-                    <i class="fa-regular fa-star"></i>
-                    <span>3</span>
-                </div>
-                <div class="user-area">
-                    <img src="../../images/business/profile.png">
-                    <span>09에 미친 사람</span>
-                    <span>25.03.03</span>
-                    <a href="#">신고</a>
-                </div>
+                <div class="rating-area"></div>
+                <div class="user-area"></div>
                 <div class="review-option-area">
-                    <span>사용자가 선택한 옵션 내용</span>
+                    <span>사용자가 선택한 옵션 내용(추후 수정 예정)</span>
                 </div>
-                <div class="review-content">
-                    사용자가 작성한 리뷰 내용(내용이 길~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 경우)
-                </div>
+                <div class="review-content"></div>
                 <div class="reply-area">
-                    <span>판매자</span>
-                    <span>25.03.03</span>
-                    <div>
-                        사용자가 작성한 리뷰에 판매자가 답글 작성한 내용
-                    </div>
+                    <div id="replyMemberArea"></div>
+                    <div id="replyContentArea"></div>
                 </div>
                 <div class="modal-btn-area">
-                    <button>취소</button>
-                    <button>상세 페이지</button>
+                    <button id="closeModalBtn" onclick="closeModal(event)">취소</button>
+                    <a href="/board/2/reviewList">리뷰목록</a>
                 </div>
             </div>
         </div>
@@ -486,6 +315,9 @@
     <script>
         const boardCode = "${boardCode}";
         const boardNo = "${business.boardNo}";
+        const productPrice = Number("${business.productPrice}");
+        const deliveryFee = Number("${business.deliveryFee}");
+        const loginMemberNo = "${loginMember.memberNo}";
     </script>
     <script src="/resources/js/business/businessDetail.js"></script>
 </body>
