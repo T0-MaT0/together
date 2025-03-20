@@ -4,6 +4,8 @@
 
 <c:set var="menuName" value="customer"/> <!-- 사이드 메뉴 설정 -->
 
+<c:set var="pagination" value="${map.pagination}"/>
+<c:set var="questList" value="${map.questList}"/>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,8 +52,8 @@
                 <div class="select-area">
                     <select name="customerStatus" id="customerStatus">
                         <option>전체</option>
-                        <option>미처리</option>
-                        <option>처리</option>
+                        <option>대기</option>
+                        <option>처리완료</option>
                     </select>
                 </div>
             </div>
@@ -67,106 +69,56 @@
                     <div>문의일자</div>
                     <div>상태</div>
                 </div>
-                <div class="list item bottom-line ">
+                <c:forEach items="${questList}" var="quest">
+                    <div class="list item bottom-line ">
+                        <div>${quest.boardNo}</div>
+                        <!-- 기본프로필-->
+                        <c:if test="${empty quest.profileImg}">
+                            <img src="/resources/images/image-manager/profile.png" alt="프로필">
+                        </c:if>
+                        <!-- 기본프로필이 아닌경우 -->
+                        <c:if test="${!empty quest.profileImg}">
+                            <img src="${quest.profileImg}" alt="프로필">
+                        </c:if>
+                        <div>${quest.memberNick}</div>
+                        <div class="clickList" onclick="customerQuest(${quest.boardNo})">${quest.boardTitle}</div>
+                        <div>${quest.createDate}</div>
+                        <div>${quest.boardDelFl}</div>
+                    </div>
+                </c:forEach>
+                <!-- <div class="list item bottom-line ">
                     <div>1</div>
                     <img src="/resources/images/image-manager/profile.png" alt="프로필">
                     <div>폼폼프리</div>
                     <div class="clickList">문의할게 있어요!! 상품 판매하고 싶은데...</div>
                     <div>2025.02.25</div>
                     <div>미처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">모집글이 올라가지 않아요!!! 그래서 환불하려고요!</div>
-                    <div>2025.02.25</div>
-                    <div>처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">광고 이미지를 바꾸고 싶습니다.</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">문의할게 있어요!! 상품 판매하고 싶은데...</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">모집글이 올라가지 않아요!!! 그래서 환불하려고요!</div>
-                    <div>2025.02.25</div>
-                    <div>처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">광고 이미지를 바꾸고 싶습니다.</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-     
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">광고 이미지를 바꾸고 싶습니다.</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">문의할게 있어요!! 상품 판매하고 싶은데...</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">모집글이 올라가지 않아요!!! 그래서 환불하려고요!</div>
-                    <div>2025.02.25</div>
-                    <div>처리</div>
-                </div>
-                <div class="list item bottom-line ">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div class="clickList">광고 이미지를 바꾸고 싶습니다.</div>
-                    <div>2025.02.25</div>
-                    <div>미처리</div>
-                </div>
+                </div> -->
      
                 
             </div>
 
+            <c:set var="urlCp" value="/manageCustomer/question?cp="></c:set>
             <ul id="pagination">
-                <li>&lt;&lt;</li>
-                <li>&lt;</li>
-                <li class="curr">1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>10</li>
-                <li>&gt;</li>
-                <li>&gt;&gt;</li>
+                <li><a href="${urlCp}1">&lt;&lt;</a></li>
+                <li><a href="${urlCp}${pagination.prevPage}">&lt;</a></li>
+                
+                    <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}">
+                        <c:choose>
+                            <c:when test="${pagination.currentPage == i}">
+                                <!-- 현재 페이지인 경우 -->
+                                <li class="curr">${i}</li>
+                            </c:when>
+        
+                            <c:otherwise>
+                                <!-- 현재 페이지가 아닌 경우 -->
+                                <li><a href="/manageCustomer/report?cp=${i}">${i}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>                
+                
+                <li><a href="${urlCp}${pagination.nextPage}">&gt;</a></li>
+                <li><a href="${urlCp}${pagination.maxPage}">&gt;&gt;</a></li>
             </ul>
 
         </section>
@@ -203,7 +155,7 @@
                     <textarea name="managerText" class="managerText">ㅁㄴㅇㄹㅁㄴㅇㄹ</textarea>
                 </div>
                 <div class="modal-btn">
-                    <button>제출</button>
+                    <!-- <button>제출</button> -->
                 </div>
             </div>
 

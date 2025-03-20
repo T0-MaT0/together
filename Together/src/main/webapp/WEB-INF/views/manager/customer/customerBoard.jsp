@@ -4,6 +4,9 @@
 
 <c:set var="menuName" value="customer"/> <!-- 사이드 메뉴 설정 -->
 
+<c:set var="pagination" value="${map.pagination}"/>
+<c:set var="boardList" value="${map.boardList}"/>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +49,7 @@
 
     <!-- 본문(종앙) -->
     <div id="container-center">
-        <section class="cus-board list-card">
+        <section class="cus-board list-card mainList">
             <!-- 공구 모집글 리스트 -->
             <div class="board-title bottom-line">
                 <div class="title">공구 모집글 리스트</div>
@@ -72,189 +75,48 @@
                     <div>성립일자</div>
                     <div>상태</div>
                 </div>
-                
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>취소</div>
-                </div>
-                <div class="list item bottom-line">
+                <c:forEach  items="${boardList}" var="board">
+                    <div class="list item bottom-line">
+                        <div>${board.boardNo}</div>
+                        <div>${board.memberNick}</div>
+                        <div>${board.boardTitle}</div>
+                        <div>${board.createDate}</div>
+                        <div>${board.endDate}</div>
+                        <div>${board.recruitmentStatus}</div>
+                    </div>             
+                </c:forEach>
+                <!-- <div class="list item bottom-line">
                     <div>9999</div>
                     <div>망나뇽</div>
                     <div>삼다수 50개 나눠가지실 분!</div>
                     <div>2025.02.25</div>
                     <div>----.--.--</div>
                     <div>진행</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>9998</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>정지</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10007</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>성립</div>
-                </div>
-
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>취소</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>9999</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>진행</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>9998</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>정지</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10007</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>성립</div>
-                </div>
-
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>취소</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>9999</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>진행</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>9998</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>정지</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10007</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>성립</div>
-                </div>
-
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>취소</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>9999</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>진행</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>9998</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>정지</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10007</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>성립</div>
-                </div>
-
-                <div class="list item bottom-line">
-                    <div>10001</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>취소</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>9999</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>진행</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>9998</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>정지</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>10007</div>
-                    <div>망나뇽</div>
-                    <div>삼다수 50개 나눠가지실 분!</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.25</div>
-                    <div>성립</div>
-                </div>
+                </div> -->
 
             </div>
 
+            <c:set var="urlCp" value="/manageCustomer/board?cp="></c:set>
             <ul id="pagination">
-                <li>&lt;&lt;</li>
-                <li>&lt;</li>
-                <li class="curr">1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>10</li>
-                <li>&gt;</li>
-                <li>&gt;&gt;</li>
+                <li><a href="${urlCp}1">&lt;&lt;</a></li>
+                <li><a href="${urlCp}${pagination.prevPage}">&lt;</a></li>
+                
+                    <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}">
+                        <c:choose>
+                            <c:when test="${pagination.currentPage == i}">
+                                <!-- 현재 페이지인 경우 -->
+                                <li class="curr">${i}</li>
+                            </c:when>
+            
+                            <c:otherwise>
+                                <!-- 현재 페이지가 아닌 경우 -->
+                                <li><a href="${urlCp}${i}">${i}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>                
+                
+                <li><a href="${urlCp}${pagination.nextPage}">&gt;</a></li>
+                <li><a href="${urlCp}${pagination.maxPage}">&gt;&gt;</a></li>
             </ul>
 
         </section>
@@ -267,8 +129,8 @@
                 <div class="title">현재 총 공구 모집 수</div>
             </div>
             <div class="customer-count">
-                <div class="count">5,000,000,000 명</div>
-                <progress id="progressBar" value="100" max="100"></progress>
+                <div class="count">${map.totalCustomerBoard}명</div>
+                <progress id="progressBar" value="${map.totalCustomerBoard}" max="${map.totalCustomerBoard}"></progress>
             </div>
         
         </section>
@@ -293,21 +155,22 @@
             <canvas id="myChart" style="width:80%;max-width:400px; height: 400px;"></canvas>
         </section>
 
-        
     </div>
 
 
 </main>
-
+<c:set var="ing" value="${map.cusBoardStateCount[1].COUNT}"/>
+<c:set var="limited" value="${map.cusBoardStateCount[2].COUNT}"/>
+<c:set var="done" value="${map.cusBoardStateCount[0].COUNT}"/>
 <script>
-    const xValues = ["진행중", "성립", "정지", "취소"];
-    const yValues = [55, 49, 44, 24];
+    const xValues = ["진행중", "마감", "완료"];
+    const yValues = [${ing}, ${limited}, ${done}];
     const barColors = [
     "#DC143C",
-    "#FF6347",
-    // "#FFA500",
+    // "#FF6347",
+    "#FFA500",
     "#6B8E23"
-    ,"#6495ED"
+    // ,"#6495ED"
     ];
 
     new Chart("myChart", {

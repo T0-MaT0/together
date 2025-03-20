@@ -55,14 +55,13 @@
                     </div>
                     <div class="review-actions">
                         <button class="delete-selected">선택 삭제</button>
-                        <button class="delete-all">전체 삭제</button>
                     </div>
                 </div>
             
                 <!-- 리뷰 목록 -->
                 <c:forEach var="review" items="${reviews}" varStatus="status">
                     <div class="review-card ${status.index >= 5 ? 'hidden-review' : ''}">
-                        <input type="checkbox" class="checkbox">
+                        <input type="checkbox" class="checkbox" data-reviewno="${review.reviewNo}">
                         <div class="review-info">
                             <h3 class="review-title">${review.boardTitle}</h3> 
                             <p class="review-text">: ${review.reviewContent}</p>
@@ -81,7 +80,7 @@
     </main>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
-    <script src="/resources/js/individual/myRecruitmentComment.js"></script>
+    <script src="/resources/js/individual/myRecruitmentReview.js"></script>
 </body>
 
 </html>

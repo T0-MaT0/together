@@ -108,7 +108,7 @@ html, body {
 
 .status-area{
     display: grid;
-    grid-template-columns: repeat(3, 110px);
+    grid-template-columns: repeat(4, 110px);
     grid-template-rows: repeat(2, 100px);
     justify-content: center;
     gap: 10px;

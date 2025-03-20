@@ -47,13 +47,13 @@
             <!-- 모집 목록 -->
             <div id="recruit-list">
                 <div class="recruit-header">
-                    <input type="checkbox" id="topcheckbox">
-                    <span class="title"> 내 09 파티</span>
+                    <span class="title"> 전체 모집방 </span>
                 </div>
                 
                 <c:forEach var="recruitment" items="${recruitments}">
                     <div class="recruit-card ${recruitment.recruitmentStatus eq '모집 완료' ? 'completed' : 'in-progress'}">
-                        <input type="checkbox" class="checkbox">
+                        <input type="checkbox" class="checkbox" data-boardno="${recruitment.boardNo}">
+                        
                         <div class="recruit-info">
                             <div class="header">
                                 <span class="badge 
@@ -99,10 +99,11 @@
                         </div>
                     </div>
                 </c:forEach>
-            
-                <div class="delete-btn-container">
-                    <button class="close-btn">09마감</button>
-                    <button class="delete-btn">09삭제</button>
+
+                <input type="hidden" id="loginMemberNo" value="${loginMember.memberNo}">
+                <div class="delete-btn-container" style="visibility: hidden;">
+                    <button class="close-btn">모집 마감</button>
+                    <button class="delete-btn">모집 삭제</button>
                 </div>
             </div>
 

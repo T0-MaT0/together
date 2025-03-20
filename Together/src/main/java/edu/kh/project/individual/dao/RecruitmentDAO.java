@@ -1,5 +1,6 @@
 package edu.kh.project.individual.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,6 +81,17 @@ public class RecruitmentDAO {
 	 */
 	public List<Review> selectMyRecruitmentReviews(int memberNo) {
 		return sqlSession.selectList("recruitmentMapper.selectMyRecruitmentReviews", memberNo);	
+	}
+
+	/** 모집방 상세 내용 조회
+	 * @param recruitmentNo
+	 * @return
+	 */
+	public Recruitment selectRecruitmentRoomDetail(int recruitmentNo, int boardNo) {
+		 	Map<String, Object> paramMap = new HashMap<>();
+		    paramMap.put("recruitmentNo", recruitmentNo);
+		    paramMap.put("boardNo", boardNo);
+		return sqlSession.selectOne("recruitmentMapper.selectRecruitmentRoomDetail", paramMap);
 	}
 
 	

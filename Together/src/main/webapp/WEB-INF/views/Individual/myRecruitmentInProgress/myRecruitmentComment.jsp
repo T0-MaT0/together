@@ -55,14 +55,13 @@
                     </div>
                     <div class="comment-actions">
                         <button class="delete-selected">선택 삭제</button>
-                        <button class="delete-all">전체 삭제</button>
                     </div>
                 </div>
             
                 <!-- 댓글 목록 -->
                 <c:forEach var="comment" items="${comments}" varStatus="status">
                     <div class="comment-card ${status.index >= 5 ? 'hidden-comment' : ''}">
-                        <input type="checkbox" class="checkbox">
+                        <input type="checkbox" class="checkbox" data-replyno="${comment.replyNo}">
                         <div class="comment-info">
                             <h3 class="comment-title">${comment.boardTitle}</h3> 
                             <p class="comment-text">: ${comment.replyContent}
@@ -73,6 +72,9 @@
                     </div>
                 </c:forEach>
             
+
+                <!-- 현재 로그인한 회원 번호 -->
+                <input type="hidden" id="loginMemberNo" value="${loginMember.memberNo}">
                 <!-- 댓글이 없을 경우 메시지 출력 -->
                 <c:if test="${empty comments}">
                     <p class="no-comments">작성한 댓글이 없습니다.</p>

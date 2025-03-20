@@ -1,6 +1,5 @@
 package edu.kh.project.manager.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,8 @@ public class ManagerController {
 		model.addAttribute("customerQuestCount", customerQuestCount);
 		
 		// 고객 신고 수
-			
+		
+		
 		// 브랜드 제휴 수
 		int brandQuestCount = service.brandQuestCount();
 		model.addAttribute("brandQuestCount", brandQuestCount);
@@ -36,6 +36,8 @@ public class ManagerController {
 		model.addAttribute("brandAdCount", brandAdCount);
 		
 		// 브랜드 신고 수
+		
+		
 		
 		//브랜드 상품 수/ 고객 모집글 수
 		
@@ -47,13 +49,22 @@ public class ManagerController {
 	
 	//고객 관리 화면
 	@GetMapping("/customer")
-	public String manageCustomer() {
+	public String manageCustomer(Model model) {
+		Map<String, Object> map = service.customerMain();
+		
+		model.addAttribute("map", map);
+		
 		return "manager/customer/customerMain";
 	}
 	
 	//브랜드 관리 화면
 	@GetMapping("/brand")
-	public String manageBrand() {
+	public String manageBrand(Model model) {
+		
+		Map<String, Object> map = service.selectNum();
+		
+		model.addAttribute("map", map);
+		
 		return "manager/brand/brandMain";
 	}
 	

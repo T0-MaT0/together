@@ -22,7 +22,7 @@
                     <h2 class="title">ToGether에 오신 것을</h2>
                     <h2 class="title">환영합니다.</h2>
                     <h5 id="content">ToGether는 공동구매 사이트 입니다.</h5>
-                    <a src="#" class="signUp-button personal" id="goToSignUp">개인 회원가입</a>
+                    <a href="/member/signUp1" class="signUp-button personal" id="goToSignUp">개인 회원가입</a>
                 </div>
             </section>
             <section id="center"></section>
@@ -61,7 +61,7 @@
                     <div><button id="login-button">로그인</button></div>
                     <div class="font-12 find-div">
                         <a href="/member/findId" id="find-id">아이디 찾기</a>|
-                        <a href="#" id="find-pw">비밀번호 찾기</a>
+                        <a href="/member/findPw" id="find-pw">비밀번호 찾기</a>
                     </div>
                     <div class="font-12" id="sns-login">SNS 간편 로그인</div>
                     <div>

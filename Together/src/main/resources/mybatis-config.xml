@@ -15,8 +15,26 @@
 		<typeAlias type="edu.kh.project.common.model.dto.Review" alias="Review" />
 		<typeAlias type="edu.kh.project.common.model.dto.Reply" alias="Reply" />
 		<typeAlias type="edu.kh.project.individual.dto.Recruitment" alias="RecruitmentRoomDTO" />
+		<typeAlias type="edu.kh.project.individual.dto.Recruitment" alias="RecruitmentRoomDetailDTO" />
+
+		<!-- manager  -->
+		<typeAlias type="edu.kh.project.manager.model.dto.CustomerBoard" alias="CustomerBoard"/>
+		<typeAlias type="edu.kh.project.manager.model.dto.QuestCustomer" alias="QuestCustomer"/>
+		<typeAlias type="edu.kh.project.manager.model.dto.Report" alias="Report"/>
+		<typeAlias type="edu.kh.project.manager.model.dto.BrandBoard" alias="BrandBoard"/>
+		<typeAlias type="edu.kh.project.manager.model.dto.LookData" alias="LookData"/>
+		<typeAlias type="edu.kh.project.manager.model.dto.BrandProfile" alias="BrandProfile"/>
+		<typeAlias type="edu.kh.project.manager.model.dto.CustomerProfile" alias="CustomerProfile"/>
+		<typeAlias type="edu.kh.project.manager.model.dto.CustProfileBoard" alias="CustProfileBoard"/>
+
+
 		<typeAlias type="edu.kh.project.individual.dto.Image" alias="Image2" />
+
 		<typeAlias type="edu.kh.project.member.model.dto.Product" alias="Product" />
+
+		<typeAlias type="edu.kh.project.member.model.dto.Board" alias="Board" />
+
+
 	</typeAliases>
 	
 	<mappers>
@@ -25,7 +43,12 @@
 		<mapper resource="/mappers/board-mapper.xml" />
 		<mapper resource="/mappers/manager-mapper.xml" />
 		<mapper resource="/mappers/recruitmentMapper.xml" />
+
 		<mapper resource="/mappers/mypage-mapper.xml" />
+
+		<mapper resource="/mappers/email-mapper.xml" />
+		<mapper resource="/mappers/customer-mapper.xml" />
+
 	</mappers>
 
 </configuration>

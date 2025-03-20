@@ -14,7 +14,7 @@ public class Company {
 	
 
     private int memberNo;
-    private int businessNo;
+    private String businessNo;
     private String bankName;
     private String bankNo;
     private String permissionFl;

@@ -1,5 +1,6 @@
 package edu.kh.project.manager.model.service;
 
+import java.util.Map;
 
 public interface ManagerService {
 
@@ -17,5 +18,15 @@ public interface ManagerService {
 	 * @return
 	 */
 	int brandAdCount();
+
+	/** 브랜드 메인화면 실적 수 조회
+	 * @return
+	 */
+	Map<String, Object> selectNum();
+
+	/** 고객 메인 화면 실적 수 조회
+	 * @return
+	 */
+	Map<String, Object> customerMain();
 
 }
