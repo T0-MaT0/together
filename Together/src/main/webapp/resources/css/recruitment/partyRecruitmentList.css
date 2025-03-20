@@ -53,9 +53,7 @@ body {
 /* 이미지 캐러셀 */
 .image-carousel {
     position: relative;
-    width: 100%;
-    max-width: 800px;
-    margin: auto;
+    width: 700px; /* 원하는 크기로 조정 */
     overflow: hidden;
 }
 
@@ -70,10 +68,17 @@ body {
     white-space: nowrap;
 }
 
-.carousel-image {
-    flex: 0 0 calc(100% / 3); /* 한 줄에 3개만 보이도록 설정 */
-    max-width: 250px;
-    margin: 5px;
+.carousel-item {
+    flex: 0 0 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-item img {
+    width: 100%;
+    max-width: 500px;
 }
 
 .carousel-btn {
@@ -85,15 +90,15 @@ body {
     border: none;
     padding: 10px;
     cursor: pointer;
-    z-index: 10; /* 버튼이 이미지보다 위로 오도록 설정 */
+    z-index: 10;
 }
 
 .carousel-btn.left {
-    left: 0px;
+    left: 10px;
 }
 
 .carousel-btn.right {
-    right: 0px;
+    right: 10px;
 }
 
 /* 상품 설명 */
@@ -199,8 +204,8 @@ h3 {
 .join-btn {
     display: block;
     margin-left: auto;
-    width: 10%;
-    background: #ffcc00;
+    width: 15%;
+    background: #61C5FE;
     color: white;
     padding: 10px;
     border: none;
@@ -227,24 +232,49 @@ h3 {
     font-family: 'GmarketSansMedium';
 }
 
+/* 버튼을 감싸는 컨테이너 */
+.button-container {
+    display: flex;
+    gap: 10px; /* 버튼 간격 */
+    justify-content: flex-end; /* 🔹 버튼을 오른쪽 정렬 */
+    margin-top: 20px;
+    padding-right: 20px; /* 오른쪽 여백 */
+}
+
+/* 공통 버튼 스타일 */
+.edit-btn2, .list-btn {
+    width: 140px;
+    height: 45px;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+}
+
+/* 수정 버튼 */
+.edit-btn2 {
+    background: white;
+    color: #FF66B2; /* 핑크 계열 */
+    border: 2px solid #FF66B2; /* 🔹 테두리 추가 */
+}
+
+.edit-btn2:hover {
+    background: #FF66B2;
+    color: white;
+}
+
 /* 목록 버튼 */
 .list-btn {
-    display: block;
-    margin-left: auto;
-    width: 10%;
-    background: #ffcc00;
-    color: white;
-    padding: 10px;
+    background: #FFD700; /* 노랑 */
+    color: black;
     border: none;
-    border-radius: 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-    margin-bottom: 15px;
 }
 
 .list-btn:hover {
-    background: #e6b800;
+    background: #E6B800;
 }
 
 /* 댓글 입력 */
