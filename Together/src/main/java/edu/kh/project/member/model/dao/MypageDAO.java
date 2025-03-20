@@ -21,4 +21,8 @@ public class MypageDAO {
     public List<Product> getCategoryPick(int categoryNo) {
         return sqlSession.selectList("mypageMapper.getCategoryPick", categoryNo);
     }
+
+    public List<Product> getPickProduct(int memberNo) {
+        return sqlSession.selectList("mypageMapper.getPickProduct", memberNo);
+    }
 }

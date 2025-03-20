@@ -20,4 +20,9 @@ public class MypageServiceImpl implements MypageService {
 
     @Override
     public List<Product> getCategoryPick(int categoryNo) { return dao.getCategoryPick(categoryNo); }
+
+    @Override
+    public List<Product> getPickProduct(int memberNo) {
+        return dao.getPickProduct(memberNo);
+    }
 }
