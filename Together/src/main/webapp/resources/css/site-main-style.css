@@ -17,23 +17,28 @@ body {
     background-color: #fff;
     padding: 0 20px;
     width: 100%;
+
 }
 
 
 /* 히어로 섹션 */
 .hero {
     
-    width: 1086px;
-    height: 506px;
-    background: url('hero-image.jpg') no-repeat center center/cover;
+    max-width: 1086px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 15px;
     margin: 80px auto;
     position: relative;
     overflow: hidden;
 
+}
+
+.banner img {
+    width: 1085px;
+    height: 500px;
+    border-radius: 30px;
+    display: block;
 }
 
 
@@ -66,6 +71,7 @@ body {
     text-align: center;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
     background: white;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
 .product img {
@@ -108,34 +114,6 @@ body {
 
 }
 
-.info-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 40px;
-}
-
-.info-section.reverse {
-    flex-direction: row-reverse;
-}
-
-.text-content {
-    width: 60%;
-    text-align: left;
-    font-size: 24px;
-    line-height: 1.8;
-}
-
-
-.image-content {
-    width:337px;
-    height: 364px;
-}
-
-.image-content img {
-    width: 100%;
-    border-radius: 20px;
-}
 
 
 
@@ -160,12 +138,29 @@ body {
     background: linear-gradient(to right, #b54eff, #ff52b8);
 }
 
+.product:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+}
+
 .hot-products {
     width: 1086px;
     margin: 50px auto; /* 중앙 정렬 */
     padding: 0 10px;
     text-align: center;
     position: relative;
+}
+
+.hot-product{
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    text-decoration: none;
+    color: black;
+}
+.hot-product:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
 }
 
 
@@ -233,6 +228,7 @@ body {
 .new-products {
     text-align: center;
     margin: 50px auto;
+    margin-bottom: 150px;
     width: 1086px;
 }
 
@@ -253,6 +249,15 @@ body {
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
     background: white;
     position: relative;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    text-decoration: none;
+    color: black;
+}
+
+.new-product:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
 }
 
 .new-product img {
@@ -321,7 +326,69 @@ body {
 .main-product-title{
     margin-left: 50px;
     font-size: 24px;
-    padding-bottom: 15px;
+    padding-bottom: 40px;
     text-align: left;
     font-weight: bold;
 }
+
+/* 이용 프로세스 섹션 */
+.process-section {
+    max-width: 1086px;
+    margin: 100px auto;
+    margin-bottom: 200px;
+    text-align: center;
+}
+
+.main-title {
+    padding-bottom: 10px;
+    font-size: 15px;
+}
+
+.sub-title {
+    margin-bottom: 100px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* 텍스트 + 이미지 래퍼 */
+.process-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    position: relative;
+}
+
+/* 왼쪽 텍스트 영역 */
+.text-scroll-sections {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 200px; /* 텍스트 블럭 간 여백 */
+    text-align: left;
+}
+
+.info-text {
+    font-size: 24px;
+    line-height: 1.8;
+    margin-top: 100px;
+}
+
+/* 오른쪽 고정 이미지 영역 */
+.fixed-image {
+    position: sticky;
+    top: 100px;
+    width: 337px;
+    height: 364px;
+    flex-shrink: 0;
+}
+
+.fixed-image img {
+    width: 100%;
+    border-radius: 20px;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.fixed-image img.fade-out {
+    opacity: 0;
+}
+
