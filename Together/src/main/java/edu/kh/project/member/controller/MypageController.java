@@ -77,7 +77,6 @@ public class MypageController {
     @PostMapping(value = "/categoryPick", produces="application/json; charset=UTF-8")
     @ResponseBody
     public List<Product> categoryPick(@RequestBody int categoryNo) {
-        System.out.println(categoryNo);
         return service.getCategoryPick(categoryNo);
     }
 

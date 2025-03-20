@@ -64,7 +64,7 @@
 						<div class="menu-item">
 							<img src="/resources/images/mypage/common/주문배송.png" alt="주문 배송">
 							<p>주문 배송</p>
-							<span>0</span>
+							<span></span>
 						</div>
 						<div class="menu-item">
 							<img src="/resources/images/mypage/common/장바구니.png" alt="장바구니">
