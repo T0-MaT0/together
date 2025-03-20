@@ -25,20 +25,16 @@
 		<div class="myinfo-content-wrapper">
             <!-- 메인 콘텐츠 -->
             <section class="myinfo-main-content">
-                <section class="wishlist-section">
+                <section class="wishlist-section" id="wishlist-section">
+                
                     <h2>찜한 상품</h2>
                     <div class="wishlist-container">
-                        <div class="wishlist-tabs">
-                            <span class="tab active">전체</span>
-                            <span class="tab">식품</span>
-                            <span class="tab">패션잡화</span>
-                            <span class="tab">패션잡화</span>
-                            <span class="tab">패션잡화</span>
+                        <div class="wishlist-tabs" id="wishlist-tabs">
                         </div>
-                        <div class="wishlist-summary">전체 3</div>
+                        <div class="wishlist-summary" id="wishlist-summary">전체 3</div>
                     </div>
                 
-                    <div class="wishlist-items">
+                    <div class="wishlist-items" id="wishlist-items">
                         <div class="wishlist-item">
                             <a href="#" class="wishlist-link">
                                 <img src="상품1.png" alt="초콜릿" class="wishlist-img">
@@ -86,4 +82,5 @@
 
 </body>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+<script src="/resources/js/member/mypages.js"></script>
 </html>

@@ -22,3 +22,7 @@
 
 
 <script src="/resources/js/member/mypage-sidebar.js"></script>
+<script>
+<%-- 전역변수로 값 넘기기 --%>
+  const memberNo = "${loginMember.memberNo}";
+</script>

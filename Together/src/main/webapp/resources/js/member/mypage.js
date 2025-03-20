@@ -99,7 +99,6 @@ function getCategoryRecommend(categoryBtn) {
 
 
   let cateNo = categoryBtn.getAttribute("data-category");
-  console.log(cateNo);
   fetch("/mypage/categoryPick", {
     method: "post",
     headers: { "Content-Type": "application/json" },
@@ -107,7 +106,6 @@ function getCategoryRecommend(categoryBtn) {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data);
     const carousel = document.getElementById("carousel");
     carousel.innerHTML = "";
     data.forEach(
@@ -157,24 +155,6 @@ function getRecommendBrand() {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data);
-    /* <section class="interest-store" id="interest-store">
-					<h3>관심 스토어</h3>
-					<div class="store-list">
-						<div class="store-circle">
-							<img src="브랜드1.png" alt="기업1">
-							<p class="store-name">기업명1</p>
-						</div>
-						<div class="store-circle">
-							<img src="브랜드2.png" alt="기업2">
-							<p class="store-name">기업명2</p>
-						</div>
-						<div class="store-circle">
-							<img src="브랜드2.png" alt="기업3">
-							<p class="store-name">기업명3</p>
-						</div>
-					</div>
-				</section> */
 
     const interestStore = document.getElementById("interestStore");
     interestStore.innerHTML = "";
@@ -210,6 +190,12 @@ function getRecommendBrand() {
       storeCircle.appendChild(a);
       storeList.appendChild(storeCircle);
     });
+
+    if (data.length === 0) {
+      const noItem = document.createElement("p");
+      noItem.textContent = "관심 스토어가 없습니다.";
+      storeList.appendChild(noItem);
+    }
 
 
 
@@ -341,6 +327,13 @@ function pickProduct() {
 }
 
 
+const menuItems = document.getElementsByClassName("menu-item");
+
+
+
+
+
+
 // 문서 로드 시
 document.addEventListener("DOMContentLoaded", function () {
   getPurchaseHistory();
@@ -348,3 +341,4 @@ document.addEventListener("DOMContentLoaded", function () {
   getRecommendBrand();
 
 });
+
