@@ -61,35 +61,47 @@
 				<!-- 상단 바 -->
 				<div class="top-bar2">
 					<div class="top-menu">
-						<div class="menu-item">
-							<img src="/resources/images/mypage/common/주문배송.png" alt="주문 배송">
-							<p>주문 배송</p>
-							<span></span>
-						</div>
-						<div class="menu-item">
-							<img src="/resources/images/mypage/common/장바구니.png" alt="장바구니">
-							<p>장바구니</p>
-							<span>0</span>
-						</div>
-					</div>
-					<div class="bottom-menu">
-						<div class="menu-item" id="interest-store">
-							<img src="/resources/images/mypage/common/관심스토어.png" alt="관심스토어">
-							<p>관심스토어</p>
-						</div>
-						<div class="menu-item">
-							<img src="/resources/images/mypage/common/찜한상품.png" alt="찜한상품">
-							<p>찜한상품</p>
-						</div>
-						<div class="menu-item">
-							<img src="/resources/images/mypage/common/최근본상품.png" alt="최근 본 상품">
-							<p>최근 본 상품</p>
-						</div>
-						<div class="menu-item">
-							<img src="/resources/images/mypage/common/QnA.png" alt="최근 본 상품">
-							<p class="bold-text">Q&A</p>
-						</div>
-					</div>
+            <a href="orders">
+                  <div class="menu-item">
+                    <img src="/resources/images/mypage/common/주문배송.png" alt="주문 배송">
+                    <p>주문 배송</p>
+                    <span></span>
+                  </div>
+            </a>
+            <a>
+                  <div class="menu-item">
+                    <img src="/resources/images/mypage/common/장바구니.png" alt="장바구니">
+                    <p>장바구니</p>
+                    <span>0</span>
+                  </div>
+            </a>
+          </div>
+          <div class="bottom-menu">
+            <a href="favoriteStore">
+                  <div class="menu-item" id="interest-store">
+                    <img src="/resources/images/mypage/common/관심스토어.png" alt="관심스토어">
+                    <p>관심스토어</p>
+                  </div>
+            </a>
+            <a href="wishlist">
+                  <div class="menu-item">
+                    <img src="/resources/images/mypage/common/찜한상품.png" alt="찜한상품">
+                    <p>찜한상품</p>
+                  </div>
+            </a>
+            <a href="recentPurchase">
+                  <div class="menu-item">
+                    <img src="/resources/images/mypage/common/최근본상품.png" alt="최근 본 상품">
+                    <p>최근 구매한 상품</p>
+                  </div>
+            </a>
+            <a href="QnA">
+                  <div class="menu-item">
+                    <img src="/resources/images/mypage/common/QnA.png" alt="최근 본 상품">
+                    <p class="bold-text">Q&A</p>
+                  </div>
+            </a>
+          </div>
 				</div>
 
 
@@ -131,9 +143,6 @@
 	</main>
 </body>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
-<script>
-<%-- 전역변수로 값 넘기기 --%>
-  const memberNo = "${loginMember.memberNo}";
-</script>
+
 <script src="/resources/js/member/mypage.js"></script>
 </html>

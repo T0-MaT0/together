@@ -74,4 +74,5 @@
 
 </body>
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+<script src="/resources/js/member/mypages.js"></script>
 </html>
