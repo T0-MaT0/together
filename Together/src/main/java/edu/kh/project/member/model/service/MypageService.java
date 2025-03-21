@@ -1,5 +1,6 @@
 package edu.kh.project.member.model.service;
 
+import edu.kh.project.member.model.dto.Brand;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
 
@@ -13,4 +14,6 @@ public interface MypageService {
     List<Product> getPickProduct(int memberNo);
 
     List<Member> recommendBrand(int memberNo);
+
+    List<Brand> pickBrand(int memberNo);
 }
