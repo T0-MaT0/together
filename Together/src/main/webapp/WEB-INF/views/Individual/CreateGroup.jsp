@@ -9,16 +9,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CreateGroup</title>
-    <link rel="stylesheet" href="/resources/css/header,footer.css">
     <link rel="stylesheet" href="/resources/css/CreateGroup.css">
+    <!-- flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- flatpickr 한국어 locale 추가 -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
 </head>
 <body>
-    <jsp:include page="/WEB-INF/views/common/header.jsp" />
-    
     <div id="main-container">
         <main>
             <div class="recruitment-form">
-                <div class="form-title">제목을 입력해 주세요</div>
+                <div class="form-group title-row">
+                    <label for="groupTitle" class="title-label">제목</label>
+                    <input type="text" id="groupTitle" class="title-input" placeholder="제목을 입력해 주세요">
+                </div>
                 <div class="form-group">
                     <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
                         <label for="category">카테고리 선택:</label>
@@ -49,7 +55,6 @@
                     </div>
                 </div>
 
-
                 <div class="form-group">
                     <label>상품 사이트 URL:</label>
                     <div class="url-input">
@@ -58,10 +63,20 @@
                 </div>
                 <div class="form-section">
                     <div class="form-box">
-                        <p><strong>마감 기한</strong></p>
-                        <p>📅 시작 날짜 ~ 마감 날짜</p>
+                        <label for="hiddenRangeInput" style="display: block; margin-bottom: 6px;">
+                            <strong>마감 기한</strong>
+                        </label>
+                        <div>
+                            <input type="text" id="hiddenRangeInput" style="display:none;">
+                            <span id="calendarIcon" style="cursor:pointer; color:#b82;">
+                                📅 :
+                            </span>
+                            <span id="displayRange" style="margin-left:10px; font-weight:bold;"></span>
+                        </div>
                         <p><strong>O9 지역</strong></p>
                         <button class="btn-create">찾기</button>
+                        <!-- 선택한 주소를 표시할 곳 -->
+                        <p id="chosenAddress" style="margin-top:10px; color:blue; font-weight:bold;"></p>
                     </div>
                     <div class="form-box">
                         <p><strong>총 인원</strong></p>
@@ -81,7 +96,7 @@
         </main>
     </div>
     
-    <jsp:include page="/WEB-INF/views/common/footer.jsp" />
-    <script src="/resources/js/individual/individualMain.js"></script>
+ 
+    <script src="/resources/js/individual/createGroup.js"></script>
 </body>
 </html>
