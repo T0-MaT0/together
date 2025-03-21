@@ -120,6 +120,12 @@
 
             </ul>
         </div>
+
+        <div class="write-board-button-area">
+            <c:if test="${loginMember.authority == 1}">
+                <a href="/customer2/4/insert" id="write-board-button">글작성하기</a>
+            </c:if>
+        </div>
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/customer/FAQ.js"></script>

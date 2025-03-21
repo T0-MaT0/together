@@ -123,4 +123,49 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+
+    const images = document.querySelectorAll(".carousel-image");
+    let currentIndex = 0;
+    const prevBtn = document.querySelector(".carousel-button.prev");
+    const nextBtn = document.querySelector(".carousel-button.next");
+    let interval;
+
+    function showImage(index) {
+        images.forEach(img => img.classList.remove("active"));
+        images[index].classList.add("active");
+    }
+
+    function nextImage() {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+    }
+
+    function prevImage() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+    }
+
+    function startAutoSlide() {
+        interval = setInterval(nextImage, 5000);
+    }
+
+    function resetAutoSlide() {
+        clearInterval(interval);
+        startAutoSlide();
+    }
+
+    // 초기화
+    showImage(currentIndex);
+    startAutoSlide();
+
+    // 버튼 이벤트
+    nextBtn.addEventListener("click", () => {
+        nextImage();
+        resetAutoSlide();
+    });
+
+    prevBtn.addEventListener("click", () => {
+        prevImage();
+        resetAutoSlide();
+    });
 });

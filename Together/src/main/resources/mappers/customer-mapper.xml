@@ -17,6 +17,8 @@
 
 	</resultMap>
 	
+	
+	
 	<!-- 공지사항 상위 6개 리스트 불러오기 -->
 	<select id="selectNoticeBoardList" resultMap="board_rm">
 		SELECT * FROM (
@@ -102,6 +104,41 @@
 		AND BOARD_DEL_FL = 'N'
 		ORDER BY BOARD_NO
 	</select>
+	
+	<insert id="boardInsert" parameterType="Board"
+		useGeneratedKeys="true">
+
+		<selectKey order="BEFORE" resultType="_int"
+			keyProperty="boardNo">
+			SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
+		</selectKey>
+
+		INSERT INTO BOARD
+		VALUES(#{boardNo},
+		#{boardTitle},
+		#{boardContent},
+		SYSDATE,
+		DEFAULT, DEFAULT, DEFAULT,
+		${memberNo},
+		${boardCd})
+	</insert>
+	
+	<insert id="insertImageList" parameterType="list">
+		INSERT INTO BOARD_IMG
+		SELECT SEQ_IMG_NO.NEXTVAL, A.*
+		FROM (
+
+		<foreach collection="list" item="img" separator=" UNION ALL ">
+			SELECT #{img.imageReName} IMG_RENAME,
+				   #{img.imagePath} IMG_PATH,
+				   #{img.imageOriginal} IMG_ORIGINAL,
+				   #{img.imageLevel} IMG_LEVEL,
+				   #{img.imageType} IMG_TYPE,
+				   #{img.imageTypeNo} IMG_TYPE_NO
+				   FROM DUAL
+		</foreach>
+		)A
+	</insert>
 
 	
 </mapper>

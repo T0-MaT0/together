@@ -46,6 +46,10 @@ body {
     margin-bottom: 10px;
 }
 
+.customer-title{
+    cursor: pointer !important;
+}
+
 .notice-title::before {
     content: "\1F4E3";
     margin-right: 8px;
