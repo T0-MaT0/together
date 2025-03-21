@@ -27,8 +27,9 @@
 		<typeAlias type="edu.kh.project.manager.model.dto.CustomerProfile" alias="CustomerProfile"/>
 		<typeAlias type="edu.kh.project.manager.model.dto.CustProfileBoard" alias="CustProfileBoard"/>
 		<typeAlias type="edu.kh.project.manager.model.dto.BrandProfileBoard" alias="BrandProfileBoard"/>
+		<!-- images -->
 
-
+		
 		<typeAlias type="edu.kh.project.individual.dto.Image" alias="Image2" />
 
 		<typeAlias type="edu.kh.project.member.model.dto.Product" alias="Product" />
@@ -49,7 +50,7 @@
 
 		<mapper resource="/mappers/email-mapper.xml" />
 		<mapper resource="/mappers/customer-mapper.xml" />
-<!-- 		<mapper resource="/mappers/images-mapper.xml" /> -->
+		<mapper resource="/mappers/images-mapper.xml" />
 		<mapper resource="/mappers/main-mapper.xml" />
 
 	</mappers>

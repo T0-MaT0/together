@@ -2,12 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="imageMapper">
 
+<!--====RESULT MAP=====-->
+<resultMap id="Image" type="Image">
+    <result property="imageNo" column="IMG_NO" />
+    <result property="imageReName" column="IMG_RENAME" />
+    <result property="imagePath" column="IMG_PATH" />
+    <result property="imageOriginal" column="IMG_ORIGINAL" />
+    <result property="imageLevel" column="IMG_LEVEL" />
+    <result property="imageType" column="IMG_TYPE" />
+    <result property="imageTypeNo" column="IMG_TYPE_NO" />
+</resultMap>
+
+
+
 <!-- ==============관리자 영역================== -->
 
-<!-- 	<select id="managerBannerList" resultType=""> -->
-		
-<!-- 	</select> -->
+	<select id="managerBannerList" resultMap="Image">
+		SELECT IMG_NO, IMG_RENAME, IMG_PATH, IMG_ORIGINAL, IMG_LEVEL FROM IMG
+		WHERE IMG_TYPE = 6
+		AND IMG_TYPE_NO = ${imgNo}
+		ORDER BY IMG_LEVEL		
+	</select>
+	
+		<!-- 이미지 리스트 삽입 -->
+	<insert id="insertImageList" parameterType="list">
+		INSERT INTO IMG
+		    (IMG_NO, IMG_PATH, IMG_RENAME, IMG_ORIGINAL, IMG_LEVEL, IMG_TYPE, IMG_TYPE_NO)
+		    SELECT SEQ_IMG_NO.NEXTVAL, A.IMG_PATH, A.IMG_RENAME, A.IMG_ORIGINAL, A.IMG_LEVEL, A.IMG_TYPE, A.IMG_TYPE_NO
+		    FROM (
+		        <foreach collection="list" item="img" separator=" UNION ALL ">
+		            SELECT
+		                #{img.imagePath} AS IMG_PATH,
+		                #{img.imageReName} AS IMG_RENAME,
+		                #{img.imageOriginal} AS IMG_ORIGINAL,
+		                #{img.imageLevel} AS IMG_LEVEL,
+		                #{img.imageType} AS IMG_TYPE,
+		                #{img.imageTypeNo} AS IMG_TYPE_NO
+		            FROM DUAL
+		        </foreach>
+		    ) A
 
+
+	</insert>
 
 
 
