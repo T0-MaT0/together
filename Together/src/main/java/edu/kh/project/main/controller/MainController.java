@@ -31,7 +31,6 @@ public class MainController {
 
 	    List<Recruitment> recruitmentList = service.selectRecruitmentList(boardCode, memberNo);
 	    model.addAttribute("recruitmentList", recruitmentList);
-	    model.addAttribute("boardCode", boardCode);
 
 	    
 
@@ -39,7 +38,6 @@ public class MainController {
 
 		Map<String, Object> map = service.selectBusinessList(boardCode);
 		
-		System.out.println(map);
 		
 		model.addAttribute("map", map);
 		

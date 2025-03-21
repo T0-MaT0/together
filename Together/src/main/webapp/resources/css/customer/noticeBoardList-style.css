@@ -125,3 +125,31 @@
     color: white !important;
     letter-spacing: 0 !important;
 }
+.write-board-button-area{
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;  
+}
+
+#write-board-button{
+    text-decoration: none;
+    width: 100px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFBEDB;
+    color: black;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+#write-board-button:hover{
+    background-color: #FD499A;
+    color: white;
+}
+
+.pagination a{
+    text-decoration: none;
+    color: black;
+
+}

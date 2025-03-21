@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.member.model.dto.Board;
 
@@ -57,6 +58,21 @@ public class CustomerDAO {
 
 	public List<Board> selectBeforeAfterBoard(int boardNo) {
 		return sqlSession.selectList("customerMapper.selectBeforeAfterBoard", boardNo);
+	}
+
+	public int boardInsert(Board board) {
+
+		int result = sqlSession.insert("customerMapper.boardInsert", board);
+
+		// 게시글 삽입 성공 시 boardNo, 실패 시 0 반환
+
+		if(result > 0) result = board.getBoardNo();
+		
+		return result;
+	}
+
+	public int insertImageList(List<Image> uploadList) {
+		return sqlSession.insert("customerMapper.insertImageList", uploadList);
 	}
 
 
