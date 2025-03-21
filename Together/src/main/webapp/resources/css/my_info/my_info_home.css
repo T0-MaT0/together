@@ -36,8 +36,11 @@ main.myinfo-container a{
 .profile-img {
   width: 200px;
   height: 200px;
-  border-radius: 50%;
+  
+  border-radius: 40px;
   margin-right: 20px;
+  object-fit: contain;
+  overflow: hidden;
 }
 
 /* 프로필 정보 */
@@ -342,7 +345,8 @@ main.myinfo-container a{
 .store-circle img {
     width: 80px;
     height: 80px;
-    border-radius: 50%;
+    border-radius: 16px;
+    object-fit: contain;
     transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
