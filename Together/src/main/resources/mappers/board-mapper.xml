@@ -101,6 +101,15 @@
 					ofType="Reply" />
 	</resultMap>
 	
+	<resultMap type="Order" id="order_rm">
+		<id property="orderNo" column="ORDER_NO" />
+		<result property="quantity" column="QUANTITY" />
+		<result property="orderAddress" column="DELIVERY_ADDR" />
+		<result property="trackingNo" column="TRACKING_NO" />
+		<result property="boardNo" column="BOARD_NO" />
+		<result property="memberNo" column="MEMBER_NO" />
+	</resultMap>
+	
 	<!-- 특정 상품 이미지 조회 -->
 	<select id="selectImageList" resultMap="image_rm">
 		SELECT * FROM IMG 
@@ -299,5 +308,28 @@
 	<!-- 조회수 증가 -->
 	<update id="updateReadCount">
 		UPDATE PRODUCT SET READ_COUNT = READ_COUNT + 1 WHERE BOARD_NO = ${boardNo}
+	</update>
+	
+	<!-- 주문 내역 삽입 -->
+	<insert id="insertOrder" parameterType="Order" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="orderNo">
+			SELECT SEQ_ORDER_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO "ORDER" VALUES(${orderNo}, ${quantity}, 
+		#{orderAddress}, NULL, ${boardNo}, ${memberNo})
+	</insert>
+	
+	<!-- 포인트 사용 내역 삽입 -->
+	<insert id="insertPointUsage" parameterType="PointUsage" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="usageNo">
+			SELECT SEQ_USAGE_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO POINT_USAGE VALUES(${usageNo}, ${usageAmount}, 
+		1, ${usageTypeNo}, DEFAULT, DEFAULT, ${memberNo})
+	</insert>
+	
+	<!-- 회원의 포인트 수정 -->
+	<update id="updatePoint">
+		UPDATE "MEMBER" SET POINT = ${point} WHERE MEMBER_NO = ${memberNo}
 	</update>
 </mapper>

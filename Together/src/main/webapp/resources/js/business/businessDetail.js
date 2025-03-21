@@ -1,14 +1,12 @@
 console.log("businessDetail.js");
 
-const productOption = document.getElementById("productOption");
-const fixedOption = document.getElementById("fixedOption");
+const productOptions = document.querySelectorAll(".product-option");
 const myQNA = document.getElementById("myQNA");
 const notSecret = document.getElementById("notSecret");
 
 document.addEventListener("DOMContentLoaded", ()=>{
     loadList(myQNA.checked, notSecret.checked);
-    productOption.value = "default";
-    fixedOption.value = "default";
+    productOptions.forEach(productOption=>productOption.value = "default");
 });
 
 function adjustMargin() {
@@ -61,7 +59,7 @@ notSecret.addEventListener("change", ()=>{
 });
 
 const renderList=map=>{
-    console.log(map);
+    // console.log(map);
     const reviewCounts = document.querySelectorAll('a[href="#review"] span');
     const replyCounts = document.querySelectorAll('a[href="#q&a"] span');
     reviewCounts.forEach(reviewCount=>{
@@ -458,103 +456,111 @@ const deleteReply = review=>{
 let totalPrice = 0;
 let totalCount = 0;
 
-fixedOption.addEventListener("change", e=>changeOption(e, productOption));
-productOption.addEventListener("change", e=>changeOption(e, fixedOption));
+productOptions.forEach(select => {
+    select.addEventListener("change", (e) => changeOption(e));
+});
 
-const changeOption=(e, otherOption)=>{
+const changeOption = (e) => {
     const selectOption = e.target.value;
-    otherOption.value = e.target.value;
-    if(selectOption==="default") return;
-    
-    const choiceOption = document.getElementById("choiceOption");
-    const fixedChoiceOption = document.getElementById("fixedChoiceOption");
-    
-    if(document.querySelector(`tr[data-option="${selectOption}"]`)){
-        alert("이미 추가된 옵션입니다.");
-        return;
+    if (selectOption === "default") return;
+
+    // 모든 select 요소를 찾아서 동기화
+    productOptions.forEach(select => {
+        select.value = selectOption;
+    });
+
+    const choiceLists = document.querySelectorAll(".choice-option-area");
+
+    // 기존 옵션이 있는 경우 삭제 후 추가
+    if (document.querySelector(".choice-option-area tr")) {
+        const confirmDelete = confirm("이미 선택된 옵션이 있습니다. 새로운 옵션을 선택하면 기존 옵션이 삭제됩니다. 계속하시겠습니까?");
+        if (!confirmDelete) {
+            e.target.value = "default"; // 선택 취소
+            return;
+        }
+        removeAllOptions();
     }
 
+    // 옵션 행 생성
     const optionRow = document.createElement("tr");
+    optionRow.setAttribute("data-option", selectOption);
+
     const optionName = document.createElement("td");
+    optionName.innerText = selectOption;
+
     const optionCount = document.createElement("td");
     const optionInput = document.createElement("input");
-    const optionSpan = document.createElement("span");
-    const optionPrice = document.createElement("td");
-
-    optionRow.setAttribute("data-option", selectOption);
-    optionName.innerText = selectOption;
     optionInput.type = "number";
     optionInput.value = "1";
     optionInput.min = "1";
+
+    const optionSpan = document.createElement("span");
     optionSpan.innerHTML = "&times";
+
     optionCount.append(optionInput, optionSpan);
-    optionPrice.innerText = productPrice.toLocaleString()+"원";
+
+    const optionPrice = document.createElement("td");
+    optionPrice.innerText = productPrice.toLocaleString() + "원";
 
     optionRow.append(optionName, optionCount, optionPrice);
-    choiceOption.append(optionRow);
-    
-    const fixedOptionRow = optionRow.cloneNode(true);
-    fixedChoiceOption.append(fixedOptionRow);
 
-    const fixedInput = fixedOptionRow.querySelector("input");
-    const fixedSpan = fixedOptionRow.querySelector("span");
+    // 모든 choice-option-area에 같은 옵션 추가
+    choiceLists.forEach(list => {
+        const clonedRow = optionRow.cloneNode(true);
+        list.append(clonedRow);
 
-    optionInput.addEventListener("change", ()=>updateOptionPrice(optionInput, fixedInput, optionPrice, fixedOptionRow.querySelector("td:last-child")));
-    fixedInput.addEventListener("change", ()=>updateOptionPrice(fixedInput, optionInput, optionPrice, fixedOptionRow.querySelector("td:last-child")));
+        const clonedInput = clonedRow.querySelector("input");
+        const clonedSpan = clonedRow.querySelector("span");
+        const clonedPrice = clonedRow.querySelector("td:last-child");
 
-    optionSpan.addEventListener("click", ()=>removeOption(optionRow, fixedOptionRow));
-    fixedSpan.addEventListener("click", ()=>removeOption(optionRow, fixedOptionRow));
+        // 수량 변경 이벤트 추가
+        clonedInput.addEventListener("change", () => updateOptionPrice(clonedInput, clonedPrice));
+
+        // 삭제 이벤트 추가
+        clonedSpan.addEventListener("click", removeAllOptions);
+    });
 
     updateTotal();
 };
 
 // 금액 업데이트 함수
-const updateOptionPrice=(input, otherInput, optionPrice, fixedPrice)=>{
-    otherInput.value = input.value;
+const updateOptionPrice = (input, optionPrice) => {
     const price = (productPrice * parseInt(input.value, 10)).toLocaleString() + "원";
     optionPrice.innerText = price;
-    fixedPrice.innerText = price;
     updateTotal();
-}
+};
 
-// 옵션 삭제 함수
-const removeOption=(row, fixedRow)=>{
-    row.remove();
-    fixedRow.remove();
+// 모든 옵션 삭제 함수
+const removeAllOptions = () => {
+    document.querySelectorAll(".choice-option-area tr").forEach(row => row.remove());
+    productOptions.forEach(select => select.value = "default");
     updateTotal();
-}
+};
 
-const updateTotal=()=>{
-    const totalPriceArea = document.getElementById("totalPriceArea");
-    const fixedTotalPriceArea = document.getElementById("fixedTotalPriceArea");
-    const totalCountArea = document.getElementById("totalCountArea");
-    const fixedTotalCountArea = document.getElementById("fixedTotalCountArea");
-    const inputs = document.querySelectorAll("#choiceOption tr input[type='number']");
+// 총 금액 업데이트 함수
+const updateTotal = () => {
+    const totalPriceAreas = document.querySelectorAll(".total-price-area");
+    const totalCountAreas = document.querySelectorAll(".total-count-area");
+    const input = document.querySelector("input[type='number']");
 
     let newTotalPrice = 0;
     let newTotalCount = 0;
 
-    if(inputs.length!=0){
+    if (input) {
         newTotalPrice = deliveryFee;
-    } else {
-        productOption.value = "default";
-        fixedOption.value = "default";
-    }
-
-    inputs.forEach(input=>{
+    
         const quantity = parseInt(input.value, 10);
-
-        newTotalPrice+=productPrice*quantity;
-        newTotalCount+=quantity;
-    });
+        newTotalPrice += productPrice * quantity;
+        newTotalCount += quantity;
+    } else {
+        productOptions.forEach(select => select.value = "default");
+    }
 
     totalPrice = newTotalPrice;
     totalCount = newTotalCount;
-
-    totalPriceArea.innerText = totalPrice.toLocaleString();
-    fixedTotalPriceArea.innerText = totalPrice.toLocaleString();
-    totalCountArea.innerText = totalCount;
-    fixedTotalCountArea.innerText = totalCount;
+    
+    totalPriceAreas.forEach(totalPriceArea=>{totalPriceArea.innerText = totalPrice});
+    totalCountAreas.forEach(totalCountArea=>totalCountArea.innerText = totalCount);
 };
 
 // 옵션바 클릭
@@ -569,3 +575,21 @@ const changeOptionBar=changeOptionBar=>{
     changeOptionBar.innerText = "옵션보기>";
     optionArea.classList.remove("show");
 };
+
+const goToBuys = document.querySelectorAll(".go-to-buy");
+goToBuys.forEach(goToBuy=>{
+    goToBuy.addEventListener("click", ()=>{
+        const input = document.querySelector("input[type='number']");
+        if(!input){
+            alert("상품 옵션을 선택 후 구매할 수 있습니다.");
+            return;
+        }
+
+        if(loginMemberNo=="") {
+            alert("로그인 후 구매할 수 있습니다.");
+            return;
+        }
+
+        window.location.href = `${location.pathname}/order?optionName=${productOptions[0].value}&optionNo=${productOptions[0].getAttribute("data-optionNo")}&quantity=${input.value}`;
+    });
+});

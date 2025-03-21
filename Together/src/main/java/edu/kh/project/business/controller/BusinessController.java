@@ -5,8 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -18,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +28,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.kh.project.business.model.dto.Business;
+import edu.kh.project.business.model.dto.Order;
 import edu.kh.project.business.model.service.BusinessService;
 import edu.kh.project.member.model.dto.Member;
 
@@ -153,7 +153,8 @@ public class BusinessController {
 	// 게시글 상세 화면에 리뷰 목록 조회
 	@GetMapping("/{boardNo:[0-9]+}/list")
 	@ResponseBody
-	public Map<String, Object> selectList(@PathVariable("boardCode") int boardCode,
+	public Map<String, Object> selectList(
+			@PathVariable("boardCode") int boardCode,
 			@PathVariable("boardNo") int boardNo,
 			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
 			@RequestParam(value = "reviewCp", required = false, defaultValue = "1") int reviewCp,
@@ -245,5 +246,53 @@ public class BusinessController {
 	@GetMapping("/{boardNo:[0-9]+}/insertReply")
 	public String insertReply() {
 		return "board/business/replyPopup";
+	}
+	
+	// 주문 페이지
+	@GetMapping("/{boardNo:[0-9]+}/order")
+	public String selectOrder(
+			@PathVariable("boardCode") int boardCode,
+			@PathVariable("boardNo") int boardNo,
+			Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("boardCode", boardCode);
+		map.put("boardNo", boardNo);
+		
+		Business business = service.selectBusiness(map);
+		
+		model.addAttribute("business", business);
+		
+		return "board/business/businessOrder";
+	}
+	
+	// 주문 완료 페이지
+	@PostMapping("/{boardNo:[0-9]+}/order")
+	public String OrderSuccess(
+			@PathVariable("boardCode") int boardCode,
+			@PathVariable("boardNo") int boardNo,
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
+			@RequestParam Map<String, Object> paramMap,
+			Order order, Model model) {
+		String addr = paramMap.get("postCode")+"^^^ "+paramMap.get("roadAddress")+"^^^ "+paramMap.get("detailAddress");
+		order.setOrderAddress(addr);
+		
+		paramMap.put("order", order);
+		paramMap.put("loginMember", loginMember);
+		
+		int result = service.insertOrder(paramMap);
+		
+		String message=null;
+		String path;
+		if (result>0) {
+			message = "주문이 완료되었습니다.";
+			path = "board/business/businessOrderDetail";
+			model.addAttribute("order", order);
+		} else {
+			message = "주문 실패";
+			path = "redirect:order";
+		}
+		model.addAttribute("massage", message);
+		
+		return path;
 	}
 }
