@@ -9,6 +9,6 @@ navLinks.forEach(link => {
     }
 });
 
-document.querySelector(".btn-recruit").addEventListener("click", function () {
+document.querySelector(".btn-recruit")?.addEventListener("click", function () {
     window.location.href = "/group/create";
 });

@@ -16,6 +16,7 @@ a{
     font-weight: bold;
     position: sticky;
     top: 0;
+    z-index: 50;
 }
 
 .header-up{
@@ -45,12 +46,13 @@ a{
     text-align: center;
 }
 
-.header-up>i{
-    text-align: right;
+.header-up>a:last-child,.header-up>i{
+    display: flex;
+    justify-content: flex-end;
     cursor: pointer;
 }
 
-.header-down>a{
+.header-down>span{
     min-width: 450px;
     height: 75px;
     background-color: #9969ff;
@@ -58,6 +60,7 @@ a{
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 main{
@@ -162,11 +165,26 @@ main{
     border-radius: 5px;
     background-color: #9969ff;
     color: white;
-    width: 75px;
+    width: 100px;
     height: 35px;
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
+}
+
+.btn:hover{
+    background-color: #ff54a1;
+    color: white;
+}
+
+/* 주소 영역 */
+.address-area .content-row{
+    position: relative;
+}
+
+.address-area .content-row>.btn{
+    position: absolute;
+    right: 0;
 }
 
 /* 오른쪽 내용 */
@@ -201,6 +219,10 @@ main{
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.content-right>button:hover{
+    background-color: #ff54a1;
 }
 
 .content-box{

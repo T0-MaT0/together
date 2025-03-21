@@ -18,4 +18,6 @@ public interface BusinessService {
 	Map<String, Object> selectReviewList(Map<String, Object> paramMap, int reviewCp);
 
 	Map<String, Object> selectReplyList(Map<String, Object> paramMap, int replyCp);
+
+	int insertOrder(Map<String, Object> paramMap);
 }

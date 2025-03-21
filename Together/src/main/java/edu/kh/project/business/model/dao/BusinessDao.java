@@ -9,10 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.kh.project.business.model.dto.Business;
+import edu.kh.project.business.model.dto.Order;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
+import edu.kh.project.member.model.dto.Member;
 
 @Repository
 public class BusinessDao {
@@ -67,5 +70,21 @@ public class BusinessDao {
 
 	public List<Image> selectBannerList() {
 		return sqlSession.selectList("boardMapper.selectBannerList");
+	}
+
+	public int insertOrder(Order order) {
+		int result = sqlSession.insert("boardMapper.insertOrder", order);
+		
+		if (result>0) result = order.getOrderNo();
+		
+		return result;
+	}
+
+	public int insertPointUsage(PointUsage usage) {
+		return sqlSession.insert("boardMapper.insertPointUsage", usage);
+	}
+
+	public int updatePoint(Member loginMember) {
+		return sqlSession.update("boardMapper.updatePoint", loginMember);
 	}
 }
