@@ -1,5 +1,7 @@
 package edu.kh.project.member.model.dao;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -37,6 +39,10 @@ public class MemberDAO {
 
 	public int changePw(Member inputMember) {
 		return sqlSession.update("memberMapper.changePw", inputMember);
+	}
+
+	public Member WriteBoardCheckPw(Map<String, String> paramMap) {
+		return sqlSession.selectOne("memberMapper.WriteBoardCheckPw", paramMap);
 	}
 
 

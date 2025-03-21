@@ -5,28 +5,62 @@ console.log("CustomerBoardWrite 연결");
 const boardTitle = document.getElementsByName("boardTitle")[0];
 const boardContent = document.getElementsByName("boardContent")[0];
 const boardWriteFrm = document.getElementById("boardWriteFrm");
+const checkPw = document.getElementById("check-pw");
 
-boardWriteFrm.addEventListener("submit", e=>{
+boardWriteFrm.addEventListener("submit", async e => {
+    e.preventDefault(); // 항상 가장 먼저 막아줌
 
-
-    if(boardTitle.value.trim().length == 0){
-        alert("제목을 입력해주세요.")
+    // 제목 검사
+    if (boardTitle.value.trim().length === 0) {
+        alert("제목을 입력해주세요.");
         boardTitle.focus();
-        boardTitle.value="";
-        e.preventDefault();
+        boardTitle.value = "";
         return;
-    } 
-    
+    }
 
-    if(boardContent.value.trim().length ==''){
-        alert("내용을 입력해주세요.")
+    // 내용 검사
+    if (boardContent.value.trim().length === 0) {
+        alert("내용을 입력해주세요.");
         boardContent.focus();
-        boardContent.value="";
-        e.preventDefault();
+        boardContent.value = "";
         return;
-    } 
+    }
 
-})
+    // 비밀번호 검사
+    if (checkPw.value.trim().length === 0) {
+        alert("비밀번호를 입력해주세요.");
+        checkPw.focus();
+        checkPw.value = "";
+        return;
+    }
+
+    // AJAX 비밀번호 확인
+    try {
+        const response = await fetch("/member/checkPw", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ "memberNo": memberNo ,
+                "memberPw" : checkPw.value
+            })
+        });
+
+        const result = await response.text();
+
+        if (result === "0") {
+            alert("비밀번호가 일치하지 않습니다.");
+            checkPw.focus();
+            return;
+        }
+
+        // 모든 조건 만족 → submit
+        boardWriteFrm.submit();
+
+    } catch (err) {
+        console.error("비밀번호 확인 중 오류:", err);
+        alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+    }
+});
+
 
 // 사진 미리보기
 const preview = document.getElementsByClassName("preview");

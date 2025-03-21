@@ -76,7 +76,7 @@
                         <c:forEach var="notice" items="${noticeList}">
                             <tr>
                                 <td>${notice.boardNo}</td>
-                                <td><a href="/customer/noticeBoardDetail/${notice.boardNo}">
+                                <td><a href="/customer/noticeBoardDetail/${notice.boardNo}?cp=${pagination.currentPage}${qs}">
                                     ${notice.boardTitle}
                                 </a></td>
                                 <td>${notice.bCreateDate}</td>

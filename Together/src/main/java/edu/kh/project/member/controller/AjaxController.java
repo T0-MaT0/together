@@ -75,5 +75,7 @@ public class AjaxController {
 		return service.searchQueryList(query);
 	}
 	
+	
+	
 
 }

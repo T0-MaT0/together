@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -28,22 +29,39 @@
       </section>
 
       <section id="up-down-view">
-        <div>
-          <div class="front-">이전글</div>
-          <div class="notice-title2">
-            <a href="/customer/noticeBoardDetail/${map.beforeAfterBoard[0].boardNo}">${map.beforeAfterBoard[0].boardTitle}</a>
+
+        <!-- 이전글 있을 때만 출력 -->
+        <c:if test="${not empty map.beforeAfterBoard and fn:length(map.beforeAfterBoard) > 0}">
+          <div class="updown underline">
+            <div class="front-">이전글</div>
+            <div class="notice-title2">
+              <a href="/customer/noticeBoardDetail/${map.beforeAfterBoard[0].boardNo}">
+                ${map.beforeAfterBoard[0].boardTitle}
+              </a>
+            </div>
+            <div>${map.beforeAfterBoard[0].bCreateDate}</div>
           </div>
-          <div>${map.beforeAfterBoard[0].bCreateDate}</div>
-        </div>
-        <div>
-          <div>다음글</div>
-          <div class="notice-title2">
-            <a href="/customer/noticeBoardDetail/${map.beforeAfterBoard[1].boardNo}">${map.beforeAfterBoard[1].boardTitle}</a>
+        </c:if>
+      
+        <!-- 다음글 있을 때만 출력 -->
+        <c:if test="${not empty map.beforeAfterBoard and fn:length(map.beforeAfterBoard) > 1}">
+          <div class="updown">
+            <div>다음글</div>
+            <div class="notice-title2">
+              <a href="/customer/noticeBoardDetail/${map.beforeAfterBoard[1].boardNo}">
+                ${map.beforeAfterBoard[1].boardTitle}
+              </a>
+            </div>
+            <div>${map.beforeAfterBoard[1].bCreateDate}</div>
           </div>
-          <div>${map.beforeAfterBoard[1].bCreateDate}</div>
-        </div>
+        </c:if>
+      
       </section>
+
+      
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+
+    <script src="/resources/js/customer/noticeBoardDetail.js"></script>
   </body>
 </html>

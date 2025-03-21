@@ -46,6 +46,9 @@ public interface AjaxService {
 	 */
 	List<Map<String, Object>> searchQueryList(String query);
 
+
+
+
 	
 
 }

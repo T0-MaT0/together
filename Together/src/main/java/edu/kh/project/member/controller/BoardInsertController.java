@@ -51,29 +51,31 @@ public class BoardInsertController {
 		
 		
 
+		System.out.println("넣기전 : " + board);
+		
 		board.setBoardCd(boardCode);
 		board.setMemberNo(loginMember.getMemberNo());
+		
+		System.out.println("넣은후 : " + board);
+	
 		
 
 		String webPath = "/resources/images/customer/";
 		String filePath = session.getServletContext().getRealPath(webPath);
 		
-
+		//3. 게시글 삽입 서비스 호출 후 
 		int boardNo = service.boardInsert(board, images, webPath, filePath);
 		
 		String path = "redirect:";
 		String message = null;
-		if(boardNo > 0) {// 게시글 삽입 성공 시
-		// -> 방금 삽입한 게시글의 상세 조회 페이지로 리다이렉트
-		// -> /board/{boardCode}/boardNo
+		if(boardNo > 0) {
 			
 			message = "게시글이 등록되었습니다.";
-			path += "/board/"+boardCode + "/" +boardNo;
+			path += "/customer/noticeBoardDetail/"+boardNo;
 			
 			
 			
-		}else{// 게시글 삽입 실패 시
-			// -> 게시글 작성 페이지로 리다이렉트
+		}else{
 			message = "게시글 등록 실패.";
 			path +="insert";
 			
@@ -85,6 +87,7 @@ public class BoardInsertController {
 		
 		
 		return path;
+
 	}
 
 }
