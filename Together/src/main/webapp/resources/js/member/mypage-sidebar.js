@@ -23,7 +23,6 @@ let page = url.split("/").pop();
 const items = [...mainItems, ...subItems];
 for (let i = 0; i < items.length; i++) {
   if (items[i].classList.contains(page)) {
-    console.log(i);
     items[i].classList.add("selected");
   }
 }

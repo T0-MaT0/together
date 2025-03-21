@@ -205,3 +205,74 @@ if (recentPurchasesSection) {
 }
 
 
+// favoriteStore-page
+const favoriteStoresSection = document.getElementById("favorite-stores-section");
+
+if (favoriteStoresSection) {
+  fetch("/mypage/pickBrand", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: memberNo
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      const storeContainer = document.getElementById("store-container");
+
+        data.forEach(store => {
+        const storeItem = document.createElement("div");
+        storeItem.className = "store-item";
+        storeContainer.appendChild(storeItem);
+
+        const storeImg = document.createElement("img");
+        storeImg.src = store.profileImage;
+        storeImg.alt = store.memberNick;
+        storeImg.className = "store-img";
+        storeItem.appendChild(storeImg);
+
+        const storeInfo = document.createElement("div");
+        storeInfo.className = "store-info";
+        storeItem.appendChild(storeInfo);
+
+        const storeName = document.createElement("p");
+        storeName.className = "store-name";
+        storeName.innerText = store.memberNick;
+        storeInfo.appendChild(storeName);
+
+        const storeDesc = document.createElement("p");
+        storeDesc.className = "store-desc";
+        storeDesc.innerText = "대표 " + store.memberName + "\n" + "사업자등록번호 - " + store.businessNo;
+        storeInfo.appendChild(storeDesc);
+
+        const storeCustomers = document.createElement("p");
+        storeCustomers.className = "store-customers";
+        storeCustomers.innerText = "관심고객수 " + store.sumReadCount;
+        storeInfo.appendChild(storeCustomers);
+
+        const removeBtn = document.createElement("button");
+        removeBtn.className = "remove-btn";
+        removeBtn.innerText = "×";
+        storeItem.appendChild(removeBtn);
+
+      });
+
+      if (data.length === 0) {
+        const storeItem = document.createElement("div");
+        storeItem.className = "store-item";
+        storeContainer.appendChild(storeItem);
+
+        const storeInfo = document.createElement("div");
+        storeInfo.className = "store-info";
+        storeItem.appendChild(storeInfo);
+
+        const storeName = document.createElement("p");
+        storeName.className = "store-name";
+        storeName.innerText = "관심 스토어가 없습니다.";
+        storeInfo.appendChild(storeName);
+      }
+
+
+
+    });
+
+}

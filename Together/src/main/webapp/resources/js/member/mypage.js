@@ -224,6 +224,9 @@ function pickProduct() {
     wishlistArea.appendChild(h3);
     wishlistArea.appendChild(wishlistSection);
 
+    const hr = document.createElement("hr");
+    wishlistSection.appendChild(hr);
+
     const allh4 = document.createElement("h4");
     allh4.textContent = "전체";
     wishlistSection.appendChild(allh4);
@@ -283,6 +286,9 @@ function pickProduct() {
     categorySet.forEach(category => {
       let categoryNo = category.split(":")[0];
       let categoryName = category.split(":")[1];
+
+      const hr = document.createElement("hr");
+      wishlistSection.appendChild(hr);
 
       const h4 = document.createElement("h4");
       h4.textContent = categoryName;

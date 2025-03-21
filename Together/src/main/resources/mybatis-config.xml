@@ -36,6 +36,8 @@
 
 		<typeAlias type="edu.kh.project.member.model.dto.Board" alias="Board" />
 
+		<typeAlias type="edu.kh.project.member.model.dto.Brand" alias="Brand"/>
+
 
 	</typeAliases>
 	
