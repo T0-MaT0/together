@@ -1,28 +1,62 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
+<c:set var="thumbnail" value="${business.imageList[0].imagePath}${business.imageList[0].imageReName}"/>
+<c:set var="optionCount" value="${fn:length(business.optionList)}"/>
+<c:set var="price" value="${business.productPrice * param.quantity}"/>
+<c:set var="totalPrice" value="${price + business.deliveryFee}"/>
+<c:set var="sumPrice" value="${loginMember.point-totalPrice}"/>
+
+<c:choose>
+    <c:when test="${sumPrice>=0}">
+        <c:set var="resultClassName" value="violet-color"/>
+    </c:when>
+    <c:otherwise>
+        <c:set var="resultClassName" value="minus"/>
+    </c:otherwise>
+</c:choose>
+
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>브랜드 상품 주문 내역</title>
 
-    <link rel="stylesheet" href="../../../resources/css/businessOrder-style.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="/resources/css/businessOrder-style.css">
+    
     <script src="https://kit.fontawesome.com/f8edd1a12b.js" crossorigin="anonymous"></script>
 </head>
+
 <body>
-    <section class="order-header">
+	<section class="order-header">
         <div class="header-up">
-            <a href="#">
-                <img src="../../../resources/images/business/logo.png">
+            <a href="/">
+                <img src="/resources/images/business/logo.png">
             </a>
             <span>To 브랜드</span>
-            <i class="fa-regular fa-user"></i>
+            <a href="/mypage/home">
+                <c:choose>
+                    <c:when test="${empty loginMember.profileImg}">
+                        <i class="fa-regular fa-user"></i>
+                    </c:when>
+                    <c:otherwise>
+                        <img src="${loginMember.profileImg}">
+                    </c:otherwise>
+                </c:choose>
+            </a>
         </div>
         <div class="header-down">
-            <a href="#">주문 내역</a>
+            <span>주문 내역</span>
         </div>
     </section>
+
     <main>
         <section>
             <div class="content-box delivery">
@@ -41,7 +75,7 @@
                 </div>
                 <span class="small">구매일 2025.03.07(금)</span>
                 <div class="option-area">
-                    <img src="../../../resources/images/business/product.png">
+                    <img src="/resources/images/business/product.png">
                     <div>
                         <span>상품명</span>
                         <span class="small">옵션명|1개</span>
@@ -68,5 +102,10 @@
             </div>
         </section>
     </main>
+
+    <script>
+        const memberAddr="${loginMember.memberAddr}".split("^^^ ");
+    </script>
+    <script src="/resources/js/business/order.js"></script>
 </body>
 </html>
