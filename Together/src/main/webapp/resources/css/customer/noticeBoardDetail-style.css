@@ -87,7 +87,7 @@
     background-color: #FFBEDB;
 }
 
-#up-down-view > div{
+.updown{
     height: 50px;
     display: flex;
     align-items: center;
@@ -104,6 +104,6 @@
     color: black;
 }
 
-#up-down-view div:first-child{
+.underline{
     border-bottom: 1px solid #A3A3A3;
 }

@@ -5,18 +5,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1 : 1 문의 작성하기</title>
+    <title>고객센터 글 작성하기</title>
 
-    <link rel="stylesheet" href="/resources/css/customer/problemWrite.css">
+    <link rel="stylesheet" href="/resources/css/customer/customerBoardWrite.css">
 </head>
 <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp" />
-    ${boardCode}
     <div id="main-content">
 
         <section id="notice-header">
-            <c:if test="${boardCode = 3}"></c:if>
-            <div id="notice-header-title">공지사항 작성하기</div>
+            <c:if test="${boardCode == 3}">
+                <div id="notice-header-title">공지사항 작성하기</div>
+            </c:if>
+            <c:if test="${boardCode == 4}">
+                <div id="notice-header-title">FAQ 작성하기</div>
+            </c:if>
+            <c:if test="${boardCode == 6}">
+                <div id="notice-header-title">1 대 1 문의하기</div>
+            </c:if>
         </section>
     
         <section id="notice-detail-content">
@@ -25,14 +31,14 @@
         
                 <div id="write-title-area">
 
-                    <c:if test="${boardCode > 8}">
-                        <select name="problem-sort" id="problem-sort">
+                    <c:if test="${boardCode == 4}">
+                        <select name="boardCd" id="boardCd">
                             <option disabled selected hidden>문의 종류</option>
-                            <option value="memberP">회원/계정 문의</option>
-                            <option value="buyP">공동구매 문의</option>
-                            <option value="cashP">결제/환불 문의</option>
-                            <option value="shipP">수령/배송 문의</option>
-                            <option value="elseP">기타 문의</option>
+                            <option value="9">회원/계정 문의</option>
+                            <option value="10">공동구매 문의</option>
+                            <option value="11">결제/환불 문의</option>
+                            <option value="12">수령/배송 문의</option>
+                            <option value="13">기타 문의</option>
                         </select>
                     </c:if>
                     
@@ -49,11 +55,7 @@
                 </div>
 
                 <div id="checkPw-public-secret">
-                    비밀번호<input type="text" id="check-pw">
-                    <!-- <div id="secretOrPublic">
-                        <input type="radio" name="secret-or-public" value="public" id="publicWrite" checked><label for="publicWrite">공개글</label>
-                        <input type="radio" name="secret-or-public" value="secret" id="secretWrite"><label for="secretWrite">비밀글</label>
-                    </div> -->
+                    비밀번호<input type="password" id="check-pw">
                 </div>
                 <div class="img-box">
 
@@ -80,15 +82,17 @@
                     </div>
                 </div>
 
-
-                <div>
-                    <img src="/resources/images/mainJHI/simpleCapcha.png">
-                    <input type="text" placeholder="보안문자를 입력하세요.">
-                </div>
-                <div>
-                    <button>새로고침</button>
-                    <button>음성듣기</button>
-                </div>
+                <c:if test="${boardCode == 6}">
+                    <div>
+                        <img src="/resources/images/mainJHI/simpleCapcha.png">
+                        <input type="text" placeholder="보안문자를 입력하세요.">
+                    </div>
+                    <div>
+                        <button>새로고침</button>
+                        <button>음성듣기</button>
+                    </div>
+                </c:if>
+                
 
 
                 <div id="writeform-button-area">
@@ -103,6 +107,9 @@
 
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+    <script>
+        const memberNo = "${loginMember.memberNo}";
+    </script>
     <script src="/resources/js/customer/customerBoardWrite.js"></script>
 
 </body>

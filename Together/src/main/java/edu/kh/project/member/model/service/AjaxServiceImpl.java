@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import edu.kh.project.member.model.dao.AjaxDAO;
@@ -14,6 +15,9 @@ public class AjaxServiceImpl implements AjaxService{
 	
 	@Autowired
 	private AjaxDAO dao;
+	
+	@Autowired 
+	private BCryptPasswordEncoder bcrypt;
 	
 	@Override
 	public String dupCheckId(String id) {
@@ -46,6 +50,8 @@ public class AjaxServiceImpl implements AjaxService{
 	public List<Map<String, Object>> searchQueryList(String query) {
 		return dao.searchQueryList(query);
 	}
+
+
 
 	
 }

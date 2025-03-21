@@ -1,5 +1,7 @@
 package edu.kh.project.member.model.service;
 
+import java.util.Map;
+
 import edu.kh.project.member.model.dto.Company;
 import edu.kh.project.member.model.dto.Member;
 
@@ -45,6 +47,13 @@ public interface MemberService {
 	 * @return result(0:실패, 1:성공)
 	 */
 	int changePw(Member inputMember);
+
+
+	/** 글 쓰기 전에 패스워드 확인
+	 * @param paramMap
+	 * @return
+	 */
+	int WriteBoardCheckPw(Map<String, String> paramMap);
 	
 
 }

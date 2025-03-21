@@ -82,7 +82,8 @@ public class CustomerController {
 	}
 	//  공지사항 디테일 페이지 가져옴
 	@GetMapping("/noticeBoardDetail/{boardNo}")
-	public String noticeBoardDetail(@PathVariable("boardNo") int boardNo ,Model model) {
+	public String noticeBoardDetail(@PathVariable("boardNo") int boardNo , Model model
+			,  @RequestParam(value = "cp", required=false, defaultValue="1") int cp) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map = service.noticeBoardDetail(boardNo);
 		
