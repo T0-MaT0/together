@@ -43,22 +43,53 @@
         
         <section class="dev-board">
             <h3>TOP 배너</h3>
+
+            <!-- 기존 있음: 1 기존 없음: 0 없앰: -1, 수정: 2 -->
             <div class="topBannerArea">
-                <img class="bannerItem"/>
+                <c:if test="${!empty imgList[0]}">
+                    <img class="bannerItem" src="${imgList[0].imagePath}${imgList[0].imageReName}" no="${imgList[0].imageNo}" state="1"/>
+                </c:if>
+                <c:if test="${empty imgList[0]}">
+                    <img class="bannerItem" state="0"/>
+                </c:if>
                 <input type="file" accept="image/*">
 
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
-                
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
-                
 
-                <img class="bannerItem"/>
+                <c:if test="${!empty imgList[1]}">
+                    <img class="bannerItem" src="${imgList[1].imagePath}${imgList[1].imageReName}" no="${imgList[1].imageNo}" state="1"/>
+                </c:if>
+                <c:if test="${empty imgList[1]}">
+                    <img class="bannerItem" state="0"/>
+                </c:if>
+                <input type="file" accept="image/*">
+
+
+                <c:if test="${!empty imgList[2]}">
+                    <img class="bannerItem" src="${imgList[2].imagePath}${imgList[2].imageReName}" no="${imgList[2].imageNo}" state="1"/>
+                </c:if>
+                <c:if test="${empty imgList[2]}">
+                    <img class="bannerItem" state="0"/>
+                </c:if>
+                <input type="file" accept="image/*">
+
+
+                <c:if test="${!empty imgList[3]}">
+                    <img class="bannerItem" src="${imgList[3].imagePath}${imgList[3].imageReName}" no="${imgList[3].imageNo}" state="1"/>
+                </c:if>
+                <c:if test="${empty imgList[3]}">
+                    <img class="bannerItem" state="0"/>
+                </c:if>
+                <input type="file" accept="image/*">
+
+
+                <c:if test="${!empty imgList[4]}">
+                    <img class="bannerItem" src="${imgList[4].imagePath}${imgList[4].imageReName}" no="${imgList[3].imageNo}" state="1"/>
+                </c:if>
+                <c:if test="${empty imgList[4]}">
+                    <img class="bannerItem" state="0"/>
+                </c:if>
                 <input type="file" accept="image/*">
                 
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
             </div>
             <div class="btnArea">
                 <button>적용</button>

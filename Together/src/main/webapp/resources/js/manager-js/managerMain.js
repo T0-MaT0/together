@@ -26,12 +26,15 @@ homeBtn.addEventListener("click", ()=>{
 
 /* -------------------------------------------------------------------------------- */
 
-/* 고객 관리 ajax */
-function MenageCustomerCount() {
+/* 그래프 요일 조회*/
+function graphWeek() {
     console.log('connect!!');
-    // fetch("inquiry")
-    // .then(resp=>resp.text())
-    // .then()
+    fetch("graphWeek")
+    .then(resp=>resp.json())
+    .then(map=>{
+        console.log(map.TODAY);
+
+    })
 }
 
 

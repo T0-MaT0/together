@@ -14,7 +14,7 @@ import edu.kh.project.member.model.dto.Member;
 
 @Service
 public class ManagerServiceImpl implements ManagerService {
-	
+	//*** 메인 화면***
 	@Autowired
 	private ManagerDAO dao;
 	
@@ -22,6 +22,11 @@ public class ManagerServiceImpl implements ManagerService {
 	public int customerQuestionCount() {
 		
 		return dao.customerQuestionCount();
+	}
+	
+	@Override
+	public int cusReportListCount() {
+		return dao.cusReportListCount();
 	}
 
 	@Override
@@ -34,6 +39,23 @@ public class ManagerServiceImpl implements ManagerService {
 		return dao.brandAdCount();
 	}
 
+	@Override
+	public int brandReportCount() {
+		return dao.brandReportCount();
+	}
+	
+	@Override
+	public int productCount() {
+		return dao.productCount();
+	}
+	
+	
+
+	@Override
+	public int customerboardCount() {
+		return dao.customerboardCount();
+	}
+	//===========================MAIN END===================//
 	
 	// 브랜드 메인 실적 수 조회
 	@Override
@@ -196,7 +218,57 @@ public class ManagerServiceImpl implements ManagerService {
 		
 		return map;
 	}
+
 	
+	//--------------------------------------------
+	// 그래프 7일 조회
+	@Override
+	public Map<String, Object> graphWeek() {
+		return dao.graphWeek();
+	}
+	// 개인 회원 수 조회
+	@Override
+	public List<Number> dayCustomerCount() {
+		return dao.dayCustomerCount();
+	}
+	// 브랜드 회원 수 조회
+	@Override
+	public List<Number> dayBrandCount() {
+		return dao.dayBrandCount();
+	}
+
+
+	//-------------------------------------
+	
+	@Override
+	public int custQuestCount() {
+		return dao.questWaitCount();
+	}
+
+	@Override
+	public int notPassApplyCount() {
+		return dao.notPassApplyCount();
+	}
+
+	@Override
+	public int brandAddCount() {
+		return dao.brandAddCount();
+	}
+
+	@Override
+	public int waitCount() {
+		return dao.waitCount();
+	}
+
+	@Override
+	public int cusWaitCount() {
+		return dao.cusWaitCount();
+	}
+	
+
+
+
+
 	
 	
 	

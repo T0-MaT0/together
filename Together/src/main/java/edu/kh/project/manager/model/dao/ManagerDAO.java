@@ -18,28 +18,61 @@ public class ManagerDAO {
 
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+
 	
+	// ** MAIN ***
 	/** 고객 문의 수 조회
 	 * @return
 	 */
 	public int customerQuestionCount() {
-		return sqlSession.selectOne("customerQuestionCount");
+		return sqlSession.selectOne("managerMapper.customerQuestionCount");
+	}
+	
+	/** 고객 신고 수 조회
+	 * @return
+	 */
+	public int cusReportListCount() {
+		return sqlSession.selectOne("managerMapper.reportListCount");
 	}
 
 	/** 브랜드 제휴 문의 수 조회
 	 * @return
 	 */
 	public int brandQuestCount() {
-		return sqlSession.selectOne("brandQuestCount");
+		return sqlSession.selectOne("managerMapper.brandQuestCount");
 	}
 
 	/** 브랜드 광고 문의 수 조회
 	 * @return
 	 */
 	public int brandAdCount() {
-		return sqlSession.selectOne("brandAdCount");
+		return sqlSession.selectOne("managerMapper.brandAdCount");
 	}
 
+	/** 브랜드 대상 신고 수 조회
+	 * @return
+	 */
+	public int brandReportCount() {
+		return sqlSession.selectOne("managerMapper.brandReportCount");
+	}
+	
+	/** 브랜드 상품 수 조회
+	 * @return
+	 */
+	public int productCount() {
+		
+		return sqlSession.selectOne("managerMapper.goodsCount");
+	}
+	
+	/** 고객 모집글 수 조회
+	 * @return
+	 */
+	public int customerboardCount() {
+		return sqlSession.selectOne("managerMapper.customerboardCount");
+	}
+
+	// ==== MAIN END ====
+	
 	
 	//---------브랜드 메인 실적 수 조회------------------------------//
 	
@@ -178,7 +211,7 @@ public class ManagerDAO {
 	public List<BrandBoard> promList() {
 		return sqlSession.selectList("managerMapper.mainPromList");
 	}
-
+	
 	
 	
 	/// --------------------고객 관리 메인 페이지----------------------------///
@@ -335,6 +368,60 @@ public class ManagerDAO {
 		RowBounds rowBounds = new RowBounds(4, 5);
 		return sqlSession.selectList("managerMapper.reportSelect", null ,rowBounds);
 	}
+
+	//--------------------------------------------------
+	/** 그래프 7일 조회
+	 * @return
+	 */
+	public Map<String, Object> graphWeek() {
+		return sqlSession.selectOne("managerMapper.graphWeek");
+	}
+
+	/**개인 회원 수 조회
+	 * @return
+	 */
+	public List<Number> dayCustomerCount() {
+		int authority = 2;
+		return sqlSession.selectList("managerMapper.dayCount", authority);
+	}
+
+	public List<Number> dayBrandCount() {
+		int authority = 3;
+		return sqlSession.selectList("managerMapper.dayCount", authority);
+	}
+
+	/** 미처리 제휴 수
+	 * @return
+	 */
+	public int notPassApplyCount() {
+		int boardCd = 8;
+		return sqlSession.selectOne("managerMapper.notPassBrandCount", boardCd);
+	}
+
+	public int brandAddCount() {
+		int boardCd = 7;
+		return sqlSession.selectOne("managerMapper.notPassBrandCount", boardCd);
+	}
+
+	/** 브랜드 대상 신고 대기 수
+	 * @return
+	 */
+	public int waitCount() {
+		return sqlSession.selectOne("managerMapper.watiCount");
+	}
+
+	/** 개인 대상 신고 대기 수
+	 * @return
+	 */
+	public int cusWaitCount() {
+		return sqlSession.selectOne("managerMapper.waitCustReportCount");
+	}
+
+
+
+
+
+
 	
 	
 	
