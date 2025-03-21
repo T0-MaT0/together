@@ -19,28 +19,53 @@
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
+
 .form-group {
-    margin-bottom: 15px;
     margin-top: 15px;
+    margin-bottom: 15px;
 }
+
 .form-group label {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
 }
-.form-group input,
+
+/* textarea와 select 공통 스타일 */
 .form-group textarea,
 .form-group select {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    box-sizing: border-box; /* 내부 패딩 포함하여 width 계산 */
+}
+.title-row {
+    display: flex;       /* 제목 레이블과 인풋을 가로배치 */
+    align-items: center; /* 수직 정렬 가운데 */
+    gap: 10px;           /* 간격 */
+    margin-bottom: 10px; /* 아래 여백 */
 }
 
-#description {
-    width:830px;
-    height: 255px;
+.title-label {
+    font-weight: bold;
+    white-space: nowrap; /* 한 줄 유지 */
 }
+
+.title-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+#description {
+    width: 830px;       /* 고정 너비 (디자인 상황에 맞게) */
+    height: 255px;      /* 고정 높이 */
+    resize: none;       /* 사이즈 조절 불가 */
+    /* 위에서 이미 border-radius, box-sizing 지정 */
+}
+
 
 /* 이미지 업로드 섹션 */
 .image-upload {
@@ -103,6 +128,26 @@
     border: none;
     background: transparent;
 }
+
+
+
+input[type="date"] {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #111827;
+    appearance: none;            
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background-color: #f9fafb;
+    height: 44px;
+}
+
+
+
 .form-section {
     display: flex;
     gap: 20px;

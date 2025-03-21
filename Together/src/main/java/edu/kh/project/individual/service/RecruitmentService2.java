@@ -2,6 +2,8 @@ package edu.kh.project.individual.service;
 
 import java.util.List;
 
+import edu.kh.project.common.model.dto.Reply;
+
 public interface RecruitmentService2 {
 
 	// 모집글 상태 변경(모집장 memberNo 조회)
@@ -18,6 +20,12 @@ public interface RecruitmentService2 {
 
 	// 선택 리뷰 삭제
 	boolean deleteReviews(List<Integer> reviewNos);
+
+	// 모집글 상세 댓글 등록 
+	int insertReply(Reply replyDTO);
+
+	// 댓글 삭제
+	int deleteReply(int replyNo, int memberNo);
 
 
 	
