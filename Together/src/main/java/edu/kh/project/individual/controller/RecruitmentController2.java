@@ -4,17 +4,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.individual.service.RecruitmentService2;
+import edu.kh.project.member.model.dto.Member;
 
 @RestController
 public class RecruitmentController2 {
@@ -101,7 +108,43 @@ public class RecruitmentController2 {
     }
     
     // 댓글 등록
+    @PostMapping("/reply/add")
+    public String addReply(@RequestBody Reply reply, HttpSession session) {
+        Member loginMember = (Member) session.getAttribute("loginMember");
+        
+        if (loginMember == null) {
+            return "로그인이 필요합니다."; 
+        }
+
+        reply.setMemberNo(loginMember.getMemberNo());
+        reply.setReplyType(1);
+
+        int result = service.insertReply(reply);
+
+        if (result > 0) {
+            return "success";
+        } else {
+            return "fail";
+        }
+    }
     
+    // 댓글 삭제
+    @PostMapping("/reply/delete")
+    public String deleteReply(@RequestBody Map<String, Integer> requestData,
+                              HttpSession session) {
+
+        // 로그인 체크
+        Member loginMember = (Member) session.getAttribute("loginMember");
+        if (loginMember == null) {
+            return "loginNeeded";
+        }
+
+        int replyNo = requestData.get("replyNo");
+        // 댓글 작성자와 같은지 확인한 뒤 삭제 처리
+        int result = service.deleteReply(replyNo, loginMember.getMemberNo());
+
+        return (result > 0) ? "success" : "fail";
+    }
         
       
 }

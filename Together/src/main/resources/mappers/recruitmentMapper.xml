@@ -413,9 +413,10 @@
 		    m.PROFILE_IMG,
 		    m.MEMBER_NICK
 		FROM REPLY r
-		JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO  
+		JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO
 		WHERE r.REPLY_TYPE = 1
-		AND r.REPLY_TYPE_NO = #{boardNo}
+		  AND r.REPLY_TYPE_NO = #{boardNo}
+		  AND r.REPLY_DEL_FL = 'N'
 		ORDER BY r.REPLY_CREATE_DATE ASC
 	</select>
 	
@@ -452,5 +453,24 @@
 		WHERE r.RECRUITMENT_NO = #{recruitmentNo}
 	</select>
 	
+	<!-- 모집글 상세 댓글 등록 -->
+	<insert id="insertReply">
+	    INSERT INTO REPLY (
+	        REPLY_NO, REPLY_CREATE_DATE, REPLY_DEL_FL, 
+	        REPLY_CONTENT, SECRET_REPLY_STATUS, MEMBER_NO, 
+	        REPLY_TYPE, REPLY_TYPE_NO, PARENT_REPLY_NO
+	    ) VALUES (
+	        SEQ_REPLY_NO.NEXTVAL, SYSDATE, 'N', 
+	        #{replyContent}, 'N', #{memberNo}, 
+	        #{replyType}, #{boardNo}, NULL
+	    )
+	</insert>
 	
+	<!-- 댓글 삭제 -->
+	<update id="deleteReply">
+	    UPDATE REPLY
+	    SET REPLY_DEL_FL = 'Y'
+	    WHERE REPLY_NO = #{replyNo}
+	    AND MEMBER_NO = #{memberNo}
+	</update>
 </mapper>

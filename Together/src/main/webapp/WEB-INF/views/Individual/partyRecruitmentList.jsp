@@ -104,6 +104,7 @@
 
             <!-- 댓글 입력 -->
             <div class="comment-section">
+                <input type="hidden" id="boardNo" value="${recruitmentDetail.boardNo}">
                 <input type="text" class="comment-input" placeholder="💬 댓글을 입력해 주세요.">
                 <button class="comment-btn">등록</button>
             </div>
@@ -119,8 +120,7 @@
                         </div>
                         <div class="comment-actions">
                             <c:if test="${comment.memberNo == loginMember.memberNo}">
-                                <button class="edit-btn">수정</button>
-                                <button class="delete-btn">삭제</button>
+                                <button class="delete-btn" onclick="deleteReply(${comment.replyNo})">삭제</button>
                             </c:if>
                         </div>
                     </div>
