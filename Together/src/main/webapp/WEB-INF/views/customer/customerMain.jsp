@@ -54,7 +54,7 @@
             
             <!-- 하단 버튼 -->
             <div class="button-group">
-                <a href="#">1:1 문의하기</a>
+                <a href="/customer2/6/insert">1:1 문의하기</a>
                 <a href="/customer/noticeBoardList">공지사항</a>
                 <a href="/customer/FAQBoard/0">자주 묻는 질문</a>
                 <a href="#">실시간 채팅 문의</a>

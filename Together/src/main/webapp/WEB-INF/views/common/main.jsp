@@ -19,14 +19,15 @@
 
     
     <section class="hero">
-        <div class="banner">
+        <div class="banner carousel">
             <c:forEach var="banner" items="${recruitmentList[0].mainBannerList}">
-                <img src="${banner.imagePath}${banner.imageReName}" alt="메인 배너">
+                <img src="${banner.imagePath}${banner.imageReName}" alt="메인 배너" class="carousel-image">
             </c:forEach>
+            <!-- 좌우 버튼 추가 -->
+            <button class="carousel-button prev">&#10094;</button>
+            <button class="carousel-button next">&#10095;</button>
         </div>
     </section>
-
-    <a href="/customer/customerMain">고객센터</a>
     
     
     <section class="purchase-section">

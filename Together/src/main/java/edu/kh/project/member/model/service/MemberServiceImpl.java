@@ -1,5 +1,7 @@
 package edu.kh.project.member.model.service;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -104,6 +106,26 @@ public class MemberServiceImpl implements MemberService{
 		
 		
 		return dao.signUpCompany(inputCompany);
+	}
+
+	@Override
+	public int WriteBoardCheckPw(Map<String, String> paramMap) {
+		
+		//paramMap.put("memberPw", bcrypt.encode(paramMap.get("memberPw")));
+		
+		Member loginMember = dao.WriteBoardCheckPw(paramMap);
+		
+		System.out.println(paramMap.get("memberPw"));
+		System.out.println(loginMember.getMemberPw());
+		
+		int result = 0;
+		
+		if(bcrypt.matches(paramMap.get("memberPw"), loginMember.getMemberPw())) {
+			result = 1;
+		} 
+		
+		
+		return result;
 	}
 	
 

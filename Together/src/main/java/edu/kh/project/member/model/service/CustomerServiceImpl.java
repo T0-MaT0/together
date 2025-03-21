@@ -1,14 +1,22 @@
 package edu.kh.project.member.model.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.common.utility.Utill;
 import edu.kh.project.member.model.dao.CustomerDAO;
 import edu.kh.project.member.model.dto.Board;
 
@@ -106,6 +114,70 @@ public class CustomerServiceImpl implements CustomerService{
 		map.put("beforeAfterBoard", beforeAfterBoard);
 		return map;
 	}
+
+	// 게시글 삽입
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int boardInsert(Board board, List<MultipartFile> images, String webPath, String filePath)
+			throws IllegalStateException, IOException, FileUploadException {
+
+	// 0. XSS 방지 처리
+	board.setBoardTitle(Utill.XSSHandling(board.getBoardTitle()));
+	board.setBoardContent(Utill.XSSHandling(board.getBoardContent()));
+
+
+	int boardNo = dao.boardInsert(board);
+
+	if (boardNo != 0) {
+
+		List<Image> uploadList = new ArrayList<Image>();
+
+		// images에 담겨 있는 파일 중 실제로 업로드된 파일만 분류
+		for (int i = 0; i < images.size(); i++) {
+
+			// i 번재 요소에 업로드한 파일이 있다면
+			if (images.get(i).getSize() > 0) {
+				Image img = new Image();
+
+				// img에 파일 정보를 담아서 uploadList에 추가
+				img.setImagePath(webPath);// 웹 접근경로
+
+				String fileName = images.get(i).getOriginalFilename();
+				img.setImageReName(Utill.fileRename(fileName));// 파일 변경명
+				img.setImageOriginal(fileName);// 파일 원본명
+
+				img.setImageLevel(i); // 이미지 순서
+				img.setImageTypeNo(boardNo);// 게시글 번호
+
+				uploadList.add(img);
+
+			}
+
+		}
+		if (!uploadList.isEmpty()) {
+
+			int result = dao.insertImageList(uploadList);
+
+			if (result == uploadList.size()) {
+
+				for (int i = 0; i < uploadList.size(); i++) {
+					int index = uploadList.get(i).getImageLevel();
+
+					String rename = uploadList.get(i).getImageReName();
+
+					images.get(index).transferTo(new File(filePath + rename));
+				}
+
+			} else {
+				throw new FileUploadException(); // 예외 강제 발생
+			}
+		}
+
+	}
+
+
+	return boardNo;
+}
 
 
 

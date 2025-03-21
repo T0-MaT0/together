@@ -8,6 +8,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.kh.project.common.model.dto.Reply;
+
 @Repository
 public class RecruitmentDAO2 {
 
@@ -40,6 +42,20 @@ public class RecruitmentDAO2 {
 	// 선택 리뷰 삭제
 	public int deleteReviews(List<Integer> reviewNos) {
 		return sqlSession.update("recruitmentMapper.deleteReviews", reviewNos);
+	}
+
+	// 모집글 상세 댓글 등록
+	public int insertReply(Reply replyDTO) {
+		return sqlSession.insert("recruitmentMapper.insertReply", replyDTO);
+	}
+
+	// 댓글 삭제
+	public int deleteReply(int replyNo, int memberNo) {
+		Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("replyNo", replyNo);
+        paramMap.put("memberNo", memberNo);
+        
+		return sqlSession.update("recruitmentMapper.deleteReply", paramMap);
 	}
 
 	

@@ -14,7 +14,11 @@ public class ManagerHomePageDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-	public List<Image> bannerSelect() {
-		return null /* sqlSession.selectList("imageMapper.managerBannerList") */;
+	public List<Image> bannerSelect(int imgNo) {
+		return sqlSession.selectList("imageMapper.managerBannerList", imgNo) ;
+	}
+
+	public int insertImageList(List<Image> uploadList) {
+		return sqlSession.insert("imageMapper.insertImageList", uploadList);
 	}
 }

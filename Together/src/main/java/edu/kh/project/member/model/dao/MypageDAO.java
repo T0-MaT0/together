@@ -1,6 +1,7 @@
 package edu.kh.project.member.model.dao;
 
 
+import edu.kh.project.member.model.dto.Brand;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -29,5 +30,9 @@ public class MypageDAO {
 
     public List<Member> recommendBrand(int memberNo) {
         return sqlSession.selectList("mypageMapper.recommendBrand", memberNo);
+    }
+
+    public List<Brand> pickBrand(int memberNo) {
+        return sqlSession.selectList("mypageMapper.pickBrand", memberNo);
     }
 }

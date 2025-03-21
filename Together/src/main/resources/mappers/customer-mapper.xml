@@ -17,6 +17,8 @@
 
 	</resultMap>
 	
+	
+	
 	<!-- 공지사항 상위 6개 리스트 불러오기 -->
 	<select id="selectNoticeBoardList" resultMap="board_rm">
 		SELECT * FROM (
@@ -91,17 +93,79 @@
 	</select>
 
 	<!-- 이전글 다음글 요소 불러오기 -->
-	<select id="selectBeforeAfterBoard" resultMap="board_rm">
-		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
-		TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
-		TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
-		B_STATE, MEMBER_NO, BOARD_CD
-		FROM BOARD
-		WHERE BOARD_CD = 3
-		AND (BOARD_NO = ${boardNo - 1} OR BOARD_NO = ${boardNo + 1})
-		AND BOARD_DEL_FL = 'N'
-		ORDER BY BOARD_NO
-	</select>
+	<select id="selectBeforeAfterBoard" resultMap="board_rm" parameterType="int">
+    SELECT *
+    FROM (
+        SELECT * 
+        FROM (
+            SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
+                   TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
+                   TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
+                   B_STATE, MEMBER_NO, BOARD_CD
+            FROM BOARD
+            WHERE BOARD_CD = 3
+              AND BOARD_DEL_FL = 'N'
+              AND BOARD_NO &lt; #{boardNo}
+            ORDER BY BOARD_NO DESC
+        )
+        WHERE ROWNUM = 1
+
+        UNION ALL
+
+        SELECT *
+        FROM (
+            SELECT * 
+            FROM (
+                SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
+                       TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
+                       TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
+                       B_STATE, MEMBER_NO, BOARD_CD
+                FROM BOARD
+                WHERE BOARD_CD = 3
+                  AND BOARD_DEL_FL = 'N'
+                  AND BOARD_NO 	&gt; #{boardNo}
+                ORDER BY BOARD_NO ASC
+            )
+            WHERE ROWNUM = 1
+        )
+    )
+    ORDER BY BOARD_NO
+</select>
+	
+	<insert id="boardInsert" parameterType="Board"
+		useGeneratedKeys="true">
+
+		<selectKey order="BEFORE" resultType="_int"
+			keyProperty="boardNo">
+			SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
+		</selectKey>
+
+		INSERT INTO BOARD
+		VALUES(#{boardNo},
+		#{boardTitle},
+		#{boardContent},
+		SYSDATE,
+		DEFAULT, DEFAULT, DEFAULT,
+		${memberNo},
+		${boardCd})
+	</insert>
+	
+	<insert id="insertImageList" parameterType="list">
+		INSERT INTO IMG
+		SELECT SEQ_IMG_NO.NEXTVAL, A.*
+		FROM (
+
+		<foreach collection="list" item="img" separator=" UNION ALL ">
+			SELECT #{img.imageReName} IMG_RENAME,
+				   #{img.imagePath} IMG_PATH,
+				   #{img.imageOriginal} IMG_ORIGINAL,
+				   #{img.imageLevel} IMG_LEVEL,
+				   #{img.imageType} IMG_TYPE,
+				   #{img.imageTypeNo} IMG_TYPE_NO
+				   FROM DUAL
+		</foreach>
+		)A
+	</insert>
 
 	
 </mapper>
