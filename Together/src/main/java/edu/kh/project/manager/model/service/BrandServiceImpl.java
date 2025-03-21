@@ -11,6 +11,7 @@ import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.manager.model.dao.BrandDAO;
 import edu.kh.project.manager.model.dto.BrandBoard;
 import edu.kh.project.manager.model.dto.BrandProfile;
+import edu.kh.project.manager.model.dto.BrandProfileBoard;
 import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.manager.model.dto.Report;
 
@@ -118,28 +119,6 @@ public class BrandServiceImpl implements BrandService {
 	}
 
 
-	// Brand Profile
-	@Override
-	public Map<String, Object> brandProfile(int boardNo, int cp, int brandBoardCode) {
-		Map<String, Object> map = new HashMap<String, Object>();
-
-		BrandProfile brandProfile = dao.brandProfileSelect(boardNo);
-		map.put("brandProfile", brandProfile);
-
-
-		int listCount = dao.brandProfileBoardCount(boardNo, brandBoardCode);
-
-		Pagination pagination = new Pagination(cp, listCount);
-		map.put("pagination", pagination);
-
-
-		List<BrandBoard> brandList = dao.brandProfileProducts(pagination, brandBoardCode, boardNo);
-
-		map.put("brandList", brandList);
-
-
-		return map;
-	}
 
 	
 	// report detail ajax
@@ -155,6 +134,30 @@ public class BrandServiceImpl implements BrandService {
 		return dao.boardDetailSelect(map);
 	}
 
-
+	// Brand Profile
+	@Override
+	public BrandProfile brandProfile(int memberNo) {
+		
+		return dao.brandProfileSelect(memberNo);
+	}
+	
+	//브랜드 프로필 게시판 조회
+	@Override
+	public Map<String, Object> profileBoardList(int cp, int boardCode, int memberNo) {
+		int listCount = dao.brandProfileBoardCount(boardCode, memberNo);
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		List<BrandProfileBoard> boardList = dao.brandProfileProducts(pagination, boardCode, memberNo);
+		
+		System.out.println(boardList);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("pagination", pagination);
+		map.put("boardList", boardList);
+		
+		
+		
+		return map;
+	}
 
 }
+

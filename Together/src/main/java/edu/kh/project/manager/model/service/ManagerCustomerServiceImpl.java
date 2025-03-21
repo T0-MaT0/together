@@ -133,12 +133,11 @@ public class ManagerCustomerServiceImpl implements ManageCustomerService{
 	@Override
 	public Map<String, Object> profileBoardList(int cp, int boardCode, int memberNo) {
 		int listCount = dao.cusProfileBoardCount(boardCode, memberNo);
-		
 		Pagination pagination = new Pagination(cp, listCount);
 		
 		List<CustProfileBoard> boardList = dao.cusProfileBoardList(pagination, boardCode, memberNo);
 		
-		List<Map<String, Object>> cusBoardStateCount = dao.cusBoardStateCount();
+		System.out.println(boardList);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("pagination", pagination);
 		map.put("boardList", boardList);

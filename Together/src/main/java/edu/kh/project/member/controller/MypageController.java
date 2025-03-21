@@ -1,5 +1,6 @@
 package edu.kh.project.member.controller;
 
+import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
 import edu.kh.project.member.model.service.MypageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,11 +77,20 @@ public class MypageController {
     @PostMapping(value = "/categoryPick", produces="application/json; charset=UTF-8")
     @ResponseBody
     public List<Product> categoryPick(@RequestBody int categoryNo) {
-        System.out.println(categoryNo);
         return service.getCategoryPick(categoryNo);
     }
 
+    @PostMapping(value = "/getPickProduct", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public List<Product> getPickProduct(@RequestBody int memberNo) {
+        return service.getPickProduct(memberNo);
+    }
 
+    @PostMapping(value = "/recommendBrand", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public List<Member> recommendBrand(@RequestBody int memberNo) {
+        return service.recommendBrand(memberNo);
+    }
 
 
 

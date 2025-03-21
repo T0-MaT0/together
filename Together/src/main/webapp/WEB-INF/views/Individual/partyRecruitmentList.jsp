@@ -29,7 +29,7 @@
                     <span class="recruit-title">${recruitmentDetail.productName}</span>
                 </div>
                 <div>
-                    <span class="buyer-info">${recruitmentDetail.hostName} (${recruitmentDetail.hostGrade})</span>
+                    <span class="buyer-info">🧑${recruitmentDetail.hostName} (${recruitmentDetail.hostGrade})</span>
                 </div>
             </div>
 
@@ -39,9 +39,9 @@
                 <div class="carousel-track-wrapper">
                     <div class="carousel-track">
                         <c:forEach var="image" items="${recruitmentDetail.imageList}" varStatus="status">
-                            <img src="${image.imagePath}${image.imageReName}" 
-                                 alt="썸네일${status.index}" 
-                                 class="carousel-image">
+                            <div class="carousel-item">
+                                <img src="${image.imagePath}${image.imageReName}" alt="썸네일${status.index}">
+                            </div>
                         </c:forEach>
                     </div>
                 </div>
@@ -52,12 +52,12 @@
             <div class="recruit-info-container">
                 <div class="product-details">
                     <h3>${recruitmentDetail.productName}</h3>
-                    <a href="${recruitmentDetail.productUrl}" class="product-link">🔗 링크 바로가기</a>
+                    <a href="${recruitmentDetail.productUrl}" class="product-link" target="_blank" rel="noopener noreferrer">🔗 링크 바로가기</a>
                 </div>
 
                 <div class="info-box">
                     <p>기간 : <strong>
-                        ${fn:substring(recruitmentDetail.recCreatedDate, 0, 13)}시 ~ 
+                          ${fn:substring(recruitmentDetail.recCreatedDate, 0, 13)}시 ~ 
                         ${fn:substring(recruitmentDetail.recEndDate, 0, 13)}시
                     </strong></p>
 
@@ -68,8 +68,8 @@
                             </div>
                         </div>
                     </div>
-                    <p class="people">모집인원: <strong>${recruitmentDetail.currentParticipants} / ${recruitmentDetail.maxParticipants}</strong></p>
-                    <p class="items">1인당: <strong>${recruitmentDetail.productCount / recruitmentDetail.maxParticipants}개</strong></p>
+                    <p class="people">모집인원 : <strong>${recruitmentDetail.currentParticipants} / ${recruitmentDetail.maxParticipants}</strong></p>
+                    <p class="sale">인당 가격 : <fmt:formatNumber value="${recruitmentDetail.productPrice / recruitmentDetail.maxParticipants}" pattern="#,###"/> Pt</p>
                 </div>
             </div>
 
@@ -77,11 +77,11 @@
             <div class="price-container">
                 <div class="price-info">
                     <p class="buyAll">전체 구매 시 필요한 금액</p>
-                    <p class="buyTogether">유저들과 함께 사기</p>
+                    <p class="buyTogether">내가 차지할 금액</p>
                 </div>
                 <div class="price-box">
-                    <p class="original"><fmt:formatNumber value="${recruitmentDetail.productPrice}" pattern="#,###"/>원</p>
-                    <p class="sale"><fmt:formatNumber value="${recruitmentDetail.productPrice / recruitmentDetail.maxParticipants}" pattern="#,###"/>원</p>
+                    <p class="original"><fmt:formatNumber value="${recruitmentDetail.productPrice}" pattern="#,###"/> Pt</p>
+                    <p class="sale"><fmt:formatNumber value="${recruitmentDetail.productPrice / recruitmentDetail.maxParticipants}" pattern="#,###"/> Pt</p>
                 </div>
             </div>
 
@@ -89,11 +89,18 @@
 
             <!-- 설명란 -->
             <div class="recruit-description">
-                <textarea placeholder="상세 내용을 입력하세요." readonly>${recruitmentDetail.productContent}</textarea>
+                <textarea placeholder="상세 내용을 입력하세요." readonly>${recruitmentDetail.boardContent}</textarea>
             </div>
 
             <!-- 목록 버튼 -->
-            <button class="list-btn" onclick="location.href='/partyRecruitmentList'">목록</button>
+            <div class="button-container">
+                <!-- 수정 버튼 (로그인한 사용자의 닉네임과 hostName이 같을 때만 보임) -->
+                <c:if test="${not empty loginMember && loginMember.memberNick eq recruitmentDetail.hostName}">
+                    <button class="edit-btn2" onclick="location.href='/editRecruitment?boardNo=${recruitmentDetail.boardNo}'">수정</button>
+                </c:if>
+                <!-- 목록 버튼 (모든 사용자에게 보임) -->
+                <button class="list-btn" onclick="location.href='/Individual/detail'">목록</button>
+            </div>
 
             <!-- 댓글 입력 -->
             <div class="comment-section">
@@ -106,8 +113,9 @@
                 <c:forEach var="comment" items="${recruitmentDetail.commentList}">
                     <div class="comment">
                         <div class="comment-content">
-                            <img src="/resources/images/profile/default.png" class="comment-profile" alt="프로필">
-                            <p><span class="comment-user">${recruitmentDetail.memberNick} :</span> ${comment.replyContent}</p>
+                            <img src="${empty recruitmentDetail.profileImg ? '/resources/images/mypage/관리자 프로필.webp' : recruitmentDetail.profileImg}" 
+                                 class="comment-profile" alt="프로필">
+                            <p><span class="comment-user">${comment.memberNick} :</span> ${comment.replyContent}</p>
                         </div>
                         <div class="comment-actions">
                             <c:if test="${comment.memberNo == loginMember.memberNo}">

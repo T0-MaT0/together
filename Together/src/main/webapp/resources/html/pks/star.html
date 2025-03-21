@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>별점 구현</title>
+<style>
+  .stars {
+    display: inline-block;
+    font-size: 2rem;
+    color: lightgray;
+    position: relative;
+  }
+  .stars .filled {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    color: gold;
+    width: 0;
+  }
+  .star {
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+  <div class="stars">
+    <div class="filled" id="filled-stars">★★★★★</div>
+    <div class="unfilled">★★★★★</div>
+  </div>
+
+  <input type="range" id="rating-range" min="0" max="50" step="1" value="0">
+  <p>별점: <span id="rating-display">0.0</span></p>
+
+  <script>
+    const rangeInput = document.getElementById('rating-range');
+    const filledStars = document.getElementById('filled-stars');
+    const ratingDisplay = document.getElementById('rating-display');
+
+    rangeInput.addEventListener('input', () => {
+      const rating = rangeInput.value / 10; // 0.0 ~ 5.0
+      filledStars.style.width = `${rating * 20}%`; // 별 1개는 20%
+      ratingDisplay.textContent = rating.toFixed(1);
+    });
+  </script>
+</body>
+</html>

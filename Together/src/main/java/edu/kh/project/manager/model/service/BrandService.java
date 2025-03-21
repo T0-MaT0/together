@@ -3,6 +3,8 @@ package edu.kh.project.manager.model.service;
 import java.util.Map;
 
 import edu.kh.project.manager.model.dto.BrandBoard;
+import edu.kh.project.manager.model.dto.BrandProfile;
+import edu.kh.project.manager.model.dto.CustomerProfile;
 import edu.kh.project.manager.model.dto.Report;
 
 public interface BrandService {
@@ -37,13 +39,6 @@ public interface BrandService {
 	 */
 	Map<String, Object> dataLook(int cp);
 
-	/** Brand Profile
-	 * @param boardNo
-	 * @param brandBoardCode 
-	 * @param cp 
-	 * @return
-	 */
-	Map<String, Object> brandProfile(int boardNo, int cp, int brandBoardCode);
 
 	/** 브랜드 신고 상세 조회
 	 * @param reportNo
@@ -56,5 +51,27 @@ public interface BrandService {
 	 * @return
 	 */
 	BrandBoard boardDetailSelect(Map<String, Object> map);
+	
+
+	// **** 브랜드 프로필 조회 ***//
+	
+	/** 브랜드 프로필 정보 조회
+	 * @param memberNo
+	 * @return
+	 */
+	BrandProfile brandProfile(int memberNo);
+
+	/** 브랜드 프로필 게시판 조회
+	 * @param cp
+	 * @param boardCode
+	 * @param memberNo
+	 * @return
+	 */
+	Map<String, Object> profileBoardList(int cp, int boardCode, int memberNo);
+	
+	
+	
+	
+	
 	
 }

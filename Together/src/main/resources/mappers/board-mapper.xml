@@ -67,6 +67,17 @@
 		<result property="reviewType" column="REVIEW_TYPE" />
 		<result property="reviewTypeNo" column="REVIEW_TYPE_NO" />
 		<result property="memberNo" column="MEMBER_NO" />
+		
+		<result property="memberNickname" column="MEMBER_NICK"/>
+		<result property="memberProfile" column="MEMBER_PROFILE"/>
+		<result property="businessThumbnail" column="BUSINESS_THUMBNAIL"/>
+		
+		<collection property="imageList" select="selectReviewImageList"
+					column="REVIEW_NO" javaType="java.util.ArrayList"
+					ofType="Image" />
+		<collection property="replyList" select="selectReviewReply"
+					column="REVIEW_NO" javaType="java.util.ArrayList"
+					ofType="Reply" />
 	</resultMap>
 	
 	<!-- Reply resultMap -->
@@ -80,6 +91,14 @@
 		<result property="replyType" column="REPLY_TYPE" />
 		<result property="replyTypeNo" column="REPLY_TYPE_NO" />
 		<result property="parentNo" column="PARENT_REPLY_NO" />
+		
+		<result property="memberNickname" column="MEMBER_NICK"/>
+		
+		<result property="thumbnail" column="THUMBNAIL"/>
+		
+		<collection property="commentList" select="selectReplyComment"
+					column="REPLY_NO" javaType="java.util.ArrayList"
+					ofType="Reply" />
 	</resultMap>
 	
 	<!-- 특정 상품 이미지 조회 -->
@@ -89,27 +108,127 @@
 		ORDER BY IMG_LEVEL
 	</select>
 	
+	<!-- 특정 상품 리뷰 이미지 조회 -->
+	<select id="selectReviewImageList" resultMap="image_rm">
+		SELECT * FROM IMG 
+		WHERE IMG_TYPE = 3 AND IMG_TYPE_NO = #{replyNo} 
+		ORDER BY IMG_LEVEL
+	</select>
+	
 	<!-- 특정 상품 옵션 조회 -->
 	<select id="selectOptionList" resultMap="businessOption_rm">
 		SELECT * FROM PRODUCT_OPTION 
 		WHERE BOARD_NO = #{boardNo} 
 		ORDER BY OPTION_NO
 	</select>
-	
-	<!-- 특정 상품 리뷰 조회 -->
-	<select id="selectReviewList" resultMap="review_rm">
-		SELECT * FROM REVIEW 
-		WHERE REVIEW_TYPE = ${boardCode} 
-		AND REVIEW_TYPE_NO = #{boardNo} 
-		ORDER BY REVIEW_NO
+		
+	<!-- 특정 상품의 삭제되지 않은 리뷰 개수 조회 -->
+	<select id="getReviewListCount" resultType="_int">
+		SELECT COUNT(*) FROM REVIEW R 
+		JOIN BOARD B ON(R.REVIEW_TYPE_NO = B.BOARD_NO)
+		WHERE REVIEW_TYPE = ${boardCode}
+		AND B.BOARD_DEL_FL = 'N'
+		AND REVIEW_DEL_FL = 'N'
+		<if test='key!="all"'>
+			AND REVIEW_TYPE_NO = #{boardNo} 
+		</if>
 	</select>
 	
-	<!-- 특정 상품 문의 조회 -->
-	<select id="selectReplyList" resultMap="reply_rm">
-		SELECT * FROM REPLY 
+	<!-- 상품 리뷰 목록 조회 -->
+	<select id="selectReviewList" resultMap="review_rm">
+		SELECT R.*, 
+			(SELECT MEMBER_NICK FROM "MEMBER" M 
+			WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK,
+			(SELECT PROFILE_IMG FROM "MEMBER" M 
+			WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_PROFILE,
+			(SELECT IMG_PATH||IMG_RENAME FROM IMG I 
+			WHERE I.IMG_TYPE_NO = R.REVIEW_TYPE_NO
+			AND I.IMG_TYPE = 1 AND IMG_LEVEL = 0) BUSINESS_THUMBNAIL
+		FROM REVIEW R JOIN BOARD B ON(R.REVIEW_TYPE_NO = B.BOARD_NO)
+		WHERE REVIEW_TYPE = ${boardCode}
+		AND B.BOARD_DEL_FL = 'N'
+		AND REVIEW_DEL_FL = 'N'
+		<if test='key!="all"'>
+			AND R.REVIEW_TYPE_NO = #{boardNo} 
+		</if>
+		ORDER BY REVIEW_NO DESC
+	</select>
+		
+	<!-- 특정 리뷰의 답글 목록 조회 -->
+	<select id="selectReviewReply" resultMap="reply_rm">
+		SELECT R.*,
+			(SELECT MEMBER_NICK FROM "MEMBER" M 
+			WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK
+		FROM REPLY R 
+		JOIN REVIEW RV ON(R.REPLY_TYPE_NO = RV.REVIEW_NO)
+		WHERE REPLY_TYPE = 2 
+		AND RV.REVIEW_DEL_FL = 'N'
+		AND REPLY_DEL_FL = 'N'
+		AND REPLY_TYPE_NO = #{reviewNo} 
+		ORDER BY REPLY_NO DESC
+	</select>
+		
+	<!-- 특정 상품의 삭제되지 않은 문의 개수 조회 -->
+	<select id="getReplyListCount" resultType="_int">
+		SELECT COUNT(*) FROM REPLY R
+		JOIN BOARD B ON(R.REPLY_TYPE_NO = B.BOARD_NO)
 		WHERE REPLY_TYPE = 1 
-		AND REPLY_TYPE_NO = #{boardNo} 
-		ORDER BY REPLY_NO
+		AND R.PARENT_REPLY_NO IS NULL
+		AND B.BOARD_CD = ${boardCode}
+		AND B.BOARD_DEL_FL = 'N'
+		AND REPLY_DEL_FL = 'N'
+		<if test='key!="all"'>
+			AND R.REPLY_TYPE_NO = #{boardNo}
+		</if>
+		<if test="myQNA">
+			AND R.MEMBER_NO = ${loginMemberNo}
+		</if>
+		<if test="notSecret">
+			AND R.SECRET_REPLY_STATUS = 'N'
+		</if>
+	</select>
+	
+	<!-- 특정 상품 문의 목록 조회 -->
+	<select id="selectReplyList" resultMap="reply_rm">
+		SELECT R.*, 
+			(SELECT IMG_PATH || IMG_RENAME FROM IMG I
+			WHERE I.IMG_TYPE_NO = R.REPLY_TYPE_NO AND I.IMG_LEVEL = 0
+			AND I.IMG_TYPE = 1) THUMBNAIL,
+			(SELECT MEMBER_NICK FROM "MEMBER" M 
+			WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK
+		FROM REPLY R 
+		JOIN BOARD B ON(R.REPLY_TYPE_NO = B.BOARD_NO)
+		WHERE REPLY_TYPE = 1 
+		AND R.PARENT_REPLY_NO IS NULL
+		AND B.BOARD_CD = ${boardCode}
+		AND B.BOARD_DEL_FL = 'N'
+		AND REPLY_DEL_FL = 'N'
+		<if test='key!="all"'>
+			AND R.REPLY_TYPE_NO = #{boardNo}
+		</if>
+		<if test="myQNA">
+			AND R.MEMBER_NO = ${loginMemberNo}
+		</if>
+		<if test="notSecret">
+			AND R.SECRET_REPLY_STATUS = 'N'
+		</if>
+		ORDER BY REPLY_NO DESC
+	</select>
+	
+	<select id="selectReplyComment" resultMap="reply_rm">
+		SELECT R.*,
+			(SELECT MEMBER_NICK FROM "MEMBER" M 
+			WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK
+		FROM REPLY R 
+		WHERE REPLY_TYPE = 1 
+		AND REPLY_DEL_FL = 'N'
+		AND PARENT_REPLY_NO = #{replyNo} 
+		ORDER BY REPLY_NO DESC
+	</select>
+	
+	<!-- 사업자 베너 이미지 목록 조회 -->
+	<select id="selectBannerList" resultMap="image_rm">
+		SELECT * FROM IMG WHERE IMG_TYPE_NO = 2 AND IMG_TYPE = 6
 	</select>
 	
 	<!-- 상품 목록 조회(메인 화면) -->
@@ -119,8 +238,8 @@
 			(SELECT PC.CATEGORY_NAME FROM CATEGORY PC 
 			WHERE C.PARENT_CATEGORY_NO = PC.CATEGORY_NO) PARENT_CATEGORY_NAME,
 			(SELECT I.IMG_PATH || I.IMG_RENAME FROM	IMG I	
-			WHERE I.IMG_TYPE_NO = B.BOARD_NO AND IMG_LEVEL = 0
-			AND IMG_TYPE = 1) THUMBNAIL
+			WHERE I.IMG_TYPE_NO = B.BOARD_NO AND I.IMG_LEVEL = 0
+			AND I.IMG_TYPE = 1) THUMBNAIL
 		FROM BOARD B
 		JOIN PRODUCT P ON(P.BOARD_NO = B.BOARD_NO) 
 		JOIN "MEMBER" M ON(M.MEMBER_NO = B.MEMBER_NO)
@@ -128,7 +247,7 @@
 		WHERE BOARD_DEL_FL = 'N' AND BOARD_CD = #{boardCode}
 		ORDER BY
 		<if test='category=="hot"'>
-			READ_COUNT DESC,
+			P.READ_COUNT DESC,
 		</if>
 		BOARD_NO DESC FETCH FIRST 6 ROWS ONLY
 	</select>
@@ -139,9 +258,9 @@
 			M.MEMBER_NICK, C.CATEGORY_NAME,
 			(SELECT PC.CATEGORY_NAME FROM CATEGORY PC 
 			WHERE C.PARENT_CATEGORY_NO = PC.CATEGORY_NO) PARENT_CATEGORY_NAME,
-			(SELECT I.IMG_PATH || I.IMG_RENAME FROM	IMG I	
-			WHERE I.IMG_TYPE_NO = B.BOARD_NO AND IMG_LEVEL = 0
-			AND IMG_TYPE = 1) THUMBNAIL
+			(SELECT I.IMG_PATH || I.IMG_RENAME FROM IMG I	
+			WHERE I.IMG_TYPE_NO = B.BOARD_NO AND I.IMG_LEVEL = 0
+			AND I.IMG_TYPE = 1) THUMBNAIL
 		FROM BOARD B
 		LEFT JOIN PRODUCT P ON(P.BOARD_NO = B.BOARD_NO) 
 		LEFT JOIN "MEMBER" M ON(M.MEMBER_NO = B.MEMBER_NO)
@@ -149,12 +268,12 @@
 		WHERE BOARD_DEL_FL = 'N' AND BOARD_CD = #{boardCode}
 		ORDER BY
 		<if test='category=="hot"'>
-			READ_COUNT DESC,
+			P.READ_COUNT DESC,
 		</if>
 		BOARD_NO DESC
 	</select>
 	
-	<!-- 특정 상품 삭제되지 않은 게시글 조회 -->
+	<!-- 특정 상품의 삭제되지 않은 게시글 조회 -->
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*) FROM BOARD 
 		WHERE BOARD_CD = #{boardCode} AND BOARD_DEL_FL = 'N'
@@ -171,4 +290,14 @@
 		AND BOARD_CD = ${boardCode} 
 		AND BOARD_NO = ${boardNo}
 	</select>
+	
+	<!-- 찜하기 여부 확인 -->
+	<select id="pickCheck" resultType="_int">
+		SELECT COUNT(*) FROM PICK WHERE BOARD_NO = ${boardNo} AND MEMBER_NO = ${memberNo}
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateReadCount">
+		UPDATE PRODUCT SET READ_COUNT = READ_COUNT + 1 WHERE BOARD_NO = ${boardNo}
+	</update>
 </mapper>

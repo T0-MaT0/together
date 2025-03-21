@@ -111,6 +111,9 @@
 	    <result property="boardTitle" column="BOARD_TITLE"/>
 	    <result property="boardNo" column="BOARD_NO"/>
 	    <result property="replyCount" column="REPLY_COUNT"/>
+	    <result property="profileImg" column="PROFILE_IMG"/>
+	    <result property="memberNick" column="MEMBER_NICK"/>
+	    
 	</resultMap>
 	
 		<!-- Image resultMap -->
@@ -127,102 +130,84 @@
 	 <!-- 개인 공동구매 모집방 목록 조회 (BOARD_CD = 1인 경우) -->
 	<select id="selectRecruitmentList" resultMap="recruitmentRoom_rm">
 	    SELECT 
-	        r.RECRUITMENT_NO, 
-	        r.MAX_PARTICIPANTS, 
-	        r.RECRUITMENT_STATUS, 
-	        r.REC_CREATED_DATE, 
-	        r.REC_END_DATE, 
-	        r.REGION, 
-	        r.PRODUCT_URL, 
-	        r.QR_CODE, 
-	        r.BOARD_NO, 
-	        bt.BOARD_CD,
-	        b.BOARD_TITLE AS PRODUCT_NAME,   
-	        p.PRODUCT_PRICE, 
-	        p.PRODUCT_COUNT, 
-	        p.DELIVERY_FEE, 
-	        p.READ_COUNT, 
-	        p.CATEGORY_NO,
-	
-	        (SELECT mp.MEMBER_NICK 
-	         FROM RECRUITMENT_PARTICIPANT rp
-	         JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
-	         WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
-	         ORDER BY rp.JOIN_DATE ASC
-	         FETCH FIRST 1 ROWS ONLY) AS hostName,
-	
-	        (SELECT mp.MEMBER_GRADE 
-	         FROM RECRUITMENT_PARTICIPANT rp
-	         JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
-	         WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
-	         ORDER BY rp.JOIN_DATE ASC
-	         FETCH FIRST 1 ROWS ONLY) AS hostGrade,
-	
-	        (SELECT I.IMG_PATH || I.IMG_RENAME 
-	         FROM IMG I	
-	         WHERE I.IMG_TYPE_NO = B.BOARD_NO 
-	         AND I.IMG_LEVEL = 0
-	         AND I.IMG_TYPE = 2
-	         FETCH FIRST 1 ROWS ONLY) AS thumbnail
-	
-	    FROM RECRUITMENT_ROOM r
-	    JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO  
-	    JOIN BOARD_TYPE bt ON b.BOARD_CD = bt.BOARD_CD  
-	    JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO  
-	    WHERE bt.BOARD_CD = 1
-	    AND b.BOARD_DEL_FL = 'N' 
-	    ORDER BY r.REC_CREATED_DATE DESC
+		    r.RECRUITMENT_NO, 
+		    r.MAX_PARTICIPANTS, 
+		    r.RECRUITMENT_STATUS, 
+		    r.REC_CREATED_DATE, 
+		    r.REC_END_DATE, 
+		    r.REGION, 
+		    r.PRODUCT_URL, 
+		    r.QR_CODE, 
+		    r.BOARD_NO, 
+		    bt.BOARD_CD,
+		    b.BOARD_TITLE AS PRODUCT_NAME,   
+		    p.PRODUCT_PRICE, 
+		    p.PRODUCT_COUNT, 
+		    p.DELIVERY_FEE, 
+		    p.READ_COUNT, 
+		    p.CATEGORY_NO,
+		
+		    -- 모집장 닉네임과 등급을 RECRUITMENT_ROOM에서 직접 가져옴
+		    m.MEMBER_NICK AS hostName,
+		    m.MEMBER_GRADE AS hostGrade,
+		
+		    (SELECT I.IMG_PATH || I.IMG_RENAME 
+		     FROM IMG I	
+		     WHERE I.IMG_TYPE_NO = B.BOARD_NO 
+		     AND I.IMG_LEVEL = 0
+		     AND I.IMG_TYPE = 2
+		     FETCH FIRST 1 ROWS ONLY) AS thumbnail
+		
+		FROM RECRUITMENT_ROOM r
+		JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO  
+		JOIN BOARD_TYPE bt ON b.BOARD_CD = bt.BOARD_CD  
+		JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO  
+		JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO  -- 모집장 정보 가져오기
+		WHERE bt.BOARD_CD = 1
+		AND b.BOARD_DEL_FL = 'N' 
+		ORDER BY r.REC_CREATED_DATE DESC
 	</select>
 	
 	<!-- 조회수 높은 순 목록 조회 -->
 	<select id="selectRecruitmentListByViewCount" resultMap="recruitmentRoom_rm">
 	    SELECT 
-	        r.RECRUITMENT_NO, 
-	        r.MAX_PARTICIPANTS, 
-	        r.RECRUITMENT_STATUS, 
-	        r.REC_CREATED_DATE, 
-	        r.REC_END_DATE, 
-	        r.REGION, 
-	        r.PRODUCT_URL, 
-	        r.QR_CODE, 
-	        r.BOARD_NO, 
-	        bt.BOARD_CD,
-	        b.BOARD_TITLE AS PRODUCT_NAME,   
-	        p.PRODUCT_PRICE, 
-	        p.PRODUCT_COUNT, 
-	        p.DELIVERY_FEE, 
-	        p.READ_COUNT, 
-	        p.CATEGORY_NO,
-	        b.BOARD_DEL_FL,  
-	
-	        (SELECT mp.MEMBER_NICK 
-	         FROM RECRUITMENT_PARTICIPANT rp
-	         JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
-	         WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
-	         ORDER BY rp.JOIN_DATE ASC
-	         FETCH FIRST 1 ROWS ONLY) AS hostName,
-	
-	        (SELECT mp.MEMBER_GRADE 
-	         FROM RECRUITMENT_PARTICIPANT rp
-	         JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
-	         WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
-	         ORDER BY rp.JOIN_DATE ASC
-	         FETCH FIRST 1 ROWS ONLY) AS hostGrade,
-	
-	        (SELECT I.IMG_PATH || I.IMG_RENAME 
-	         FROM IMG I
-	         WHERE I.IMG_TYPE_NO = b.BOARD_NO 
-	         AND I.IMG_LEVEL = 0
-	         AND I.IMG_TYPE = 2
-	         FETCH FIRST 1 ROWS ONLY) AS thumbnail
-	
-	    FROM RECRUITMENT_ROOM r
-	    JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO  
-	    JOIN BOARD_TYPE bt ON b.BOARD_CD = bt.BOARD_CD  
-	    JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO  
-	    WHERE bt.BOARD_CD = 1
-	    AND b.BOARD_DEL_FL = 'N'  
-	    ORDER BY p.READ_COUNT DESC
+		    r.RECRUITMENT_NO, 
+		    r.MAX_PARTICIPANTS, 
+		    r.RECRUITMENT_STATUS, 
+		    r.REC_CREATED_DATE, 
+		    r.REC_END_DATE, 
+		    r.REGION, 
+		    r.PRODUCT_URL, 
+		    r.QR_CODE, 
+		    r.BOARD_NO, 
+		    bt.BOARD_CD,
+		    b.BOARD_TITLE AS PRODUCT_NAME,   
+		    p.PRODUCT_PRICE, 
+		    p.PRODUCT_COUNT, 
+		    p.DELIVERY_FEE, 
+		    p.READ_COUNT, 
+		    p.CATEGORY_NO,
+		    b.BOARD_DEL_FL,  
+		
+		    -- 모집장 정보 RECRUITMENT_ROOM에서 가져오기
+		    m.MEMBER_NICK AS hostName,
+		    m.MEMBER_GRADE AS hostGrade,
+		
+		    (SELECT I.IMG_PATH || I.IMG_RENAME 
+		     FROM IMG I
+		     WHERE I.IMG_TYPE_NO = b.BOARD_NO 
+		     AND I.IMG_LEVEL = 0
+		     AND I.IMG_TYPE = 2
+		     FETCH FIRST 1 ROWS ONLY) AS thumbnail
+		
+		FROM RECRUITMENT_ROOM r
+		JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO  
+		JOIN BOARD_TYPE bt ON b.BOARD_CD = bt.BOARD_CD  
+		JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO  
+		JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO  -- 모집장 정보 가져오기
+		WHERE bt.BOARD_CD = 1
+		AND b.BOARD_DEL_FL = 'N'  
+		ORDER BY p.READ_COUNT DESC
 	</select>
 	
 	<!-- 타입이 6,7,8인 모든 이미지 조회 -->
@@ -242,9 +227,9 @@
 
     <!-- 현재 참가자 수 조회 -->
     <select id="countParticipants" resultType="int">
-        SELECT COUNT(*) 
-        FROM RECRUITMENT_PARTICIPANT
-        WHERE RECRUITMENT_NO = #{recruitmentNo}
+        SELECT SUM(PARTICIPATION_COUNT) 
+		FROM RECRUITMENT_PARTICIPANT
+		WHERE RECRUITMENT_NO = #{recruitmentNo}
     </select>
 
     <!-- 개인 공동구매 모집방 상세 조회 -->
@@ -415,62 +400,56 @@
 	
 	<!-- 특정 모집글의 댓글 조회 -->
 	<select id="selectCommentList" resultMap="reply_rm">
-	    SELECT 
-	        REPLY_NO, 
-	        REPLY_CREATE_DATE, 
-	        REPLY_DEL_FL, 
-	        REPLY_CONTENT, 
-	        SECRET_REPLY_STATUS, 
-	        MEMBER_NO, 
-	        REPLY_TYPE, 
-	        REPLY_TYPE_NO, 
-	        PARENT_REPLY_NO
-	    FROM REPLY r
-	    WHERE REPLY_TYPE = 1
-	    AND REPLY_TYPE_NO = #{boardNo}
-	    ORDER BY REPLY_CREATE_DATE ASC
+	   SELECT 
+		    r.REPLY_NO, 
+		    r.REPLY_CREATE_DATE, 
+		    r.REPLY_DEL_FL, 
+		    r.REPLY_CONTENT, 
+		    r.SECRET_REPLY_STATUS, 
+		    r.MEMBER_NO, 
+		    r.REPLY_TYPE, 
+		    r.REPLY_TYPE_NO, 
+		    r.PARENT_REPLY_NO,
+		    m.PROFILE_IMG,
+		    m.MEMBER_NICK
+		FROM REPLY r
+		JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO  
+		WHERE r.REPLY_TYPE = 1
+		AND r.REPLY_TYPE_NO = #{boardNo}
+		ORDER BY r.REPLY_CREATE_DATE ASC
 	</select>
 	
 	<!-- 특정 모집글의 상세조회 -->
 	<select id="selectRecruitmentRoomDetail" parameterType="map" resultMap="recruitmentRoomDetail_rm">
 	    SELECT 
-	        r.RECRUITMENT_NO, 
-	        r.MAX_PARTICIPANTS, 
-	        r.RECRUITMENT_STATUS, 
-	        r.REC_CREATED_DATE, 
-	        r.REC_END_DATE, 
-	        r.REGION, 
-	        r.PRODUCT_URL, 
-	        r.QR_CODE,  
-	        b.BOARD_NO,
-	        b.BOARD_TITLE AS PRODUCT_NAME,   
-	        b.BOARD_CONTENT,
-	
-	        p.PRODUCT_PRICE, 
-	        p.PRODUCT_COUNT, 
-	        p.DELIVERY_FEE, 
-	        p.READ_COUNT, 
-	        p.CATEGORY_NO, 
-	        
-	        (SELECT mp.MEMBER_NICK  
-	         FROM RECRUITMENT_PARTICIPANT rp
-	         JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
-	         WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
-	         ORDER BY rp.JOIN_DATE ASC
-	         FETCH FIRST 1 ROWS ONLY) AS hostName,
-	
-	        (SELECT mp.MEMBER_GRADE  
-	         FROM RECRUITMENT_PARTICIPANT rp
-	         JOIN MEMBER mp ON rp.MEMBER_NO = mp.MEMBER_NO
-	         WHERE rp.RECRUITMENT_NO = r.RECRUITMENT_NO
-	         ORDER BY rp.JOIN_DATE ASC
-	         FETCH FIRST 1 ROWS ONLY) AS hostGrade
-	
-	    FROM RECRUITMENT_ROOM r
-	    JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO
-	    JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO
-	
-	    WHERE r.RECRUITMENT_NO = #{recruitmentNo}
+		    r.RECRUITMENT_NO, 
+		    r.MAX_PARTICIPANTS, 
+		    r.RECRUITMENT_STATUS, 
+		    r.REC_CREATED_DATE, 
+		    r.REC_END_DATE, 
+		    r.REGION, 
+		    r.PRODUCT_URL, 
+		    r.QR_CODE,  
+		    b.BOARD_NO,
+		    b.BOARD_TITLE AS PRODUCT_NAME,   
+		    b.BOARD_CONTENT,
+		
+		    p.PRODUCT_PRICE, 
+		    p.PRODUCT_COUNT, 
+		    p.DELIVERY_FEE, 
+		    p.READ_COUNT, 
+		    p.CATEGORY_NO, 
+		
+		    -- 모집장 정보 RECRUITMENT_ROOM에서 직접 가져오기
+		    m.MEMBER_NICK AS hostName,
+		    m.MEMBER_GRADE AS hostGrade
+		
+		FROM RECRUITMENT_ROOM r
+		JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO
+		JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO
+		JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO -- 모집장 정보 가져오기
+		
+		WHERE r.RECRUITMENT_NO = #{recruitmentNo}
 	</select>
 	
 	
