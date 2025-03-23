@@ -13,6 +13,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/dev/dev-select.css" />
+    <script src="https://kit.fontawesome.com/975074ef7f.js" crossorigin="anonymous"></script>
     <script>
         // 사이드 메뉴 설정
         const menuName = "${menuName}";
@@ -43,54 +44,39 @@
         
         <section class="dev-board">
             <h3>TOP 배너</h3>
-            <div class="topBannerArea">
-                <c:if test="${!empty imgList[0]}">
-                    <img class="bannerItem" src="${imgList[0].imagePath}${imgList[0].imageReName}"/>
-                </c:if>
-                <c:if test="${empty imgList[0]}">
-                    <img class="bannerItem"/>
-                </c:if>
-                <input type="file" accept="image/*">
+            <form action="brandPage/submit" method="POST" name="BannerSubmit" enctype="multipart/form-data" onsubmit="imageSubmit(event)">
 
+                <div class="topBannerArea">
+                    
 
-                <c:if test="${!empty imgList[1]}">
-                    <img class="bannerItem" src="${imgList[1].imagePath}${imgList[1].imageReName}"/>
-                </c:if>
-                <c:if test="${empty imgList[1]}">
-                    <img class="bannerItem"/>
-                </c:if>
-                <input type="file" accept="image/*">
+                    <c:forEach begin="0" end="4" var="i" varStatus="status">
+                        <div class="bannerItemWrapper">
+                            
+                            <c:if test="${!empty imgList[i]}">
+                                <img class="bannerItem" src="${imgList[i].imagePath}${imgList[i].imageReName}" state="1"/>
+                            </c:if>
+                            <c:if test="${empty imgList[i]}">
+                                <img class="bannerItem" state="0" src="/resources/images/image-manager/banner/noneImg.png"/>
+                            </c:if>
+                            <button type="button" class="refreshButton" onclick="refreshImage(`${imgList[i].imagePath}${imgList[i].imageReName}`, `${status.index}`)" style="display: none;">
+                                <i class="fa-solid fa-rotate-right"></i>
+                            </button>
+                            <button type="button" class="closeButton" onclick="removeImage(${i})">X</button>
+                            <input type="file" accept="image/*" name="images" no="${status.index}">
 
+                        </div>
+                    </c:forEach>
 
-                <c:if test="${!empty imgList[2]}">
-                    <img class="bannerItem" src="${imgList[2].imagePath}${imgList[2].imageReName}"/>
-                </c:if>
-                <c:if test="${empty imgList[2]}">
-                    <img class="bannerItem"/>
-                </c:if>
-                <input type="file" accept="image/*">
-
-
-                <c:if test="${!empty imgList[3]}">
-                    <img class="bannerItem" src="${imgList[3].imagePath}${imgList[3].imageReName}"/>
-                </c:if>
-                <c:if test="${empty imgList[3]}">
-                    <img class="bannerItem"/>
-                </c:if>
-                <input type="file" accept="image/*">
-
-
-                <c:if test="${!empty imgList[4]}">
-                    <img class="bannerItem" src="${imgList[4].imagePath}${imgList[4].imageReName}"/>
-                </c:if>
-                <c:if test="${empty imgList[4]}">
-                    <img class="bannerItem"/>
-                </c:if>
-                <input type="file" accept="image/*">
-            </div>
-            <div class="btnArea">
-                <button>적용</button>
-            </div>
+    
+                </div>
+                <div class="btnArea">
+                    <button>적용</button>
+                </div>
+                <input type="hidden" name="InsertNo">
+                <input type="hidden" name="updateNo">
+                <input type="hidden" name="deleteNo">
+                
+            </form>
         </section>
 
         <section class="dev-board">
@@ -131,39 +117,7 @@
 
 </main>
 
-<script>
-const bannerItems = document.getElementsByClassName("bannerItem");
-const bannerInput = document.getElementsByTagName("input");
-
-for (let i = 0; i < bannerItems.length; i++) {
-    bannerItems[i].addEventListener("click", () => {
-        bannerInput[i].click();
-    });
-
-    bannerInput[i].addEventListener("change", function () {
-        const file = this.files[0]; 
-        
-        if (file) {
-            console.log("파일 선택됨");
-            const reader = new FileReader();
-
-            reader.readAsDataURL(file);
-
-            reader.onload = function (e) {
-                bannerItems[i].setAttribute("src", e.target.result);
-            };
-        } else {
-            console.log("파일 없음");
-            bannerItems[i].removeAttribute("src");
-            bannerInput[i].value = '';
-        }
-    });
-}
-
-
-
-
-</script>
+<script src="/resources/js/manager-js/home/homeMain.js"></script>
 </body>
 
 </html>

@@ -1,6 +1,8 @@
 package edu.kh.project.manager.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -61,23 +63,35 @@ public class ManagerHomePage {
 
 	//이미지 제출
 	@PostMapping("/{sectionPage}/submit")
-	public String imageSubmit(@PathVariable String sectionPage
+	public String imageSubmit  (@PathVariable String sectionPage
 			,@RequestParam(value="images", required=false)List<MultipartFile> images
+			,@RequestParam(value="InsertNo", required=false)List<Integer> InsertNo
+			,@RequestParam(value="updateNo", required=false)List<Integer> updateNo
+			,@RequestParam(value="deleteNo", required=false)List<Integer> deleteNo
 			,HttpSession session) {
-
-		String webPath = "/resources/images/image-manager/";
+		
+		
+		String webPath = "/resources/images/image-manager/banner/upload/";
 		String filePath = session.getServletContext().getRealPath(webPath);
-
+		
 		int typeNo = 0;
 		switch(sectionPage) {
 			case "mainPage" : typeNo = 1; break;
 			case "privatePage" : typeNo = 2; break;
 			case "brandPage" : typeNo = 3; break;
 		}
-
-		int result = service.submit(webPath, images, typeNo, filePath);
-
-
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("InsertNo", InsertNo);
+		map.put("updateNo", updateNo);
+		map.put("deleteNo", deleteNo);
+		
+		try {
+			int result = service.submit(map, webPath, images, typeNo, filePath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
 		return "redirect:/manageHome/"+sectionPage;
 	}
 }

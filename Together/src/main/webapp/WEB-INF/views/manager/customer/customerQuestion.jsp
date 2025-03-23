@@ -152,7 +152,7 @@
                 <div class="modalBottom">
                     <div>답변</div>
                     <!-- <div class="managerText">ㅁㄴㅇㄹㅁㄴㅇㄹ</div> -->
-                    <textarea name="managerText" class="managerText">ㅁㄴㅇㄹㅁㄴㅇㄹ</textarea>
+                    <div name="managerText" contenteditable="true"  class="managerText" >ㅁㄴㅇㄹㅁㄴㅇㄹ</div>
                 </div>
                 <div class="modal-btn">
                     <!-- <button>제출</button> -->

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.common.utility.Utill;
 import edu.kh.project.manager.model.dao.ManageCustomerDAO;
 import edu.kh.project.manager.model.dto.CustProfileBoard;
 import edu.kh.project.manager.model.dto.CustomerBoard;
@@ -145,6 +146,58 @@ public class ManagerCustomerServiceImpl implements ManageCustomerService{
 		
 		
 		return map;
+	}
+
+	
+	/// INSERT UPDATE 기능 --------------------------------
+	
+	
+	// 고객 문의 답변 제출
+	@Override
+	public int questInsert(CustomerBoard customerBoard) {
+		
+		customerBoard.setReply(Utill.XSSHandling(customerBoard.getReply()));
+		
+		//Y 처리
+		int result = dao.questUpdate(customerBoard);
+		
+		
+		result = dao.questInsert(customerBoard);
+		return result;
+	}
+
+	// 고객 신고 처리 답변
+	@Override
+	public int reportSubmit(Report report) {
+		
+		report.setReply(Utill.XSSHandling(report.getReply()));
+		
+		int result = 0;
+			
+			
+		if("반려".equals(report.getReportStatus())||"경고".equals(report.getReportStatus())) { // 반려 경고
+			
+			result = dao.reportUpdate(report);
+			
+			int personWarnCount = dao.personWarnCount(report);
+			
+			if(personWarnCount >=4) {
+				report.setReportStatus("블랙");
+			}
+			
+		}
+			
+			
+		if("블랙".equals(report.getReportStatus())) {
+			result = dao.reportUpdate(report);
+			result = dao.blackUpdate(report);
+			
+		}
+		
+		
+		return result;
+		
+		
 	}
 
 

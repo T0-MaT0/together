@@ -874,4 +874,57 @@
 			AND BOARD_NO = #{boardNo}
 	</select>
 	
+	
+		
+	<!--=================INSERT & UPDATE SECTION=============================-->
+	
+	<!-- 고객 문의 y 처리 -->
+	<update id="questUpdate">
+		UPDATE BOARD SET BOARD_DEL_FL = 'Y' WHERE BOARD_NO = #{boardNo}	
+	</update>
+	
+	<!-- 고객 문의 답변 제출 -->
+	<insert id="replyInsert">
+	INSERT INTO REPLY (REPLY_NO, REPLY_CREATE_DATE, REPLY_DEL_FL, REPLY_CONTENT, SECRET_REPLY_STATUS, MEMBER_NO, REPLY_TYPE, REPLY_TYPE_NO, PARENT_REPLY_NO) 
+	VALUES (SEQ_REPLY_NO.NEXTVAL
+			, SYSDATE
+			, 'N'
+			, #{reply}
+			, 'N', 1
+			, 1, ${boardNo}, NULL)		
+	</insert>
+	
+	<!-- 브랜드 체휴 승인/미승인 처리 -->
+	<update id="applyUpdate">
+		UPDATE BOARD SET B_STATE = #{state} WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<!-- 제휴 승인 처리 -->
+	<update id="permissionCompany">
+		UPDATE COMPANY SET PERMISSION_FL ='Y' WHERE MEMBER_NO =${memberNo}
+	</update>
+	
+	
+	
+	<!-- 고객 신고 update -->
+	<update id="reportUpdate">
+		UPDATE REPORT 
+		SET REPORT_STATUS  = #{reportStatus}, 
+			REPORT_M_REPLY = #{reply} 
+		WHERE REPORT_NO =#{reportNo}	
+	</update>
+	<!-- 경고 4개 확인  -->
+	<select id="personWarnCount" resultType="_int">
+		SELECT COUNT(*) FROM REPORT 
+		WHERE REPORTED_USER_NO =${reportedUserNo} 
+		AND REPORT_STATUS  = #{reportStatus}
+	</select>
+	<!-- 블랙 처리 -->
+	<update id="blackUpdate">
+		UPDATE MEMBER SET MEMBER_DEL_FL = 'B' WHERE MEMBER_NO = ${reportedUserNo}	
+	</update>
+	<!-- 브랜드 회원이 블랙일 경우 제휴 취소 처리  -->
+	<update id="companyBlackUpdate">
+		UPDATE COMPANY SET PERMISSION_FL ='N' WHERE MEMBER_NO = ${reportedUserNo}
+	</update>	
 </mapper>

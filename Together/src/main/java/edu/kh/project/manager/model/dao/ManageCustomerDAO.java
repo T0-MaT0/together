@@ -194,6 +194,56 @@ public class ManageCustomerDAO {
 		return sqlSession.selectList("managerMapper.cusProfileBoardList", map, rowBounds);
 	}
 
+	/// INSERT UPDATE 기능 --------------------------------
+	
+	
+	/** Y 처리 
+	 * @param customerBoard
+	 * @return
+	 */
+	public int questUpdate(CustomerBoard customerBoard) {
+		return sqlSession.update("managerMapper.questUpdate", customerBoard);
+	}
+	
+	/**고객 문의 답변 제출
+	 * @param customerBoard
+	 * @return
+	 */
+	public int questInsert(CustomerBoard customerBoard) {
+		return sqlSession.insert("managerMapper.replyInsert", customerBoard);
+	}
+
+
+	/** 고객 신고 처리 답변
+	 * @param report
+	 * @return
+	 */
+	public int reportUpdate(Report report) {
+		return sqlSession.update("managerMapper.reportUpdate", report);
+	}
+
+
+	/** 해당 고객 경고 횟수
+	 * @param report
+	 * @return
+	 */
+	public int personWarnCount(Report report) {
+		return sqlSession.selectOne("managerMapper.personWarnCount", report);
+	}
+
+
+	/** 블랙 처리
+	 * @param report
+	 * @return
+	 */
+	public int blackUpdate(Report report) {
+		return sqlSession.update("managerMapper.blackUpdate", report);
+	}
+
+
+
+
+
 
 
 

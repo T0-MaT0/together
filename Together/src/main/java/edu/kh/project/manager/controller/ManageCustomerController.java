@@ -1,6 +1,5 @@
 package edu.kh.project.manager.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.kh.project.manager.model.dto.CustProfileBoard;
 import edu.kh.project.manager.model.dto.CustomerBoard;
 import edu.kh.project.manager.model.dto.CustomerProfile;
 import edu.kh.project.manager.model.dto.Report;
@@ -123,4 +123,26 @@ public class ManageCustomerController {
 		
 		return map;
 	}
+	
+	
+	/// INSERT UPDATE 기능 --------------------------------
+	
+	//고객 문의 답변 제출
+	@PostMapping(value="/submit", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public int questInsert(@RequestBody CustomerBoard customerBoard) {
+		
+		return service.questInsert(customerBoard);
+	}
+	
+	
+	
+	// 고객 신고 답변 제출
+	@PostMapping(value="/reportSubmit", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public int reportSubmit(@RequestBody Report Report) {
+		
+		return service.reportSubmit(Report);
+	}
+	
 }
