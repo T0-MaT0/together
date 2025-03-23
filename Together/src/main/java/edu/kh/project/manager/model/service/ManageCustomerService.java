@@ -67,6 +67,23 @@ public interface ManageCustomerService {
 	 */
 	Map<String, Object> profileBoardList(int cp, int boardCode, int memberNo);
 
+	/// INSERT UPDATE 기능 --------------------------------
+	
+	
+
+	/** 고객 문의 답변 제출
+	 * @param customerBoard
+	 * @return
+	 */
+	int questInsert(CustomerBoard customerBoard);
+
+
+	/** 고객 신고 답변 제출 처리
+	 * @param report
+	 * @return
+	 */
+	int reportSubmit(Report report);
+
 
 
 

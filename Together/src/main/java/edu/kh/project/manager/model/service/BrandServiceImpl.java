@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.common.utility.Utill;
 import edu.kh.project.manager.model.dao.BrandDAO;
 import edu.kh.project.manager.model.dto.BrandBoard;
 import edu.kh.project.manager.model.dto.BrandProfile;
@@ -157,6 +158,63 @@ public class BrandServiceImpl implements BrandService {
 		
 		
 		return map;
+	}
+
+	
+	// update insert
+	
+	
+	// 브랜드 제휴 답변 처리
+	@Override
+	public int applySubmit(BrandBoard brandBoard) {
+		
+		brandBoard.setReply(Utill.XSSHandling(brandBoard.getReply()));
+		
+		int result =  dao.applyUpdate(brandBoard);
+		
+		if("승인".equals(brandBoard.getState())) {
+			result = dao.applyAccept(brandBoard);
+			System.out.println("제휴 승인 처리 result: "+ result );
+		}
+		
+		result = dao.applyInsert(brandBoard);
+		
+		return result;
+	}
+
+	
+	//브랜드 신고 처리
+	@Override
+	public int reportSubmit(Report report) {
+		
+		report.setReply(Utill.XSSHandling(report.getReply()));
+		
+		int result = 0;
+			
+			
+		if("반려".equals(report.getReportStatus())||"경고".equals(report.getReportStatus())) { // 반려 경고
+			
+			result = dao.reportUpdate(report);
+			
+			int personWarnCount = dao.personWarnCount(report);
+			
+			if(personWarnCount >=4) {
+				report.setReportStatus("블랙");
+			}
+			
+		}
+			
+			
+		if("블랙".equals(report.getReportStatus())) {
+			result = dao.reportUpdate(report);
+			result = dao.blackUpdate(report);
+			
+			result = dao.companyBlackUpdate(report);
+			
+		}
+		
+		
+		return result;
 	}
 
 }

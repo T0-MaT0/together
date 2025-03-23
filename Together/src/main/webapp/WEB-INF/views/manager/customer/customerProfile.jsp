@@ -42,8 +42,15 @@
             <div class="board-title bottom-line">
                 <div class="title">회원 프로필</div>
                 <div class="btn-area">
-                    <a href="report?memberNo=${profile.memberNo}">블랙</a>
-                    <a href="report?memberNo=${profile.memberNo}">경고</a>
+                    <c:if test="${profile.state eq '블랙'}">
+                        <a href="report?memberNo=${profile.memberNo}" style="background-color: #a3a3a3;">복구</a>
+                    </c:if>
+                    <c:if test="${profile.state != '블랙'}">
+                        <a href="report?memberNo=${profile.memberNo}">블랙</a>
+                   
+                        <a href="report?memberNo=${profile.memberNo}">경고</a>
+                    </c:if>    
+
                 </div>
             </div>
 

@@ -68,6 +68,20 @@ public interface BrandService {
 	 * @return
 	 */
 	Map<String, Object> profileBoardList(int cp, int boardCode, int memberNo);
+
+	
+	/// --- update insert
+	/** 브랜드 제휴 문의 답변 처리
+	 * @param brandBoard
+	 * @return
+	 */
+	int applySubmit(BrandBoard brandBoard);
+
+	/** 브랜드 신고 처리
+	 * @param report
+	 * @return
+	 */
+	int reportSubmit(Report report);
 	
 	
 	

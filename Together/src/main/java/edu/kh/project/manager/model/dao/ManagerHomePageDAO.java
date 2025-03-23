@@ -19,6 +19,18 @@ public class ManagerHomePageDAO {
 	}
 
 	public int insertImageList(List<Image> uploadList) {
-		return sqlSession.insert("imageMapper.insertImageList", uploadList);
+		return /* sqlSession.insert("imageMapper.insertImageList", uploadList) */ 0;
+	}
+
+	public int insertImageList(Image img) {
+		return sqlSession.insert("imageMapper.insertImage", img);
+	}
+
+	public int updateImageList(Image img) {
+		return sqlSession.update("imageMapper.updateImage", img);
+	}
+
+	public int deleteImageList(Image img) {
+		return  sqlSession.delete("imageMapper.deleteImage", img);
 	}
 }

@@ -1,6 +1,8 @@
 package edu.kh.project.manager.model.service;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,12 +19,13 @@ public interface ManagerHomePageService {
 	List<Image> bannerSelect(int imgNo);
 
 	/** 배너 이미지 제출
+	 * @param map 
 	 * @param webPath 
 	 * @param images 
 	 * @param typeNo 
 	 * @param filePath 
 	 * @return
 	 */
-	int submit(String webPath, List<MultipartFile> images, int typeNo, String filePath);
+	int submit(Map<String, Object> map, String webPath, List<MultipartFile> images, int typeNo, String filePath) throws IllegalStateException, IOException;
 
 }

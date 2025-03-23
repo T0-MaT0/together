@@ -26,7 +26,7 @@
     display: flex;
     flex-wrap: wrap;
 }
-.topBannerArea>.bannerItem{
+/* .topBannerArea>.bannerItem{
     background-color: #aaa7a7;
     border-radius: 10px;
     width: 500px;
@@ -37,7 +37,7 @@
 }
 .topBannerArea > input{
     display: none;
-}
+} */
 
 
 
@@ -83,4 +83,106 @@
     color: white;
     padding: 10px 40px;
     
+}
+
+/* ------------------------------------------------------ */
+
+.topBannerArea> .bannerItemWrapper >.bannerItem{
+    background-color: #aaa7a7;
+    border-radius: 10px;
+    width: 500px;
+    height: 238.56px;
+    margin: 10px;
+    object-fit: cover;
+    border: 2px solid rgba(42, 42, 42, 0.694);
+}
+.topBannerArea>.bannerItemWrapper > input{
+    display: none;
+}
+
+
+.bannerItemWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.bannerItem {
+    width: 200px; /* 이미지 크기 */
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.closeButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.closeButton:hover {
+    background-color: darkred;
+}
+
+
+/* --------------------------------------------------------- */
+
+.bannerItemWrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.bannerItem {
+    width: 200px; 
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.closeButton, .refreshButton {
+    position: absolute;
+    top: 5px;
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.closeButton {
+    right: 5px;
+    padding: 5px;
+}
+
+.refreshButton {
+    right: 35px; 
+    padding: 5px;
+}
+
+.closeButton:hover {
+    background-color: red;
+    color: white;
+}
+
+.refreshButton:hover {
+    background-color: lightblue;
+    color: white;
 }
