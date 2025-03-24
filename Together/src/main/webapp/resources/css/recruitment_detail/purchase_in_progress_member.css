@@ -106,16 +106,15 @@ body {
     align-items: flex-start;
     width: 100%;
     padding-left: 10px;
-    position: relative;
 }
 
 /* 가입일 스타일 (오른쪽 아래 정렬) */
 .join-date {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    align-self: flex-end; /* 오른쪽 정렬 */
+    margin-top: 10px;
     font-size: 14px;
     color: gray;
+    position: static;
 }
 
 .profile-info p {

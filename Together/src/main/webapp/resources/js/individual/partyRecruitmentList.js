@@ -140,3 +140,14 @@ function deleteReply(replyNo) {
     })
     .catch(error => console.error("Error:", error));
 }
+
+/* 수정 버튼 */
+function openEditPopup(recruitmentNo, boardNo) {
+    const width = 930;
+    const height = 700;
+    const left = (window.screen.width / 2) - (width / 2);
+    const top = (window.screen.height / 2) - (height / 2);
+    const options = `width=${width},height=${height},left=${left},top=${top},resizable=no,scrollbars=yes`;
+
+    window.open(`/group/edit?recruitmentNo=${recruitmentNo}&boardNo=${boardNo}`, "groupEditPopup", options);
+}

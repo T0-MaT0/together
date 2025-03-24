@@ -1,6 +1,9 @@
 package edu.kh.project.individual.service;
 
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
@@ -27,6 +30,18 @@ public interface RecruitmentService {
 	List<Review> getMyRecruitmentReviews(int memberNo);
 
 	// 모집방 내용 상세 조회
-	Recruitment selectRecruitmentRoomDetail(int recruitmentNo, int boardNo);
+	Recruitment selectRecruitmentRoomDetail(int recruitmentNo, int boardNo, int memberNo);
+
+	// 모집글 작성
+	int createRecruitment(Recruitment dto, List<MultipartFile> images, int memberNo, String webPath, String filePath) throws Exception;
+
+	// 모집글 수정
+	int updateRecruitment(Map<String, Object> paramMap, List<MultipartFile> imageList) throws Exception;
+
+	// 참여 폼 제출
+	int participateRecruitment(int memberNo, int recruitmentNo, int myQuantity, int paymentAmount, int point) throws Exception;
+
+	// 현재 포인트 조회
+	int selectMemberPoint(int memberNo);
 
 }

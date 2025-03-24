@@ -118,9 +118,7 @@
     var map, geocoder, marker, infowindow;
     var selectedJibunAddr = ""; // 최종 선택된 지번주소
     
-    ////////////////////////////////////////////////////
     // 지도 초기화
-    ////////////////////////////////////////////////////
     function initMap() {
         var mapOption = {
             center: new kakao.maps.LatLng(37.566826, 126.9786567),
@@ -151,7 +149,7 @@
                     detailAddr += "<div>지번 주소 : " + jibun + "</div>";
     
                     var content = '<div class="bAddr">'
-                                + '<span class="title">법정동 주소정보</span>'
+                                + '<span class="title">주소정보</span>'
                                 + detailAddr
                                 + '</div>';
     
@@ -168,9 +166,7 @@
         });
     }
     
-    ////////////////////////////////////////////////////
     // "지도중심기준" 행정동 주소 표시
-    ////////////////////////////////////////////////////
     function displayCenterInfo(result, status) {
         if (status === kakao.maps.services.Status.OK) {
             var centerAddrEl = document.getElementById("centerAddr");
@@ -183,9 +179,7 @@
         }
     }
     
-    ////////////////////////////////////////////////////
     // 주소 검색
-    ////////////////////////////////////////////////////
     function doSearch() {
         var address = document.getElementById("addressInput").value.trim();
         if (!address) {

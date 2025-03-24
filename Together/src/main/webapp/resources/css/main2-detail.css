@@ -63,8 +63,10 @@ body {
 }
 
 .product img {
-    width: 100%;
-    height: auto;
+    width: 235px;
+    height: 313px;
+    object-fit: cover; /* 비율 유지하면서 박스를 꽉 채움 */
+    object-position: center; /* 중앙 기준으로 자르기 */
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;

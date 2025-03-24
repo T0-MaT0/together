@@ -146,5 +146,6 @@ public class RecruitmentController2 {
         return (result > 0) ? "success" : "fail";
     }
         
+ 
       
 }
