@@ -389,3 +389,72 @@ if (qaSection) {
   });
 
 }
+
+
+// review-page writeable
+
+const writableReviewsSection = document.getElementById("writable-reviews-section");
+
+if (writableReviewsSection) {
+  fetch("/mypage/getReview", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: memberNo
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    const reviewCount = document.getElementById("review-count");
+    const reviewContainer = document.getElementById("review-container");
+
+    writeableReview = data.filter( orderProduct => orderProduct.reviewNo == 0)
+    reviewCount.innerText = `리뷰 ${writeableReview.length}개`;
+
+    writeableReview.forEach(orderProduct => {
+      const reviewItem = document.createElement("div");
+      reviewItem.className = "review-item";
+      reviewContainer.appendChild(reviewItem);
+
+      const reviewLink = document.createElement("a");
+      reviewLink.href = `/board/${orderProduct.boardCode}/${orderProduct.boardNo}`;
+      reviewLink.className = "review-link";
+      reviewItem.appendChild(reviewLink);
+
+      const reviewImg = document.createElement("img");
+      reviewImg.src = orderProduct.imgPath;
+      reviewImg.alt = orderProduct.boardTitle;
+      reviewImg.className = "review-img";
+      reviewLink.appendChild(reviewImg);
+
+      const reviewInfo = document.createElement("div");
+      reviewInfo.className = "review-info";
+      reviewItem.appendChild(reviewInfo);
+
+      const reviewTitle = document.createElement("p");
+      reviewTitle.className = "review-title";
+      reviewTitle.innerHTML = `<a href="/board/${orderProduct.boardCode}/${orderProduct.boardNo}">${orderProduct.boardTitle}</a>`;
+      reviewInfo.appendChild(reviewTitle);
+
+      const reviewCategory = document.createElement("p");
+      reviewCategory.className = "review-category";
+      reviewCategory.innerText = orderProduct.boardContent;
+      reviewInfo.appendChild(reviewCategory);
+
+      const reviewDate = document.createElement("p");
+      reviewDate.className = "review-date";
+      reviewDate.innerText = "구매일자: " + orderProduct.purchaseDate.split(" ")[0];
+      reviewInfo.appendChild(reviewDate);
+
+      const writeReviewBtn = document.createElement("button");
+      writeReviewBtn.className = "write-review-btn";
+      writeReviewBtn.innerText = "리뷰쓰기";
+      writeReviewBtn.addEventListener("click", e => {
+        location.href = `/board/${orderProduct.boardCode}/${orderProduct.boardNo}?review=${orderProduct.reviewNo}#review`;
+      });
+      reviewItem.appendChild(writeReviewBtn);
+
+    });
+
+
+  });
+}

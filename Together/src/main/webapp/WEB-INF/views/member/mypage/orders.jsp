@@ -24,7 +24,7 @@
 
 		<div class="myinfo-content-wrapper">
 
-           <!-- 메인 콘텐츠 -->
+            <!-- 메인 콘텐츠 -->
             <section class="myinfo-main-content">
                 <section class="orders-section" id="orders-section">
                     <h2>주문 내역</h2>
@@ -62,39 +62,6 @@
                     </div>
                 </section>
                 
-                <section class="recruitment-section">
-                    <h2>모집 내역</h2>
-                    <div class="recruitment-container">
-                        <div class="recruitment-card closed">
-                            <a href="#" class="recruitment-link">
-                                <img src="water2.png" alt="물 24개 나눠실 분" class="recruitment-img">
-                                <span class="status-label closed">모집 중</span>
-                                <div class="recruitment-info">
-                                    <p class="recruitment-title">물 24개 나눠실 분</p>
-                                    <p class="recruitment-date">기간: -22.2.1</p>
-                                    <div class="progress-bar">
-                                        <div class="progress" style="width: 25%;"></div>
-                                    </div>
-                                    <p class="recruitment-participants">모집현황: 1/4</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="recruitment-card open">
-                            <a href="#" class="recruitment-link">
-                                <img src="water2.png" alt="물 24개 나눠실 분" class="recruitment-img">
-                                <span class="status-label open">모집 완료</span>
-                                <div class="recruitment-info">
-                                    <p class="recruitment-title">물 24개 나눠실 분</p>
-                                    <p class="recruitment-date">기간: -22.2.1</p>
-                                    <div class="progress-bar">
-                                        <div class="progress2" style="width: 100%;"></div>
-                                    </div>
-                                    <p class="recruitment-participants">모집현황: 4/4</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </section>
             </section>
         </div>
     </main>

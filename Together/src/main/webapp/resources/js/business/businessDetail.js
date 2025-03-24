@@ -374,24 +374,31 @@ const closeModal = e=>{
 };
 
 /* Q&A 링크 연결 */
-/* 문서 로딩 후 */
-
 
 setTimeout(()=>{
   const url = new URL(location.href);
   const getReplyNo = url.searchParams.get("qa");
   if (getReplyNo) {
-  myQNA.click();
-  setTimeout(()=>{
-    const area =  document.getElementById('replyListArea');
-    const replytds = area.getElementsByTagName('td');
-    Array.from(replytds).forEach(td => {
-      if (td.innerText == getReplyNo) {
-        td.nextElementSibling.nextElementSibling.click();
-      }
-    });
-  }, 1500);
-}} , 150);
+    myQNA.click();
+    setTimeout(()=>{
+      const area =  document.getElementById('replyListArea');
+      const replytds = area.getElementsByTagName('td');
+      Array.from(replytds).forEach(td => {
+        if (td.innerText == getReplyNo) {
+          td.nextElementSibling.nextElementSibling.click();
+        }
+      });
+    }, 1500);
+  }
+
+  const reviewNo = url.searchParams.get("review");
+  console.log(reviewNo);
+  if (reviewNo == 0) {
+    setTimeout(()=>{
+    openPopup('view');
+    }, 800);
+  }
+} , 150);
 
 
 
