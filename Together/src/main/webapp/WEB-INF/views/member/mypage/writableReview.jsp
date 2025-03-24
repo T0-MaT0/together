@@ -28,7 +28,7 @@
             <section class="myinfo-main-content">
                 <section class="writable-reviews-section" id="writable-reviews-section">
                     <h2 class="review-title">작성 가능한 리뷰</h2>
-                    <p class="review-count" id="review-count">리뷰 3개</p>
+                    <p class="review-count" id="review-count">리뷰 개</p>
                     <div class="review-container" id="review-container">
                     </div>
                 </section>

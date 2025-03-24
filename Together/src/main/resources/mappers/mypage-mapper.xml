@@ -87,7 +87,14 @@
 		<result property="businessNo" column="BUSINESS_NO" />
 
 		<result property="purchaseDate" column="PURCHASE_DATE" />
+		<!--    private String reviewContent;
+    private int reviewScore;
+    private String reviewDate; -->
 		<result property="reviewNo" column="REVIEW_NO" />
+		<result property="reviewContent" column="REVIEW_CONTENT" />
+		<result property="reviewScore" column="REVIEW_STAR" />
+		<result property="reviewDate" column="REVIEW_CREATED_DATE" />
+
 	</resultMap>
 
 
@@ -316,11 +323,11 @@
 	</select>
 
 	<select id="getReview" resultMap="product_rm">
-		SELECT BOARD_CD, BOARD_CONTENT, BOARD_NO, BOARD_TITLE, IMG_PATH || IMG_RENAME IMG_PATH, PURCHASE_DATE, REVIEW_NO
+		SELECT BOARD_CD, BOARD_CONTENT, BOARD_NO, BOARD_TITLE, IMG_PATH || IMG_RENAME IMG_PATH, PURCHASE_DATE, REVIEW_NO, REVIEW_CONTENT, REVIEW_CREATED_DATE, REVIEW_STAR
 		FROM (SELECT ORDER_NO, BOARD_NO
 			  FROM "ORDER"
 			  WHERE MEMBER_NO = ${memberNo})
-				 LEFT JOIN (SELECT REVIEW_NO, ORDER_NO
+				 LEFT JOIN (SELECT *
 							FROM REVIEW
 							WHERE REVIEW_DEL_FL = 'N')
 						   USING (ORDER_NO)

@@ -403,7 +403,6 @@ if (writableReviewsSection) {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data);
     const reviewCount = document.getElementById("review-count");
     const reviewContainer = document.getElementById("review-container");
 
@@ -454,6 +453,83 @@ if (writableReviewsSection) {
       reviewItem.appendChild(writeReviewBtn);
 
     });
+
+
+  });
+}
+
+// review-page written
+
+const writtenReviewsSection = document.getElementById("written-reviews-section");
+
+if (writtenReviewsSection) {
+  fetch("/mypage/getReview", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: memberNo
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    
+    const reviewCount = document.getElementById("review-count");
+    const reviewContainer = document.getElementById("review-container");
+
+    writtenReview = data.filter( orderProduct => orderProduct.reviewNo != 0)
+    reviewCount.innerText = `리뷰 ${writtenReview.length}개`;
+
+    writtenReview.forEach(orderProduct => {
+      const reviewItem = document.createElement("div");
+      reviewItem.className = "review-item";
+      reviewContainer.appendChild(reviewItem);
+
+      const reviewLink = document.createElement("a");
+      reviewLink.href = `/board/${orderProduct.boardCode}/${orderProduct.boardNo}`;
+      reviewLink.className = "review-link";
+      reviewItem.appendChild(reviewLink);
+
+      const reviewImg = document.createElement("img");
+      reviewImg.src = orderProduct.imgPath;
+      reviewImg.alt = orderProduct.boardTitle;
+      reviewImg.className = "review-img";
+      reviewLink.appendChild(reviewImg);
+
+      const reviewInfo = document.createElement("div");
+      reviewInfo.className = "review-info";
+      reviewItem.appendChild(reviewInfo);
+
+      const reviewTitle = document.createElement("p");
+      reviewTitle.className = "review-title";
+      reviewTitle.innerHTML = `<a href="/board/${orderProduct.boardCode}/${orderProduct.boardNo}">${orderProduct.boardTitle}</a>`;
+      reviewInfo.appendChild(reviewTitle);
+
+      const reviewCategory = document.createElement("p");
+      reviewCategory.className = "review-rating";
+      const score = orderProduct.reviewScore;
+      reviewCategory.innerText = "★".repeat(score) + "☆".repeat(5-score) +  " " + score;
+      reviewInfo.appendChild(reviewCategory);
+
+      const reviewDate = document.createElement("p");
+      reviewDate.className = "review-date";
+      reviewDate.innerText = "작성일자: " + orderProduct.reviewDate.split(" ")[0];
+      reviewInfo.appendChild(reviewDate);
+
+      const reviewContent = document.createElement("p");
+      reviewContent.className = "review-content";
+      reviewContent.innerText = orderProduct.reviewContent;
+      reviewInfo.appendChild(reviewContent);
+
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "edit-review-btn";
+      reviewBtn.innerText = "수정";
+      reviewBtn.addEventListener("click", e => {
+        location.href = `/board/${orderProduct.boardCode}/${orderProduct.boardNo}?review=${orderProduct.reviewNo}#review`;
+      });
+      reviewItem.appendChild(reviewBtn);
+
+    });
+
+
 
 
   });

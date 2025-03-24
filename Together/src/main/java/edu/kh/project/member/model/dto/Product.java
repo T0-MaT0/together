@@ -14,6 +14,11 @@ public class Product {
     private String category;
     private int categoryNo;
 
-    private int reviewNo;
     private String purchaseDate;
+
+    private int reviewNo;
+    private String reviewContent;
+    private int reviewScore;
+    private String reviewDate;
+
 }
