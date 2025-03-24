@@ -50,15 +50,26 @@ public class MemberController {
 	public String signUp2() {
 		return "member/signUp2";
 	}
-	// 아이디 찾기 화면 이동
+	// 개인 아이디 찾기 화면 이동
 	@GetMapping("/findId")
 	public String findId() {
 		return "member/findId";
 	}
-	// 비밀번호 찾기 화면 이동
+	
+	// 기업 아이디 찾기 화면 이동
+	@GetMapping("/findId2")
+	public String findId2() {
+		return "member/findId2";
+	}
+	// 개인 비밀번호 찾기 화면 이동
 	@GetMapping("/findPw")
 	public String findPw() {
 		return "member/findPw";
+	}
+	// 기업 비밀번호 찾기 화면 이동
+	@GetMapping("/findPw2")
+	public String findPw2() {
+		return "member/findPw2";
 	}
 	
 	// 비밀번호 변경 화면 이동
@@ -75,7 +86,7 @@ public class MemberController {
 			, @RequestHeader(value="referer") String referer
 			, @RequestParam(value="saveId", required=false) String saveId
 			, HttpServletResponse resp
-			, RedirectAttributes ra) {
+			, RedirectAttributes ra, HttpSession session) {
 
 		System.out.println("inputMember: " + inputMember);
 		Member loginMember = service.login(inputMember);
@@ -88,6 +99,7 @@ public class MemberController {
 			path += "/";
 			
 			model.addAttribute("loginMember", loginMember);
+			session.setAttribute("loginType", "default");
 			
 			Cookie cookie = new Cookie("saveId", loginMember.getMemberId());
 			if(saveId != null) { 
@@ -108,13 +120,27 @@ public class MemberController {
 	
 	// 로그아웃
 	@GetMapping("/logout")
-	public String logout(SessionStatus status, HttpSession session,
-			RedirectAttributes ra) {
-		
-		status.setComplete();
-	
-		return "redirect:/";
+	public String logout(SessionStatus status, HttpSession session, RedirectAttributes ra) {
+	    String loginType = (String) session.getAttribute("loginType");
+
+	   
+
+	    // 카카오 로그인인 경우 카카오 로그아웃 URL로 리다이렉트
+	    if ("kakao".equals(loginType)) {
+	        String kakaoLogoutUrl = "https://kauth.kakao.com/oauth/logout" +
+	                "?client_id=e676fa2ec68895d32e1d6e251f7e9e52" +
+	                "&logout_redirect_uri=http://localhost/"; // 또는 로그인 페이지
+	        return "redirect:" + kakaoLogoutUrl;
+	    }
+	    
+	    // 세션 정리
+	    status.setComplete();
+	    session.invalidate();
+
+	    return "redirect:/";
 	}
+
+	
 	
 	// 개인 회원 가입 진행 
 	@PostMapping("/signUp1")
@@ -189,7 +215,17 @@ public class MemberController {
 
 		model.addAttribute("findMember", findMember);
 		
-		return "member/findIdResult";
+		String path = "";
+		
+		if(inputMember.getAuthority() == 2) {
+			path = "member/findIdResult";
+		}
+		if(inputMember.getAuthority() == 3) {
+			path = "member/findIdResult2";
+			
+		}
+		return path;
+			
 	}
 
 	// 개인 패스워드 재설정을 위한 확인

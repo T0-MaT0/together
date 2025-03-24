@@ -30,7 +30,7 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender mailSender;
     
     private String fromEmail = "0311jes@gmail.com";
-    private String fromUsername = "수업용프로젝트";
+    private String fromUsername = "Together";
 
 
     @Override
@@ -64,7 +64,7 @@ public class EmailServiceImpl implements EmailService {
     }
 
 
-    @Transactional
+    //@Transactional
     @Override
     public int signUp(String email, String title) {
         
@@ -77,14 +77,14 @@ public class EmailServiceImpl implements EmailService {
             MimeMessage mail = mailSender.createMimeMessage();
             
             // 제목
-            String subject = "[Board Project]"+title+" 인증코드";
+            String subject = "Together 공동구매 사이트의 "+title+" 인증코드";
             
             // 문자 인코딩
             String charset = "UTF-8";
             
             // 메일 내용
             String mailContent 
-                = "<p>Board Project "+title+" 인증코드입니다.</p>"
+                = "<p>Together 공동구매 사이트의 "+title+" 인증코드입니다.</p>"
                 + "<h3 style='color:blue'>" + authKey + "</h3>";
             
             

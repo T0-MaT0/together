@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>개인아이디찾기폼</title>
+    <title>개인 아이디 찾기</title>
     <link rel="stylesheet" href="/resources/css/member/find-id-style.css">
 </head>
 <body>
@@ -34,8 +34,9 @@
                 <div id="email-check-area" class="input-area area-last">
                     <label for="emailCheck">인증 번호</label>
                     <input type="text" name="emailCheck" id="emailCheck">
+                    <button id="checkAuthKeyBtn" type="button">인증번호 확인</button>
                 </div>
-                <button id="findIdBtn">인증 확인</button>
+                <button id="findIdBtn">아이디 확인</button>
             </form>
         </div>
     </section>

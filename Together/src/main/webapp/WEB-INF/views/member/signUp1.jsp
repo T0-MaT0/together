@@ -29,6 +29,7 @@
             <div id="pink-box">
 
                 <input type="hidden" name="authority" id="authority-input" value="2">
+                <input type="hidden" name="profileImg" value="${profileImg}">
 
             
                 <div id="ps-notice"><span class="required">★</span> 는 필수입력사항 입니다</div>
@@ -84,13 +85,15 @@
                 </div>
                 <span class="signUp-message" id="birthMessage"></span>
         
+
+                <input type="hidden" id="isKakao" value="${not empty kakaoEmail}">
         
                 <label for="memberEmail">
                     <span class="required">★</span> 이메일
                 </label>
                 <div class="signUp-input-area button-relative-area">
                     <input type="text" name="memberEmail" id="memberEmail"
-                    placeholder="인증받을 이메일을 입력" maxlength="30" autocomplete="off">
+                    placeholder="인증받을 이메일을 입력" maxlength="30" autocomplete="off" value="${kakaoEmail}">
                    
                     <button id="sendAuthKeyBtn" type="button">인증번호 전송</button>
                 </div>

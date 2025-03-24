@@ -1,42 +1,61 @@
 console.log('main.js');
 
-const loginFrm = document.getElementById("loginFrm");
+/* const KaApiKey = KAKAO_API_KEY;
+      //2. 카카오 초기화
+      Kakao.init(KaApiKey);
+      Kakao.isInitialized();
+      //3. 카카오로그인 코드 확인
+      function loginWithKakao() {
+        Kakao.Auth.login({
+          success: function (authObj) {
+            console.log(authObj); //access토큰 값
+            Kakao.Auth.setAccessToken(authObj.access_token); //access 토큰 값 저장
+            getInfo();
+          },
+          fail: function (err) {
+            console.log(err);
+          },
+        });
+      }
+      //4. 엑세스 토큰을 발급받고, 아래 함수를 호출시켜 사용자 정보 받아옴.
+      function getInfo() {
+        Kakao.API.request({
+          url: "/v2/user/me",
+          success: function (res) {
+            console.log(res);
+            var id = res.id;
+            var profile_nickname = res.kakao_account.profile.nickname;
+            localStorage.setItem("nickname", profile_nickname);
+            localStorage.setItem("id", id);
+            console.log(profile_nickname);
+            console.log(id);
+          },
+          fail: function (error) {
+            alert("카카오 로그인 실패" + JSON.stringify(error));
+          },
+        });
+      }
 
-const memberId = document.getElementsByName("memberId")[0];
-const memberPw = document.getElementsByName("memberPw")[0];
-
-if(loginFrm != null){
-    // 로그인 시도를 할 때
-    loginFrm.addEventListener("submit", e => {
-        // 아이디가 입력되지 않은 경우
-        if(memberId.value.trim() == ""){
-
-            alert("아이디를 입력해주세요");
-            e.preventDefault(); // 제출 못하게 막기
-            memberId.focus(); // 아이디 input 태그에 초점 맞추기
-            memberId.value = ""; // 잘못 입력된 값 제거
-            return; 
-
+      //5.로그아웃 기능 - 카카오 서버에 접속하는 액세스 토큰을 만료 시킨다.
+      function kakaoLogOut() {
+        if (!Kakao.Auth.getAccessToken()) {
+          alert("로그인을 먼저 하세요.");
+          return;
         }
-        // 비밀번호가 입력되지 않은 경우
-        if(memberPw.value.trim().length == 0){
-
-            alert("비밀번호를 입력해주세요");
-            e.preventDefault(); // 제출 못하게 막기
-            memberPw.focus(); // 비밀번호 input 태그에 초점 맞추기
-            memberPw.value = ""; // 잘못 입력된 값 제거
-
-    
-        }
-
-        
-    })
-}
+        Kakao.Auth.logout(function () {
+          alert("로그아웃" + Kakao.Auth.getAccessToken());
+        });
+      } */
 document.addEventListener("DOMContentLoaded", function () {
     const memberTypes = document.querySelectorAll(".member-type");
     const authorityInput = document.getElementById("authority-input");
     const goToSignUp = document.getElementById("goToSignUp");
     const underLine = document.getElementById("underLine");
+    const findId = document.getElementById("find-id");
+    const findPw = document.getElementById("find-pw");
+
+    console.log("findId: ", findId); 
+    console.log("findPw: ", findPw); 
   
     
   
@@ -54,6 +73,8 @@ document.addEventListener("DOMContentLoaded", function () {
           goToSignUp.classList.remove("company");
           goToSignUp.innerText ="개인 회원가입";
           goToSignUp.href = "/member/signUp1";
+          findId.href = "/member/findId";
+          findPw.href = "/member/findPw";
           underLine.classList.add("personal-line");
           underLine.classList.remove("company-line");
         } else if (selectedType === "company") {
@@ -62,6 +83,8 @@ document.addEventListener("DOMContentLoaded", function () {
           goToSignUp.classList.remove("personal");
           goToSignUp.innerText ="기업 회원가입";
           goToSignUp.href = "/member/signUp2";
+          findId.href = "/member/findId2";
+          findPw.href = "/member/findPw2";
           underLine.classList.add("company-line");
           underLine.classList.remove("personal-line");
 

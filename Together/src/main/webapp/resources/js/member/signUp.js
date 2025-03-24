@@ -193,10 +193,52 @@ memberBirth.addEventListener("input", function () {
 // -----------------------------------------------------------------------
 // 이메일 유효성 검사
 
+
+
+const isKakao = document.getElementById("isKakao").value === 'true';
+
+if (isKakao) {
+  checkObj.memberEmail = true;
+  checkObj.emailAuthKey = true;
+
+  // 메시지도 자동으로 보여주기
+  const emailMessage = document.getElementById("emailMessage");
+  const authKeyMessage = document.getElementById("authKeyMessage");
+
+  if (emailMessage) {
+    emailMessage.innerText = "카카오 로그인으로 제공된 이메일입니다.";
+    emailMessage.classList.add("confirm");
+    emailMessage.classList.remove("error");
+  }
+
+  if (authKeyMessage) {
+    authKeyMessage.innerText = "카카오 이메일로 인증이 완료되었습니다.";
+    authKeyMessage.classList.add("confirm");
+    authKeyMessage.classList.remove("error");
+  }
+
+  // 버튼 비활성화
+  const sendBtn = document.getElementById("sendAuthKeyBtn");
+  const checkBtn = document.getElementById("checkAuthKeyBtn");
+
+  if (sendBtn) sendBtn.disabled = true;
+  if (checkBtn) checkBtn.disabled = true;
+
+  // 입력창도 비활성화 하고 싶다면 아래도 추가
+  const emailInput = document.getElementById("memberEmail");
+  const authInput = document.getElementById("authKey");
+
+  if (emailInput) emailInput.readOnly = true;
+  if (authInput) authInput.readOnly = true;
+}
+
 const memberEmail = document.getElementById("memberEmail");
 const emailMessage = document.getElementById("emailMessage");
 
+
+
 memberEmail.addEventListener("input", function () {
+
 
     // 이메일 미 작성시
     if (memberEmail.value.trim().length == 0) {
@@ -257,7 +299,11 @@ let authSec = 59;
 let tempEmail;
 
 
+
+
+
 sendAuthKeyBtn.addEventListener("click", function(){
+
     authMin = 4;
     authSec = 59;
     checkObj.emailAuthKey = false;
@@ -328,6 +374,8 @@ const checkAuthKeyBtn = document.getElementById("checkAuthKeyBtn");
 
 
 checkAuthKeyBtn.addEventListener("click", function(){
+
+    
 
 
     if(authMin > 0 || authSec > 0){ // 시간 제한이 지나지 않은 경우에만 인증번호 검사 진행
@@ -497,71 +545,67 @@ userdataPsAgree.addEventListener("input", validateAgreeInputs);
 
 const businessNo = document.getElementById("businessNo");
 const businessNoMessage = document.getElementById("businessNoMessage");
+const checkBusinessNo = document.getElementById("checkBusinessNo");
+const API_KEY = "OJHc%2FsWDsh6Hq%2FHcKyfppPofML2rAGSbolDE61PqJD%2FMeo4OMIMioMn2k8fYC6DhrZtc8ywIA9EDNq%2FV5V4gBA%3D%3D";
 
-// 둘다 널이 아닐때만 
-if (businessNo && businessNoMessage) {
-    businessNo.addEventListener("input", function () {
-         // 사업자 등록번호 미작성 시
-         if (businessNo.value.trim().length === 0) {
+if (businessNo && businessNoMessage && checkBusinessNo) {
+
+    checkBusinessNo.addEventListener("click", function () {
+        const number = businessNo.value.trim();
+
+        // 입력 안 했을 때
+        if (number.length === 0) {
+            businessNoMessage.innerText = "사업자 등록번호를 입력해주세요.";
+            businessNoMessage.classList.add("error");
+            businessNoMessage.classList.remove("confirm");
             checkObjCompany.businessNo = false;
-            businessNoMessage.innerText = "";
-            businessNoMessage.classList.remove("error", "confirm");
             return;
         }
-    
-        // 숫자 10자리 정규식 (하이픈 없이 숫자만)
+
+        // 형식 확인 (숫자 10자리)
         const regExp = /^\d{10}$/;
-    
-        if (!regExp.test(businessNo.value.trim())) {
-            businessNoMessage.innerText = "유효하지 않은 사업자등록번호입니다.";
-            checkObjCompany.businessNo = false;
+        if (!regExp.test(number)) {
+            businessNoMessage.innerText = "10자리 숫자만 입력해주세요.";
             businessNoMessage.classList.add("error");
             businessNoMessage.classList.remove("confirm");
+            checkObjCompany.businessNo = false;
             return;
         }
 
-        checkObjCompany.businessNo = true;
-        businessNoMessage.innerText = "유효한 사업자등록번호입니다.";
-        checkObjCompany.businessNo = true;
-        businessNoMessage.classList.add("confirm");
-        businessNoMessage.classList.remove("error");
-    
-        /* // 사업자등록번호 유효성 검사는 단순한 검증 알고리즘
-        function isValidBusinessNumber(bno) {
-        
-            const checkSum = [1, 3, 7, 1, 3, 7, 1, 3];
-            let sum = 0;
-        
-            for (let i = 0; i < 8; i++) {
-                sum += parseInt(bno[i], 10) * checkSum[i];
-            }
-        
-            // 9번째 자리는 (bno[8] * 5)의 각 자리 더하기
-            const temp = parseInt(bno[8], 10) * 5;
-            sum += Math.floor(temp / 10) + (temp % 10);
-        
-            const checkDigit = (10 - (sum % 10)) % 10;
-        
-            return checkDigit === parseInt(bno[9], 10);
-        }
-    
-        // 카카오 2148884194 
-        // 국세청에 실제 등록된 번호는 가끔 검증공식과 다르게 등록된 예외 케이스가 존재
-        if (isValidBusinessNumber(businessNo.value.trim())) {
-            
-            businessNoMessage.innerText = "사업자 등록번호가 유효합니다.";
-            checkObjCompany.businessNo = true;
-            businessNoMessage.classList.add("confirm");
-            businessNoMessage.classList.remove("error");
-        } else {
-            console.log(businessNo.value.trim());
-            businessNoMessage.innerText = "사업자 등록번호가 유효하지 않습니다.";
-            checkObjCompany.businessNo = false;
-            businessNoMessage.classList.add("error");
-            businessNoMessage.classList.remove("confirm");
-        } */
-    });
+        // API 요청
+        const data = { b_no: [number] };
 
+        $.ajax({
+            url: `https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=${API_KEY}`,
+            type: "POST",
+            data: JSON.stringify(data),
+            dataType: "json",
+            traditional: true,
+            contentType: "application/json; charset=UTF-8",
+            success: function(result) {
+                console.log("결과:", result);
+                if (result.match_cnt === 1) {
+                    businessNoMessage.innerText = "유효한 사업자등록번호입니다.";
+                    businessNoMessage.classList.add("confirm");
+                    businessNoMessage.classList.remove("error");
+                    checkObjCompany.businessNo = true;
+                } else {
+                    businessNoMessage.innerText = "유효하지 않은 사업자등록번호입니다.";
+                    businessNoMessage.classList.add("error");
+                    businessNoMessage.classList.remove("confirm");
+                    checkObjCompany.businessNo = false;
+                }
+            },
+            error: function(xhr) {
+                console.error("에러 발생:", xhr.responseText);
+                businessNoMessage.innerText = "사업자 번호 확인 중 오류가 발생했습니다.";
+                businessNoMessage.classList.add("error");
+                businessNoMessage.classList.remove("confirm");
+                checkObjCompany.businessNo = false;
+            }
+        });
+
+    });
 }
 
 const bankName = document.getElementById("bankName");
@@ -614,6 +658,9 @@ function validateBankInfo() {
 if (bankNo) { bankNo.addEventListener("input", validateBankInfo)}
 
 if (bankName) { bankName.addEventListener("change", validateBankInfo)}
+
+// ---------------------------------------------------------------------------------------
+
 
 
 

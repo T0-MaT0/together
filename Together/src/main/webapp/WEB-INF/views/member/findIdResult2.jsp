@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>개인 아이디 결과</title>
+    <title>기업 아이디 결과</title>
     <link rel="stylesheet" href="/resources/css/member/find-id-style.css">
 </head>
 <body>
@@ -13,8 +13,8 @@
     <section class="find-container">
         <div id="title">개인 회원 아이디 찾기</div>
         <div class="find-button-section">
-            <div id="find-id-section" class="yes-click" onclick="location.href='/member/findId'">아이디 찾기</div>
-            <div id="find-pw-section" class="no-click" onclick="location.href='/member/findPw'">비밀번호 찾기</div>
+            <div id="find-id-section" class="yes-click" onclick="location.href='/member/findId2'">아이디 찾기</div>
+            <div id="find-pw-section" class="no-click-company" onclick="location.href='/member/findPw2'">비밀번호 찾기</div>
         </div>
         <div class="find-content">
             <c:choose>

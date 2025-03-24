@@ -51,7 +51,7 @@
                     <span> | </span>
                     <a href="#">리뷰 후기</a>
                     <span> | </span>
-                    <a href="#">고객 센터</a>
+                    <a href="/customer/customerMain">고객 센터</a>
                 </c:otherwise>
             </c:choose>
         </div>
