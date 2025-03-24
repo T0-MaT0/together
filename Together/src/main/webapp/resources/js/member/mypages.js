@@ -78,7 +78,7 @@ if (wishlistSection) {
 
     });
 
-};
+}
 
 
 function makeItem(list = [], wishlistItems) {
@@ -308,34 +308,84 @@ if (recruitmentSection) {
 }
 
 
-/*
+// QnA-page
 
-/* 내 질문 */
-SELECT * 
-FROM REPLY 
-WHERE REPLY_TYPE = 1
-AND MEMBER_NO = 9;
+const qaSection = document.getElementById("qa-section");
 
-/* 내 답변 */
-SELECT R.*
-FROM (
-	SELECT PARENT_REPLY_NO 
-	FROM REPLY 
-	WHERE REPLY_TYPE = 1
-	AND PARENT_REPLY_NO IS NOT NULL
-) P JOIN REPLY R ON P.PARENT_REPLY_NO = R.REPLY_NO 
-WHERE MEMBER_NO = 11;
+if (qaSection) {
+  const qaContainer = document.getElementById("qa-container");
 
-/* 나에게 온 질문 */
+  fetch("/mypage/getQnA", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: memberNo
+  })
+  .then(response => response.json())
+  .then(data => {
+    
+    data.forEach(qa => {
+      const qaItem = document.createElement("div");
+      qaItem.className = "qa-item";
+      qaContainer.appendChild(qaItem);
 
-SELECT *
-FROM (
-	SELECT BOARD_NO 
-	FROM BOARD 
-	WHERE MEMBER_NO = 4
-	AND BOARD_CD = 2
-) 
-JOIN REPLY ON BOARD_NO = REPLY_TYPE_NO ;
+      const qaLink = document.createElement("a");
+      qaLink.href = `/board/2/${qa.boardNo}`;
+      qaLink.className = "qa-link";
+      qaItem.appendChild(qaLink);
 
+      const qaImg = document.createElement("img");
+      qaImg.src = qa.thumbnail;
+      qaImg.alt = qa.boardTitle;
+      qaImg.className = "qa-img";
+      qaLink.appendChild(qaImg);
 
- */
+      const qaInfo = document.createElement("div");
+      qaInfo.className = "qa-info";
+      qaItem.appendChild(qaInfo);
+
+      const qaTitle = document.createElement("p");
+      qaTitle.className = "qa-title";
+      qaTitle.innerHTML = `<a href="/board/2/${qa.boardNo}">${qa.boardTitle}</a>`;
+      qaInfo.appendChild(qaTitle);
+
+      const qaCategory = document.createElement("p");
+      qaCategory.className = "qa-category";
+      qaCategory.innerText = "문의사항: " + qa.replyContent;
+      qaInfo.appendChild(qaCategory);
+
+      const qaAnswers = document.createElement("p");
+      qaAnswers.className = "qa-answers";
+
+      qaAnswers.innerText = "답변수: " + qa.parentNo == 0 ? 0 : 1 + "개";
+      qaInfo.appendChild(qaAnswers);
+
+      const qaBtn = document.createElement("button");
+      qaBtn.className = "qa-btn";
+      qaBtn.innerText = "상세조회";
+
+      qaBtn.addEventListener("click", e => {
+        location.href = `/board/2/${qa.boardNo}?qa=${qa.replyNo}`;
+      });
+
+      qaInfo.appendChild(qaBtn);
+
+    });
+
+    if (data.length === 0) {
+      const qaItem = document.createElement("div");
+      qaItem.className = "qa-item";
+      qaContainer.appendChild(qaItem);
+
+      const qaInfo = document.createElement("div");
+      qaInfo.className = "qa-info";
+      qaItem.appendChild(qaInfo);
+
+      const qaTitle = document.createElement("p");
+      qaTitle.className = "qa-title";
+      qaTitle.innerText = "문의 내역이 없습니다.";
+      qaInfo.appendChild(qaTitle);
+    }
+
+  });
+
+}

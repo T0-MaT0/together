@@ -1,6 +1,7 @@
 package edu.kh.project.member.model.dao;
 
 
+import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.member.model.dto.Brand;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
@@ -34,5 +35,9 @@ public class MypageDAO {
 
     public List<Brand> pickBrand(int memberNo) {
         return sqlSession.selectList("mypageMapper.pickBrand", memberNo);
+    }
+
+    public List<Reply> getQnA(int memberNo) {
+        return sqlSession.selectList("mypageMapper.getQnA", memberNo);
     }
 }
