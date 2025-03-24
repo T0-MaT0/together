@@ -277,11 +277,11 @@ if (favoriteStoresSection) {
 
 }
 
-// orders-page + recruitment-page
+// orders-page
 const ordersSection = document.getElementById("orders-section");
 
 if (ordersSection) {
-  fetch("/mypage/purchaseHistoryOrders", {
+  fetch("/mypage/purchaseHistory", {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: memberNo
@@ -289,23 +289,64 @@ if (ordersSection) {
   .then(response => response.json())
   .then(data => {
     console.log(data);
+    const orderList = document.getElementById("order-list");
+
+    data.forEach(order => {
+      const orderItem = document.createElement("div");
+      orderItem.className = "order-item";
+      orderList.appendChild(orderItem);
+
+      const orderLeft = document.createElement("div");
+      orderLeft.className = "order-left";
+      orderItem.appendChild(orderLeft);
+
+      const orderImg = document.createElement("img");
+      orderImg.src = order.imgPath;
+      orderImg.alt = order.boardTitle;
+      orderImg.className = "order-img";
+      orderLeft.appendChild(orderImg);
+
+      const orderInfo = document.createElement("div");
+      orderInfo.className = "order-info";
+      orderItem.appendChild(orderInfo);
+
+      const orderTitle = document.createElement("p");
+      orderTitle.className = "order-title";
+      orderTitle.innerText = order.orderStatus;
+      orderInfo.appendChild(orderTitle);
+
+      const orderDesc = document.createElement("p");
+      orderDesc.className = "order-desc";
+      orderDesc.innerText = order.boardTitle + " " + order.quantity + "개";
+      orderInfo.appendChild(orderDesc);
+
+      const orderPrice = document.createElement("p");
+      orderPrice.className = "order-price";
+      orderPrice.innerText = order.price + "원";
+      orderInfo.appendChild(orderPrice);
+
+      const orderDetail = document.createElement("p");
+      orderDetail.className = "order-detail";
+      orderDetail.innerHTML = `<a href="/board/${order.boardCode}/${order.boardNo}">상세보기</a>`;
+      orderInfo.appendChild(orderDetail);
+
+      const orderActions = document.createElement("div");
+      orderActions.className = "order-actions";
+      orderItem.appendChild(orderActions);
+
+      const reorderBtn = document.createElement("button");
+      reorderBtn.className = "reorder-btn";
+      reorderBtn.innerText = "재구매";
+      reorderBtn.addEventListener("click", e => {
+        location.href = `/board/${order.boardCode}/${order.boardNo}`;
+      });
+      orderActions.appendChild(reorderBtn);
+
+    });
   });
-}
+};
 
 
-const recruitmentSection = document.getElementById("recruitment-section");
-
-if (recruitmentSection) {
-  fetch("/mypage/purchaseHistoryRecruitment", {
-    method: "post",
-    headers: { "Content-Type": "application/json" },
-    body: memberNo
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-  });
-}
 
 
 // QnA-page
@@ -528,9 +569,6 @@ if (writtenReviewsSection) {
       reviewItem.appendChild(reviewBtn);
 
     });
-
-
-
 
   });
 }
