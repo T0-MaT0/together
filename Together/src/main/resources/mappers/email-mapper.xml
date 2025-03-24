@@ -5,15 +5,15 @@
 
 	<update id="updateAuthKey">
 		UPDATE "AUTH_KEY" SET
-		CODE = #{authkey},
+		CODE = #{authKey},
 		CREATE_TIME = sysdate
 		WHERE EMAIL = #{email}
 	</update>
 	<insert id="insertAuthKey">
 		INSERT INTO "AUTH_KEY"
-		VALUES(SEQ_AUTH_KEY_NO.NEXTVAL, #{authkey}, #{email}, DEFAULT)
+		VALUES(SEQ_AUTH_KEY_NO.NEXTVAL, #{authKey}, #{email}, DEFAULT)
 	</insert>
-	<select id="checkAuthKey">
+	<select id="checkAuthKey" resultType="_int">
 		SELECT COUNT(*) FROM "AUTH_KEY"
 		WHERE EMAIL = #{email}
 		AND CODE = #{inputKey}

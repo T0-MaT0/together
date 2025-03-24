@@ -54,6 +54,13 @@ public interface MemberService {
 	 * @return
 	 */
 	int WriteBoardCheckPw(Map<String, String> paramMap);
+
+
+	/** 카카오 로그인시 회원 조회
+	 * @param memberEmail
+	 * @return
+	 */
+	Member kakaoLogin(String memberEmail);
 	
 
 }

@@ -63,5 +63,5 @@
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
     <script src="/resources/js/customer/noticeBoardDetail.js"></script>
-  </body>
+100  </body>
 </html>

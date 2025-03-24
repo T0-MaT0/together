@@ -65,11 +65,12 @@
                     </div>
                     <div class="font-12" id="sns-login">SNS 간편 로그인</div>
                     <div>
-                        <div id="kakao-login">
-                            <img src="../images/kakao3.png" alt="" id="kakao-logo">
-                            카카오 로그인
-                        </div>
+                        <a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=e676fa2ec68895d32e1d6e251f7e9e52&redirect_uri=http://localhost/oauth/kakao/callback">
+                            <img src="https://k.kakaocdn.net/14/dn/btroDszwNrM/I6efHub1SN5KCJqLm1Ovx1/o.jpg" width="222"
+                              alt="카카오 로그인 버튼" />
+                        </a>
                     </div>
+                    
                     <div>
     
                         <div id="google-login">
@@ -83,6 +84,24 @@
 
     </section>
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
+        integrity="sha384-DKYJZ8NLiK8MN4/C5P2dtSmLQ4KwPaoqAfyA/DfmEc1VDxu4yyC7wy6K1Hs90nka" crossorigin="anonymous">
+    </script>
+    <script>
+        // SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해야 합니다.
+        Kakao.init('efdd7f45ec098947ea2438da84753e8f'); 
+        // SDK 초기화 여부를 판단합니다.
+        console.log(Kakao.isInitialized());
+        console.log("되는지 확인");
+
+        function loginWithKakao() {
+            Kakao.Auth.authorize({
+            redirectUri: 'http://localhost/member/login/kakao',
+            });
+        }
+
+    </script>
     
     <script src="/resources/js/member/login.js"></script>
 </body>

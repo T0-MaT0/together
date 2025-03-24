@@ -127,6 +127,11 @@ public class MemberServiceImpl implements MemberService{
 		
 		return result;
 	}
+
+	@Override
+	public Member kakaoLogin(String memberEmail) {
+		return dao.kakaoLogin(memberEmail);
+	}
 	
 
 }

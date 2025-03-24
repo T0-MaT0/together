@@ -45,5 +45,9 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.WriteBoardCheckPw", paramMap);
 	}
 
+	public Member kakaoLogin(String memberEmail) {
+		return sqlSession.selectOne("memberMapper.kakaoLogin", memberEmail);
+	}
+
 
 }

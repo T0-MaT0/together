@@ -83,6 +83,8 @@
                     placeholder="생년월일 8자리 입력" maxlength="20" >
                 </div>
                 <span class="signUp-message" id="birthMessage"></span>
+
+                <input type="hidden" id="isKakao" value="${not empty kakaoEmail}">
         
         
                 <label for="memberEmail">
@@ -90,7 +92,7 @@
                 </label>
                 <div class="signUp-input-area button-relative-area">
                     <input type="text" name="memberEmail" id="memberEmail"
-                    placeholder="인증받을 이메일을 입력" maxlength="30" autocomplete="off">
+                    placeholder="인증받을 이메일을 입력" maxlength="30" autocomplete="off" value="${kakaoEmail}">
                    
                     <button id="sendAuthKeyBtn" type="button">인증번호 전송</button>
                 </div>
@@ -247,6 +249,8 @@
     </div>
     
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script src="/resources/js/member/signUp.js"></script>
 
