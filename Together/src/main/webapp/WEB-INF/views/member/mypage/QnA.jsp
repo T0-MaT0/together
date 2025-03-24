@@ -26,45 +26,10 @@
 
             <!-- 메인 콘텐츠 -->
             <section class="myinfo-main-content">
-                <section class="qa-section">
+                <section class="qa-section" id="qa-section">
                     <h2 class="qa-title">Q&A</h2>
-                    <p class="qa-count">최근 3개월동안의 내역 제공됩니다.</p>
-                    <div class="qa-container">
-                        <div class="qa-item">
-                            <a href="#" class="qa-link">
-                                <img src="로쉐.png" alt="초콜릿" class="qa-img">
-                            </a>
-                            <div class="qa-info">
-                                <p class="qa-title"><a href="#">[스마트스토어] 프리미엄 로쉐 초콜릿</a></p>
-                                <p class="qa-category">카테고리: 초콜릿 바</p>
-                                <p class="qa-answers">답변수: 2개</p>
-                                <button class="qa-btn">답변 보기</button>
-                            </div>
-                        </div>
-                        
-                        <div class="qa-item">
-                            <a href="#" class="qa-link">
-                                <img src="로쉐.png" alt="초콜릿" class="qa-img">
-                            </a>
-                            <div class="qa-info">
-                                <p class="qa-title"><a href="#">[스마트스토어] 프리미엄 로쉐 초콜릿</a></p>
-                                <p class="qa-category">카테고리: 초콜릿 바</p>
-                                <p class="qa-answers">답변수: 3개</p>
-                                <button class="qa-btn">답변 보기</button>
-                            </div>
-                        </div>
-                        
-                        <div class="qa-item">
-                            <a href="#" class="qa-link">
-                                <img src="로쉐.png" alt="초콜릿" class="qa-img">
-                            </a>
-                            <div class="qa-info">
-                                <p class="qa-title"><a href="#">[스마트스토어] 프리미엄 로쉐 초콜릿</a></p>
-                                <p class="qa-category">카테고리: 초콜릿 바</p>
-                                <p class="qa-answers">답변수: 1개</p>
-                                <button class="qa-btn">답변 보기</button>
-                            </div>
-                        </div>
+                    <p class="qa-count">현재까지 회원님의 Q&A 내역입니다.</p>
+                    <div class="qa-container" id="qa-container">
                     </div>
                 </section>
             </section>
