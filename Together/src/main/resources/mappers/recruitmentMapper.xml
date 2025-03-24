@@ -473,4 +473,258 @@
 	    WHERE REPLY_NO = #{replyNo}
 	    AND MEMBER_NO = #{memberNo}
 	</update>
+	
+	<!-- 게시글 작성(board) -->
+	<insert id="insertBoard">
+    <!-- 게시글 번호(BOARD_NO) 시퀀스로 발급 -->
+    <selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+        SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
+    </selectKey>
+    
+	    INSERT INTO BOARD (
+	        BOARD_NO, 
+	        BOARD_TITLE, 
+	        BOARD_CONTENT, 
+	        MEMBER_NO, 
+	        BOARD_CD, 
+	        BOARD_DEL_FL, 
+	        B_CREATE_DATE
+	    ) VALUES (
+	        #{boardNo},
+	        #{boardTitle},
+	        #{boardContent},
+	        #{memberNo},
+	        #{boardCd},
+	        'N',        
+	        SYSDATE     
+	    )
+	</insert>
+	
+	<!-- 게시글 작성(product) -->
+	<insert id="insertProduct">
+	    INSERT INTO PRODUCT (
+	        BOARD_NO, 
+	        PRODUCT_PRICE, 
+	        PRODUCT_COUNT, 
+	        DELIVERY_FEE, 
+	        READ_COUNT, 
+	        CATEGORY_NO
+	    ) VALUES (
+	        #{boardNo},
+	        #{productPrice},
+	        #{productCount},
+	        #{deliveryFee},
+	        0,              -- 초기 조회수 0
+	        #{categoryNo}
+	    )
+	</insert>
+	
+	<!-- 게시글 작성(recruitment) -->
+	<insert id="insertRoom">
+    <!-- 모집방 번호(RECRUITMENT_NO) 시퀀스로 발급 -->
+    <selectKey keyProperty="recruitmentNo" resultType="int" order="BEFORE">
+        SELECT SEQ_RECRUITMENT_NO.NEXTVAL FROM DUAL
+    </selectKey>
+    
+	    INSERT INTO RECRUITMENT_ROOM (
+	        RECRUITMENT_NO, 
+	        MAX_PARTICIPANTS, 
+	        RECRUITMENT_STATUS, 
+	        REC_CREATED_DATE, 
+	        REC_END_DATE,
+	        REGION,
+	        PRODUCT_URL,
+	        QR_CODE,
+	        MEMBER_NO,
+	        BOARD_NO
+	    ) VALUES (
+	        #{recruitmentNo},
+	        #{maxParticipants},
+	        '진행',          -- 기본값
+	        SYSDATE,         -- 생성일
+	        TO_DATE(#{recEndDate}, 'YYYY-MM-DD'),
+	        #{region},
+	        #{productUrl},
+	        #{qrCode},
+	        #{memberNo},     -- 방장(작성자)
+	        #{boardNo}       -- FK(Board)
+	    )
+	</insert>
+	
+	<!-- 게시글 작성(participant) -->
+	<insert id="insertParticipant">
+	    INSERT INTO RECRUITMENT_PARTICIPANT (
+	        MEMBER_NO,
+	        JOIN_DATE,
+	        CANCEL_DATE,
+	        RECRUITMENT_NO,
+	        PARTICIPATION_COUNT
+	    ) VALUES (
+	        #{memberNo},
+	        SYSDATE,   -- 참가일
+	        NULL,      -- 취소일 없음
+	        #{recruitmentNo},
+	        #{myQuantity}
+	    )
+	</insert>
+	
+	<!-- 게시글 작성(image)  -->
+	<insert id="insertImageList">
+	    INSERT INTO IMG (
+	        IMG_NO,
+	        IMG_RENAME,
+	        IMG_PATH,
+	        IMG_ORIGINAL,
+	        IMG_LEVEL,
+	        IMG_TYPE,
+	        IMG_TYPE_NO
+	    )
+	    SELECT SEQ_IMG_NO.NEXTVAL, A.*
+	    FROM (
+	        <foreach collection="list" item="img" separator=" UNION ALL ">
+	            SELECT 
+	                #{img.imageReName} AS IMG_RENAME,
+	                #{img.imagePath} AS IMG_PATH,
+	                #{img.imageOriginal} AS IMG_ORIGINAL,
+	                #{img.imageLevel} AS IMG_LEVEL,
+	                #{img.imageType} AS IMG_TYPE,
+	                #{img.imageTypeNo} AS IMG_TYPE_NO
+	            FROM DUAL
+	        </foreach>
+	    ) A
+	</insert>
+	
+	<!-- 내가 차지한 수량 조회 -->
+	<select id="selectMyParticipationCount" resultType="int">
+	    SELECT NVL(SUM(PARTICIPATION_COUNT), 0)
+	    FROM RECRUITMENT_PARTICIPANT
+	    WHERE RECRUITMENT_NO = #{recruitmentNo}
+	      AND MEMBER_NO = #{memberNo}
+	</select>
+	
+	<update id="updateBoard" parameterType="map">
+        UPDATE BOARD
+        SET 
+            BOARD_TITLE = #{boardTitle},
+            BOARD_CONTENT = #{boardContent},
+            BOARD_CD = 1,
+            B_UPDATE_DATE = SYSDATE  WHERE BOARD_NO = #{boardNo}
+    </update>
+    
+    <update id="updateRecruitment" parameterType="map">
+        UPDATE RECRUITMENT_ROOM
+	    SET 
+	        PRODUCT_URL = #{productUrl},
+	        REC_END_DATE = TO_DATE(#{recEndDate}, 'YYYY-MM-DD'),
+	        REGION = #{region},
+	        MAX_PARTICIPANTS = #{maxParticipants}
+	    WHERE RECRUITMENT_NO = #{recruitmentNo}
+    </update>
+    
+    <update id="updateMyQuantity" parameterType="map">
+        UPDATE RECRUITMENT_PARTICIPANT
+        SET PARTICIPATION_COUNT = #{myQuantity}
+        WHERE MEMBER_NO = #{memberNo}
+        AND RECRUITMENT_NO = #{recruitmentNo}
+    </update>
+    
+    <insert id="insertImage" parameterType="Image">
+        INSERT INTO IMG (
+            IMG_NO,
+            IMG_RENAME,
+            IMG_PATH,
+            IMG_ORIGINAL,
+            IMG_LEVEL,
+            IMG_TYPE,
+            IMG_TYPE_NO
+        ) VALUES (
+            SEQ_IMG_NO.NEXTVAL,
+            #{imageReName},
+            #{imagePath},
+            #{imageOriginal},
+            #{imageLevel},
+            2, #{imageTypeNo} )
+    </insert>
+
+    <delete id="deleteImage" parameterType="int">
+        DELETE FROM IMG
+        WHERE IMG_NO = #{imageNo}
+    </delete>
+    
+    <update id="updateProduct" parameterType="map">
+	    UPDATE PRODUCT
+	    SET 
+	        PRODUCT_PRICE = #{productPrice}
+	    WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<select id="selectImageInfo" parameterType="int" resultMap="image_rm">
+	    SELECT IMG_PATH, IMG_RENAME 
+	    FROM IMG 
+	    WHERE IMG_NO = #{imgNo}
+	</select>
+	
+	<!-- 최대 참가자 수 조회  -->
+	<select id="selectMaxParticipants" parameterType="int" resultType="int">
+	    SELECT MAX_PARTICIPANTS
+	    FROM RECRUITMENT_ROOM
+	    WHERE RECRUITMENT_NO = #{recruitmentNo}
+	</select>
+	
+	<!-- 참여자 insert -->
+	<insert id="insertRecruitmentParticipant" parameterType="map">
+	    INSERT INTO RECRUITMENT_PARTICIPANT (
+	        MEMBER_NO,
+	        JOIN_DATE,
+	        RECRUITMENT_NO,
+	        PARTICIPATION_COUNT
+	    ) VALUES (
+	        #{memberNo},
+	        SYSDATE,
+	        #{recruitmentNo},
+	        #{myQuantity}
+	    )
+	</insert>
+	
+	<!-- 모집상태 마감으로 변경 -->
+	<update id="updateRecruitmentStatusToClosed" parameterType="int">
+	    UPDATE RECRUITMENT_ROOM
+	    SET RECRUITMENT_STATUS = '마감'
+	    WHERE RECRUITMENT_NO = #{recruitmentNo}
+	</update>
+	
+	<!-- 포인트 차감 -->
+	<update id="updateMemberPoint" parameterType="map">
+	    UPDATE MEMBER
+	    SET POINT = POINT + #{pointChange}
+	    WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	<!-- 포인트 사용 내역 -->
+	<insert id="insertPointUsage" parameterType="map">
+	    INSERT INTO POINT_USAGE (
+	        USAGE_NO,
+	        USED_AMOUNT,
+	        USAGE_TYPE,
+	        USAGE_TYPE_NO,
+	        STATUS,
+	        USED_DATE,
+	        MEMBER_NO
+	    ) VALUES (
+	        SEQ_USAGE_NO.NEXTVAL,
+	        #{usedAmount},
+	        #{usageType},
+	        #{usageTypeNo},
+	        #{status},
+	        SYSDATE,
+	        #{memberNo}
+	    )
+	</insert>
+	
+	<!-- 현재 포인트 조회 -->
+	<select id="selectMemberPoint" parameterType="int" resultType="int">
+	    SELECT POINT
+	    FROM MEMBER
+	    WHERE MEMBER_NO = #{memberNo}
+	</select>
 </mapper>

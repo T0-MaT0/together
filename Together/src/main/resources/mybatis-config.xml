@@ -39,6 +39,7 @@
 		<typeAlias type="edu.kh.project.member.model.dto.Board" alias="Board" />
 
 		<typeAlias type="edu.kh.project.member.model.dto.Brand" alias="Brand"/>
+		<typeAlias type="edu.kh.project.common.model.dto.Category" alias="Category"/>
 
 
 	</typeAliases>
@@ -56,6 +57,7 @@
 		<mapper resource="/mappers/customer-mapper.xml" />
 		<mapper resource="/mappers/images-mapper.xml" />
 		<mapper resource="/mappers/main-mapper.xml" />
+		<mapper resource="/mappers/category-mapper.xml" />
 
 	</mappers>
 

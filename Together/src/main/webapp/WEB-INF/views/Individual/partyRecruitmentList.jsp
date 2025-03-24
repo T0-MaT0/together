@@ -77,15 +77,41 @@
             <div class="price-container">
                 <div class="price-info">
                     <p class="buyAll">전체 구매 시 필요한 금액</p>
-                    <p class="buyTogether">내가 차지할 금액</p>
+                    <p class="buyTogether">내가 내야할 금액</p>
                 </div>
                 <div class="price-box">
                     <p class="original"><fmt:formatNumber value="${recruitmentDetail.productPrice}" pattern="#,###"/> Pt</p>
-                    <p class="sale"><fmt:formatNumber value="${recruitmentDetail.productPrice / recruitmentDetail.maxParticipants}" pattern="#,###"/> Pt</p>
+                    <p class="sale"><fmt:formatNumber value="${(recruitmentDetail.productPrice / recruitmentDetail.maxParticipants) * recruitmentDetail.myParticipationCount}" pattern="#,###"/> Pt</p>
                 </div>
             </div>
 
-            <button class="join-btn">참여하기</button>
+            <c:choose>
+                <c:when test="${recruitmentDetail.myParticipationCount > 0}">
+                    <c:choose>
+                        <%-- 모집장인 경우 --%>
+                        <c:when test="${loginMember.memberNick == recruitmentDetail.hostName}">
+                            <button class="join-btn"
+                                    onclick="location.href='/purchase_in_progress_host?recruitmentNo=${recruitmentDetail.recruitmentNo}&boardNo=${recruitmentDetail.boardNo}'">
+                                상세보기
+                            </button>
+                        </c:when>
+
+                        <%-- 일반 파티원인 경우 --%>
+                        <c:otherwise>
+                            <button class="join-btn"
+                                    onclick="location.href='/purchase_in_progress_member?recruitmentNo=${recruitmentDetail.recruitmentNo}&boardNo=${recruitmentDetail.boardNo}'">
+                                상세보기
+                            </button>
+                        </c:otherwise>
+                    </c:choose>
+                </c:when>
+                <c:otherwise>
+                    <button class="join-btn"
+                        onclick="location.href='/group/participate?recruitmentNo=${recruitmentDetail.recruitmentNo}&boardNo=${recruitmentDetail.boardNo}'">
+                        참여하기
+                    </button>
+                </c:otherwise>
+            </c:choose>
 
             <!-- 설명란 -->
             <div class="recruit-description">
@@ -96,7 +122,7 @@
             <div class="button-container">
                 <!-- 수정 버튼 (로그인한 사용자의 닉네임과 hostName이 같을 때만 보임) -->
                 <c:if test="${not empty loginMember && loginMember.memberNick eq recruitmentDetail.hostName}">
-                    <button class="edit-btn2" onclick="location.href='/editRecruitment?boardNo=${recruitmentDetail.boardNo}'">수정</button>
+                    <button class="edit-btn2" onclick="openEditPopup(${recruitmentDetail.recruitmentNo}, ${recruitmentDetail.boardNo})">수정</button>
                 </c:if>
                 <!-- 목록 버튼 (모든 사용자에게 보임) -->
                 <button class="list-btn" onclick="location.href='/Individual/detail'">목록</button>
@@ -131,6 +157,11 @@
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/individual/partyRecruitmentList.js"></script>
+    <c:if test="${not empty alertMessage}">
+        <script>
+            alert("${alertMessage}");
+        </script>
+    </c:if>
 </body>
 
 </html>

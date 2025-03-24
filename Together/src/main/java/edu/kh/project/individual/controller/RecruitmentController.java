@@ -1,21 +1,31 @@
 package edu.kh.project.individual.controller;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.kh.project.common.model.dto.Category;
+import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Recruitment;
+import edu.kh.project.individual.service.CategoryService;
 import edu.kh.project.individual.service.RecruitmentService;
 import edu.kh.project.member.model.dto.Member;
 
@@ -24,6 +34,8 @@ public class RecruitmentController {
 
 	@Autowired
 	private RecruitmentService service;
+	@Autowired
+	private CategoryService categoryService;
 	
 	// 개인 공동구매 모집방 페이지 (boardCode=1 고정)
 	@GetMapping("/Individual/1")
@@ -171,6 +183,8 @@ public class RecruitmentController {
  	        return "redirect:/member/login";
  	    }
 
+ 	    List<Category> parentList = categoryService.getParentCategories();
+ 	    model.addAttribute("parentList", parentList);
  	    model.addAttribute("boardCode", boardCode);
 
  	    return "Individual/CreateGroup"; 
@@ -188,14 +202,13 @@ public class RecruitmentController {
  	    int boardCode = 1; // 모집 게시판 코드
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 	    
-	    System.out.println("boardNo : " + boardNo);
 
  	    if (loginMember == null) {
  	        redirectAttributes.addFlashAttribute("message", "로그인을 먼저 해주세요.");
  	        return "redirect:/member/login";
  	    }
- 	    Recruitment recruitmentDetail = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo);
- 	    System.out.println("recruitmentDetail :" +recruitmentDetail);
+ 	    Recruitment recruitmentDetail = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo, memberNo);
+ 	    System.out.println("recruitmentDetail : " + recruitmentDetail);
  	   if (recruitmentDetail == null) {
  	        redirectAttributes.addFlashAttribute("message", "해당 모집글을 찾을 수 없습니다.");
  	        return "redirect:/partyRecruitmentList";
@@ -208,7 +221,301 @@ public class RecruitmentController {
 
  	    return "Individual/partyRecruitmentList"; 
  	}
+ 	
+ 	// 모집글 작성
+ 	@PostMapping("/group/create/insert")
+    public String createGroupInsert(Recruitment dto,
+        @RequestParam("images") List<MultipartFile> images,
+        @SessionAttribute(value="loginMember", required=false) Member loginMember,
+        HttpSession session,
+        RedirectAttributes ra,
+        HttpServletResponse response) throws IOException {
+
+        if(loginMember == null) {
+            ra.addFlashAttribute("message","로그인해주세요.");
+            return "redirect:/member/login";
+        }
+
+        // 파일 저장 경로
+        String webPath = "/resources/images/recruitment/";
+        String filePath = "C:/finalProject/Together/src/main/webapp/resources/images/recruitment/";
+        System.out.println("filePath = " + filePath);
+        int recruitNo = 0;
+        try {
+            recruitNo = service.createRecruitment(dto, images,
+                                        loginMember.getMemberNo(), 
+                                        webPath, filePath);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        if (recruitNo > 0) {
+            String script = "<script>"
+                    + "alert('모집글 등록 성공!');"
+                    + "window.opener.location.href='/Individual/" + 1 + "';"
+                    + "window.close();"
+                    + "</script>";
+            response.setContentType("text/html; charset=UTF-8");
+            response.getWriter().write(script);
+            return null; 
+        }
+
+        ra.addFlashAttribute("message", "모집글 등록 실패");
+        return "redirect:/group/create";
+    }
 	
+ 	// 수정 버튼 조회
+ 	@GetMapping("/group/edit")
+ 	public String editRecruitmentForm(@RequestParam("recruitmentNo") int recruitmentNo,
+ 	                                  @RequestParam("boardNo") int boardNo,
+ 	                                  @SessionAttribute("loginMember") Member loginMember,
+ 	                                  Model model,
+ 	                                  RedirectAttributes ra) {
+
+ 		// 1. 로그인 여부 확인
+ 	    if (loginMember == null) {
+ 	        ra.addFlashAttribute("message", "로그인 후 이용해주세요.");
+ 	        return "redirect:/member/login";
+ 	    }
+
+ 	    int memberNo = loginMember.getMemberNo();
+
+ 	    // 2. 모집글 상세 조회
+ 	    Recruitment dto = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo, memberNo);
+ 	    if (dto == null) {
+ 	        ra.addFlashAttribute("message", "존재하지 않는 모집글입니다.");
+ 	        return "redirect:/";
+ 	    }
+
+ 	    // 3. 작성자 권한 확인 (내가 작성한 모집글이 아닐 경우)
+ 	    if (!loginMember.getMemberNick().equals(dto.getHostName())) {
+ 	        ra.addFlashAttribute("message", "수정 권한이 없습니다.");
+ 	        return "redirect:/partyRecruitmentList/" + recruitmentNo + "/" + boardNo;
+ 	    }
+
+ 	    //  자식 카테고리 번호로 → 부모 카테고리 조회
+ 	    int childCategoryNo = dto.getCategoryNo();
+ 	    Integer parentCategoryNo = categoryService.selectParentNo(childCategoryNo); // 없으면 null 반환
+ 	    dto.setParentCategoryNo(parentCategoryNo);
+
+ 	   // 5. 부모/자식 카테고리 목록 조회
+ 	    List<Category> parentList = categoryService.getParentCategories();
+ 	    List<Category> childList = (parentCategoryNo != null)
+ 	            ? categoryService.getChildCategories(parentCategoryNo)
+ 	            : null;
+ 	    
+ 	    // 자식 카테고리 
+
+ 	    // 모델 전달
+ 	    model.addAttribute("recruitment", dto);
+ 	    model.addAttribute("parentList", parentList);
+ 	    model.addAttribute("childList", childList);
+ 	    
+ 	    return "Individual/editGroup"; 
+ 	}
+ 	
+ 	// 모집글 수정
+ 	@PostMapping("/group/edit/submit")
+ 	public void editGroupSubmit(
+ 	        @RequestParam Map<String, Object> paramMap,
+ 	        @RequestParam("recruitmentNo") int recruitmentNo,
+ 	        @RequestParam("boardNo") int boardNo,
+ 	        @RequestParam(value = "images", required = false) List<MultipartFile> imageList,
+ 	        @SessionAttribute("loginMember") Member loginMember,
+ 	        HttpServletResponse response,
+ 	        RedirectAttributes ra) throws Exception {
+ 		
+ 		response.setContentType("text/html; charset=UTF-8");
+
+ 	    if (loginMember == null) {
+ 	    	response.getWriter().write("<script>alert('로그인 후 이용해주세요.'); window.close();</script>");
+ 	        return;
+ 	    }
+
+ 	    try {
+ 	        // 수정 시 필요한 값 추가
+ 	        paramMap.put("memberNo", loginMember.getMemberNo());
+ 	        paramMap.put("recruitmentNo", recruitmentNo);
+ 	        paramMap.put("boardNo", boardNo);
+
+ 	        // 실제 수정 로직 호출 (서비스에서 UPDATE 처리)
+ 	        int result = service.updateRecruitment(paramMap, imageList);
+
+ 	       if (result > 0) {
+ 	            response.getWriter().write(
+ 	                "<script>" +
+ 	                "alert('모집글 수정 성공!');" +
+ 	                "window.opener.location.reload();" +
+ 	                "window.close();" +
+ 	                "</script>"
+ 	            );
+ 	        } else {
+ 	            response.getWriter().write(
+ 	                "<script>" +
+ 	                "alert('모집글 수정 실패');" +
+ 	                "window.history.back();" +
+ 	                "</script>"
+ 	            );
+ 	        }
+
+ 	    } catch (Exception e) {
+ 	        e.printStackTrace();
+ 	        response.getWriter().write(
+ 	            "<script>" +
+ 	            "alert('오류 발생: 모집글 수정 실패');" +
+ 	            "window.history.back();" +
+ 	            "</script>"
+ 	        );
+ 	    }
+ 	}
+ 	
+ 	// 참여하기 화면
+ 	@GetMapping("/group/participate")
+ 	public String participatePage(@RequestParam("recruitmentNo") int recruitmentNo,
+ 	                              @RequestParam("boardNo") int boardNo,
+ 	                              @SessionAttribute(value = "loginMember", required = false) Member loginMember,
+ 	                              Model model,
+ 	                              RedirectAttributes ra) {
+
+ 	    if (loginMember == null) {
+ 	        ra.addFlashAttribute("message", "로그인 후 이용해주세요.");
+ 	        return "redirect:/member/login";
+ 	    }
+
+ 	    // 참여 폼에 필요한 데이터 조회
+ 	    Recruitment dto = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo, loginMember.getMemberNo());
+ 	    if (dto == null) {
+ 	        ra.addFlashAttribute("message", "모집글을 찾을 수 없습니다.");
+ 	        return "redirect:/";
+ 	    }
+
+ 	    model.addAttribute("recruitment", dto);
+ 	    return "Individual/recruitmentParticipation";  // JSP 경로
+ 	}
+ 	
+ 	// 참여하기 제출
+ 	@PostMapping("/group/participate/submit")
+ 	public String participateSubmit(@RequestParam("recruitmentNo") int recruitmentNo,
+ 	                                @RequestParam("myQuantity") int myQuantity,
+ 	                                @SessionAttribute(value = "loginMember", required = false) Member loginMember,
+ 	                                Model model,
+ 	                                RedirectAttributes ra) {
+ 	    // 1. 로그인 체크
+ 	    if (loginMember == null) {
+ 	        ra.addFlashAttribute("message", "로그인 후 이용해주세요.");
+ 	        return "redirect:/member/login";
+ 	    }
+
+ 	   // 모집글 정보 조회
+ 	    Recruitment dto = service.selectRecruitmentRoomDetail(recruitmentNo, 0, loginMember.getMemberNo());
+ 	    if (dto == null) {
+ 	        ra.addFlashAttribute("message", "모집글을 찾을 수 없습니다.");
+ 	        return "redirect:/";
+ 	    }
+
+ 	    dto.setMyParticipationCount(myQuantity); 
+ 	    model.addAttribute("recruitment", dto);
+ 	    return "Individual/recruitment_settlement"; 
+ 	}
+ 	
+ 	// 정산 완료
+ 	@PostMapping("/group/settlement/complete")
+ 	public String settlementComplete(@RequestParam("recruitmentNo") int recruitmentNo,
+ 	                                 @RequestParam("paymentAmount") double paymentAmount2,
+ 	                                 @RequestParam("boardNo") int boardNo,
+ 	                                 @SessionAttribute("loginMember") Member loginMember,
+ 	                                 @RequestParam("myQuantity") int myQuantity,
+ 	                                 RedirectAttributes ra,HttpSession session,
+ 	                                 Model model) {
+
+ 	    try {
+ 	    	int point = loginMember.getPoint();
+ 	        int memberNo = loginMember.getMemberNo();
+ 	        int paymentAmount = (int) paymentAmount2;
+ 	        // 포인트 차감 + 참가 INSERT + 모집 마감 여부 확인
+ 	        int result = service.participateRecruitment(memberNo, recruitmentNo, myQuantity, paymentAmount,point);
+
+ 	        if (result > 0) {
+ 	        	int updatedPoint = service.selectMemberPoint(memberNo);
+ 	            loginMember.setPoint(updatedPoint);
+ 	            session.setAttribute("loginMember", loginMember);
+
+ 	            // 결과 페이지에 보여줄 정보 전달
+ 	            model.addAttribute("paymentAmount", paymentAmount);
+ 	            model.addAttribute("myQuantity", myQuantity);
+ 	            model.addAttribute("recruitmentNo", recruitmentNo);
+ 	            model.addAttribute("boardNo", boardNo);
+ 	            ra.addFlashAttribute("message", "참여가 완료되었습니다.");
+ 	            
+ 	           return "Individual/recruitment_settlement_complete";
+ 	        } else {
+ 	            ra.addFlashAttribute("message", "참여 처리 중 오류 발생.");
+ 	        }
+
+ 	   } catch (IllegalArgumentException e) {
+ 		    ra.addFlashAttribute("alertMessage", e.getMessage());
+ 		   return "redirect:/partyRecruitmentList/" + recruitmentNo + "/" + boardNo;
+
+ 		} catch (Exception e) {
+ 		    e.printStackTrace();
+ 		    ra.addFlashAttribute("alertMessage", "정산 중 오류가 발생했습니다.");
+ 		   return "redirect:/partyRecruitmentList/" + recruitmentNo + "/" + boardNo;
+ 		}
+
+ 	    return "redirect:/partyRecruitmentList/" + recruitmentNo + "/0";
+ 	}
+ 	
+ 	// 모집 상세 맴버 정보 페이지(모집원)
+ 	@GetMapping("/purchase_in_progress_member")
+ 	public String showMemberProgressDetail(@RequestParam("recruitmentNo") int recruitmentNo,
+ 	                                       @RequestParam("boardNo") int boardNo,
+ 	                                       @SessionAttribute(value = "loginMember", required = false) Member loginMember,
+ 	                                       Model model, RedirectAttributes ra) {
+
+ 	    if (loginMember == null) {
+ 	        ra.addFlashAttribute("alertMessage", "로그인 후 이용해주세요.");
+ 	        return "redirect:/member/login";
+ 	    }
+
+ 	    // 참여 정보 조회 (recruitmentNo, boardNo 기준)
+ 	    Recruitment dto = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo, loginMember.getMemberNo());
+ 	    if (dto == null) {
+ 	        ra.addFlashAttribute("alertMessage", "상세 정보를 찾을 수 없습니다.");
+ 	        return "redirect:/";
+ 	    }
+
+ 	    model.addAttribute("recruitment", dto);
+ 	    return "Individual/purchase_in_progress_member";
+ 	}
+ 	
+ 	// 모집 상세 맴버 정보 페이지(모집장)
+ 	@GetMapping("/purchase_in_progress_host")
+ 	public String showHostProgressDetail(@RequestParam("recruitmentNo") int recruitmentNo,
+ 	                                     @RequestParam("boardNo") int boardNo,
+ 	                                     @SessionAttribute(value = "loginMember", required = false) Member loginMember,
+ 	                                     Model model,
+ 	                                     RedirectAttributes ra) {
+
+ 	    // 1. 로그인 여부 확인
+ 	    if (loginMember == null) {
+ 	        ra.addFlashAttribute("alertMessage", "로그인 후 이용해주세요.");
+ 	        return "redirect:/member/login";
+ 	    }
+
+ 	    int memberNo = loginMember.getMemberNo();
+
+ 	    // 2. 모집글 상세 조회 (내가 모집장인지 확인 포함)
+ 	    Recruitment dto = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo, memberNo);
+ 	    if (dto == null) {
+ 	        ra.addFlashAttribute("alertMessage", "해당 모집글을 찾을 수 없습니다.");
+ 	        return "redirect:/";
+ 	    }
+
+ 	    // 3. JSP에 전달
+ 	    model.addAttribute("recruitment", dto);
+
+ 	    return "Individual/purchase_in_progress_host";
+ 	}
 
 	
 }

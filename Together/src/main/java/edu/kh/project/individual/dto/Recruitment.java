@@ -32,17 +32,21 @@ public class Recruitment {
 
     // 공동구매 상품 DTO
     private String productName;  // 상품명
+    private String boardTitle; // BOARD_TITLE
     private String boardContent; // 상품내용
-    private int productPrice;    // 상품 가격
+    private Integer productPrice;    // 상품 가격
     private int productCount;    // 상품 재고 수량
     private int deliveryFee;     // 배송비
     private int readCount;       // 조회수
     private int categoryNo;      // 카테고리 번호
+    private Integer parentCategoryNo; // 부모 카테고리 번호
 
     // 방장 정보
     private String hostName;   // 방장 닉네임
     private String hostGrade;     // 방장 등급
     private String hostProfile; // 방장 프로필 이미지
+    private Integer myQuantity;     // 개인별 참여 몫
+    private int myParticipationCount; // 내가 몇 인분 참여 중인지
     
     // 멤버 정보 추가
     private String memberNick;
@@ -50,6 +54,7 @@ public class Recruitment {
     private int point;
     private String memberGrade;
     private String profileImg;
+    private int memberNo;
     
     // 이미지 관련 정보
     private List<Image> imageList;   // 모집방 관련 이미지 리스트 (상품 이미지 포함)

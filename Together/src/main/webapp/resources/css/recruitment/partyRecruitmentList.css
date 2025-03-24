@@ -79,6 +79,7 @@ body {
 .carousel-item img {
     width: 100%;
     max-width: 500px;
+    max-height: 400px;
 }
 
 .carousel-btn {

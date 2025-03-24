@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function() {
 const preview = document.getElementsByClassName("preview");
 const inputImage = document.getElementsByClassName("inputImage");
 const deleteImage = document.getElementsByClassName("delete-image");
-
+const deleteListInput = document.getElementById("deleteList");
 for(let i =0; i<preview.length; i++){
 
     // 파일 선택(변경) 시
@@ -254,10 +254,19 @@ for(let i =0; i<preview.length; i++){
     });
 
     // 미리보기 삭제(x버튼)
-    deleteImage[i].addEventListener('click', e=>{
-        if(preview[i].getAttribute('src')){
-            preview[i].removeAttribute('src');
+    deleteImage[i].addEventListener("click", e => {
+        const imgTag = preview[i];
+        const imgNo = imgTag.getAttribute("data-img-no");
+
+        if (imgTag.getAttribute("src")) {
+            imgTag.removeAttribute("src");
             inputImage[i].value = '';
+
+            // 삭제 리스트에 추가
+            if (imgNo) {
+                const currentList = deleteListInput.value;
+                deleteListInput.value = currentList ? currentList + "," + imgNo : imgNo;
+            }
         }
     });
 }
