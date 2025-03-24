@@ -13,4 +13,12 @@ public class Product {
     private int readCount;
     private String category;
     private int categoryNo;
+
+    private String purchaseDate;
+
+    private int reviewNo;
+    private String reviewContent;
+    private int reviewScore;
+    private String reviewDate;
+
 }

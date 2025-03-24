@@ -19,4 +19,6 @@ public interface MypageService {
     List<Brand> pickBrand(int memberNo);
 
     List<Reply> getQnA(int memberNo);
+
+    List<Product> getReview(int memberNo);
 }

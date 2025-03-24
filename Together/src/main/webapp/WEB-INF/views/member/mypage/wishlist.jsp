@@ -35,44 +35,6 @@
                     </div>
                 
                     <div class="wishlist-items" id="wishlist-items">
-                        <div class="wishlist-item">
-                            <a href="#" class="wishlist-link">
-                                <img src="상품1.png" alt="초콜릿" class="wishlist-img">
-                            </a>
-                            <div class="wishlist-info">
-                                <p class="wishlist-title">[여수 쑥] 여수 쑥 수제 생초콜릿 파베초콜릿 특별한 선물 해풍 쑥 인절미생초콜릿 비닐포장</p>
-                                <p class="wishlist-discount">정가 <s>199,000원</s></p>
-                                <p class="wishlist-price">모집 4인 50,000원</p>
-                                <p class="wishlist-category">쑥 수제생초콜릿 | 식품</p>
-                            </div>
-                            <button class="remove-btn">×</button>
-                        </div>
-                
-                        <div class="wishlist-item">
-                            <a href="#" class="wishlist-link">
-                                <img src="상품2.png" alt="운동화" class="wishlist-img">
-                            </a>
-                            <div class="wishlist-info">
-                                <p class="wishlist-title">나이키 에어포스 1 07 LV8 WB 팀장 포스 카카오 와우 코코넛 밀크 미드나잇 네이비</p>
-                                <p class="wishlist-discount">나의 모집가 <s>199,000원</s></p>
-                                <p class="wishlist-price">4인 170,000원</p>
-                                <p class="wishlist-category">브랜드관 | 패션잡화</p>
-                            </div>
-                            <button class="remove-btn">×</button>
-                        </div>
-                
-                        <div class="wishlist-item">
-                            <a href="#" class="wishlist-link">
-                                <img src="상품3.png" alt="세트" class="wishlist-img">
-                            </a>
-                            <div class="wishlist-info">
-                                <p class="wishlist-title">경덕주 125 1세트 (2병)</p>
-                                <p class="wishlist-discount">정가 <s>28,000원</s></p>
-                                <p class="wishlist-price">모집 2인 14,00원</p>
-                                <p class="wishlist-category">제이농업회사법인 | 식품</p>
-                            </div>
-                            <button class="remove-btn">×</button>
-                        </div>
                     </div>
                 </section>
             </section>

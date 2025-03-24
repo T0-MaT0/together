@@ -107,6 +107,12 @@ public class MypageController {
         return service.getQnA(memberNo);
     }
 
+    @PostMapping(value = "/getReview", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public List<Product> getReview(@RequestBody int memberNo) {
+        return service.getReview(memberNo);
+    }
+
 
 
 

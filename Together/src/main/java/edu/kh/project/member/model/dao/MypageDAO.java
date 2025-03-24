@@ -40,4 +40,8 @@ public class MypageDAO {
     public List<Reply> getQnA(int memberNo) {
         return sqlSession.selectList("mypageMapper.getQnA", memberNo);
     }
+
+    public List<Product> getReview(int memberNo) {
+        return sqlSession.selectList("mypageMapper.getReview", memberNo);
+    }
 }

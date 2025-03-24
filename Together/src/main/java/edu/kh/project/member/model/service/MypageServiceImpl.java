@@ -43,4 +43,9 @@ public class MypageServiceImpl implements MypageService {
     public List<Reply> getQnA(int memberNo) {
         return dao.getQnA(memberNo);
     }
+
+    @Override
+    public List<Product> getReview(int memberNo) {
+        return dao.getReview(memberNo);
+    }
 }
