@@ -927,4 +927,41 @@
 	<update id="companyBlackUpdate">
 		UPDATE COMPANY SET PERMISSION_FL ='N' WHERE MEMBER_NO = ${reportedUserNo}
 	</update>	
+	
+	
+	<!--===== POPUP =====-->
+<!-- 	<select id="boardModal"  resultType='map'> -->
+<!-- 		<if test="type == 1"> -->
+<!-- 			SELECT * -->
+<!-- 			FROM BOARD B, PRODUCT P  -->
+<!-- 			WHERE B.BOARD_NO = P.BOARD_NO -->
+<!-- 			AND B.BOARD_NO = ${no} -->
+<!-- 		</if> -->
+<!-- 		<if test="type == 2"> -->
+<!-- 			SELECT B.BOARD_NO, BOARD_TITLE, BOARD_CONTENT, -->
+<!-- 				TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE, B_UPDATE_DATE UPDATE_DATE, B_STATE STATE,  -->
+<!-- 				B.MEMBER_NO , BOARD_CD , RECRUITMENT_NO, MAX_PARTICIPANTS ,  -->
+<!-- 				RECRUITMENT_STATUS, REGION, PRODUCT_URL, QR_CODE -->
+<!-- 			FROM BOARD B, RECRUITMENT_ROOM R  -->
+<!-- 			WHERE B.BOARD_NO = R.BOARD_NO   -->
+<!-- 			AND R.BOARD_NO = ${no}		 -->
+<!-- 		</if> -->
+<!-- 		<if test="type == 3"> -->
+<!-- 			SELECT * FROM REPLY WHERE REPLY_NO = ${no} -->
+<!-- 		</if> -->
+<!-- 		<if test="type == 4"> -->
+<!-- 			SELECT * FROM CHAT_MESSAGE  -->
+<!-- 			WHERE ROOM_NO =  -->
+<!-- 				(SELECT ROOM_NO  -->
+<!-- 				FROM CHAT_MESSAGE  -->
+<!-- 				WHERE MESSAGE_NO = ${no});			 -->
+<!-- 		</if> -->
+<!-- 		<if test="type == 5"> -->
+<!-- 			SELECT * FROM REVIEW WHERE REVIEW_NO = ${no} -->
+<!-- 		</if> -->
+	
+<!-- 	</select>	 -->
+
+
+
 </mapper>

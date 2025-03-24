@@ -18,12 +18,13 @@
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/customer/report-list.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/modal.css" />
-
+    <link rel="stylesheet" href="/resources/css/manager-css/common/reportProfileModal.css" />
     <script>
         // 사이드 메뉴 설정
         const menuName = "${menuName}";
         const menuNumber = 3;
     </script>
+     <script src="https://kit.fontawesome.com/975074ef7f.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -161,8 +162,8 @@
                 </div>
 
                 <div class="midBtn">
-                    <button id="infoBtn" onclick="goProfile()">브랜드 정보 조회</button>
-                    <button id="BoardBtn">문제 상품 조회</button>
+                    <button id="infoBtn" onclick="openProfile()">브랜드 정보 조회</button>
+                    <button id="BoardBtn" onclick="openBoard()">문제 상품 조회</button>
                 </div>
                 <div class="modalBottom">
                     <div>답변</div>
@@ -175,8 +176,10 @@
             </div>
 
         </div>
+        <!-- 신고 모달 프로필 -->
+        <jsp:include page="/WEB-INF/views/manager/common/reportProfileModal.jsp"/>
     </div>
-
+    
 </main>
 
 <!-- <script src="/resources/js/manager-js/modal.js"></script> -->

@@ -200,6 +200,37 @@ public class ManagerCustomerServiceImpl implements ManageCustomerService{
 		
 	}
 
+	// 해당 고객 신고 리스트 조회
+	@Override
+	public List<CustProfileBoard> infoList(int memberNo, int boardCode) {
+		return dao.infoList(memberNo, boardCode);
+	}
+
+	// 해당ㅣ 고객 신고 상세 내용 조회
+	@Override
+	public Report infoDetail(int reportNo) {
+		return dao.infoDetail(reportNo);
+	}
+	
+	//신고 대상 게시물/채팅/리뷰 내용 조회
+	@Override
+	public Map<String, Object> boardModal(int type, int no) {
+		
+		Map<String, Object> map = new HashMap<>();
+		if(type==1) {
+			
+		}
+		if(type==2) {
+//			dao.
+		}
+		if(type==3) {}
+		if(type==4) {}
+		if(type==5) {}
+		
+		
+		return map;
+	}
+
 
 
 	
