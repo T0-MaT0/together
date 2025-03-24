@@ -131,7 +131,7 @@
         
         <!-- 제휴 규모 -->
         <section class="cus-board graph-card">
-        
+            ${map.applyStateCount[1]}
             <div class="board-title ">
                 <div class="title">제휴 규모</div>
                 <div class="select-area">
@@ -184,13 +184,13 @@
                 <div class="modalBottom">
                     <div>답변</div>
                     <!-- <div class="managerReportText">ㅁㄴㅇㄹㅁㄴㅇㄹ</div> -->
-                    <textarea name="managerReportText" class="managerReportText">ㅁㄴㅇㄹㅁㄴㅇㄹ</textarea>
+                    <div name="managerText" contenteditable="true"  class="managerText" ></div>
                 </div>
                 <div class="modal-btn barndBtn">
-                    <button>처리</button>
+                    <!-- <button >처리</button> -->
                 </div>
             </div>
-
+            
         </div>
     </div>
 </main>
@@ -198,7 +198,7 @@
 
 <script>
     const xValues = ["대기","승인", "거절"];
-    const yValues = [${map.applyStateCount[0].COUNT}, ${map.applyStateCount[1].COUNT} ,${map.applyStateCount[2].COUNT}];
+    const yValues = [${map.applyStateCount[1].COUNT}, ${map.applyStateCount[0].COUNT} ,${map.applyStateCount[2].COUNT}];
     const barColors = [
     "#DC143C",
     // "#FF6347",

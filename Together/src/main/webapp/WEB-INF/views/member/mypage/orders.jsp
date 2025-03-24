@@ -26,7 +26,7 @@
 
            <!-- 메인 콘텐츠 -->
             <section class="myinfo-main-content">
-                <section class="orders-section">
+                <section class="orders-section" id="orders-section">
                     <h2>주문 내역</h2>
                     <div class="order-list">
                         <div class="order-item">

@@ -9,10 +9,13 @@ import org.springframework.stereotype.Service;
 
 import edu.kh.project.business.model.dao.BusinessDao;
 import edu.kh.project.business.model.dto.Business;
+import edu.kh.project.business.model.dto.Order;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
+import edu.kh.project.member.model.dto.Member;
 
 @Service
 public class BusinessServiceIml implements BusinessService {
@@ -113,5 +116,28 @@ public class BusinessServiceIml implements BusinessService {
 		map.put("replyPagination", pagination);
 		
 		return map;
+	}
+
+	@Override
+	public int insertOrder(Map<String, Object> paramMap) {
+		int result = dao.insertOrder((Order)paramMap.get("order"));
+		
+		if (result>0) {
+			Member loginMember = (Member) paramMap.get("loginMember");
+			int totalPrice = (int) paramMap.get("totalPrice");
+			
+			PointUsage usage = new PointUsage();
+			usage.setUsageAmount(totalPrice);
+			usage.setUsageTypeNo(result);
+			usage.setMemberNo(loginMember.getMemberNo());
+			result = dao.insertPointUsage(usage);
+			
+			if (result>0) {
+				loginMember.setPoint(loginMember.getPoint()-totalPrice);
+				result = dao.updatePoint(loginMember);
+			}
+		}
+		
+		return result;
 	}
 }

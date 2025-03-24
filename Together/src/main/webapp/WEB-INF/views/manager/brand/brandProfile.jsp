@@ -36,7 +36,6 @@
              <!-- <a href="location">이전으로 </a> -->
         </div>
     </header>
- ${map}
     <c:set var="brandProfile" value="${map.brandProfile}"></c:set>
     <!-- 본문(중앙) -->
     <div id="container-center">
@@ -44,8 +43,14 @@
             <div class="board-title bottom-line">
                 <div class="title">브랜드 프로필</div>
                 <div class="btn-area">
-                    <a href="report?memberNo=${profile.memberNo}">블랙</a>
-                    <a href="report?memberNo=${profile.memberNo}">경고</a>
+                    <c:if test="${profile.state eq '블랙'}">
+                        <a href="report?memberNo=${profile.memberNo}" style="background-color: #a3a3a3;">복구</a>
+                    </c:if>
+                    <c:if test="${profile.state != '블랙'}">
+                        <a href="report?memberNo=${profile.memberNo}">블랙</a>
+                   
+                        <a href="report?memberNo=${profile.memberNo}">경고</a>
+                    </c:if>    
                 </div>
             </div>
             <div class="profile-area">
@@ -61,7 +66,7 @@
             <div class="status-area">
                 <div class="ch-number">
                     <div class="status-title">상태</div>
-                    <div class="status-content">${profile.state}</div>
+                    <div class="status-content">${profile.state}/${profile.companyState}</div>
                 </div>
                 <div class="ch-number">
                     <div class="status-title">댓글</div>
@@ -167,7 +172,7 @@
                 </div>
 
             </div>
-
+${profile}
             <ul id="pagination">
                 <!-- <li>&lt;</li>
                 <li>&gt;</li> -->

@@ -1,6 +1,7 @@
 package edu.kh.project.member.model.service;
 
 import edu.kh.project.member.model.dao.MypageDAO;
+import edu.kh.project.member.model.dto.Brand;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,10 @@ public class MypageServiceImpl implements MypageService {
     @Override
     public List<Member> recommendBrand(int memberNo) {
         return dao.recommendBrand(memberNo);
+    }
+
+    @Override
+    public List<Brand> pickBrand(int memberNo) {
+        return dao.pickBrand(memberNo);
     }
 }

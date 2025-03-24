@@ -25,6 +25,7 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
     
+    ${business}
     <main>
         <section class="content">
             <section id="optionArea">
@@ -60,11 +61,11 @@
                     </table>
                     <div class="product-option-area border-top">
                         <span>상품 옵션</span>
-                        <select name="" id="productOption">
+                        <select class="product-option">
                             <option value="default">-[필수] 옵션을 선택해 주세요</option>
                             <option disabled>--------------------------------------</option>
                             <c:forEach var="option" items="${business.optionList}">
-                                <option value="${option.optionName}">${option.optionName}</option>
+                                <option value="${option.optionName}" data-optionNo="${option.optionNo}">${option.optionName}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -73,21 +74,21 @@
                         <span>${business.productCount}개</span>
                     </div>
                     <table class="choice-option border-top">
-                        <tbody id="choiceOption"></tbody>
+                        <tbody class="choice-option-area"></tbody>
                     </table>
                     <div class="total-area border-top">
                         <div class="price-area">
-                            TOTAL: <span id="totalPriceArea">0</span>원
-                            (<span id="totalCountArea">0</span>개)
+                            TOTAL: <span class="total-price-area">0</span>원
+                            (<span class="total-count-area">0</span>개)
                         </div>
                         <div class="buy-area">
                             <i class="fa-regular fa-heart"></i>
                             <i class="fa-solid fa-cart-shopping"></i>
-                            <button>혼자 구매</button>
+                            <button class="go-to-buy">혼자 구매</button>
                             <button>공동 구매</button>
                         </div>
                         <div>
-                            <button>REPORT</button>
+                            <a>REPORT</a>
                             <a href="#review">REVIEW <span>0</span></a>
                             <a href="#q&a">Q & A <span>0</span></a>
                         </div>
@@ -261,7 +262,7 @@
         <section class="fixed-option-area">
             <div class="product-option-area">
                 <span>상품 옵션</span>
-                <select name="" id="fixedOption">
+                <select name="" class="product-option">
                     <option value="default">-[필수] 옵션을 선택해 주세요</option>
                     <option disabled>--------------------------------------</option>
                     <c:forEach var="option" items="${business.optionList}">
@@ -270,17 +271,17 @@
                 </select>
             </div>
             <table class="choice-option">
-                <tbody id="fixedChoiceOption"></tbody>
+                <tbody class="choice-option-area"></tbody>
             </table>
             <div class="total-area">
                 <div class="price-area">
-                    TOTAL: <span id="fixedTotalPriceArea">0</span>원
-                    (<span id="fixedTotalCountArea">0</span>개)
+                    TOTAL: <span class="total-price-area">0</span>원
+                    (<span class="total-count-area">0</span>개)
                 </div>
                 <div class="buy-area">
                     <i class="fa-regular fa-heart"></i>
                     <i class="fa-solid fa-cart-shopping"></i>
-                    <button>혼자 구매</button>
+                    <button class="go-to-buy">혼자 구매</button>
                     <button>공동 구매</button>
                 </div>
             </div>

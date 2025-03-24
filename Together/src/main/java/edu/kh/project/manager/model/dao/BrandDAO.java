@@ -219,6 +219,38 @@ public class BrandDAO {
 		return sqlSession.selectList("managerMapper.brandProfileProducts", brandMap, rowBounds);
 	}
 
+	public int applyUpdate(BrandBoard brandBoard) {
+		return sqlSession.update("managerMapper.applyUpdate", brandBoard);
+	}
+
+	public int applyInsert(BrandBoard brandBoard) {
+		return sqlSession.insert("managerMapper.replyInsert", brandBoard);
+	}
+
+	/** 제휴 승인 처리
+	 * @param brandBoard 
+	 * @return
+	 */
+	public int applyAccept(BrandBoard brandBoard) {
+		return sqlSession.update("managerMapper.permissionCompany", brandBoard);
+	}
+
+	public int reportUpdate(Report report) {
+		return sqlSession.update("managerMapper.reportUpdate", report);
+	}
+
+	public int personWarnCount(Report report) {
+		return sqlSession.selectOne("managerMapper.personWarnCount", report);
+	}
+
+	public int blackUpdate(Report report) {
+		return sqlSession.update("managerMapper.blackUpdate", report);
+	}
+
+	public int companyBlackUpdate(Report report) {
+		return sqlSession.update("managerMapper.companyBlackUpdate", report);
+	}
+
 
 
 	

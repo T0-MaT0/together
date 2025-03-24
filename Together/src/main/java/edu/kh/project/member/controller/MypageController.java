@@ -1,5 +1,6 @@
 package edu.kh.project.member.controller;
 
+import edu.kh.project.member.model.dto.Brand;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
 import edu.kh.project.member.model.service.MypageServiceImpl;
@@ -90,6 +91,12 @@ public class MypageController {
     @ResponseBody
     public List<Member> recommendBrand(@RequestBody int memberNo) {
         return service.recommendBrand(memberNo);
+    }
+
+    @PostMapping(value = "/pickBrand", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public List<Brand> pickBrand(@RequestBody int memberNo) {
+        return service.pickBrand(memberNo);
     }
 
 

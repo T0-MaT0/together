@@ -45,10 +45,10 @@
             <div class="modalBottom">
                 <div>답변</div>
                 <!-- <div class="managerReportText">ㅁㄴㅇㄹㅁㄴㅇㄹ</div> -->
-                <textarea name="managerReportText" class="managerReportText">ㅁㄴㅇㄹㅁㄴㅇㄹ</textarea>
+                <div class="managerReportText" contenteditable="true">ㅁㄴㅇㄹㅁㄴㅇㄹ</div>
             </div>
             <div class="modal-btn barndBtn">
-                <button>처리</button>
+                <button onclick="reportSubmit('brand')">처리</button>
             </div>
         </div>
 

@@ -62,29 +62,29 @@
 	
 	<!-- ===============================  MAIN  ====================================== -->
 	
+	<!-- 고객 문의 수 -->
 	<select id="customerQuestionCount" resultType="_int">
 		SELECT COUNT(*) 
 		FROM BOARD
 		JOIN BOARD_TYPE USING(BOARD_CD)
 		WHERE BOARD_CD = 6
 	</select>
-	
+	<!-- 브랜드 제휴 문의 수 -->
 	<select id="brandQuestCount" resultType="_int">
 		SELECT COUNT(*) 
 		FROM BOARD
 		JOIN BOARD_TYPE USING(BOARD_CD)
 		WHERE BOARD_CD = 8
 	</select>
-	
+	<!-- 브랜드 광고 문의 수  -->
 	<select id="brandAdCount" resultType="_int">
 		SELECT COUNT(*) 
 		FROM BOARD
 		JOIN BOARD_TYPE USING(BOARD_CD)
 		WHERE BOARD_CD = 7
 	</select>
-
 	
-	
+	<!--BRAND MAIN  -->
 	<!-- 브랜드 상품 판매 건수 -->
 	<select id="brandTotalSellCount" resultType="_int">
 		SELECT COUNT(*)
@@ -113,7 +113,48 @@
 		LEFT JOIN "ORDER" USING(BOARD_NO)
 		WHERE BOARD_CD = 2
 	</select>
+	
+	<!-- 미처리 제휴/ 광고 수  -->
+	<select id="notPassBrandCount" resultType="_int">
+		SELECT COUNT(*) FROM BOARD WHERE BOARD_CD = ${boardCd} AND B_STATE IS NULL	
+	</select>
+	<!-- 개인 대상 신고 대기 수 -->
+	<select id="waitCustReportCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM REPORT R
+		WHERE REPORT_STATUS IN('대기')	
+	</select>
 
+	<!-- GRAPH -->
+	<!-- 그래프 7일 조회 -->
+	<select id="graphWeek" resultType='Map'>
+		SELECT 
+			TO_CHAR(SYSDATE, 'YYMMDD') today,
+			TO_CHAR(SYSDATE-1, 'YYMMDD') one,
+			TO_CHAR(SYSDATE-2, 'YYMMDD') two,
+			TO_CHAR(SYSDATE-3, 'YYMMDD') three,
+			TO_CHAR(SYSDATE-4, 'YYMMDD') four, 
+			TO_CHAR(SYSDATE-5, 'YYMMDD') five,
+			TO_CHAR(SYSDATE-6, 'YYMMDD') six,
+			TO_CHAR(SYSDATE-7, 'YYMMDD') seven
+		FROM DUAL		
+	</select>
+	
+	<select id="dayCount" resultType="_int">
+		SELECT 
+		    NVL(COUNT(M.ENROLL_DATE), 0) AS ENROLL_COUNT
+		FROM 
+		    (SELECT TRUNC(SYSDATE) - LEVEL + 1 AS DT 
+		     FROM DUAL 
+		<![CDATA[  CONNECT BY LEVEL <= 8) D ]]>
+		LEFT JOIN MEMBER M 
+		    ON TRUNC(M.ENROLL_DATE) = D.DT 
+		    AND M.AUTHORITY = ${authority}
+		GROUP BY D.DT
+		ORDER BY D.DT ASC	
+	</select>
+
+	<!--====================BRAND MAIN====================-->
 	<!-- 브랜드 대상 신고  -->
 	<!-- 대기 수  -->
 	<select id="watiCount" resultType="_int">
@@ -833,4 +874,57 @@
 			AND BOARD_NO = #{boardNo}
 	</select>
 	
+	
+		
+	<!--=================INSERT & UPDATE SECTION=============================-->
+	
+	<!-- 고객 문의 y 처리 -->
+	<update id="questUpdate">
+		UPDATE BOARD SET BOARD_DEL_FL = 'Y' WHERE BOARD_NO = #{boardNo}	
+	</update>
+	
+	<!-- 고객 문의 답변 제출 -->
+	<insert id="replyInsert">
+	INSERT INTO REPLY (REPLY_NO, REPLY_CREATE_DATE, REPLY_DEL_FL, REPLY_CONTENT, SECRET_REPLY_STATUS, MEMBER_NO, REPLY_TYPE, REPLY_TYPE_NO, PARENT_REPLY_NO) 
+	VALUES (SEQ_REPLY_NO.NEXTVAL
+			, SYSDATE
+			, 'N'
+			, #{reply}
+			, 'N', 1
+			, 1, ${boardNo}, NULL)		
+	</insert>
+	
+	<!-- 브랜드 체휴 승인/미승인 처리 -->
+	<update id="applyUpdate">
+		UPDATE BOARD SET B_STATE = #{state} WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<!-- 제휴 승인 처리 -->
+	<update id="permissionCompany">
+		UPDATE COMPANY SET PERMISSION_FL ='Y' WHERE MEMBER_NO =${memberNo}
+	</update>
+	
+	
+	
+	<!-- 고객 신고 update -->
+	<update id="reportUpdate">
+		UPDATE REPORT 
+		SET REPORT_STATUS  = #{reportStatus}, 
+			REPORT_M_REPLY = #{reply} 
+		WHERE REPORT_NO =#{reportNo}	
+	</update>
+	<!-- 경고 4개 확인  -->
+	<select id="personWarnCount" resultType="_int">
+		SELECT COUNT(*) FROM REPORT 
+		WHERE REPORTED_USER_NO =${reportedUserNo} 
+		AND REPORT_STATUS  = #{reportStatus}
+	</select>
+	<!-- 블랙 처리 -->
+	<update id="blackUpdate">
+		UPDATE MEMBER SET MEMBER_DEL_FL = 'B' WHERE MEMBER_NO = ${reportedUserNo}	
+	</update>
+	<!-- 브랜드 회원이 블랙일 경우 제휴 취소 처리  -->
+	<update id="companyBlackUpdate">
+		UPDATE COMPANY SET PERMISSION_FL ='N' WHERE MEMBER_NO = ${reportedUserNo}
+	</update>	
 </mapper>
