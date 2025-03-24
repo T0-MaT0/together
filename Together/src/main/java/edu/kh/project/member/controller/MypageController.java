@@ -1,5 +1,6 @@
 package edu.kh.project.member.controller;
 
+import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.member.model.dto.Brand;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/mypage")
@@ -98,6 +100,13 @@ public class MypageController {
     public List<Brand> pickBrand(@RequestBody int memberNo) {
         return service.pickBrand(memberNo);
     }
+
+    @PostMapping(value = "/getQnA", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public List<Reply> getQnA(@RequestBody int memberNo) {
+        return service.getQnA(memberNo);
+    }
+
 
 
 

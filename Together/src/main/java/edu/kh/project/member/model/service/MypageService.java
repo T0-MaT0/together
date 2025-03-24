@@ -1,5 +1,6 @@
 package edu.kh.project.member.model.service;
 
+import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.member.model.dto.Brand;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
@@ -16,4 +17,6 @@ public interface MypageService {
     List<Member> recommendBrand(int memberNo);
 
     List<Brand> pickBrand(int memberNo);
+
+    List<Reply> getQnA(int memberNo);
 }

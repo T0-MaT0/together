@@ -70,7 +70,7 @@
 	</resultMap>
 
 	<!-- Reply resultMap -->
-	<resultMap type="Reply" id="reply_rm">
+	<resultMap type="Reply" id="replyMP_rm">
 		<id property="replyNo" column="REPLY_NO" />
 		<result property="replyCreatedDate" column="REPLY_CREATE_DATE" />
 		<result property="replyDelFlag" column="REPLY_DEL_FL" />
@@ -133,6 +133,25 @@
 		<result property="businessNo" column="BUSINESS_NO" />
 		<result property="sumReadCount" column="SUM_READ_COUNT" />
 	</resultMap>
+
+	<!-- Reply resultMap -->
+	<resultMap type="Reply" id="reply_rm">
+		<id property="replyNo" column="REPLY_NO" />
+		<result property="replyCreatedDate" column="REPLY_CREATE_DATE" />
+		<result property="replyDelFlag" column="REPLY_DEL_FL" />
+		<result property="replyContent" column="REPLY_CONTENT" />
+		<result property="secretReplyStatus" column="SECRET_REPLY_STATUS" />
+		<result property="memberNo" column="MEMBER_NO" />
+		<result property="replyType" column="REPLY_TYPE" />
+		<result property="replyTypeNo" column="REPLY_TYPE_NO" />
+		<result property="parentNo" column="PARENT_REPLY_NO" />
+
+		<result property="memberNickname" column="MEMBER_NICK"/>
+
+		<result property="thumbnail" column="THUMBNAIL"/>
+	</resultMap>
+
+
 
 	<select id="getPurchaseHistory" resultMap="product_rm">
 		SELECT
@@ -284,6 +303,22 @@
 		WHERE MEMBER_DEL_FL = 'N'
 	</select>
 
+
+	<select id="getQnA" resultMap="replyMP_rm">
+		SELECT REPLY_NO, REPLY_CONTENT, PARENT_REPLY_NO, BOARD_NO, BOARD_TITLE, BOARD_CONTENT, IMG_PATH || IMG_RENAME THUMBNAIL
+		FROM (SELECT *
+		    FROM
+		        (SELECT *
+		        FROM REPLY
+		        WHERE REPLY_TYPE = 1
+		          AND MEMBER_NO = ${memberNo}
+		          AND REPLY_DEL_FL = 'N') R
+		    LEFT JOIN BOARD ON R.REPLY_TYPE_NO = BOARD_NO)
+		LEFT JOIN IMG ON BOARD_NO = IMG_TYPE_NO
+		WHERE BOARD_DEL_FL = 'N'
+		AND BOARD_CD = 2
+		AND IMG_LEVEL = 0
+	</select>
 
 
 
