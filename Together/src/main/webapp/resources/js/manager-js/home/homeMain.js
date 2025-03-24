@@ -83,6 +83,14 @@ for (let i = 0; i < bannerItems.length; i++) {
             console.log("파일 없음");
             bannerItems[i].setAttribute("src", "/resources/images/image-manager/banner/noneImg.png");
             bannerInput[i].value = '';
+            if(initialStates[i] === 0){
+                InsertNo.delete(i);
+            bannerItems[i].setAttribute("state", initialStates[i]);
+            }else{
+                deleteNo.add(i);
+                bannerItems[i].setAttribute("state", "-1");
+            }
+
         }
     });
 }
@@ -175,7 +183,24 @@ function refreshImage(path, i) {
 }
 
 
+let changeFlag = false;
+
 function imageSubmit(e){
+
+        for(let item of bannerItems){
+            itemState = Number(item.getAttribute("state"));
+            if(itemState === 2 || itemState === -1){
+                changeFlag = true;
+                break;
+            }
+        }
+
+        if(!changeFlag){
+            alert("변경된 사항이 없습니다.");
+            e.preventDefault();
+            return;
+        }   
+
        // InsertNo, updateNo, deleteNo 값을 문자열로 변환하여 hidden input에 설정
        const insertNoArray = Array.from(InsertNo).sort((a, b) => a - b); // 오름차순 정렬
        const updateNoArray = Array.from(updateNo).sort((a, b) => a - b);
@@ -185,9 +210,10 @@ function imageSubmit(e){
        document.querySelector('input[name="updateNo"]').value = updateNoArray.join(",");
        document.querySelector('input[name="deleteNo"]').value = deleteNoArray.join(",");
 
-    //    console.log("InsertNo 정렬:", insertNoArray);
+    // console.log("InsertNo 정렬:", insertNoArray);
     // console.log("updateNo 정렬:", updateNoArray);
     // console.log("deleteNo 정렬:", deleteNoArray);
+    alert("변경된 사항이 저장되었습니다.");
     // e.preventDefault();
     // return;
 }

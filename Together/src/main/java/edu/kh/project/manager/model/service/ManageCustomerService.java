@@ -1,5 +1,6 @@
 package edu.kh.project.manager.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import edu.kh.project.manager.model.dto.CustProfileBoard;
@@ -83,6 +84,26 @@ public interface ManageCustomerService {
 	 * @return
 	 */
 	int reportSubmit(Report report);
+
+
+	/** 해당 고객 신고 리스트 조회
+	 * @param memberNo
+	 * @param boardCode
+	 * @return
+	 */
+	List<CustProfileBoard> infoList(int memberNo, int boardCode);
+
+
+	/** 해당 고객 신고 상세 내용 조회
+	 * @param reportNo
+	 * @return
+	 */
+	Report infoDetail(int reportNo);
+
+
+	Map<String, Object> boardModal(int type, int no);
+
+
 
 
 

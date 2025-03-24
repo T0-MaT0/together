@@ -241,6 +241,32 @@ public class ManageCustomerDAO {
 	}
 
 
+	/** 해당 고객 신고 리스트 조회
+	 * @param memberNo
+	 * @param boardCode
+	 * @return
+	 */
+	public List<CustProfileBoard> infoList(int memberNo, int boardCode) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberNo", memberNo);
+		map.put("boardCode", boardCode);
+		
+		return sqlSession.selectList("managerMapper.cusProfileBoardList", map);
+	}
+
+
+	/**  해당 고객 신고 상세 내용 조회
+	 * @param reportNo
+	 * @return
+	 */
+	public Report infoDetail(int reportNo) {
+		return sqlSession.selectOne("managerMapper.reportDetailSelect", reportNo);
+	}
+
+
+
+
 
 
 

@@ -1,5 +1,7 @@
 package edu.kh.project.manager.controller;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.kh.project.manager.model.dto.CustProfileBoard;
 import edu.kh.project.manager.model.dto.CustomerBoard;
 import edu.kh.project.manager.model.dto.CustomerProfile;
 import edu.kh.project.manager.model.dto.Report;
@@ -145,4 +148,52 @@ public class ManageCustomerController {
 		return service.reportSubmit(Report);
 	}
 	
+	
+	/// MODAL 정보 조회 ---------------------------------------
+	
+	//신고 대상 회원 정보 조회
+	@GetMapping(value="/modalInfo", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public CustomerProfile modalInfo(int memberNo) {
+			
+		
+		return service.customerProfile(memberNo);
+	}
+	
+	// 신고 대상 회원의 신고 목록 조회
+	@GetMapping(value="/infoList/{boardCode}", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public List<CustProfileBoard> infoList(int memberNo, @PathVariable int boardCode) {
+			
+		
+		return service.infoList(memberNo, boardCode);
+	}
+	
+	// 신고 대상 회원의 신고 상세 정보 조회
+	@GetMapping(value="/infoDetail", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Report infoDetail(int reportNo) {
+			
+		
+		return service.infoDetail(reportNo);
+	}
+	
+	
+	// 문제의 board 화면 조회
+	@GetMapping(value="/boardModal/{type}")
+	public String boardModal(int no, @PathVariable int type, Model model) {
+
+		model.addAttribute("no", no);
+		model.addAttribute("type",type);
+		return "/manager/common/detailBoardModal";
+	}
+	
+//	@GetMapping(value="/boardDetail", produces="application/json; charset=UTF-8")
+//	@ResponseBody
+//	public Map<String, Object> boardDetail(int reportNo) {
+//			
+//		Map<String, Object> map = service.boardModal(type, no);
+//		
+//		return service.infoDetail(reportNo);
+//	}
 }

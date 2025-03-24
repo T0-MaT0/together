@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/customer/question-list.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/modal.css" />
+    
     <script>
         // 사이드 메뉴 설정
         const menuName = "${menuName}";
@@ -161,6 +162,7 @@
 
         </div>
     </div>
+
 
 </main>
 

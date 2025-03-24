@@ -1,0 +1,212 @@
+
+/* 기본 */
+/* #reportProfileModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+
+    temp
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+#reportProfileModal.modalActive {
+    display: flex;
+} */
+/* ----------------------------------------------------------- */
+
+
+
+/* 모달 내용 */
+.profile-content {
+    display: none;
+    background: white;
+    padding: 0;
+    border-radius: 8px;
+    width: 750px;
+    height: 500px;
+    position: relative;
+    top: 188px; left: 541px;
+    /* style */
+    background-color: #FFE9F3;
+    border: 2px solid #ccc;
+
+    /* display:block; */
+
+    overflow: hidden;
+}
+.profile-content.active {
+    display:block;
+}
+
+/* modal-header */
+.mod-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+
+    border-bottom: 1px solid #ccc;
+    cursor: move;
+}
+
+/* .mod-title{
+    position: absolute;
+    top: 0px;
+    left: 20px;
+    font-size: 20px;
+} */
+
+
+/* 닫기 버튼 */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+/* 접기 버튼 */
+.fold{
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    font-size: 20px;
+    cursor: pointer;
+
+}
+
+
+.draggable {
+    -webkit-app-region: drag;
+    position:absolute;
+    user-select: none;
+
+}
+
+
+/* ---------------------------------------- */
+
+
+.mod-body{
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 91%;
+}
+
+/* 모달 안 스타일 */
+.board-inner{
+    background-color: white;
+    border: 2px solid #ccc;
+    height: 100%;
+    width: 350px;
+    overflow: hidden;
+}
+
+/* ---왼쪽 정보 */
+.profile-info{
+    border-bottom: 1px solid #ccc;
+}
+
+.profile-info> div > img{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+#reportProfileModal > div > div.mod-body > div.profile-section.board-inner > div.profile-info > div:nth-child(1){
+    padding: 5px 10px; font-size: 20px;}
+.profile-info > div:nth-of-type(2){
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 5px;
+}
+
+.profile-list{
+    overflow: scroll;
+    /* 횡 스크롤 막기 */
+    white-space: nowrap;
+    /* 횡 스크롤 보이지 않게 하기 */
+    overflow-x: hidden;
+    /* 요소가 넘어갈때만 스크롤 보이기 */
+    overflow-y: auto;
+
+    /* 세로 스크롤 스타일 변화 */
+    scrollbar-width: thin;
+
+    height: 302px;
+    background-color: #e0d2d24b;
+}
+
+.pro-board{
+    display: grid;
+    grid-template-columns: 50px 145px 100px 50px;
+    width: 100%;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    background-color: white;
+    border-bottom: 1px solid #ccc;
+}
+.p-title{
+    background-color: #e7e7e7;
+    font-size: 16px;
+    height: 30px;
+}
+.p-title> div, .pro-board>div{font-weight: normal; font-size: 12px;}
+.body-board{
+    padding: 20px 0;
+    cursor: pointer;
+}
+.body-board:active{
+    filter: brightness(90%);
+}
+
+/* 오른쪽 내용 */
+.detail-title{
+    font-size: 20px;
+    padding: 5px 10px;
+    border-bottom: 1px solid #ccc;
+}
+.border-board{
+    border-bottom: 1px solid #ccc;
+    padding: 10px 5px;
+    font-size: 14px;
+    font-weight: normal;
+}
+.border-detail{
+    height:293px;
+
+    overflow: scroll;
+    white-space: nowrap;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
+    
+    padding: 8px;
+    font-size: 14px;
+    font-weight: normal;
+}
+.nothing{
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 15px;
+    font-weight: normal;
+}
+
+/* ---------------------------------------------------------------- */
