@@ -40,6 +40,8 @@
 
 		<typeAlias type="edu.kh.project.member.model.dto.Brand" alias="Brand"/>
 		<typeAlias type="edu.kh.project.common.model.dto.Category" alias="Category"/>
+		<typeAlias type="edu.kh.project.chatting.model.dto.ChattingRoom" alias="ChattingRoom"/>
+		<typeAlias type="edu.kh.project.chatting.model.dto.Message" alias="Message"/>
 
 
 	</typeAliases>
@@ -58,6 +60,8 @@
 		<mapper resource="/mappers/images-mapper.xml" />
 		<mapper resource="/mappers/main-mapper.xml" />
 		<mapper resource="/mappers/category-mapper.xml" />
+		<mapper resource="/mappers/chatting-mapper.xml" />
+		
 
 	</mappers>
 
