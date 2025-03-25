@@ -176,3 +176,41 @@ body {
 .group-register-btn:hover {
     background: #e6b800;
 }
+
+.complete-btn {
+    background-color: #4CAF50; /* 초록 */
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 60%;
+    margin: 10px auto;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.complete-btn:hover {
+    background-color: #388e3c;
+}
+
+.delete-btn {
+    background-color: #f44336; /* 빨간색 */
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin: 10px auto;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+    background-color: #d32f2f;
+}

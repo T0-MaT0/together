@@ -163,7 +163,7 @@ body {
 
 /* 공구 인원 및 확인하기 버튼 */
 .group-check-btn {
-    width: 70%;
+    width: 100%;
     background: #ffcc00;
     color: white;
     padding: 12px;
@@ -195,7 +195,7 @@ body {
     background: #27ae60;
 }
 
-/* 물품 확인했어요 버튼 */
+/* 물품 신고 버튼 */
 .confirmation-btn {
     width: 70%;
     background: #e74c3c;
@@ -210,4 +210,25 @@ body {
 
 .confirmation-btn:hover {
     background: #c0392b;
+}
+
+/* 취소 버튼 */
+.cancel-btn {
+    background-color: #ff4d4f;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin: 10px auto;
+    display: block;
+    text-align: center;
+}
+
+.cancel-btn:hover {
+    background-color: #d9363e;
 }

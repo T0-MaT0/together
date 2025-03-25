@@ -77,7 +77,28 @@
     
             <!-- 버튼 -->
             <div class="button-group">
-                <button class="group-register-btn">공구 인원 등록하기</button>
+                <%-- 상태가 '진행'일 때: 마감 및 삭제 버튼 --%>
+                <c:if test="${recruitment.recruitmentStatus eq '진행'}">
+                    <form action="/group/complete/update" method="post" onsubmit="return confirm('모집을 마감하고 구매를 진행하시겠습니까?');">
+                        <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}" />
+                        <input type="hidden" name="boardNo" value="${recruitment.boardNo}" />
+                        <button type="submit" class="complete-btn">모집 마감하고 구매 진행하기</button>
+                    </form>
+
+                    <form action="/group/delete" method="post" onsubmit="return confirm('정말 모집글을 삭제하시겠습니까?');">
+                        <input type="hidden" name="boardNo" value="${recruitment.boardNo}" />
+                        <button type="submit" class="delete-btn">모집 삭제하기</button>
+                    </form>
+                </c:if>
+
+                <%-- 상태가 '마감'일 때: 모집 인증 폼 등록 버튼 --%>
+                <c:if test="${recruitment.recruitmentStatus eq '마감'}">
+                    <form action="/group/verification/form" method="get">
+                        <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}" />
+                        <input type="hidden" name="boardNo" value="${recruitment.boardNo}" />
+                        <button type="submit" class="group-register-btn">모집 인증 폼 등록하기</button>
+                    </form>
+                </c:if>
             </div>
         </div>
     </main>
