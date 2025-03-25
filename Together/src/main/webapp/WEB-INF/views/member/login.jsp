@@ -51,13 +51,14 @@
                         <label class="check-box-div-div font-12"><input type="checkbox" name="saveId" id="saveId" ${save}>아이디 저장</label>
                     </div>
                     <div id="security-test">
-                        <img src="/resources/images/mainJHI/simpleCapcha.png" alt="" class="c">
-                        <input type="text" class="check-captcha-code" placeholder="보안문자를 입력하세요.">
-                    </div>
-                    <div class="captcha-button-div">
+                        <img src="" alt="captcha" id="captcha-img" class="c">
+                        <input type="text" name="captchaInput" class="check-captcha-code" placeholder="보안문자를 입력하세요.">
+                      </div>
+                      
+                      <div class="captcha-button-div">
                         <button id="reload" class="captcha-button">새로고침</button>
                         <button id="soundOn" class="captcha-button">음성듣기</button>
-                    </div>
+                      </div>
                     <div><button id="login-button">로그인</button></div>
                     <div class="font-12 find-div">
                         <a href="/member/findId" id="find-id">아이디 찾기</a>|
@@ -104,5 +105,6 @@
     </script>
     
     <script src="/resources/js/member/login.js"></script>
+
 </body>
 </html>

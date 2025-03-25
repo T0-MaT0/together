@@ -168,7 +168,7 @@
     
 
                 <div>
-                    <img id="not-robot" src="/resources/images/mainJHI/notrobot.png" alt="">
+                    <div class="g-recaptcha" data-sitekey="6LerP_8qAAAAAOTGBz3n9sYX3NLbt1E4-y5bhXr-"></div>
                 </div>
 
                 
@@ -210,6 +210,7 @@
 
     </div>
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     
     <script src="/resources/js/member/signUp.js"></script>
 

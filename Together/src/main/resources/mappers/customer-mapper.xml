@@ -67,7 +67,27 @@
 		AND BOARD_DEL_FL = 'N'
 	</select>
 	
-	<!-- 공지사항 리스트 불러오기 -->
+	<!-- FAQ 전체 게시판의 삭제되지 않은 검색 게시글 수 조회 -->
+	<select id="getSearchListCount" resultType="_int">
+		SELECT COUNT(*) FROM BOARD
+		WHERE BOARD_CD IN (9, 10, 11, 12, 13)
+		AND BOARD_DEL_FL = 'N'
+		AND (BOARD_TITLE LIKE '%${query}%' OR BOARD_CONTENT LIKE '%${query}%')
+	</select>
+	
+	<select id="searchFAQList" resultMap="board_rm">
+	  SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
+	         TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
+	         TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
+	         B_STATE, MEMBER_NO, BOARD_CD
+	  FROM BOARD
+	  WHERE BOARD_CD IN (9,10,11,12,13)
+	  AND BOARD_DEL_FL = 'N'
+	  AND (BOARD_TITLE LIKE '%${query}%' OR BOARD_CONTENT LIKE '%${query}%')
+	  ORDER BY BOARD_NO DESC
+	</select>
+	
+	<!-- FAQ 리스트 불러오기 -->
 	<select id="allFAQList" resultMap="board_rm">
 		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
 		TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
@@ -166,6 +186,29 @@
 		</foreach>
 		)A
 	</insert>
+	
+	<!-- 검색된 공지사항 개수 조회 -->
+	<select id="getSearchNoticeBoardCount" resultType="_int">
+	  SELECT COUNT(*)
+	  FROM BOARD
+	  WHERE BOARD_DEL_FL = 'N'
+	    AND BOARD_CD = #{boardCode}
+	    AND BOARD_TITLE LIKE '%${query}%'
+	</select>
+	
+	<!-- 공지사항 검색 리스트 -->
+	<select id="selectSearchNoticeBoardList" resultMap="board_rm">
+	  SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
+		TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
+		TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
+		B_STATE, MEMBER_NO, BOARD_CD
+	  FROM BOARD
+	  WHERE BOARD_DEL_FL = 'N'
+	    AND BOARD_CD = #{boardCode}
+	    AND BOARD_TITLE LIKE '%${query}%'
+	  ORDER BY BOARD_NO DESC
+	</select>
+
 
 	
 </mapper>

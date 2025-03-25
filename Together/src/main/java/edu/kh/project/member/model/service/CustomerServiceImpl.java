@@ -72,32 +72,56 @@ public class CustomerServiceImpl implements CustomerService{
 		map.put("pagination", pagination);
 		return map;
 	}
+	
+	@Override
+	public Map<String, Object> searchNoticeList(String query, int cp) {
+		int boardCode = 3; // 공지사항 보드 코드
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("boardCode", boardCode);
+		map.put("query", query);
+		
+		
+		int listCount = dao.getSearchNoticeBoardCount(map);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		
+		map.put("pagination", pagination);
+		
+		List<Board> noticeList = dao.selectSearchNoticeBoardList(map);
+		
+		map.put("noticeList", noticeList);
+		map.put("pagination", pagination);
+		return map;
+	}
+	
 
 	@Override
 	public Map<String, Object> FAQBoardList(int boardCode, int cp) {
 		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("boardCode", boardCode);
 		
 		if(boardCode == 0) {
 			int listCount = dao.getFAQAllListCount();
-			
-			System.out.println(listCount);
+			System.out.println("listCount : " + listCount);
 			
 			Pagination pagination = new Pagination(cp, listCount);
 			List<Board> FAQList = dao.allFAQList(pagination);
-			map.put("boardCode", boardCode);
 			map.put("FAQList", FAQList);
 			map.put("pagination", pagination);
+			System.out.println("pagination : " + pagination);
 			
 		} else {
 			int listCount = dao.getListCount(boardCode);
+			System.out.println("listCount : " + listCount);
 			
 			Pagination pagination = new Pagination(cp, listCount);
 			List<Board> FAQList = dao.selectboardList(boardCode, pagination);
-			map.put("boardCode", boardCode);
 			map.put("FAQList", FAQList);
 			map.put("pagination", pagination);
+			System.out.println("pagination : " + pagination);
 			
 		}
 		return map;
@@ -178,6 +202,25 @@ public class CustomerServiceImpl implements CustomerService{
 
 	return boardNo;
 }
+
+	@Override
+	public Map<String, Object> searchFAQ(String query, int cp) {
+	    int listCount = dao.getSearchListCount(query);
+	    Pagination pagination = new Pagination(cp, listCount);
+
+	    List<Board> FAQList = dao.searchFAQList(query, pagination);
+
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("FAQList", FAQList);
+	    map.put("pagination", pagination);
+	    map.put("boardCode", 0); // 전체로 설정
+	    map.put("query", query);
+
+	    return map;
+	}
+
+	
+	
 
 
 

@@ -39,25 +39,47 @@ public class CustomerController {
 	//  FAQ 페이지 가져옴
 	@GetMapping("/FAQBoard/{boardCode}")
 	public String FAQBoard(@PathVariable("boardCode") int boardCode ,Model model
-			, @RequestParam(value = "cp", required=false, defaultValue="1") int cp
-			, @RequestParam Map<String, Object> paramMap) {
+			, @RequestParam(value = "cp", required=false, defaultValue="1") int cp) {
 		
-
-		//System.out.println(boardCode);
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(paramMap.get("key") == null) {
-			map = service.FAQBoardList(boardCode, cp);			
-		} else { // 검색어가 있을 경우
-			paramMap.put("boardCode", boardCode);
-			//map = service.FAQBoardList(paramMap, cp);			
 
-		}
+		map = service.FAQBoardList(boardCode, cp);			
+		
 		
 		
 		model.addAttribute("map",map);
 		
 		return "customer/FAQBoard";
 	}
+	@GetMapping("/FAQBoard/{boardCode}/fragment/list")
+	public String getFAQListFragment(@PathVariable int boardCode,
+	                                 @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+	                                 Model model) {
+	    Map<String, Object> map = service.FAQBoardList(boardCode, cp);
+	    model.addAttribute("map", map);
+	    return "customer/FAQBoardListFragment";
+	}
+
+	@GetMapping("/FAQBoard/{boardCode}/fragment/page")
+	public String getFAQPaginationFragment(@PathVariable int boardCode,
+	                                       @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+	                                       Model model) {
+	    Map<String, Object> map = service.FAQBoardList(boardCode, cp);
+	    model.addAttribute("map", map);
+	    return "customer/FAQPaginationFragment";
+	}
+	@GetMapping("/FAQBoard/search")
+	public String searchFAQ(@RequestParam("query") String query,
+	                        @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+	                        Model model) {
+
+	    Map<String, Object> map = service.searchFAQ(query, cp);
+	    model.addAttribute("map", map);
+	    return "customer/FAQBoard";
+	}
+
+
+	
 	//  공지사항 리스트 페이지 가져옴
 	@GetMapping("/noticeBoardList")
 	public String noticeBoardList(Model model
@@ -80,6 +102,17 @@ public class CustomerController {
 		model.addAttribute("map", map);
 		return "customer/noticeBoardList";
 	}
+	
+	@GetMapping("/notice/search")
+	public String searchNotice(@RequestParam("query") String query,
+	                           @RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
+	                           Model model) {
+
+	    Map<String, Object> map = service.searchNoticeList(query, cp);
+	    model.addAttribute("map", map);
+	    return "customer/noticeBoardList";
+	}
+	
 	//  공지사항 디테일 페이지 가져옴
 	@GetMapping("/noticeBoardDetail/{boardNo}")
 	public String noticeBoardDetail(@PathVariable("boardNo") int boardNo , Model model
@@ -92,29 +125,7 @@ public class CustomerController {
 		return "customer/noticeBoardDetail";
 	}
 	
-	// 비동기 카테고리 가져옴
-	@GetMapping("/FAQBoard/{boardCode}/fragment")
-	public String getFAQFragment(@PathVariable("boardCode") int boardCode ,Model model
-			, @RequestParam(value = "cp", required=false, defaultValue="1") int cp
-			, @RequestParam Map<String, Object> paramMap) {
-		
 
-		//System.out.println(boardCode);
-		Map<String, Object> map = new HashMap<String, Object>();
-		if(paramMap.get("key") == null) {
-			map = service.FAQBoardList(boardCode, cp);			
-		} else { // 검색어가 있을 경우
-			paramMap.put("boardCode", boardCode);
-			//map = service.FAQBoardList(paramMap, cp);			
-
-		}
-		
-		
-		model.addAttribute("map",map);
-		
-		return "customer/FAQBoard-fragment";
-	}
-	
 	
 	
 

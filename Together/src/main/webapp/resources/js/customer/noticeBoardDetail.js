@@ -1,27 +1,26 @@
-// 목록으로
 (function(){
     const goToListBtn = document.getElementById("go-to-list");
+  
     if(goToListBtn != null){
-        goToListBtn.addEventListener("click", ()=>{
-            
-            // URL 내장 객체 : 주소 관련 정보를 나타내는 객체
-            // URL.searchParams : 쿼리 스트링만 별도로 객체를 반환
-            const params = new URL(location.href).searchParams;
-
-            let url;
-
-
-            url = location.origin+ "/customer/noticeBoardList" + location.search
-
-
-            console.log(url);
-
-            location.href = url;
-
-
-
-    
-        })
+      goToListBtn.addEventListener("click", () => {
+        const urlObj = new URL(location.href);
+        const params = urlObj.searchParams;
+  
+        let basePath;
+  
+        //  query 파라미터가 있으면 검색 결과 페이지로 이동
+        if(params.get("query")) {
+          basePath = "/customer/notice/search";
+        } else {
+          basePath = "/customer/noticeBoardList";
+        }
+  
+        const url = location.origin + basePath + location.search;
+  
+        console.log("🔁 목록으로 URL:", url);
+  
+        location.href = url;
+      });
     }
-
-})();
+  })();
+  

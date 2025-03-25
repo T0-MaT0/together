@@ -1,6 +1,7 @@
 package edu.kh.project.member.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -49,7 +50,8 @@ public class CustomerDAO {
 
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 
-		return sqlSession.selectList("customerMapper.allFAQList", rowBounds);
+		// 파라미터를 전달하지 않아서 페이지네이션이 적용이 안된거
+		return sqlSession.selectList("customerMapper.allFAQList", null, rowBounds);
 	}
 
 	public Board selectNoticeBoardDetail(int boardNo) {
@@ -74,6 +76,32 @@ public class CustomerDAO {
 	public int insertImageList(List<Image> uploadList) {
 		return sqlSession.insert("customerMapper.insertImageList", uploadList);
 	}
+
+	public int getSearchListCount(String query) {
+		return sqlSession.selectOne("customerMapper.getSearchListCount", query);
+	}
+
+	public List<Board> searchFAQList(String query, Pagination pagination) {
+		int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
+	    RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+	    return sqlSession.selectList("customerMapper.searchFAQList", query, rowBounds);
+	}
+
+
+	public int getSearchNoticeBoardCount(Map<String, Object> map) {
+	    return sqlSession.selectOne("customerMapper.getSearchNoticeBoardCount", map);
+	}
+
+	public List<Board> selectSearchNoticeBoardList(Map<String, Object> map) {
+	    Pagination pagination = (Pagination) map.get("pagination");
+	    int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
+	    RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+
+	    return sqlSession.selectList("customerMapper.selectSearchNoticeBoardList", map, rowBounds);
+	}
+
+
+	
 
 
 }
