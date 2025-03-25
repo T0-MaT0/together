@@ -216,7 +216,13 @@
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/individual/individualMain.js"></script>
+    <c:if test="${!empty message}">
 
+        <script>
+            alert('${message}');
+        </script>
+
+    </c:if>
 </body>
 
 </html>

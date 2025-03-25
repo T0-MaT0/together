@@ -1,127 +1,149 @@
+/* G마켓 산스 고정 */
 @font-face {
     font-family: 'GmarketSansMedium';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}
-
-body {
-    font-family: 'GmarketSansMedium', sans-serif;
-    background-color: white;
+  }
+  
+  /* body 기본 설정 */
+  body {
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-}
-
-/* 전체 컨테이너 */
-.verification-container {
-    width: 640px;
-    height: 800px;
-    background: white;
-    padding: 40px;
+    background-color: #fff;
+    font-family: 'GmarketSansMedium', sans-serif;
+    box-sizing: border-box;
+  }
+  
+  /* 모든 요소에 box-sizing: border-box 적용 */
+  *, *::before, *::after {
+    box-sizing: inherit;
+  }
+  
+  /* 화면 전체 컨테이너: 폭 1440px 고정, 가운데 정렬 */
+  #verificationPage {
+    width: 1440px;
+    margin: 0 auto; 
+    background: #fff; /* 배경 흰색 */
+  }
+  
+  /* 메인 컨테이너: 폭 1086px 고정, 가운데 정렬 */
+  #verificationContainer {
+    width: 1086px;
+    margin: 60px auto; 
+    padding: 40px 30px;
+    background: #fff;
     border-radius: 12px;
-    margin: 60px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+  
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-}
-
-/* 공구 인증 폼 제목 */
-.verification-title {
+    /* 섹션 간격을 크게 하고 싶다면 gap 값을 늘려도 좋습니다 */
+    gap: 30px;
+  }
+  
+  /* 제목(“모집 인증 폼”) - absolute 위치 대신 기본 흐름으로 배치 */
+  .verification-title {
     font-size: 24px;
     font-weight: bold;
+    /* 배경에 그라데이션 느낌 주기 */
     background: linear-gradient(to bottom, transparent 35%, #f8df9e 50%);
     display: inline-block;
-    padding: 5px;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-}
-
-/* 인증 섹션 공통 */
-.verification-section {
-    text-align: center;
-    width: 80%;
-    margin-top: 20px;
-}
-
-/* 공구 인증 QR */
-.section-label {
-    font-size: 16px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    /* absolute 제거 후, 영역과 겹치지 않도록 margin 부여 */
+    margin-bottom: 20px;
+  }
+  
+  /* 공통 섹션 */
+  .verification-section {
+    width: 100%;
+  }
+  
+  /* 섹션 라벨 */
+  .section-label, .date-label {
+    font-size: 15px;
     font-weight: bold;
     color: gray;
+    margin-bottom: 8px;
     display: block;
-    text-align: left;
-    margin-top: 60px;
-    margin-bottom: 5px;
-}
-
-.qr-box {
+  }
+  
+  /* QR 영역 */
+  .qr-box {
     width: 100%;
-    height: 300px;
+    height: 280px;
     background: #f3f3f3;
-    border-radius: 8px;
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 50px;
-    color: gray;
-}
-
-/* 운송장 입력 */
-.tracking-input {
+    overflow: hidden;
+    border: 1px solid #ccc;
+  }
+  
+  /* QR 미리보기 */
+  .qr-box img.qr-preview {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  
+  /* 운송장 입력 */
+  .tracking-input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
+    border-radius: 6px;
+    font-size: 15px;
     margin-top: 5px;
-}
-
-/* 날짜 입력 */
-.date-section {
+  }
+  
+  /* 날짜 섹션 */
+  .date-section {
     display: flex;
     justify-content: space-between;
-    width: 80%;
+    gap: 20px;
+    width: 100%;
     margin-top: 20px;
-}
-
-.date-box {
+    margin-bottom: 30px;
+  }
+  
+  .date-box {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    width: 45%;
-}
-
-.date-label {
-    font-size: 14px;
-    color: gray;
-    margin-bottom: 5px;
-}
-
-.date-input {
+  }
+  
+  .date-input {
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-/* 인증 등록 버튼 */
-.register-btn {
-    width: 60%;
+    border-radius: 6px;
+    font-size: 15px;
+    background-color: #fff;
+  }
+  
+  /* 등록(수정) 버튼 */
+  .register-btn {
+    width: 100%;
     background: #ffcc00;
-    color: white;
+    color: #fff;
     padding: 14px;
     border: none;
-    border-radius: 20px;
-    font-size: 16px;
+    border-radius: 30px;
+    font-size: 17px;
+    font-weight: bold;
     cursor: pointer;
-    margin-top: 30px;
-}
-
-.register-btn:hover {
+    transition: background 0.2s ease-in-out;
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .register-btn:hover {
     background: #e6b800;
-}
+  }
+  
+  
+  .verification-section + .verification-section {
+    margin-top: 20px;
+  }

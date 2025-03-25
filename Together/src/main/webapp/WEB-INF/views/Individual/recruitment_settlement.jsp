@@ -37,7 +37,7 @@
                         <span class="amount">
                             <fmt:formatNumber 
                                 value="${(recruitment.productPrice / recruitment.maxParticipants) * (recruitment.myParticipationCount > 0 ? recruitment.myParticipationCount : 1)}" 
-                                pattern="#\,###"/> pt
+                                pattern="#,###"/> pt
                         </span>
                     </strong>
                 </p>
@@ -48,7 +48,7 @@
                 <p>내 현재 포인트 : 
                     <strong>
                         <span class="current-point">
-                            <fmt:formatNumber value="${loginMember.point}" pattern="#\,###"/> pt
+                            <fmt:formatNumber value="${loginMember.point}" pattern="#,###"/> pt
                         </span>
                     </strong>
                 </p>
@@ -61,7 +61,7 @@
                         <span class="remaining-point">
                             <fmt:formatNumber 
                                 value="${loginMember.point - ((recruitment.productPrice / recruitment.maxParticipants) * (recruitment.myParticipationCount > 0 ? recruitment.myParticipationCount : 1))}" 
-                                pattern="#\,###"/> pt
+                                pattern="#,###"/> pt
                         </span>
                     </strong>
                 </p>

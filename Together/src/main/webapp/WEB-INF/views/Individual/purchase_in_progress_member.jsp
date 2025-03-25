@@ -76,9 +76,26 @@
 
             <!-- 버튼 그룹 -->
             <div class="button-group">
-                <button class="group-check-btn">공구 인원 및 확인하기</button>
-                <button class="purchase-btn">구매 진행하기</button>
-                <button class="confirmation-btn">물품을 확인했어요</button>
+                <c:choose>
+                    <%-- 모집 상태가 '진행'이면 취소 버튼만 --%>
+                    <c:when test="${recruitment.recruitmentStatus eq '진행'}">
+                        <form action="/group/participation/cancel" method="post" onsubmit="return confirm('참가를 정말 취소하시겠습니까?');">
+                            <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}" />
+                            <button type="submit" class="cancel-btn">참가 취소하기</button>
+                        </form>
+                    </c:when>
+            
+                    <%-- 모집 상태가 '마감'이면 모든 버튼 표시 --%>
+                    <c:when test="${recruitment.recruitmentStatus eq '마감'}">
+                        <form action="/group/verification/memberForm" method="get" style="display:inline;">
+                            <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}">
+                            <input type="hidden" name="boardNo" value="${recruitment.boardNo}">
+                            <button type="submit" class="group-check-btn">모집 인증 폼 확인하기</button>
+                        </form>
+                        <button class="purchase-btn">구매 진행하기</button>
+                        <button class="confirmation-btn">물건을 못 받았어요.</button>
+                    </c:when>
+                </c:choose>
             </div>
         </div>
     </main>

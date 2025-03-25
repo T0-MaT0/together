@@ -44,4 +44,23 @@ public interface RecruitmentService {
 	// 현재 포인트 조회
 	int selectMemberPoint(int memberNo);
 
+	// 참가 취소
+	int deleteParticipation(int memberNo, int recruitmentNo);
+
+	// 모집글 삭제
+	int softDeleteBoard(int boardNo);
+
+	// 모집 마감시키기
+	int updateRecruitmentStatusToClosed(int recruitmentNo);
+
+	// 모집 인증 폼 만들기
+	int registerVerificationFormWithQr(int recruitmentNo, String trackingNumber, String deliveryExpected,
+			String memberReceiveDate, String realPath, String webPath) throws Exception;
+
+	// 모집 인증 폼 수정
+	int updateVerificationForm(int recruitmentNo, String trackingNumber, String deliveryExpected,
+			String memberReceiveDate);
+
+	boolean verifyParticipant(int recruitmentNo, String token);
+
 }
