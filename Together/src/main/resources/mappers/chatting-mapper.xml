@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="chattingMapper">
+	
+	<resultMap type="ChattingRoom" id="chattingRoom_rm">
+	    <id property="roomNo" column="ROOM_NO" />
+	
+	    <result property="roomName" column="ROOM_NAME" />
+	    <result property="lastMessage" column="LAST_MESSAGE" />
+	    <result property="lastSendTime" column="LAST_SEND_TIME" />
+	    <result property="targetNickname" column="TARGET_NICKNAME" />
+	    <result property="targetProfile" column="TARGET_PROFILE" />
+	    <result property="unreadCount" column="UNREAD_COUNT" />
+	    <result property="maxMessageNo" column="MAX_MESSAGE_NO" />
+	</resultMap>
+	
+	<resultMap type="Message" id="message_rm">
+	    <id property="messageNo" column="MESSAGE_NO" />
+	
+	    <result property="messageContent" column="MESSAGE_CONTENT" />
+	    <result property="messageType" column="MESSAGE_TYPE" />
+	    <result property="sendTime" column="SEND_TIME" />
+	
+	    <result property="senderNo" column="MEMBER_NO" />
+	    <result property="chattingNo" column="ROOM_NO" />
+	
+	    <result property="senderNickname" column="SENDER_NICKNAME" />
+	    <result property="senderProfile" column="SENDER_PROFILE" />
+	</resultMap>
+
+	<!-- 채팅방 조회 -->
+	<select id="getChattingList" resultMap="chattingRoom_rm">
+	  SELECT 
+		    R.ROOM_NO,
+		    R.ROOM_NAME,
+		
+		    -- 가장 최근 메시지 내용
+		    (SELECT MESSAGE_CONTENT
+		     FROM (
+		         SELECT MESSAGE_CONTENT
+		         FROM CHAT_MESSAGE M
+		         WHERE M.ROOM_NO = R.ROOM_NO
+		         ORDER BY M.MESSAGE_NO DESC
+		     )
+		     WHERE ROWNUM = 1) AS LAST_MESSAGE,
+		
+		    -- 가장 최근 메시지 시간
+		    (SELECT TO_CHAR(MAX(SEND_DATE), 'YYYY.MM.DD HH24:MI') 
+		     FROM CHAT_MESSAGE M 
+		     WHERE M.ROOM_NO = R.ROOM_NO) AS LAST_SEND_TIME,
+		
+		    -- 상대방 닉네임 (1:1 채팅일 경우)
+		    (SELECT MEMBER_NICK
+		     FROM MEMBER 
+		     WHERE MEMBER_NO = (
+		         SELECT U.MEMBER_NO 
+		         FROM CHAT_ROOM_USER U 
+		         WHERE U.ROOM_NO = R.ROOM_NO 
+		         AND U.MEMBER_NO != #{memberNo}
+		         AND R.GROUP_FL = 'N'
+		     )
+		    ) AS TARGET_NICKNAME,
+		
+		    -- 상대방 프로필
+		    (SELECT PROFILE_IMG 
+		     FROM MEMBER 
+		     WHERE MEMBER_NO = (
+		         SELECT U.MEMBER_NO 
+		         FROM CHAT_ROOM_USER U 
+		         WHERE U.ROOM_NO = R.ROOM_NO 
+		         AND U.MEMBER_NO != #{memberNo}
+		         AND R.GROUP_FL = 'N'
+		     )
+		    ) AS TARGET_PROFILE,
+		
+		    -- 안 읽은 메시지 수
+		    NVL((
+		        SELECT UNREAD_COUNT 
+		        FROM CHAT_NOTIFICATION N 
+		        WHERE N.MEMBER_NO = #{memberNo}
+		        AND N.ROOM_NO = R.ROOM_NO
+		    ), 0) AS UNREAD_COUNT,
+		
+		    -- 최근 메시지 번호 (정렬용)
+		    (SELECT MAX(MESSAGE_NO) 
+		     FROM CHAT_MESSAGE 
+		     WHERE ROOM_NO = R.ROOM_NO) AS MAX_MESSAGE_NO
+		
+		FROM CHAT_ROOM R
+		
+		JOIN CHAT_ROOM_USER U ON R.ROOM_NO = U.ROOM_NO
+		WHERE U.MEMBER_NO = #{memberNo}
+		AND R.ROOM_DELETED_FL = 'N'
+		
+		ORDER BY MAX_MESSAGE_NO DESC NULLS LAST
+	</select>
+	
+	<!-- 채팅내역 조회 -->
+	<select id="selectMessageList" parameterType="map" resultMap="message_rm">
+        SELECT 
+		    CM.MESSAGE_NO,
+		    CM.MESSAGE_CONTENT,
+		    CM.MESSAGE_TYPE,
+		    TO_CHAR(CM.SEND_DATE, 'YYYY.MM.DD HH24:MI') AS SEND_TIME,
+		    CM.MEMBER_NO AS senderNo,
+		    CM.ROOM_NO AS chattingNo,
+		
+		    M.MEMBER_NICK AS senderNickname,
+		    M.PROFILE_IMG AS senderProfile
+		
+		FROM CHAT_MESSAGE CM
+		JOIN MEMBER M ON CM.MEMBER_NO = M.MEMBER_NO
+		WHERE CM.ROOM_NO = #{chattingNo}
+		ORDER BY CM.MESSAGE_NO
+    </select>
+    
+    <!-- 상대 프로필 조회 -->
+    <select id="selectChatTarget" resultType="Member">
+	    SELECT 
+	        M.MEMBER_NO,
+	        M.MEMBER_NICK,
+	        M.PROFILE_IMG
+	    FROM CHAT_ROOM_USER U
+	    JOIN MEMBER M ON U.MEMBER_NO = M.MEMBER_NO
+	    WHERE U.ROOM_NO = #{roomNo}
+	    AND U.MEMBER_NO != #{loginMemberNo}
+	</select>
+	
+</mapper>
