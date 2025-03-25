@@ -23,6 +23,7 @@ public class Recruitment {
     private String region;              // 지역
     private String productUrl;       // 상품 URL
     private int qrCode;              // QR 코드
+    private String qrImagePath;
     private int boardNo;             // 게시글 번호
     private int boardCode;           // 게시판 코드 (BOARD_TYPE에서 가져옴)
 
@@ -64,5 +65,10 @@ public class Recruitment {
     // 댓글 관련 정보
     private List<Reply> commentList;
     
+    // 배송/인증 관련 정보
+    private String trackingNumber;      // 운송장 번호
+    private String deliveryExpected;    // 택배 예상 도착일 (String 또는 Date)
+    private String memberReceiveDate;   // 파티원 수령 예정일 (String 또는 Date)
+    private String qrToken;
     
 }

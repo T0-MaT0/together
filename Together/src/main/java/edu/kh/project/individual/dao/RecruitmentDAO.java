@@ -253,6 +253,69 @@ public class RecruitmentDAO {
 		return sqlSession.selectOne("recruitmentMapper.selectMemberPoint", memberNo);
 	}
 
+
+	/** 참가 취소
+	 * @param memberNo
+	 * @param recruitmentNo
+	 * @return
+	 */
+	public int deleteRecruitmentParticipant(int memberNo, int recruitmentNo) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("memberNo", memberNo);
+	    map.put("recruitmentNo", recruitmentNo);
+	    return sqlSession.delete("recruitmentMapper.deleteRecruitmentParticipant", map);
+	}
+
+	/** 모집글 삭제 
+	 * @param boardNo
+	 * @return
+	 */
+	public int updateBoardDelFl(int boardNo) {
+		return sqlSession.update("recruitmentMapper.updateBoardDelFl", boardNo);
+	}
+
+	/** 모집 마감시키기
+	 * @param recruitmentNo
+	 * @return
+	 */
+	public int updateRecruitmentStatus(int recruitmentNo) {
+		return sqlSession.update("recruitmentMapper.updateRecruitmentStatus2", recruitmentNo);
+	}
+ 
+
+	/** 모집 인증 폼 만들기
+	 * @param map
+	 * @return
+	 */
+	public int updateVerificationFormWithQr(Map<String, Object> map) {
+		return sqlSession.update("recruitmentMapper.updateVerificationFormWithQr", map);
+	}
+
+	/** 모집 인증 폼 수정
+	 * @param map
+	 * @return
+	 */
+	public int updateVerificationForm(Map<String, Object> map) {
+		return sqlSession.update("recruitmentMapper.updateVerificationForm", map);
+	}
+
+	public int checkTokenValid(int recruitmentNo, String token) {
+		 Map<String, Object> params = new HashMap<>();
+        params.put("recruitmentNo", recruitmentNo);
+        params.put("token", token);
+
+        return sqlSession.selectOne("recruitmentMapper.checkTokenValid", params);
+	}
+
+	public void updateCertStatus(int recruitmentNo, String token) {
+		Map<String, Object> params = new HashMap<>();
+        params.put("recruitmentNo", recruitmentNo);
+        params.put("token", token);
+
+        sqlSession.update("recruitmentMapper.updateCertStatus", params);
+		
+	}
+
 	
 	
 }

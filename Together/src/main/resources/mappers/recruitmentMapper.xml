@@ -83,6 +83,13 @@
 	    <result property="memberNick" column="MEMBER_NICK"/>
 	    <result property="memberGrade" column="MEMBER_GRADE"/>
 	    
+	    <result property="qrToken" column="QR_TOKEN"/>
+	    <result property="qrImagePath" column="QR_IMAGE_PATH"/>
+	    <result property="trackingNumber" column="TRACKING_NUMBER"/>
+	    <result property="deliveryExpected" column="DELIVERY_EXPECTED"/>
+	    <result property="memberReceiveDate" column="MEMBER_RECEIVE_DATE"/>
+	    
+	    
 	    <collection property="imageList"
   				  select="selectImageList"
   				  column="BOARD_NO"
@@ -434,7 +441,11 @@
 		    b.BOARD_NO,
 		    b.BOARD_TITLE AS PRODUCT_NAME,   
 		    b.BOARD_CONTENT,
-		
+			r.QR_TOKEN,             
+		    r.QR_IMAGE_PATH,      
+		    r.TRACKING_NUMBER,     
+		    TO_CHAR(r.DELIVERY_EXPECTED, 'YYYY-MM-DD') AS DELIVERY_EXPECTED,
+    		TO_CHAR(r.MEMBER_RECEIVE_DATE, 'YYYY-MM-DD') AS MEMBER_RECEIVE_DATE,   
 		    p.PRODUCT_PRICE, 
 		    p.PRODUCT_COUNT, 
 		    p.DELIVERY_FEE, 
@@ -727,4 +738,66 @@
 	    FROM MEMBER
 	    WHERE MEMBER_NO = #{memberNo}
 	</select>
+	
+	<!-- 참가 취소 -->
+	<delete id="deleteRecruitmentParticipant" parameterType="map">
+	    DELETE FROM RECRUITMENT_PARTICIPANT
+	    WHERE MEMBER_NO = #{memberNo}
+	      AND RECRUITMENT_NO = #{recruitmentNo}
+	</delete>
+	
+	<!-- 모집글 삭제 -->
+	<update id="updateBoardDelFl" parameterType="int">
+	    UPDATE BOARD
+	    SET BOARD_DEL_FL = 'Y'
+	    WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<update id="updateRecruitmentStatus2" parameterType="int">
+	    UPDATE RECRUITMENT_ROOM
+	    SET RECRUITMENT_STATUS = '마감'
+	    WHERE RECRUITMENT_NO = #{recruitmentNo}
+	</update>
+	
+	<!-- 모집 인증 폼 -->
+	<update id="updateVerificationFormWithQr" parameterType="map">
+	    UPDATE RECRUITMENT_ROOM
+	    SET 
+	        TRACKING_NUMBER = #{trackingNumber},
+	        DELIVERY_EXPECTED = TO_DATE(#{deliveryExpected}, 'YYYY-MM-DD'),
+	        MEMBER_RECEIVE_DATE = TO_DATE(#{memberReceiveDate}, 'YYYY-MM-DD'),
+	        QR_TOKEN = #{qrToken},
+	        QR_IMAGE_PATH = #{qrImagePath}
+	    WHERE RECRUITMENT_NO = #{recruitmentNo}
+	</update>
+	
+	<update id="updateVerificationForm" parameterType="map">
+	    UPDATE RECRUITMENT_ROOM
+	    SET 
+	        TRACKING_NUMBER = #{trackingNumber},
+	        DELIVERY_EXPECTED = TO_DATE(#{deliveryExpected}, 'YYYY-MM-DD'),
+	        MEMBER_RECEIVE_DATE = TO_DATE(#{memberReceiveDate}, 'YYYY-MM-DD')
+	    WHERE RECRUITMENT_NO = #{recruitmentNo}
+	</update>
+	
+	<!-- 토큰 유효성 검사 -->
+    <select id="checkTokenValid" resultType="int">
+        SELECT COUNT(*)
+        FROM RECRUITMENT_ROOM
+        WHERE RECRUITMENT_NO = #{recruitmentNo}
+          AND QR_TOKEN = #{token}
+    </select>
+
+    <!-- 인증 상태 업데이트 -->
+    <update id="updateCertStatus">
+        UPDATE RECRUITMENT_PARTICIPANT
+        SET CERT_STATUS = 'Y'
+        WHERE RECRUITMENT_NO = #{recruitmentNo}
+          AND MEMBER_NO IN (
+            SELECT MEMBER_NO
+            FROM RECRUITMENT_ROOM
+            WHERE RECRUITMENT_NO = #{recruitmentNo}
+              AND QR_TOKEN = #{token}
+          )
+    </update>
 </mapper>

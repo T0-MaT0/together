@@ -61,7 +61,11 @@
                                     (recruitment.recruitmentStatus eq '마감' ? 'purple' : 'blue')}">
                                     ${recruitment.recruitmentStatus}
                                 </span>
-                                <h3>${recruitment.productName != null ? recruitment.productName : '상품명 없음'}</h3>
+                                <h3>
+                                    <a href="/partyRecruitmentList/${recruitment.recruitmentNo}/${recruitment.boardNo}">
+                                      ${recruitment.productName != null ? recruitment.productName : '상품명 없음'}
+                                    </a>
+                                </h3>
                             </div>
                             
                             <div class="info-footer">

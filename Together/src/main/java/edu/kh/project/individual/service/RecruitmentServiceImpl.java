@@ -1,15 +1,23 @@
 package edu.kh.project.individual.service;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
@@ -347,10 +355,10 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
 	    // 3. 현재 총 참여 인원 조회
 	    int currentParticipants = dao.countParticipants(recruitmentNo);
-
+	    System.out.println("currentParticipants : " + currentParticipants);
 	    // 4. 최대 인원 조회
 	    int maxParticipants = dao.selectMaxParticipants(recruitmentNo);
-
+	    System.out.println("maxParticipants : " + maxParticipants);
 	    // 5. 마감 조건 확인
 	    if (currentParticipants >= maxParticipants) {
 	        dao.updateRecruitmentStatusToClosed(recruitmentNo);
@@ -375,6 +383,86 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 	public int selectMemberPoint(int memberNo) {
 		return dao.selectMemberPoint(memberNo);
 	}
+
+	// 참가 취소
+	@Override
+	public int deleteParticipation(int memberNo, int recruitmentNo) {
+		return dao.deleteRecruitmentParticipant(memberNo, recruitmentNo);
+	}
+
+	// 모집글 삭제
+	@Override
+	public int softDeleteBoard(int boardNo) {
+		return dao.updateBoardDelFl(boardNo);
+	}
+
+	// 모집 마감시키기
+	@Override
+	public int updateRecruitmentStatusToClosed(int recruitmentNo) {
+		return dao.updateRecruitmentStatus(recruitmentNo);
+	}
+
+
+	
+	// 모집 인증 폼 만들기
+	@Override
+	public int registerVerificationFormWithQr(int recruitmentNo, String trackingNumber, String deliveryExpected,
+			String memberReceiveDate, String realPath, String webPath) throws Exception {
+		// 1. 토큰 생성
+	    String token = UUID.randomUUID().toString();
+
+	    // 2. QR URL 생성
+	    String qrUrl = "http://www.to-gether.store/recruit/verify?recruitmentNo=" + recruitmentNo + "&token=" + token;
+
+	    // 3. QR 이미지 생성 및 저장
+	    String fileName = "qr_" + recruitmentNo + "_" + System.currentTimeMillis() + ".png";
+	    String imagePath = webPath + fileName;
+	    String fullSavePath = realPath + fileName;
+
+	    QRCodeWriter qrCodeWriter = new QRCodeWriter();
+	    BitMatrix bitMatrix = qrCodeWriter.encode(qrUrl, BarcodeFormat.QR_CODE, 200, 200);
+	    Path path = Paths.get(fullSavePath);
+	    MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
+
+	    // 4. DB에 저장
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("recruitmentNo", recruitmentNo);
+	    map.put("trackingNumber", trackingNumber);
+	    map.put("deliveryExpected", deliveryExpected);
+	    map.put("memberReceiveDate", memberReceiveDate);
+	    map.put("qrToken", token);
+	    map.put("qrImagePath", imagePath); // ← JSP에서 출력할 경로
+
+	    return dao.updateVerificationFormWithQr(map);
+	}
+
+	// 모집 인증 폼 수정
+	@Override
+	public int updateVerificationForm(int recruitmentNo, String trackingNumber, String deliveryExpected,
+			String memberReceiveDate) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("recruitmentNo", recruitmentNo);
+	    map.put("trackingNumber", trackingNumber);
+	    map.put("deliveryExpected", deliveryExpected);
+	    map.put("memberReceiveDate", memberReceiveDate);
+
+	    return dao.updateVerificationForm(map);
+	}
+
+	@Override
+	@Transactional
+	public boolean verifyParticipant(int recruitmentNo, String token) {
+		// 토큰이 유효한지 확인
+        int valid = dao.checkTokenValid(recruitmentNo, token);
+
+        if(valid > 0) {
+            // 인증상태 업데이트
+            dao.updateCertStatus(recruitmentNo, token);
+            return true;
+        }
+
+        return false;
+    }
 
 
 	
