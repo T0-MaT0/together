@@ -83,13 +83,14 @@
                 </div>
 
                 <c:if test="${boardCode == 6}">
-                    <div>
-                        <img src="/resources/images/mainJHI/simpleCapcha.png">
-                        <input type="text" placeholder="보안문자를 입력하세요.">
+                    <div id="security-test">
+                        <img src="" alt="captcha" id="captcha-img" class="c">
+                        <input type="text" name="captchaInput" class="check-captcha-code" placeholder="보안문자를 입력하세요.">
                     </div>
-                    <div>
-                        <button>새로고침</button>
-                        <button>음성듣기</button>
+                    
+                    <div class="captcha-button-div">
+                        <button id="reload" class="captcha-button">새로고침</button>
+                        <button id="soundOn" class="captcha-button">음성듣기</button>
                     </div>
                 </c:if>
                 

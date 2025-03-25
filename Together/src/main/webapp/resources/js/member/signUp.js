@@ -664,10 +664,33 @@ if (bankName) { bankName.addEventListener("change", validateBankInfo)}
 
 
 
+// 1. form 요소 가져오기
 const signUpFrm = document.getElementById("signUpFrm");
+
+// 2. form 안에서 Enter 키 눌렀을 때 submit 못하게 막기
+signUpFrm.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    e.preventDefault(); // Enter 키로 submit 막기
+  }
+});
 
 
 signUpFrm.addEventListener("submit", function(e) {
+
+    e.preventDefault(); // ✅ 가장 먼저 기본 제출 막기
+
+    // 1. reCAPTCHA 확인
+    try {
+      const response = grecaptcha.getResponse();
+      if (!response) {
+        alert("보안문자(자동 캡챠)를 확인해주세요.");
+        return;
+      }
+    } catch (err) {
+      alert("reCAPTCHA를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.");
+      return;
+    }
+  
 
     // 이메일 인증 상태 처리
     // checkObj.emailAuthKey = true;  // 이 값을 true로 설정해야 합니다.
@@ -734,6 +757,8 @@ signUpFrm.addEventListener("submit", function(e) {
 
         }
     }
+    signUpFrm.submit();
+
 
 });
 

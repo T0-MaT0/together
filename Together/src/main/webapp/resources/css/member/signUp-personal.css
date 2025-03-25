@@ -238,3 +238,7 @@ body{
 .marginTop-10{
     margin-top: 10px;
 }
+
+.g-recaptcha{
+    margin: 20px 0;
+}

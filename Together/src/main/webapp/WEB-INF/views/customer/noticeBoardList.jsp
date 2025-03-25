@@ -3,7 +3,7 @@
 <c:set var="pagination" value="${map.pagination}"/>
 <c:set var="noticeList" value="${map.noticeList}"/>
 <c:if test="${!empty param.query}">
-    <c:set var="qs" value="&key=${param.key}&query=${param.query}"/>
+    <c:set var="qs" value="&query=${param.query}"/>
 </c:if>
 
 <!DOCTYPE html>
@@ -13,6 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지 리스트</title>
     <link rel="stylesheet" href="/resources/css/customer/noticeBoardList-style.css">
+    <script src="https://kit.fontawesome.com/385a4842a7.js" crossorigin="anonymous"></script>
 </head>
 <body>
     ${map}
@@ -20,9 +21,9 @@
     <div id="main-content">
 
         <section id="notice-header">
-            <div id="notice-header-title">📢  공지사항</div>
+            <div id="notice-header-title" onclick="location.href='/customer/noticeBoardList'">📢  공지사항</div>
             
-            <form action="/board/search" method="GET">
+            <form action="/customer/notice/search" method="GET">
                 <fieldset class="search-area">
     
                     <input type="search" name="query" id="query"
@@ -92,8 +93,16 @@
         <div class="pagination-area">
 
 
-
-            <c:set var="url" value="/customer/noticeBoardList?cp="/>
+            <c:choose>
+            <c:when test="${not empty param.query}">
+                <c:set var="url" value="/customer/notice/search?cp=" />
+                <c:set var="qs" value="&query=${param.query}" />
+            </c:when>
+            <c:otherwise>
+                <c:set var="url" value="/customer/noticeBoardList?cp=" />
+                <c:set var="qs" value="" />
+            </c:otherwise>
+            </c:choose>
 
 
             <ul class="pagination">
