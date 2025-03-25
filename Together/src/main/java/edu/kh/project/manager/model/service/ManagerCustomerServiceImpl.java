@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.utility.Utill;
 import edu.kh.project.manager.model.dao.ManageCustomerDAO;
 import edu.kh.project.manager.model.dto.CustProfileBoard;
@@ -214,18 +215,31 @@ public class ManagerCustomerServiceImpl implements ManageCustomerService{
 	
 	//신고 대상 게시물/채팅/리뷰 내용 조회
 	@Override
-	public Map<String, Object> boardModal(int type, int no) {
+	public Map<String, Object> boardModal(int no, int type) {
 		
 		Map<String, Object> map = new HashMap<>();
 		if(type==1) {
 			
 		}
 		if(type==2) {
-//			dao.
+			int url= dao.getherSelect(no);
+//			int imgType = 2;
+//			List<Image> imageList = dao.selectImageList(no, imgType);
+			map.put("url", url);
+//			map.put("imageList", imageList);
+			
 		}
-		if(type==3) {}
-		if(type==4) {}
-		if(type==5) {}
+		if(type==3) {
+			List<Reply> reply = dao.replySelect(no);
+			map.put("reply", reply);
+			
+		}
+		if(type==4) {
+//			map = dao.chattingSelect();
+		}
+		if(type==5) {
+//			map = dao.reviewSelect();
+		}
 		
 		
 		return map;

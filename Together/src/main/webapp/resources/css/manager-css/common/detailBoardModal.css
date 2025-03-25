@@ -1,0 +1,106 @@
+*{
+    box-sizing: border-box;  
+    font-family: 'GmarketSansMedium';
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    background-color: transparent; /* Optional: Set background color if needed */
+}
+
+#container{
+    height: 100%;
+    width: 95%;
+    margin: auto;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+/* ------------------------------------------------- */
+
+#titleArea{
+    height: 10%;
+    width: 100%;
+    /* background-color: pink; */
+}
+
+#urlArea{
+    height: 5%;
+    width: 100%;
+    /* background-color: violet; */
+    
+}
+
+#contentArea{
+    height: 84.5%;
+    width: 100%;
+    /* background-color: aqua; */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+/* -------------------------------------------------- */
+/* titleArea */
+#titleArea > div{
+    font-size: 30px;
+    font-weight: bold;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.padding-left{
+    padding-left: 10px;
+}
+
+.align-center{
+    display: flex;
+    align-items: center;
+}
+
+.border-bottom{
+    border-bottom: 1px solid #ccc;
+}
+
+.padding{
+    padding: 10px;
+}
+
+.reply-wrap{
+    display: grid;
+    grid-template-columns: 55px auto; 
+    width: 100%;
+    max-width: 100%; 
+    padding: 10px;
+    box-sizing: border-box; 
+}
+
+.reply-wrap>img, .child>img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.over-flow{
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.child{
+    padding: 10px 50px;
+    display: grid;
+    grid-template-columns: 55px auto; 
+    width: 100%;
+    max-width: 100%; 
+}

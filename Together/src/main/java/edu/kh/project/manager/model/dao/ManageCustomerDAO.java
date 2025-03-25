@@ -9,7 +9,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.manager.model.dto.CustProfileBoard;
 import edu.kh.project.manager.model.dto.CustomerBoard;
 import edu.kh.project.manager.model.dto.CustomerProfile;
@@ -262,6 +264,25 @@ public class ManageCustomerDAO {
 	 */
 	public Report infoDetail(int reportNo) {
 		return sqlSession.selectOne("managerMapper.reportDetailSelect", reportNo);
+	}
+
+	
+	/** 해당 문제의 모집글
+	 * @param no
+	 * @return
+	 */
+	public int getherSelect(int no) {
+		return sqlSession.selectOne("managerMapper.getherSelect", no);
+	}
+
+
+
+	/** 해당 문제의 댓글
+	 * @param no
+	 * @return
+	 */
+	public List<Reply> replySelect(int no) {
+		return sqlSession.selectList("managerMapper.replySelect", no);
 	}
 
 

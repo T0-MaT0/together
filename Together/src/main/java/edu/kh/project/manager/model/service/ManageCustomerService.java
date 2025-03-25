@@ -101,7 +101,12 @@ public interface ManageCustomerService {
 	Report infoDetail(int reportNo);
 
 
-	Map<String, Object> boardModal(int type, int no);
+	/** 문제 대상 상세 조회
+	 * @param no
+	 * @param type
+	 * @return
+	 */
+	Map<String, Object> boardModal(int no, int type);
 
 
 

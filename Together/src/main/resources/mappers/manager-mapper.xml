@@ -47,14 +47,16 @@
 	    <result property="reportStatus" column="REPORT_STATUS"/>
 	</resultMap>
 	
+	<!-- 댓글 -->
+	<resultMap type="Reply" id="Reply"></resultMap>
+	
 	<!-- 고객 프로필 -->
 	<resultMap type="CustomerProfile" id="CustomerProfile"></resultMap>
 	
 	<!-- 고객 프로필 게시판 -->
 	<resultMap type="CustProfileBoard" id="CustProfileBoard"></resultMap>
-	<!--=================== MANAGE BRAND RESULTMAP =============================-->	
 	
-	
+	<!-- 브랜드 -->	
 	<resultMap type="BrandBoard" id="Brand_Board"></resultMap>
 	<resultMap type="LookData" id="LookData"></resultMap>
 	<resultMap type="BrandProfile" id="BrandProfile"></resultMap>
@@ -962,6 +964,32 @@
 	
 <!-- 	</select>	 -->
 
-
+	<select id="getherSelect" resultType="_int">
+		SELECT RECRUITMENT_NO
+		FROM RECRUITMENT_ROOM R 
+		WHERE BOARD_NO = ${no}		
+	</select>
+	
+	<select id="replySelect" resultMap="Reply">
+		SELECT REPLY_NO, 
+				TO_CHAR(REPLY_CREATE_DATE, 'YYYY-MM-DD') REPLY_CREATED_DATE, 
+				REPLY_DEL_FL REPLY_DEL_FLAG, 
+				REPLY_CONTENT, 
+				SECRET_REPLY_STATUS, 
+				MEMBER_NO, 
+				REPLY_TYPE, 
+				REPLY_TYPE_NO, 
+				PARENT_REPLY_NO PARENT_NO
+				,(SELECT MEMBER_NICK FROM MEMBER M WHERE M.MEMBER_NO = R.MEMBER_NO ) MEMBER_NICK
+				,(SELECT PROFILE_IMG FROM MEMBER M WHERE M.MEMBER_NO = R.MEMBER_NO ) PROFILE_IMG
+				,(SELECT BOARD_CD FROM BOARD B WHERE BOARD_NO = REPLY_TYPE_NO) BOARD_CD
+				,(SELECT BOARD_NO FROM BOARD B WHERE BOARD_NO = REPLY_TYPE_NO) BOARD_NO
+		FROM REPLY R
+		WHERE (REPLY_TYPE, REPLY_TYPE_NO) =
+		(SELECT REPLY_TYPE,REPLY_TYPE_NO FROM REPLY WHERE REPLY_NO = ${no})
+		START WITH PARENT_REPLY_NO IS NULL 
+		CONNECT BY PRIOR  REPLY_NO = PARENT_REPLY_NO 
+		ORDER SIBLINGS BY REPLY_NO
+	</select>
 
 </mapper>

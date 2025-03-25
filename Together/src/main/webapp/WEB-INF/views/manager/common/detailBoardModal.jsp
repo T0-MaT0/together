@@ -40,24 +40,84 @@ REGION: ${map.REGION}
     
     
     <div id="container">
-        <section>제목</section>
-        <section>이미지</section>
-        <section>
-            제품 명
-            링크
-            기간
-            모집인원
-            가격
-            <button>참여하기</button>
+        <section id="titleArea" class="border-bottom">
+            <c:if test="${!empty map.reply}">
+                <div class="padding-left">문제의 댓글</div>
+            </c:if>
         </section>
-        <section>
-            모집글 상세 내용
+        <section id="urlArea" class="align-center  padding-left">
+            <!-- <div>
+                LINK: <a  href="/board/">해당 게시글 보러가기</a>
+            </div> -->
+            <span style="color: red;">* 문제의 댓글은 빨간색으로 표시</span>
+        </section>
+        <section id="contentArea" class="padding over-flow">
+           
+            <c:forEach var="reply" items="${map.reply}">
+                <c:if test="${reply.parentNo != 0}">
+                    <div class="child border-bottom">
+                        <c:if test="${empty reply.profileImg}">
+                            <img src="/resources/images/image-manager/profile.png">
+                        </c:if>
+                        <c:if test="${!empty reply.profileImg}">
+                            <img src="${reply.profileImg}" alt="">
+                        </c:if>
+                        <div>
+                            <div class="padding-left">
+                                <c:if test="${reply.replyNo==no}">
+                                    <span style="color: red;">
+                                        ${reply.memberNick}
+                                    </span>
+                                </c:if>
+                                <c:if test="${reply.replyNo!=no}">
+                                    <span >
+                                        ${reply.memberNick}
+                                    </span>
+                                </c:if>
+                                &nbsp;
+                                ${reply.replyCreatedDate}
+                            </div>
+                            <div class="padding">${reply.replyContent}</div>
+                        </div>
+                    </div>
+                    
+                </c:if>
+
+                <c:if test="${reply.parentNo == 0}">
+                    <div class="reply-wrap border-bottom">
+                        <c:if test="${empty reply.profileImg}">
+                            <img src="/resources/images/image-manager/profile.png">
+                        </c:if>
+                        <c:if test="${!empty reply.profileImg}">
+                            <img src="${reply.profileImg}" alt="">
+                        </c:if>
+                        <div>
+                            <div class="padding-left">
+                                <c:if test="${reply.replyNo==no}">
+                                    <span style="color: red;">
+                                        ${reply.memberNick}
+                                    </span>
+                                </c:if>
+                                <c:if test="${reply.replyNo!=no}">
+                                    <span >
+                                        ${reply.memberNick}
+                                    </span>
+                                </c:if>
+                                &nbsp;
+                                ${reply.replyCreatedDate}
+                            </div>
+                            <div class="padding">${reply.replyContent}</div>
+                        </div>
+                    </div>
+                </c:if>
+            </c:forEach>
         </section>
     </div>
 
     <script>
         const no = Number(${no});
         const type = Number(${type});
+        const url = Number(${map.url});
     </script>
     <script src="/resources/js/manager-js/boardDetailModal.js"></script>
 </body>

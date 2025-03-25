@@ -182,18 +182,26 @@ public class ManageCustomerController {
 	// 문제의 board 화면 조회
 	@GetMapping(value="/boardModal/{type}")
 	public String boardModal(int no, @PathVariable int type, Model model) {
-
+		
 		model.addAttribute("no", no);
 		model.addAttribute("type",type);
+		
+		Map<String, Object> map = service.boardModal(no, type);
+		model.addAttribute("map", map);
+		
+		System.out.println(map);
 		return "/manager/common/detailBoardModal";
 	}
 	
-//	@GetMapping(value="/boardDetail", produces="application/json; charset=UTF-8")
+//	@GetMapping(value="/boardDetail/{type}", produces="application/json; charset=UTF-8")
 //	@ResponseBody
-//	public Map<String, Object> boardDetail(int reportNo) {
-//			
-//		Map<String, Object> map = service.boardModal(type, no);
+//	public Map<String, Object> boardDetail(int no, @PathVariable int type) {
+//			System.out.println(no);
+//			System.out.println(type);
+//		Map<String, Object> map = service.boardModal(no, type);
 //		
-//		return service.infoDetail(reportNo);
+//		System.out.println(map);
+//		
+//		return map;
 //	}
 }
