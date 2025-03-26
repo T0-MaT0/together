@@ -12,11 +12,13 @@ import org.springframework.stereotype.Repository;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.manager.model.dto.CustProfileBoard;
 import edu.kh.project.manager.model.dto.CustomerBoard;
 import edu.kh.project.manager.model.dto.CustomerProfile;
 import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.manager.model.dto.Report;
+import edu.kh.project.manager.model.dto.ReportChatting;
 
 @Repository
 public class ManageCustomerDAO {
@@ -283,6 +285,44 @@ public class ManageCustomerDAO {
 	 */
 	public List<Reply> replySelect(int no) {
 		return sqlSession.selectList("managerMapper.replySelect", no);
+	}
+
+
+	/** 해당 문제의 채팅
+	 * @param no
+	 * @return
+	 */
+	public List<ReportChatting> chattingSelect(int no) {
+		return sqlSession.selectList("managerMapper.chattingSelect", no);
+	}
+
+
+	/** 해당 문제의 리뷰
+	 * @param no 
+	 * @return
+	 */
+	public Review reviewSelect(int no) {
+		return sqlSession.selectOne("managerMapper.reviewSelect", no);
+	}
+
+
+	public List<Image> reviewImageList(int no) {
+		Map <String, Object> map = new HashMap<>();
+		map.put("no", no);
+		map.put("imgType", 3);
+		return sqlSession.selectList("imageMapper.selectImageList", no);
+	}
+
+	
+	// 문제의 댓글 삭제
+	public int replyUpdate(int replyNo) {
+		return sqlSession.update("managerMapper.replyDelete", replyNo);
+	}
+
+
+	// 문제의 리뷰 삭제
+	public int reviewUpdate(int reviewNo) {
+		return sqlSession.update("managerMapper.reviewUpdate", reviewNo);
 	}
 
 

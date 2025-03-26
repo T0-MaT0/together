@@ -109,6 +109,22 @@ public interface ManageCustomerService {
 	Map<String, Object> boardModal(int no, int type);
 
 
+	/** 문제의 댓글 삭제하기
+	 * @param reportNo
+	 * @return
+	 */
+	int replyUpdate(int replyNo);
+
+
+	/**문제의 리뷰 삭제
+	 * @param reviewNo
+	 * @return
+	 */
+	int reviewUpdate(int reviewNo);
+
+
+
+
 
 
 

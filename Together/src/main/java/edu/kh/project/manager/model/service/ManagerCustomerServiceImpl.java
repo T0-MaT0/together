@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.common.utility.Utill;
 import edu.kh.project.manager.model.dao.ManageCustomerDAO;
 import edu.kh.project.manager.model.dto.CustProfileBoard;
@@ -16,6 +17,7 @@ import edu.kh.project.manager.model.dto.CustomerBoard;
 import edu.kh.project.manager.model.dto.CustomerProfile;
 import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.manager.model.dto.Report;
+import edu.kh.project.manager.model.dto.ReportChatting;
 
 @Service
 public class ManagerCustomerServiceImpl implements ManageCustomerService{
@@ -223,10 +225,7 @@ public class ManagerCustomerServiceImpl implements ManageCustomerService{
 		}
 		if(type==2) {
 			int url= dao.getherSelect(no);
-//			int imgType = 2;
-//			List<Image> imageList = dao.selectImageList(no, imgType);
 			map.put("url", url);
-//			map.put("imageList", imageList);
 			
 		}
 		if(type==3) {
@@ -235,14 +234,31 @@ public class ManagerCustomerServiceImpl implements ManageCustomerService{
 			
 		}
 		if(type==4) {
-//			map = dao.chattingSelect();
+			List<ReportChatting> reportChatting = dao.chattingSelect(no);
+			map.put("chatting", reportChatting);
 		}
 		if(type==5) {
-//			map = dao.reviewSelect();
+			Review review = dao.reviewSelect(no);
+			review.setImageList(dao.reviewImageList(no));
+			
+			map.put("review", review);
 		}
 		
 		
 		return map;
+	}
+
+	
+	// 문제의 댓글 삭제하기
+	@Override
+	public int replyUpdate(int replyNo) {
+		return dao.replyUpdate(replyNo);
+	}
+
+	//문제의 리뷰 삭제
+	@Override
+	public int reviewUpdate(int reviewNo) {
+		return dao.reviewUpdate(reviewNo);
 	}
 
 

@@ -116,7 +116,7 @@ function openProfile(){
     fetch("modalInfo?memberNo="+reportedUserNo)
     .then(resp=>resp.json())
     .then(member=>{
-        // console.log(member);
+        console.log(member);
         profileDetail.innerHTML='';
         //이미지 요소 생성
         const img = document.createElement("img");

@@ -12,14 +12,15 @@ document.addEventListener('DOMContentLoaded', function () {
     if(type == 2){
         console.log(url);
         location.href = `/partyRecruitmentList/${url}/${no}`;
-    }if(type == 3){
+    }
+    /* if(type == 3){
         console.log('url');
         if(boardCode == 1){
             location.href = `/partyRecruitmentList/${url}/${no}`;
         }else{
             this.location.href = `/board/${boardCode}/${boardNo}`;
         }
-    }
+    } */
     // screenSelect();
 });
 
@@ -35,4 +36,31 @@ document.addEventListener('DOMContentLoaded', function () {
 //         .catch(err => console.error(err));
 // }
 
+function replyDelete(replyNo) {
+    fetch("/manageCustomer/replyDelete?replyNo="+replyNo)
+    .then(response => response.json())
+    .then(result => {
+        if (result === 0) {
+            alert("삭제를 실패하였습니다.");
+        } else {
+            alert("삭제를 성공하였습니다.");
+            location.reload();
+        }
+    })
+    .catch(err => console.log(err));
+}
 
+
+function reviewDelete(reviewNo){
+    fetch("/manageCustomer/reviewDelete?reviewNo="+reviewNo)
+    .then(response => response.json())
+    .then(result => {
+        if (result === 0) {
+            alert("삭제를 실패하였습니다.");
+        } else {
+            alert("삭제를 성공하였습니다.");
+            location.reload();
+        }
+    })
+    .catch(err => console.log(err));
+}
