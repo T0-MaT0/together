@@ -7,9 +7,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -182,18 +184,31 @@ public class ManageCustomerController {
 	// 문제의 board 화면 조회
 	@GetMapping(value="/boardModal/{type}")
 	public String boardModal(int no, @PathVariable int type, Model model) {
-
+		
 		model.addAttribute("no", no);
 		model.addAttribute("type",type);
+		
+		Map<String, Object> map = service.boardModal(no, type);
+		model.addAttribute("map", map);
+		
 		return "/manager/common/detailBoardModal";
 	}
 	
-//	@GetMapping(value="/boardDetail", produces="application/json; charset=UTF-8")
-//	@ResponseBody
-//	public Map<String, Object> boardDetail(int reportNo) {
-//			
-//		Map<String, Object> map = service.boardModal(type, no);
-//		
-//		return service.infoDetail(reportNo);
-//	}
+	
+	// 문제의 댓글 삭제
+	@GetMapping(value="/replyDelete", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public int replyUpdate(int replyNo) {
+			System.out.println("작동");
+		return service.replyUpdate(replyNo);
+	}
+	
+	// 문제의 리뷰 삭제
+	@GetMapping(value="/reviewDelete", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public int reviewUpdate(int reviewNo) {
+			System.out.println("작동");
+		return service.reviewUpdate(reviewNo);
+	}
+	
 }
