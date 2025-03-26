@@ -53,6 +53,11 @@ public class BoardInsertController {
 
 		System.out.println("넣기전 : " + board);
 		
+		if (boardCode == 4 && board.getBoardCd() > 0) {
+	        boardCode = board.getBoardCd();
+	        System.out.println("FAQ 선택으로 boardCode 교체됨: " + boardCode);
+	    }
+		
 		board.setBoardCd(boardCode);
 		board.setMemberNo(loginMember.getMemberNo());
 		
@@ -63,6 +68,8 @@ public class BoardInsertController {
 		String webPath = "/resources/images/customer/";
 		String filePath = session.getServletContext().getRealPath(webPath);
 		
+		System.out.println(images);
+		
 		//3. 게시글 삽입 서비스 호출 후 
 		int boardNo = service.boardInsert(board, images, webPath, filePath);
 		
@@ -70,8 +77,17 @@ public class BoardInsertController {
 		String message = null;
 		if(boardNo > 0) {
 			
-			message = "게시글이 등록되었습니다.";
-			path += "/customer/noticeBoardDetail/"+boardNo;
+			message = "1대1 게시글이 등록되었습니다.";
+			if(boardCode == 6) { // 1대1
+				path += "/";
+			} else if (boardCode == 3) { // 공지사항
+				message = "공지사항 게시글이 등록되었습니다.";
+				path += "/customer/noticeBoardDetail/"+boardNo;
+				
+			} else { // FAQ
+				message = "FAQ 게시글이 등록되었습니다.";
+				path += "/customer/FAQBoard/0";
+			}
 			
 			
 			

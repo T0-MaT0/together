@@ -93,6 +93,10 @@ body{
 .area-first{
     border-top: 1px solid #FF54A1;
 }
+
+.area-first-com{
+    border-top: 1px solid #B862FF;
+}
 #memberName{
     margin-left: 130px;
 }
@@ -121,6 +125,10 @@ body{
 }
 .area-last {
     border-bottom: 1px solid #FF54A1;
+    
+}
+.area-last-com {
+    border-bottom: 1px solid #B862FF;
     
 }
 #memberId, #signUpDate, #companyId{
@@ -178,6 +186,9 @@ body{
     color: white;
     margin-left: 102px;
     font-size: 20px;
+}
+.comBtn{
+    background-color: #B862FF!important;
 }
 #changePwPage{
     margin-top: 40px;

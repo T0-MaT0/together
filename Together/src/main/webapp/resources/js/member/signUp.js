@@ -206,13 +206,13 @@ if (isKakao) {
   const authKeyMessage = document.getElementById("authKeyMessage");
 
   if (emailMessage) {
-    emailMessage.innerText = "카카오 로그인으로 제공된 이메일입니다.";
+    emailMessage.innerText = "SNS 로그인으로 제공된 이메일입니다.";
     emailMessage.classList.add("confirm");
     emailMessage.classList.remove("error");
   }
 
   if (authKeyMessage) {
-    authKeyMessage.innerText = "카카오 이메일로 인증이 완료되었습니다.";
+    authKeyMessage.innerText = "SNS 이메일로 인증이 완료되었습니다.";
     authKeyMessage.classList.add("confirm");
     authKeyMessage.classList.remove("error");
   }

@@ -60,7 +60,7 @@ public interface MemberService {
 	 * @param memberEmail
 	 * @return
 	 */
-	Member kakaoLogin(String memberEmail);
+	Member snsLogin(String memberEmail);
 	
 
 }

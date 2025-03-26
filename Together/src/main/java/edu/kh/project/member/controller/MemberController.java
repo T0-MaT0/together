@@ -85,6 +85,7 @@ public class MemberController {
 	public String login(Member inputMember, Model model
 			, @RequestHeader(value="referer") String referer
 			, @RequestParam(value="saveId", required=false) String saveId
+			, @RequestParam(value="redirect", required=false) String redirect
 			, HttpServletResponse resp
 			, RedirectAttributes ra, HttpSession session) {
 
@@ -96,7 +97,7 @@ public class MemberController {
 		String path = "redirect:";
 		
 		if(loginMember != null) {
-			path += "/";
+			 path += (redirect != null && !redirect.isEmpty()) ? redirect : "/";
 			
 			model.addAttribute("loginMember", loginMember);
 			session.setAttribute("loginType", "default");
@@ -121,18 +122,9 @@ public class MemberController {
 	// 로그아웃
 	@GetMapping("/logout")
 	public String logout(SessionStatus status, HttpSession session, RedirectAttributes ra) {
-	    String loginType = (String) session.getAttribute("loginType");
 
 	   
 
-	    // 카카오 로그인인 경우 카카오 로그아웃 URL로 리다이렉트
-	    if ("kakao".equals(loginType)) {
-	        String kakaoLogoutUrl = "https://kauth.kakao.com/oauth/logout" +
-	                "?client_id=e676fa2ec68895d32e1d6e251f7e9e52" +
-	                "&logout_redirect_uri=http://localhost/"; // 또는 로그인 페이지
-	        return "redirect:" + kakaoLogoutUrl;
-	    }
-	    
 	    // 세션 정리
 	    status.setComplete();
 	    session.invalidate();

@@ -16,7 +16,7 @@
             <div id="find-pw-section" class="yes-click" onclick="location.href='/member/findPw'">비밀번호 찾기</div>
         </div>
         <div class="find-content">
-            <form action="#" method="POST" name="findPwFrm" id="findPwFrm">
+            <form action="/member/findPw" method="POST" name="findPwFrm" id="findPwFrm">
 
                 <input type="hidden" name="authority" id="authority-input" value="2">
                 <div id="find-id-info">회원정보에  등록된 이메일로 비밀번호를 찾을 수 있습니다.</div>
