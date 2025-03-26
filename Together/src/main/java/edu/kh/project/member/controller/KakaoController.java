@@ -78,7 +78,7 @@ public class KakaoController {
 	    System.out.println("🖼 프로필 이미지: " + profileImg);
 
 	    // [4] DB에 이메일로 조회
-	    Member loginMember = service.kakaoLogin(email);
+	    Member loginMember = service.snsLogin(email);
 
 	    if (loginMember != null) {
 	        // 로그인 성공 → 세션에 저장

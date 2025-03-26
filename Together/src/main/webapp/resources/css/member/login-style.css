@@ -220,27 +220,26 @@ button{
 
 }
 
-#kakao-login{
-    width: 320px;
-    height: 53px;
-    background-color: #FEE500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    cursor: pointer;
-}
+
 
 #google-login{
-    width: 320px;
-    height: 53px;
+    width: 100%;
+    height: 55px;
+}
+
+#google-login-btn{
+    width: 222px;
+    height: 54.578px;
     background-color: #ffffff;
     border: 1px solid #535353;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 10px;
     cursor: pointer;
+    text-decoration: none;
+    color: #2c2c2c;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
 }
 
 #login-button{
@@ -252,4 +251,13 @@ button{
     background:linear-gradient(to right, #FF54A1, #B862FF);
     color: #ffffff;
     border: none;
+}
+
+
+
+#google-logo {
+    width: 25px;
+    height: 25px;
+    margin-right: 20px;
+    object-fit: contain; 
 }

@@ -25,7 +25,9 @@ public class ChattingDAO {
 	 */
 	public List<ChattingRoom> getChattingList(int memberNo) {
 		
-		return sqlSession.selectList("chattingMapper.getChattingList", memberNo);
+		List<ChattingRoom> chattingList = sqlSession.selectList("chattingMapper.getChattingList", memberNo);
+		System.out.println("chattingList : " + chattingList);
+		return chattingList;
 	}
 
 //	/** 닉네임 또는 이메일로 회원 검색
@@ -73,13 +75,7 @@ public class ChattingDAO {
 //		return sqlSession.selectList("chattingMapper.selectMessageList", chattingNo);
 //	}
 //
-//	/** 채팅방 메세지 입력
-//	 * @param msg
-//	 * @return result
-//	 */
-//	public int insertMessage(Message msg) {
-//		return sqlSession.insert("chattingMapper.insertMessage", msg);
-//	}
+
 
 	
 	/** 채팅방 메세지 조회
@@ -95,12 +91,29 @@ public class ChattingDAO {
 	 * @param memberNo
 	 * @return
 	 */
-	public Member selectChatTarget(int roomNo, int memberNo) {
+	public List<Object> selectChatTarget(int roomNo, int memberNo) {
 		Map<String, Object> paramMap = new HashMap<>();
 	    paramMap.put("roomNo", roomNo);
 	    paramMap.put("loginMemberNo", memberNo);
 
-	    return sqlSession.selectOne("chattingMapper.selectChatTarget", paramMap);
+	    return sqlSession.selectList("chattingMapper.selectChatTarget", paramMap);
+	}
+
+	public int deleteRoom(int roomNo) {
+		return sqlSession.selectOne("chattingMapper.deleteRoom", roomNo);
+	}
+
+	public int selectOwnerNo(int roomNo) {
+		return sqlSession.selectOne("chattingMapper.selectOwnerNo", roomNo);
+	}
+
+	
+	/** 채팅방 메세지 입력
+	 * @param msg
+	 * @return result
+	 */
+	public int insertMessage(Message msg) {
+		return sqlSession.insert("chattingMapper.insertMessage", msg);
 	}
 
 }

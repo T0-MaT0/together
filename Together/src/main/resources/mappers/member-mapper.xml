@@ -101,7 +101,7 @@
 		  AND MEMBER_NO = ${memberNo}
 	</select>
 	
-	<select id="kakaoLogin" resultMap="member_rm">
+	<select id="snsLogin" resultMap="member_rm">
 	    SELECT  MEMBER_NO, MEMBER_ID, MEMBER_PW,
         MEMBER_NICK, MEMBER_NAME, MEMBER_ADDR,
         MEMBER_TEL, PROFILE_IMG, 

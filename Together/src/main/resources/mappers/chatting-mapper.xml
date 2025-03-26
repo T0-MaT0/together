@@ -12,6 +12,8 @@
 	    <result property="targetProfile" column="TARGET_PROFILE" />
 	    <result property="unreadCount" column="UNREAD_COUNT" />
 	    <result property="maxMessageNo" column="MAX_MESSAGE_NO" />
+	    <result property="ownerProfile" column="OWNER_PROFILE_IMG" />
+	    <result property="ownerMemberNo" column="OWNER_MEMBER_NO" />
 	</resultMap>
 	
 	<resultMap type="Message" id="message_rm">
@@ -21,18 +23,19 @@
 	    <result property="messageType" column="MESSAGE_TYPE" />
 	    <result property="sendTime" column="SEND_TIME" />
 	
-	    <result property="senderNo" column="MEMBER_NO" />
+	    <result property="senderNo" column="senderNo" />
 	    <result property="chattingNo" column="ROOM_NO" />
 	
-	    <result property="senderNickname" column="SENDER_NICKNAME" />
-	    <result property="senderProfile" column="SENDER_PROFILE" />
+	    <result property="senderNickname" column="senderNickname"/>
+		<result property="senderProfile" column="senderProfile"/>
 	</resultMap>
 
 	<!-- 채팅방 조회 -->
 	<select id="getChattingList" resultMap="chattingRoom_rm">
-	  SELECT 
+		  SELECT 
 		    R.ROOM_NO,
 		    R.ROOM_NAME,
+		    R.OWNER_MEMBER_NO,
 		
 		    -- 가장 최근 메시지 내용
 		    (SELECT MESSAGE_CONTENT
@@ -49,27 +52,31 @@
 		     FROM CHAT_MESSAGE M 
 		     WHERE M.ROOM_NO = R.ROOM_NO) AS LAST_SEND_TIME,
 		
-		    -- 상대방 닉네임 (1:1 채팅일 경우)
+		    -- 상대방 닉네임
 		    (SELECT MEMBER_NICK
 		     FROM MEMBER 
 		     WHERE MEMBER_NO = (
-		         SELECT U.MEMBER_NO 
-		         FROM CHAT_ROOM_USER U 
-		         WHERE U.ROOM_NO = R.ROOM_NO 
-		         AND U.MEMBER_NO != #{memberNo}
-		         AND R.GROUP_FL = 'N'
+		         SELECT MEMBER_NO FROM (
+		             SELECT U.MEMBER_NO 
+		             FROM CHAT_ROOM_USER U 
+		             WHERE U.ROOM_NO = R.ROOM_NO 
+		             AND U.MEMBER_NO != #{memberNo}
+		             AND R.GROUP_FL = 'N'
+		         ) WHERE ROWNUM = 1
 		     )
 		    ) AS TARGET_NICKNAME,
 		
 		    -- 상대방 프로필
-		    (SELECT PROFILE_IMG 
+		    (SELECT PROFILE_IMG
 		     FROM MEMBER 
 		     WHERE MEMBER_NO = (
-		         SELECT U.MEMBER_NO 
-		         FROM CHAT_ROOM_USER U 
-		         WHERE U.ROOM_NO = R.ROOM_NO 
-		         AND U.MEMBER_NO != #{memberNo}
-		         AND R.GROUP_FL = 'N'
+		         SELECT MEMBER_NO FROM (
+		             SELECT U.MEMBER_NO 
+		             FROM CHAT_ROOM_USER U 
+		             WHERE U.ROOM_NO = R.ROOM_NO 
+		             AND U.MEMBER_NO != #{memberNo}
+		             AND R.GROUP_FL = 'N'
+		         ) WHERE ROWNUM = 1
 		     )
 		    ) AS TARGET_PROFILE,
 		
@@ -84,16 +91,20 @@
 		    -- 최근 메시지 번호 (정렬용)
 		    (SELECT MAX(MESSAGE_NO) 
 		     FROM CHAT_MESSAGE 
-		     WHERE ROOM_NO = R.ROOM_NO) AS MAX_MESSAGE_NO
+		     WHERE ROOM_NO = R.ROOM_NO) AS MAX_MESSAGE_NO,
+		     
+		     -- 채팅방 만든 사람의 프로필 이미지
+		    (SELECT PROFILE_IMG 
+		     FROM MEMBER 
+		     WHERE MEMBER_NO = R.OWNER_MEMBER_NO) AS OWNER_PROFILE_IMG
 		
-		FROM CHAT_ROOM R
+		  FROM CHAT_ROOM R
+		  JOIN CHAT_ROOM_USER U ON R.ROOM_NO = U.ROOM_NO
+		  WHERE U.MEMBER_NO = #{memberNo}
+		  AND R.ROOM_DELETED_FL = 'N'
 		
-		JOIN CHAT_ROOM_USER U ON R.ROOM_NO = U.ROOM_NO
-		WHERE U.MEMBER_NO = #{memberNo}
-		AND R.ROOM_DELETED_FL = 'N'
-		
-		ORDER BY MAX_MESSAGE_NO DESC NULLS LAST
-	</select>
+		  ORDER BY MAX_MESSAGE_NO DESC NULLS LAST
+		</select>
 	
 	<!-- 채팅내역 조회 -->
 	<select id="selectMessageList" parameterType="map" resultMap="message_rm">
@@ -126,4 +137,38 @@
 	    AND U.MEMBER_NO != #{loginMemberNo}
 	</select>
 	
+	<!-- 채팅방 삭제 (삭제 플래그 'Y'로 변경) -->
+	<update id="deleteRoom">
+	  UPDATE CHAT_ROOM
+	  SET ROOM_DELETED_FL = 'Y'
+	  WHERE ROOM_NO = #{roomNo}
+	</update>
+	
+	<!-- 채팅방 소유자 번호 조회 -->
+	<select id="selectOwnerNo" resultType="int">
+	  SELECT OWNER_MEMBER_NO
+	  FROM CHAT_ROOM
+	  WHERE ROOM_NO = #{roomNo}
+	</select>
+	
+	<!-- 채팅방 메세지 입력 -->
+	<insert id="insertMessage" parameterType="Message">
+	  INSERT INTO CHAT_MESSAGE (
+	    MESSAGE_NO,
+	    MESSAGE_CONTENT,
+	    MESSAGE_TYPE,
+	    MEMBER_NO,
+	    ROOM_NO,
+	    MESSAGE_DEL_FL,
+	    SEND_DATE
+	  ) VALUES (
+	    SEQ_MESSAGE_NO.NEXTVAL,
+	    #{messageContent},
+	    'TEXT',
+	    #{senderNo},
+	    #{roomNo},
+	    'N',
+	    SYSDATE
+	  )
+	</insert>
 </mapper>

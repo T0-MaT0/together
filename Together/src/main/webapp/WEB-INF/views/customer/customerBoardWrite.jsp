@@ -28,21 +28,19 @@
         <section id="notice-detail-content">
             <form action="/customer2/${boardCode}/insert" method="POST" class="board-write" 
             enctype="multipart/form-data"  id="boardWriteFrm">
+
+                <c:if test="${boardCode == 4}">
+                    <select name="boardCd" id="boardCd">
+                        <option disabled selected hidden>문의 종류</option>
+                        <option value="9">회원/계정 문의</option>
+                        <option value="10">공동구매 문의</option>
+                        <option value="11">결제/환불 문의</option>
+                        <option value="12">수령/배송 문의</option>
+                        <option value="13">기타 문의</option>
+                    </select>
+                </c:if>
         
                 <div id="write-title-area">
-
-                    <c:if test="${boardCode == 4}">
-                        <select name="boardCd" id="boardCd">
-                            <option disabled selected hidden>문의 종류</option>
-                            <option value="9">회원/계정 문의</option>
-                            <option value="10">공동구매 문의</option>
-                            <option value="11">결제/환불 문의</option>
-                            <option value="12">수령/배송 문의</option>
-                            <option value="13">기타 문의</option>
-                        </select>
-                    </c:if>
-                    
-        
         
                     <div class="board-title-area">
                         <input type="text" id="boardTitle" name="boardTitle" placeholder="제목을 입력해주세요.">
@@ -57,30 +55,68 @@
                 <div id="checkPw-public-secret">
                     비밀번호<input type="password" id="check-pw">
                 </div>
-                <div class="img-box">
 
-                    <div class="boardImg">
-                        <label for="img1">
-                            <img class="preview" src="">
-                        </label>
-                        <input type="file" name="images" class="inputImage" id="img1" accept="image/*">
-                        <span class="delete-image">&times;</span>
+                <c:if test="${boardCode != 4}">
+
+                    <div class="img-box">
+
+                        <div class="boardImg">
+                            <label for="img1">
+                                <img class="preview" src="">
+                            </label>
+                            <input type="file" name="images" class="inputImage" id="img1" accept="image/*">
+                            <span class="delete-image">&times;</span>
+                        </div>
+                        <div class="boardImg">
+                            <label for="img2">
+                                <img class="preview" src="">
+                            </label>
+                            <input type="file" name="images" class="inputImage" id="img2" accept="image/*">
+                            <span class="delete-image">&times;</span>
+                        </div>
+                        <div class="boardImg">
+                            <label for="img3">
+                                <img class="preview" src="">
+                            </label>
+                            <input type="file" name="images" class="inputImage" id="img3" accept="image/*">
+                            <span class="delete-image">&times;</span>
+                        </div>
                     </div>
-                    <div class="boardImg">
-                        <label for="img2">
-                            <img class="preview" src="">
-                        </label>
-                        <input type="file" name="images" class="inputImage" id="img2" accept="image/*">
-                        <span class="delete-image">&times;</span>
+
+
+                </c:if>
+               
+                    
+
+                <c:if test="${boardCode == 4}">
+                    <div class="img-box" style="display: none;">
+
+                        <div class="boardImg">
+                            <label for="img1">
+                                <img class="preview" src="">
+                            </label>
+                            <input type="file" name="images" class="inputImage" id="img1" accept="image/*">
+                            <span class="delete-image">&times;</span>
+                        </div>
+                        <div class="boardImg">
+                            <label for="img2">
+                                <img class="preview" src="">
+                            </label>
+                            <input type="file" name="images" class="inputImage" id="img2" accept="image/*">
+                            <span class="delete-image">&times;</span>
+                        </div>
+                        <div class="boardImg">
+                            <label for="img3">
+                                <img class="preview" src="">
+                            </label>
+                            <input type="file" name="images" class="inputImage" id="img3" accept="image/*">
+                            <span class="delete-image">&times;</span>
+                        </div>
                     </div>
-                    <div class="boardImg">
-                        <label for="img3">
-                            <img class="preview" src="">
-                        </label>
-                        <input type="file" name="images" class="inputImage" id="img3" accept="image/*">
-                        <span class="delete-image">&times;</span>
-                    </div>
-                </div>
+                </c:if>
+
+   
+                
 
                 <c:if test="${boardCode == 6}">
                     <div id="security-test">

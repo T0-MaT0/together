@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.common.utility.Utill;
 import edu.kh.project.manager.model.dao.ManageCustomerDAO;
 import edu.kh.project.manager.model.dto.CustProfileBoard;
@@ -15,6 +17,7 @@ import edu.kh.project.manager.model.dto.CustomerBoard;
 import edu.kh.project.manager.model.dto.CustomerProfile;
 import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.manager.model.dto.Report;
+import edu.kh.project.manager.model.dto.ReportChatting;
 
 @Service
 public class ManagerCustomerServiceImpl implements ManageCustomerService{
@@ -214,21 +217,48 @@ public class ManagerCustomerServiceImpl implements ManageCustomerService{
 	
 	//신고 대상 게시물/채팅/리뷰 내용 조회
 	@Override
-	public Map<String, Object> boardModal(int type, int no) {
+	public Map<String, Object> boardModal(int no, int type) {
 		
 		Map<String, Object> map = new HashMap<>();
 		if(type==1) {
 			
 		}
 		if(type==2) {
-//			dao.
+			int url= dao.getherSelect(no);
+			map.put("url", url);
+			
 		}
-		if(type==3) {}
-		if(type==4) {}
-		if(type==5) {}
+		if(type==3) {
+			List<Reply> reply = dao.replySelect(no);
+			map.put("reply", reply);
+			
+		}
+		if(type==4) {
+			List<ReportChatting> reportChatting = dao.chattingSelect(no);
+			map.put("chatting", reportChatting);
+		}
+		if(type==5) {
+			Review review = dao.reviewSelect(no);
+			review.setImageList(dao.reviewImageList(no));
+			
+			map.put("review", review);
+		}
 		
 		
 		return map;
+	}
+
+	
+	// 문제의 댓글 삭제하기
+	@Override
+	public int replyUpdate(int replyNo) {
+		return dao.replyUpdate(replyNo);
+	}
+
+	//문제의 리뷰 삭제
+	@Override
+	public int reviewUpdate(int reviewNo) {
+		return dao.reviewUpdate(reviewNo);
 	}
 
 

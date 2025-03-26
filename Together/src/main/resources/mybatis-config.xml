@@ -29,6 +29,7 @@
 		<typeAlias type="edu.kh.project.manager.model.dto.CustomerProfile" alias="CustomerProfile"/>
 		<typeAlias type="edu.kh.project.manager.model.dto.CustProfileBoard" alias="CustProfileBoard"/>
 		<typeAlias type="edu.kh.project.manager.model.dto.BrandProfileBoard" alias="BrandProfileBoard"/>
+		<typeAlias type="edu.kh.project.manager.model.dto.ReportChatting" alias="ReportChatting"/>
 		<!-- images -->
 
 		

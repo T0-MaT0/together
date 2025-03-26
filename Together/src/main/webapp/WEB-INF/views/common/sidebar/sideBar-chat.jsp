@@ -26,4 +26,6 @@
 <script src="/resources/js/sidebar/sideBarChat.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", loadChatRoomList);
+  const loginMemberNo = "${loginMember.memberNo}";
+  const loginMemberNickname = "${loginMember.memberNick}";
 </script>

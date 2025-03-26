@@ -16,6 +16,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const memberIdInput = document.querySelector("[name='memberId']");
   const memberPwInput = document.querySelector("[name='memberPw']");
 
+  // URL 파라미터 읽기
+  const urlParams = new URLSearchParams(window.location.search);
+  const typeParam = urlParams.get("type");
+
+  // 로그인 화면 로딩 시 기본 기업 회원 선택 처리
+  if (typeParam === "company") {
+    setTimeout(() => {
+      const companyBtn = document.querySelector(".member-type[data-type='company']");
+      if (companyBtn) companyBtn.click();
+    }, 0); // 또는 100ms 줘도 되고
+  }
+
   // 1. 캡차 이미지 최초 로딩
   if (captchaImg) {
     captchaImg.src = "/captcha?" + new Date().getTime(); // 캐시 방지

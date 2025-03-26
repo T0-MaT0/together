@@ -72,13 +72,17 @@
                         </a>
                     </div>
                     
-                    <div>
-    
-                        <div id="google-login">
-                            <img src="../images/googleLogo.png" alt="" id="google-logo">
-                            구글 로그인 바꾸기
-                        </div>
+                    <div id="google-login">
+                        <a id="google-login-btn"
+                           href="https://accounts.google.com/o/oauth2/v2/auth?client_id=118796893002-uoiu3v4uh2ql4i28gojfipncql5ab3ap.apps.googleusercontent.com&redirect_uri=http://localhost/oauth/google/callback&response_type=code&scope=openid%20email%20profile">
+                            <img src="/resources/images/mainJHI/googleLogo.png" alt="" id="google-logo">
+                            구글 로그인
+                        </a>
                     </div>
+
+                    <c:if test="${not empty param.redirect}">
+                        <input type="hidden" name="redirect" value="${param.redirect}">
+                    </c:if>
     
             </section>
             </form>

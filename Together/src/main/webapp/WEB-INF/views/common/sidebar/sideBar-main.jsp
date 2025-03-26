@@ -30,11 +30,11 @@
       <div class="body hidden" id="CHAT">
 
         <div class="talkMenus sideBox">
-          <div class="talkMenu select"><a href="" class="no-link" data-url="/sidebar/chat"><img src="/resources/images/sidebar/images/Home.svg" alt=""></a></div>          
+          <div class="talkMenu unselect"><a href="" class="no-link" data-url="/sidebar/chat"><img src="/resources/images/sidebar/images/Home.svg" alt=""></a></div>          
           <div class="talkMenu unselect">
-            <a href="" class="no-link" data-url="/sidebar/chatOpen?chattingNo=2">
-              <img src="/resources/images/sidebar/images/Chat.svg" alt="">
-            </a>
+              <a href="" class="no-link" data-url="/sidebar/chatOpen?chattingNo=2">
+                <img src="/resources/images/sidebar/images/Chat.svg" alt="">
+              </a>
             <div class="noti noti-menu"><span>6</span></div>
           </div>
           <div class="talkMenu unselect"><a href="" class="no-link"><img src="/resources/images/sidebar/images/Setting.svg" alt=""></a></div>
@@ -42,191 +42,51 @@
 
 
         <div class="content">
+          <!-- 프로필 영역 -->
           <div class="profile-area">
             <div class="title-profile-box">
               <div class="profile profile-inTitle">
                 <img src="/resources/images/sidebar/images/counselor.svg" alt="">
               </div>
             </div>
-            <div class="chat-title"><span>투게더 상담원</span></div>
+            <div class="chat-title"><span>채팅 상대</span></div>
             <div class="title-menu-box">
               <div class="title-menu">
-                <a href="">
+                <a href="#">
                   <div class="circle-gradation plus">
-                    <div></div>
-                    <div></div>
-                    <div></div>
+                    <div></div><div></div><div></div>
                   </div>
                 </a>
               </div>
               <div class="title-menu">
-                <a href="">
-                  <div class="circle-gradation minus">
-                    <div></div>
-                  </div>
+                <a href="#">
+                  <div class="circle-gradation minus"><div></div></div>
                 </a>
               </div>
             </div>
           </div>
 
-
-
-
-
+          <!-- 채팅 메시지 영역 -->
           <div class="chat-area">
-            <div class="other">
-              <div class="nickname">투게더</div>
-              <div class="profile-box">
-                <div class="profile profile-inChat">
-                  <img src="/resources/images/sidebar/images/counselor.svg" alt="">
-                </div>
-              </div>
-              <div class="chat-boxes">
-                <div class="chat-box">
-                  <span>
-                    안녕하세요! 😊<br>
-                    함께 사고 함께 절약하는 투게더 입니다~<br>
-                    이용 문의나 고객 문의에 대해서 물어보세요~~~~!
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="own">
-              <div class="nickname">일이삼사오육칠팔구</div>
-              <div class="profile-box">
-                <div class="profile profile-inChat">
-                  <img src="/resources/images/sidebar/images/sample.png" alt="">
-                </div>
-              </div>
-              <div class="chat-boxes">
-                <div class="chat-box">
-                  <span>
-                    ㅎ??????ㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹㄹ
-                  </span>
-                </div>
-                <div class="chat-box">
-                  <span>
-                    ??
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="other">
-              <div class="nickname">투게더</div>
-              <div class="profile-box">
-                <div class="profile profile-inChat">
-                  <img src="/resources/images/sidebar/images/counselor.svg" alt="">
-                </div>
-              </div>
-              <div class="chat-boxes">
-                <div class="chat-box">
-                  <span>
-                    안녕하세요! 😊
-                  </span>
-                </div>
-                <div class="chat-box">
-                  <span>
-                    안녕
-                  </span>
-                </div>
-                <div class="chat-box">
-                  <span>
-                    안녕
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="own">
-              <div class="nickname">커비</div>
-              <div class="profile-box">
-                <div class="profile profile-inChat">
-                  <img src="/resources/images/sidebar/images/sample.png" alt="">
-                </div>
-              </div>
-              <div class="chat-boxes">
-                
-                <div class="chat-box">
-                  <span>
-                    ??
-                  </span>
-                </div>
-                <div class="chat-box">
-                  <span>
-                    ??
-                  </span>
-                </div>
-                <div class="chat-box">
-                  <span>
-                    ??
-                  </span>
-                </div>
-                
-                
-              </div>
-            </div>
-
-
-            <div class="other">
-              <div class="nickname">돌돌이</div>
-              <div class="profile-box">
-                <div class="profile profile-inChat">
-                  <img src="/resources/images/sidebar/images/imageSample.png" alt="">
-                </div>
-              </div>
-              <div class="chat-boxes">
-                <div class="chat-box">
-                  <span>
-                    안녕하세요! 😊
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="other">
-              <div class="nickname">투게더</div>
-              <div class="profile-box">
-                <div class="profile profile-inChat">
-                  <img src="/resources/images/sidebar/images/counselor.svg" alt="">
-                </div>
-              </div>
-              <div class="chat-boxes">
-                <div class="chat-box">
-                  <span>
-                    안녕하세요! 😊
-                  </span>
-                </div>
-                <div class="chat-box">
-                  <span>
-                    안녕
-                  </span>
-                </div>
-                <div class="chat-box">
-                  <span>
-                    안녕
-                  </span>
-                </div>
-              </div>
-            </div>
-
+            <ul class="display-chatting" id="chatMessageList"></ul>
           </div>
 
+          <!-- 채팅 입력창 영역 -->
           <div class="typing-area">
             <div class="textInput-area">
-              <div><input type="text"></div>
+              <div><input type="text" id="inputChatting" placeholder="메시지를 입력하세요"></div>
             </div>
             <div class="typing-menu-box">
-              <a href=""><img src="/resources/images/sidebar/images/Smiling.svg" alt=""></a>
-              <a href=""><img src="/resources/images/sidebar/images/Image.svg" alt=""></a>
-              <a href=""><img src="/resources/images/sidebar/images/send.svg" alt=""></a>
+              <a href="#"><img src="/resources/images/sidebar/images/Smiling.svg" alt=""></a>
+              <a href="#"><img src="/resources/images/sidebar/images/Image.svg" alt=""></a>
+              <button id="sendMessageBtn" class="no-link">
+                <img src="/resources/images/sidebar/images/send.svg" alt="보내기">
+              </button>
             </div>
           </div>
-
         </div>
 
-
+        <!-- 채팅방 목록 영역 -->
         <div class="content hidden">
           <div class="search-area">
             <label for="sideBar-input">
@@ -241,55 +101,12 @@
               </form>
             </label>
           </div>
-          <div class="chat-room-box">
-
-
-            <div class="chat-room">
-              <div class="profile-box">
-                <div class="profile profile-inBox">
-                  <img src="/resources/images/sidebar/images/counselor.svg" alt="">
-                </div>
-              </div>
-              <div class="chat">
-                <div class="chat-name">투게더 상담사</div>
-                <div class="chat-content">안녕하세요. 상담하실 내용이 있으신..</div>
-              </div>
-              <div class="chat-info">
-                <div class="noti noti-chat"><span>2</span></div>
-                <div class="chat-time">오후 3:05</div>
-              </div>
-            </div>
-
-            <div class="chat-room">
-              <div class="profile-box">
-                <div class="profile profile-inBox">
-                  <img src="/resources/images/sidebar/images/sample.png" alt="">
-                </div>
-              </div>
-              <div class="chat">
-                <div class="chat-name">모든지 공구</div>
-                <div class="chat-content">삼다수 정품 공구 선제시@@</div>
-              </div>
-              <div class="chat-info">
-                <div class="noti noti-chat"><span>3</span></div>
-                <div class="chat-time">오후 2:56</div>
-              </div>
-            </div>
-
-
-
-            <div class="chat-room"></div>
-            <div class="chat-room"></div>
-            <div class="chat-room"></div>
-          </div>
+          <div class="chat-room-box"></div>
         </div>
 
-
-        <div class="content hidden">
-        </div>
-        
+        <!-- 추가 콘텐츠 영역 -->
+        <div class="content hidden"></div>
       </div>
-      
       <div class="body" id="PICK">
         <div class="sideBox pick"></div>
         <div class="content pick">
@@ -404,12 +221,6 @@
                 <a href=""><img src="/resources/images/sidebar/images/X.svg" alt=""></a>
               </div>
             </div>
-
-
-      
-
-
-
 
           </div>
 

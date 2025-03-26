@@ -46,15 +46,21 @@
 	    <result property="reportDate" column="REPORT_DATE"/>
 	    <result property="reportStatus" column="REPORT_STATUS"/>
 	</resultMap>
+	<!-- 신고 채팅 -->
+	<resultMap type="ReportChatting" id="ReportChatting"></resultMap>
+	
+	<!-- 리뷰 -->
+	<resultMap type="Review" id="Review"></resultMap>
+	<!-- 댓글 -->
+	<resultMap type="Reply" id="Reply"></resultMap>
 	
 	<!-- 고객 프로필 -->
 	<resultMap type="CustomerProfile" id="CustomerProfile"></resultMap>
 	
 	<!-- 고객 프로필 게시판 -->
 	<resultMap type="CustProfileBoard" id="CustProfileBoard"></resultMap>
-	<!--=================== MANAGE BRAND RESULTMAP =============================-->	
 	
-	
+	<!-- 브랜드 -->	
 	<resultMap type="BrandBoard" id="Brand_Board"></resultMap>
 	<resultMap type="LookData" id="LookData"></resultMap>
 	<resultMap type="BrandProfile" id="BrandProfile"></resultMap>
@@ -460,7 +466,7 @@
 		   ,(SELECT COUNT(*)FROM REPLY R WHERE R.MEMBER_NO = M.MEMBER_NO) REPLY_COUNT
 		   ,(SELECT COUNT(*)FROM BOARD B WHERE B.MEMBER_NO = M.MEMBER_NO AND BOARD_CD=1) GETHER_COUNT
 		   ,(SELECT COUNT(*)FROM "ORDER" O WHERE O.MEMBER_NO = M.MEMBER_NO) ORDER_COUNT
-		   ,(SELECT COUNT(*)FROM REPORT WHERE REPORTED_USER_NO = M.MEMBER_NO AND REPORT_STATUS ='경고') WRAN_COUNT
+		   ,(SELECT COUNT(*)FROM REPORT WHERE REPORTED_USER_NO = M.MEMBER_NO AND REPORT_STATUS ='경고') WARN_COUNT
 		   ,(SELECT COUNT(*)FROM REPORT RP WHERE RP.MEMBER_NO = M.MEMBER_NO) REPORT_COUNT
 		   ,(SELECT COUNT(*)FROM REPORT WHERE REPORTED_USER_NO = M.MEMBER_NO) REPORTED_COUNT
 		   ,(SELECT COUNT(*)FROM BOARD B WHERE B.MEMBER_NO = M.MEMBER_NO AND BOARD_CD = 6) QUEST_COUNT
@@ -962,6 +968,83 @@
 	
 <!-- 	</select>	 -->
 
+	<!-- 문제의 모집글 조회  -->
+	<select id="getherSelect" resultType="_int">
+		SELECT RECRUITMENT_NO
+		FROM RECRUITMENT_ROOM R 
+		WHERE BOARD_NO = ${no}		
+	</select>
+	
+	<!-- 문제의 댓글 조회 -->
+	<select id="replySelect" resultMap="Reply">
+		SELECT REPLY_NO, 
+				TO_CHAR(REPLY_CREATE_DATE, 'YYYY-MM-DD') REPLY_CREATED_DATE, 
+				REPLY_DEL_FL REPLY_DEL_FLAG, 
+				REPLY_CONTENT, 
+				SECRET_REPLY_STATUS, 
+				MEMBER_NO, 
+				REPLY_TYPE, 
+				REPLY_TYPE_NO, 
+				PARENT_REPLY_NO PARENT_NO
+				,(SELECT MEMBER_NICK FROM MEMBER M WHERE M.MEMBER_NO = R.MEMBER_NO ) MEMBER_NICK
+				,(SELECT PROFILE_IMG FROM MEMBER M WHERE M.MEMBER_NO = R.MEMBER_NO ) PROFILE_IMG
+				,(SELECT BOARD_CD FROM BOARD B WHERE BOARD_NO = REPLY_TYPE_NO) BOARD_CD
+				,(SELECT BOARD_NO FROM BOARD B WHERE BOARD_NO = REPLY_TYPE_NO) BOARD_NO
+		FROM REPLY R
+		WHERE (REPLY_TYPE, REPLY_TYPE_NO) =
+		(SELECT REPLY_TYPE,REPLY_TYPE_NO FROM REPLY WHERE REPLY_NO = ${no})
+		START WITH PARENT_REPLY_NO IS NULL 
+		CONNECT BY PRIOR  REPLY_NO = PARENT_REPLY_NO 
+		ORDER SIBLINGS BY REPLY_NO
+	</select>
+	
+	<!-- 문제의 채팅 조회 -->
+	<select id="chattingSelect" resultType="ReportChatting">
+		SELECT 
+			(SELECT MEMBER_NICK FROM MEMBER M WHERE M.MEMBER_NO = C.MEMBER_NO) MEMBER_NICK,
+			MESSAGE_NO, 
+			MESSAGE_CONTENT , 
+			MESSAGE_TYPE ,
+			TO_CHAR(SEND_DATE, 'YYYY-MM-DD') SEND_DATE , 
+			TO_CHAR(SEND_DATE, 'HH24:MI:SS') SEND_TIME , 
+			MEMBER_NO , 
+			ROOM_NO ,
+			(SELECT MEMBER_NO FROM CHAT_MESSAGE WHERE MESSAGE_NO = ${no}) REPORTED_MEMBER_NO
+		FROM CHAT_MESSAGE C
+		WHERE ROOM_NO = 
+			(SELECT ROOM_NO 
+			FROM CHAT_MESSAGE 
+			WHERE MESSAGE_NO = ${no})	
+			ORDER BY MESSAGE_NO	
+	</select>
+	
+	<!-- 문제의 리뷰 조회  -->
+	<select id="reviewSelect" resultMap="Review">
+		SELECT
+			REVIEW_NO , 
+			REVIEW_CONTENT , 
+			REVIEW_STAR , 
+			REVIEW_CREATED_DATE , 
+			REVIEW_TYPE , 
+			REVIEW_TYPE_NO ,
+			MEMBER_NO , 
+			MEMBER_NO , 
+			ORDER_NO,
+			REVIEW_DEL_FL REVIEW_DEL_FLEG,
+			(SELECT MEMBER_NICK FROM MEMBER M WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICKNAME 
+		FROM REVIEW R WHERE REVIEW_NO = ${no}
+	</select>
+	
 
-
+	<!-- 문제의 댓글 삭제  -->
+	<update id="replyDelete">
+		UPDATE REPLY SET REPLY_DEL_FL = 'Y' 
+		WHERE REPLY_NO = ${reportNo}	
+	</update>
+	
+	<!-- 문제의 리뷰 삭제 -->
+	<update id="reviewUpdate">
+		UPDATE REVIEW SET REVIEW_DEL_FL = 'Y' 
+		WHERE REVIEW_NO = ${reviewNo}	
+	</update>
 </mapper>

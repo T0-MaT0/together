@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,9 +58,36 @@ public class ChattingController {
 	// 상대 프로필 표시용 
 	@GetMapping("/chatting/targetInfo")
 	@ResponseBody
-	public Member getChatTargetInfo(@RequestParam("roomNo") int roomNo,
+	public List<Object> getChatTargetInfo(@RequestParam("roomNo") int roomNo,
 	                                @SessionAttribute("loginMember") Member loginMember) {
 	    return service.selectChatTarget(roomNo, loginMember.getMemberNo());
+	}
+	
+	// 채팅방 삭제
+	@PostMapping("/chatting/deleteRoom")
+	@ResponseBody
+	public Map<String, Object> deleteRoom(@RequestParam("roomNo") int roomNo, HttpSession session) {
+	    Map<String, Object> map = new HashMap<>();
+
+	    Member loginMember = (Member) session.getAttribute("loginMember");
+	    if (loginMember == null) {
+	        map.put("success", false);
+	        map.put("error", "로그인 필요");
+	        return map;
+	    }
+
+	    int loginMemberNo = loginMember.getMemberNo();
+	    int ownerNo = service.selectOwnerNo(roomNo);
+
+	    if (loginMemberNo != ownerNo) {
+	        map.put("success", false);
+	        map.put("error", "권한 없음");
+	        return map;
+	    }
+
+	    int result = service.deleteRoom(roomNo);
+	    map.put("success", result > 0);
+	    return map;
 	}
 	
 //	// 채팅 화면
