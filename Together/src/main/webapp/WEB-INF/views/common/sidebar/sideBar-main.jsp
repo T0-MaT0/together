@@ -32,9 +32,9 @@
         <div class="talkMenus sideBox">
           <div class="talkMenu unselect"><a href="" class="no-link" data-url="/sidebar/chat"><img src="/resources/images/sidebar/images/Home.svg" alt=""></a></div>          
           <div class="talkMenu unselect">
-            <a href="" class="no-link" data-url="/sidebar/chatOpen?chattingNo=2">
-              <img src="/resources/images/sidebar/images/Chat.svg" alt="">
-            </a>
+              <a href="" class="no-link" data-url="/sidebar/chatOpen?chattingNo=2">
+                <img src="/resources/images/sidebar/images/Chat.svg" alt="">
+              </a>
             <div class="noti noti-menu"><span>6</span></div>
           </div>
           <div class="talkMenu unselect"><a href="" class="no-link"><img src="/resources/images/sidebar/images/Setting.svg" alt=""></a></div>

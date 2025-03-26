@@ -1,8 +1,15 @@
 console.log("sideBarMain.js");
 
 // a 태그 기본 동작 제거 
-document.querySelectorAll("a.no-link").forEach(a => {
-  a.addEventListener("click", e => e.preventDefault());
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("a.no-link").forEach(a => {
+    a.addEventListener("click", e => {
+      const url = a.getAttribute("data-url");
+      if (!url) {
+        e.preventDefault(); // data-url 없는 경우만 기본 동작 막기
+      }
+    });
+  });
 });
 
 // 사이드바 열고 닫기
@@ -39,16 +46,18 @@ function loadChatRoomList() {
 
         // 채팅방 번호를 dataset에 담아둠
         div.dataset.roomNo = chat.roomNo;
+        div.dataset.roomName = chat.roomName;
+        div.dataset.ownerProfile = chat.ownerProfile;
 
         // HTML 구성
         div.innerHTML = `
           <div class="profile-box">
             <div class="profile profile-inBox">
-              <img src="${chat.targetProfile || '/resources/images/mypage/관리자 프로필.webp'}" alt="">
+              <img src="${chat.ownerProfile || '/resources/images/mypage/관리자 프로필.webp'}" alt="">
             </div>
           </div>
           <div class="chat">
-            <div class="chat-name">${chat.targetNickname || chat.roomName}</div>
+            <div class="chat-name">${chat.roomName}</div>
             <div class="chat-content">${chat.lastMessage || '대화를 시작해보세요!'}</div>
           </div>
           <div class="chat-info">
@@ -67,9 +76,27 @@ function loadChatRoomList() {
                 const contentBox = document.querySelectorAll("#CHAT .content")[0];
                 contentBox.innerHTML = html;
 
+                bindChatRoomHeaderButtons();
+                bindSendMessageEvent();
+
+
+
+                const roomData = {
+                  roomName: div.dataset.roomName,
+                  ownerProfileImg: div.dataset.ownerProfile
+                };
+        
+                document.querySelector("#roomTitle").innerText = roomData.roomName;
+                document.querySelector("#ownerProfileImg").src = roomData.ownerProfileImg;
+
                 connectChatWebSocket?.();
                 loadMessageList?.();
 
+                const talkMenus = document.querySelectorAll(".talkMenu");
+                talkMenus.forEach(menu => menu.classList.remove("select")); 
+
+                const chatTab = document.querySelector(".talkMenu a[data-url*='/sidebar/chatOpen']")?.closest(".talkMenu");
+                chatTab?.classList.add("select"); 
               });
           });
 
@@ -124,6 +151,8 @@ function initializeChatTabs() {
   menus.forEach((menu, i) => {
     menu.addEventListener("click", function (e) {
       e.preventDefault();
+
+      
 
       if (talkMenus[i].classList.contains("select")) return;
 
@@ -295,4 +324,178 @@ function loadChatTargetInfo(roomNo) {
     .catch(err => {
       console.error("채팅 상대 정보 불러오기 실패", err);
     });
+}
+
+
+// 상단 메뉴바
+function bindChatRoomHeaderButtons() {
+  const minusBtn = document.querySelector(".title-menu .minus")?.closest("a");
+  const plusBtn = document.querySelector(".title-menu .plus")?.closest("a");
+
+  if (minusBtn) {
+    minusBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+
+      if (confirm("채팅방을 삭제하시겠습니까?")) {
+        const roomNo = document.getElementById("chatRoom")?.dataset.roomNo;
+
+        fetch(`/chatting/deleteRoom?roomNo=${roomNo}`, { method: "POST" })
+          .then(res => res.json())
+          .then(result => {
+            if (result.success) {
+              alert("채팅방이 삭제되었습니다.");
+              plusBtn?.click(); 
+            } else {
+              alert("채팅방 삭제에 실패했습니다.");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            alert("오류가 발생했습니다.");
+          });
+      }
+    });
+  }
+
+  if (plusBtn) {
+    plusBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+
+      const targetMenu = document.querySelector(`#CHAT .talkMenu > a[data-url="/sidebar/chat"]`);
+      const talkMenus = document.querySelectorAll("#CHAT .talkMenu");
+      const contents = document.querySelectorAll("#CHAT .content");
+
+      talkMenus.forEach(menu => {
+        menu.classList.remove("select");
+        menu.classList.add("unselect");
+      });
+
+      contents.forEach(content => content.classList.add("hidden"));
+
+      if (targetMenu) {
+        const parentMenu = targetMenu.parentElement;
+        parentMenu.classList.add("select");
+        parentMenu.classList.remove("unselect");
+
+        const menus = document.querySelectorAll("#CHAT .talkMenu > a");
+        const index = Array.from(menus).indexOf(targetMenu);
+        if (index !== -1 && contents[index]) {
+          contents[index].classList.remove("hidden");
+          fetch("/sidebar/chat")
+            .then(res => res.text())
+            .then(html => {
+              contents[index].innerHTML = html;
+              loadChatRoomList();
+            });
+        }
+      }
+    });
+  }
+}
+
+
+// 메세지 입력
+function bindSendMessageEvent() {
+  const sendBtn = document.getElementById("sendMessageBtn");
+  const input = document.getElementById("inputChatting");
+
+  if (sendBtn && input) {
+    sendBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+
+      const message = input.value.trim();
+      if (message.length === 0) return;
+
+      const roomNo = document.getElementById("chatRoom")?.dataset.roomNo;
+      if (!roomNo) return;
+
+      const msgObj = {
+        roomNo: roomNo,
+        senderNo: loginMemberNo,
+        messageContent: message
+      };
+
+      chattingSock.send(JSON.stringify(msgObj));
+      input.value = "";
+    });
+  }
+
+  const textarea = document.getElementById("inputChatting");
+
+  textarea.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      if (e.shiftKey) {
+        // Shift + Enter → 줄바꿈
+        return; // 기본 동작 유지
+      } else {
+        // Enter → 전송
+        e.preventDefault(); // 줄바꿈 막기
+        sendBtn.click(); // 버튼 클릭 이벤트 호출
+      }
+    }
+  });
+}
+
+
+// 메세지 동기화
+function displayMessage(msg) {
+  const ul = document.getElementById("chatMessageList");
+  if (!ul) return;
+
+  const li = document.createElement("li");
+
+  const isMine = Number(msg.senderNo) === Number(loginMemberNo);
+
+  // 메시지 wrapper
+  const rootDiv = document.createElement("div");
+  rootDiv.classList.add(isMine ? "own" : "other");
+
+  // 닉네임
+  const nicknameDiv = document.createElement("div");
+  nicknameDiv.classList.add("nickname");
+  nicknameDiv.innerText = isMine ? loginMemberNickname : msg.senderNickname || "상대방";
+
+  // 프로필
+  const profileBox = document.createElement("div");
+  profileBox.classList.add("profile-box");
+  const profile = document.createElement("div");
+  profile.classList.add("profile", "profile-inChat");
+  const img = document.createElement("img");
+  img.src = msg.senderProfile || "/resources/images/user.png";
+  profile.appendChild(img);
+  profileBox.appendChild(profile);
+
+  // 메시지
+  const chatBoxes = document.createElement("div");
+  chatBoxes.classList.add("chat-boxes");
+
+  const chatBox = document.createElement("div");
+  chatBox.classList.add("chat-box");
+
+  const span = document.createElement("span");
+  span.innerHTML = msg.messageContent;
+
+  chatBox.appendChild(span);
+  chatBoxes.appendChild(chatBox);
+
+  // 전송시간
+  const time = document.createElement("div");
+  time.classList.add("chatDate");
+  time.innerText = msg.sendTime || "";
+
+  chatBoxes.appendChild(time);
+
+  // 조립
+  rootDiv.appendChild(nicknameDiv);
+  rootDiv.appendChild(profileBox);
+  rootDiv.appendChild(chatBoxes);
+  li.appendChild(rootDiv);
+  ul.appendChild(li);
+
+  // 자동 스크롤
+  setTimeout(() => {
+    ul.scrollTop = ul.scrollHeight;
+  }, 0);
+
+ 
 }
