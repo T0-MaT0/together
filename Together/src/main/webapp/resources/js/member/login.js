@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const memberId = memberIdInput.value.trim();
       const memberPw = memberPwInput.value.trim();
-      const userCaptcha = captchaInput.value.trim();
+      //const userCaptcha = captchaInput.value.trim();
 
       // 아이디/비번 미입력 시
       if (memberId === "" || memberPw === "") {
@@ -47,22 +47,25 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // 서버의 캡차 값 가져오기
-      fetch("/getCaptchaValue")
-        .then(res => res.text())
-        .then(serverCaptcha => {
-          if (userCaptcha.toLowerCase() !== serverCaptcha.toLowerCase()) {
-            alert("보안문자가 일치하지 않습니다.");
-            captchaImg.src = "/captcha?" + new Date().getTime(); // 이미지 갱신
-            captchaInput.value = "";
-            captchaInput.focus();
-          } else {
-            loginForm.submit(); // 검증 통과 시 로그인 진행
-          }
-        })
-        .catch(err => {
-          console.error("보안문자 확인 중 오류 발생", err);
-          alert("보안문자 확인에 실패했습니다. 다시 시도해주세요.");
-        });
+      // fetch("/getCaptchaValue")
+      //   .then(res => res.text())
+      //   .then(serverCaptcha => {
+      //     if (userCaptcha.toLowerCase() !== serverCaptcha.toLowerCase()) {
+      //       alert("보안문자가 일치하지 않습니다.");
+      //       captchaImg.src = "/captcha?" + new Date().getTime(); // 이미지 갱신
+      //       captchaInput.value = "";
+      //       captchaInput.focus();
+      //     } else {
+      //       loginForm.submit(); // 검증 통과 시 로그인 진행
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.error("보안문자 확인 중 오류 발생", err);
+      //     alert("보안문자 확인에 실패했습니다. 다시 시도해주세요.");
+      //   });
+
+      // 위에 주석풀면 지우기
+      loginForm.submit();
     });
   }
 
