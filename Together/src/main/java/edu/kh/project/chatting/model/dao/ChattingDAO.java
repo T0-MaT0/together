@@ -95,12 +95,12 @@ public class ChattingDAO {
 	 * @param memberNo
 	 * @return
 	 */
-	public Member selectChatTarget(int roomNo, int memberNo) {
+	public List<Object> selectChatTarget(int roomNo, int memberNo) {
 		Map<String, Object> paramMap = new HashMap<>();
 	    paramMap.put("roomNo", roomNo);
 	    paramMap.put("loginMemberNo", memberNo);
 
-	    return sqlSession.selectOne("chattingMapper.selectChatTarget", paramMap);
+	    return sqlSession.selectList("chattingMapper.selectChatTarget", paramMap);
 	}
 
 }

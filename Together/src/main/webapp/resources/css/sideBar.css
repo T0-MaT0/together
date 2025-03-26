@@ -363,11 +363,6 @@ img{
   max-height: 100%;
 }
 
-.profile-box{
-  height: 127px;
-  width: 115px;
-}
-
 .profile{
   width: 85px;
   height: 85px;
@@ -391,7 +386,6 @@ img{
 }
 
 .chat-name{
-  margin-top: 33px;
   height: 23px;
   font-size: 20px;
 }
@@ -405,8 +399,6 @@ img{
 }
 
 .chat-info{
-  width: 112px;
-  height: 127px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -1181,4 +1173,239 @@ img{
 
 .hidden{
   display: none;
+}
+
+
+
+
+
+/* 채팅 css */
+/* 채팅 전체 메시지 하나 */
+#chatMessageList {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 중앙 정렬 */
+}
+
+#chatMessageList li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-family: 'GmarketSansMedium';
+  width: 100%; 
+  box-sizing: border-box;
+  justify-content: flex-start; 
+}
+
+#chatMessageList li.own {
+  justify-content: flex-end;
+}
+
+/* 상대방 메시지 */
+.target-chat {
+  background-color: #ffe6f0;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  align-items: flex-start;
+}
+
+/* 내 메시지 */
+.my-chat {
+  background-color: #dfffcf;
+  border-radius: 10px;
+  padding: 10px;
+  align-self: flex-end;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* 상대방 프로필 이미지 */
+.target-chat img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+}
+
+/* 상대방 메시지 내용 영역 */
+.target-chat div {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 닉네임 */
+.target-chat b {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+/* 메시지 내용 */
+.chat {
+  font-size: 14px;
+  margin-bottom: 4px;
+  word-break: break-word;
+}
+
+/* 전송 시간 */
+.chatDate {
+  font-size: 12px;
+  color: gray;
+  align-self: flex-end;
+}
+
+.chat-area {
+  flex-grow: 1; 
+  overflow-y: auto;
+  max-height: calc(100vh - 300px); 
+  padding: 10px;
+}
+
+.other,
+.own {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  width: 100%;
+  margin-top: 30px;
+}
+
+/* 닉네임은 위에 고정 */
+.other .nickname {
+  position: absolute;
+  top: -25px;
+  left: 75px;
+  font-weight: bold;
+}
+
+.own .nickname {
+  position: absolute;
+  top: -25px;
+  right: 75px;
+  font-weight: bold;
+  text-align: right;
+}
+
+.profile.profile-inChat {
+  width: 53px;
+  height: 53px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* 채팅 박스 정렬 */
+.chat-boxes {
+  max-width: 321px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.own .chat-boxes {
+  align-items: flex-end;
+}
+
+/* 채팅 박스 스타일 */
+.chat-box {
+  background-color: #fff;
+  border: 1px solid #B0B0B0;
+  border-radius: 20px;
+  padding: 11px 15px;
+  margin-bottom: 7px;
+  font-size: 16px;
+  width: fit-content;
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+/* 시간 */
+.chatDate {
+  font-size: 12px;
+  color: gray;
+  margin-top: 4px;
+}
+
+/* 채팅 목록 */
+.chat-room {
+  width: 513px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 10px;
+  margin: 22px 0;
+  padding: 10px 20px;
+  box-shadow: rgba(253, 73, 154, 0.37) 0px 4px 10px;
+  position: relative;
+  transition-duration: 0.4s;
+  height: auto;        
+  min-height: 127px;   
+  
+}
+
+.chat-room:hover {
+  border: 1px solid transparent;
+  background-image: linear-gradient(white, white), linear-gradient(to left, #9969ff, #fd499a);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+
+.chat-room .profile {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.chat-room .chat {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: auto;
+}
+
+.chat-room .chat-name {
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.chat-room .chat-content {
+  font-size: 14px;
+  color: #7a7a7a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+.chat-room .chat-info {
+  position: absolute;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.chat-room .chat-info .noti-chat {
+  background-color: #f4551e;
+  color: white;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 50%;
+  line-height: 24px;
+  margin-bottom: 8px;
+}
+
+.chat-room .chat-info .chat-time {
+  font-size: 14px;
+  font-weight: bold;
+  color: #555;
 }

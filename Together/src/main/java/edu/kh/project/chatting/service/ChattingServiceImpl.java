@@ -32,7 +32,7 @@ public class ChattingServiceImpl implements ChattingService{
 
 	// 상대 프로필
 	@Override
-	public Member selectChatTarget(int roomNo, int memberNo) {
+	public List<Object> selectChatTarget(int roomNo, int memberNo) {
 		return dao.selectChatTarget(roomNo, memberNo);
 	}
 

@@ -34,14 +34,12 @@
 
   <div class="typing-area">
     <div class="textInput-area">
-      <div><input type="text" id="inputChatting" placeholder="메시지를 입력하세요"></div>
+      <div><input type="text" id="inputChatting" ></div>
     </div>
     <div class="typing-menu-box">
-      <a href="#"><img src="/resources/images/sidebar/images/Smiling.svg" alt=""></a>
-      <a href="#"><img src="/resources/images/sidebar/images/Image.svg" alt=""></a>
-      <button id="sendMessageBtn" class="no-link">
-        <img src="/resources/images/sidebar/images/send.svg" alt="보내기">
-      </button>
+      <a href="#" class="no-link"><img src="/resources/images/sidebar/images/Smiling.svg" alt=""></a>
+      <a href="#" class="no-link"><img src="/resources/images/sidebar/images/Image.svg" alt=""></a>
+      <a href="" class="no-link"><img src="/resources/images/sidebar/images/send.svg" alt=""></a>
     </div>
   </div>
 </div>

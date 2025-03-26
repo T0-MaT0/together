@@ -55,7 +55,7 @@ public class ChattingController {
 	// 상대 프로필 표시용 
 	@GetMapping("/chatting/targetInfo")
 	@ResponseBody
-	public Member getChatTargetInfo(@RequestParam("roomNo") int roomNo,
+	public List<Object> getChatTargetInfo(@RequestParam("roomNo") int roomNo,
 	                                @SessionAttribute("loginMember") Member loginMember) {
 	    return service.selectChatTarget(roomNo, loginMember.getMemberNo());
 	}

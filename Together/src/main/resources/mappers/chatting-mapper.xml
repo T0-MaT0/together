@@ -21,11 +21,11 @@
 	    <result property="messageType" column="MESSAGE_TYPE" />
 	    <result property="sendTime" column="SEND_TIME" />
 	
-	    <result property="senderNo" column="MEMBER_NO" />
+	    <result property="senderNo" column="senderNo" />
 	    <result property="chattingNo" column="ROOM_NO" />
 	
-	    <result property="senderNickname" column="SENDER_NICKNAME" />
-	    <result property="senderProfile" column="SENDER_PROFILE" />
+	    <result property="senderNickname" column="senderNickname"/>
+		<result property="senderProfile" column="senderProfile"/>
 	</resultMap>
 
 	<!-- 채팅방 조회 -->

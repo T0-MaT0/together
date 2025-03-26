@@ -26,7 +26,7 @@ public interface ChattingService {
 	 * @param memberNo
 	 * @return
 	 */
-	Member selectChatTarget(int roomNo, int memberNo);
+	List<Object> selectChatTarget(int roomNo, int memberNo);
 
 	
 	
