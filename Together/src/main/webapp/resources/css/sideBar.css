@@ -571,8 +571,6 @@ img{
 .chat-area{
   background-color: #FFEAF3;
   width: 549px;
-  height: calc(100%  - 408px);
-
   display: flex;
   flex-direction: column;
 
@@ -1264,7 +1262,7 @@ img{
 .chat-area {
   flex-grow: 1; 
   overflow-y: auto;
-  max-height: calc(100vh - 300px); 
+  max-height: calc(100vh - 400px); 
   padding: 10px;
 }
 
@@ -1440,4 +1438,68 @@ img{
 
 #inputChatting:focus {
   outline: none; 
+}
+
+
+/* 메세지 이미지 입력 */
+.chat-image {
+  width: 160px;
+  height: auto;
+  border-radius: 10px;
+  margin: 5px 0;
+  transition: transform 0.2s ease;
+}
+
+.chat-image:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 8px rgba(0,0,0,0.15);
+}
+
+
+/* 이모지 선택창 */
+.emoji-picker {
+  position: absolute;
+  bottom: 80px;
+  right: 640px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  width: 200px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 9999;
+}
+
+.emoji-picker.hidden {
+  display: none;
+}
+
+.emoji-section h4 {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.emoji-list span {
+  cursor: pointer;
+  font-size: 24px;
+  margin: 5px;
+}
+
+.big-emoji-container img {
+  width: 60px;
+  height: 60px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+#emojiPicker.hidden {
+  display: none;
+}
+
+.chat-emoji {
+  max-width: 120px;
+  max-height: 120px;
+  border-radius: 10px;
+  object-fit: contain;
+  margin: 4px;
 }

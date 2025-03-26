@@ -1,5 +1,6 @@
 package edu.kh.project.chatting.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.kh.project.chatting.model.dao.ChattingDAO;
+import edu.kh.project.chatting.model.dto.ChatEmoji;
 import edu.kh.project.chatting.model.dto.ChattingRoom;
 import edu.kh.project.chatting.model.dto.Message;
 import edu.kh.project.common.utility.Utill;
+import edu.kh.project.individual.dto.Image;
 import edu.kh.project.member.model.dto.Member;
 
 @Service
@@ -54,6 +57,43 @@ public class ChattingServiceImpl implements ChattingService{
 		msg.setMessageContent(Utill.XSSHandling(msg.getMessageContent()));
 		return dao.insertMessage(msg);
 	}
+
+	// 메세지 이미지 입력
+	@Override
+	public int insertImageMessage(Message msg) {
+		return dao.insertImageMessage(msg);
+	}
+
+	// 메세지 이미지 입력
+	@Override
+	public void insertChatImage(Image img) {
+		dao.insertChatImage(img);
+	}
+
+	// 메세지 큰 이모지 조회
+	@Override
+	public List<ChatEmoji> getBigEmojiList() {
+		return dao.selectBigEmojiList();
+	}
+
+	// 모집하기 방 생성 시 채팅방 생성
+	@Override
+	public int createGroupChatRoom(String roomName, int ownerNo) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("roomName", roomName);
+	    map.put("ownerNo", ownerNo);
+
+	    int result = dao.createGroupChatRoom(map);
+
+	    if (result > 0) {
+	        int roomNo = (int) map.get("roomNo");
+	        dao.insertChatRoomUser(roomNo, ownerNo); 
+	    }
+
+	    return result;
+	}
+
+	
 
 	
 

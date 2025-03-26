@@ -39,8 +39,37 @@
       <div><textarea id="inputChatting"></textarea></div>
     </div>
     <div class="typing-menu-box">
-      <a href="#" class="no-link"><img src="/resources/images/sidebar/images/Smiling.svg" alt=""></a>
-      <a href="#" class="no-link"><img src="/resources/images/sidebar/images/Image.svg" alt=""></a>
+      <a href="#" id="emojiToggleBtn" class="no-link">
+        <img src="/resources/images/sidebar/images/Smiling.svg" alt="이모지">
+      </a>
+      <div id="emojiPicker" class="emoji-picker hidden">
+        <!-- 미니 이모지 (메시지 입력창에 삽입) -->
+        <div class="emoji-section">
+          <h4>😊 미니 이모지</h4>
+          <div class="emoji-list">
+            <span onclick="insertEmojiToInput('😂')">😂</span>
+            <span onclick="insertEmojiToInput('❤️')">❤️</span>
+            <span onclick="insertEmojiToInput('😍')">😍</span>
+            <span onclick="insertEmojiToInput('🎉')">🎉</span>
+            <span onclick="insertEmojiToInput('🔥')">🔥</span>
+            <span onclick="insertEmojiToInput('👏')">👏</span>
+          </div>
+        </div>
+        <hr>
+
+        <!-- 큰 이모티콘 (바로 전송) -->
+        <div class="emoji-section">
+          <h4>🎉 큰 이모티콘</h4>
+          <div id="bigEmojiContainer" class="big-emoji-container">
+            <!-- Ajax로 채워짐 -->
+          </div>
+        </div>
+
+      </div>
+      <a href="#" class="no-link" id="imageUploadBtn">
+        <img src="/resources/images/sidebar/images/Image.svg" alt="이미지 첨부">
+      </a>
+      <input type="file" id="chatImageInput" accept="image/*" style="display: none;">
       <a href="" class="no-link" id="sendMessageBtn">
         <img src="/resources/images/sidebar/images/send.svg" alt="보내기">
       </a>

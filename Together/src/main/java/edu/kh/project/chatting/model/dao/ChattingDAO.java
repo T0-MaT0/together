@@ -8,8 +8,10 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.kh.project.chatting.model.dto.ChatEmoji;
 import edu.kh.project.chatting.model.dto.ChattingRoom;
 import edu.kh.project.chatting.model.dto.Message;
+import edu.kh.project.individual.dto.Image;
 import edu.kh.project.member.model.dto.Member;
 
 @Repository
@@ -115,5 +117,36 @@ public class ChattingDAO {
 	public int insertMessage(Message msg) {
 		return sqlSession.insert("chattingMapper.insertMessage", msg);
 	}
+
+	// 메세지 이미지 입력
+	public int insertImageMessage(Message msg) {
+		return sqlSession.insert("chattingMapper.insertImageMessage", msg);
+	}
+	
+	// 메세지 이미지 입력
+	public void insertChatImage(Image img) {
+		sqlSession.insert("chattingMapper.insertChatImage", img);
+	}
+
+	// 메세지 큰 이모지 조회
+	public List<ChatEmoji> selectBigEmojiList() {
+		return sqlSession.selectList("chattingMapper.selectBigEmojiList");
+	}
+
+	// 모집하기 생성 시 채팅방 생성
+	public int createGroupChatRoom(Map<String, Object> map) {
+		return sqlSession.insert("chattingMapper.createGroupChatRoom", map);
+	}
+
+	// 채팅방 사용자 등록
+	public void insertChatRoomUser(int roomNo, int ownerNo) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("roomNo", roomNo);
+	    map.put("memberNo", ownerNo);
+		sqlSession.insert("chattingMapper.insertChatRoomUser", map);
+		
+	}
+
+	
 
 }
