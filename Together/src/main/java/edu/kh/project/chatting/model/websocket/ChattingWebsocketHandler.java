@@ -37,36 +37,41 @@ public class ChattingWebsocketHandler extends TextWebSocketHandler{
 
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		
-		log.info("전달 받은 내용 : {}", message.getPayload());
-	    
+
+	    log.info("전달 받은 내용 : {}", message.getPayload());
+
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    Message msg = objectMapper.readValue(message.getPayload(), Message.class);
 	    log.info("Message : {}", msg);
-	    
-	    // 1. 로그인한 사용자 정보 가져오기
+
+	    // 로그인 회원 정보
 	    Member loginMember = (Member) session.getAttributes().get("loginMember");
 
-	    // 2. 메시지에 보낸 사람 프로필, 닉네임 세팅
+	    // 보낸 사람 정보 설정
 	    msg.setSenderProfile(loginMember.getProfileImg());
 	    msg.setSenderNickname(loginMember.getMemberNick());
+	    
+	    int result = 0;
 
-	    // 3. DB 저장
-	    int result = service.insertMessage(msg);
+	    if (!"IMAGE".equals(msg.getMessageType())) {
+	        result = service.insertMessage(msg);
+	    } else {
+	        result = 1; 
+	    }
 
-	    if(result > 0) {
-	        // 4. 전송 시간 추가
-	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm");
-	        msg.setSendTime(sdf.format(new Date()));
+	    if (result > 0) {
+	        if (msg.getSendTime() == null || msg.getSendTime().isEmpty()) {
+	            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+	            msg.setSendTime(sdf.format(new Date()));
+	        }
 
-	        // 5. 대상자에게만 메시지 전달
-	        for(WebSocketSession s : sessions) {
-	            Member m = (Member)s.getAttributes().get("loginMember");
-	            if(m == null) continue;
+	        for (WebSocketSession s : sessions) {
+	            Member m = (Member) s.getAttributes().get("loginMember");
+	            if (m == null) continue;
 
 	            int loginMemberNo = m.getMemberNo();
 
-	            if(loginMemberNo == msg.getTargetNo() || loginMemberNo == msg.getSenderNo()) {
+	            if (loginMemberNo == msg.getTargetNo() || loginMemberNo == msg.getSenderNo()) {
 	                s.sendMessage(new TextMessage(new Gson().toJson(msg)));
 	            }
 	        }

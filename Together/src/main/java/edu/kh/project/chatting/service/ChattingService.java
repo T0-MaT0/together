@@ -3,8 +3,10 @@ package edu.kh.project.chatting.service;
 import java.util.List;
 import java.util.Map;
 
+import edu.kh.project.chatting.model.dto.ChatEmoji;
 import edu.kh.project.chatting.model.dto.ChattingRoom;
 import edu.kh.project.chatting.model.dto.Message;
+import edu.kh.project.individual.dto.Image;
 import edu.kh.project.member.model.dto.Member;
 
 public interface ChattingService {
@@ -36,6 +38,19 @@ public interface ChattingService {
 
 	// 메세지 입력
 	int insertMessage(Message msg);
+
+	// 메세지 이미지 입력
+	int insertImageMessage(Message msg);
+
+	// 메세지 이미지 입력
+	void insertChatImage(Image img);
+
+	// 메시지 큰 이모지 조회
+	List<ChatEmoji> getBigEmojiList();
+
+	// 모집하기 방 만들 시 채팅방 생성
+	int createGroupChatRoom(String roomName, int ownerNo);
+
 
 	
 	

@@ -43,6 +43,7 @@
 		<typeAlias type="edu.kh.project.common.model.dto.Category" alias="Category"/>
 		<typeAlias type="edu.kh.project.chatting.model.dto.ChattingRoom" alias="ChattingRoom"/>
 		<typeAlias type="edu.kh.project.chatting.model.dto.Message" alias="Message"/>
+		<typeAlias type="edu.kh.project.chatting.model.dto.ChatEmoji" alias="ChatEmoji"/>
 
 
 	</typeAliases>

@@ -29,6 +29,13 @@
 	    <result property="senderNickname" column="senderNickname"/>
 		<result property="senderProfile" column="senderProfile"/>
 	</resultMap>
+	
+	<resultMap id="emoji_rm" type="ChatEmoji">
+	  <id property="emojiNo" column="EMOJI_NO"/>
+	  <result property="messageId" column="MESSAGE_ID"/>
+	  <result property="emojiCode" column="EMOJI_CODE"/>
+	  <result property="emojiType" column="EMOJI_TYPE"/>
+	</resultMap>
 
 	<!-- 채팅방 조회 -->
 	<select id="getChattingList" resultMap="chattingRoom_rm">
@@ -164,11 +171,80 @@
 	  ) VALUES (
 	    SEQ_MESSAGE_NO.NEXTVAL,
 	    #{messageContent},
-	    'TEXT',
+	    #{messageType},
 	    #{senderNo},
 	    #{roomNo},
 	    'N',
 	    SYSDATE
+	  )
+	</insert>
+	
+	<!-- 메시지 이미지 입력 -->
+	<insert id="insertImageMessage" parameterType="Message">
+	  <selectKey keyProperty="messageNo" resultType="int" order="BEFORE">
+	    SELECT SEQ_MESSAGE_NO.NEXTVAL FROM DUAL
+	  </selectKey>
+	
+	  INSERT INTO CHAT_MESSAGE (
+	    MESSAGE_NO, MESSAGE_CONTENT, MESSAGE_TYPE,
+	    MEMBER_NO, ROOM_NO, MESSAGE_DEL_FL, SEND_DATE
+	  ) VALUES (
+	    #{messageNo}, #{messageContent}, #{messageType},
+	    #{senderNo}, #{roomNo}, 'N', SYSDATE
+	  )
+	</insert>
+	
+	<!-- 메시지 이미지 입력 -->
+	<insert id="insertChatImage">
+	  <selectKey keyProperty="imageNo" resultType="int" order="BEFORE">
+	    SELECT SEQ_IMG_NO.NEXTVAL FROM DUAL
+	  </selectKey>
+	
+	  INSERT INTO IMG (
+	    IMG_NO, IMG_RENAME, IMG_ORIGINAL, IMG_PATH, 
+	    IMG_TYPE, IMG_TYPE_NO, IMG_LEVEL
+	  ) VALUES (
+	    #{imageNo}, #{imageReName}, #{imageOriginal}, #{imagePath},
+	    #{imageType}, #{imageTypeNo}, 0
+	  )
+	</insert>
+	
+	<!-- 큰 이모지 전체 조회 -->
+	<select id="selectBigEmojiList" resultMap="emoji_rm">
+	  SELECT EMOJI_NO, EMOJI_CODE, EMOJI_TYPE
+	  FROM CHAT_EMOJI
+	  WHERE EMOJI_TYPE = 'BIG'
+	</select>
+	
+	<!-- 모집하기 성공시 채팅방 생성 -->
+	<insert id="createGroupChatRoom" parameterType="map">
+	  <selectKey keyProperty="roomNo" resultType="int" order="BEFORE">
+	    SELECT SEQ_ROOM_NO.NEXTVAL FROM DUAL
+	  </selectKey>
+	
+	  INSERT INTO CHAT_ROOM (
+	    ROOM_NO,
+	    ROOM_NAME,
+	    GROUP_FL,
+	    CREATED_DATE,
+	    ROOM_DELETED_FL,
+	    OWNER_MEMBER_NO
+	  ) VALUES (
+	    #{roomNo},
+	    #{roomName},
+	    'Y',         
+	    SYSDATE,
+	    'N',         
+	    #{ownerNo}
+	  )
+	</insert>
+	
+	<!-- 채팅방 사용자등록 -->
+	<insert id="insertChatRoomUser" parameterType="map">
+	  INSERT INTO CHAT_ROOM_USER (
+	    ROOM_NO, MEMBER_NO
+	  ) VALUES (
+	    #{roomNo}, #{memberNo}
 	  )
 	</insert>
 </mapper>

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.kh.project.chatting.service.ChattingService;
 import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
@@ -36,6 +37,8 @@ public class RecruitmentController {
 	private RecruitmentService service;
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private ChattingService chatService;
 	
 	// 개인 공동구매 모집방 페이지 (boardCode=1 고정)
 	@GetMapping("/Individual/1")
@@ -239,7 +242,6 @@ public class RecruitmentController {
         // 파일 저장 경로
         String webPath = "/resources/images/recruitment/";
         String filePath = "C:/finalProject/Together/src/main/webapp/resources/images/recruitment/";
-        System.out.println("filePath = " + filePath);
         int recruitNo = 0;
         try {
             recruitNo = service.createRecruitment(dto, images,
@@ -250,14 +252,23 @@ public class RecruitmentController {
         }
 
         if (recruitNo > 0) {
-            String script = "<script>"
-                    + "alert('모집글 등록 성공!');"
-                    + "window.opener.location.href='/Individual/" + 1 + "';"
-                    + "window.close();"
-                    + "</script>";
-            response.setContentType("text/html; charset=UTF-8");
-            response.getWriter().write(script);
-            return null; 
+        	// 채팅방 생성
+            int result = chatService.createGroupChatRoom(dto.getBoardTitle(), loginMember.getMemberNo());
+        	
+            
+            if(result > 0) {
+                String script = "<script>"
+                        + "alert('모집글 등록 + 채팅방 생성 성공!');"
+                        + "window.opener.location.href='/Individual/" + 1 + "';"
+                        + "window.close();"
+                        + "</script>";
+                response.setContentType("text/html; charset=UTF-8");
+                response.getWriter().write(script);
+                return null;
+            }
+
+            ra.addFlashAttribute("message", "모집글 등록은 성공했지만 채팅방 생성 실패");
+            return "redirect:/group/create";
         }
 
         ra.addFlashAttribute("message", "모집글 등록 실패");

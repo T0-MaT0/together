@@ -78,8 +78,8 @@ function loadChatRoomList() {
 
                 bindChatRoomHeaderButtons();
                 bindSendMessageEvent();
-
-
+                bindImageUploadEvent();
+                bindEmojiEvent();
 
                 const roomData = {
                   roomName: div.dataset.roomName,
@@ -211,8 +211,10 @@ function connectChatWebSocket() {
     chattingSock = new SockJS("/chattingSock");
   }
 
-  chattingSock.onmessage = e => {
+  chattingSock.onmessage = (e) => {
     const msg = JSON.parse(e.data);
+  
+  
     displayMessage(msg);
   };
 }
@@ -261,14 +263,35 @@ fetch(`/chatting/selectMessageList?chattingNo=${roomNo}&memberNo=${loginMemberNo
       // 메시지 박스
       const chatBoxes = document.createElement("div");
       chatBoxes.classList.add("chat-boxes");
-    
+
       const chatBox = document.createElement("div");
       chatBox.classList.add("chat-box");
-    
-      const span = document.createElement("span");
-      span.innerHTML = msg.messageContent;
-    
-      chatBox.appendChild(span);
+
+      if (msg.messageType === "IMAGE" || msg.messageType === "EMOJI") {
+        if (
+          /\.(png|jpe?g|gif|webp)$/i.test(msg.messageContent)
+        ) {
+          const image = document.createElement("img");
+          image.src = msg.messageContent;
+          image.alt = "전송된 이미지/이모지";
+          image.classList.add("chat-image");
+
+          image.style.cursor = "pointer";
+          image.addEventListener("click", () => window.open(image.src, "_blank"));
+
+          chatBox.appendChild(image);
+        } else {
+          const span = document.createElement("span");
+          span.innerText = msg.messageContent;
+          span.classList.add("emoji-message");
+          chatBox.appendChild(span);
+        }
+      } else {
+        const span = document.createElement("span");
+        span.innerHTML = msg.messageContent;
+        chatBox.appendChild(span);
+      }
+
       chatBoxes.appendChild(chatBox);
     
       // 전송 시간 
@@ -412,7 +435,8 @@ function bindSendMessageEvent() {
       const msgObj = {
         roomNo: roomNo,
         senderNo: loginMemberNo,
-        messageContent: message
+        messageContent: message,
+        messageType: "TEXT"
       };
 
       chattingSock.send(JSON.stringify(msgObj));
@@ -472,10 +496,37 @@ function displayMessage(msg) {
   const chatBox = document.createElement("div");
   chatBox.classList.add("chat-box");
 
-  const span = document.createElement("span");
-  span.innerHTML = msg.messageContent;
+  if (msg.messageType === "IMAGE" || msg.messageType === "EMOJI") {
 
-  chatBox.appendChild(span);
+    if (
+      msg.messageContent.endsWith(".png") ||
+      msg.messageContent.endsWith(".gif") ||
+      msg.messageContent.endsWith(".jpg") ||
+      msg.messageContent.endsWith(".jpeg") ||
+      msg.messageContent.endsWith(".webp")
+    ) {
+      const image = document.createElement("img");
+      image.src = msg.messageContent;
+      image.alt = "전송된 이미지/이모지";
+      image.classList.add("chat-image");
+
+      image.style.cursor = "pointer";
+      image.addEventListener("click", () => window.open(image.src, "_blank"));
+
+      chatBox.appendChild(image);
+    } else {
+      const span = document.createElement("span");
+      span.innerText = msg.messageContent;
+      span.classList.add("emoji-message");
+      chatBox.appendChild(span);
+    }
+
+  } else {
+    const span = document.createElement("span");
+    span.innerHTML = msg.messageContent;
+    chatBox.appendChild(span);
+  }
+
   chatBoxes.appendChild(chatBox);
 
   // 전송시간
@@ -498,4 +549,96 @@ function displayMessage(msg) {
   }, 0);
 
  
+}
+
+// 이미지 업로드
+function bindImageUploadEvent() {
+  const input = document.getElementById("chatImageInput");
+
+  input?.addEventListener("change", function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("roomNo", document.getElementById("chatRoom").dataset.roomNo);
+    formData.append("senderNo", loginMemberNo);
+
+    fetch("/chatting/image", {
+      method: "POST",
+      body: formData
+    })
+    .then(res => res.json())
+    .then(msg => {
+      chattingSock?.send(JSON.stringify(msg)); 
+
+    })
+    .catch(err => console.error("이미지 전송 실패", err));
+  });
+
+  const btn = document.getElementById("imageUploadBtn");
+  btn?.addEventListener("click", e => {
+    e.preventDefault();
+    input?.click();
+  });
+}
+
+
+// 이모지 업로드
+function bindEmojiEvent() {
+
+  // 미니 이모지 삽입 함수
+  window.insertEmojiToInput = function(emoji) {
+    const input = document.getElementById("inputChatting");
+    const cursorPos = input.selectionStart;
+    input.value = input.value.substring(0, cursorPos) + emoji + input.value.substring(cursorPos);
+    input.focus();
+  };
+
+  // 큰 이모지 전송 함수
+  window.sendBigEmoji = function(emojiPath) {
+    const roomNo = document.getElementById("chatRoom")?.dataset.roomNo;
+    if (!roomNo) return;
+
+    const msg = {
+      senderNo: loginMemberNo,
+      roomNo: roomNo,
+      messageType: "EMOJI",
+      messageContent: emojiPath  
+    };
+
+    chattingSock?.send(JSON.stringify(msg));
+  };
+
+  // 이모지 토글 버튼
+  const toggleBtn = document.getElementById("emojiToggleBtn");
+  toggleBtn?.addEventListener("click", function(e) {
+    e.preventDefault();
+    const picker = document.getElementById("emojiPicker");
+    picker?.classList.toggle("hidden");
+
+    if (!picker.classList.contains("loaded")) {
+      loadBigEmojis(); 
+      picker.classList.add("loaded");
+    }
+  });
+
+  // 큰 이모지 Ajax로 불러오기
+  function loadBigEmojis() {
+    fetch("/chatting/bigEmojis")
+      .then(res => res.json())
+      .then(emojis => {
+        const container = document.getElementById("bigEmojiContainer");
+        container.innerHTML = "";
+  
+        emojis.forEach(e => {
+          const img = document.createElement("img");
+          img.src = e.emojiCode; // 이미지 경로
+          img.classList.add("big-emoji");
+          img.addEventListener("click", () => sendBigEmoji(e.emojiCode));
+          container.appendChild(img);
+        });
+      })
+      .catch(err => console.error("큰 이모지 로드 실패", err));
+  }
 }

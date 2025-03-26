@@ -22,4 +22,5 @@ public class Message {
     // 추가 정보 (조인으로 가져오는 값들)
     private String senderNickname;   // 보낸 사람 닉네임
     private String senderProfile;    // 보낸 사람 프로필 이미지
+    
 }
