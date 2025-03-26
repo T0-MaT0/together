@@ -32,8 +32,27 @@ public class ChattingServiceImpl implements ChattingService{
 
 	// 상대 프로필
 	@Override
-	public Member selectChatTarget(int roomNo, int memberNo) {
+	public List<Object> selectChatTarget(int roomNo, int memberNo) {
 		return dao.selectChatTarget(roomNo, memberNo);
+	}
+
+	// 채팅방 삭제
+	@Override
+	public int deleteRoom(int roomNo) {
+		 return dao.deleteRoom(roomNo);
+	}
+
+	// 채팅방 주인 확인
+	@Override
+	public int selectOwnerNo(int roomNo) {
+		return dao.selectOwnerNo(roomNo);
+	}
+
+	// 메세지 입력
+	@Override
+	public int insertMessage(Message msg) {
+		msg.setMessageContent(Utill.XSSHandling(msg.getMessageContent()));
+		return dao.insertMessage(msg);
 	}
 
 	
@@ -83,10 +102,5 @@ public class ChattingServiceImpl implements ChattingService{
 //		return messageList;
 //	}
 //
-//	// 채팅 메세지 입력
-//	@Override
-//	public int insertMessage(Message msg) {
-//		msg.setMessageContent(Utill.XSSHandling(msg.getMessageContent()));
-//		return dao.insertMessage(msg);
-//	}
+
 }

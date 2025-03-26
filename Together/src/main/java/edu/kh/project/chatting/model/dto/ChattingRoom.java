@@ -19,5 +19,6 @@ public class ChattingRoom {
 
     private int unreadCount;
     private int maxMessageNo;
-    
+    private String ownerProfile;
+    private int ownerMemberNo;
 }

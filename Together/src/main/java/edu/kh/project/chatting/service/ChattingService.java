@@ -26,7 +26,16 @@ public interface ChattingService {
 	 * @param memberNo
 	 * @return
 	 */
-	Member selectChatTarget(int roomNo, int memberNo);
+	List<Object> selectChatTarget(int roomNo, int memberNo);
+
+	// 채팅방 삭제
+	int deleteRoom(int roomNo);
+
+	// 채팅방 주인 확인
+	int selectOwnerNo(int roomNo);
+
+	// 메세지 입력
+	int insertMessage(Message msg);
 
 	
 	
@@ -59,19 +68,7 @@ public interface ChattingService {
 //	 * @return result
 //	 */
 //	int updateReadFlag(Map<String, Object> paramMap);
-//
-//	
-//	/** 채팅방 메세지 목록 조회
-//	 * @param paramMap
-//	 * @return messageList
-//	 */
-//	List<Message> selectMessageList(Map<String, Object> paramMap);
-//
-//
-//	/** 메세지 입력
-//	 * @param msg
-//	 * @return result
-//	 */
-//	int insertMessage(Message msg);
+
+
 
 }

@@ -1,90 +1,71 @@
+console.log("sideBarChatOpen.js");
 
-
-// 채팅방 열릴 때 호출
 document.addEventListener("DOMContentLoaded", () => {
-    loadMessageList();
-    displayMessage(msg)
-});
 
+  // 채팅방 삭제 버튼 (minus) 이벤트 등록
+  document.querySelector(".title-menu .minus").closest("a").addEventListener("click", function(e) {
+    e.preventDefault();
 
-// 채팅 메시지 목록 불러오기
-function loadMessageList() {
-const roomNo = document.getElementById("chatRoom").dataset.roomNo;
-const ul = document.getElementById("chatMessageList");
-console.log('loadMessageList실행')
-fetch(`/chatting/selectMessageList?chattingNo=${roomNo}&memberNo=${loginMemberNo}`)
-    .then(res => res.json())
-    .then(list => {
-    ul.innerHTML = "";
-    console.log(list)
+    if(confirm("채팅방을 삭제하시겠습니까?")) {
+      const roomNo = document.getElementById("chatRoom").dataset.roomNo;
 
-    list.forEach(msg => {
+      fetch(`/chatting/deleteRoom?roomNo=${roomNo}`, { method: "POST" })
+        .then(res => res.json())
+        .then(result => {
+          if(result.success) {
+            alert("채팅방이 삭제되었습니다.");
+            document.querySelector('.title-menu .plus').closest('a').click(); // 삭제 후 목록으로 이동
+          } else {
+            alert("채팅방 삭제에 실패했습니다.");
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          alert("오류가 발생했습니다.");
+        });
+    }
+  });
 
-        const li = document.createElement("li");
-        const span = document.createElement("span");
-        span.classList.add("chatDate");
-        span.innerText = msg.sendTime;
+  // 채팅방 목록으로 돌아가는 버튼 (plus) 이벤트 등록
+  document.querySelector(".title-menu .plus").closest("a").addEventListener("click", function(e) {
+    e.preventDefault();
 
-        const p = document.createElement("p");
-        p.classList.add("chat");
-        p.innerHTML = msg.messageContent;
+    const talkMenus = document.querySelectorAll("#CHAT .talkMenu");
+    const contents = document.querySelectorAll("#CHAT .content");
 
-        if (msg.senderNo === loginMemberNo) {
-        li.classList.add("my-chat");
-        li.append(span, p);
-        } else {
-        li.classList.add("target-chat");
-
-        const img = document.createElement("img");
-        img.src = msg.senderProfile || "/resources/images/user.png";
-
-        const div = document.createElement("div");
-        const b = document.createElement("b");
-        b.innerText = msg.senderNickname;
-        const br = document.createElement("br");
-
-        div.append(b, br, p, span);
-        li.append(img, div);
-        }
-
-        ul.appendChild(li);
+    // 기존 선택 초기화
+    talkMenus.forEach(menu => {
+      menu.classList.remove("select");
+      menu.classList.add("unselect");
     });
 
-    ul.scrollTop = ul.scrollHeight; 
-    })
-    .catch(err => console.error("메시지 목록 불러오기 실패", err));
-}
+    contents.forEach(content => content.classList.add("hidden"));
 
+    // data-url이 "/sidebar/chat"인 메뉴를 찾기
+    const targetMenu = document.querySelector(`#CHAT .talkMenu > a[data-url="/sidebar/chat"]`);
 
-// 받은 메시지 출력
-function displayMessage(msg) {
-  const ul = document.querySelector(".display-chatting");
-  const li = document.createElement("li");
-  const span = document.createElement("span");
-  span.classList.add("chatDate");
-  span.innerText = msg.sendTime;
+    if (targetMenu) {
+      const parentMenu = targetMenu.parentElement;
+      parentMenu.classList.add("select");
+      parentMenu.classList.remove("unselect");
 
-  const p = document.createElement("p");
-  p.classList.add("chat");
-  p.innerHTML = msg.messageContent;
+      const menus = document.querySelectorAll("#CHAT .talkMenu > a");
+      const menuIndex = Array.from(menus).indexOf(targetMenu);
 
-  if (msg.senderNo == loginMemberNo) {
-    li.classList.add("my-chat");
-    li.append(span, p);
-  } else {
-    li.classList.add("target-chat");
+      if(menuIndex !== -1 && contents[menuIndex]) {
+        contents[menuIndex].classList.remove("hidden");
 
-    const img = document.createElement("img");
-    img.setAttribute("src", msg.senderProfile || "/resources/images/user.png");
+        fetch("/sidebar/chat")
+          .then(res => res.text())
+          .then(html => {
+            contents[menuIndex].innerHTML = html;
+            loadChatRoomList(); 
+          })
+          .catch(err => console.error("AJAX Load Error:", err));
+      }
+    } else {
+      console.error("해당 메뉴를 찾을 수 없습니다.");
+    }
+  });
 
-    const div = document.createElement("div");
-    const b = document.createElement("b");
-    b.innerText = msg.senderNickname;
-
-    div.append(b, document.createElement("br"), p, span);
-    li.append(img, div);
-  }
-
-  ul.appendChild(li);
-  ul.scrollTop = ul.scrollHeight;
-}
+});
