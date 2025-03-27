@@ -177,6 +177,13 @@
                             <option>승인</option>
                             <option>거부</option>
                         </select>
+                        &nbsp;
+                       종류:
+                       <select name="imgType" id="imgType">
+                            <option disabled selected>선택</option>
+                            <option>mid</option>
+                            <option>mini</option>
+                       </select> 
                     </div>
                     <div class="memberName">
                         <strong>브랜드명:</strong> 델몬트 
@@ -189,12 +196,12 @@
                     <!-- <textarea name="managerText" class="customerText">ㅁㄴㅇㄹㅁㄴㅇㄹ</textarea> -->
                 </div>
 
-                <div class="midBtn barndBtn">
-                    <button>첨부 사진</button>
+                <div class="midBtn barndBtn brandBtn">
+                    <button id="proImgBtn">첨부 사진</button>
                     <input type="file">
                 </div>
                 <div class="modal-btn barndBtn">
-                    <button>처리</button>
+                    <!-- <button onclick="promotionBtn()">처리</button> -->
                 </div>
             </div>
 
@@ -202,6 +209,12 @@
     </div>
 
 </main>
+<div id="imageView" >
+    <div class="proImage-wrap">
+        <span class="closeImage" onclick="closePromotion()">&times;</span>
+        <!-- <img src="/resources/images/image-manager/noImg.png" alt=""> -->
+    </div>
+</div>
 
 
 

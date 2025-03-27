@@ -1,6 +1,7 @@
 package edu.kh.project.manager.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.manager.model.dto.BrandBoard;
 import edu.kh.project.manager.model.dto.BrandProfile;
 import edu.kh.project.manager.model.dto.Report;
@@ -155,6 +157,61 @@ public class ManageBrandController {
 	public int reportSubmit(@RequestBody Report Report) {
 		
 		return service.reportSubmit(Report);
+	}
+	
+	
+	/// 신고 모달 정보 조회
+	
+	//신고 대상 브랜드 회원 정보 조회
+	@GetMapping(value="/modalInfo", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public BrandProfile modalInfo(int memberNo) {
+			
+		
+		return service.profile(memberNo);
+	}
+	
+	// 신고 대상 회원의 신고 목록 조회
+	@GetMapping(value="/infoList/{boardCode}", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public List<BrandProfile> infoList(int memberNo, @PathVariable int boardCode) {
+			
+		
+		return service.infoList(memberNo, boardCode);
+	}
+	
+	// 신고 대상 회원의 신고 상세 정보 조회
+	@GetMapping(value="/infoDetail", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Report infoDetail(int reportNo) {
+			
+		
+		return service.infoDetail(reportNo);
+	}
+	
+	// 신고 대상 게시물 조회
+	@GetMapping(value="/boardModal/{type}")
+	public String boardModal(int no, @PathVariable int type, Model model) {
+		
+		model.addAttribute("no", no);
+		model.addAttribute("type",type);
+		
+		return "/manager/common/detailBoardModal";
+	}
+	
+	
+	// 광고 이미지 조회하기
+	@GetMapping(value="/promotionImageSelect", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public List<Image> promotionImageSelect(int no) {
+		return service.promotionImageSelect(no);
+	}
+	
+	// 광고 이미지/보드 update
+	@PostMapping(value="/promotionApproval", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public int promotionApproval(@RequestBody Map<String, Object> requestData) {
+		return service.promotionApproval(requestData);
 	}
 	
 }
