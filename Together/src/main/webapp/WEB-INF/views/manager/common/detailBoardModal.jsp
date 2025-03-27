@@ -113,19 +113,25 @@ REGION: ${map.REGION}
                     <div class="reply-wrap border-bottom">
                         <c:if test="${empty reply.profileImg}">
                             <img src="/resources/images/image-manager/profile.png" 
-                                 style="${reply.replyDelFlag == 'Y' ? 'filter: grayscale(100%);' : ''}">
+                                 style="${reply.replyDelFlag == 'Y' ? 'filter: grayscale(100%);' : 'red'}">
                         </c:if>
                         <c:if test="${!empty reply.profileImg}">
                             <img src="${reply.profileImg}" 
                                  alt="" 
-                                 style="${reply.replyDelFlag == 'Y' ? 'filter: grayscale(100%);' : ''}">
+                                 style="${reply.replyDelFlag == 'Y' ? 'filter: grayscale(100%);' : 'red'}">
                         </c:if>
                         <div>
                             <div class="padding-left">
-                                
-                                <span style="color: ${reply.replyDelFlag == 'Y' ? 'gray' : 'inherit'};">
-                                    ${reply.memberNick}
-                                </span>
+                                <c:if test="${reply.replyNo==no}">
+                                    <span style="color: red;">
+                                        ${reply.memberNick} 
+                                    </span>
+                                </c:if>
+                                <c:if test="${reply.replyNo!=no}">
+                                    <span style="color: ${reply.replyDelFlag == 'Y' ? 'gray' : 'inherit'};">
+                                        ${reply.memberNick}
+                                    </span>
+                                </c:if>
                                 &nbsp;
                                 ${reply.replyCreatedDate}
                                 &nbsp;

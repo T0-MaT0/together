@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.common.utility.Utill;
 import edu.kh.project.manager.model.dao.BrandDAO;
@@ -216,6 +217,45 @@ public class BrandServiceImpl implements BrandService {
 		
 		return result;
 	}
+
+	//브랜드 프로필 조회
+	@Override
+	public BrandProfile profile(int memberNo) {
+		return dao.profile(memberNo);
+	}
+
+	@Override
+	public List<BrandProfile> infoList(int memberNo, int boardCode) {
+		return dao.infoList(memberNo, boardCode);
+	}
+
+	@Override
+	public Report infoDetail(int reportNo) {
+		return dao.infoDetail(reportNo);
+	}
+	
+	// 브랜드 광고 이미지 조회
+	@Override
+	public List<Image> promotionImageSelect(int no) {
+		return dao.promotionImageSelect(no);
+	}
+
+	// 광고 이미지 제출 처리
+	@Override
+	public int promotionApproval( Map<String, Object> requestData) {
+		
+		int result = dao.promotionBoardUpdate(requestData);
+		System.out.println("광고 성공?"+result);
+		
+		if(requestData.get("state").equals("승인")) {
+			System.out.println("이미지 update!");
+			result = dao.promotionImageUpdate(requestData);
+		}
+		
+		
+		return result;
+	}
+
 
 }
 

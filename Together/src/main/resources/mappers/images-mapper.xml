@@ -75,6 +75,15 @@
 		FROM IMG WHERE IMG_TYPE = ${imgType} AND IMG_TYPE_NO= ${no}	
 	</select>
 	
+	<!-- ==========*** update/insert section ***=========== -->
+	
+	<!-- 광고 이미지 업데이트  -->
+	<insert id="promotionImageUpdate">
+		INSERT INTO IMG 
+		SELECT SEQ_IMG_NO.NEXTVAL, IMG_RENAME, IMG_PATH, IMG_ORIGINAL, IMG_LEVEL, ${imgType}, ${boardNo} 
+		FROM IMG 
+		WHERE IMG_NO = ${imageNo}
+	</insert>
 
 <!-- ==============관리자 영역 끝================ -->
 

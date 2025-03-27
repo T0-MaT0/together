@@ -25,7 +25,6 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
     
-    ${business}
     <main>
         <section class="content">
             <section id="optionArea">
@@ -65,7 +64,7 @@
                             <option value="default">-[필수] 옵션을 선택해 주세요</option>
                             <option disabled>--------------------------------------</option>
                             <c:forEach var="option" items="${business.optionList}">
-                                <option value="${option.optionName}" data-optionNo="${option.optionNo}">${option.optionName}</option>
+                                <option value="${option.optionNo}-${option.optionName}">${option.optionName}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -182,6 +181,13 @@
                 <div class="list-area review-area">
                     <h3>REVIEW</h3>
                     <table>
+                        <colgroup>
+                            <col style="width: 10%;"> <!-- 첫 번째 열 (번호) -->
+                            <col style="width: 20%;"> <!-- 두 번째 열 (이미지) -->
+                            <col style="width: auto;"> <!-- 세 번째 열 (상품 제목) → 자동 크기 -->
+                            <col style="width: 15%;"> <!-- 네 번째 열 (작성자) -->
+                            <col style="width: 15%;"> <!-- 다섯 번째 열 (작성일) -->
+                        </colgroup>
                         <thead>
                             <tr>
                                 <th>번호</th>
@@ -194,7 +200,7 @@
                         <tbody id="reviewListArea"></tbody>
                     </table>
                     <div class="btn-area">
-                        <c:if test="${!empty loginMember}">
+                        <c:if test="${!empty loginMember and business.memberNo!=loginMember.memberNo}">
                             <button onclick="openPopup('view')">리뷰작성</button>
                         </c:if>
                         <a href="/board/2/reviewList">모두보기</a>
@@ -234,6 +240,13 @@
                     </div>
                     <table>
                         <thead>
+                            <colgroup>
+                                <col style="width: 10%;"> <!-- 첫 번째 열 (번호) -->
+                                <col style="width: 20%;"> <!-- 두 번째 열 (이미지) -->
+                                <col style="width: auto;"> <!-- 세 번째 열 (상품 제목) → 자동 크기 -->
+                                <col style="width: 15%;"> <!-- 네 번째 열 (작성자) -->
+                                <col style="width: 15%;"> <!-- 다섯 번째 열 (작성일) -->
+                            </colgroup>
                             <tr>
                                 <th>번호</th>
                                 <th>상품 이미지</th>
@@ -245,7 +258,7 @@
                         <tbody id="replyListArea"></tbody>
                     </table>
                     <div class="btn-area">
-                        <c:if test="${!empty loginMember}">
+                        <c:if test="${!empty loginMember and business.memberNo!=loginMember.memberNo}">
                             <button onclick="openPopup('ply')">문의작성</button>
                         </c:if>
                         <a href="/board/2/replyList">모두보기</a>
@@ -262,11 +275,11 @@
         <section class="fixed-option-area">
             <div class="product-option-area">
                 <span>상품 옵션</span>
-                <select name="" class="product-option">
+                <select class="product-option">
                     <option value="default">-[필수] 옵션을 선택해 주세요</option>
                     <option disabled>--------------------------------------</option>
                     <c:forEach var="option" items="${business.optionList}">
-                        <option value="${option.optionName}">${option.optionName}</option>
+                        <option value="${option.optionNo}-${option.optionName}">${option.optionName}</option>
                     </c:forEach>
                 </select>
             </div>
@@ -295,9 +308,7 @@
             <div class="modal-detail-area">
                 <div class="rating-area"></div>
                 <div class="user-area"></div>
-                <div class="review-option-area">
-                    <span>사용자가 선택한 옵션 내용(추후 수정 예정)</span>
-                </div>
+                <div class="review-option-area"></div>
                 <div class="review-content"></div>
                 <div class="reply-area">
                     <div id="replyMemberArea"></div>
@@ -316,9 +327,11 @@
     <script>
         const boardCode = "${boardCode}";
         const boardNo = "${business.boardNo}";
+        const boardMemberNo = "${business.memberNo}";
         const productPrice = Number("${business.productPrice}");
         const deliveryFee = Number("${business.deliveryFee}");
         const loginMemberNo = "${loginMember.memberNo}";
+        const thumbnail = "${thumbnail}";
     </script>
     <script src="/resources/js/business/businessDetail.js"></script>
 </body>

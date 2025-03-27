@@ -9,10 +9,13 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.manager.model.dto.BrandBoard;
 import edu.kh.project.manager.model.dto.BrandProfile;
 import edu.kh.project.manager.model.dto.BrandProfileBoard;
+import edu.kh.project.manager.model.dto.CustProfileBoard;
+import edu.kh.project.manager.model.dto.CustomerProfile;
 import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.manager.model.dto.Report;
 
@@ -251,8 +254,47 @@ public class BrandDAO {
 		return sqlSession.update("managerMapper.companyBlackUpdate", report);
 	}
 
+	public BrandProfile profile(int memberNo) {
+		return sqlSession.selectOne("managerMapper.brandProfileSelect", memberNo);
+	}
+
+	public List<BrandProfile> infoList(int memberNo, int boardCode) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("memberNo", memberNo);
+		map.put("boardCode", boardCode);
+		
+		return sqlSession.selectList("managerMapper.cusProfileBoardList", map);
+	}
+
+	public Report infoDetail(int reportNo) {
+		return sqlSession.selectOne("managerMapper.reportDetailSelect", reportNo);
+	}
+
+	public List<Image> promotionImageSelect(int no) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("no", no);
+		map.put("imgType", 4);
+		
+		return sqlSession.selectList("imageMapper.selectImageList", map);
+	}
+
+	/** 광고 문의 대기 변경
+	 * @param boardNo
+	 * @param state
+	 */
+	public int promotionBoardUpdate( Map<String, Object> requestData) {
+		
+		return sqlSession.update("managerMapper.promotionBoardUpdate", requestData);
+	}
+
+	public int promotionImageUpdate( Map<String, Object> requestData) {
+		
+		return sqlSession.insert("imageMapper.promotionImageUpdate", requestData);
+	}
 
 
+
+	
 	
 	
 	

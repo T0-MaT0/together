@@ -309,8 +309,22 @@ main{
     height: 100px;
 }
 
-.list-area>table tr>td:nth-child(3){
-    cursor: pointer;
+.list-area>table tr>td:nth-child(3) {
+    vertical-align: middle; /* 수직 정렬 */
+}
+
+.list-area>table tr>td:nth-child(3) .text-box {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+}
+
+#replyListArea .text-box{
+    -webkit-line-clamp: 1;
 }
 
 table img{
@@ -603,4 +617,16 @@ table img{
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.reply-btn{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.reply-btn-area{
+    width: 100px;
+    display: flex;
+    justify-content: space-between;
+    margin-left: auto;
 }

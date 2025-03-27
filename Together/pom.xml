@@ -21,6 +21,12 @@
 		사용자가 직접 받을 필요 없이 해당 태그 내에 지정된 형식으로 작성하면 네트워크를 통해 외부 저장소에서 자동으로 얻어와 세팅함. -->
 	<dependencies>
 	
+		<dependency>
+		  <groupId>org.json</groupId>
+		  <artifactId>json</artifactId>
+		  <version>20230227</version>
+		</dependency>
+	
 		<!-- 캡챠 관련 라이브러리 -->
 		<dependency>
 		    <groupId>com.github.penggle</groupId>

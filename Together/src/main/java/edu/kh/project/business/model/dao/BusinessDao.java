@@ -87,4 +87,76 @@ public class BusinessDao {
 	public int updatePoint(Member loginMember) {
 		return sqlSession.update("boardMapper.updatePoint", loginMember);
 	}
+
+	public PointUsage selectUsage(int orderNo) {
+		return sqlSession.selectOne("boardMapper.selectUsage", orderNo);
+	}
+
+	public Order selectOrder(Map<String, Object> map) {
+		return sqlSession.selectOne("boardMapper.selectOrder", map);
+	}
+
+	public int insertReview(Review review) {
+		int result = sqlSession.insert("boardMapper.insertReview", review);
+		
+		if (result>0) result=review.getReviewNo();
+		
+		return result;
+	}
+
+	public int insertImageList(List<Image> uploadList) {
+		return sqlSession.insert("boardMapper.insertImageList", uploadList);
+	}
+
+	public int insertReply(Reply reply) {
+		return sqlSession.insert("boardMapper.insertReply", reply);
+	}
+
+	public Review selectReview(int reviewNo) {
+		return sqlSession.selectOne("boardMapper.selectReview", reviewNo);
+	}
+
+	public int updateReview(Review review) {
+		return sqlSession.update("boardMapper.updateReview", review);
+	}
+
+	public List<Image> selectReviewImageList(int reviewUpdateNo) {
+		return sqlSession.selectList("boardMapper.selectReviewImageList", reviewUpdateNo);
+	}
+
+	public int deleteImage(int imageNo) {
+		return sqlSession.delete("boardMapper.deleteImage", imageNo);
+	}
+
+	public int updateImageLevel(Image img) {
+		return sqlSession.update("boardMapper.updateImageLevel", img);
+	}
+
+	public int deleteReview(int reviewNo) {
+		return sqlSession.update("boardMapper.deleteReview", reviewNo);
+	}
+
+	public int insertReviewReply(Reply reply) {
+		return sqlSession.insert("boardMapper.insertReviewReply", reply);
+	}
+
+	public int updateReviewReply(Reply reply) {
+		return sqlSession.update("boardMapper.updateReviewReply", reply);
+	}
+	
+	public int deleteReviewReply(Reply reply) {
+		return sqlSession.update("boardMapper.deleteReviewReply", reply);
+	}
+	
+	public int updateReply(Reply reply) {
+		return sqlSession.update("boardMapper.updateReply", reply);
+	}
+	
+	public int deleteReply(Reply reply) {
+		return sqlSession.update("boardMapper.deleteReply", reply);
+	}
+
+	public Reply selectReply(int replyNo) {
+		return sqlSession.selectOne("boardMapper.selectReplyComment", replyNo);
+	}
 }

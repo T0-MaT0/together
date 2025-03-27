@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     productOptions.forEach(productOption=>productOption.value = "default");
 });
 
-function adjustMargin() {
+const adjustMargin=()=>{
     const headerHeight = document.getElementsByClassName("fixed-option-bar")[0].offsetHeight;
     document.getElementsByClassName("footer-container")[0].style.marginBottom = `${headerHeight}px`;
 }
@@ -17,7 +17,7 @@ function adjustMargin() {
 window.onload = adjustMargin;
 window.onresize = adjustMargin;
 
-function formatDate(dateString) {
+const formatDate=dateString=>{
     if (!dateString) return "-";
     
     const date = new Date(dateString);
@@ -104,7 +104,10 @@ const renderList=map=>{
         review.reviewContent = review.reviewContent.replaceAll("&lt;", "<");
         review.reviewContent = review.reviewContent.replaceAll("&gt;", ">");
         review.reviewContent = review.reviewContent.replaceAll("&quot;", "\"");
-        reviewContent.innerText = review.reviewContent;
+        const textBox = document.createElement("div");
+        textBox.innerText = review.reviewContent;
+        textBox.classList.add("text-box");
+        reviewContent.append(textBox);
         reviewContent.addEventListener("click", ()=>modalShow(review));
 
         reviewNickName.innerText = review.memberNickname;
@@ -172,18 +175,24 @@ const renderList=map=>{
         replyThumbnail.src = reply.thumbnail;
         replyImg.append(replyThumbnail);
         
-        if(reply.secretReplyStatus=='N'||reply.memberNo==loginMemberNo){
+        if(reply.secretReplyStatus=='N'||reply.memberNo==loginMemberNo||loginMemberNo==boardMemberNo){
             reply.replyContent = reply.replyContent.replaceAll("&amp;", "&");
             reply.replyContent = reply.replyContent.replaceAll("&lt;", "<");
             reply.replyContent = reply.replyContent.replaceAll("&gt;", ">");
             reply.replyContent = reply.replyContent.replaceAll("&quot;", "\"");
-            replyContent.innerText = reply.replyContent;
+            const textBox = document.createElement("div");
             if(reply.secretReplyStatus=='Y'){
-                replyContent.innerText+="🔒";
+                textBox.innerText="🔒";
             }
+            textBox.innerText += reply.replyContent;
+            textBox.classList.add("text-box");
+            replyContent.append(textBox);
             replyContent.addEventListener("click", ()=>currentQNA(replyRow));
         } else {
-            replyContent.innerText = "비밀글 입니다.🔒";
+            const textBox = document.createElement("div");
+            textBox.innerText = "🔒비밀글 입니다.";
+            textBox.classList.add("text-box");
+            replyContent.append(textBox);
             replyContent.addEventListener("click", ()=>alert("비밀글 입니다."));
         }
 
@@ -198,23 +207,91 @@ const renderList=map=>{
         currentCommentArea.classList.add("current-detail");
         currentReplyArea.classList.add("current-detail");
 
-        const currentCommentContent = document.createElement("td");
-        currentCommentContent.setAttribute("colspan", "5");
+        const currentCommentContentArea = document.createElement("td");
+        currentCommentContentArea.setAttribute("colspan", "4");
+        const currentCommentContent = document.createElement("span");
+        currentCommentContent.classList.add("current-comment");
         currentCommentContent.innerText = reply.replyContent;
-        currentCommentArea.append(currentCommentContent);
+        currentCommentContentArea.append(currentCommentContent);
+
+        const btnArea = document.createElement("td");
+        if(loginMemberNo==reply.memberNo){
+            const updateBtn = document.createElement("span");
+            updateBtn.classList.add("clickBtn");
+            updateBtn.addEventListener("click", ()=>updateReply(reply, currentCommentArea));
+            updateBtn.innerText = "수정";
+    
+            const deleteBtn = document.createElement("span");
+            deleteBtn.classList.add("clickBtn");
+            deleteBtn.addEventListener("click", ()=>deleteReply(reply));
+            deleteBtn.innerHTML = "삭제";
+    
+            btnArea.append(updateBtn, " | ", deleteBtn);
+        } else {
+            const reportBtn = document.createElement("span");
+            reportBtn.classList.add("clickBtn")
+            reportBtn.addEventListener("click", ()=>reportReply(reply));
+            reportBtn.innerText = "신고";
+            btnArea.append(reportBtn);
+        }
+        
+        currentCommentArea.append(currentCommentContentArea, btnArea);
         replyListArea.append(currentCommentArea);
 
         const childReply = reply.commentList[0];
         if(childReply!=null){
-            const currentReplyContent = document.createElement("td");
-            currentReplyContent.setAttribute("colspan", "3");
+            const currentReplyContentArea = document.createElement("td");
+            currentReplyContentArea.setAttribute("colspan", "3");
+            const currentReplyContent = document.createElement("span");
+            currentReplyContent.classList.add("current-reply");
             currentReplyContent.innerText = childReply.replyContent;
+            currentReplyContentArea.append(currentReplyContent);
+
+            if(loginMemberNo==childReply.memberNo){
+                const updateBtn = document.createElement("span");
+                updateBtn.classList.add("clickBtn");
+                updateBtn.addEventListener("click", ()=>updateReply(childReply, currentReplyArea));
+                updateBtn.innerText = "수정";
+        
+                const deleteBtn = document.createElement("span");
+                deleteBtn.classList.add("clickBtn");
+                deleteBtn.addEventListener("click", ()=>deleteReply(childReply));
+                deleteBtn.innerHTML = "삭제";
+        
+                currentReplyContentArea.append(" | ", updateBtn, " | ", deleteBtn);
+            } else {
+                const reportBtn = document.createElement("span");
+                reportBtn.classList.add("clickBtn")
+                reportBtn.addEventListener("click", ()=>reportReply(childReply));
+                reportBtn.innerText = "신고";
+                currentReplyContentArea.append(" | ", reportBtn);
+            }
+            
             const currentReplyNickname = document.createElement("td");
             currentReplyNickname.innerText = childReply.memberNickname;
             const currentReplyDate = document.createElement("td");
             currentReplyDate.innerText = formatDate(childReply.replyCreatedDate);
-            currentReplyArea.append(currentReplyContent, currentReplyNickname, currentReplyDate);
+            currentReplyArea.append(currentReplyContentArea, currentReplyNickname, currentReplyDate);
             replyListArea.append(currentReplyArea);
+        } else {
+            if(loginMemberNo==boardMemberNo){
+                const currentReplyContentArea = document.createElement("td");
+                currentReplyContentArea.setAttribute("colspan", "4");
+                
+                const currentReplyContent = document.createElement("textarea");
+                currentReplyContent.style.width = "100%";
+                currentReplyContent.style.height = "100px";
+                currentReplyContent.style.resize = "none";
+                currentReplyContentArea.append(currentReplyContent);
+
+                const btnArea = document.createElement("td");
+                btnArea.innerText = "등록";
+                btnArea.classList.add("clickBtn");
+                btnArea.addEventListener("click", ()=>insertChildReply(reply, currentReplyContent));
+                
+                currentReplyArea.append(currentReplyContentArea, btnArea);
+                replyListArea.append(currentReplyArea);
+            }
         }
     }
 
@@ -258,12 +335,20 @@ const modalShow = review=>{
     const modalImgArea = document.getElementsByClassName("modal-img-area")[0];
     const ratingArea = document.getElementsByClassName("rating-area")[0];
     const userArea = document.getElementsByClassName("user-area")[0];
+    const reviewOptionArea = document.getElementsByClassName("review-option-area")[0];
     const reviewContent = document.getElementsByClassName("review-content")[0];
     const replyMemberArea = document.getElementById("replyMemberArea");
     const replyContentArea = document.getElementById("replyContentArea");
     
     modalImgArea.innerHTML = "";
     const imageList = review.imageList;
+
+    if(imageList.length===0){
+        const img = document.createElement("img");
+        img.src = review.businessThumbnail;
+        modalImgArea.append(img);
+    }
+
     imageList.forEach(image=>{
         const img = document.createElement("img");
         img.src = image.imagePath + image.imageReName;
@@ -322,41 +407,61 @@ const modalShow = review=>{
         userArea.append(reportBtn);
     }
 
-    // 옵션 내용 추가 예정
+    reviewOptionArea.innerHTML = "";
+    const reviewOption = document.createElement("span");
+    reviewOption.innerText = review.optionName+" - "+review.quantity;
+    reviewOptionArea.append(reviewOption);
 
     reviewContent.innerText = review.reviewContent;
 
-    replyMemberArea.innerHTML = "";
-    replyContentArea.innerHTML = "";
-    const replyMember = document.createElement("span");
-    replyMember.innerText = review.replyList[0].memberNickname + " | " +
-                            formatDate(review.replyList[0].replyCreatedDate);
-
-    replyMemberArea.append(replyMember, " | ");
-    if(loginMemberNo==review.replyList[0].memberNo){
-        const editBtn = document.createElement("span");
-        editBtn.classList.add("clickBtn");
-        editBtn.addEventListener("click", ()=>editReply(review.replyList[0]));
-        editBtn.innerText = "수정";
-
-        const deleteBtn = document.createElement("span");
-        deleteBtn.classList.add("clickBtn");
-        deleteBtn.addEventListener("click", ()=>deleteReply(review.replyList[0]));
-        deleteBtn.innerText = "삭제";
-
-        replyMemberArea.append(editBtn, " | ", deleteBtn);
+    if(review.replyList.length!=0){
+        replyMemberArea.innerHTML = "";
+        replyContentArea.innerHTML = "";
+        const replyMember = document.createElement("span");
+        replyMember.innerText = review.replyList[0].memberNickname + " | " +
+                                formatDate(review.replyList[0].replyCreatedDate);
+    
+        replyMemberArea.append(replyMember, " | ");
+        if(loginMemberNo==review.replyList[0].memberNo){
+            const editBtn = document.createElement("span");
+            editBtn.classList.add("clickBtn");
+            editBtn.addEventListener("click", ()=>updateReviewReply(review.replyList[0]));
+            editBtn.innerText = "수정";
+    
+            const deleteBtn = document.createElement("span");
+            deleteBtn.classList.add("clickBtn");
+            deleteBtn.addEventListener("click", ()=>deleteReviewReply(review.replyList[0]));
+            deleteBtn.innerText = "삭제";
+    
+            replyMemberArea.append(editBtn, " | ", deleteBtn);
+        } else {
+            const replyReport = document.createElement("span");
+            replyReport.classList.add("clickBtn");
+            replyReport.addEventListener("click", ()=>reportReviewReply(review.replyList[0]));
+            replyReport.innerText = "신고";
+            replyMemberArea.append(replyReport);
+        }
+    
+        const replyContent = document.createElement("div");
+        replyContent.innerText = review.replyList[0].replyContent;
+    
+        replyContentArea.append(replyContent);
     } else {
-        const replyReport = document.createElement("span");
-        replyReport.classList.add("clickBtn");
-        replyReport.addEventListener("click", ()=>reportReply(review.replyList[0]));
-        replyReport.innerText = "신고";
-        replyMemberArea.append(replyReport);
+        if(boardMemberNo===loginMemberNo){
+            replyMemberArea.innerHTML = "";
+            replyContentArea.innerHTML = "";
+            const replyContent = document.createElement("textarea");
+            replyContent.style.width = "100%";
+            replyContent.style.height = "200px";
+            replyContent.style.resize = "none";
+
+            const replyBtn = document.createElement("span");
+            replyBtn.classList.add("clickBtn", "reply-btn");
+            replyBtn.addEventListener("click", ()=>insertReviewReply(review.reviewNo, replyContent));
+            replyBtn.innerText = "댓글 등록";
+            replyContentArea.append(replyContent, replyBtn);
+        }
     }
-
-    const replyContent = document.createElement("div");
-    replyContent.innerText = review.replyList[0].replyContent;
-
-    replyContentArea.append(replyContent);
 };
 
 modal.addEventListener("click", e=>closeModal(e));
@@ -431,7 +536,47 @@ const currentQNA = replyRow=>{
 };
 
 // 팝업창 열기
-const openPopup=key=>{
+const openPopup=async(key, item)=>{
+    let popupUrl = location.pathname + "/insertRe" + key;
+    let fetchUrl = `${location.pathname}/selectOrder`;
+
+    if (key === "view") {
+        if(item){
+            fetchUrl+=`?reviewNo=${item.reviewNo}`;
+        }
+        try {
+            const resp = await fetch(fetchUrl);
+            
+            // 응답이 비어있는 경우 대비 (예: 서버에서 빈 응답을 보낸 경우)
+            const text = await resp.text();
+            if (!text.trim() || text === "null") {
+                throw new Error("작성하지 않은 주문 내역의 리뷰가 없습니다..");
+            }
+        
+            // JSON 변환 시도
+            let order;
+            try {
+                order = JSON.parse(text);
+            } catch (parseError) {
+                throw new Error("JSON 파싱 오류: 서버에서 올바른 데이터를 보내지 않았습니다.");
+            }
+        
+            if (order && order.orderNo) {
+                popupUrl += "?orderNo=" + order.orderNo;
+            } else {
+                alert("주문 전이거나 작성한 리뷰는 다시 작성할 수 없습니다.");
+                return;
+            }
+        } catch (err) {
+            console.error("주문 정보 조회 실패:", err);
+            alert(err.message);
+            return;
+        }
+        if(item){
+            popupUrl += "&reviewNo="+item.reviewNo;
+        }
+    }
+
     // 화면 크기 가져오기
     const screenWidth = window.screen.width;
     const screenHeight = window.screen.height;
@@ -445,10 +590,39 @@ const openPopup=key=>{
     const top = (screenHeight - popupHeight) / 2;
 
     window.open(
-        location.pathname + "/insertRe" + key, 
+        popupUrl, 
         "PopupWindow", 
         `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`
     );
+};
+
+// 리뷰 댓글 등록
+const insertReviewReply=(reviewNo, replyContent)=>{
+    if(replyContent.value.trim().length==0){
+        alert("댓글 내용을 작성해주세요.");
+        replyContent.focus();
+        return;
+    }
+
+    fetch(`${location.pathname}/reviewReply`,{
+        method: "post",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            "replyTypeNo":reviewNo,
+            "replyContent":replyContent.value,
+            "memberNo":loginMemberNo
+        })
+    })
+    .then(resp=>resp.json())
+    .then(review=>{
+        if(review!=null) {
+            alert("댓글 등록 성공");
+            modalShow(review);
+        } else {
+            alert("댓글 등록 실패");
+        }
+    })
+    .catch(err=>console.log(err));
 };
 
 // 리뷰 신고 보내기
@@ -456,29 +630,246 @@ const reportReview = review=>{
     
 };
 
-// 댓글 신고 보내기
-const reportReply = reply=>{
+// 리뷰 댓글 신고 보내기
+const reportReviewReply = reply=>{
 
 };
 
 // 리뷰 수정
 const updateReview = review=>{
-
+    openPopup("view", review);
 };
 
-// 댓글 수정
-const editReply = review=>{
+// 리뷰 댓글 수정
+const updateReviewReply = reply=>{
+    const replyContentArea = document.getElementById("replyContentArea");
+    
+    replyContentArea.innerHTML = "";
+    const replyContent = document.createElement("textarea");
+    replyContent.style.width = "100%";
+    replyContent.style.height = "200px";
+    replyContent.style.resize = "none";
+    replyContent.value = reply.replyContent;
 
+    const replyBtn = document.createElement("span");
+    replyBtn.classList.add("clickBtn", "reply-btn");
+    replyBtn.addEventListener("click", ()=>{
+        fetch(`${location.pathname}/reviewReply`,{
+            method: "PUT",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+                "replyNo":reply.replyNo,
+                "replyTypeNo":reply.replyTypeNo,
+                "replyContent":replyContent.value
+            })
+        })
+        .then(resp=>resp.json())
+        .then(review=>{
+            if(review!=null) {
+                alert("댓글 수정 성공");
+                modalShow(review);
+            } else {
+                alert("댓글 수정 실패");
+            }
+        })
+        .catch(err=>console.log(err));
+    });
+    replyBtn.innerText = "댓글 수정";
+    replyContentArea.append(replyContent, replyBtn);
 };
 
 // 리뷰 삭제
 const deleteReview = review=>{
-
+    if(confirm("정말로 삭제 하시겠습니까?")){
+        location.href=`${location.pathname}/deleteReview?reviewNo=${review.reviewNo}`;
+    }
 };
 
 // 댓글 삭제
-const deleteReply = review=>{
+const deleteReviewReply = reply=>{
+    if(!confirm("정말로 삭제 하시겠습니까?")) return;
 
+    fetch(`${location.pathname}/reviewReply`,{
+        method: "DELETE",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            "replyNo":reply.replyNo,
+            "replyTypeNo":reply.replyTypeNo,
+        })
+    })
+    .then(resp=>resp.json())
+    .then(review=>{
+        if(review!=null) {
+            alert("댓글 삭제 성공");
+            modalShow(review);
+        } else {
+            alert("댓글 삭제 실패");
+        }
+    })
+    .catch(err=>console.log(err));
+};
+
+// Q&A 신고
+const reportReply=reply=>{
+
+};
+
+// Q&A 수정
+const updateReply=(reply, contentArea)=>{
+    contentArea.innerHTML = "";
+    const replyContentArea = document.createElement("td");
+    replyContentArea.style.display = "table-cell";
+    replyContentArea.setAttribute("colspan", "5");
+    const replyContent = document.createElement("textarea");
+    replyContent.style.width = "100%";
+    replyContent.style.height = "100px";
+    replyContent.style.resize = "none";
+    replyContent.value = reply.replyContent;
+
+    const btnArea = document.createElement("div");
+    btnArea.classList.add("reply-btn-area");
+    const replyBtn = document.createElement("span");
+    replyBtn.classList.add("clickBtn");
+    replyBtn.addEventListener("click", ()=>{
+        const secretReply = secretReplyStatus.checked?"Y":"N";
+        console.log(secretReply);
+        fetch(`${location.pathname}/reply`,{
+            method: "PUT",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+                "replyNo":reply.replyNo,
+                "replyContent":replyContent.value,
+                parentNo:reply.parentNo,
+                secretReplyStatus:secretReply
+            })
+        })
+        .then(resp=>resp.json())
+        .then(result=>{
+            console.log(result)
+            if(result!=0) {
+                alert("Q&A 수정 성공");
+                contentArea.innerHTML = "";
+                const currentCommentContentArea = document.createElement("td");
+                currentCommentContentArea.setAttribute("colspan", "4");
+                currentCommentContentArea.style.display = "table-cell";
+                const currentCommentContent = document.createElement("span");
+                currentCommentContent.classList.add("current-comment");
+                currentCommentContent.innerText = replyContent.value;
+                currentCommentContentArea.append(currentCommentContent);
+
+                const btnArea = document.createElement("td");
+                btnArea.style.display="table-cell";
+                const updateBtn = document.createElement("span");
+                updateBtn.classList.add("clickBtn");
+                updateBtn.addEventListener("click", ()=>updateReply(reply, contentArea));
+                updateBtn.innerText = "수정";
+        
+                const deleteBtn = document.createElement("span");
+                deleteBtn.classList.add("clickBtn");
+                deleteBtn.addEventListener("click", ()=>deleteReply(reply));
+                deleteBtn.innerHTML = "삭제";
+        
+                btnArea.append(updateBtn, " | ", deleteBtn);
+                
+                contentArea.append(currentCommentContentArea, btnArea);
+            } else {
+                alert("Q&A 수정 실패");
+            }
+        })
+        .catch(err=>console.log(err));
+    });
+    replyBtn.innerText = "수정";
+    const label = document.createElement("label");
+    label.innerText = "비밀글";
+    const secretReplyStatus = document.createElement("input");
+    secretReplyStatus.type = "checkbox";
+    label.append(secretReplyStatus);
+
+    btnArea.append(label, replyBtn);
+    replyContentArea.append(replyContent, btnArea);
+    contentArea.append(replyContentArea);
+};
+
+// Q&A 삭제
+const deleteReply=reply=>{
+    if(!confirm("정말로 삭제하시겠습니까?")) return;
+
+    fetch(`${location.pathname}/reply`,{
+        method: "DELETE",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            "replyNo":reply.replyNo,
+        })
+    })
+    .then(resp=>resp.json())
+    .then(result=>{
+        if(result!=0) {
+            alert("댓글 삭제 성공");
+            location.reload();
+        } else {
+            alert("댓글 삭제 실패");
+        }
+    })
+    .catch(err=>console.log(err));
+};
+
+// Q&A 답글 등록
+const insertChildReply=(reply, replyContent)=>{
+    console.log(reply)
+    fetch(`${location.pathname}/reply`,{
+        method: "post",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            "replyContent":replyContent.value,
+            secretReplyStatus:"N",
+            "memberNo":loginMemberNo,
+            replyType:1,
+            replyTypeNo:reply.replyTypeNo,
+            "parentNo":reply.replyNo
+        })
+    })
+    .then(resp=>resp.json())
+    .then(childReply=>{
+        console.log(childReply)
+        if(childReply!=null) {
+            alert("답글 등록 성공");
+            const currentReplyArea = replyContent.parentElement.parentElement;
+            currentReplyArea.innerHTML = "";
+            const currentReplyContentArea = document.createElement("td");
+            currentReplyContentArea.style.display = "table-cell";
+            currentReplyContentArea.style.borderTop = "2px solid rgb(153, 153, 153)";
+            currentReplyContentArea.setAttribute("colspan", "3");
+            const currentReplyContent = document.createElement("span");
+            currentReplyContent.classList.add("current-reply");
+            currentReplyContent.innerText = childReply.replyContent;
+            currentReplyContentArea.append(currentReplyContent);
+
+            const updateBtn = document.createElement("span");
+            updateBtn.classList.add("clickBtn");
+            updateBtn.addEventListener("click", ()=>updateReply(childReply, currentReplyArea));
+            updateBtn.innerText = "수정";
+    
+            const deleteBtn = document.createElement("span");
+            deleteBtn.classList.add("clickBtn");
+            deleteBtn.addEventListener("click", ()=>deleteReply(childReply));
+            deleteBtn.innerHTML = "삭제";
+    
+            currentReplyContentArea.append(" | ", updateBtn, " | ", deleteBtn);
+            
+            const currentReplyNickname = document.createElement("td");
+            currentReplyNickname.style.display="table-cell";
+            currentReplyNickname.style.borderTop = "2px solid rgb(153, 153, 153)";
+            currentReplyNickname.innerText = childReply.memberNickname;
+            const currentReplyDate = document.createElement("td");
+            currentReplyDate.style.display="table-cell";
+            currentReplyDate.style.borderTop = "2px solid rgb(153, 153, 153)";
+            currentReplyDate.innerText = formatDate(childReply.replyCreatedDate);
+            currentReplyArea.append(currentReplyContentArea, currentReplyNickname, currentReplyDate);
+        } else {
+            alert("답글 등록 실패");
+        }
+    })
+    .catch(err=>console.log(err));
 };
 
 // 상품 옵션
@@ -490,14 +881,15 @@ productOptions.forEach(select => {
 });
 
 const changeOption = (e) => {
-    const selectOption = e.target.value;
+    let selectOption = e.target.value;
     if (selectOption === "default") return;
-
+    
     // 모든 select 요소를 찾아서 동기화
     productOptions.forEach(select => {
         select.value = selectOption;
     });
 
+    selectOption = selectOption.split("-")[1];
     const choiceLists = document.querySelectorAll(".choice-option-area");
 
     // 기존 옵션이 있는 경우 삭제 후 추가
@@ -507,7 +899,6 @@ const changeOption = (e) => {
             e.target.value = "default"; // 선택 취소
             return;
         }
-        removeAllOptions();
     }
 
     // 옵션 행 생성
@@ -536,6 +927,7 @@ const changeOption = (e) => {
     // 모든 choice-option-area에 같은 옵션 추가
     choiceLists.forEach(list => {
         const clonedRow = optionRow.cloneNode(true);
+        list.innerHTML = "";
         list.append(clonedRow);
 
         const clonedInput = clonedRow.querySelector("input");
@@ -619,6 +1011,6 @@ goToBuys.forEach(goToBuy=>{
             return;
         }
 
-        window.location.href = `${location.pathname}/order?optionName=${productOptions[0].value}&optionNo=${productOptions[0].getAttribute("data-optionNo")}&quantity=${input.value}`;
+        window.location.href = `${location.pathname}/order?option=${productOptions[0].value}&quantity=${input.value}`;
     });
 });

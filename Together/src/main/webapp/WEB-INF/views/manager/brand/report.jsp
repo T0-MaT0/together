@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/brand/brand-report-list.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/modal.css" />
+    <link rel="stylesheet" href="/resources/css/manager-css/common/reportProfileModal.css" />
+    <script src="https://kit.fontawesome.com/975074ef7f.js" crossorigin="anonymous"></script>
     <script>
         // 사이드 메뉴 설정
         const menuName = "${menuName}";
@@ -76,7 +78,7 @@
                         <div>${report.reportNo}</div>
                         <div>${report.memberNick}</div>
                         <div>${report.reportedUserNick}</div>
-                        <div  class="clickList"onclick="clickReport(${report.reportNo})">${report.reportTitle}</div>
+                        <div  class="clickList" onclick="clickReport(${report.reportNo})">${report.reportTitle}</div>
                         <div>${report.reportDate}</div>
                         <div>${report.reportStatus}</div>
                     </div>
@@ -123,9 +125,14 @@
     </div>
 
     <jsp:include page="/WEB-INF/views/manager/common/modal.jsp"/>
+
+    <!-- 신고 모달 프로필 -->
+    <jsp:include page="/WEB-INF/views/manager/common/reportProfileModal.jsp"/>    
 </main>
 
-<script src="/resources/js/manager-js/modal.js"></script>
+<!-- <script src="/resources/js/manager-js/modal.js"></script> -->
+<script src="/resources/js/manager-js/reportModal.js"></script>
+<script src="/resources/js/manager-js/customer/customerReport.js"></script>
 </body>
 
 </html>

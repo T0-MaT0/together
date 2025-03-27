@@ -3,8 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<c:set var="option" value="${fn:split(param.option, '-')}"/>
+
 <c:set var="thumbnail" value="${business.imageList[0].imagePath}${business.imageList[0].imageReName}"/>
-<c:set var="optionCount" value="${fn:length(business.optionList)}"/>
 <c:set var="price" value="${business.productPrice * param.quantity}"/>
 <c:set var="totalPrice" value="${price + business.deliveryFee}"/>
 <c:set var="sumPrice" value="${loginMember.point-totalPrice}"/>
@@ -65,7 +66,7 @@
                         <h3>배송지</h3>
                         <button class="btn" id="myAddr">내 주소</button>
                     </div>
-                    <form id="orderForm" method="post" action="/board/2/3/order">
+                    <form id="orderForm" method="post" action="/board/2/${boardNo}/order">
                         <div class="content-row">
                             <input type="text" name="postCode" placeholder="우편번호" maxlength="6" id="sample6_postcode">
                             <button class="btn" type="button" onclick="sample6_execDaumPostcode()">주소검색</button>
@@ -76,7 +77,7 @@
                         <div class="content-row">
                             <input type="text" name="detailAddress" placeholder="상세 주소" id="sample6_detailAddress">
                         </div>
-                        <input type="hidden" name="option" value="${param.option}">
+                        <input type="hidden" name="optionNo" value="${option[0]}">
                         <input type="hidden" name="quantity" value="${param.quantity}">
                         <input type="hidden" name="totalPrice" value="${totalPrice}">
                         <input type="hidden" name="memberNo" value="${loginMember.memberNo}">
@@ -93,7 +94,7 @@
                     <div class="content-row">
                         <div>
                             <span class="violet-color">옵션</span> 
-                            <span>${param.optionName}-${param.quantity}개</span>
+                            <span>${option[1]}-${param.quantity}개</span>
                         </div>
                         <span>
                             <fmt:formatNumber value="${price}" type="number" maxFractionDigits="0"/> 원

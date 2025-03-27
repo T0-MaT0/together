@@ -1,27 +1,35 @@
 package edu.kh.project.business.controller;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,6 +38,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.kh.project.business.model.dto.Business;
 import edu.kh.project.business.model.dto.Order;
 import edu.kh.project.business.model.service.BusinessService;
+import edu.kh.project.common.model.dto.Image;
+import edu.kh.project.common.model.dto.PointUsage;
+import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.member.model.dto.Member;
 
 @Controller
@@ -197,10 +209,154 @@ public class BusinessController {
 		return "board/business/reviewList";
 	}
 	
+	// 회원의 최근 주문 내역 조회
+	@GetMapping("/{boardNo:[0-9]+}/selectOrder")
+	@ResponseBody
+	public Order selectOrder(
+			@PathVariable("boardCode")int boardCode,
+			@PathVariable("boardNo")int boardNo,
+			@RequestParam(value = "reviewNo", required = false, defaultValue = "-1") int reviewNo,
+			@SessionAttribute("loginMember") Member loginMember) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("boardNo", boardNo);
+		map.put("memberNo", loginMember.getMemberNo());
+		map.put("reviewNo", reviewNo);
+		Order order = service.selectOrder(map);
+		return order;
+	}
+	
 	// 리뷰 작성 페이지
 	@GetMapping("/{boardNo:[0-9]+}/insertReview")
-	public String insertReview() {
+	public String insertReview(
+			@PathVariable("boardCode")int boardCode,
+			@PathVariable("boardNo")int boardNo,
+			@SessionAttribute("loginMember") Member loginMember,
+			@RequestParam(value = "reviewNo", required = false, defaultValue = "-1") int reviewNo,
+			Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("boardCode", boardCode);
+		map.put("boardNo", boardNo);
+		map.put("reviewNo", reviewNo);
+		map.put("memberNo", loginMember.getMemberNo());
+		Business business = service.selectBusiness(map);
+		Order order = service.selectOrder(map);
+		if (reviewNo!=-1) {
+			Review review = service.selectReview(reviewNo);
+			model.addAttribute("review", review);
+		}
+		model.addAttribute("business", business);
+		model.addAttribute("order", order);
 		return "board/business/reviewPopup";
+	}
+	
+	// 리뷰 등록/수정
+	@PostMapping("/{boardNo:[0-9]+}/insertReview")
+	public String insertReview(
+			@PathVariable("boardCode")int boardCode,
+			@PathVariable("boardNo")int boardNo,
+			@RequestParam(value = "images", required = false) List<MultipartFile> images,
+		    @RequestParam(value = "imageNo", required = false) List<Integer> imageNo,
+		    @RequestParam(value = "imageLevel", required = false) List<Integer> imageLevel,
+			@RequestParam(value = "reviewUpdateNo", required = false, defaultValue = "0") int reviewUpdateNo,
+			@RequestParam(value = "deleteList", required = false) String deleteList,
+			@SessionAttribute("loginMember") Member loginMember,
+			Model model, Review review, 
+			RedirectAttributes ra, HttpSession session) throws IllegalStateException, IOException {
+		review.setReviewType(boardCode);
+		review.setReviewTypeNo(boardNo);
+		review.setMemberNo(loginMember.getMemberNo());
+		
+		String webPath = "/resources/images/review/";
+		String filePath = session.getServletContext().getRealPath(webPath);
+		
+		List<Image> existingImages = new ArrayList<Image>();
+		for(int i=0;i<imageLevel.size();i++) {
+			Image img = new Image();
+			img.setImageLevel(imageLevel.get(i));
+			img.setImageNo(imageNo.get(i));
+			existingImages.add(img);
+		}
+		
+		int reviewNo = service.insertReview(review, images, webPath, filePath, existingImages, reviewUpdateNo, deleteList);
+		
+		String path = "";
+		if (reviewNo>0) {
+			path = "board/business/closePopup";
+			model.addAttribute(review.getReviewNo());
+		} else {
+			path+="redirect:insertReview";
+			ra.addFlashAttribute("message", "리뷰 등록 실패");
+		}
+		
+		return path;
+	}
+	
+	// 리뷰 삭제
+	@GetMapping("/{boardNo:[0-9]+}/deleteReview")
+	public String deleteReview(
+			@PathVariable("boardCode") int boardCode,
+			@PathVariable("boardNo") int boardNo, 
+			@RequestParam(value = "reviewNo", required = false) int reviewNo,
+			RedirectAttributes ra) {
+		int result = service.deleteReview(reviewNo);
+		
+		String message=null;
+		if (result>0) {
+			message="리뷰가 삭제되었습니다.";
+		} else {
+			message="리뷰 삭제 실패";
+		}
+		ra.addFlashAttribute("message",message);
+		
+		return "redirect:/board/"+boardCode+"/"+boardNo;
+	}
+	
+	// 리뷰 댓글 등록
+	@PostMapping("/{boardNo:[0-9]+}/reviewReply")
+	@ResponseBody
+	public Review insertReviewReply(
+			@PathVariable("boardCode")int boardCode,
+			@PathVariable("boardNo")int boardNo,
+			@RequestBody Reply reply
+			) {
+		int result = service.insertReviewReply(reply);
+		Review review = null;
+		if (result>0) {
+			review = service.selectReview(reply.getReplyTypeNo());
+		}
+		return review;
+	}
+	
+	// 리뷰 댓글 수정
+	@PutMapping("/{boardNo:[0-9]+}/reviewReply")
+	@ResponseBody
+	public Review updateReviewReply(
+			@PathVariable("boardCode")int boardCode,
+			@PathVariable("boardNo")int boardNo,
+			@RequestBody Reply reply
+			) {
+		int result = service.updateReviewReply(reply);
+		Review review = null;
+		if (result>0) {
+			review = service.selectReview(reply.getReplyTypeNo());
+		}
+		return review;
+	}
+	
+	// 리뷰 댓글 삭제
+	@DeleteMapping("/{boardNo:[0-9]+}/reviewReply")
+	@ResponseBody
+	public Review deleteReviewReply(
+			@PathVariable("boardCode")int boardCode,
+			@PathVariable("boardNo")int boardNo,
+			@RequestBody Reply reply
+			) {
+		int result = service.deleteReviewReply(reply);
+		Review review = null;
+		if (result>0) {
+			review = service.selectReview(reply.getReplyTypeNo());
+		}
+		return review;
 	}
 	
 	// Q&A 목록 조회
@@ -244,8 +400,77 @@ public class BusinessController {
 	
 	// Q&A 작성 페이지
 	@GetMapping("/{boardNo:[0-9]+}/insertReply")
-	public String insertReply() {
+	public String insertReply(@PathVariable("boardCode")int boardCode,
+			@PathVariable("boardNo")int boardNo) {
 		return "board/business/replyPopup";
+	}
+	
+	// Q&A 등록
+	@PostMapping("/{boardNo:[0-9]+}/insertReply")
+	public String insertReply(@PathVariable("boardCode")int boardCode,
+			@PathVariable("boardNo")int boardNo,
+			@SessionAttribute("loginMember") Member loginMember,
+			Model model, Reply reply, 
+			RedirectAttributes ra, HttpSession session) throws IllegalStateException, IOException {
+		reply.setReplyType(1);
+		reply.setReplyTypeNo(boardNo);
+		reply.setMemberNo(loginMember.getMemberNo());
+		
+		int result = service.insertReply(reply);
+		
+		String path = "";
+		if (result>0) {
+			path = "board/business/closePopup";
+			model.addAttribute(reply);
+		} else {
+			path+="redirect:insertReply";
+			ra.addFlashAttribute("message", "Q&A 등록 실패");
+		}
+		
+		return path;
+	}
+	
+	// Q&A 수정
+	@PutMapping("/{boardNo:[0-9]+}/reply")
+	@ResponseBody
+	public Reply updateReply(
+			@PathVariable("boardCode")int boardCode,
+			@PathVariable("boardNo")int boardNo,
+			@RequestBody Reply reply
+			) {
+		int result = service.updateReply(reply);
+		if (result>0&&reply.getParentNo()!=0) {
+			reply = service.selectReply(reply.getParentNo());
+		}
+		return reply;
+	}
+	
+	// Q&A 삭제
+	@DeleteMapping("/{boardNo:[0-9]+}/reply")
+	@ResponseBody
+	public int deleteReply(
+			@PathVariable("boardCode")int boardCode,
+			@PathVariable("boardNo")int boardNo,
+			@RequestBody Reply reply
+			) {
+		return service.deleteReply(reply);
+	}
+	
+	// Q&A 답글 등록
+	@PostMapping("/{boardNo:[0-9]+}/reply")
+	@ResponseBody
+	public Reply insertChildReply(
+			@PathVariable("boardCode")int boardCode,
+			@PathVariable("boardNo")int boardNo,
+			@RequestBody Reply reply
+			) {
+		System.out.println(reply);
+		int replyNo = reply.getParentNo();
+		int result = service.insertReply(reply);
+		if (result>0) {
+			reply = service.selectReply(replyNo);
+		}
+		return reply;
 	}
 	
 	// 주문 페이지
@@ -265,14 +490,22 @@ public class BusinessController {
 		return "board/business/businessOrder";
 	}
 	
-	// 주문 완료 페이지
+	// 주문 내역 삽입
 	@PostMapping("/{boardNo:[0-9]+}/order")
-	public String OrderSuccess(
+	public String insertOrder(
 			@PathVariable("boardCode") int boardCode,
 			@PathVariable("boardNo") int boardNo,
 			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
 			@RequestParam Map<String, Object> paramMap,
-			Order order, Model model) {
+			Order order, HttpSession session,
+			RedirectAttributes ra) {
+		Order recentOrder = (Order) session.getAttribute("recentOrder");
+		if (recentOrder!=null&&recentOrder.equals(order)) {
+			ra.addFlashAttribute("message", "이미 주문이 처리되었습니다.");
+			ra.addFlashAttribute("order", recentOrder);
+			return "redirect:/board/"+boardCode+"/"+boardNo+"/order/success";
+		}
+		
 		String addr = paramMap.get("postCode")+"^^^ "+paramMap.get("roadAddress")+"^^^ "+paramMap.get("detailAddress");
 		order.setOrderAddress(addr);
 		
@@ -282,17 +515,43 @@ public class BusinessController {
 		int result = service.insertOrder(paramMap);
 		
 		String message=null;
-		String path;
+		String path = "redirect:/board/"+boardCode+"/"+boardNo+"/order/";
 		if (result>0) {
 			message = "주문이 완료되었습니다.";
-			path = "board/business/businessOrderDetail";
-			model.addAttribute("order", order);
+			path += "success";
+			session.setAttribute("recentOrder", order);
+			ra.addFlashAttribute("order", order);
 		} else {
 			message = "주문 실패";
-			path = "redirect:order";
 		}
-		model.addAttribute("massage", message);
+		ra.addFlashAttribute("message", message);
 		
 		return path;
+	}
+	
+	// 주문 내역 페이지로 이동
+	@GetMapping("/{boardNo:[0-9]+}/order/success")
+	public String orderSuccess(
+			@PathVariable("boardCode") int boardCode,
+			@PathVariable("boardNo") int boardNo,
+			@SessionAttribute("loginMember") Member loginMember,
+			Model model) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("boardCode", boardCode);
+		map.put("boardNo", boardNo);
+		map.put("reviewNo", -1);
+		
+		Business business = service.selectBusiness(map);
+		
+		map.put("memberNo", loginMember.getMemberNo());
+		Order order = service.selectOrder(map);
+		
+		PointUsage usage = service.selectUsage(order.getOrderNo());
+		
+		model.addAttribute("business", business);
+		model.addAttribute("order", order);
+		model.addAttribute("usage", usage);
+		
+		return "board/business/businessOrderDetail";
 	}
 }

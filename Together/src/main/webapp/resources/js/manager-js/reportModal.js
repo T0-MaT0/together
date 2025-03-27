@@ -77,10 +77,14 @@ function clickReport(reportNo){
         reportedName.innerHTML=` <strong>신고 대상:</strong> ${reportDetail.reportedUserNick} `;
         customerText.innerText = reportDetail.reportDetail;
         infoBtn.innerText = reportDetail.reportedUserNick +" 정보 조회";
-        infoBtn.setAttribute("path", "/manageBrand/brandProfile/-1?boardNo="+reportNo);
-
-
+        
         managerReportText.innerText  = reportDetail.reply == null? '': reportDetail.reply;
+       
+        // 버튼 영역
+        infoBtn.innerText = reportDetail.reportedUserNick +" 정보 조회";
+        infoBtn.setAttribute("path", "/manageBrand/brandProfile/-1?boardNo="+reportNo);
+        BoardBtn.innerText = "문제 "+ reportDetail.reportTypeName +" 조회";
+        BoardBtn.setAttribute("onclick",`openBoard(${reportDetail.reportType}, ${reportDetail.reportTypeNo})`)
 
     })
     .catch(err=>console.log(err))
@@ -88,7 +92,7 @@ function clickReport(reportNo){
 
 /* 모달 닫기 */
 document.getElementsByClassName("close")[0].addEventListener("click", e=>{
-    modal.classList.remove("modalActive");
+    modal.classList.toggle("modalActive");
 
     // modalReport.innerHTML = ``;
 
@@ -99,6 +103,7 @@ document.getElementsByClassName("close")[0].addEventListener("click", e=>{
     customerText.innerText = '';
 
         managerText.innerText  = '';
+        closeProfile();
 })
 
 
@@ -108,17 +113,26 @@ document.getElementsByClassName("close")[0].addEventListener("click", e=>{
 const reportProfileModal = document.querySelector(".draggable");
 const profileDetail = document.querySelector(".profile-detail");
 const profileList = document.querySelector(".profile-list");
+const profileContent = document.querySelector(".profile-content");
+
 
 function openProfile(){
     console.log("openProfile");
+    console.log(reportedUserNo);
     reportProfileModal.classList.toggle("active");
 
+    if (location.href.includes("manageBrand")) {
+        profileContent.style.backgroundColor = "#D2BDFE";
+    } else {
+        profileContent.style.backgroundColor = "#FFE9F3";
+    }
+    
     fetch("modalInfo?memberNo="+reportedUserNo)
     .then(resp=>resp.json())
     .then(member=>{
         console.log(member);
         profileDetail.innerHTML='';
-        //이미지 요소 생성
+        // 이미지 요소 생성
         const img = document.createElement("img");
         if(member.profileImg == null){
             img.setAttribute("src", "/resources/images/image-manager/profile.png");
@@ -141,7 +155,7 @@ function openProfile(){
         profileDetail.append(reportCount);
 
     })
-    .catch(err=>console.log(err))
+    .catch(err=>console.log(err));
 
     console.log("번호"+outRepotNo);
 
@@ -230,8 +244,17 @@ function closeProfile(){
 // 신고 대상 내용 조회
 function openBoard(type, no){
     console.log("openBoard");
-    //팝업 창으로 해당 문제 화면 열기
-    window.open("boardModal/"+type+"?no="+no, "boardDetail", "width=800, height=800, left=100, top=50");
+    
+    if(type==1){
+        //팝업 창으로 해당 문제 화면 열기
+        window.open("boardModal/"+type+"?no="+no, "boardDetail", "width=1210, height=800, left=100, top=50");
+        
+    }else{
+        //팝업 창으로 해당 문제 화면 열기
+        window.open("boardModal/"+type+"?no="+no, "boardDetail", "width=800, height=800, left=100, top=50");
+
+    }
+
 }
 
 
