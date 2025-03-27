@@ -69,17 +69,19 @@
                                         <img class="list-thumbnail" src="${reply.thumbnail}">
                                     </td>
                                     <td class="show-comment-area" reply-no="${reply.replyNo}">
-                                        <c:if test="${reply.secretReplyStatus=='N'}">
-                                            ${reply.replyContent}
-                                        </c:if>
-                                        <c:if test="${reply.secretReplyStatus=='Y'}">
-                                            <c:if test="${empty loginMember}">
-                                                비밀글 입니다.🔒
+                                        <div class="text-box">
+                                            <c:if test="${reply.secretReplyStatus=='N'}">
+                                                ${reply.replyContent}
                                             </c:if>
-                                            <c:if test="${loginMember.memberNo==reply.memberNo}">
-                                                ${reply.replyContent}🔒
+                                            <c:if test="${reply.secretReplyStatus=='Y'}">
+                                                <c:if test="${empty loginMember}">
+                                                    비밀글 입니다.🔒
+                                                </c:if>
+                                                <c:if test="${loginMember.memberNo==reply.memberNo}">
+                                                    ${reply.replyContent}🔒
+                                                </c:if>
                                             </c:if>
-                                        </c:if>
+                                        </div>
                                     </td>
                                     <td>${reply.memberNickname}</td>
                                     <td class="date-area" data-date="${reply.replyCreatedDate}"></td>

@@ -24,20 +24,20 @@
 <body>
 	<div id="reviewPopup">
         <div class="popup-header">Q&A 작성하기</div>
-        <form action="#" method="post" id="replyWriteForm" enctype="multipart/form-data">
+        <form action="/board/${boardCode}/${boardNo}/insertReply" method="post" id="replyWriteForm" enctype="multipart/form-data">
             <div class="popup-content-area">
                 <div class="popup-content">
-                    <textarea id="popupContentArea" placeholder="문의 내용을 입력하세요"></textarea>
+                    <textarea name="replyContent" id="popupContentArea" placeholder="문의 내용을 입력하세요"></textarea>
                     <span id="popupContentCount">0/1000</span>
                 </div>
                 <div class="secret-area">
                     <label class="custom-radio">
-                        <input type="radio" name="secret" checked>
+                        <input type="radio" name="secretReplyStatus" value="N" checked>
                         <span class="radio-mark"></span>
                         공개글
                     </label>
                     <label class="custom-radio">
-                        <input type="radio" name="secret">
+                        <input type="radio" name="secretReplyStatus" value="Y">
                         <span class="radio-mark"></span>
                         비밀글
                     </label>

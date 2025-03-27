@@ -69,7 +69,7 @@ notSecret.addEventListener("change", ()=>{
 });
 
 const renderList=map=>{
-    console.log(map);
+    // console.log(map);
     const replyCounts = document.querySelectorAll('a[href="#q&a"] span');
     replyCounts.forEach(replyCount=>{
         let replyListCount=0;
