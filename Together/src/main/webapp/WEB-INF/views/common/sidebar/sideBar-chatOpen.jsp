@@ -12,7 +12,7 @@
   <div class="profile-area">
     <div class="title-profile-box">
       <div class="profile profile-inTitle">
-        <img id="ownerProfileImg" src="/resources/images/sidebar/images/counselor.svg" alt="">
+        <img id="ownerProfileImg" src="/resources/images/user.png" alt="">
       </div>
     </div>
     <div class="chat-title"><span id="roomTitle"></span></div>

@@ -41,7 +41,10 @@ public class ChattingServiceImpl implements ChattingService{
 
 	// 채팅방 삭제
 	@Override
-	public int deleteRoom(int roomNo) {
+	public int deleteRoom(int roomNo, int memberNo) {
+		// 1. 방에 속한 사용자 삭제
+	    dao.deleteRoomUsers(roomNo, memberNo);
+	    
 		 return dao.deleteRoom(roomNo);
 	}
 
@@ -91,6 +94,24 @@ public class ChattingServiceImpl implements ChattingService{
 	    }
 
 	    return result;
+	}
+
+	// 참가하기 시 채팅방 참여(roomName 조회)
+	@Override
+	public String selectBoardTitle(int boardNo) {
+		return dao.selectBoardTitle(boardNo);
+	}
+
+	// 참가하기 시 채팅방 참여(roomNo 조회)
+	@Override
+	public int selectRoomNoByRoomName(String roomName) {
+		return dao.selectRoomNoByRoomName(roomName);
+	}
+
+	// 참가하기 시 채팅방 참여(user insert)
+	@Override
+	public void insertChatRoomUser(int roomNo, int memberNo) {
+		dao.insertChatRoomUser(roomNo, memberNo);
 	}
 
 	

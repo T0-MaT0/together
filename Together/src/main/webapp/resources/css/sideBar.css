@@ -44,20 +44,12 @@
   display: none;
 }
 
-
-html{
-  /* 나중에 지우기 + common */
-  background-color: lightgray;
-}
-
-
-
 /* 사이브바 active */
 .sideBar{
   position: fixed;
   font-family: 'GmarketSansMedium';
   top: 0;
-  right: /* -620px */300px;
+  right: -620px;
   z-index: 100;
   width: 680px;
   height: 100%;

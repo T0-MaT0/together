@@ -93,7 +93,7 @@ public class ChattingController {
 	        return map;
 	    }
 
-	    int result = service.deleteRoom(roomNo);
+	    int result = service.deleteRoom(roomNo, loginMemberNo);
 	    map.put("success", result > 0);
 	    return map;
 	}

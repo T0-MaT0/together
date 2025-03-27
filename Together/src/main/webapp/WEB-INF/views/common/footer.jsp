@@ -45,3 +45,5 @@
 
 
 </c:if>
+
+<jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
