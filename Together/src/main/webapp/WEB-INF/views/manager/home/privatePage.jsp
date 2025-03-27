@@ -84,7 +84,8 @@
         <section class="dev-board">
             <h3>Mid 배너</h3>
             <div class="MidBannerArea">
-                <img class="bannerItem" src="/resources/images/image-manager/midPromotion.png" style="cursor: pointer;"/>
+                <img class="bannerItem" src="/resources/images/image-manager/midPromotion.png" style="cursor: pointer;"
+                onclick="promotionCollection(7)"/>
                 <!-- <input type="file" accept="image/*"> -->
             </div>
             <!-- <div class="btnArea">
@@ -95,29 +96,34 @@
         
         <section class="dev-board">
             <h3>Mini 배너</h3>
-            <div class="bottomBannerArea">
+            <div class="bottomBannerArea" src>
                 
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
-                
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
-
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
+                <img class="bannerItem" src="/resources/images/image-manager/miniImage.png" style="cursor: pointer;"
+                onclick="promotionCollection(8)"/>
+                <!-- <input type="file" accept="image/*"> -->
 
             </div>
-            <div class="btnArea">
+            <!-- <div class="btnArea">
                 <button>적용</button>
-            </div>
+            </div> -->
         </section>
-
-
-
     </div>
-
-
+    
+    
 </main>
+
+
+        <!-- 모달 -->
+        <div id="modalMidPromotionSection">
+            <div class="promotionWrap">
+                <span class="promotionListClose" onclick="closeAdModal()" style="cursor: pointer;">&times;</span>
+                <div class="promotionImageListTitle" style="font-size: 25px;">Mid 광고 이미지</div>
+
+                <div class="promotionImageContent">
+                    
+                </div>
+            </div>
+        </div>
 
 
 <script src="/resources/js/manager-js/home/homeMain.js"></script>

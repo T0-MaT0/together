@@ -268,8 +268,9 @@ function promotionBtn(){
     if(imgType.value == 'mid'){
         imgTypeNumber = 7;
     }else{
-        imgTypeNumber ==8;
+        imgTypeNumber = 8;
     }
+    console.log(imgTypeNumber);
     // console.log("submit!");
     // console.log(imgType);
     // console.log(custBoardNo);

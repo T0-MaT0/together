@@ -28,4 +28,16 @@ public interface ManagerHomePageService {
 	 */
 	int submit(Map<String, Object> map, String webPath, List<MultipartFile> images, int typeNo, String filePath) throws IllegalStateException, IOException;
 
+	/** 광고 이미지 조회
+	 * @param typeImg 
+	 * @return
+	 */
+	List<Image> promotionSelect(int typeImg);
+
+	/** 광고 이미지 삭제
+	 * @param imageNo 
+	 * @return
+	 */
+	int deletePromotionImage(int imageNo);
+
 }

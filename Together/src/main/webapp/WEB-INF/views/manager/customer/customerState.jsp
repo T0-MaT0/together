@@ -58,7 +58,7 @@
             <div class="board-title bottom-line">
                 <div class="title">고객 상태 리스트</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <select name="customerStatus" id="customerStatus" onchange="(e)=>ilterCustomerStatus(e)">
                         <option>전체</option>
                         <option>회원</option>
                         <option>탈퇴</option>
@@ -194,6 +194,7 @@
     },
     options: {
         // maintainAspectRatio: false
+        animation: false
     }
     });
 </script>

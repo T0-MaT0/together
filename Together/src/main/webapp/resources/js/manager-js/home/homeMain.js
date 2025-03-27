@@ -217,3 +217,85 @@ function imageSubmit(e){
     // e.preventDefault();
     // return;
 }
+
+
+const modalMidPromotionSection = document.querySelector("#modalMidPromotionSection");
+const promotionImageContent = document.querySelector(".promotionImageContent");
+function promotionCollection(typeImg){
+    console.log('click');
+    modalMidPromotionSection.classList.toggle("active");
+
+    fetch('promotionSelect?typeImg='+typeImg)
+    .then(resp=>resp.json())
+    .then(imageList =>{
+        console.log(imageList);
+       
+        let count = 1;
+        promotionImageContent.innerHTML='';
+        for(let image of imageList){
+            let div = document.createElement('div');
+            let img = document.createElement("img");
+            let closeButton = document.createElement("button");
+
+            if(typeImg ==7){
+                img.classList.add("promotionImage");
+            }else{
+                img.classList.add("miniPromotionImage");
+            }
+            div.classList.add("promotionImageTitle");
+            closeButton.classList.add("closeButton");
+
+            closeButton.setAttribute("onclick","closeButton()")
+
+            div.append(count);
+            img.setAttribute("src", `${image.imagePath}${image.imageReName}`);
+            closeButton.innerHTML = "&#10005;"; // X symbol
+
+
+            
+            
+            closeButton.addEventListener("click", () => {
+               if(!confirm("해당 광고를 삭제하겠습니까?")){
+                return;
+               }
+               
+                div.remove();
+                img.remove();
+                closeButton.remove();
+
+                fetch("deletePromotionImage?imageNo="+image.imageNo)
+                .then(resp=>resp.json())
+                .then(result=>{
+                    if(result >0){
+                        alert("해당 광고 이미지를 삭제하였습니다.")
+                    }else{
+                        alert("해당 광고 이미지 삭제 실패.")
+                    }
+                })
+                .catch(err =>console.log(err))
+                
+            });
+
+
+            let container = document.createElement("div");
+            container.style.position = "relative";
+            container.style.display = "inline-block";
+
+            container.append(img, closeButton);
+            promotionImageContent.append(div, container);
+            count++;
+        }
+        
+        
+    })
+    .catch(err=>{console.log(err)})
+}
+
+function closeAdModal() {
+    modalMidPromotionSection.classList.toggle("active");
+}
+
+// 광고 이미지 삭제
+function closeButton(){
+
+}
