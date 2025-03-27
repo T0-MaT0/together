@@ -61,10 +61,10 @@
         <c:if test="${loginMember.authority == 1 || loginMember.authority == 3}">
           <section class="profile-section">
             <div class="profile-card">
-
+              ${loginMember}
               <div class="profile-info">
                 <p>
-                  <strong>${loginMember.memberNick}</strong>
+                  <strong>${loginMember.memberName}</strong>
                 </p>
                 <p>
                 </p>
