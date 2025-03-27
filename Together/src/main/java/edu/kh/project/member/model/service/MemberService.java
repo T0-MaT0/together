@@ -4,6 +4,7 @@ import java.util.Map;
 
 import edu.kh.project.member.model.dto.Company;
 import edu.kh.project.member.model.dto.Member;
+import edu.kh.project.member.model.dto.PointTransaction;
 
 public interface MemberService {
 
@@ -61,6 +62,9 @@ public interface MemberService {
 	 * @return
 	 */
 	Member snsLogin(String memberEmail);
+
+
+	int insertPointTransaction(PointTransaction transaction);
 	
 
 }

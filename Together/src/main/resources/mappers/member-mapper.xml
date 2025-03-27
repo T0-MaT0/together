@@ -114,6 +114,15 @@
 		AND MEMBER_EMAIL = #{memberEmail}
 	</select>
 	
+	<insert id="insertPointTransaction" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int"
+			keyProperty="transactionNo">
+			SELECT SEQ_TRANSACTION_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO "POINT_TRANSACTION"
+		VALUES(${transactionNo}, #{amount}, #{paymentMethod}, DEFAULT, #{memberNo})
+	</insert>
+	
 
 		
 

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.kh.project.member.model.dao.MemberDAO;
 import edu.kh.project.member.model.dto.Company;
 import edu.kh.project.member.model.dto.Member;
+import edu.kh.project.member.model.dto.PointTransaction;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -131,6 +132,14 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public Member snsLogin(String memberEmail) {
 		return dao.snsLogin(memberEmail);
+	}
+
+	@Override
+	public int insertPointTransaction(PointTransaction transaction) {
+		
+		
+		
+		return dao.insertPointTransaction(transaction);
 	}
 	
 

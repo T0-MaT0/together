@@ -69,7 +69,7 @@
         
                 <!-- 일반 회원만 포인트 충전 가능 -->
                 <c:if test="${loginMember.authority != 1}">
-                    <a href="/point/charge">포인트 충전</a>
+                    <a href="/member/chargePoint">포인트 충전</a>
                     <span> | </span>
                 </c:if>
         
