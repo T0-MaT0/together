@@ -17,6 +17,7 @@
     </div>
     <div class="main-item section-title favoriteStore"><a href="favoriteStore">관심스토어</a></div>
     <div class="main-item qna QnA"><a href="QnA">Q&A</a></div>
+    <div class="main-item qna ask"><a href="ask">1:1 문의</a></div>
 	</ul>
 </div>
 

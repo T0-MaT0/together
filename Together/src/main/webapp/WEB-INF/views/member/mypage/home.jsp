@@ -58,6 +58,23 @@
 						<button class="edit-btn">설정</button>
 					</div>
 				</section>
+        <c:if test="${loginMember.authority == 1 || loginMember.authority == 3}">
+          <section class="profile-section">
+            <div class="profile-card">
+
+              <div class="profile-info">
+                <p>
+                  <strong>${loginMember.memberNick}</strong>
+                </p>
+                <p>
+                </p>
+                <p>내 지역 : ${addrArr[1]}</p>
+                <p class="points">포인트 : ${loginMember.point}pt</p>
+              </div>
+              <button class="edit-btn">광고 신청</button>
+            </div>
+          </section>
+        </c:if>
 				<!-- 상단 바 -->
 				<div class="top-bar2">
 					<div class="top-menu">
