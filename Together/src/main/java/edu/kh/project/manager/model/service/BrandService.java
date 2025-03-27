@@ -1,10 +1,11 @@
 package edu.kh.project.manager.model.service;
 
+import java.util.List;
 import java.util.Map;
 
+import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.manager.model.dto.BrandBoard;
 import edu.kh.project.manager.model.dto.BrandProfile;
-import edu.kh.project.manager.model.dto.CustomerProfile;
 import edu.kh.project.manager.model.dto.Report;
 
 public interface BrandService {
@@ -82,6 +83,41 @@ public interface BrandService {
 	 * @return
 	 */
 	int reportSubmit(Report report);
+
+	/** 브랜드 프로필 조회
+	 * @param memberNo
+	 * @return
+	 */
+	BrandProfile profile(int memberNo);
+
+	/** 신고 대상 회원의 신고 목록 조회
+	 * @param memberNo
+	 * @param boardCode
+	 * @return
+	 */
+	List<BrandProfile> infoList(int memberNo, int boardCode);
+
+	/**신고 대상 회원의 신고 상세 정보 조회
+	 * @param reportNo
+	 * @return
+	 */
+	Report infoDetail(int reportNo);
+
+	/** 광고 이미지 조회
+	 * @param no
+	 * @return
+	 */
+	List<Image> promotionImageSelect(int no);
+
+	/** 광고 이미지 제출 처리
+	 * @param boardNo
+	 * @param imgType
+	 * @param imageNo
+	 * @param state 
+	 * @return
+	 */
+	int promotionApproval( Map<String, Object> requestData);
+
 	
 	
 	

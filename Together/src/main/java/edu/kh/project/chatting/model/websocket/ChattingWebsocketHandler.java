@@ -46,33 +46,41 @@ public class ChattingWebsocketHandler extends TextWebSocketHandler{
 
 	    // 로그인 회원 정보
 	    Member loginMember = (Member) session.getAttributes().get("loginMember");
+	    log.info("loginMember : {}", loginMember);
 
 	    // 보낸 사람 정보 설정
 	    msg.setSenderProfile(loginMember.getProfileImg());
 	    msg.setSenderNickname(loginMember.getMemberNick());
-	    
+
 	    int result = 0;
 
+	    // 이미지가 아닌 경우 DB 저장
 	    if (!"IMAGE".equals(msg.getMessageType())) {
 	        result = service.insertMessage(msg);
 	    } else {
-	        result = 1; 
+	        result = 1; // 이미지 전송이면 그냥 성공 처리
 	    }
 
+	    // 저장 성공 후
 	    if (result > 0) {
+
+	        // 시간 설정
 	        if (msg.getSendTime() == null || msg.getSendTime().isEmpty()) {
 	            SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 	            msg.setSendTime(sdf.format(new Date()));
 	        }
 
+	        // 같은 roomNo를 가진 사용자에게 메시지 전송
 	        for (WebSocketSession s : sessions) {
 	            Member m = (Member) s.getAttributes().get("loginMember");
 	            if (m == null) continue;
 
-	            int loginMemberNo = m.getMemberNo();
-
-	            if (loginMemberNo == msg.getTargetNo() || loginMemberNo == msg.getSenderNo()) {
+	            String sessionRoomNo = String.valueOf(s.getAttributes().get("roomNo"));
+	            String msgRoomNo = String.valueOf(msg.getRoomNo());
+	            log.info("🧾 세션 비교 - sessionRoomNo={}, msgRoomNo={}", sessionRoomNo, msgRoomNo);
+	            if (sessionRoomNo.equals(msgRoomNo)) {
 	                s.sendMessage(new TextMessage(new Gson().toJson(msg)));
+	                log.info("💬 메시지 보냄 to {}", m.getMemberNick());
 	            }
 	        }
 	    }

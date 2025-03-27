@@ -16,7 +16,7 @@ const managerText = document.querySelector(".managerText");
 let custBoardNo = 0;
 let state = '';
 let memberNo = 0;
-
+let imageNo = 0;
 // // 신고 화면
 // function clickReport(reportNo){
 //     console.log(reportNo);
@@ -159,18 +159,20 @@ function clickApply(boardNo){
 
 
 
-
+const closeImage = document.querySelector(".closeImage");
+const brandBtn = document.querySelector(".brandBtn");
 // 광고 화면
 function clickProm(boardNo){
     console.log(boardNo);
     modal.classList.add("modalActive");
+    custBoardNo = boardNo;
 
     fetch("boardDetail/7?boardNo="+boardNo)
     .then(resp=>resp.json())
     .then(boardDetail =>{
         console.log(boardDetail);
 
-
+        state = boardDetail.state;
 
         
         modalReport.innerHTML = ` <strong>제목:</strong> ${boardDetail.boardTitle}`;
@@ -192,13 +194,113 @@ function clickProm(boardNo){
         }
 
         memberName.innerHTML=` <strong>브랜드명:</strong> ${boardDetail.brandName} `;
+        customerText.innerText = boardDetail.boardContent;
+    
+        // 버튼의 유무
+        const submitBtn = document.querySelector(".modal-btn");
+        submitBtn.innerHTML = '';
+        if(boardDetail.state!='대기'){
+            submitBtn.innerHTML=''
+        }else{
+            submitBtn.innerHTML = '<button onclick="promotionBtn()">처리</button>';
+        }
 
+        imageWarp.innerHTML ='';
+        const closeSpan = document.createElement('span');
+        closeSpan.classList.add('closeImage');
+        closeSpan.innerHTML = '&times;';
+        closeSpan.setAttribute("onclick", "closePromotion()")
+        imageWarp.appendChild(closeSpan);
+
+        ImageList();
     })
 }
 
 
 
-/* 브랜드 제출 */
+//광고 이미지 조회
+function ImageList(){
+    fetch("promotionImageSelect?no=" + custBoardNo)
+        .then(resp => resp.json())
+        .then(images => {
+    
+            console.log(images[0]);
+            imageNo = Number(images[0].imageNo);
+            
+            const img = document.createElement('img');
+            img.setAttribute("src", `${images[0].imagePath}${images[0].imageReName}`)
+            
+            imageWarp.append(img);
+            console.log(imageWarp);
+            
+            })
+            .catch(err => console.error(err))
+}
+
+const imageWarp = document.querySelector(".proImage-wrap")
+document.querySelector("#proImgBtn").addEventListener("click", () => {
+    document.querySelector("#imageView").classList.toggle("active");
+})
+
+// 이미지 닫기
+function closePromotion(){
+    document.querySelector("#imageView").classList.toggle("active");
+}
+
+// 광고 승인 처리
+const imgType = document.querySelector("#imgType");
+function promotionBtn(){
+
+    if(state=="대기"){
+        alert("해당 문의에 대한 상태를 선택해주세요.");
+        imgType,value='';
+        return;
+    }
+    if(state=='승인'){
+        if(imgType.value=='선택') {
+            alert("이미지의 종류를 선택해주세요.")
+            return;
+        }
+    }
+    
+    // 이미지 타입 설정
+    let imgTypeNumber = 0;
+    if(imgType.value == 'mid'){
+        imgTypeNumber = 7;
+    }else{
+        imgTypeNumber ==8;
+    }
+    // console.log("submit!");
+    // console.log(imgType);
+    // console.log(custBoardNo);
+    // console.log(state);
+    // console.log(imageNo);
+    fetch("promotionApproval", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            boardNo: custBoardNo,
+            state: state,
+            "imgType": imgTypeNumber,
+            imageNo: imageNo
+        })
+    })
+    .then(resp => resp.text())
+    .then(result => {
+        console.log(result);
+        if (result > 0) {
+            alert("광고 승인 처리가 완료되었습니다.");
+            modal.classList.remove("modalActive");
+            location.reload();
+        } else {
+            alert("광고 승인 처리에 실패했습니다.");
+        }
+    })
+    .catch(err => console.error("Error during promotion approval:", err));
+}
+
+
+
 
 
 

@@ -162,6 +162,7 @@
                     </div> -->
                     <div class="modalReport">
                         <strong>제목:</strong> 저희는 고품질 주스를 판매하는 업체입니다.
+
                     </div>
                     <div class="modal-submit">  
                         <select name="modalSubmit" id="modalSubmit" class="modalSubmit barndSubmit">
