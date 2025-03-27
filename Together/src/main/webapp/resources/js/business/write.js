@@ -33,7 +33,7 @@ stars.forEach((star, index) => {
 });
 
 // 별점 변경 함수
-const starChange = (index) => {
+const starChange = index => {
     stars.forEach((star, i) => {
         if (i <= index) {
             star.classList.remove("fa-regular");
@@ -67,85 +67,29 @@ popupContentArea.addEventListener("input", () => {
     }
 });
 
-// 이미지 미리보기 및 삭제 기능
-const reviewImgArea = document.querySelector(".review-img-area");
-
-// 새로운 이미지 미리보기 추가
-const addImagePreview = () => {
-    const imageCount = document.querySelectorAll(".input-image").length; // 현재 개수로 ID 지정
-    const newDiv = document.createElement("div");
-    newDiv.draggable = true; // 드래그 가능하도록 설정
-    newDiv.classList.add("image-container");
-
-    // label 생성
-    const newLabel = document.createElement("label");
-    newLabel.setAttribute("for", `img${imageCount}`);
-
-    // 이미지 태그 생성
-    const newImg = document.createElement("img");
-    newImg.classList.add("preview");
-    newLabel.appendChild(newImg);
-
-    // 파일 선택 input 생성
-    const newInput = document.createElement("input");
-    newInput.type = "file";
-    newInput.name = "images";
-    newInput.classList.add("input-image");
-    newInput.id = `img${imageCount}`;
-    newInput.accept = "image/*";
-
-    // 삭제 버튼 생성
-    const newSpan = document.createElement("span");
-    newSpan.classList.add("delete-image");
-    newSpan.innerHTML = "&times;";
-    newSpan.style.display = "none"; // 기본적으로 숨김
-
-    // 요소 추가
-    newDiv.appendChild(newLabel);
-    newDiv.appendChild(newInput);
-    newDiv.appendChild(newSpan);
-    reviewImgArea.appendChild(newDiv);
-
-    // 이벤트 리스너 추가
-    newInput.addEventListener("change", (event) => handleImageChange(event, newSpan));
-    newSpan.addEventListener("click", () => deleteImage(newDiv));
-
-    // 드래그 이벤트 추가
-    addDragAndDropEvents(newDiv);
-};
-
-// 이미지 삭제 후 ID 재정렬
-const deleteImage = (imageDiv) => {
-    const imgTag = imageDiv.querySelector(".preview");
-    const inputTag = imageDiv.querySelector(".input-image");
-    const deleteButton = imageDiv.querySelector(".delete-image");
-
-    if (document.querySelectorAll(".review-img-area div").length === 1) {
-        imgTag.removeAttribute("src");
-        inputTag.value = "";
-        deleteButton.style.display = "none"; // 버튼 숨김
-    } else {
-        reviewImgArea.removeChild(imageDiv);
-        reorderImageIds(); // 삭제 후 ID 순서 다시 정렬
-    }
-};
+const deleteList = document.getElementById("deleteList");
+const deleteSet = new Set();
 
 // 삭제 후 ID 재정렬 함수
 const reorderImageIds = () => {
-    const imageDivs = document.querySelectorAll(".review-img-area div");
+    const imageDivs = document.querySelectorAll(".review-img-area .image-container");
 
     imageDivs.forEach((div, index) => {
         const input = div.querySelector(".input-image");
         const label = div.querySelector("label");
+        const imageLevel = document.getElementsByName("imageLevel")[index];
 
+        div.dataset.index = index;
         input.id = `img${index}`;
         label.setAttribute("for", `img${index}`);
+        console.log(imageLevel)
+        console.log(index)
+        imageLevel.value = index;
     });
 };
 
 // 이미지 변경 핸들러
-const handleImageChange = (event, deleteButton) => {
-    const input = event.target;
+const handleImageChange = (input, deleteButton) => {
     const file = input.files[0];
 
     if (!file) return;
@@ -159,52 +103,42 @@ const handleImageChange = (event, deleteButton) => {
 
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = (e) => {
+    reader.onload = e => {
         const previewImg = input.previousElementSibling.querySelector(".preview");
+        const remainder = input.parentElement.querySelector(".remainder");
+        console.log(input)
+        console.log(previewImg)
         previewImg.setAttribute("src", e.target.result);
 
         // 삭제 버튼 표시
         deleteButton.style.display = "inline";
-
-        // 새로운 미리보기 추가
-        addImagePreview();
     };
 };
 
-// 초기 삭제 버튼 이벤트 추가 (첫 번째 이미지도 삭제 가능)
-document.querySelector(".delete-image")?.addEventListener("click", () => {
-    const firstDiv = document.querySelector(".review-img-area div");
-    deleteImage(firstDiv);
-});
-
-// 초기 이벤트 바인딩
-document.querySelectorAll(".input-image").forEach(input => {
-    const deleteButton = input.parentElement.querySelector(".delete-image");
-    input.addEventListener("change", (event) => handleImageChange(event, deleteButton));
-});
-
 // 드래그 앤 드롭 기능 추가
-const addDragAndDropEvents = (element) => {
-    element.addEventListener("dragstart", (e) => {
-        e.dataTransfer.setData("text/plain", e.target.dataset.index);
+const reviewImgArea = document.querySelector(".review-img-area");
+const addDragAndDropEvents = element => {
+    element.addEventListener("dragstart", e => {
+        e.dataTransfer.setData("text/plain", [...reviewImgArea.children].indexOf(element));
         element.classList.add("dragging");
     });
 
-    element.addEventListener("dragover", (e) => {
+    element.addEventListener("dragover", e => {
         e.preventDefault();
         const draggingItem = document.querySelector(".dragging");
+        if (!draggingItem) return;
+
         const currentItem = e.target.closest(".image-container");
+        if (!currentItem || currentItem === draggingItem) return;
 
-        if (currentItem && currentItem !== draggingItem) {
-            const children = Array.from(reviewImgArea.children);
-            const draggingIndex = children.indexOf(draggingItem);
-            const currentIndex = children.indexOf(currentItem);
+        const children = [...reviewImgArea.children];
+        const draggingIndex = children.indexOf(draggingItem);
+        const currentIndex = children.indexOf(currentItem);
 
-            if (draggingIndex > currentIndex) {
-                reviewImgArea.insertBefore(draggingItem, currentItem);
-            } else {
-                reviewImgArea.insertBefore(draggingItem, currentItem.nextSibling);
-            }
+        if (draggingIndex > currentIndex) {
+            reviewImgArea.insertBefore(draggingItem, currentItem);
+        } else {
+            reviewImgArea.insertBefore(draggingItem, currentItem.nextSibling);
         }
     });
 
@@ -215,4 +149,51 @@ const addDragAndDropEvents = (element) => {
 };
 
 // 기존 이미지에도 드래그 기능 추가
-document.querySelectorAll(".review-img-area div").forEach(addDragAndDropEvents);
+document.querySelectorAll(".review-img-area .image-container").forEach(container=>{
+    if(container.getAttribute("draggable")==="true"){
+        addDragAndDropEvents(container);
+    }
+});
+
+// 기존 이미지에도 이미지 변경 기능 추가
+document.querySelectorAll(".review-img-area .image-container .input-image").forEach(event=>{
+    event.addEventListener("change", e=>{
+        const input = e.target;
+        if(input&&input.files){
+            const deleteButton = input.closest(".image-container").querySelector(".delete-image");
+            handleImageChange(input, deleteButton);
+        }
+    });
+});
+
+// 기존 이미지 삭제 버튼에 이미지 삭제 기능 추가
+for(let i=0;i<5;i++){
+    document.getElementsByClassName("delete-image")[i].addEventListener("click", e=>{
+        const inputImage = document.getElementsByClassName("input-image")[i];
+        const preview = document.getElementsByClassName("preview")[i];
+        
+        e.target.style.display = "none";
+        inputImage.value = "";
+        preview.removeAttribute("src");
+
+        deleteSet.add(i);
+    });
+}
+
+// 서버로 요청 시
+document.getElementById("reviewWriteForm")?.addEventListener("submit", e => {
+    if (starCount.value === "") {
+        e.preventDefault();
+        alert("별점을 남겨야 리뷰를 등록할 수 있습니다.");
+        return;
+    }
+    
+    if (popupContentArea.value === "") {
+        e.preventDefault();
+        alert("리뷰 내용을 작성해야 리뷰를 등록할 수 있습니다.");
+        popupContentArea.focus();
+        return;
+    }
+
+    deleteList.value = Array.from(deleteSet);
+});

@@ -1,11 +1,15 @@
 package edu.kh.project.business.model.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.kh.project.business.model.dao.BusinessDao;
 import edu.kh.project.business.model.dto.Business;
@@ -15,6 +19,8 @@ import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
+import edu.kh.project.common.utility.Utill;
+import edu.kh.project.manager.model.exception.FileUploadException;
 import edu.kh.project.member.model.dto.Member;
 
 @Service
@@ -124,7 +130,7 @@ public class BusinessServiceIml implements BusinessService {
 		
 		if (result>0) {
 			Member loginMember = (Member) paramMap.get("loginMember");
-			int totalPrice = (int) paramMap.get("totalPrice");
+			int totalPrice =  Integer.parseInt(String.valueOf(paramMap.get("totalPrice")));
 			
 			PointUsage usage = new PointUsage();
 			usage.setUsageAmount(totalPrice);
@@ -139,5 +145,172 @@ public class BusinessServiceIml implements BusinessService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public PointUsage selectUsage(int orderNo) {
+		return dao.selectUsage(orderNo);
+	}
+
+	@Override
+	public Order selectOrder(Map<String, Object> map) {
+		return dao.selectOrder(map);
+	}
+
+	@Override
+	public int insertReview(Review review, List<MultipartFile> images, String webPath, String filePath,
+			List<Image> existingImages, int reviewUpdateNo, String deleteList) throws IllegalStateException, IOException {
+		review.setReviewContent(Utill.XSSHandling(review.getReviewContent()));
+		
+		int reviewNo = 0;
+		if (reviewUpdateNo==0) {
+			reviewNo = dao.insertReview(review);
+		} else {
+			review.setReviewNo(reviewUpdateNo);
+			reviewNo = dao.updateReview(review);
+		}
+		
+		if (reviewNo>0) {
+			List<Image> uploadList = new ArrayList<Image>();
+			if (reviewUpdateNo==0) {
+				for (int i=0;i<images.size();i++) {
+					if (images.get(i).getSize()>0) {
+						Image img = new Image();
+						String fileName = images.get(i).getOriginalFilename();
+						img.setImagePath(webPath);
+						img.setImageReName(Utill.fileRename(fileName));
+						img.setImageOriginal(fileName);
+						img.setImageLevel(i);
+						img.setImageType(3);
+						img.setImageTypeNo(reviewNo);
+						
+						uploadList.add(img);
+					}
+				}
+				
+				if (!uploadList.isEmpty()) {
+					int result = dao.insertImageList(uploadList);
+					if (result==uploadList.size()) {
+						for (Image img:uploadList) {
+							int i = img.getImageLevel();
+							String rename = img.getImageReName();
+							images.get(i).transferTo(new File(filePath+rename));
+						}
+					} else {
+						throw new  FileUploadException();
+					}
+				}
+			} else {
+				int result = 0;
+				List<Image> imageList = dao.selectReviewImageList(reviewUpdateNo);
+				
+				if (!deleteList.isEmpty()) {
+				    String[] deleteArr = deleteList.split(",");
+				    for (String del : deleteArr) {
+				        int levelToDelete = Integer.parseInt(del);
+				        for (Image img : imageList) {
+				            if (img.getImageLevel() == levelToDelete) {
+				                result = dao.deleteImage(img.getImageNo());
+				                if (result <= 0) {
+				                    throw new RuntimeException("이미지 삭제 실패: 이미지 번호 " + img.getImageNo());
+				                }
+				            }
+				        }
+				    }
+				}
+				
+				for (int i = 0; i < existingImages.size(); i++) {
+				    Image existingImage = existingImages.get(i);
+				    for (Image img : imageList) {
+				        // 기존 이미지 번호와 레벨이 일치하지 않으면 수정
+				        if (img.getImageNo() == existingImage.getImageNo() && img.getImageLevel() != existingImage.getImageLevel()) {
+				            Image image = new Image();
+				            image.setImageLevel(i);  // 새로 받은 레벨로 설정
+				            image.setImageNo(img.getImageNo());
+				            result = dao.updateImageLevel(image);
+				            if (result <= 0) {
+				                throw new RuntimeException("이미지 레벨 수정 실패: 이미지 번호 " + img.getImageNo());
+				            }
+				        }
+				    }
+				}
+				
+				for (int i = 0; i < images.size(); i++) {
+				    if (images.get(i).getSize() > 0) {
+				        Image img = new Image();
+				        String fileName = images.get(i).getOriginalFilename();
+				        img.setImagePath(webPath);
+				        img.setImageReName(Utill.fileRename(fileName));
+				        img.setImageOriginal(fileName);
+				        img.setImageLevel(i);  // 레벨 설정
+				        img.setImageType(3);   // 리뷰 이미지 타입
+				        img.setImageTypeNo(reviewUpdateNo);
+
+				        uploadList.add(img);
+				    }
+				}
+				if (!uploadList.isEmpty()) {
+				    result = dao.insertImageList(uploadList);
+				    if (result == uploadList.size()) {
+				        for (Image img : uploadList) {
+				            int i = img.getImageLevel();
+				            String rename = img.getImageReName();
+				            images.get(i).transferTo(new File(filePath + rename));
+				        }
+				    } else {
+				        throw new FileUploadException();
+				    }
+				}
+			}
+		}
+		return reviewNo;
+	}
+
+	@Override
+	public int insertReply(Reply reply) {
+		return dao.insertReply(reply);
+	}
+
+	@Override
+	public Review selectReview(int reviewNo) {
+		return dao.selectReview(reviewNo);
+	}
+
+	@Override
+	public int deleteReview(int reviewNo) {
+		return dao.deleteReview(reviewNo);
+	}
+
+	@Override
+	public int insertReviewReply(Reply reply) {
+		reply.setReplyContent(Utill.XSSHandling(reply.getReplyContent()));
+		return dao.insertReviewReply(reply);
+	}
+	
+	@Override
+	public int updateReviewReply(Reply reply) {
+		reply.setReplyContent(Utill.XSSHandling(reply.getReplyContent()));
+		return dao.updateReviewReply(reply);
+	}
+	
+	@Override
+	public int deleteReviewReply(Reply reply) {
+		return dao.deleteReviewReply(reply);
+	}
+	
+	@Override
+	public int updateReply(Reply reply) {
+		reply.setReplyContent(Utill.XSSHandling(reply.getReplyContent()));
+		return dao.updateReply(reply);
+	}
+	
+	@Override
+	public int deleteReply(Reply reply) {
+		return dao.deleteReply(reply);
+	}
+
+	@Override
+	public Reply selectReply(int replyNo) {
+		return dao.selectReply(replyNo);
 	}
 }

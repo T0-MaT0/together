@@ -67,6 +67,11 @@ public class MypageController {
         return "member/mypage/QnA";
     }
 
+    @GetMapping("/ask")
+    public String ask(Model model) {
+        return "member/mypage/ask";
+    }
+
 
 //  비동기
 

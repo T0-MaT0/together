@@ -32,6 +32,13 @@
             <div class="list-area">
                 <h3>REVIEW</h3>
                 <table>
+                    <colgroup>
+                        <col style="width: 10%;"> <!-- 첫 번째 열 (번호) -->
+                        <col style="width: 20%;"> <!-- 두 번째 열 (이미지) -->
+                        <col style="width: auto;"> <!-- 세 번째 열 (상품 제목) → 자동 크기 -->
+                        <col style="width: 15%;"> <!-- 네 번째 열 (작성자) -->
+                        <col style="width: 15%;"> <!-- 다섯 번째 열 (작성일) -->
+                    </colgroup>
                     <thead>
                         <tr>
                             <th>번호</th>
@@ -60,7 +67,11 @@
                                             <img class="list-thumbnail" src="${review.businessThumbnail}">
                                         </c:if>
                                     </td>
-                                    <td class="show-modal-area" review-no="${review.reviewNo}">${review.reviewContent}</td>
+                                    <td class="show-modal-area" review-no="${review.reviewNo}">
+                                        <div class="text-box">
+                                            ${review.reviewContent}
+                                        </div>
+                                    </td>
                                     <td>${review.memberNickname}</td>
                                     <td class="date-area" data-date="${review.reviewCreatedDate}"></td>
                                 </tr>
@@ -100,9 +111,7 @@
             <div class="modal-detail-area">
                 <div class="rating-area"></div>
                 <div class="user-area"></div>
-                <div class="review-option-area">
-                    <span>사용자가 선택한 옵션 내용(추후 수정 예정)</span>
-                </div>
+                <div class="review-option-area"></div>
                 <div class="review-content"></div>
                 <div class="reply-area">
                     <div id="replyMemberArea"></div>
