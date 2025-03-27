@@ -42,3 +42,28 @@ const handleAddress=(alertMessage, event)=>{
         event.focus();
     }
 }
+
+// 팝업창 열기
+const openPopup=key=>{
+    if(key==='view'){
+        key += "?orderNo="+orderNo;
+    }
+
+    // 화면 크기 가져오기
+    const screenWidth = window.screen.width;
+    const screenHeight = window.screen.height;
+
+    // 팝업 창 크기 지정
+    const popupWidth = 600;
+    const popupHeight = 675;
+
+    // 정가운데 위치 계산
+    const left = (screenWidth - popupWidth) / 2;
+    const top = (screenHeight - popupHeight) / 2;
+
+    window.open(
+        `/board/${boardCode}/${boardNo}/insertRe${key}`, 
+        "PopupWindow", 
+        `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`
+    );
+};

@@ -3,7 +3,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<c:set var="optionCount" value="${fn:length(business.optionList)}"/>
+<c:set var="thumbnail" value="${business.imageList[0].imagePath}${business.imageList[0].imageReName}"/>
+<c:set var="imageList" value="${review.imageList}"/>
+
+<c:forEach var="option" items="${business.optionList}">
+    <c:if test="${option.optionNo==order.optionNo}">
+        <c:set var="optionName" value="${option.optionName}"/>
+    </c:if>
+</c:forEach>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,43 +29,78 @@
 </head>
 
 <body>
-	<div id="reviewPopup">
+    <div id="reviewPopup">
         <div class="popup-header">리뷰 작성하기</div>
         <div class="popup-content-area">
             <div class="product-option-area">
-                <img src="/resources/images/business/product.png">
+                <img src="${thumbnail}">
                 <div>
-                    <!-- 수정 예정 -->
-                    <span>브랜드 이름</span>
-                    <span>제품이름이 긴 상품</span>
-                    <span>옵션 내용</span>
+                    <span>${business.memberNickname}</span>
+                    <span>${business.boardTitle}</span>
+                    <span>${optionName}</span>
                 </div>
             </div>
-            <form action="#" method="post" id="reviewWriteForm" enctype="multipart/form-data">
+            <form action="/board/${boardCode}/${boardNo}/insertReview" method="post" id="reviewWriteForm" enctype="multipart/form-data">
+                <input type="hidden" name="orderNo" value="${order.orderNo}">
+                <input type="hidden" name="reviewUpdateNo" value="${review.reviewNo}">
+                <input type="hidden" name="deleteList" id="deleteList">
                 <div class="star-area">
                     <span>상품은 만족하셨나요?</span>
                     <div class="stars" id="starRating">
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
-                        <i class="fa-regular fa-star"></i>
+                        <c:forEach var="i" begin="1" end="5">
+                            <c:if test="${i<=review.reviewStar}">
+                                <i class="fa-solid fa-star"></i>
+                            </c:if>
+                            <c:if test="${i>review.reviewStar}">
+                                <i class="fa-regular fa-star"></i>
+                            </c:if>
+                            <c:if test="${empty review.reviewStar}">
+                                <i class="fa-regular fa-star"></i>
+                            </c:if>
+                        </c:forEach>
                     </div>
-                    <input type="hidden" id="starCount">
-                    <span id="starResult">선택하세요</span>
+                    <input type="hidden" id="starCount" name="reviewStar" value="${review.reviewStar}">
+                    <span id="starResult">
+                        <c:if test="${empty review.reviewStar}">
+                            선택하세요
+                        </c:if>
+                        <c:if test="${!empty review.reviewStar}">
+                            ${review.reviewStar}점을 선택하셨습니다.
+                        </c:if>
+                    </span>
                 </div>
                 <div class="popup-content">
-                    <textarea id="popupContentArea" placeholder="리뷰를 입력하세요"></textarea>
-                    <span id="popupContentCount">0/1000</span>
+                    <textarea name="reviewContent" id="popupContentArea" 
+                        placeholder="리뷰를 입력하세요">${review.reviewContent}</textarea>
+                    <span id="popupContentCount">
+                        <c:if test="${empty review.reviewContent}">
+                            0/1000
+                        </c:if>
+                        <c:if test="${!empty review.reviewContent}">
+                            ${fn:length(review.reviewContent)}/1000
+                        </c:if>
+                    </span>
                 </div>
                 <div class="review-img-area">
-                    <div>
-                        <label for="img0">
-                            <img class="preview" src="">
-                        </label>
-                        <input type="file" name="images" class="input-image" id="img0" accept="image/*">
-                        <span class="delete-image">&times</span>
-                    </div>
+                    <c:forEach var="i" begin="0" end="4">
+                        <c:if test="${!empty imageList[i]}">
+                            <c:set var="displayStyle" value="display: inline;"/>
+                            <c:set var="imageNo" value="${imageList[i].imageNo}"/>
+                        </c:if>
+                        <c:if test="${empty imageList[i]}">
+                            <c:set var="displayStyle" value="display: none;"/>
+                            <c:set var="imageNo" value="-1"/>
+                        </c:if>
+                        <div class="image-container" draggable="true">
+                            <input type="hidden" name="imageNo" value="${imageNo}">
+                            <input type="hidden" name="imageLevel" value="${i}">
+                            <label for="img${i}">
+                                <img class="preview" src="${imageList[i].imagePath}${imageList[i].imageReName}">
+                            </label>
+                            <input type="file" name="images" class="input-image" id="img${i}" accept="image/*">
+                            <span class="delete-image" style="${displayStyle}">&times</span>
+                        </div>
+                    </c:forEach>
                 </div>
                 <div class="popup-footer">
                     <span>

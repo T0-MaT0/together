@@ -14,4 +14,5 @@ public class Order {
 	private String trackingNo;
 	private int boardNo;
 	private int memberNo;
+	private int optionNo;
 }

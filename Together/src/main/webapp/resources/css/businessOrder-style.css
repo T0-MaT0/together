@@ -258,7 +258,7 @@ main{
     padding-bottom: 20px;
 }
 
-.business-title>div{
+.business-title>div:first-child{
     display: flex;
     flex-direction: column;
 }
@@ -268,7 +268,8 @@ main{
     font-size: 20px;
 }
 
-.business-title>button{
+.business-title>div>button{
+    height: 100%;
     background-color: white;
     border: 1px solid #999;
     border-radius: 10px;
@@ -276,7 +277,7 @@ main{
     cursor: pointer;
 }
 
-.business-title>button:hover{
+.business-title>div>button:hover{
     background-color: #9969ff;
     color: white;
     border: none;

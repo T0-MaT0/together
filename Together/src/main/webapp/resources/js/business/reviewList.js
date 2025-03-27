@@ -37,7 +37,7 @@ showModalAreas.forEach(showModalArea=>{
     showModalArea.addEventListener("click", ()=>{
         const reviewNo = parseInt(showModalArea.getAttribute("review-no"));
         const review = reviewList.find(review=>review.reviewNo===reviewNo);
-        console.log(review)
+        // console.log(review)
 
         modal.style.display = "flex";
         setTimeout(() => {
@@ -49,12 +49,20 @@ showModalAreas.forEach(showModalArea=>{
         const ratingArea = document.getElementsByClassName("rating-area")[0];
         const userArea = document.getElementsByClassName("user-area")[0];
         const reviewContent = document.getElementsByClassName("review-content")[0];
+        const reviewOptionArea = document.getElementsByClassName("review-option-area")[0];
         const replyMemberArea = document.getElementById("replyMemberArea");
         const replyContentArea = document.getElementById("replyContentArea");
         const goToDetail = document.getElementById("goToDetail");
 
         modalImgArea.innerHTML = "";
         const imageList = review.imageList;
+
+        if(imageList.length===0){
+            const img = document.createElement("img");
+            img.src = review.businessThumbnail;
+            modalImgArea.append(img);
+        }
+
         imageList.forEach(image => {
             const img = document.createElement("img");
             img.src = image.imagePath + image.imageReName;
@@ -113,41 +121,47 @@ showModalAreas.forEach(showModalArea=>{
             userArea.append(reportBtn);
         }
 
-        // 옵션 내용 추가 예정
+        reviewOptionArea.innerHTML = "";
+        const reviewOption = document.createElement("span");
+        reviewOption.innerText = review.optionName+"-"+review.quantity;
+        // console.log(reviewOptionArea)
+        reviewOptionArea.append(reviewOption);
 
         reviewContent.innerText = review.reviewContent;
 
-        replyMemberArea.innerHTML = "";
-        replyContentArea.innerHTML = "";
-        const replyMember = document.createElement("span");
-        replyMember.innerText = review.replyList[0].memberNickname + " | " +
-            formatDate(review.replyList[0].replyCreatedDate);
-
-        replyMemberArea.append(replyMember, " | ");
-        if (loginMemberNo == review.replyList[0].memberNo) {
-            const editBtn = document.createElement("span");
-            editBtn.classList.add("clickBtn");
-            editBtn.addEventListener("click", () => editReply(review.replyList[0]));
-            editBtn.innerText = "수정";
-
-            const deleteBtn = document.createElement("span");
-            deleteBtn.classList.add("clickBtn");
-            deleteBtn.addEventListener("click", () => deleteReply(review.replyList[0]));
-            deleteBtn.innerText = "삭제";
-
-            replyMemberArea.append(editBtn, " | ", deleteBtn);
-        } else {
-            const replyReport = document.createElement("span");
-            replyReport.classList.add("clickBtn");
-            replyReport.addEventListener("click", () => reportReply(review.replyList[0]));
-            replyReport.innerText = "신고";
-            replyMemberArea.append(replyReport);
+        if(!review.replyList){
+            replyMemberArea.innerHTML = "";
+            replyContentArea.innerHTML = "";
+            const replyMember = document.createElement("span");
+            replyMember.innerText = review.replyList[0].memberNickname + " | " +
+                formatDate(review.replyList[0].replyCreatedDate);
+    
+            replyMemberArea.append(replyMember, " | ");
+            if (loginMemberNo == review.replyList[0].memberNo) {
+                const editBtn = document.createElement("span");
+                editBtn.classList.add("clickBtn");
+                editBtn.addEventListener("click", () => editReply(review.replyList[0]));
+                editBtn.innerText = "수정";
+    
+                const deleteBtn = document.createElement("span");
+                deleteBtn.classList.add("clickBtn");
+                deleteBtn.addEventListener("click", () => deleteReply(review.replyList[0]));
+                deleteBtn.innerText = "삭제";
+    
+                replyMemberArea.append(editBtn, " | ", deleteBtn);
+            } else {
+                const replyReport = document.createElement("span");
+                replyReport.classList.add("clickBtn");
+                replyReport.addEventListener("click", () => reportReply(review.replyList[0]));
+                replyReport.innerText = "신고";
+                replyMemberArea.append(replyReport);
+            }
+    
+            const replyContent = document.createElement("div");
+            replyContent.innerText = review.replyList[0].replyContent;
+    
+            replyContentArea.append(replyContent);
         }
-
-        const replyContent = document.createElement("div");
-        replyContent.innerText = review.replyList[0].replyContent;
-
-        replyContentArea.append(replyContent);
 
         goToDetail.setAttribute("href", `/board/2/${review.reviewTypeNo}`);
     });

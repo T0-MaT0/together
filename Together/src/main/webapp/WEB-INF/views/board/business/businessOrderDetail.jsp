@@ -4,19 +4,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:set var="thumbnail" value="${business.imageList[0].imagePath}${business.imageList[0].imageReName}"/>
-<c:set var="optionCount" value="${fn:length(business.optionList)}"/>
-<c:set var="price" value="${business.productPrice * param.quantity}"/>
+<c:set var="price" value="${business.productPrice * order.quantity}"/>
 <c:set var="totalPrice" value="${price + business.deliveryFee}"/>
-<c:set var="sumPrice" value="${loginMember.point-totalPrice}"/>
 
-<c:choose>
-    <c:when test="${sumPrice>=0}">
-        <c:set var="resultClassName" value="violet-color"/>
-    </c:when>
-    <c:otherwise>
-        <c:set var="resultClassName" value="minus"/>
-    </c:otherwise>
-</c:choose>
+<fmt:parseDate value="${usage.usageDate}" var="parsedDate" pattern="yyyy-MM-dd HH:mm:ss" />
+
+<c:forEach var="option" items="${business.optionList}">
+    <c:if test="${option.optionNo==order.optionNo}">
+        <c:set var="optionName" value="${option.optionName}"/>
+    </c:if>
+</c:forEach>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -60,26 +57,49 @@
     <main>
         <section>
             <div class="content-box delivery">
-                <span class="small">2025.03.07 15:20:26</span>
-                <span>주문 번호: 1</span>
-                <span>운송장 번호: 배송 준비 중입니다.</span>
+                <span class="small">${usage.usageDate}</span>
+                <span>주문 번호: ${order.orderNo}</span>
+                <span>
+                    운송장 번호:
+                    <c:if test="${empty order.trackingNo}">
+                        배송 준비 중입니다.
+                    </c:if>
+                    <c:if test="${!empty order.trackingNo}">
+                        ${usage.trackingNo}
+                    </c:if>
+                </span>
             </div>
             <h2 class="title">주문 상품</h2>
             <div class="content-box">
                 <div class="business-title">
                     <div>
-                        <span>브랜드명</span>
-                        <span class="small">배송비 무료</span>
+                        <span>${business.boardTitle}</span>
+                        <span class="small">
+                            배송비 
+                            <c:if test="${empty business.deliveryFee}">
+                                무료
+                            </c:if>
+                            <c:if test="${!empty business.deliveryFee}">
+                                <fmt:formatNumber value="${business.deliveryFee}" type="number" maxFractionDigits="0"/>원
+                            </c:if>
+                        </span>
                     </div>
-                    <button>문의하기</button>
-                </div>
-                <span class="small">구매일 2025.03.07(금)</span>
-                <div class="option-area">
-                    <img src="/resources/images/business/product.png">
                     <div>
-                        <span>상품명</span>
-                        <span class="small">옵션명|1개</span>
-                        <span>10,000원</span>
+                        <button onclick="openPopup('view')">리뷰작성</button>
+                        <button onclick="openPopup('ply')">문의하기</button>
+                    </div>
+                </div>
+                <span class="small">
+                    구매일 <fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd(E)" />
+                </span>
+                <div class="option-area">
+                    <img src="${thumbnail}">
+                    <div>
+                        <span>${business.boardTitle}</span>
+                        <span class="small">${optionName} | ${order.quantity}개</span>
+                        <span>
+                            <fmt:formatNumber value="${price}" type="number" maxFractionDigits="0"/>원
+                        </span>
                     </div>
                 </div>
             </div>
@@ -87,7 +107,9 @@
             <div class="content-box">
                 <div class="total-price">
                     <span>주문금액</span>
-                    <span>총 10,000원</span>
+                    <span>
+                        총 <fmt:formatNumber value="${totalPrice}" type="number" maxFractionDigits="0"/>원
+                    </span>
                 </div>
                 <div class="price-area">
                     <div>
@@ -95,8 +117,17 @@
                         <span>배송비</span>
                     </div>
                     <div>
-                        <span>10,000원</span>
-                        <span>무료</span>
+                        <span>
+                            <fmt:formatNumber value="${price}" type="number" maxFractionDigits="0"/>원
+                        </span>
+                        <span>
+                            <c:if test="${empty business.deliveryFee}">
+                                무료
+                            </c:if>
+                            <c:if test="${!empty business.deliveryFee}">
+                                <fmt:formatNumber value="${business.deliveryFee}" type="number" maxFractionDigits="0"/>원
+                            </c:if>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -105,6 +136,9 @@
 
     <script>
         const memberAddr="${loginMember.memberAddr}".split("^^^ ");
+        const boardCode = "${boardCode}";
+        const boardNo = "${boardNo}";
+        const orderNo = "${order.orderNo}";
     </script>
     <script src="/resources/js/business/order.js"></script>
 </body>
