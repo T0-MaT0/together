@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('모집글 화면이 로드되었습니다.');
     console.log(no);
     console.log(type);
+    if(type==1){
+        location.href = `/board/2/${no}`;
+    }
     if(type == 2){
         console.log(url);
         location.href = `/partyRecruitmentList/${url}/${no}`;

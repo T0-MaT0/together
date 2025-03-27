@@ -177,3 +177,56 @@
 #menu-items > div.open-menu > a:nth-child(4){
     color:#6700CF;
 }
+
+
+/* ------------------------------------------------------------------- */
+/* 광고 모달 */
+#imageView{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    
+    /* style */
+    background-color: rgba(0, 0, 0, 0.212);
+    z-index: 1000;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+}
+
+#imageView.active{
+    display: flex;
+    opacity: 1;
+
+    
+}
+
+#imageView  img{
+    border-radius: 3px;
+    max-width: 1060px;
+    max-height: 670px;
+
+    object-fit: fill;
+}
+.proImage-wrap{ 
+    position: relative; 
+    background-color: white; 
+    padding: 20px; 
+    border-radius: 5px;
+
+    max-width: 1160px;
+    max-height: 670px;
+}
+.proImage-wrap>span{ position: absolute; top:0px; right: 5px; font-size: 20px; cursor: pointer;}
+
+#imgType{
+    width: 85px;
+    padding: 5px 0 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}

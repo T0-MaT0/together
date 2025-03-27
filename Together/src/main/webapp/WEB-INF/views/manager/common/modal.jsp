@@ -40,7 +40,7 @@
 
             <div class="midBtn barndBtn">
                 <button id="infoBtn" onclick="openProfile()">브랜드 정보 조회</button>
-                <button id="BoardBtn">문제 상품 조회</button>
+                <button id="BoardBtn" onclick="openBoard()">문제 상품 조회</button>
             </div>
             <div class="modalBottom">
                 <div>답변</div>

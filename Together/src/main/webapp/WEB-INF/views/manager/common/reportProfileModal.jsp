@@ -7,7 +7,7 @@
     <div class="profile-content sectionColor draggable">
         <div class="mod-header" id="dragMe">
             <span class="fold"><i class="fa-solid fa-minus"></i></span>
-            <span class="close" onclick="closeProfile()"><i class="fa-solid fa-x"></i></span>
+            <span class="closeBtn" onclick="closeProfile()"><i class="fa-solid fa-x"></i></span>
             <h class="mod-title"> 신고</h>
         </div>
         <div class="mod-body">
