@@ -25,7 +25,7 @@
     </div>
     <div class="sidebar-wrapper">
       <div class="title">
-        <span id="title">장바구니</span>
+        <span id="sideBarTitle">장바구니</span>
       </div>
       <div class="body hidden" id="CHAT">
 

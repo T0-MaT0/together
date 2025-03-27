@@ -49,16 +49,23 @@ function loadChatRoomList() {
         div.dataset.roomName = chat.roomName;
         div.dataset.ownerProfile = chat.ownerProfile;
 
+
+        let lastMessage = chat.lastMessage;
+        if (lastMessage && lastMessage.includes('/resources/images/')) {
+          lastMessage = '이미지';
+        } else if (!lastMessage || lastMessage.trim() === '') {
+          lastMessage = '대화를 시작해보세요!';
+        }
         // HTML 구성
         div.innerHTML = `
           <div class="profile-box">
             <div class="profile profile-inBox">
-              <img src="${chat.ownerProfile || '/resources/images/mypage/관리자 프로필.webp'}" alt="">
+              <img src="${chat.ownerProfile || '/resources/images/user.png'}" alt="">
             </div>
           </div>
           <div class="chat">
             <div class="chat-name">${chat.roomName}</div>
-            <div class="chat-content">${chat.lastMessage || '대화를 시작해보세요!'}</div>
+            <div class="chat-content">${lastMessage || '대화를 시작해보세요!'}</div>
           </div>
           <div class="chat-info">
             <div class="noti noti-chat"><span>${chat.unreadCount || 0}</span></div>
@@ -87,9 +94,16 @@ function loadChatRoomList() {
                 };
         
                 document.querySelector("#roomTitle").innerText = roomData.roomName;
-                document.querySelector("#ownerProfileImg").src = roomData.ownerProfileImg;
+                const ownerImg = document.querySelector("#ownerProfileImg");
+                if (roomData.ownerProfileImg && roomData.ownerProfileImg !== "null") {
+                  ownerImg.src = roomData.ownerProfileImg;
+                } else {
+                  ownerImg.src = "/resources/images/user.png";
+                }
 
-                connectChatWebSocket?.();
+                const chattingNo = div.dataset.roomNo;
+                connectChatWebSocket?.(chattingNo);
+
                 loadMessageList?.();
 
                 const talkMenus = document.querySelectorAll(".talkMenu");
@@ -122,7 +136,7 @@ function loadChatRoomList() {
 let flag = 0;
 const toggleIcon = document.getElementById("togglePage");
 const toggleBodies = document.getElementsByClassName("body");
-const toggleTitle = document.getElementById("title");
+const toggleTitle = document.getElementById("sideBarTitle");
 
 toggleIcon.addEventListener("click", e => {
   e.preventDefault();
@@ -178,10 +192,13 @@ function initializeChatTabs() {
 
             if (url.includes("chat")) loadChatRoomList();
             if (url.includes("chatOpen")) {
-              connectChatWebSocket?.();
-              loadMessageList?.();
               const roomNo = document.getElementById("chatRoom")?.dataset.roomNo;
-              if (roomNo) loadChatTargetInfo(roomNo);
+            
+              if (roomNo) {
+                connectChatWebSocket(roomNo);  
+                loadMessageList?.();
+                loadChatTargetInfo(roomNo);
+              }
             }
           })
           .catch(err => console.error("sidebar load error:", err));
@@ -211,15 +228,15 @@ document.getElementById("scrollDown").addEventListener("click", e => {
 let chattingSock;
 
 // 채팅방 열릴 때 호출 WebSocket 연결
-function connectChatWebSocket() {
+function connectChatWebSocket(roomNo) {
   if (!chattingSock || chattingSock.readyState !== 1) {
-    chattingSock = new SockJS("/chattingSock");
+    chattingSock = new SockJS("/chattingSock?roomNo=" + roomNo);
+    console.log("✅ SockJS 연결 성공 / roomNo =", roomNo);
   }
 
   chattingSock.onmessage = (e) => {
+    console.log("📩 WebSocket 메시지 수신:", e.data);
     const msg = JSON.parse(e.data);
-  
-  
     displayMessage(msg);
   };
 }
@@ -468,6 +485,7 @@ function bindSendMessageEvent() {
 
 // 메세지 동기화
 function displayMessage(msg) {
+  console.log("🧾 displayMessage 실행", msg);
   const ul = document.getElementById("chatMessageList");
   if (!ul) return;
 

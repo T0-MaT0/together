@@ -241,7 +241,7 @@ public class RecruitmentController {
 
         // 파일 저장 경로
         String webPath = "/resources/images/recruitment/";
-        String filePath = "C:/finalProject/Together/src/main/webapp/resources/images/recruitment/";
+	    String filePath = session.getServletContext().getRealPath(webPath);
         int recruitNo = 0;
         try {
             recruitNo = service.createRecruitment(dto, images,
@@ -445,7 +445,7 @@ public class RecruitmentController {
  	        int paymentAmount = (int) paymentAmount2;
  	        // 포인트 차감 + 참가 INSERT + 모집 마감 여부 확인
  	        int result = service.participateRecruitment(memberNo, recruitmentNo, myQuantity, paymentAmount,point);
-
+ 	        System.out.println("boardNo1213 : " + boardNo);
  	        if (result > 0) {
  	        	String roomName = chatService.selectBoardTitle(boardNo);
  	            int roomNo = chatService.selectRoomNoByRoomName(roomName);

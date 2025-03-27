@@ -46,19 +46,6 @@
 	<!-- AOP Proxy를 이용한 관점 제어 자동화 -->
 	<aop:aspectj-autoproxy />
 
-	<!-- 웹소켓 처리 클래스를 bean으로 등록 -->
-	<beans:bean id="testHandler" class="edu.kh.project.main.model.websocket.TestWebsocketHandler" /> 
-
-	<!-- 어떤 주소로 웹소켓 요청이 오면 세션을 가로챌지 지정 -->
-	 <websocket:handlers>
-		<websocket:mapping handler="testHandler" path="/testSock/" />
-
-		<websocket:handshake-interceptors>
-			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
-		</websocket:handshake-interceptors>
-
-		<websocket:sockjs />
-	</websocket:handlers> 
 
    <beans:bean id="chatHandler"
 		class="edu.kh.project.chatting.model.websocket.ChattingWebsocketHandler" />
@@ -66,7 +53,7 @@
 		<websocket:mapping handler="chatHandler" path="/chattingSock" />
 
 		<websocket:handshake-interceptors>
-			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		  <beans:bean class="edu.kh.project.chatting.model.websocket.CustomHandshakeInterceptor"/>
 		</websocket:handshake-interceptors>
 
 		<websocket:sockjs />
