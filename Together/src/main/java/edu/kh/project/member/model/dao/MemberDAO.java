@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import edu.kh.project.member.model.dto.Company;
 import edu.kh.project.member.model.dto.Member;
+import edu.kh.project.member.model.dto.PointTransaction;
 
 
 @Repository
@@ -47,6 +48,10 @@ public class MemberDAO {
 
 	public Member snsLogin(String memberEmail) {
 		return sqlSession.selectOne("memberMapper.snsLogin", memberEmail);
+	}
+
+	public int insertPointTransaction(PointTransaction transaction) {
+		return sqlSession.insert("memberMapper.insertPointTransaction", transaction);
 	}
 
 

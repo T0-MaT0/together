@@ -169,9 +169,15 @@ public class CustomerServiceImpl implements CustomerService{
 				String fileName = images.get(i).getOriginalFilename();
 				img.setImageReName(Utill.fileRename(fileName));// 파일 변경명
 				img.setImageOriginal(fileName);// 파일 원본명
-
 				img.setImageLevel(i); // 이미지 순서
 				img.setImageTypeNo(boardNo);// 게시글 번호
+				
+				if(board.getBoardCd() == 3) { // 공지사항
+					img.setImageType(9);
+				} else if(board.getBoardCd() == 6){ // 1대1 문의
+					img.setImageType(10);
+				} 
+				
 
 				uploadList.add(img);
 

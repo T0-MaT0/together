@@ -78,6 +78,17 @@ public class MemberController {
 		return "member/changePw";
 	}
 	
+	// 포인트 충전 화면 이동
+	@GetMapping("/chargePoint")
+	public String chargePoint() {
+		return "member/chargePoint";
+	}
+	// 포인트 계좌이체 결과 화면 이동
+	@GetMapping("/openbankingResult")
+	public String openbankingResult() {
+		return "member/openbankingResult";
+	}
+	
 	/** 로그인 요청 처리 
 	 * @return 메인페이지 redirect 주소
 	 */
