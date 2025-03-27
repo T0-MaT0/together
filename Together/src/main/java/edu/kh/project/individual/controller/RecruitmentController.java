@@ -447,6 +447,10 @@ public class RecruitmentController {
  	        int result = service.participateRecruitment(memberNo, recruitmentNo, myQuantity, paymentAmount,point);
 
  	        if (result > 0) {
+ 	        	String roomName = chatService.selectBoardTitle(boardNo);
+ 	            int roomNo = chatService.selectRoomNoByRoomName(roomName);
+ 	            chatService.insertChatRoomUser(roomNo, memberNo);
+ 	        	
  	        	int updatedPoint = service.selectMemberPoint(memberNo);
  	            loginMember.setPoint(updatedPoint);
  	            session.setAttribute("loginMember", loginMember);

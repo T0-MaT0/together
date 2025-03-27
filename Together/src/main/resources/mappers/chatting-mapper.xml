@@ -247,4 +247,21 @@
 	    #{roomNo}, #{memberNo}
 	  )
 	</insert>
+	
+	<!-- 1. 사용자 삭제 -->
+	<delete id="deleteRoomUsers">
+	  DELETE FROM CHAT_ROOM_USER
+	  WHERE ROOM_NO = #{roomNo}
+	  AND MEMBER_NO = #{memberNo}
+	</delete>
+	
+	<!-- roomName 조회 -->
+	<select id="selectBoardTitle" resultType="string">
+	  SELECT BOARD_TITLE FROM BOARD WHERE BOARD_NO = #{boardNo}
+	</select>
+	
+	<!-- roomNo 조회 -->
+	<select id="selectRoomNoByRoomName" resultType="_int">
+	  SELECT ROOM_NO FROM CHAT_ROOM WHERE ROOM_NAME = #{roomName}
+	</select>
 </mapper>

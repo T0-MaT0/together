@@ -17,7 +17,7 @@
     <div class="sidebar-menu-box" id="sidebar-menu-box">
       <div class="sidebar-menu">
         <div><a href="" id="sideBar-close" class="no-link"><img src="/resources/images/sidebar/images/X.svg" width="30px" height="30px" alt=""></a></div>
-        <div><a href="" id="togglePage" class="no-link"><img src="/resources/images/sidebar/images/talk.svg" width="32px" height="32px" alt=""></a></div>
+        <div><a href="" id="togglePage" class="no-link"><img src="/resources/images/sidebar/images/favorite-cart.svg" width="32px" height="32px" alt=""></a></div>
         <div><a href="" class="no-link"><img src="/resources/images/sidebar/images/+.svg" width="31px" height="32px" alt=""></a></div>
         <div><a href="" class="no-link" id="scrollUp"><img src="/resources/images/sidebar/images/ArrowUp.svg" height="30px" alt=""></a></div>
         <div><a href="" class="no-link" id="scrollDown"><img src="/resources/images/sidebar/images/ArrowDown.svg" height="30px" alt=""></a></div>
@@ -30,12 +30,16 @@
       <div class="body hidden" id="CHAT">
 
         <div class="talkMenus sideBox">
-          <div class="talkMenu unselect"><a href="" class="no-link" data-url="/sidebar/chat"><img src="/resources/images/sidebar/images/Home.svg" alt=""></a></div>          
+          <div class="talkMenu unselect">
+            <a href="" class="no-link" data-url="/sidebar/chat">
+              <img src="/resources/images/sidebar/images/Chat.svg" alt="">
+              <div class="noti noti-menu"><span>6</span></div>
+            </a>
+          </div>          
           <div class="talkMenu unselect">
               <a href="" class="no-link" data-url="/sidebar/chatOpen?chattingNo=2">
-                <img src="/resources/images/sidebar/images/Chat.svg" alt="">
+                <img src="/resources/images/sidebar/images/Home.svg" alt="">
               </a>
-            <div class="noti noti-menu"><span>6</span></div>
           </div>
           <div class="talkMenu unselect"><a href="" class="no-link"><img src="/resources/images/sidebar/images/Setting.svg" alt=""></a></div>
         </div>

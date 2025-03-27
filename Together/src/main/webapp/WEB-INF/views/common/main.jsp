@@ -141,8 +141,6 @@
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
     
-    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
-
     <script src="/resources/js/main.js"></script>
 
 

@@ -93,10 +93,15 @@ function loadChatRoomList() {
                 loadMessageList?.();
 
                 const talkMenus = document.querySelectorAll(".talkMenu");
-                talkMenus.forEach(menu => menu.classList.remove("select")); 
 
+                talkMenus.forEach(menu => {
+                  menu.classList.remove("select", "unselect"); 
+                  menu.classList.add("unselect");              
+                });
+                
                 const chatTab = document.querySelector(".talkMenu a[data-url*='/sidebar/chatOpen']")?.closest(".talkMenu");
-                chatTab?.classList.add("select"); 
+                chatTab?.classList.remove("unselect");
+                chatTab?.classList.add("select");
               });
           });
 
@@ -125,8 +130,8 @@ toggleIcon.addEventListener("click", e => {
   const isChat = flag === 0;
 
   e.target.setAttribute("src", isChat
-    ? "/resources/images/sidebar/images/talk.svg"
-    : "/resources/images/sidebar/images/favorite-cart.svg");
+    ? "/resources/images/sidebar/images/favorite-cart.svg"
+    : "/resources/images/sidebar/images/talk.svg")
 
   toggleTitle.innerText = isChat ? "채팅" : "장바구니";
   flag = isChat ? 1 : 0;

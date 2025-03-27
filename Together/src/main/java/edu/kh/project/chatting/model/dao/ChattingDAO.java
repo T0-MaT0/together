@@ -102,7 +102,7 @@ public class ChattingDAO {
 	}
 
 	public int deleteRoom(int roomNo) {
-		return sqlSession.selectOne("chattingMapper.deleteRoom", roomNo);
+		return sqlSession.update("chattingMapper.deleteRoom", roomNo);
 	}
 
 	public int selectOwnerNo(int roomNo) {
@@ -145,6 +145,25 @@ public class ChattingDAO {
 	    map.put("memberNo", ownerNo);
 		sqlSession.insert("chattingMapper.insertChatRoomUser", map);
 		
+	}
+
+	// 채팅방 삭제 시 채팅방 사용자 삭제
+	public void deleteRoomUsers(int ownerNo, int memberNo) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("ownerNo", ownerNo);
+	    map.put("memberNo", memberNo);
+		sqlSession.delete("chattingMapper.deleteRoomUsers", map);
+		
+	}
+	
+	// 참가하기 시 채팅방 참여(roomName 조회)
+	public String selectBoardTitle(int boardNo) {
+		return sqlSession.selectOne("chattingMapper.selectBoardTitle", boardNo);
+	}
+
+	// 참가하기 시 채팅방 참여(roomNo 조회)
+	public int selectRoomNoByRoomName(String roomName) {
+		return sqlSession.selectOne("chattingMapper.selectRoomNoByRoomName", roomName);
 	}
 
 	
