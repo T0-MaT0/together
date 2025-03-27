@@ -207,5 +207,24 @@ public class ManagerHomePageServiceImpl implements ManagerHomePageService{
 		return result;
 	}
 
+	
+	// 광고 이미지 조회하기
+	@Override
+	public List<Image> promotionSelect(int typeImg) {
+		return dao.promotionSelect(typeImg);
+	}
+
+	// 광고 이미지 삭제 광고 문의 종료 상태 
+	@Override
+	public int deletePromotionImage(int imageNo) {
+		
+		int result = dao.updatePromotionState(imageNo);
+		
+		result = dao.deletePromotionImage(imageNo);
+		
+		
+		return result;
+	}
+
 
 }

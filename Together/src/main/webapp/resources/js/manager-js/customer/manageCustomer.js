@@ -142,3 +142,8 @@ function nextPage(boardCode, memberNo, cp){
     console.log('nextPage');
     boardList(boardCode, memberNo, cp );
 }
+
+
+function filterCustomerStatus(e){
+    console.log(e.target);
+}
