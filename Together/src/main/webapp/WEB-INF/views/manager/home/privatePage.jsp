@@ -84,12 +84,12 @@
         <section class="dev-board">
             <h3>Mid 배너</h3>
             <div class="MidBannerArea">
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
+                <img class="bannerItem" src="/resources/images/image-manager/midPromotion.png" style="cursor: pointer;"/>
+                <!-- <input type="file" accept="image/*"> -->
             </div>
-            <div class="btnArea">
+            <!-- <div class="btnArea">
                 <button>적용</button>
-            </div>
+            </div> -->
         </section>
         
         
