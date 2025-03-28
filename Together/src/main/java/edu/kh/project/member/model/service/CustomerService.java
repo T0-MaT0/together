@@ -28,5 +28,9 @@ public interface CustomerService {
 
 	Map<String, Object> askBoardList(Map<String, Object> map);
 
+	int boardUpdate(Board board, List<MultipartFile> images, String webPath, String filePath, String deleteList) throws IllegalStateException, IOException;
+
+	int boardDelete(int boardNo);
+
 
 }

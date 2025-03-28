@@ -135,7 +135,7 @@ public class CustomerController {
 		
 		model.addAttribute("map",map);
 		
-		return "customer/CustomerBoardDetail";
+		return "customer/customerBoardDetail";
 	}
 	
 
