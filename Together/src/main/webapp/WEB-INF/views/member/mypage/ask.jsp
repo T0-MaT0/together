@@ -29,6 +29,7 @@
                 <section class="qa-section" id="ask-section">
                     <h2 class="qa-title">1:1 문의</h2>
                     <p class="qa-count">현재까지 회원님의 문의 내역입니다.</p>
+                    ${map}
                     <div class="qa-container" id="ask-container">
                     </div>
                 </section>
