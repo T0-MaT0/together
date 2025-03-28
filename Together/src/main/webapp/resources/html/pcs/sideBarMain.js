@@ -80,7 +80,7 @@ document.getElementById("togglePage").addEventListener("click", e => {
 const minValue = document.getElementById("minValue");
 const maxValue = document.getElementById("maxValue");
 
-function transferValue( value) {
+function transferValue(value) {
   if (value == 10) return '0';
   if (value == 20) return '10000';
   if (value == 30) return '100000';
@@ -93,7 +93,6 @@ function transferValue( value) {
   let n = +numString[0];
   let a = +numString[1];
 
-  console.log(n, a);
   return a*100*(10**(n));
 }
 
@@ -121,6 +120,11 @@ class RangeSlider {
       if (value == '999999~') {
         value = '990000';
       }
+
+      if (value > +maxValue.innerText) {
+        value = +maxValue.innerText
+      }
+
       minValue.innerText = value;
       this.setStartValue(+e.target.value);
     });
@@ -130,6 +134,11 @@ class RangeSlider {
       if (value == 0) {
         value = 1000;
       }
+
+      if (value < +minValue.innerText) {
+        value = +minValue.innerText
+      }
+      
       maxValue.innerText = value;
       this.setEndValue(+e.target.value);
     });
