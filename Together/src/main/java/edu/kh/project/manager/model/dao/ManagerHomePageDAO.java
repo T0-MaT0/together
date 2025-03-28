@@ -33,4 +33,20 @@ public class ManagerHomePageDAO {
 	public int deleteImageList(Image img) {
 		return  sqlSession.delete("imageMapper.deleteImage", img);
 	}
+
+	
+	// 모든 수락한 광고 이미지 조회
+	public List<Image> promotionSelect(int typeImg) {
+		return sqlSession.selectList("imageMapper.typeImageList", typeImg);
+	}
+
+	// 광고 이미지 삭제 광고 문의 종료 상태 
+	public int deletePromotionImage(int imageNo) {
+		return sqlSession.delete("imageMapper.deletePromotionImage", imageNo);
+	}
+
+	public int updatePromotionState(int imageNo) {
+		System.out.println(imageNo);
+		return sqlSession.update("imageMapper.updatePromotionState", imageNo);
+	}
 }

@@ -63,13 +63,13 @@
   margin: 0;
   user-select: none;
 }
-#sideBar .active{
+#sideBar.active{
   transform: translateX(-620px);
 }
-#sideBar #sideBar-close{
+#sideBar#sideBar-close{
   transition-duration: 1.1s;
 }
-#sideBar .activate{
+#sideBar.activate{
   transform: rotateZ(135deg);
 }
 

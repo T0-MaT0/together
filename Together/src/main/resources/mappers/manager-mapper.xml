@@ -373,6 +373,7 @@
 		GROUP BY MEMBER_DEL_FL
 	</select>
 	
+	
 	<!-- 고객 모집글 목록 수 -->
 	<select id="customerboardCount" resultType="_int">
 		SELECT COUNT(*) 
