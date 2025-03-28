@@ -16,6 +16,7 @@
     <jsp:include page="/WEB-INF/views/common/header.jsp" />
     <div id="main-content">
       <section id="notice-header">
+        ${map.boardDetail.boardCd}
         <c:if test="${map.boardDetail.boardCd != 6}">
           <div id="notice-header-title" onclick="location.href='/customer/noticeBoardList'">📢 공지사항</div>
         </c:if>

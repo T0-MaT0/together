@@ -237,6 +237,8 @@ public class CustomerServiceImpl implements CustomerService{
 		int listCount = dao.getAskListCount(map);
 		
 		Pagination pagination = new Pagination((int) map.get("cp"), listCount);
+		pagination.setLimit(5);       // 한 페이지 게시글 수
+		pagination.setPageSize(5);    // 하단 페이지 번호 수
 		
 		map.put("pagination", pagination);
 		

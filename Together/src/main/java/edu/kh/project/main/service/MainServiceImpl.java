@@ -32,7 +32,7 @@ public class MainServiceImpl implements MainService{
         
         List<Image> mainBannerList = new ArrayList<>();
         for (Image img : bannerImages) {
-            if (img.getImageType() == 6 && img.getImageLevel() == 1) { // 메인 배너 조건
+            if (img.getImageType() == 6 && img.getImageTypeNo() == 1) { // 메인 배너 조건
                 mainBannerList.add(img); // 리스트에 추가
             }
         }
