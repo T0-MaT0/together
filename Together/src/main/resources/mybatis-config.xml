@@ -18,6 +18,7 @@
 		<typeAlias type="edu.kh.project.common.model.dto.PointUsage" alias="PointUsage" />
 		<typeAlias type="edu.kh.project.individual.dto.Recruitment" alias="RecruitmentRoomDTO" />
 		<typeAlias type="edu.kh.project.individual.dto.Recruitment" alias="RecruitmentRoomDetailDTO" />
+		<typeAlias type="edu.kh.project.member.model.dto.Company" alias="Company"/>
 
 		<!-- manager  -->
 		<typeAlias type="edu.kh.project.manager.model.dto.CustomerBoard" alias="CustomerBoard"/>

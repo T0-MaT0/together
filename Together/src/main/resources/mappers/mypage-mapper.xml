@@ -151,6 +151,15 @@
 		<result property="thumbnail" column="THUMBNAIL"/>
 	</resultMap>
 
+	<resultMap type="Company" id="company_rm">
+		<id property="memberNo" column="MEMBER_NO" />
+		<result property="businessNo" column="BUSINESS_NO" />
+		<result property="bankName" column="BANK_NAME" />
+		<result property="bankNo" column="BANK_NO" />
+		<result property="permissionFl" column="PERMISSION_FL" />
+	</resultMap>
+
+	<resultMap type="BrandBoard" id="Brand_Board"></resultMap>
 
 
 
@@ -341,6 +350,21 @@
 		WHERE BOARD_DEL_FL = 'N'
 		  AND BOARD_CD = 2
 		  AND IMG_LEVEL = 0
+	</select>
+
+	<select id="getBusinessInfo" resultMap="company_rm">
+		SELECT *
+		FROM COMPANY
+		WHERE MEMBER_NO = ${memberNo}
+	</select>
+
+	<select id="getPromotionInfo" resultMap="Brand_Board">
+		SELECT BOARD_NO, MEMBER_NICK BRAND_NAME, BOARD_TITLE, TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE , NVL(B_STATE, '대기') BOARD_DEL_FL
+		FROM BOARD
+				 JOIN MEMBER USING(MEMBER_NO)
+		WHERE BOARD_CD = 7
+		AND MEMBER_NO = ${memberNo}
+		ORDER BY B_CREATE_DATE DESC
 	</select>
 
 </mapper>

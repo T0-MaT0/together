@@ -1,20 +1,29 @@
 package edu.kh.project.member.controller;
 
+import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
+
+import edu.kh.project.common.utility.Utill;
+import edu.kh.project.manager.model.dto.QuestCustomer;
+import edu.kh.project.member.model.dto.*;
+
 import edu.kh.project.member.model.dto.Brand;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
 import edu.kh.project.member.model.service.CustomerService;
+
 import edu.kh.project.member.model.service.MypageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/mypage")
@@ -75,7 +84,12 @@ public class MypageController {
 
 
 
-//  비동기
+    @GetMapping("/promotion")
+    public String promotion(Model model) {
+        return "member/mypage/promotion";
+    }
+
+//    비동기
 
     @PostMapping(value = "/purchaseHistory", produces="application/json; charset=UTF-8")
     @ResponseBody
@@ -120,6 +134,23 @@ public class MypageController {
         return service.getReview(memberNo);
     }
 
+
+    @PostMapping(value = "/getBusinessInfo", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public Company getBusinessInfo(@RequestBody int memberNo) {
+        return service.getBusinessInfo(memberNo);
+    }
+
+    @PostMapping(value = "getPromotionInfo", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public List<QuestCustomer> getPromotionInfo(@RequestBody int memberNo) {
+        return service.getPromotionInfo(memberNo);
+    }
+    
+
+
+
+
     //  1:1 문의 리스트 페이지 가져옴
     @GetMapping("/ask")
     public String askBoardList(Model model
@@ -142,6 +173,47 @@ public class MypageController {
 
 
 
+
+
+// PostMapping
+
+    @PostMapping("/promotion")
+    @ResponseBody
+    public int insertPromotion(
+            @RequestParam("memberNo") int memberNo,
+            @RequestParam("title") String title,
+            @RequestParam("brandName") String brandName,
+            @RequestParam("content") String content,
+            @RequestParam("file") MultipartFile file,
+            HttpSession session
+    ) {
+
+        if (file.isEmpty()) {
+            return 0;
+        }
+
+
+        String webPath = "/resources/images/ad-board/";
+        String filePath = session.getServletContext().getRealPath(webPath);
+        Image img = new Image();
+        img.setImagePath(webPath);
+        img.setImageOriginal(file.getOriginalFilename());
+
+        img.setImageReName(Utill.fileRename(file.getOriginalFilename()));
+
+        img.setImageLevel(0);
+        img.setImageType(4);
+
+
+        Board board = new Board();
+        board.setBoardTitle(title);
+        board.setBoardContent(content);
+        board.setMemberNo(memberNo);
+        board.setBoardCd(7);
+
+        return service.insertPromotion(board, img, file, filePath);
+
+    }
 
 
 }

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
@@ -58,20 +57,18 @@
 						<button class="edit-btn">설정</button>
 					</div>
 				</section>
+        <c:if test="${loginMember.authority == 3}">
+          <section class="profile-section" id="business-section">
+            <div id="business-info" class="profile-card"></div>
+          </section>
+        </c:if>
         <c:if test="${loginMember.authority == 1 || loginMember.authority == 3}">
-          <section class="profile-section">
-            <div class="profile-card">
-
-              <div class="profile-info">
-                <p>
-                  <strong>${loginMember.memberNick}</strong>
-                </p>
-                <p>
-                </p>
-                <p>내 지역 : ${addrArr[1]}</p>
-                <p class="points">포인트 : ${loginMember.point}pt</p>
+          <section class="profile-section" id="promotion-section">
+            <div id="promotion-list" class="profile-card">
+              <div class="promotion-item">
+                <h2>광고 신청 내역</h2>
+                <button class="promotion-btn" onclick="openPromotionPopup(${loginMember.memberNo})">바로 광고 신청 Go</button>
               </div>
-              <button class="edit-btn">광고 신청</button>
             </div>
           </section>
         </c:if>
@@ -159,7 +156,21 @@
 		</div>
 	</main>
 </body>
-<jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script src="/resources/js/member/mypage.js"></script>
+<script>
+  function openPromotionPopup(memberNo) {
+    const popup = window.open(
+      '/mypage/promotion?memberNo=' + memberNo,
+      'promotionPopup',
+      'width=800,height=600,scrollbars=yes'
+    );
+    if (popup) {
+      popup.focus();
+    } else {
+      alert('팝업이 차단되었습니다. 팝업 차단을 해제해주세요.');
+    }
+  }
+</script>
 </html>
+<jsp:include page="/WEB-INF/views/common/footer.jsp" />
