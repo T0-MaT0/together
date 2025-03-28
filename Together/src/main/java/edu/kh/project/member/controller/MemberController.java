@@ -89,6 +89,7 @@ public class MemberController {
 		return "member/openbankingResult";
 	}
 	
+	
 	/** 로그인 요청 처리 
 	 * @return 메인페이지 redirect 주소
 	 */

@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>customerProfile</title>
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/customer/customer-profile.css" />
     <script>
@@ -33,6 +33,8 @@
         <div class="head-title">
             <div>고객 관리</div>
              &nbsp; <div> - 프로필</div>
+
+             <a href="javascript:history.back();" class="backToHistory">&lt; 목록으로 돌아가기</a>
         </div>
     </header>
 
@@ -179,7 +181,7 @@
         
     </div>
 
-
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 <script src="/resources/js/manager-js/customer/manageCustomer.js"></script>
 </body>

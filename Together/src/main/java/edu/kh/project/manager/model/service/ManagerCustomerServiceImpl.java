@@ -261,6 +261,74 @@ public class ManagerCustomerServiceImpl implements ManageCustomerService{
 		return dao.reviewUpdate(reviewNo);
 	}
 
+	
+	//// ** 조건 리스트
+	//회원, 탈퇴, 블랙 회원 리스트 조회 하기
+	@Override
+	public Map<String, Object> customerStateChange(char customerState, int cp) {
+		int listCount = dao.customerStateCount(customerState);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		List<QuestCustomer> stateList = dao.customerStateList(pagination, customerState);
+		System.out.println("listCount: "+listCount);
+		System.out.println("stateList: "+stateList);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("stateList", stateList);
+		map.put("pagination", pagination);
+		
+		return map;
+	}
+
+	//마감,완료, 정지, 진행 리스트 조회 하기
+	@Override
+	public Map<String, Object> customerBoardCondition(String customerState, int cp) {
+		int listCount = dao.customerboardCount(customerState);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		List<QuestCustomer> boardList = dao.boardList(pagination, customerState);
+		
+		System.out.println("listCount: "+listCount);
+		System.out.println("stateList: "+boardList);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("stateList", boardList);
+		map.put("pagination", pagination);
+		
+		return map;
+	}
+
+	@Override
+	public Map<String, Object> questionCondition(String customerState, int cp) {
+		int listCount = dao.questSelect(customerState);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		List<QuestCustomer> questList = dao.questList(pagination, customerState);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("stateList", questList);
+		map.put("pagination", pagination);
+		
+		return map;
+	}
+
+	//신고 조건 목록 조회
+	@Override
+	public Map<String, Object> reportCondition(String customerState, int cp) {
+		
+		int listCount = dao.reportListCount(customerState);
+		
+		Pagination pagination = new Pagination(cp, listCount);
+		
+		List<Report> reportList = dao.reportList(pagination, customerState);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("stateList", reportList);
+		map.put("pagination", pagination);
+		
+		return map;
+	}
+
 
 
 	

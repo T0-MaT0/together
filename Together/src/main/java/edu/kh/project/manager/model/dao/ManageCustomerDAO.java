@@ -32,6 +32,12 @@ public class ManageCustomerDAO {
 	public int customerStateCount() {
 		return sqlSession.selectOne("managerMapper.customerStateCount");
 	}
+	/** 조건에 따른 고객 목록 
+	 * @return
+	 */
+	public int customerStateCount(char customerState) {
+		return sqlSession.selectOne("managerMapper.customerStateCountCondition", customerState);
+	}
 	
 	
 	/** 고객 상태 목록 조회
@@ -42,6 +48,17 @@ public class ManageCustomerDAO {
 		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 		return sqlSession.selectList("managerMapper.customerStateList", null, rowBounds);
+	}
+	
+	/** 조건에 따른 고객 상태 목록 조회
+	 * @param pagination
+	 * @param customerState
+	 * @return
+	 */
+	public List<QuestCustomer> customerStateList(Pagination pagination, char customerState) {
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("managerMapper.customerStateListCondition", customerState, rowBounds);
 	}
 	
 	/** 총 회원 수 조회
@@ -77,6 +94,12 @@ public class ManageCustomerDAO {
 	public int customerboardCount() {
 		return sqlSession.selectOne("managerMapper.customerboardCount");
 	}
+	/** 조건 적용한 모집글 목록 수
+	 * @return
+	 */
+	public int customerboardCount(String customerState) {
+		return sqlSession.selectOne("managerMapper.customerboardCountCondition", customerState);
+	}
 
 	/** 고객 모집글 목록 조회
 	 * @param pagination
@@ -86,6 +109,15 @@ public class ManageCustomerDAO {
 		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 		return sqlSession.selectList("managerMapper.boardList", null, rowBounds);
+	}
+	/** 조건 적용 고객 모집글 목록 조회
+	 * @param pagination
+	 * @return
+	 */
+	public List<QuestCustomer> boardList(Pagination pagination, String customerState) {
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("managerMapper.boardListCondition", customerState, rowBounds);
 	}
 
 	
@@ -111,6 +143,12 @@ public class ManageCustomerDAO {
 	public int questSelect() {
 		return sqlSession.selectOne("managerMapper.questListCount");
 	}
+	/** 조건 적용 고객 문의 목록 수
+	 * @return
+	 */
+	public int questSelect(String customerState) {
+		return sqlSession.selectOne("managerMapper.questListCountCondition", customerState);
+	}
 	
 	/** 고객 문의 목록 조회
 	 * @param pagination
@@ -121,6 +159,16 @@ public class ManageCustomerDAO {
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 		return sqlSession.selectList("managerMapper.questList", null, rowBounds );
 	}
+	
+	/** 조건 적용 고객 문의 목록 조회
+	 * @param pagination
+	 * @return
+	 */
+	public List<QuestCustomer> questList(Pagination pagination, String customerState) {
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("managerMapper.questListCondition", customerState, rowBounds );
+	}
 
 	
 	/** 고객 대상 신고 수
@@ -128,6 +176,13 @@ public class ManageCustomerDAO {
 	 */
 	public int reportListCount() {
 		return sqlSession.selectOne("managerMapper.reportListCount");
+	}
+	
+	/** 조건 적용 고객 대상 신고 수
+	 * @return
+	 */
+	public int reportListCount(String customerState) {
+		return sqlSession.selectOne("managerMapper.reportListCountCondition", customerState);
 	}
 	
 	/** 고객 대상 신고 목록 조회
@@ -140,6 +195,18 @@ public class ManageCustomerDAO {
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 		
 		return sqlSession.selectList("managerMapper.reportSelect", null, rowBounds );
+	}
+	
+	/** 조건 적용 고객 대상 신고 목록 조회
+	 * @param cp 
+	 * @return
+	 */
+	public List<Report> reportList(Pagination pagination, String customerState) {
+		
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		
+		return sqlSession.selectList("managerMapper.reportSelectCondition", customerState, rowBounds );
 	}
 
 

@@ -1,17 +1,14 @@
 package edu.kh.project.manager.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import edu.kh.project.manager.model.dto.CustProfileBoard;
 import edu.kh.project.manager.model.dto.CustomerBoard;
 import edu.kh.project.manager.model.dto.CustomerProfile;
+import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.manager.model.service.ManageCustomerService;
 
@@ -211,4 +209,41 @@ public class ManageCustomerController {
 		return service.reviewUpdate(reviewNo);
 	}
 	
+	
+	//// ** 조건 리스트
+	//회원, 탈퇴, 블랙 회원 리스트 조회 하기
+	@GetMapping(value="customerStateChange", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> customerStateChange(
+										@RequestParam( value="cp",required=false,defaultValue = "1") int cp
+										,char customerState){
+		return service.customerStateChange(customerState, cp);
+	}
+	
+	//마감,완료, 정지, 진행 리스트 조회 하기
+	@GetMapping(value="customerBoardCondition", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> customerBoardCondition(
+			@RequestParam( value="cp",required=false,defaultValue = "1") int cp
+			,String customerState){
+		return service.customerBoardCondition(customerState, cp);
+	}
+	
+	//1:1 문의 처리완료, 대기 조건 조회
+	@GetMapping(value="questionCondition", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> questionCondition(
+			@RequestParam( value="cp",required=false,defaultValue = "1") int cp
+			,String customerState){
+		return service.questionCondition(customerState, cp);
+	}
+	
+	//신고 조건 목록 조회
+	@GetMapping(value="reportCondition", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> reportCondition(
+			@RequestParam( value="cp",required=false,defaultValue = "1") int cp
+			,String customerState){
+		return service.reportCondition(customerState, cp);
+	}
 }

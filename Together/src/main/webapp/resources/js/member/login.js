@@ -79,6 +79,24 @@ document.addEventListener("DOMContentLoaded", function () {
       // 위에 주석풀면 지우기
       loginForm.submit();
     });
+
+    loginForm.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+
+        const memberId = memberIdInput.value.trim();
+        const memberPw = memberPwInput.value.trim();
+
+        if (memberId === "" || memberPw === "") {
+          alert("아이디 또는 비밀번호를 입력해주세요.");
+          if (memberId === "") memberIdInput.focus();
+          else memberPwInput.focus();
+          return;
+        }
+
+        loginForm.submit(); // 엔터로 로그인
+      }
+    });
   }
 
   // 4. 회원 유형 선택
