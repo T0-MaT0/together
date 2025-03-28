@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="pagination" value="${map.pagination}"/>
-<c:set var="noticeList" value="${map.noticeList}"/>
+<c:set var="askList" value="${map.askList}"/>
 <c:if test="${!empty param.query}">
     <c:set var="qs" value="&query=${param.query}"/>
 </c:if>
@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>공지 리스트</title>
+    <title>1:1 문의 리스트</title>
     <link rel="stylesheet" href="/resources/css/customer/noticeBoardList-style.css">
     <script src="https://kit.fontawesome.com/385a4842a7.js" crossorigin="anonymous"></script>
 </head>
@@ -21,18 +21,8 @@
     <div id="main-content">
 
         <section id="notice-header">
-            <div id="notice-header-title" onclick="location.href='/customer/noticeBoardList'">📢  공지사항</div>
-            
-            <form action="/customer/notice/search" method="GET">
-                <fieldset class="search-area">
-    
-                    <input type="search" name="query" id="query"
-                    placeholder="검색어를 입력해주세요.">
-    
-                    <button id="searchBtn" class="fa-solid fa-magnifying-glass"></button>
-    
-                </fieldset>
-            </form>
+            <div id="notice-header-title" onclick="location.href='/customer/askBoardList'">📢  1:1 문의 게시판</div>
+
         </section>
     
         <section id="notice-content">
@@ -74,13 +64,13 @@
     
                     <tbody>
 
-                        <c:forEach var="notice" items="${noticeList}">
+                        <c:forEach var="askList" items="${askList}">
                             <tr>
-                                <td>${notice.boardNo}</td>
-                                <td><a href="/customer/customerBoardDetail/${notice.boardNo}?cp=${pagination.currentPage}${qs}">
-                                    ${notice.boardTitle}
+                                <td>${askList.boardNo}</td>
+                                <td><a href="/customer/customerBoardDetail/${askList.boardNo}?cp=${pagination.currentPage}${qs}">
+                                    ${askList.boardTitle}
                                 </a></td>
-                                <td>${notice.bCreateDate}</td>
+                                <td>${askList.bCreateDate}</td>
                             </tr>    
                         </c:forEach>
                     </tbody>
@@ -93,16 +83,10 @@
         <div class="pagination-area">
 
 
-            <c:choose>
-            <c:when test="${not empty param.query}">
-                <c:set var="url" value="/customer/notice/search?cp=" />
-                <c:set var="qs" value="&query=${param.query}" />
-            </c:when>
-            <c:otherwise>
-                <c:set var="url" value="/customer/noticeBoardList?cp=" />
-                <c:set var="qs" value="" />
-            </c:otherwise>
-            </c:choose>
+            
+            <c:set var="url" value="/customer/askBoardList?cp=" />
+            <c:set var="qs" value="" />
+            
 
 
             <ul class="pagination">

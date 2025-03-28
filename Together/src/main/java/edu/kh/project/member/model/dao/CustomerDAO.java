@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.member.model.dto.Board;
 
 @Repository
@@ -54,8 +55,8 @@ public class CustomerDAO {
 		return sqlSession.selectList("customerMapper.allFAQList", null, rowBounds);
 	}
 
-	public Board selectNoticeBoardDetail(int boardNo) {
-		return sqlSession.selectOne("customerMapper.selectNoticeBoardDetail", boardNo);
+	public Board selectBoardDetail(int boardNo) {
+		return sqlSession.selectOne("customerMapper.selectBoardDetail", boardNo);
 	}
 
 	public List<Board> selectBeforeAfterBoard(int boardNo) {
@@ -98,6 +99,23 @@ public class CustomerDAO {
 	    RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 
 	    return sqlSession.selectList("customerMapper.selectSearchNoticeBoardList", map, rowBounds);
+	}
+
+	public int getAskListCount(Map<String, Object> map) {
+		return sqlSession.selectOne("customerMapper.getAskListCount", map);
+	}
+
+
+	public List<Board> selectAskBoardList(Map<String, Object> map) {
+		Pagination pagination = (Pagination) map.get("pagination");
+	    int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
+	    RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+
+	    return sqlSession.selectList("customerMapper.selectAskBoardList", map, rowBounds);
+	}
+
+	public Reply selectReply(int boardNo) {
+		 return sqlSession.selectOne("customerMapper.selectReply", boardNo);
 	}
 
 

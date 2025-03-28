@@ -17,13 +17,16 @@ public interface CustomerService {
 
 	Map<String, Object> FAQBoardList(int boardCode, int cp);
 
-	Map<String, Object> noticeBoardDetail(int boardNo);
+	Map<String, Object> selectBoardDetail(int boardNo);
+
 
 	int boardInsert(Board board, List<MultipartFile> images, String webPath, String filePath) throws IllegalStateException, IOException, FileUploadException;
 
 	Map<String, Object> searchFAQ(String query, int cp);
 
 	Map<String, Object> searchNoticeList(String query, int cp);
+
+	Map<String, Object> askBoardList(Map<String, Object> map);
 
 
 }

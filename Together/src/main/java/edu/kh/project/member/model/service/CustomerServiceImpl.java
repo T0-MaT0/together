@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.utility.Utill;
 import edu.kh.project.member.model.dao.CustomerDAO;
 import edu.kh.project.member.model.dto.Board;
@@ -128,16 +129,21 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	@Override
-	public Map<String, Object> noticeBoardDetail(int boardNo) {
+	public Map<String, Object> selectBoardDetail(int boardNo) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		Board noticeBoardDetail = dao.selectNoticeBoardDetail(boardNo);
+		Board boardDetail = dao.selectBoardDetail(boardNo);
 		List<Board> beforeAfterBoard = dao.selectBeforeAfterBoard(boardNo);
+		Reply customerReply = dao.selectReply(boardNo);
 		
-		map.put("noticeBoardDetail", noticeBoardDetail);
+		map.put("customerReply", customerReply);
+		
+		map.put("boardDetail", boardDetail);
 		map.put("beforeAfterBoard", beforeAfterBoard);
 		return map;
 	}
+	
+
 
 	// 게시글 삽입
 	@Transactional(rollbackFor = Exception.class)
@@ -224,6 +230,23 @@ public class CustomerServiceImpl implements CustomerService{
 
 	    return map;
 	}
+
+	@Override
+	public Map<String, Object> askBoardList(Map<String, Object> map) {
+		
+		int listCount = dao.getAskListCount(map);
+		
+		Pagination pagination = new Pagination((int) map.get("cp"), listCount);
+		
+		map.put("pagination", pagination);
+		
+		List<Board> askList = dao.selectAskBoardList(map);
+		
+		map.put("askList", askList);
+		map.put("pagination", pagination);
+		return map;
+	}
+	
 
 	
 	
