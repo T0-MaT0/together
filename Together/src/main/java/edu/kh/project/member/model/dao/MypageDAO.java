@@ -1,7 +1,9 @@
 package edu.kh.project.member.model.dao;
 
 
+import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.member.model.dto.Board;
 import edu.kh.project.member.model.dto.Brand;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
@@ -43,5 +45,15 @@ public class MypageDAO {
 
     public List<Product> getReview(int memberNo) {
         return sqlSession.selectList("mypageMapper.getReview", memberNo);
+    }
+
+
+    public int insertPromotionBoard(Board board) {
+        int result = sqlSession.insert("customerMapper.boardInsert", board);
+        return result == 1 ? board.getBoardNo() : 0;
+    }
+
+    public int insertPromotionImage(Image img) {
+        return sqlSession.insert("imageMapper.insertImage", img);
     }
 }

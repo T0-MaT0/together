@@ -1,6 +1,9 @@
 package edu.kh.project.member.controller;
 
+import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.common.utility.Utill;
+import edu.kh.project.member.model.dto.Board;
 import edu.kh.project.member.model.dto.Brand;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
@@ -12,7 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/mypage")
@@ -124,41 +128,49 @@ public class MypageController {
         return "member/mypage/promotion";
     }
 
-    @PostMapping("/mypage/promotion")
+    @PostMapping("/promotion")
     @ResponseBody
     public int insertPromotion(
-            @RequestParam("memberNo") String memberNo,
+            @RequestParam("memberNo") int memberNo,
             @RequestParam("title") String title,
             @RequestParam("brandName") String brandName,
             @RequestParam("content") String content,
-            @RequestParam("file") MultipartFile file) {
+            @RequestParam("file") MultipartFile file,
+            /*세션 가져오기*/ HttpSession session
+    ) {
 
         if (file.isEmpty()) {
             return 0;
         }
 
-        /*		String webPath = "/resources/images/review/";
-		String filePath = session.getServletContext().getRealPath(webPath);
 
-		List<Image> existingImages = new ArrayList<Image>();
-		for(int i=0;i<imageLevel.size();i++) {
-			Image img = new Image();
-			img.setImageLevel(imageLevel.get(i));
-			img.setImageNo(imageNo.get(i));
-			existingImages.add(img);
-		}*/
-        String originalFilename = file.getOriginalFilename();
-        String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String savedFilename = UUID.randomUUID().toString() + ext;
+        String webPath = "/resources/images/ad-board/";
+        String filePath = session.getServletContext().getRealPath(webPath);
+        Image img = new Image();
+        img.setImagePath(webPath);
+        img.setImageOriginal(file.getOriginalFilename());
 
-        File target = new File(filePath, savedFilename);
-        file.transferTo(target);
+        img.setImageReName(Utill.fileRename(file.getOriginalFilename()));
+
+        img.setImageLevel(0);
+        img.setImageType(4);
 
 
-        return service.insertPromotion(memberNo, title, brandName, content);
+        Board board = new Board();
+        board.setBoardTitle(title);
+        board.setBoardContent(content);
+        board.setMemberNo(memberNo);
+        board.setBoardCd(7);
+
+        return service.insertPromotion(board, img, file, filePath);
 
 
-        return service.insertPromotion;
+
+
+
+
+
+
     }
 
 

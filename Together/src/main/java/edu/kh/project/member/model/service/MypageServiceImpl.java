@@ -1,13 +1,17 @@
 package edu.kh.project.member.model.service;
 
+import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.member.model.dao.MypageDAO;
+import edu.kh.project.member.model.dto.Board;
 import edu.kh.project.member.model.dto.Brand;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 @Service
@@ -48,4 +52,30 @@ public class MypageServiceImpl implements MypageService {
     public List<Product> getReview(int memberNo) {
         return dao.getReview(memberNo);
     }
+
+    @Override
+    public int insertPromotion(Board board, Image img, MultipartFile file, String filePath) {
+        int result=0;
+
+        result = dao.insertPromotionBoard(board);
+        System.out.println("result = " + result);
+        if(result>0){
+            if(img != null){
+                img.setImageTypeNo(result);
+                result = dao.insertPromotionImage(img);
+                if(result>0){
+                    try {
+                        file.transferTo(new File(filePath + img.getImageReName()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        result = 0;
+                    }
+                }
+            }
+        }
+        System.out.println("result = " + result);
+        return result;
+    }
+
+
 }
