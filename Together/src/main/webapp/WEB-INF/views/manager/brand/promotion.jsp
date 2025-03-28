@@ -207,7 +207,7 @@
 
         </div>
     </div>
-
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 <div id="imageView" >
     <div class="proImage-wrap">

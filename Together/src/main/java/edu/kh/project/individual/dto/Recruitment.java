@@ -43,6 +43,7 @@ public class Recruitment {
     private Integer parentCategoryNo; // 부모 카테고리 번호
 
     // 방장 정보
+    private String hostNo;   // 방장 No
     private String hostName;   // 방장 닉네임
     private String hostGrade;     // 방장 등급
     private String hostProfile; // 방장 프로필 이미지

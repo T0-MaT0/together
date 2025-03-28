@@ -237,7 +237,7 @@
         </section>
     </div>
 
-
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 
 

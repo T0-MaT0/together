@@ -166,6 +166,50 @@ public class ChattingDAO {
 		return sqlSession.selectOne("chattingMapper.selectRoomNoByRoomName", roomName);
 	}
 
+	// 채팅 방 나가기
+	public void deleteChatRoomUser(int roomNo, int memberNo) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("roomNo", roomNo);
+	    map.put("memberNo", memberNo);
+		sqlSession.delete("chattingMapper.deleteChatRoomUser", map);
+	}
+
+	// 채팅방 참가자 조회
+	public List<Member> selectRoomMemberList(int roomNo) {
+		return sqlSession.selectList("chattingMapper.selectRoomMemberList", roomNo);
+	}
+
+	// 채팅방 이름
+	public ChattingRoom selectRoomName(int roomNo) {
+		return sqlSession.selectOne("chattingMapper.selectRoomName", roomNo);
+	}
+
+	// 참가자 추방
+	public int kickMemberFromRoom(int roomNo, int targetMemberNo) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("roomNo", roomNo);
+	    map.put("memberNo", targetMemberNo);
+		return sqlSession.delete("chattingMapper.kickMemberFromRoom", map);
+	}
+
+	// 1대1 채팅방 생성
+	public int insertPrivateChatRoom(Map<String, Object> map) {
+		int result = sqlSession.insert("chattingMapper.insertPrivateChatRoom", map);
+	    int roomNo = 0;
+	    if (result > 0) roomNo = (int) map.get("roomNo");
+	    return roomNo;
+	}
+
+	// 1대1 채팅방 중복 체크
+	public Integer checkPrivateRoom(int myMemberNo, int targetMemberNo) {
+	    Map<String, Integer> map = new HashMap<>();
+	    map.put("myMemberNo", myMemberNo);
+	    map.put("targetMemberNo", targetMemberNo);
+
+	    return sqlSession.selectOne("chattingMapper.checkPrivateRoom", map);
+	}
+
+
 	
 
 }

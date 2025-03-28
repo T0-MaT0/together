@@ -182,8 +182,80 @@ public class ChattingController {
 	}
 	
 	
+	// 채팅방 참가자 조회
+	@GetMapping("/chatting/memberList")
+	@ResponseBody
+	public Map<String, Object> getChatRoomMembers(@RequestParam("roomNo") int roomNo) {
+		// 채팅방 참여자 목록
+	    List<Member> memberList = service.selectRoomMemberList(roomNo);
+	    // 채팅방 이름
+	    ChattingRoom roomInfo = service.selectRoomName(roomNo);
+
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("roomName", roomInfo.getRoomName());
+	    result.put("ownerMemberNo", roomInfo.getOwnerMemberNo());
+	    result.put("memberCount", memberList.size());
+	    result.put("members", memberList);
+
+	    return result;
+	}
 	
+	// 채팅방 참가자 추방(방장)
+	@PostMapping("/chatting/kickMember")
+	@ResponseBody
+	public Map<String, Object> kickMemberFromRoom(@RequestBody Map<String, Integer> payload) {
+	    int roomNo = payload.get("roomNo");
+	    int targetMemberNo = payload.get("targetMemberNo");
+	    System.out.println("targetMemberNo :" +targetMemberNo);
+	    System.out.println("roomNo :" +roomNo);
+	    Map<String, Object> result = new HashMap<>();
+
+	    try {
+	        int deleteResult = service.kickMemberFromRoom(roomNo, targetMemberNo);
+
+	        if (deleteResult > 0) {
+	            result.put("success", true);
+	        } else {
+	            result.put("success", false);
+	            result.put("message", "대상이 존재하지 않거나 이미 삭제됨");
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        result.put("success", false);
+	        result.put("message", "서버 오류 발생");
+	    }
+
+	    return result;
+	}
 	
+	// 1대1 채팅방 만들기
+	@PostMapping("/chatting/private/start")
+	@ResponseBody
+	public Map<String, Object> startPrivateChat(@RequestBody Map<String, Object> payload,
+	                                            @SessionAttribute("loginMember") Member loginMember) {
+
+	    int myMemberNo = loginMember.getMemberNo();
+	    int targetMemberNo = Integer.parseInt(payload.get("targetMemberNo").toString());
+	    String roomName = (String) payload.get("targetNick");
+
+	    Map<String, Object> result = new HashMap<>();
+
+	    try {
+	        Map<String, Object> roomResult = service.createOrGetPrivateChatRoom(myMemberNo, targetMemberNo, roomName);
+
+	        boolean isNew = (boolean) roomResult.get("isNew");
+	        int roomNo = (int) roomResult.get("roomNo");
+
+	        result.put("success", isNew); // 새로 만든 경우만 true
+	        result.put("roomNo", roomNo);
+	        result.put("isNew", isNew);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        result.put("success", false);
+	    }
+
+	    return result;
+	}
 	
 	
 	

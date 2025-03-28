@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
+import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.member.model.dto.Board;
 
 @Repository
@@ -54,8 +55,8 @@ public class CustomerDAO {
 		return sqlSession.selectList("customerMapper.allFAQList", null, rowBounds);
 	}
 
-	public Board selectNoticeBoardDetail(int boardNo) {
-		return sqlSession.selectOne("customerMapper.selectNoticeBoardDetail", boardNo);
+	public Board selectBoardDetail(int boardNo) {
+		return sqlSession.selectOne("customerMapper.selectBoardDetail", boardNo);
 	}
 
 	public List<Board> selectBeforeAfterBoard(int boardNo) {
@@ -98,6 +99,72 @@ public class CustomerDAO {
 	    RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 
 	    return sqlSession.selectList("customerMapper.selectSearchNoticeBoardList", map, rowBounds);
+	}
+
+	public int getAskListCount(Map<String, Object> map) {
+		return sqlSession.selectOne("customerMapper.getAskListCount", map);
+	}
+
+
+	public List<Board> selectAskBoardList(Map<String, Object> map) {
+		Pagination pagination = (Pagination) map.get("pagination");
+	    int offset = (pagination.getCurrentPage() - 1) * pagination.getLimit();
+	    RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+
+	    return sqlSession.selectList("customerMapper.selectAskBoardList", map, rowBounds);
+	}
+
+	public Reply selectReply(int boardNo) {
+		 return sqlSession.selectOne("customerMapper.selectReply", boardNo);
+	}
+
+	/** 게시글 수정(제목, 내용)
+	 * @param board
+	 * @return result
+	 */
+	public int boardUpdate(Board board) {
+		return sqlSession.update("customerMapper.boardUpdate", board);
+	}
+
+	/** deleteList가 존재하는 지 확인
+	 * @param deleteMap
+	 * @return result
+	 */
+	public int checkImageOrder(Map<String, Object> deleteMap) {
+		return sqlSession.selectOne("customerMapper.checkImageOrder", deleteMap);
+	}
+
+	/** 이미지 삭제
+	 * @param deleteMap
+	 * @return result
+	 */
+	public int imageDelete(Map<String, Object> deleteMap) {
+		return sqlSession.delete("customerMapper.imageDelete", deleteMap);
+	}
+
+	/** 이미지 수정
+	 * @param img
+	 * @return result
+	 */
+	public int imageUpdate(Image img) {
+		return sqlSession.update("customerMapper.imageUpdate", img);
+	}
+
+
+	/** 이미지 삽입
+	 * @param img
+	 * @return result
+	 */
+	public int imageInsert(Image img) {
+		return sqlSession.insert("customerMapper.imageInsert", img);
+	}
+
+	/** 게시글 삭제
+	 * @param boardNo
+	 * @return result
+	 */
+	public int boardDelete(int boardNo) {
+		return sqlSession.update("customerMapper.boardDelete", boardNo);
 	}
 
 

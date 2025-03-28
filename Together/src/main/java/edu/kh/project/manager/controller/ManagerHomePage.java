@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.kh.project.common.model.dto.Image;
@@ -94,4 +95,21 @@ public class ManagerHomePage {
 		
 		return "redirect:/manageHome/"+sectionPage;
 	}
+	
+	
+	//광고 이미지 불러오기
+	@GetMapping(value="promotionSelect", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public List<Image> promotionSelect(int typeImg){
+		return service.promotionSelect(typeImg);
+	}
+	
+	// 광고 이미지 삭제
+	@GetMapping(value="deletePromotionImage", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public int deletePromotionImage(int imageNo){
+		return service.deletePromotionImage(imageNo);
+	}
+	
+	
 }

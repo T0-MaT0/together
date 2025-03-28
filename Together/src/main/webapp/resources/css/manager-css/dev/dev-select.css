@@ -42,15 +42,18 @@
 
 
 .MidBannerArea > .bannerItem{
-    background-color: #aaa7a7;
+    background-color: #A6D0E7;
     border-radius: 10px;
     width: 100%;
     height: 238.56px;
     margin: 10px;
 
+    object-fit: cover;
+
     border: 2px solid rgba(42, 42, 42, 0.694);
 }
 .MidBannerArea > input{display: none;}
+
 
 
 .bottomBannerArea{
@@ -60,10 +63,10 @@
 .bottomBannerArea >.bannerItem{
     background-color: #aaa7a7;
     border-radius: 10px;
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    height: 238.56px;
     margin: 10px;
-
+    object-fit: cover;
     border: 2px solid rgba(42, 42, 42, 0.694);   
 }
 .bottomBannerArea > input{display: none;}
@@ -185,4 +188,84 @@
 .refreshButton:hover {
     background-color: lightblue;
     color: white;
+}
+
+
+/* ----------------------------------- */
+/*  mid 모달 창 */
+#modalMidPromotionSection{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top:0;
+    background-color: rgba(0, 0, 0, 0.281);    
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+#modalMidPromotionSection.active{display: flex;}
+.promotionWrap{
+    background-color: white;
+    border-radius: 5px;
+    /* width: 1060px; */
+    height: 1000px;
+    position: relative;
+    padding: 10px;    
+}
+.promotionListClose{
+    position: absolute;
+    top: 10px; right: 10px;
+    font-size: 35px;
+}
+.promotionImageListTitle{
+    padding: 5px;
+}
+.promotionImageContent{
+    background-color: rgba(239, 188, 197, 0.187);
+    border: 2px solid pink;
+    border-radius: 3px;
+    width: 1030px; height: 930px;
+
+    overflow: scroll;
+
+}
+.promotionImage{
+    width: 1000px;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.closeButton{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.promotionImageTitle{
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    width: 35px;
+    height: 35px;
+    padding: 8px;
+    margin: 5px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.miniPromotionImage{
+    width: 600px;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-left: 200px;
 }

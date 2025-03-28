@@ -17,6 +17,7 @@
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
     ${loginMember}
+    ${recruitmentList[0].mainBannerList}
     
 
     

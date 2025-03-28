@@ -155,7 +155,7 @@
         
     </div>
 
-
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 <c:set var="sell" value="${map.goodsStateCount[0].COUNT}"/>
 <c:set var="done" value="${map.goodsStateCount[1].COUNT}"/>

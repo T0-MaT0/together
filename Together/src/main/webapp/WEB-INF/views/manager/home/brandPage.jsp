@@ -80,19 +80,19 @@
         </section>
 
         <section class="dev-board">
-            <h3>Mid 배너</h3>
+            <!-- <h3>Mid 배너</h3>
             <div class="MidBannerArea">
                 <img class="bannerItem"/>
                 <input type="file" accept="image/*">
             </div>
             <div class="btnArea">
                 <button>적용</button>
-            </div>
+            </div> -->
         </section>
         
         
         <section class="dev-board">
-            <h3>Mini 배너</h3>
+            <!-- <h3>Mini 배너</h3>
             <div class="bottomBannerArea">
                 
                 <img class="bannerItem"/>
@@ -107,14 +107,14 @@
             </div>
             <div class="btnArea">
                 <button>적용</button>
-            </div>
+            </div> -->
         </section>
 
 
 
     </div>
 
-
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 
 <script src="/resources/js/manager-js/home/homeMain.js"></script>

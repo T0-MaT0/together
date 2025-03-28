@@ -283,6 +283,7 @@ public class RecruitmentController {
  	                                  Model model,
  	                                  RedirectAttributes ra) {
 
+ 		int boardCode = 1;
  		// 1. 로그인 여부 확인
  	    if (loginMember == null) {
  	        ra.addFlashAttribute("message", "로그인 후 이용해주세요.");
@@ -318,6 +319,7 @@ public class RecruitmentController {
  	    // 자식 카테고리 
 
  	    // 모델 전달
+ 	    model.addAttribute("boardCode", boardCode);
  	    model.addAttribute("recruitment", dto);
  	    model.addAttribute("parentList", parentList);
  	    model.addAttribute("childList", childList);
@@ -334,8 +336,9 @@ public class RecruitmentController {
  	        @RequestParam(value = "images", required = false) List<MultipartFile> imageList,
  	        @SessionAttribute("loginMember") Member loginMember,
  	        HttpServletResponse response,
- 	        RedirectAttributes ra) throws Exception {
- 		
+ 	        RedirectAttributes ra,
+ 	        Model model) throws Exception {
+ 		int boardCode = 1;
  		response.setContentType("text/html; charset=UTF-8");
 
  	    if (loginMember == null) {
@@ -343,6 +346,7 @@ public class RecruitmentController {
  	        return;
  	    }
 
+ 	    model.addAttribute("boardCode", boardCode);
  	    try {
  	        // 수정 시 필요한 값 추가
  	        paramMap.put("memberNo", loginMember.getMemberNo());
@@ -388,6 +392,8 @@ public class RecruitmentController {
  	                              Model model,
  	                              RedirectAttributes ra) {
 
+ 		int boardCode = 1;
+ 		
  	    if (loginMember == null) {
  	        ra.addFlashAttribute("message", "로그인 후 이용해주세요.");
  	        return "redirect:/member/login";
@@ -400,6 +406,7 @@ public class RecruitmentController {
  	        return "redirect:/";
  	    }
 
+ 	    model.addAttribute("boardCode", boardCode);
  	    model.addAttribute("recruitment", dto);
  	    return "Individual/recruitmentParticipation";  // JSP 경로
  	}
@@ -411,6 +418,8 @@ public class RecruitmentController {
  	                                @SessionAttribute(value = "loginMember", required = false) Member loginMember,
  	                                Model model,
  	                                RedirectAttributes ra) {
+ 		
+ 		int boardCode = 1;
  	    // 1. 로그인 체크
  	    if (loginMember == null) {
  	        ra.addFlashAttribute("message", "로그인 후 이용해주세요.");
@@ -425,6 +434,7 @@ public class RecruitmentController {
  	    }
 
  	    dto.setMyParticipationCount(myQuantity); 
+ 	    model.addAttribute("boardCode", boardCode);
  	    model.addAttribute("recruitment", dto);
  	    return "Individual/recruitment_settlement"; 
  	}
@@ -439,6 +449,7 @@ public class RecruitmentController {
  	                                 RedirectAttributes ra,HttpSession session,
  	                                 Model model) {
 
+ 		int boardCode = 1;
  	    try {
  	    	int point = loginMember.getPoint();
  	        int memberNo = loginMember.getMemberNo();
@@ -460,6 +471,7 @@ public class RecruitmentController {
  	            model.addAttribute("myQuantity", myQuantity);
  	            model.addAttribute("recruitmentNo", recruitmentNo);
  	            model.addAttribute("boardNo", boardNo);
+ 	            model.addAttribute("boardCode", boardCode);
  	            ra.addFlashAttribute("message", "참여가 완료되었습니다.");
  	            
  	           return "Individual/recruitment_settlement_complete";
@@ -487,6 +499,7 @@ public class RecruitmentController {
  	                                       @SessionAttribute(value = "loginMember", required = false) Member loginMember,
  	                                       Model model, RedirectAttributes ra) {
 
+ 		int boardCode = 1;
  	    if (loginMember == null) {
  	        ra.addFlashAttribute("alertMessage", "로그인 후 이용해주세요.");
  	        return "redirect:/member/login";
@@ -498,7 +511,7 @@ public class RecruitmentController {
  	        ra.addFlashAttribute("alertMessage", "상세 정보를 찾을 수 없습니다.");
  	        return "redirect:/";
  	    }
-
+ 	    model.addAttribute("boardCode", boardCode);
  	    model.addAttribute("recruitment", dto);
  	    return "Individual/purchase_in_progress_member";
  	}
@@ -511,6 +524,7 @@ public class RecruitmentController {
  	                                     Model model,
  	                                     RedirectAttributes ra) {
 
+ 		int boardCode = 1;
  	    // 1. 로그인 여부 확인
  	    if (loginMember == null) {
  	        ra.addFlashAttribute("alertMessage", "로그인 후 이용해주세요.");
@@ -528,7 +542,7 @@ public class RecruitmentController {
 
  	    // 3. JSP에 전달
  	    model.addAttribute("recruitment", dto);
-
+ 	    model.addAttribute("boardCode", boardCode);
  	    return "Individual/purchase_in_progress_host";
  	}
  	
@@ -536,14 +550,21 @@ public class RecruitmentController {
  	@PostMapping("/group/participation/cancel")
  	public String cancelParticipation(@RequestParam("recruitmentNo") int recruitmentNo,
  	                                  @SessionAttribute("loginMember") Member loginMember,
- 	                                  RedirectAttributes ra) {
-
+ 	                                  @RequestParam("boardNo") int boardNo,
+ 	                                  RedirectAttributes ra,
+ 	                                  Model model) {
+ 		int boardCode = 1;
  	    int memberNo = loginMember.getMemberNo();
 
  	    try {
  	        int result = service.deleteParticipation(memberNo, recruitmentNo);
 
  	        if (result > 0) {
+ 	        	// 모집 취소 성공 시 모집방 안보이게
+ 	        	String roomName = chatService.selectBoardTitle(boardNo);
+ 	            int roomNo = chatService.selectRoomNoByRoomName(roomName);
+ 	            chatService.deleteChatRoomUser(roomNo, memberNo);
+ 	            
  	            ra.addFlashAttribute("message", "참가가 성공적으로 취소되었습니다.");
  	        } else {
  	            ra.addFlashAttribute("alertMessage", "이미 취소되었거나 참가 정보가 없습니다.");
@@ -553,15 +574,16 @@ public class RecruitmentController {
  	        e.printStackTrace();
  	        ra.addFlashAttribute("alertMessage", "참가 취소 중 오류가 발생했습니다.");
  	    }
-
+ 	    model.addAttribute("boardCode", boardCode);
  	    return "Individual/mainIndividual"; // 또는 다른 이동 경로
  	}
  	
  	// 모집글 삭제
  	@PostMapping("/group/delete")
  	public String deleteRecruitment(@RequestParam("boardNo") int boardNo,
- 	                                RedirectAttributes ra) {
+ 	                                RedirectAttributes ra, Model model) {
 
+ 		int boardCode = 1;
  	    int result = service.softDeleteBoard(boardNo); 
 
  	    if (result > 0) {
@@ -569,16 +591,16 @@ public class RecruitmentController {
  	    } else {
  	        ra.addFlashAttribute("alertMessage", "삭제에 실패했습니다.");
  	    }
-
+ 	    model.addAttribute("boardCode", boardCode);
  	    return "redirect:/myRecruitment"; // 또는 돌아갈 화면
  	}
  	
- 	// 모집장이 모집 마
+ 	// 모집장이 모집 마감
  	@PostMapping("/group/complete/update")
  	public String completeRecruitment(@RequestParam("recruitmentNo") int recruitmentNo,
  									  @RequestParam("boardNo") int boardNo,
- 	                                  RedirectAttributes ra) {
-
+ 	                                  RedirectAttributes ra, Model model) {
+ 		int boardCode = 1;
  	    int result = service.updateRecruitmentStatusToClosed(recruitmentNo);
 
  	    if (result > 0) {
@@ -586,7 +608,7 @@ public class RecruitmentController {
  	    } else {
  	        ra.addFlashAttribute("alertMessage", "마감 처리에 실패했습니다.");
  	    }
-
+ 	   model.addAttribute("boardCode", boardCode);
  	   return "redirect:/purchase_in_progress_host?recruitmentNo=" + recruitmentNo + "&boardNo=" + boardNo;
  	}
  	
@@ -596,7 +618,7 @@ public class RecruitmentController {
  	                                   @RequestParam("boardNo") int boardNo,
  	                                  @SessionAttribute("loginMember") Member loginMember,
  	                                   Model model) {
- 		
+ 		int boardCode = 1;
  		int memberNo = loginMember.getMemberNo();
 
  	    model.addAttribute("recruitmentNo", recruitmentNo);
@@ -610,7 +632,7 @@ public class RecruitmentController {
  	        dto.getTrackingNumber() != null && !dto.getTrackingNumber().isBlank();
 
  	    model.addAttribute("isVerificationFormExists", isVerificationFormExists);
-
+ 	    model.addAttribute("boardCode", boardCode);
  	    return "Individual/recruit_verification_form_host"; // JSP 경로
  	}
 
@@ -622,7 +644,9 @@ public class RecruitmentController {
 		            @RequestParam("deliveryExpected") String deliveryExpected,
 		            @RequestParam("memberReceiveDate") String memberReceiveDate,
 		            HttpSession session,
-		            RedirectAttributes ra) {
+		            RedirectAttributes ra,
+		            Model model) {
+ 		int boardCode = 1;
 		try {
 		// QR 코드 이미지 저장 경로 설정
 		String webPath = "/resources/images/qrcode/";
@@ -642,7 +666,7 @@ public class RecruitmentController {
 		e.printStackTrace();
 		ra.addFlashAttribute("alertMessage", "서버 오류 발생");
 		}
-		
+		model.addAttribute("boardCode", boardCode);
 		return "redirect:/purchase_in_progress_host?recruitmentNo=" + recruitmentNo + "&boardNo=" + boardNo;
 	}
 
@@ -653,7 +677,9 @@ public class RecruitmentController {
  	                                     @RequestParam("trackingNumber") String trackingNumber,
  	                                     @RequestParam("deliveryExpected") String deliveryExpected,
  	                                     @RequestParam("memberReceiveDate") String memberReceiveDate,
- 	                                     RedirectAttributes ra) {
+ 	                                     RedirectAttributes ra,
+ 	                                     Model model) {
+ 		int boardCode = 1;
  	    try {
  	        int result = service.updateVerificationForm(recruitmentNo, trackingNumber, deliveryExpected, memberReceiveDate);
  	        if (result > 0) {
@@ -666,40 +692,41 @@ public class RecruitmentController {
  	        e.printStackTrace();
  	        ra.addFlashAttribute("alertMessage", "서버 오류 발생");
  	    }
-
+ 	    model.addAttribute("boardCode", boardCode);
  	    return "redirect:/purchase_in_progress_host?recruitmentNo=" + recruitmentNo + "&boardNo=" + boardNo;
  	}
  	
-	 	@GetMapping("/group/verification/memberForm")
-	 	public String showVerificationFormMember(@RequestParam("recruitmentNo") int recruitmentNo,
-	 	                                         @RequestParam("boardNo") int boardNo,
-	 	                                         @SessionAttribute("loginMember") Member loginMember,
-	 	                                         Model model) {
-	 		int memberNo = loginMember.getMemberNo();
-	 	    // DB에서 모집 정보, 인증 폼 정보 등을 가져오기
-	 	    Recruitment dto = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo, memberNo);
-	 	    
-	 	    // JSP에서 쓸 수 있도록 model에 담기
-	 	    model.addAttribute("recruitment", dto);
-	
-	 	    return "Individual/recruit_verification_form_member";
-	 	}
-	 	
-	 	@GetMapping("/recruit/verify")
-	    public String verify(
-	            @RequestParam("recruitmentNo") int recruitmentNo,
-	            @RequestParam("token") String token,
-	            Model model) {
+ 	@GetMapping("/group/verification/memberForm")
+ 	public String showVerificationFormMember(@RequestParam("recruitmentNo") int recruitmentNo,
+ 	                                         @RequestParam("boardNo") int boardNo,
+ 	                                         @SessionAttribute("loginMember") Member loginMember,
+ 	                                         Model model) {
+ 		int boardCode = 1;
+ 		int memberNo = loginMember.getMemberNo();
+ 	    // DB에서 모집 정보, 인증 폼 정보 등을 가져오기
+ 	    Recruitment dto = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo, memberNo);
+ 	    
+ 	    // JSP에서 쓸 수 있도록 model에 담기
+ 	    model.addAttribute("recruitment", dto);
+ 	    model.addAttribute("boardCode", boardCode);
+ 	    return "Individual/recruit_verification_form_member";
+ 	}
+ 	
+ 	@GetMapping("/recruit/verify")
+    public String verify(
+            @RequestParam("recruitmentNo") int recruitmentNo,
+            @RequestParam("token") String token,
+            Model model) {
+ 		int boardCode = 1;
+        boolean success = service.verifyParticipant(recruitmentNo, token);
 
-	        boolean success = service.verifyParticipant(recruitmentNo, token);
-
-	        if (success) {
-	            model.addAttribute("message", "인증이 성공적으로 완료되었습니다!");
-	        } else {
-	            model.addAttribute("message", "인증 실패: 유효하지 않은 접근입니다.");
-	        }
-
-	        // 인증 결과 안내 페이지로 이동
-	        return "Individual/result"; 
-	    }
+        if (success) {
+            model.addAttribute("message", "인증이 성공적으로 완료되었습니다!");
+        } else {
+            model.addAttribute("message", "인증 실패: 유효하지 않은 접근입니다.");
+        }
+        model.addAttribute("boardCode", boardCode);
+        // 인증 결과 안내 페이지로 이동
+        return "Individual/result"; 
+    }
 }

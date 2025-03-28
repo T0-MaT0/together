@@ -268,8 +268,9 @@ function promotionBtn(){
     if(imgType.value == 'mid'){
         imgTypeNumber = 7;
     }else{
-        imgTypeNumber ==8;
+        imgTypeNumber = 8;
     }
+    console.log(imgTypeNumber);
     // console.log("submit!");
     // console.log(imgType);
     // console.log(custBoardNo);
@@ -312,6 +313,11 @@ function promotionBtn(){
 
 // 고객 문의 화면
 function customerQuest(boardNo){
+    // 버튼 요소
+    const submitBtn = document.querySelector(".modal-btn");
+
+    submitBtn.innerHTML = '';
+    
     custBoardNo = boardNo;
     console.log(boardNo);
     modal.classList.add("modalActive");
@@ -320,7 +326,15 @@ function customerQuest(boardNo){
     .then(resp=>resp.json())
     .then(questDetail =>{
         console.log(questDetail);
-        
+
+
+        // 관리자 답변 유무에 따른 답변 글쓰기 가능 및 버튼 생성
+        if(!questDetail.state){
+            managerText.setAttribute("contenteditable", "true");
+            submitBtn.innerHTML = `<button onclick="submitReply()">제출</button>`;
+        }else{
+            managerText.setAttribute("contenteditable", "false");
+        }
         
         
         modalTitle.innerHTML = ` <strong>제목:</strong> ${questDetail.boardTitle}`;
@@ -328,12 +342,12 @@ function customerQuest(boardNo){
         customerText.innerText = questDetail.boardContent;
         memberName.innerHTML=` <strong>회원명:</strong> ${questDetail.memberNick} `;
         
-
         if(questDetail.boardDelFl =='N'){
             // managerText.style.display = "block";
+            console.log(questDetail.reply);
             managerText.innerText  = questDetail.reply == null? '': questDetail.reply;
         }else{
-            managerText.setAttribute("contenteditable", "false");
+            // managerText.setAttribute("contenteditable", "false");
             let beforeContent = questDetail.reply == null ? '' : questDetail.reply;
 
             beforeContent =  beforeContent.replaceAll("&amp;", "&");
@@ -343,12 +357,8 @@ function customerQuest(boardNo){
 
             managerText.innerText = beforeContent;
         }
-        // 버튼 유무
-        const submitBtn = document.querySelector(".modal-btn");
-        if(questDetail.boardDelFl =='N'){
-            submitBtn.innerHTML = `<button onclick="submitReply()">제출</button>`;
-        }
-        return;
+        
+        
     })
 
 

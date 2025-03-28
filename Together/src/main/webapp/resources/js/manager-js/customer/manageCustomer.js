@@ -142,3 +142,5 @@ function nextPage(boardCode, memberNo, cp){
     console.log('nextPage');
     boardList(boardCode, memberNo, cp );
 }
+
+
