@@ -118,6 +118,55 @@ public class CustomerDAO {
 		 return sqlSession.selectOne("customerMapper.selectReply", boardNo);
 	}
 
+	/** 게시글 수정(제목, 내용)
+	 * @param board
+	 * @return result
+	 */
+	public int boardUpdate(Board board) {
+		return sqlSession.update("customerMapper.boardUpdate", board);
+	}
+
+	/** deleteList가 존재하는 지 확인
+	 * @param deleteMap
+	 * @return result
+	 */
+	public int checkImageOrder(Map<String, Object> deleteMap) {
+		return sqlSession.selectOne("customerMapper.checkImageOrder", deleteMap);
+	}
+
+	/** 이미지 삭제
+	 * @param deleteMap
+	 * @return result
+	 */
+	public int imageDelete(Map<String, Object> deleteMap) {
+		return sqlSession.delete("customerMapper.imageDelete", deleteMap);
+	}
+
+	/** 이미지 수정
+	 * @param img
+	 * @return result
+	 */
+	public int imageUpdate(Image img) {
+		return sqlSession.update("customerMapper.imageUpdate", img);
+	}
+
+
+	/** 이미지 삽입
+	 * @param img
+	 * @return result
+	 */
+	public int imageInsert(Image img) {
+		return sqlSession.insert("customerMapper.imageInsert", img);
+	}
+
+	/** 게시글 삭제
+	 * @param boardNo
+	 * @return result
+	 */
+	public int boardDelete(int boardNo) {
+		return sqlSession.update("customerMapper.boardDelete", boardNo);
+	}
+
 
 	
 
