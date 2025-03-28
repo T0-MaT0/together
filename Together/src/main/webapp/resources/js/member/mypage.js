@@ -349,4 +349,124 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// 광고 신청 팝업
+// 사업자일시 !!
+const businessSection = document.getElementById("business-section");
+if (businessSection){
+  // 내 사업자정보
+  fetch("/mypage/getBusinessInfo", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: memberNo
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    const businessInfo = document.getElementById("business-info");
+    businessInfo.innerHTML = "";
+    /* data */
+    /* bankName
+: 
+"국민은행"
+bankNo
+: 
+"987654321"
+businessNo
+: 
+"1234567890"
+memberNo
+: 
+2
+permissionFl
+: 
+"N" */
+    const bankName = document.createElement("span");
+    bankName.textContent = "은행명 : " + data.bankName;
+    const bankNo = document.createElement("span");
+    bankNo.textContent = "계좌번호 : " + data.bankNo;
+    const businessNo = document.createElement("span");
+    businessNo.textContent = "사업자등록번호 : " + data.businessNo;
+    const permissionFl = document.createElement("span");
+    permissionFl.textContent = "승인여부 : " + (data.permissionFl === "Y" ? "승인" : "미승인");
+
+    businessInfo.appendChild(bankName);
+    businessInfo.appendChild(bankNo);
+    businessInfo.appendChild(businessNo);
+    businessInfo.appendChild(permissionFl);
+
+
+
+    if (data.length === 0) {
+      const noItem = document.createElement("p");
+      noItem.textContent = "현재 진행중인 사업이 없습니다.";
+      businessInfo.appendChild(noItem);
+    }
+  });
+}
+
+const promotionSection = document.getElementById("promotion-section");
+if (promotionSection) {
+  // 내 광고 현황
+  fetch("/mypage/getPromotionInfo", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: memberNo
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    const promotionList = document.getElementById("promotion-list");
+    
+    data.forEach(item => {
+      /* item */
+      /* 
+boardDelFl
+: 
+"대기"
+
+boardTitle
+: 
+"투게더 광고 부탁드립니다."
+brandName
+: 
+"관리자"
+createDate
+: 
+"2025-03-28" */
+      const promotionItem = document.createElement("div");
+      promotionItem.classList.add("promotion-item");
+
+      const promotionTitle = document.createElement("span");
+      promotionTitle.classList.add("promotion-title");
+
+      const strong = document.createElement("strong");
+      strong.textContent = item.boardTitle;
+      promotionTitle.appendChild(strong);
+
+      const br = document.createElement("br");
+      promotionTitle.appendChild(br);
+
+      const dateText = document.createTextNode(item.createDate);
+      promotionTitle.appendChild(dateText);
+
+
+
+      const promotionStatus = document.createElement("div");
+      promotionStatus.classList.add("promotion-status");
+      promotionStatus.classList.add(item.boardDelFl === "승인" ? "approved" : "거부" === item.boardDelFl ? "rejected" : "waiting");
+      
+      promotionStatus.textContent = item.boardDelFl;
+
+      promotionItem.appendChild(promotionTitle);
+      promotionItem.appendChild(promotionStatus);
+
+      promotionList.appendChild(promotionItem);
+      
+    });
+
+    if (data.length === 0) {
+      const noItem = document.createElement("p");
+      noItem.textContent = "현재 진행중인 광고가 없습니다.";
+      promotionList.appendChild(noItem);
+    }
+  });
+}

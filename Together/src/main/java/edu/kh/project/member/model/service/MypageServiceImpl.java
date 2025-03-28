@@ -2,11 +2,9 @@ package edu.kh.project.member.model.service;
 
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
+import edu.kh.project.manager.model.dto.QuestCustomer;
 import edu.kh.project.member.model.dao.MypageDAO;
-import edu.kh.project.member.model.dto.Board;
-import edu.kh.project.member.model.dto.Brand;
-import edu.kh.project.member.model.dto.Member;
-import edu.kh.project.member.model.dto.Product;
+import edu.kh.project.member.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -75,6 +73,16 @@ public class MypageServiceImpl implements MypageService {
         }
         System.out.println("result = " + result);
         return result;
+    }
+
+    @Override
+    public Company getBusinessInfo(int memberNo) {
+        return dao.getBusinessInfo(memberNo);
+    }
+
+    @Override
+    public List<QuestCustomer> getPromotionInfo(int memberNo) {
+        return dao.getPromotionInfo(memberNo);
     }
 
 

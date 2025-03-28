@@ -3,10 +3,8 @@ package edu.kh.project.member.model.dao;
 
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
-import edu.kh.project.member.model.dto.Board;
-import edu.kh.project.member.model.dto.Brand;
-import edu.kh.project.member.model.dto.Member;
-import edu.kh.project.member.model.dto.Product;
+import edu.kh.project.manager.model.dto.QuestCustomer;
+import edu.kh.project.member.model.dto.*;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -55,5 +53,13 @@ public class MypageDAO {
 
     public int insertPromotionImage(Image img) {
         return sqlSession.insert("imageMapper.insertImage", img);
+    }
+
+    public Company getBusinessInfo(int memberNo) {
+        return sqlSession.selectOne("mypageMapper.getBusinessInfo", memberNo);
+    }
+
+    public List<QuestCustomer> getPromotionInfo(int memberNo) {
+        return sqlSession.selectList("mypageMapper.getPromotionInfo", memberNo);
     }
 }

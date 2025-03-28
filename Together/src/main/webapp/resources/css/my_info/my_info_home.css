@@ -417,3 +417,84 @@ main.myinfo-container a{
     color: black;
     margin-top: 3px;
 }
+
+#business-info {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 10px;
+
+  font-size: 20px;
+
+}
+
+#promotion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+}
+
+
+
+.promotion-item {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: #bbb 1px solid;
+  padding-bottom: 10px;
+}
+
+
+
+.promotion-item>span{
+  color: #bbb;
+}
+.promotion-item strong{
+  color: black;
+}
+
+.promotion-status {
+  margin-right: 30px;
+  width: 50px;
+  height: 35px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 20px;
+
+  text-align: center;
+  line-height: 35px;
+  
+}
+
+.promotion-status.waiting {
+  background-color: yellowgreen;
+  color: white;
+}
+
+.promotion-status.approved {
+  background-color: #9969ff;
+  color: white;
+}
+
+.promotion-status.rejected {
+  background-color: #fd499a;
+  color: white;
+}
+
+.promotion-btn{
+  float: right;
+  background: linear-gradient(to right, #9969ff, #fd499a);
+  color: white;
+  border: none;
+  width: 200px;
+  height: 40px;
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}

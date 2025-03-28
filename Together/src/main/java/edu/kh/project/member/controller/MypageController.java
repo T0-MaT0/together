@@ -3,10 +3,8 @@ package edu.kh.project.member.controller;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.utility.Utill;
-import edu.kh.project.member.model.dto.Board;
-import edu.kh.project.member.model.dto.Brand;
-import edu.kh.project.member.model.dto.Member;
-import edu.kh.project.member.model.dto.Product;
+import edu.kh.project.manager.model.dto.QuestCustomer;
+import edu.kh.project.member.model.dto.*;
 import edu.kh.project.member.model.service.MypageServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -78,7 +76,12 @@ public class MypageController {
     }
 
 
-//  비동기
+    @GetMapping("/promotion")
+    public String promotion(Model model) {
+        return "member/mypage/promotion";
+    }
+
+//    비동기
 
     @PostMapping(value = "/purchaseHistory", produces="application/json; charset=UTF-8")
     @ResponseBody
@@ -123,10 +126,26 @@ public class MypageController {
         return service.getReview(memberNo);
     }
 
-    @GetMapping("/promotion")
-    public String promotion(Model model) {
-        return "member/mypage/promotion";
+    @PostMapping(value = "/getBusinessInfo", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public Company getBusinessInfo(@RequestBody int memberNo) {
+        return service.getBusinessInfo(memberNo);
     }
+
+    @PostMapping(value = "getPromotionInfo", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public List<QuestCustomer> getPromotionInfo(@RequestBody int memberNo) {
+        return service.getPromotionInfo(memberNo);
+    }
+    
+
+
+
+
+
+
+
+// PostMapping
 
     @PostMapping("/promotion")
     @ResponseBody
@@ -136,7 +155,7 @@ public class MypageController {
             @RequestParam("brandName") String brandName,
             @RequestParam("content") String content,
             @RequestParam("file") MultipartFile file,
-            /*세션 가져오기*/ HttpSession session
+            HttpSession session
     ) {
 
         if (file.isEmpty()) {
@@ -163,13 +182,6 @@ public class MypageController {
         board.setBoardCd(7);
 
         return service.insertPromotion(board, img, file, filePath);
-
-
-
-
-
-
-
 
     }
 
