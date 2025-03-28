@@ -127,7 +127,9 @@
     <jsp:include page="/WEB-INF/views/manager/common/modal.jsp"/>
 
     <!-- 신고 모달 프로필 -->
-    <jsp:include page="/WEB-INF/views/manager/common/reportProfileModal.jsp"/>    
+    <jsp:include page="/WEB-INF/views/manager/common/reportProfileModal.jsp"/>  
+    
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 
 <!-- <script src="/resources/js/manager-js/modal.js"></script> -->

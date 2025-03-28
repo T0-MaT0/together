@@ -20,6 +20,7 @@ public class CustomerBoard {
 	private String endDate;
 	private String recruitmentStatus;
 	private String boardDelFl;
+	private String state;
 	
 	private String reply;
 }

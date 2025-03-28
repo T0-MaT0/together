@@ -17,4 +17,5 @@ public class QuestCustomer {
 	private String boardTitle;
 	private String createDate;
 	private String boardDelFl;
+	private String state;
 }

@@ -182,7 +182,7 @@ ${profile}
         
     </div>
 
-
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 
 <script src="/resources/js/manager-js/brand/brand.js"></script>
