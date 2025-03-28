@@ -10,7 +10,7 @@
     justify-content: center;
     align-items: center;
     flex-direction : column;
-    min-height: 100dvh;
+    /* min-height: 100dvh; */
 
     margin: 100px 0;
 }
@@ -107,3 +107,39 @@
 .underline{
     border-bottom: 1px solid #A3A3A3;
 }
+
+#reply-section {
+    width: 660px;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #F0F0F0;
+    border-top: 2px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  
+  #reply-section h3 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .reply-box {
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .reply-date {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .reply-content {
+    font-size: 16px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+  

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import edu.kh.project.member.model.dto.Board;
+import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.service.CustomerService;
 
 @Controller
@@ -87,20 +90,30 @@ public class CustomerController {
 			, @RequestParam Map<String, Object> paramMap) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		
-		if(paramMap.get("key") == null) {
-			map = service.noticeBoardList(cp);
-			
-		} else { 
-			//map = service.noticeBoardList(paramMap, cp);	
-			
-		}
-		
-		//System.out.println(map);
 
+		map = service.noticeBoardList(cp);
 		
 		model.addAttribute("map", map);
 		return "customer/noticeBoardList";
+	}
+	//  1:1 문의 리스트 페이지 가져옴
+	@GetMapping("/askBoardList")
+	public String askBoardList(Model model
+			, @RequestParam(value = "cp", required=false, defaultValue="1") int cp
+			, @RequestParam Map<String, Object> paramMap
+			, HttpSession session) {
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		Member loginMember = (Member) session.getAttribute("loginMember");
+		
+		map.put("boardCd", 6); // 1:1 게시판 가져오는거 
+		map.put("memberNo", loginMember.getMemberNo());
+		map.put("cp", cp);
+		map = service.askBoardList(map);
+		
+		
+		model.addAttribute("map", map);
+		return "customer/askBoardList";
 	}
 	
 	@GetMapping("/notice/search")
@@ -113,18 +126,19 @@ public class CustomerController {
 	    return "customer/noticeBoardList";
 	}
 	
-	//  공지사항 디테일 페이지 가져옴
-	@GetMapping("/noticeBoardDetail/{boardNo}")
+	//  공지사항과 1:1문의 디테일 페이지 가져옴
+	@GetMapping("/customerBoardDetail/{boardNo}")
 	public String noticeBoardDetail(@PathVariable("boardNo") int boardNo , Model model
 			,  @RequestParam(value = "cp", required=false, defaultValue="1") int cp) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map = service.noticeBoardDetail(boardNo);
+		map = service.selectBoardDetail(boardNo);
 		
 		model.addAttribute("map",map);
 		
-		return "customer/noticeBoardDetail";
+		return "customer/CustomerBoardDetail";
 	}
 	
+
 
 	
 	
