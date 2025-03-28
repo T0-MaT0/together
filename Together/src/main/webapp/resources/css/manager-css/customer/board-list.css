@@ -87,7 +87,7 @@
     justify-items: center;
     justify-content: center;
     align-items: center;
-    padding: 10px 0;
+    padding: 9px 0;
 }
 
 .list >img{
@@ -98,8 +98,11 @@
 
 #list-area >.item{
     font-size: 13px;
+    cursor: pointer;
 }
-
+.clickArea:active{
+    background-color: rgba(0, 0, 0, 0.144);
+}
 
 #list-area > div:nth-child(1){
     background-color: #FD499A;
@@ -154,6 +157,7 @@
 #pagination >li{
     margin: 5px 10px;
     font-weight: normal;
+    cursor: pointer;
 }
 
 .curr{
@@ -173,4 +177,13 @@
 
 #container-center > section.cus-board.graph-card{
     height: 400px;
+}
+
+/* 존재하는 모집글이 없을때 */
+.notFound{
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

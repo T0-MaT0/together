@@ -54,10 +54,9 @@
             <div class="board-title bottom-line">
                 <div class="title">고객 대상 신고</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <select name="customerStatus" id="customerStatus" onchange="filterCustomerStatus(event)">
                         <option>전체</option>
                         <option>대기</option>
-                        <option>처리완료</option>
                         <option>반려</option>
                         <option>경고</option>
                         <option>블랙</option>
@@ -179,12 +178,13 @@
         <!-- 신고 모달 프로필 -->
         <jsp:include page="/WEB-INF/views/manager/common/reportProfileModal.jsp"/>
     </div>
-    
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 
 <!-- <script src="/resources/js/manager-js/modal.js"></script> -->
 <script src="/resources/js/manager-js/reportModal.js"></script>
 <script src="/resources/js/manager-js/customer/customerReport.js"></script>
+<script src="/resources/js/manager-js/customer/reportCondition.js"></script>
 </body>
 
 </html>

@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>customerQuestion</title>
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/customer/question-list.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/modal.css" />
@@ -51,7 +51,7 @@
             <div class="board-title bottom-line">
                 <div class="title">고객 문의</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <select name="customerStatus" id="customerStatus" onchange="filterCustomerStatus(event)">
                         <option>전체</option>
                         <option>대기</option>
                         <option>처리완료</option>
@@ -84,7 +84,7 @@
                         <div>${quest.memberNick}</div>
                         <div class="clickList" onclick="customerQuest(${quest.boardNo})">${quest.boardTitle}</div>
                         <div>${quest.createDate}</div>
-                        <div>${quest.boardDelFl}</div>
+                        <div>${quest.state}</div>
                     </div>
                 </c:forEach>
                 <!-- <div class="list item bottom-line ">
@@ -113,7 +113,7 @@
         
                             <c:otherwise>
                                 <!-- 현재 페이지가 아닌 경우 -->
-                                <li><a href="/manageCustomer/report?cp=${i}">${i}</a></li>
+                                <li><a href="/manageCustomer/question?cp=${i}">${i}</a></li>
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>                
@@ -163,10 +163,12 @@
         </div>
     </div>
 
-
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 
 <script src="/resources/js/manager-js/modal.js"></script>
+<script src="/resources/js/manager-js/customer/questionCondition.js"></script>
+
 </body>
 
 </html>

@@ -151,7 +151,7 @@ public class BrandServiceImpl implements BrandService {
 		
 		List<BrandProfileBoard> boardList = dao.brandProfileProducts(pagination, boardCode, memberNo);
 		
-		System.out.println(boardList);
+//		System.out.println(boardList);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("pagination", pagination);
 		map.put("boardList", boardList);
@@ -175,7 +175,7 @@ public class BrandServiceImpl implements BrandService {
 		
 		if("승인".equals(brandBoard.getState())) {
 			result = dao.applyAccept(brandBoard);
-			System.out.println("제휴 승인 처리 result: "+ result );
+//			System.out.println("제휴 승인 처리 result: "+ result );
 		}
 		
 		result = dao.applyInsert(brandBoard);
@@ -245,10 +245,10 @@ public class BrandServiceImpl implements BrandService {
 	public int promotionApproval( Map<String, Object> requestData) {
 		
 		int result = dao.promotionBoardUpdate(requestData);
-		System.out.println("광고 성공?"+result);
+//		System.out.println("광고 성공?"+result);
 		
 		if(requestData.get("state").equals("승인")) {
-			System.out.println("이미지 update!");
+//			System.out.println("이미지 update!");
 			result = dao.promotionImageUpdate(requestData);
 		}
 		

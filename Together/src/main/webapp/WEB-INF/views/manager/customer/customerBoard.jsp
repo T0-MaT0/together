@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>customerBoard</title>
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/customer/board-list.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -54,12 +54,12 @@
             <div class="board-title bottom-line">
                 <div class="title">공구 모집글 리스트</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <select name="customerStatus" id="customerStatus" onchange="filterCustomerStatus(event)">
                         <option>전체</option>
-                        <option>성립</option>
-                        <option>정지</option>
-                        <option>취소</option>
                         <option>진행</option>
+                        <option>마감</option>
+                        <option>완료</option>
+                        <option>정지</option>
                     </select>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     <div>상태</div>
                 </div>
                 <c:forEach  items="${boardList}" var="board">
-                    <div class="list item bottom-line">
+                    <div class="list item bottom-line clickArea" onclick="customerState(${board.memberNo})">
                         <div>${board.boardNo}</div>
                         <div>${board.memberNick}</div>
                         <div>${board.boardTitle}</div>
@@ -154,14 +154,23 @@
             </div>
             <canvas id="myChart" style="width:80%;max-width:400px; height: 400px;"></canvas>
         </section>
-
     </div>
-
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 
 </main>
-<c:set var="ing" value="${map.cusBoardStateCount[1].COUNT}"/>
-<c:set var="limited" value="${map.cusBoardStateCount[2].COUNT}"/>
-<c:set var="done" value="${map.cusBoardStateCount[0].COUNT}"/>
+<!-- 모집글 상태 여부 -->
+<c:forEach var="cusBoardStateCount" items="${map.cusBoardStateCount}">
+    <c:if test="${cusBoardStateCount.RECRUITMENT_STATUS == '완료'}">
+        <c:set var="done" value="${cusBoardStateCount.COUNT}"></c:set>
+    </c:if>
+    <c:if test="${cusBoardStateCount.RECRUITMENT_STATUS == '진행'}">
+        <c:set var="ing" value="${cusBoardStateCount.COUNT}"></c:set>
+    </c:if>
+    <c:if test="${cusBoardStateCount.RECRUITMENT_STATUS == '마감'}">
+        <c:set var="limited" value="${cusBoardStateCount.COUNT}"></c:set>
+    </c:if>
+</c:forEach>
+
 <script>
     const xValues = ["진행중", "마감", "완료"];
     const yValues = [${ing}, ${limited}, ${done}];
@@ -184,9 +193,12 @@
     },
     options: {
         // maintainAspectRatio: false
+        animation : false
     }
     });
 </script>
+<script src="/resources/js/manager-js/customer/manageCustomer.js"></script>
+<script src="/resources/js/manager-js/customer/custBoardCondition.js"></script>
 </body>
 
 </html>

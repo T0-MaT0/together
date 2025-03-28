@@ -14,7 +14,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>customerState</title>
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/customer/customer-list.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -58,7 +58,7 @@
             <div class="board-title bottom-line">
                 <div class="title">고객 상태 리스트</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus" onchange="(e)=>ilterCustomerStatus(e)">
+                    <select name="customerStatus" id="customerStatus" onchange="filterCustomerStatus(event)">
                         <option>전체</option>
                         <option>회원</option>
                         <option>탈퇴</option>
@@ -161,17 +161,29 @@
                 </div>
             </div>
             <canvas id="myChart" style="width:80%;max-width:400px; height: 400px;"></canvas>
+
+
         </section>
 
         
     </div>
 
-
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 
-<c:set var="black" value="${map.CustomersSelect[0].MEMBER_COUNT}"></c:set>
-<c:set var="member" value="${map.CustomersSelect[1].MEMBER_COUNT}"></c:set>
-<c:set var="nonMember" value="${map.CustomersSelect[2].MEMBER_COUNT}"></c:set>
+<!-- 고객 상태 여부 -->
+<c:forEach var="customerState" items="${map.CustomersSelect}">
+    <c:if test="${customerState.MEMBER_DEL_FL == 'B'}">
+        <c:set var="black" value="${customerState.MEMBER_COUNT}"></c:set>
+    </c:if>
+    <c:if test="${customerState.MEMBER_DEL_FL == 'N'}">
+        <c:set var="member" value="${customerState.MEMBER_COUNT}"></c:set>
+    </c:if>
+    <c:if test="${customerState.MEMBER_DEL_FL == 'Y'}">
+        <c:set var="nonMember" value="${customerState.MEMBER_COUNT}"></c:set>
+    </c:if>
+</c:forEach>
+
 <script>
     const xValues = ["회원", "탈퇴", "블랙"];
     const yValues = [${member}, ${nonMember}, ${black}];
@@ -200,6 +212,7 @@
 </script>
 
 <script src="/resources/js/manager-js/customer/manageCustomer.js"></script>
+<script src="/resources/js/manager-js/customer/statePagination.js"></script>
 </body>
 
 </html>
