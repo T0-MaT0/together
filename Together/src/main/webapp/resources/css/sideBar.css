@@ -66,10 +66,10 @@
 #sideBar.active{
   transform: translateX(-620px);
 }
-#sideBar#sideBar-close{
+#sideBar #sideBar-close{
   transition-duration: 1.1s;
 }
-#sideBar.activate{
+#sideBar .activate{
   transform: rotateZ(135deg);
 }
 
@@ -329,7 +329,7 @@
   background-clip: content-box, border-box;
 
   box-shadow:  0 -1px 15px 0 rgba(255, 77, 142, 0.25),
-        0 -1px 5px 0 rgba(164, 95, 227, 0.25),
+        0W -1px 5px 0 rgba(164, 95, 227, 0.25),
         0 1px 15px 0 rgba(255, 77, 142, 0.25),
         0 1px 5px 0 rgba(164, 95, 227, 0.25),
         -2px 0 15px 0 rgba(255, 77, 142, 0.25),
@@ -1477,3 +1477,147 @@
   object-fit: contain;
   margin: 4px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 전체 타이틀 wrapper */
+.chat-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin-left: 10px;
+}
+
+/* 방 제목 */
+.chat-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #222;
+}
+
+/* 👥 인원 수 버튼 */
+.member-toggle-box {
+  font-size: 20px;
+  color: #444;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 6px;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  transition: background 0.2s;
+}
+.member-toggle-box:hover {
+  background-color: #efefef;
+}
+
+/* 멤버 리스트 박스 */
+.member-list {
+  max-height: 160px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin-top: 6px;
+  border-radius: 8px;
+  padding: 8px;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 멤버 한 명 */
+#memberList li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid #eee;
+}
+#memberList li:last-child {
+  border-bottom: none;
+}
+
+/* 프로필 이미지 */
+.profile-inList img {
+  width: 70%;
+  height: 70%;
+  object-fit: cover;
+}
+
+#memberListBox {
+  position: absolute;
+  top: 110px; 
+  left: 0px;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  border-radius: 10px;
+  z-index: 10;
+  padding: 10px;
+  width: 300px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+#memberList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.member-list-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.member-list-item .profile-inList {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.member-list-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.member-count-btn {
+  cursor: pointer;
+  font-size: 20px;
+  text-decoration: none;
+  color: black;
+  margin-left: 8px;
+  background-color: inherit;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.member-nickname {
+  font-family: 'GmarketSansMedium';
+  font-size: 20px;
+  color: #333;
+  margin-left: 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+

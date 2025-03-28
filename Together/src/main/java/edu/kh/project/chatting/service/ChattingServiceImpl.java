@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.kh.project.chatting.model.dao.ChattingDAO;
 import edu.kh.project.chatting.model.dto.ChatEmoji;
@@ -112,6 +113,62 @@ public class ChattingServiceImpl implements ChattingService{
 	@Override
 	public void insertChatRoomUser(int roomNo, int memberNo) {
 		dao.insertChatRoomUser(roomNo, memberNo);
+	}
+
+	// 방 나가기
+	@Override
+	public void deleteChatRoomUser(int roomNo, int memberNo) {
+		dao.deleteChatRoomUser(roomNo, memberNo);
+	}
+
+	// 채팅방 참가자 조회
+	@Override
+	public List<Member> selectRoomMemberList(int roomNo) {
+		return dao.selectRoomMemberList(roomNo);
+	}
+
+	// 채팅방 이름
+	@Override
+	public ChattingRoom selectRoomName(int roomNo) {
+	    return dao.selectRoomName(roomNo);
+	}
+
+	// 채팅방 추방
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int kickMemberFromRoom(int roomNo, int targetMemberNo) {
+		return dao.kickMemberFromRoom(roomNo, targetMemberNo);
+	}
+
+	// 1대1 채팅
+	@Override
+	@Transactional
+	public Map<String, Object> createOrGetPrivateChatRoom(int myMemberNo, int targetMemberNo, String roomName) {
+		Map<String, Object> result = new HashMap<>();
+		// 기존 채팅방 존재 여부 확인
+	    Integer existingRoomNo = dao.checkPrivateRoom(myMemberNo, targetMemberNo);
+	    if (existingRoomNo != null) {
+	        result.put("roomNo", existingRoomNo);
+	        result.put("isNew", false);
+	        return result;
+	    }
+	    
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("myMemberNo", myMemberNo);
+	    map.put("targetMemberNo", targetMemberNo);
+	    map.put("roomName", roomName);
+	    // 새 채팅방 생성
+	    int roomNo = dao.insertPrivateChatRoom(map);
+	    if (roomNo == 0) throw new RuntimeException("채팅방 생성 실패");
+
+
+	    // 참가자 추가
+	    dao.insertChatRoomUser(roomNo, myMemberNo);
+	    dao.insertChatRoomUser(roomNo, targetMemberNo);
+
+	    result.put("roomNo", roomNo);
+	    result.put("isNew", true);
+	    return result;
 	}
 
 	

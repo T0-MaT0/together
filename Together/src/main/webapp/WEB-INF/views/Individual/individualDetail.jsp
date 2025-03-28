@@ -37,7 +37,14 @@
                             <div class="product">
                                 <img src="${recruitment.thumbnail != null ? recruitment.thumbnail : '/resources/images/mypage/관리자 프로필.webp'}" 
                                     alt="제품 이미지">
-                                <p class="seller-info">${recruitment.hostName} (등급: ${recruitment.hostGrade})</p>
+                                    <p class="seller-info">
+                                        <span class="clickable-nickname"
+                                              data-member-no="${recruitment.hostNo}"
+                                              data-member-nick="${recruitment.hostName}">
+                                          ${recruitment.hostName}
+                                        </span>
+                                        (등급: ${recruitment.hostGrade})
+                                    </p>
                                 <p class="product-name">${recruitment.productName}</p>
                                 <p class="discount-price">${discount}원</p>
                                 <p class="original-price">${recruitment.productPrice}원 (원가)</p>
@@ -72,6 +79,12 @@
         </section>
 
     </div>
+    <div id="nicknameMenu" class="hidden">
+        <ul>
+          <li id="startPrivateChat">1대1 채팅</li>
+          <li id="reportUser">신고하기</li>
+        </ul>
+      </div>
     
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/individual/individualDetail.js"></script>

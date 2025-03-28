@@ -30,7 +30,7 @@
       <div class="body hidden" id="CHAT">
 
         <div class="talkMenus sideBox">
-          <div class="talkMenu unselect">
+          <div class="talkMenu unselect"> 
             <a href="" class="no-link" data-url="/sidebar/chat">
               <img src="/resources/images/sidebar/images/Chat.svg" alt="">
               <div class="noti noti-menu"><span>6</span></div>
@@ -237,9 +237,13 @@
       </div>
     </div>
 
+    
+    
     <!-- SockJS를 이용한 WebSocket 라이브러리 추가 -->
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="/resources/js/sidebar/sideBarMain.js"></script>
+    
+    
 
     <script>
       const loginMemberNo = "${loginMember.memberNo}";

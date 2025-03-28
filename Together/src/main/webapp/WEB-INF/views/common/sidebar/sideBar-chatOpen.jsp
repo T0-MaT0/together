@@ -13,9 +13,18 @@
     <div class="title-profile-box">
       <div class="profile profile-inTitle">
         <img id="ownerProfileImg" src="/resources/images/user.png" alt="">
+        <div id="memberListBox" class="hidden">
+          <ul id="memberList"></ul>
+        </div>
       </div>
     </div>
-    <div class="chat-title"><span id="roomTitle"></span></div>
+    <div class="chat-title">
+      <span id="roomTitle"></span>
+      <a href="#" id="memberListBtn" class="member-count-btn">
+        👥 <span id="memberCount">0</span>
+      </a>
+    </div>
+    
     <div class="title-menu-box">
       <div class="title-menu ">
         <a href="#">
@@ -80,8 +89,9 @@
 <script>
   const loginMemberNo = "${loginMember.memberNo}";
   const loginMemberNickname = "${loginMember.memberNick}";
-
 </script>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <script src="/resources/js/sidebar/sideBarMain.js"></script>

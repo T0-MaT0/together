@@ -22,6 +22,7 @@
 	    <result property="readCount" column="READ_COUNT"/>
 	    <result property="categoryNo" column="CATEGORY_NO"/>
 	
+	    <result property="hostNo" column="hostNo"/>
 	    <result property="hostName" column="hostName"/>
 	    <result property="hostGrade" column="hostGrade"/>
 	    <result property="hostProfile" column="hostProfile"/>
@@ -155,6 +156,7 @@
 		    p.CATEGORY_NO,
 		
 		    -- 모집장 닉네임과 등급을 RECRUITMENT_ROOM에서 직접 가져옴
+		    m.MEMBER_NO AS hostNo,
 		    m.MEMBER_NICK AS hostName,
 		    m.MEMBER_GRADE AS hostGrade,
 		
@@ -197,6 +199,7 @@
 		    b.BOARD_DEL_FL,  
 		
 		    -- 모집장 정보 RECRUITMENT_ROOM에서 가져오기
+		    m.MEMBER_NO AS hostNo,
 		    m.MEMBER_NICK AS hostName,
 		    m.MEMBER_GRADE AS hostGrade,
 		

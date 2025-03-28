@@ -73,51 +73,48 @@ function loadChatRoomList() {
           </div>
         `;
 
-          div.addEventListener("click", () => {
-            const chattingNo = div.dataset.roomNo;
-            const targetUrl = `/sidebar/chatOpen?chattingNo=${chattingNo}`;
-
-            fetch(targetUrl)
-              .then(res => res.text())
-              .then(html => {
-                const contentBox = document.querySelectorAll("#CHAT .content")[0];
-                contentBox.innerHTML = html;
-
-                bindChatRoomHeaderButtons();
-                bindSendMessageEvent();
-                bindImageUploadEvent();
-                bindEmojiEvent();
-
-                const roomData = {
-                  roomName: div.dataset.roomName,
-                  ownerProfileImg: div.dataset.ownerProfile
-                };
+        div.addEventListener("click", () => {
+          const chattingNo = div.dataset.roomNo;
+          const roomName = div.dataset.roomName;
+          const ownerProfile = div.dataset.ownerProfile;
+          const targetUrl = `/sidebar/chatOpen?chattingNo=${chattingNo}`;
         
-                document.querySelector("#roomTitle").innerText = roomData.roomName;
-                const ownerImg = document.querySelector("#ownerProfileImg");
-                if (roomData.ownerProfileImg && roomData.ownerProfileImg !== "null") {
-                  ownerImg.src = roomData.ownerProfileImg;
-                } else {
-                  ownerImg.src = "/resources/images/user.png";
-                }
+          fetch(targetUrl)
+            .then(res => res.text())
+            .then(html => {
+              const contentBox = document.querySelectorAll("#CHAT .content")[0];
+              contentBox.innerHTML = html;
 
-                const chattingNo = div.dataset.roomNo;
-                connectChatWebSocket?.(chattingNo);
+              document.querySelector("#roomTitle").innerText = roomName;
+              const ownerImg = document.querySelector("#ownerProfileImg");
+              ownerImg.src = ownerProfile && ownerProfile !== "null"
+                ? ownerProfile : "/resources/images/user.png";
 
-                loadMessageList?.();
-
-                const talkMenus = document.querySelectorAll(".talkMenu");
-
-                talkMenus.forEach(menu => {
-                  menu.classList.remove("select", "unselect"); 
-                  menu.classList.add("unselect");              
-                });
                 
-                const chatTab = document.querySelector(".talkMenu a[data-url*='/sidebar/chatOpen']")?.closest(".talkMenu");
-                chatTab?.classList.remove("unselect");
-                chatTab?.classList.add("select");
+        
+              bindChatRoomHeaderButtons();
+              bindSendMessageEvent();
+              bindImageUploadEvent();
+              bindEmojiEvent();
+              // initNicknameMenuEvents();
+        
+              connectChatWebSocket?.(chattingNo);
+              loadMessageList?.();
+        
+              loadChatRoomDetail(chattingNo);
+        
+              // 탭 선택 처리
+              const talkMenus = document.querySelectorAll(".talkMenu");
+              talkMenus.forEach(menu => {
+                menu.classList.remove("select", "unselect"); 
+                menu.classList.add("unselect");              
               });
-          });
+        
+              const chatTab = document.querySelector(".talkMenu a[data-url*='/sidebar/chatOpen']")?.closest(".talkMenu");
+              chatTab?.classList.remove("unselect");
+              chatTab?.classList.add("select");
+            });
+        });
 
         container.appendChild(div);
       });
@@ -267,7 +264,15 @@ fetch(`/chatting/selectMessageList?chattingNo=${roomNo}&memberNo=${loginMemberNo
       // 닉네임
       const nicknameDiv = document.createElement("div");
       nicknameDiv.classList.add("nickname");
-      nicknameDiv.innerText = msg.senderNickname || (isMine ? loginMemberNickname : "알 수 없음");
+
+      if (!isMine) {
+        nicknameDiv.classList.add("clickable-nickname");
+        nicknameDiv.dataset.memberNo = msg.senderNo;
+        nicknameDiv.dataset.memberNick = msg.senderNickname;
+        nicknameDiv.dataset.productName = msg.roomName || msg.productName || "1대1 채팅";
+      }
+
+      nicknameDiv.innerText = isMine ? loginMemberNickname : msg.senderNickname || "상대방";
     
       // 프로필 이미지
       const profileBox = document.createElement("div");
@@ -500,6 +505,14 @@ function displayMessage(msg) {
   // 닉네임
   const nicknameDiv = document.createElement("div");
   nicknameDiv.classList.add("nickname");
+
+  if (!isMine) {
+    nicknameDiv.classList.add("clickable-nickname");
+    nicknameDiv.dataset.memberNo = msg.senderNo;
+    nicknameDiv.dataset.memberNick = msg.senderNickname;
+    nicknameDiv.dataset.productName = msg.roomName || msg.productName || "1대1 채팅";
+  }
+
   nicknameDiv.innerText = isMine ? loginMemberNickname : msg.senderNickname || "상대방";
 
   // 프로필
@@ -667,6 +680,106 @@ function bindEmojiEvent() {
 }
 
 
+// 채팅방 상세 정보 및 멤버 목록 로딩
+function loadChatRoomDetail(roomNo) {
+  fetch(`/chatting/memberList?roomNo=${roomNo}`)
+    .then(res => res.json())
+    .then(data => {
+      
+      if (!data || !data.roomName || !Array.isArray(data.members)) {
+        console.error("📛 불완전한 채팅방 정보:", data);
+        return;
+      }
+      const memberList = data.members;
+
+      // 인원 수
+      const countEl = document.querySelector("#memberCount");
+      if (countEl) countEl.innerText = memberList.length;
+
+      // 참가자 목록
+      const listBox = document.querySelector("#memberList");
+      if (listBox) {
+        listBox.innerHTML = "";
+
+        memberList.forEach(member => {
+          // 로그인한 본인은 목록에서 제외
+          if (Number(member.memberNo) !== Number(loginMemberNo)) {
+            const li = document.createElement("li");
+            li.classList.add("member-list-item");
+
+            li.innerHTML = `
+              <div class="profile profile-inList">
+                <img src="${member.profileImg || '/resources/images/user.png'}" alt="프로필">
+              </div>
+              <span class="member-nickname">${member.memberNick}</span>
+            `;
+
+            // 방장이라면 해당 멤버 클릭 시 추방 처리
+            if (Number(loginMemberNo) === Number(data.ownerMemberNo)) {
+              li.style.cursor = "pointer";
+              li.title = "클릭 시 추방";
+
+              li.addEventListener("click", () => {
+                const confirmKick = confirm(`${member.memberNick}님을 추방하시겠습니까?`);
+                if (confirmKick) {
+                  fetch(`/chatting/kickMember`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      roomNo: roomNo,
+                      targetMemberNo: member.memberNo
+                    })
+                  })
+                    .then(res => res.json())
+                    .then(result => {
+                      if (result.success) {
+                        alert("추방되었습니다.");
+                        loadChatRoomDetail(roomNo); // 다시 로딩해서 목록 갱신
+                      } else {
+                        alert("추방에 실패했습니다.");
+                      }
+                    })
+                    .catch(err => {
+                      console.error("❌ 추방 실패", err);
+                      alert("오류가 발생했습니다.");
+                    });
+                }
+              });
+            }
+
+            listBox.appendChild(li);
+          }
+        });
+      }
+
+      // 토글 버튼 이벤트 (처음만 등록)
+      const toggleBtn = document.getElementById("memberListBtn");
+      toggleBtn?.addEventListener("click", e => {
+        e.preventDefault(); // a 태그니까 기본 동작 제거
+        document.getElementById("memberListBox")?.classList.toggle("hidden");
+      });
+
+      // 토글 버튼 이벤트는 항상 다시 등록
+      const memberBox = document.getElementById("memberListBox");
+
+      if (toggleBtn && memberBox) {
+        // 기존 이벤트 제거 후 재등록 (보장용)
+        toggleBtn.replaceWith(toggleBtn.cloneNode(true));
+        const newToggleBtn = document.getElementById("memberListBtn");
+
+        newToggleBtn.addEventListener("click", e => {
+          e.preventDefault(); // a 태그니까 기본 동작 제거
+          memberBox.classList.toggle("hidden");
+        });
+      }
+
+      // 방 이름 설정
+      const titleEl = document.getElementById("roomTitle");
+      if (titleEl) titleEl.innerText = data.roomName;
+
+    })
+    .catch(err => console.error("🔴 채팅방 상세 로딩 실패", err));
+}
 
 
 
