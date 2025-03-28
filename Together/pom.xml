@@ -304,7 +304,11 @@
 		     <version>3.5.1</version>
 		 </dependency>
 	
-
+		<dependency>
+		    <groupId>org.apache.commons</groupId>
+		    <artifactId>commons-text</artifactId>
+		    <version>1.10.0</version> <!-- 최신 버전으로 변경 가능 -->
+		</dependency>
 	</dependencies>
 	<!-- build : 프로젝트 빌드 시 사용되는 플러그인 추가 및 버전 정보 설정 -->
 	<build>

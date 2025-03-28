@@ -629,4 +629,5 @@ table img{
     display: flex;
     justify-content: space-between;
     margin-left: auto;
+    margin-right: 10px;
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:set var="reviewList" value="${map.reviewList}"/>
 <c:set var="pagination" value="${map.reviewPagination}"/>
@@ -128,8 +129,8 @@
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/main.js"></script>
     <script>
-        const loginMemberNo = "${loginMember.memberNo}";
-        const reviewList = JSON.parse(`${reviewListJson}`);
+        const reviewListJson = '${fn:replace(fn:replace(fn:replace(fn:replace(reviewListJson, "&amp;", "&"), "&lt;", "<"), "&gt;", ">"), "&quot;", "\"")}';
+        const reviewList = JSON.parse(reviewListJson);
     </script>
     <script src="/resources/js/business/reviewList.js"></script>
 </body>
