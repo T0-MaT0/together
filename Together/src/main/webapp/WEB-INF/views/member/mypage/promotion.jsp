@@ -51,7 +51,7 @@
           
           <button id="proImgBtn">첨부 사진</button>
           <input type="file" name="file" id="file" accept="image/*" style="display: none;" />
-          <button onclick="promotionSubmit()">제출</button>
+          <button type="button" id="submitBtn">제출</button>
         </div>
       </div>
     </div>
@@ -60,6 +60,10 @@
 </div>
 
 <script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const memberNo = urlParams.get('memberNo');
+  console.log("Received memberNo:", memberNo);
+
   // 파일 첨부 버튼 클릭 시 파일 선택 트리거
   document.getElementById('proImgBtn').addEventListener('click', function () {
     this.nextElementSibling.click();
@@ -83,11 +87,15 @@
   });
 
   // 제출 버튼 클릭 시 입력값 확인
-  function promotionSubmit() {
+  document.getElementById('submitBtn').addEventListener('click', function promotionSubmit() {
     const title = document.getElementById('title').value.trim();
     const brandName = document.getElementById('brandName').value.trim();
-    const content = document.querySelector('.customerText').value.trim();
+    const content = document.getElementById('content').value.trim();
     const fileInput = document.getElementById('file');
+    if (!memberNo) {
+      alert('회원 정보를 가져올 수 없습니다. 로그인 후 다시 시도해주세요.');
+      return;
+    }
 
     if (!title || !brandName || !content) {
       alert('모든 필드를 입력해주세요.');
@@ -99,9 +107,30 @@
       return;
     }
 
-    alert('광고 신청이 완료되었습니다.');
-    // 서버로 데이터 전송 로직 추가 가능
-  }
+    const formData = new FormData();
+    formData.append('memberNo', memberNo);
+    formData.append('title', title);
+    formData.append('brandName', brandName);
+    formData.append('content', content);
+    formData.append('file', fileInput.files[0]);
+    
+    fetch('/mypage/promotion', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
+      alert('광고 신청이 완료되었습니다.');
+      window.close();
+    });
+
+  });
+
+
 </script>
 
 </body>

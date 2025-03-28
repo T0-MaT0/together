@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
@@ -71,7 +70,7 @@
                 <p>내 지역 : ${addrArr[1]}</p>
                 <p class="points">포인트 : ${loginMember.point}pt</p>
               </div>
-              <button class="edit-btn">광고 신청</button>
+              <button class="edit-btn" onclick="openPromotionPopup(${loginMember.memberNo})">광고 신청</button>
             </div>
           </section>
         </c:if>
@@ -162,4 +161,18 @@
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 
 <script src="/resources/js/member/mypage.js"></script>
+<script>
+  function openPromotionPopup(memberNo) {
+    const popup = window.open(
+      '/mypage/promotion?memberNo=' + memberNo,
+      'promotionPopup',
+      'width=800,height=600,scrollbars=yes'
+    );
+    if (popup) {
+      popup.focus();
+    } else {
+      alert('팝업이 차단되었습니다. 팝업 차단을 해제해주세요.');
+    }
+  }
+</script>
 </html>

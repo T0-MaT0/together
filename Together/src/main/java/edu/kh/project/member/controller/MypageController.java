@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -118,7 +119,47 @@ public class MypageController {
         return service.getReview(memberNo);
     }
 
+    @GetMapping("/promotion")
+    public String promotion(Model model) {
+        return "member/mypage/promotion";
+    }
 
+    @PostMapping("/mypage/promotion")
+    @ResponseBody
+    public int insertPromotion(
+            @RequestParam("memberNo") String memberNo,
+            @RequestParam("title") String title,
+            @RequestParam("brandName") String brandName,
+            @RequestParam("content") String content,
+            @RequestParam("file") MultipartFile file) {
+
+        if (file.isEmpty()) {
+            return 0;
+        }
+
+        /*		String webPath = "/resources/images/review/";
+		String filePath = session.getServletContext().getRealPath(webPath);
+
+		List<Image> existingImages = new ArrayList<Image>();
+		for(int i=0;i<imageLevel.size();i++) {
+			Image img = new Image();
+			img.setImageLevel(imageLevel.get(i));
+			img.setImageNo(imageNo.get(i));
+			existingImages.add(img);
+		}*/
+        String originalFilename = file.getOriginalFilename();
+        String ext = originalFilename.substring(originalFilename.lastIndexOf("."));
+        String savedFilename = UUID.randomUUID().toString() + ext;
+
+        File target = new File(filePath, savedFilename);
+        file.transferTo(target);
+
+
+        return service.insertPromotion(memberNo, title, brandName, content);
+
+
+        return service.insertPromotion;
+    }
 
 
 }
