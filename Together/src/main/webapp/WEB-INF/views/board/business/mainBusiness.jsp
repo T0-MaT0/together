@@ -28,10 +28,6 @@
         <section class="content">
             <div class="banner">
                 <img src="" id="bannerImg">
-                <div class="banner-text">
-                    Buy Together,<br>
-                    <span>Sell Together!</span>
-                </div>
             </div>
 
             <section class="boardList">

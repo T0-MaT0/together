@@ -87,7 +87,12 @@
                                     <td class="date-area" data-date="${reply.replyCreatedDate}"></td>
                                 </tr>
                                 <tr class="current-detail">
-                                    <td colspan="5">${reply.replyContent}</td>
+                                    <td colspan="4">${reply.replyContent}</td>
+                                    <td colspan="1">
+                                        <span class="clickBtn" onclick="updateReply('${reply}', this.closest('tr'))">수정</span>
+                                        |
+                                        <span class="clickBtn" onclick="deleteReply('${reply}')">삭제</span>
+                                    </td>
                                 </tr>
                                 <c:if test="${!empty comment}">
                                     <tr class="current-detail">
@@ -129,7 +134,7 @@
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/main.js"></script>
     <script>
-        const loginMemberNo = "${loginMember.memberNo}";
+
     </script>
     <script src="/resources/js/business/replyList.js"></script>
 </body>

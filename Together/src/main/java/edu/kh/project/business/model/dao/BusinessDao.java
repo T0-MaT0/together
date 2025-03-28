@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.kh.project.business.model.dto.Business;
+import edu.kh.project.business.model.dto.BusinessOption;
 import edu.kh.project.business.model.dto.Order;
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.common.model.dto.PointUsage;
@@ -158,5 +160,25 @@ public class BusinessDao {
 
 	public Reply selectReply(int replyNo) {
 		return sqlSession.selectOne("boardMapper.selectReplyComment", replyNo);
+	}
+
+	public List<Category> selectCategoryList() {
+		return sqlSession.selectList("boardMapper.selectCategoryList");
+	}
+
+	public String selectPermissionFl(int memberNo) {
+		return sqlSession.selectOne("boardMapper.selectPermissionFl", memberNo);
+	}
+
+	public int insertBoard(Business business) {
+		return sqlSession.insert("boardMapper.insertBoard", business);
+	}
+
+	public int insertProduct(Business business) {
+		return sqlSession.insert("boardMapper.insertProduct", business);
+	}
+
+	public int insertOptionList(List<BusinessOption> optionList) {
+		return sqlSession.insert("boardMapper.insertOptionList", optionList);
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import edu.kh.project.business.model.dto.Business;
 import edu.kh.project.business.model.dto.Order;
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
@@ -54,4 +55,10 @@ public interface BusinessService {
 	int deleteReply(Reply reply);
 
 	Reply selectReply(int replyNo);
+
+	List<Category> selectCategoryList();
+
+	String selectPermissionFl(int memberNo);
+
+	int insertProduct(Business business, List<String> optionNameList, List<MultipartFile> images, String webPath, String filePath, Business board, String permissionFl) throws IllegalStateException, IOException;
 }

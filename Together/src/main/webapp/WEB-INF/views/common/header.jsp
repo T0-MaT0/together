@@ -27,7 +27,12 @@
         <div class="user-info">
             <c:if test="${!empty loginMember}">
                 <span>${loginMember.memberNick} | ${loginMember.point}pt</span>
-                <button class="btn-recruit  ">모집하기</button>
+                <c:if test="${loginMember.authority==2}">
+                    <button class="btn-recruit  ">모집하기</button>
+                </c:if>
+                <c:if test="${loginMember.authority==3}">
+                    <a href="/board/2/insertProduct" class="product-registration">상품등록</a>
+                </c:if>
             </c:if>
         </div>
     </div>
@@ -45,11 +50,9 @@
                     <a href="/customer/customerMain">고객 센터</a>
                 </c:when>
                 <c:otherwise>
-                    <a href="#">공구 상품</a>
+                    <a href="/board/2/reviewList">리뷰 목록</a>
                     <span> | </span>
-                    <a href="#">내 모집 중</a>
-                    <span> | </span>
-                    <a href="#">리뷰 후기</a>
+                    <a href="/board/2/replyList">Q&A 목록</a>
                     <span> | </span>
                     <a href="/customer/customerMain">고객 센터</a>
                 </c:otherwise>

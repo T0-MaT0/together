@@ -38,6 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.kh.project.business.model.dto.Business;
 import edu.kh.project.business.model.dto.Order;
 import edu.kh.project.business.model.service.BusinessService;
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
@@ -88,6 +89,71 @@ public class BusinessController {
 		model.addAttribute("map", map);
 		
 		return "board/business/businessList";
+	}
+	
+	// 게시글 작성 페이지로
+	@GetMapping("/insertProduct")
+	public String insertProduct(
+			@PathVariable("boardCode") int boardCode,
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
+			Model model) throws JsonProcessingException {
+		List<Category> categoryList = service.selectCategoryList();
+		String permissionFl = service.selectPermissionFl(loginMember.getMemberNo());
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		String categoryListJson = objectMapper.writeValueAsString(categoryList);
+		
+		model.addAttribute("categoryListJson", categoryListJson);
+		model.addAttribute("categoryList", categoryList);
+		model.addAttribute("permissionFl", permissionFl);
+		
+		return "board/business/businessWrite";
+	}
+	
+	// 상품 등록
+	@PostMapping("/insertProduct")
+	public String insertProduct(
+			@PathVariable("boardCode") int boardCode,
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
+			@RequestParam(value = "images", required = false) List<MultipartFile> images,
+			@RequestParam(value = "optionName", required = false) List<String> optionNameList,
+			@RequestParam(value = "coalitionTitle", required = false) String coalitionTitle,
+			@RequestParam(value = "coalitionContent", required = false) String coalitionContent,
+			@RequestParam(value = "permissionFl", required = false) String permissionFl,
+			Business business, RedirectAttributes ra, HttpSession session) throws IllegalStateException, IOException {
+		business.setMemberNo(loginMember.getMemberNo());
+		
+		Business board = new Business();
+		board.setBoardTitle(coalitionTitle);
+		board.setBoardContent(coalitionContent);
+		board.setBoardCode(8);
+		board.setMemberNo(loginMember.getMemberNo());
+		
+		String webPath = "/resources/images/product/";
+		String filePath = session.getServletContext().getRealPath(webPath);
+		
+		int boardNo = service.insertProduct(business, optionNameList, images, webPath, filePath, board, permissionFl);
+		
+		String message = null;
+		String path = "redirect:/board/"+boardCode+"/";
+		if (boardNo>0) {
+			message = "상품이 등록되었습니다.";
+			path += boardNo;
+		} else {
+			message = "상품 등록 실패";
+			path += "insertProduct";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		return path;
+	}
+	
+	// 상품 삭제
+	@GetMapping("/{boardNo:[0-9]+}/delete")
+	public String deleteProduct(
+			@PathVariable("boardCode") int boardCode,
+			@PathVariable("boardNo") int boardNo) {
+		return null;
 	}
 	
 	// 게시글 상세 조회
@@ -200,8 +266,15 @@ public class BusinessController {
 		
 		Map<String, Object> map = service.selectReviewList(paramMap, reviewCp);
 		
+		List<Review> reviewList = (List<Review>)map.get("reviewList");
+		for (Review review:reviewList) {
+			String content = review.getReviewContent();
+		    content = content.replace("\r\n", "<br>").replace("\n", "<br>");
+		    review.setReviewContent(content);
+	    }
+		
 		ObjectMapper objectMapper = new ObjectMapper();
-		String reviewListJson = objectMapper.writeValueAsString(map.get("reviewList"));
+		String reviewListJson = objectMapper.writeValueAsString(reviewList);
 		model.addAttribute("reviewListJson", reviewListJson);
 		
 		model.addAttribute("map", map);
@@ -438,10 +511,12 @@ public class BusinessController {
 			@PathVariable("boardNo")int boardNo,
 			@RequestBody Reply reply
 			) {
+		System.out.println(reply);
 		int result = service.updateReply(reply);
 		if (result>0&&reply.getParentNo()!=0) {
 			reply = service.selectReply(reply.getParentNo());
 		}
+		System.out.println(reply);
 		return reply;
 	}
 	
