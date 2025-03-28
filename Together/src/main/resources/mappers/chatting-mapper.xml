@@ -264,4 +264,64 @@
 	<select id="selectRoomNoByRoomName" resultType="_int">
 	  SELECT ROOM_NO FROM CHAT_ROOM WHERE ROOM_NAME = #{roomName}
 	</select>
+	
+	<!-- 방 나가기 -->
+	<delete id="deleteChatRoomUser">
+	  DELETE FROM CHAT_ROOM_USER
+	  WHERE ROOM_NO = #{roomNo}
+	    AND MEMBER_NO = #{memberNo}
+	</delete>
+	
+	<!-- 채팅방 참가자 조회 -->
+	<select id="selectRoomMemberList" resultType="Member">
+	    SELECT 
+	        M.MEMBER_NO,
+	        M.MEMBER_NICK,
+	        M.PROFILE_IMG
+	    FROM CHAT_ROOM_USER CRU
+	    JOIN MEMBER M ON CRU.MEMBER_NO = M.MEMBER_NO
+	    WHERE CRU.ROOM_NO = #{roomNo}
+	</select>
+	
+	<!-- 채팅방 이름 조회 -->
+	<select id="selectRoomName" resultMap="chattingRoom_rm">
+	    SELECT ROOM_NAME ,OWNER_MEMBER_NO FROM CHAT_ROOM WHERE ROOM_NO = #{roomNo}
+	</select>
+	
+	<!-- 참가자 추방 -->
+	<delete id="kickMemberFromRoom">
+	  DELETE FROM CHAT_ROOM_USER
+	  WHERE ROOM_NO = #{roomNo}
+	    AND MEMBER_NO = #{memberNo}
+	</delete>
+	
+	<!-- 1대1 채팅방 생성 -->
+	<insert id="insertPrivateChatRoom" parameterType="map" useGeneratedKeys="true">
+	    <selectKey keyProperty="roomNo" order="BEFORE" resultType="_int">
+	        SELECT SEQ_ROOM_NO.NEXTVAL FROM DUAL
+	    </selectKey>
+	
+	    INSERT INTO CHAT_ROOM
+	    VALUES (
+	        #{roomNo},
+	        #{roomName},
+	        'N',
+	        DEFAULT,
+	        'N',
+	        #{myMemberNo}
+	    )
+	</insert>
+	
+	<!-- 채팅방 중복 체크 -->
+	<select id="checkPrivateRoom" parameterType="map" resultType="_int">
+	    SELECT ROOM_NO
+	    FROM CHAT_ROOM
+	    WHERE GROUP_FL = 'N'
+	      AND ROOM_DELETED_FL = 'N'
+	      AND ROOM_NO IN (
+	        SELECT ROOM_NO FROM CHAT_ROOM_USER WHERE MEMBER_NO = #{myMemberNo}
+	        INTERSECT
+	        SELECT ROOM_NO FROM CHAT_ROOM_USER WHERE MEMBER_NO = #{targetMemberNo}
+	      )
+	</select>
 </mapper>

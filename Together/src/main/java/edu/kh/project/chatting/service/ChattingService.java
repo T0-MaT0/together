@@ -60,6 +60,22 @@ public interface ChattingService {
 	// 참가하기 시 채팅방 참여(user insert)
 	void insertChatRoomUser(int roomNo, int memberNo);
 
+	// 방 나가기(참가자 삭제)
+	void deleteChatRoomUser(int roomNo, int memberNo);
+
+	// 채팅방 참가자 조회
+	List<Member> selectRoomMemberList(int roomNo);
+
+	// 채팅방 이름
+	ChattingRoom selectRoomName(int roomNo);
+
+	// 채팅방 추방
+	int kickMemberFromRoom(int roomNo, int targetMemberNo);
+
+	// 1대1 채팅방 만들기
+	Map<String, Object> createOrGetPrivateChatRoom(int myMemberNo, int targetMemberNo, String roomName);
+
+
 
 	
 	
