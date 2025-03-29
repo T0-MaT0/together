@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -144,6 +145,22 @@ public class RecruitmentController2 {
         int result = service.deleteReply(replyNo, loginMember.getMemberNo());
 
         return (result > 0) ? "success" : "fail";
+    }
+    
+    // 관리자
+    @PostMapping("/board/delete")
+    public String deleteBoard(@RequestBody Map<String, Integer> param,
+                              @SessionAttribute("loginMember") Member loginMember) {
+
+        int boardNo = param.get("boardNo");
+
+        // 관리자만 허용
+        if (loginMember.getAuthority() != 1) {
+            return "unauthorized";
+        }
+
+        int result = service.deleteBoard(boardNo);
+        return result > 0 ? "success" : "fail";
     }
         
  

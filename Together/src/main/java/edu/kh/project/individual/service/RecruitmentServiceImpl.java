@@ -25,6 +25,7 @@ import edu.kh.project.common.utility.Utill;
 import edu.kh.project.individual.dao.RecruitmentDAO;
 import edu.kh.project.individual.dto.Image;
 import edu.kh.project.individual.dto.Recruitment;
+import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.member.model.dto.Board;
 
 @Service
@@ -463,6 +464,12 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
         return false;
     }
+
+	// 신고제출
+	@Override
+	public int insertReport(Report report) {
+		return dao.insertReport(report);
+	}
 
 
 	

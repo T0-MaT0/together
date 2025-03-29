@@ -456,6 +456,7 @@
 		    p.CATEGORY_NO, 
 		
 		    -- 모집장 정보 RECRUITMENT_ROOM에서 직접 가져오기
+		    m.MEMBER_NO AS hostNo,
 		    m.MEMBER_NICK AS hostName,
 		    m.MEMBER_GRADE AS hostGrade
 		
@@ -485,7 +486,7 @@
 	    UPDATE REPLY
 	    SET REPLY_DEL_FL = 'Y'
 	    WHERE REPLY_NO = #{replyNo}
-	    AND MEMBER_NO = #{memberNo}
+	    AND (MEMBER_NO = #{memberNo} OR #{memberNo} = 1)
 	</update>
 	
 	<!-- 게시글 작성(board) -->
@@ -803,4 +804,32 @@
               AND QR_TOKEN = #{token}
           )
     </update>
+    
+    <!-- 신고 제출 -->
+    <insert id="insertReport">
+        INSERT INTO REPORT (
+            REPORT_NO, REPORT_TITLE, REPORT_DETAIL,
+            REPORT_DATE, REPORT_STATUS,
+            REPORT_TYPE, REPORT_TYPE_NO,
+            MEMBER_NO, REPORTED_USER_NO, REPORT_M_REPLY
+        ) VALUES (
+            SEQ_REPORT_NO.NEXTVAL,
+            #{reportTitle},
+            #{reportDetail},
+            SYSDATE,
+            #{reportStatus},
+            #{reportType},
+            #{reportTypeNo},
+            #{memberNo},
+            #{reportedUserNo},
+            #{reply}
+        )
+    </insert>
+    
+    <!-- 게시글 삭제 -->
+    <update id="deleteBoard">
+	  UPDATE BOARD
+	  SET BOARD_DEL_FL = 'Y'
+	  WHERE BOARD_NO = #{boardNo}
+	</update>
 </mapper>

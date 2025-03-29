@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Recruitment;
+import edu.kh.project.manager.model.dto.Report;
 
 public interface RecruitmentService {
 
@@ -61,6 +62,10 @@ public interface RecruitmentService {
 	int updateVerificationForm(int recruitmentNo, String trackingNumber, String deliveryExpected,
 			String memberReceiveDate);
 
+	// 참가자 중복검사
 	boolean verifyParticipant(int recruitmentNo, String token);
+
+	// 신고제출 
+	int insertReport(Report report);
 
 }

@@ -21,4 +21,5 @@ public class ChattingRoom {
     private int maxMessageNo;
     private String ownerProfile;
     private int ownerMemberNo;
+    private char groupFl;
 }
