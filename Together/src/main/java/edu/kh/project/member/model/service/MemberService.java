@@ -71,6 +71,12 @@ public interface MemberService {
 
 
 	Member selectMemberByNo(int memberNo);
+
+
+	Member findCompanyMember(Map<String, Object> paramMap);
+
+
+	//int changePw2(Member inputMember);
 	
 
 }

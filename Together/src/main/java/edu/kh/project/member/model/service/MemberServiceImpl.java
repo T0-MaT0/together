@@ -154,6 +154,22 @@ public class MemberServiceImpl implements MemberService{
 	public Member selectMemberByNo(int memberNo) {
 		return dao.selectMemberByNo(memberNo);
 	}
+
+	@Override
+	public Member findCompanyMember(Map<String, Object> paramMap) {
+		return dao.findCompanyMember(paramMap);
+	}
+
+	/*@Override
+	public int changePw2(Member inputMember) {
+		inputMember.setMemberPw(bcrypt.encode(inputMember.getMemberPw()));
+		
+		int result = dao.changePw2(inputMember);
+		
+		return result;
+	}*/
+	
+	
 	
 
 }

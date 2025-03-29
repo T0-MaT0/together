@@ -62,6 +62,14 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.selectMemberByNo", memberNo);
 	}
 
+	public Member findCompanyMember(Map<String, Object> paramMap) {
+		return sqlSession.selectOne("memberMapper.findCompanyMember", paramMap);
+	}
+
+	//public int changePw2(Member inputMember) {
+	//	return sqlSession.update("memberMapper.changePw2", inputMember);
+	//}
+
 
 
 

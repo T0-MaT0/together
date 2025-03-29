@@ -143,6 +143,15 @@
 	    AND MEMBER_NO = #{memberNo}
 	</select>
 	
+	<select id="findCompanyMember" parameterType="Member" resultMap="member_rm">
+	    SELECT M.MEMBER_NO, M.MEMBER_ID
+	    FROM MEMBER M
+	    JOIN COMPANY C ON M.MEMBER_NO = C.MEMBER_NO
+	    WHERE M.MEMBER_ID = #{companyId}
+	      AND M.MEMBER_EMAIL = #{companyEmail}
+	      AND C.BUSINESS_NO = #{companyNo}
+	</select>
+	
 
 		
 
