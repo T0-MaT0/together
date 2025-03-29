@@ -230,3 +230,12 @@
     border: 1px solid #ccc;
     border-radius: 10px;
 }
+
+
+.notFound{
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

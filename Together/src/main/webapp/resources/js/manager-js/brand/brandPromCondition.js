@@ -14,27 +14,26 @@ const filterCustomerStatus = (e)=>{
     if (customerState == '대기') {
         select.value = '대기';
     
-    } else if (customerState == '반려') {
-        select.value = '반려';
+    } else if (customerState == '승인') {
+        select.value = '승인';
     
-    } else if (customerState == '경고') {
-        select.value = '경고';
+    } else if (customerState == '거부') {
+        select.value = '거부';
     
-    } else if (customerState == '블랙') {
-        select.value = '블랙';
-    } else{
-        location.href = '/manageCustomer/report';
+    }  else{
+        location.href = '/manageBrand/promotion';
+        return;
     }
     
     console.log(customerState)
-    fetch("reportCondition?customerState="+ customerState )
+    fetch("brandPromCondition?customerState="+ customerState )
     .then(resp=>resp.json())
     .then(customerList =>{
         console.log(customerList);
         if(customerList.pagination.endPage == 0) {
             const notFound = document.createElement('div');
             notFound.classList.add('notFound');
-            notFound.innerText = "존재하는 회원이 없습니다.";
+            notFound.innerText = "광고가 존재하지 않습니다.";
             BoardContainer.append(notFound);
             return;
         }
@@ -119,25 +118,24 @@ function statePageMove(customerState, cp){
     if (customerState == '대기') {
         select.value = '대기';
     
-    } else if (customerState == '반려') {
-        select.value = '반려';
+    } else if (customerState == '승인') {
+        select.value = '승인';
     
-    } else if (customerState == '경고') {
-        select.value = '경고';
+    } else if (customerState == '거부') {
+        select.value = '거부';
     
-    } else if (customerState == '블랙') {
-        select.value = '블랙';
-    } else{
-        location.href = '/manageCustomer/report';
+    }  else{
+        location.href = '/manageBrand/promotion';
+        return;
     }
-    fetch("reportCondition?customerState="+customerState+"&cp="+cp )
+    fetch("brandPromCondition?customerState="+customerState+"&cp="+cp )
     .then(resp=>resp.json())
     .then(customerList =>{
         console.log(customerList);
         if(customerList.pagination.endPage == 0) {
             const notFound = document.createElement('div');
             notFound.classList.add('notFound');
-            notFound.innerText = "존재하는 문의가 없습니다.";
+            notFound.innerText = "광고가 존재하지 않습니다.";
             BoardContainer.append(notFound);
             return;
         }
@@ -217,7 +215,7 @@ function boardStructureTop(){
 
     const titleDiv = document.createElement('div');
     titleDiv.classList.add('title');
-    titleDiv.innerText = '고객 대상 신고';
+    titleDiv.innerText = '광고 신청';
 
     const selectArea = document.createElement('div');
     selectArea.classList.add('select-area');
@@ -234,18 +232,15 @@ function boardStructureTop(){
     optionWait.innerText = '대기';
 
 
-    const optionBack = document.createElement('option');
-    optionBack.innerText = '반려';
+    const optionAccept = document.createElement('option');
+    optionAccept.innerText = '승인';
 
-    const optionWarn = document.createElement('option');
-    optionWarn.innerText = '경고';
-
-    const optionBlack = document.createElement('option');
-    optionBlack.innerText = '블랙';
-    
+    const optionRefuse = document.createElement('option');
+    optionRefuse.innerText = '거부';
 
 
-    select.append(optionAll, optionWait, optionBack, optionWarn, optionBlack );
+
+    select.append(optionAll, optionWait, optionAccept, optionRefuse );
     selectArea.append(select);
     boardTitle.append(titleDiv, selectArea);
     BoardContainer.append(boardTitle);
@@ -261,22 +256,19 @@ function boardStructureSubTitle(){
     div1.innerText = '번호';
 
     const div2 = document.createElement('div');
-    div2.innerText = '신고자';
+    div2.innerText = '브랜드';
 
     const div3 = document.createElement('div');
-    div3.innerText = '피신고자';
+    div3.innerText = '신청내용';
 
     const div4 = document.createElement('div');
-    div4.innerText = '신고 제목';
+    div4.innerText = '신청일자';
 
     const div5 = document.createElement('div');
-    div5.innerText = '신고 일자';
-
-    const div6 = document.createElement('div');
-    div6.innerText = '상태';
+    div5.innerText = '상태';
 
 
-    listItem.append(div1, div2, div3, div4, div5, div6);
+    listItem.append(div1, div2, div3, div4, div5);
     listAreaWrap.append(listItem);
     BoardContainer.append(listAreaWrap);
 
@@ -284,31 +276,26 @@ function boardStructureSubTitle(){
 
 function boardStructure(customer){
     let listItem = document.createElement('div');
-    listItem.classList.add('list', 'item', 'bottom-line', 'clickArea');
-    listItem.setAttribute('onclick', `customerState(${customer.memberNo})`);
+    listItem.classList.add('list', 'item', 'bottom-line');
 
     let div1 = document.createElement('div');
-    div1.innerText = customer.reportNo;
+    div1.innerText = customer.boardNo;
 
     let div2 = document.createElement('div');
-    div2.innerText = customer.memberNick;
+    div2.innerText = customer.brandName;
 
     let div3 = document.createElement('div');
-    div3.innerText = customer.reportedUserNick;
+    div3.classList.add("clickList");
+    div3.setAttribute("onclick",`clickApply(${customer.boardNo})`)
+    div3.innerText = customer.boardTitle;
 
     let div4 = document.createElement('div');
-    div4.classList.add("clickList");
-    div4.setAttribute("onclick",`customerReport(${customer.reportNo})`)
-    div4.innerText = customer.reportTitle;
+    div4.innerText = customer.createDate;
 
     let div5 = document.createElement('div');
-    div5.innerText = customer.reportDate;
+    div5.innerText = customer.boardDelFl;
 
-    let div6 = document.createElement('div');
-    div6.innerText = customer.reportStatus;
-
-    listItem.append(div1, div2, div3, div4, div5, div6);
+    listItem.append(div1, div2, div3, div4, div5);
     listAreaWrap.append(listItem);
     BoardContainer.append(listAreaWrap);
 }
-console.log("hello")

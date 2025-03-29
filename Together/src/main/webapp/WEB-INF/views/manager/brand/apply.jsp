@@ -14,7 +14,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>apply</title>
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/brand/collabo-list.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/modal.css" />
@@ -57,11 +57,11 @@
             <div class="board-title bottom-line">
                 <div class="title">제휴 신청</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <select name="customerStatus" id="customerStatus" onchange="filterCustomerStatus(event)">
                         <option>전체</option>
                         <option>대기</option>
                         <option>승인</option>
-                        <option>거절</option>
+                        <option>거부</option>
                     </select>
                 </div>
             </div>
@@ -143,7 +143,6 @@
                     </select>
                 </div>
             </div>
-            
             <canvas id="myChart" style="width:80%;max-width:400px; height: 400px;"  width="400" height="400"></canvas>
         </section>
 
@@ -197,10 +196,22 @@
     <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 
+<c:forEach var="apply" items="${map.applyStateCount}">
+    <c:if test="${apply.B_STATE == '대기'}">
+        <c:set var="wait" value="${apply.COUNT}"></c:set>
+    </c:if>
+    <c:if test="${apply.B_STATE == '승인'}">
+        <c:set var="accept" value="${apply.COUNT}"></c:set>
+    </c:if>
+    <c:if test="${apply.B_STATE == '거부'}">
+        <c:set var="refuse" value="${apply.COUNT}"></c:set>
+    </c:if>
+</c:forEach>
+
 
 <script>
-    const xValues = ["대기","승인", "거절"];
-    const yValues = [${map.applyStateCount[1].COUNT}, ${map.applyStateCount[0].COUNT} ,${map.applyStateCount[2].COUNT}];
+    const xValues = ["대기","승인", "거부"];
+    const yValues = [${wait} ,${accept}, ${refuse}];
     const barColors = [
     "#DC143C",
     // "#FF6347",
@@ -226,6 +237,7 @@
 </script>
 
 <script src="/resources/js/manager-js/modal.js"></script>
+<script src="/resources/js/manager-js/brand/brandApplyCondition.js"></script>
 </body>
 
 </html>

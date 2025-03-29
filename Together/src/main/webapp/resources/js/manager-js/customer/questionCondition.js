@@ -26,7 +26,7 @@ const filterCustomerStatus = (e)=>{
         if(customerList.pagination.endPage == 0) {
             const notFound = document.createElement('div');
             notFound.classList.add('notFound');
-            notFound.innerText = "존재하는 회원이 없습니다.";
+            notFound.innerText = "존재하는 문의가 없습니다.";
             BoardContainer.append(notFound);
             return;
         }
@@ -116,7 +116,7 @@ function statePageMove(customerState, cp){
         location.href = '/manageCustomer/question';
     }
 
-    fetch("customerBoardCondition?customerState="+customerState+"&cp="+cp )
+    fetch("questionCondition?customerState="+customerState+"&cp="+cp )
     .then(resp=>resp.json())
     .then(customerList =>{
         console.log(customerList);
@@ -281,6 +281,8 @@ function boardStructure(customer){
     div2.innerText = customer.memberNick;
 
     let div3 = document.createElement('div');
+    div3.classList.add("clickList");
+    div3.setAttribute("onclick",`customerQuest(${customer.boardNo})`)
     div3.innerText = customer.boardTitle;
 
     let div4 = document.createElement('div');

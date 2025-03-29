@@ -203,6 +203,8 @@ html, body {
     text-decoration: none;
     color: black;
 
+    cursor: pointer;
+
     text-align: center;
 }
 .select{
@@ -310,4 +312,12 @@ html, body {
 #list-area > div.notFound{
     padding: 15px 0;
     margin: auto;
+}
+/* ----------------------------------- */
+/* 이전페이지로 돌아가기 */
+.backToHistory{
+    margin-left: 600px;
+    color: #9d3aff;
+    text-decoration: none;
+    text-shadow: 1px 1px 2px white;
 }

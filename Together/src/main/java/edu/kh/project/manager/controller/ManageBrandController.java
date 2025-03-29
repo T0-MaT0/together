@@ -214,4 +214,41 @@ public class ManageBrandController {
 		return service.promotionApproval(requestData);
 	}
 	
+	///*** 조건 적용 영역
+	//조건 적용 브랜드 상품 목록조회
+	@GetMapping(value="productCondition", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> productCondition(
+			@RequestParam( value="cp",required=false,defaultValue = "1") int cp
+			,String customerState){
+		return service.productCondition(customerState, cp);
+	}
+	
+	//조건 적용 브랜드 대상 신고 목록 조회
+	@GetMapping(value="reportCondition", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> reportCondition(
+			@RequestParam( value="cp",required=false,defaultValue = "1") int cp
+			,String customerState){
+		return service.reportCondition(customerState, cp);
+	}
+	
+	//조건 적용 브랜드 제휴 조회
+	@GetMapping(value="brandApplyCondition", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> brandApplyCondition(
+			@RequestParam( value="cp",required=false,defaultValue = "1") int cp
+			,String customerState){
+		return service.brandApplyCondition(customerState, cp);
+	}
+	
+	//조건 적용 브랜드 광고 조회
+	@GetMapping(value="brandPromCondition", produces="application/json; charset=UTF-8")
+	@ResponseBody
+	public Map<String, Object> brandPromCondition(
+			@RequestParam( value="cp",required=false,defaultValue = "1") int cp
+			,String customerState){
+		return service.brandPromCondition(customerState, cp);
+	}
+	
 }

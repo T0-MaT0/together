@@ -52,12 +52,12 @@
             <div class="board-title bottom-line">
                 <div class="title">브랜드 대상 신고</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <select name="customerStatus" id="customerStatus" onchange="filterCustomerStatus(event)">
                         <option>전체</option>
-                        <option>미처리</option>
+                        <option>대기</option>
                         <option>반려</option>
-                        <option>블랙</option>
                         <option>경고</option>
+                        <option>블랙</option>
                     </select>
                 </div>
             </div>
@@ -135,6 +135,7 @@
 <!-- <script src="/resources/js/manager-js/modal.js"></script> -->
 <script src="/resources/js/manager-js/reportModal.js"></script>
 <script src="/resources/js/manager-js/customer/customerReport.js"></script>
+<script src="/resources/js/manager-js/brand/brandReportCondition.js"></script>
 </body>
 
 </html>

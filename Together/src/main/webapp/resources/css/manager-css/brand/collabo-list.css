@@ -179,3 +179,13 @@
 #menu-items > div.open-menu > a:nth-child(3){
     color:#6700CF;
 }
+
+/* ---------------------------------------------------------------- */
+
+.notFound{
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

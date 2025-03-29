@@ -689,6 +689,15 @@
 		WHERE BOARD_CD =2	
 	</select>
 	
+	<!--조건 적용 상품 수 -->
+	<select id="goodsCounCondition" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD 
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE BOARD_CD =2	
+		AND BOARD_DEL_FL = #{customerState}
+	</select>
+	
 	<!-- 상품 목록 조회  -->
 	<select id="goodsList" resultMap="Brand_Board">
 		SELECT MEMBER_NO, BOARD_NO , MEMBER_NICK BRAND_NAME, BOARD_TITLE PRODUCT_TITLE
@@ -698,6 +707,19 @@
 		FROM BOARD B
 		JOIN MEMBER USING(MEMBER_NO)
 		WHERE BOARD_CD =2
+		ORDER BY CREATE_DATE
+	</select>
+	
+	<!-- 조건 적용 상품 목록 조회  -->
+	<select id="goodsListCondition" resultMap="Brand_Board">
+		SELECT MEMBER_NO, BOARD_NO , MEMBER_NICK BRAND_NAME, BOARD_TITLE PRODUCT_TITLE
+				, TO_CHAR(B_CREATE_DATE,'YYYY-MM-DD') CREATE_DATE
+				,(SELECT PRODUCT_COUNT FROM PRODUCT P WHERE B.BOARD_NO= P.BOARD_NO)  PRODUCT_COUNT
+				, DECODE(BOARD_DEL_FL,'N', '판매','Y', '종료') BOARD_DEL_FL
+		FROM BOARD B
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE BOARD_CD =2
+		AND BOARD_DEL_FL =#{customerState}
 		ORDER BY CREATE_DATE
 	</select>
 	
@@ -726,6 +748,15 @@
 		WHERE REPORT_TYPE  = 1
 	</select>
 	
+	<!--조건 적용 브랜드 대상 신고 수 -->
+	<select id="brandReportCountCondition" resultType='_int'>
+		SELECT COUNT(*)
+		FROM REPORT R
+		JOIN MEMBER USING(MEMBER_NO) 
+		WHERE REPORT_TYPE  = 1
+		AND REPORT_STATUS = #{customerState}
+	</select>
+	
 	<!-- 브랜드 대상 신고 목록 조회 -->
 	<select id="brandReportList" resultMap='Report'>
 		SELECT DECODE(REPORT_TYPE,1,'브랜드 상품', 2, '모집글',3,'댓글',4,'채팅',5,'리뷰') REPORT_TYPE
@@ -738,6 +769,19 @@
 		ORDER BY REPORT_DATE DESC 	
 	</select>	
 	
+	<!-- 조건 적용 브랜드 대상 신고 목록 조회 -->
+	<select id="brandReportListCondition" resultMap='Report'>
+		SELECT DECODE(REPORT_TYPE,1,'브랜드 상품', 2, '모집글',3,'댓글',4,'채팅',5,'리뷰') REPORT_TYPE
+			,REPORT_NO, 
+			MEMBER_NICK , (SELECT MEMBER_NICK FROM MEMBER M WHERE R.REPORTED_USER_NO= M.MEMBER_NO) REPORTED_USER_NICK
+			,REPORT_TITLE, TO_CHAR(REPORT_DATE, 'YYYY-MM-DD') REPORT_DATE, REPORT_STATUS 
+		FROM REPORT R
+		JOIN MEMBER USING(MEMBER_NO) 
+		WHERE REPORT_TYPE = 1
+		AND REPORT_STATUS = #{customerState}
+		ORDER BY REPORT_DATE DESC 	
+	</select>	
+	
 	<!--제뮤 문의 수  -->
 	<select id="applyCount" resultType="_int">
 		SELECT COUNT(*)
@@ -745,12 +789,39 @@
 		JOIN MEMBER USING(MEMBER_NO)
 		WHERE BOARD_CD = 8
 	</select>
+	<!-- 조건 적용 제뮤 문의 수  -->
+	<select id="applyCountCondition" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE BOARD_CD = 8
+		<if test='customerState != "대기"'>
+			AND B_STATE = #{customerState}
+		</if>
+		<if test='customerState == "대기"'>
+			AND B_STATE IS NULL
+		</if>
+	</select>
 	<!--제뮤 문의 리스트 목록 조회 -->
 	<select id="applyList" resultMap="Brand_Board">
 		SELECT BOARD_NO, MEMBER_NICK BRAND_NAME, BOARD_TITLE, TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE , NVL(B_STATE, '대기') BOARD_DEL_FL 
 		FROM BOARD
 		JOIN MEMBER USING(MEMBER_NO)
 		WHERE BOARD_CD = 8
+		ORDER BY B_CREATE_DATE DESC
+	</select>
+	<!--조건 적용 제뮤 문의 리스트 목록 조회 -->
+	<select id="applyListCondition" resultMap="Brand_Board">
+		SELECT BOARD_NO, MEMBER_NICK BRAND_NAME, BOARD_TITLE, TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE , NVL(B_STATE, '대기') BOARD_DEL_FL 
+		FROM BOARD
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE BOARD_CD = 8
+		<if test='customerState != "대기"'>
+			AND B_STATE = #{customerState}
+		</if>
+		<if test='customerState == "대기"'>
+			AND B_STATE IS NULL
+		</if>
 		ORDER BY B_CREATE_DATE DESC
 	</select>
 	<!-- 제휴 문의 상태 수 -->
@@ -770,6 +841,19 @@
 		JOIN MEMBER USING(MEMBER_NO)
 		WHERE BOARD_CD = 7	
 	</select>
+	<!-- 광고 신청 수 -->
+	<select id="promotionCountCondition" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE BOARD_CD = 7	
+		<if test='customerState != "대기"'>
+			AND B_STATE = #{customerState}
+		</if>
+		<if test='customerState == "대기"'>
+			AND B_STATE IS NULL
+		</if>		
+	</select>
 	<!-- 광고 신청 리스트 목록 조회 -->
 	<select id="promotionList" resultMap="Brand_Board">
 		SELECT BOARD_NO, MEMBER_NICK BRAND_NAME, BOARD_TITLE, TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE , NVL(B_STATE, '대기') BOARD_DEL_FL 
@@ -778,9 +862,23 @@
 		WHERE BOARD_CD = 7
 		ORDER BY B_CREATE_DATE DESC
 	</select>
+	<!-- 광고 신청 리스트 목록 조회 -->
+	<select id="promotionListCondition" resultMap="Brand_Board">
+		SELECT BOARD_NO, MEMBER_NICK BRAND_NAME, BOARD_TITLE, TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE , NVL(B_STATE, '대기') BOARD_DEL_FL 
+		FROM BOARD
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE BOARD_CD = 7
+		<if test='customerState != "대기"'>
+			AND B_STATE = #{customerState}
+		</if>
+		<if test='customerState == "대기"'>
+			AND B_STATE IS NULL
+		</if>		
+		ORDER BY B_CREATE_DATE DESC
+	</select>
 	<!-- 광고 신청 상태 수 -->
 	<select id="promStateCount" resultType="map">
-		SELECT NVL(B_STATE, '대기' ), COUNT(*) COUNT
+		SELECT NVL(B_STATE, '대기' ) B_STATE, COUNT(*) COUNT
 		FROM BOARD
 		JOIN MEMBER USING(MEMBER_NO)
 		WHERE BOARD_CD = 7
@@ -1072,9 +1170,9 @@
 	
 	<!-- 문제의 모집글 조회  -->
 	<select id="getherSelect" resultType="_int">
-		SELECT RECRUITMENT_NO
+		SELECT BOARD_NO 
 		FROM RECRUITMENT_ROOM R 
-		WHERE BOARD_NO = ${no}		
+		WHERE RECRUITMENT_NO = ${no}	
 	</select>
 	
 	<!-- 문제의 댓글 조회 -->

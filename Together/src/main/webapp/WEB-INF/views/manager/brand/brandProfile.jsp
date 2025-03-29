@@ -34,6 +34,7 @@
             <div>브랜드 관리</div>
              &nbsp; <div> - 프로필</div>
              <!-- <a href="location">이전으로 </a> -->
+             <a href="javascript:history.back();" class="backToHistory">&lt; 목록으로 돌아가기</a>
         </div>
     </header>
     <c:set var="brandProfile" value="${map.brandProfile}"></c:set>
@@ -172,7 +173,6 @@
                 </div>
 
             </div>
-${profile}
             <ul id="pagination">
                 <!-- <li>&lt;</li>
                 <li>&gt;</li> -->
