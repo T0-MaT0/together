@@ -1172,7 +1172,7 @@
 	<select id="getherSelect" resultType="_int">
 		SELECT BOARD_NO 
 		FROM RECRUITMENT_ROOM R 
-		WHERE RECRUITMENT_NO = ${no}	
+		WHERE RECRUITMENT_NO = #{no}	
 	</select>
 	
 	<!-- 문제의 댓글 조회 -->
