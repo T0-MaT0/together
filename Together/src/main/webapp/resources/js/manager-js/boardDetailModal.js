@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function () {
        
     }
     if(type == 2){
-        console.log(url);
         location.href = `/partyRecruitmentList/${no}/${recruitmentBoardNo}`;
          ///partyRecruitmentList/{recruitmentNo}/{boardNo}
     }
