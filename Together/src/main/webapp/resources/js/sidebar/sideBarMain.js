@@ -24,110 +24,127 @@ sideBarClose.addEventListener("click", e => {
 });
 
 
+let fullChatList = [];
 
 // 채팅방 목록 비동기 로딩
 function loadChatRoomList() {
   fetch("/chatting/roomList")
     .then(response => response.json())
     .then(chatList => {
-      const container = document.querySelector(".chat-room-box");
-      if (!container) return;
-
-      container.innerHTML = "";
-
-      if (chatList.length === 0) {
-        container.innerHTML = "<p class='no-chat'>채팅방이 없습니다.</p>";
-        return;
-      }
-
-      chatList.forEach(chat => {
-        const div = document.createElement("div");
-        div.classList.add("chat-room");
-
-        // 채팅방 번호를 dataset에 담아둠
-        div.dataset.roomNo = chat.roomNo;
-        div.dataset.roomName = chat.roomName;
-        div.dataset.ownerProfile = chat.ownerProfile;
-
-
-        let lastMessage = chat.lastMessage;
-        if (lastMessage && lastMessage.includes('/resources/images/')) {
-          lastMessage = '이미지';
-        } else if (!lastMessage || lastMessage.trim() === '') {
-          lastMessage = '대화를 시작해보세요!';
-        }
-
-        const profileImgSrc = chat.groupFl === 'N'
-        ? (chat.targetProfile || '/resources/images/user.png') // 1대1 채팅
-        : (chat.ownerProfile || '/resources/images/user.png'); // 그룹 채팅
-      
-        const roomLabel = chat.groupFl === 'Y' ? `[그룹] ${chat.roomName}` : chat.roomName;
-
-        div.innerHTML = `
-          <div class="profile-box">
-            <div class="profile profile-inBox">
-              <img src="${profileImgSrc}" alt="">
-            </div>
-          </div>
-          <div class="chat">
-            <div class="chat-name">${roomLabel}</div>
-            <div class="chat-content">${lastMessage || '대화를 시작해보세요!'}</div>
-          </div>
-          <div class="chat-info">
-            <div class="noti noti-chat"><span>${chat.unreadCount || 0}</span></div>
-            <div class="chat-time">${chat.lastSendTime || ''}</div>
-          </div>
-        `;
-
-        div.addEventListener("click", () => {
-          const chattingNo = div.dataset.roomNo;
-          const roomName = div.dataset.roomName;
-          const ownerProfile = div.dataset.ownerProfile;
-          const targetUrl = `/sidebar/chatOpen?chattingNo=${chattingNo}`;
-        
-          fetch(targetUrl)
-            .then(res => res.text())
-            .then(html => {
-              const contentBox = document.querySelectorAll("#CHAT .content")[0];
-              contentBox.innerHTML = html;
-
-              document.querySelector("#roomTitle").innerText = roomName;
-              const ownerImg = document.querySelector("#ownerProfileImg");
-              ownerImg.src = ownerProfile && ownerProfile !== "null"
-                ? ownerProfile : "/resources/images/user.png";
-
-                
-        
-              bindChatRoomHeaderButtons();
-              bindSendMessageEvent();
-              bindImageUploadEvent();
-              bindEmojiEvent();
-              // initNicknameMenuEvents();
-        
-              connectChatWebSocket?.(chattingNo);
-              loadMessageList?.();
-        
-              loadChatRoomDetail(chattingNo);
-        
-              // 탭 선택 처리
-              const talkMenus = document.querySelectorAll(".talkMenu");
-              talkMenus.forEach(menu => {
-                menu.classList.remove("select", "unselect"); 
-                menu.classList.add("unselect");              
-              });
-        
-              const chatTab = document.querySelector(".talkMenu a[data-url*='/sidebar/chatOpen']")?.closest(".talkMenu");
-              chatTab?.classList.remove("unselect");
-              chatTab?.classList.add("select");
-            });
-        });
-
-        container.appendChild(div);
-      });
+      fullChatList = chatList; // 전체 목록 저장
+      renderChatRoomList(fullChatList); // 화면 출력
+      bindChatRoomSearchEvent(); // 검색 필터 이벤트 연결
     })
     .catch(err => {
       console.error("채팅방 목록 불러오기 실패", err);
     });
+}
+
+// 채팅방 목록 출력 함수
+function renderChatRoomList(chatList) {
+  const container = document.querySelector(".chat-room-box");
+  if (!container) return;
+
+  container.innerHTML = "";
+
+  if (chatList.length === 0) {
+    container.innerHTML = "<p class='no-chat'>채팅방이 없습니다.</p>";
+    return;
+  }
+
+  chatList.forEach(chat => {
+    const div = document.createElement("div");
+    div.classList.add("chat-room");
+
+    div.dataset.roomNo = chat.roomNo;
+    div.dataset.roomName = chat.roomName;
+    div.dataset.ownerProfile = chat.ownerProfile;
+
+    let lastMessage = chat.lastMessage;
+    if (lastMessage?.includes('/resources/images/')) {
+      lastMessage = '이미지';
+    } else if (!lastMessage || lastMessage.trim() === '') {
+      lastMessage = '대화를 시작해보세요!';
+    }
+
+    const profileImgSrc = chat.groupFl === 'N'
+      ? (chat.targetProfile || '/resources/images/user.png')
+      : (chat.ownerProfile || '/resources/images/user.png');
+
+    const roomLabel = chat.groupFl === 'Y' ? `[그룹] ${chat.roomName}` : chat.roomName;
+
+    div.innerHTML = `
+      <div class="profile-box">
+        <div class="profile profile-inBox">
+          <img src="${profileImgSrc}" alt="">
+        </div>
+      </div>
+      <div class="chat">
+        <div class="chat-name">${roomLabel}</div>
+        <div class="chat-content">${lastMessage}</div>
+      </div>
+      <div class="chat-info">
+        <div class="noti noti-chat"><span>${chat.unreadCount || 0}</span></div>
+        <div class="chat-time">${chat.lastSendTime || ''}</div>
+      </div>
+    `;
+
+    div.addEventListener("click", () => {
+      const chattingNo = div.dataset.roomNo;
+      const roomName = div.dataset.roomName;
+      const ownerProfile = div.dataset.ownerProfile;
+      const targetUrl = `/sidebar/chatOpen?chattingNo=${chattingNo}`;
+
+      fetch(targetUrl)
+        .then(res => res.text())
+        .then(html => {
+          const contentBox = document.querySelectorAll("#CHAT .content")[0];
+          contentBox.innerHTML = html;
+
+          document.querySelector("#roomTitle").innerText = roomName;
+          const ownerImg = document.querySelector("#ownerProfileImg");
+          ownerImg.src = ownerProfile && ownerProfile !== "null"
+            ? ownerProfile : "/resources/images/user.png";
+
+          bindChatRoomHeaderButtons();
+          bindSendMessageEvent();
+          bindImageUploadEvent();
+          bindEmojiEvent();
+
+          connectChatWebSocket?.(chattingNo);
+          loadMessageList?.();
+          loadChatRoomDetail(chattingNo);
+
+          const talkMenus = document.querySelectorAll(".talkMenu");
+          talkMenus.forEach(menu => {
+            menu.classList.remove("select", "unselect");
+            menu.classList.add("unselect");
+          });
+
+          const chatTab = document.querySelector(".talkMenu a[data-url*='/sidebar/chatOpen']")?.closest(".talkMenu");
+          chatTab?.classList.remove("unselect");
+          chatTab?.classList.add("select");
+        });
+    });
+
+    container.appendChild(div);
+  });
+}
+
+// 검색 이벤트 바인딩
+function bindChatRoomSearchEvent() {
+  const input = document.getElementById("sideBar-input");
+  if (!input) return;
+
+  input.addEventListener("input", function () {
+    const keyword = this.value.trim().toLowerCase();
+
+    const filtered = fullChatList.filter(chat =>
+      chat.roomName?.toLowerCase().includes(keyword)
+    );
+
+    renderChatRoomList(filtered);
+  });
 }
 
 
@@ -787,8 +804,6 @@ function loadChatRoomDetail(roomNo) {
     })
     .catch(err => console.error("🔴 채팅방 상세 로딩 실패", err));
 }
-
-
 
 
 
