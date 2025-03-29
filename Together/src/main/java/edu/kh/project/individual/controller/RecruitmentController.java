@@ -1,6 +1,7 @@
 package edu.kh.project.individual.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +30,7 @@ import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Recruitment;
 import edu.kh.project.individual.service.CategoryService;
 import edu.kh.project.individual.service.RecruitmentService;
+import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.member.model.dto.Member;
 
 @Controller
@@ -728,5 +731,21 @@ public class RecruitmentController {
         model.addAttribute("boardCode", boardCode);
         // 인증 결과 안내 페이지로 이동
         return "Individual/result"; 
+    }
+ 	
+ 	// 신고
+ 	@PostMapping("/report/submit")
+ 	@ResponseBody
+    public Map<String, Object> submitReport(@RequestBody Report report,
+                                            @SessionAttribute("loginMember") Member loginMember) {
+
+        report.setMemberNo(loginMember.getMemberNo()); // 로그인한 사용자 설정
+        report.setReportStatus("대기");
+
+        int result = service.insertReport(report);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", result > 0);
+        return response;
     }
 }

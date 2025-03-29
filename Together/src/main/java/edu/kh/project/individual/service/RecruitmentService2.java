@@ -27,6 +27,9 @@ public interface RecruitmentService2 {
 	// 댓글 삭제
 	int deleteReply(int replyNo, int memberNo);
 
+	// 게시글 삭제(관리자)
+	int deleteBoard(int boardNo);
+
 
 	
 

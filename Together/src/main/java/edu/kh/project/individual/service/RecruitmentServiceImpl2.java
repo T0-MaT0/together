@@ -59,6 +59,12 @@ public class RecruitmentServiceImpl2 implements RecruitmentService2{
 		return dao.deleteReply(replyNo, memberNo);
 	}
 
+	// 게시글 삭제(관리자)
+	@Override
+	public int deleteBoard(int boardNo) {
+		return dao.deleteBoard(boardNo);
+	}
+
 	
 	
 }

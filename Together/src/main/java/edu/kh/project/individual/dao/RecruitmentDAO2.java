@@ -58,6 +58,11 @@ public class RecruitmentDAO2 {
 		return sqlSession.update("recruitmentMapper.deleteReply", paramMap);
 	}
 
+	// 게시글 삭제
+	public int deleteBoard(int boardNo) {
+		return sqlSession.update("recruitmentMapper.deleteBoard", boardNo);
+	}
+
 	
 
 

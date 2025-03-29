@@ -39,9 +39,11 @@
                                     alt="제품 이미지">
                                     <p class="seller-info">
                                         <span class="clickable-nickname"
-                                              data-member-no="${recruitment.hostNo}"
-                                              data-member-nick="${recruitment.hostName}">
-                                          ${recruitment.hostName}
+                                            data-member-no="${recruitment.hostNo}"
+                                            data-member-nick="${recruitment.hostName}"
+                                            data-product-name="${recruitment.productName}"
+                                            data-recruitment-no="${recruitment.recruitmentNo}">
+                                        ${recruitment.hostName}
                                         </span>
                                         (등급: ${recruitment.hostGrade})
                                     </p>
@@ -79,14 +81,26 @@
         </section>
 
     </div>
-    <div id="nicknameMenu" class="hidden">
+    <div id="nicknameMenu" class="nickname-menu hidden">
         <ul>
           <li id="startPrivateChat">1대1 채팅</li>
           <li id="reportUser">신고하기</li>
         </ul>
       </div>
+     <!-- 신고 모달 프로필 -->
+     <jsp:include page="/WEB-INF/views/Individual/modal.jsp"/>
+
+     <c:if test="${not empty loginMember}">
+     <script>
+         loginMember = {
+         memberNo: ${loginMember.memberNo},
+         nickname: "${loginMember.memberNick}"
+         };
+     </script>
     
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/individual/individualDetail.js"></script>
+
+     </c:if>
 </body>
 </html>

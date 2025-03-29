@@ -14,6 +14,7 @@
 	    <result property="maxMessageNo" column="MAX_MESSAGE_NO" />
 	    <result property="ownerProfile" column="OWNER_PROFILE_IMG" />
 	    <result property="ownerMemberNo" column="OWNER_MEMBER_NO" />
+	    <result property="groupFl" column="GROUP_FL" />
 	</resultMap>
 	
 	<resultMap type="Message" id="message_rm">
@@ -43,6 +44,8 @@
 		    R.ROOM_NO,
 		    R.ROOM_NAME,
 		    R.OWNER_MEMBER_NO,
+		    R.GROUP_FL,
+		    
 		
 		    -- 가장 최근 메시지 내용
 		    (SELECT MESSAGE_CONTENT

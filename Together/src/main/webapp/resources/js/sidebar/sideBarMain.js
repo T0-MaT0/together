@@ -56,15 +56,21 @@ function loadChatRoomList() {
         } else if (!lastMessage || lastMessage.trim() === '') {
           lastMessage = '대화를 시작해보세요!';
         }
-        // HTML 구성
+
+        const profileImgSrc = chat.groupFl === 'N'
+        ? (chat.targetProfile || '/resources/images/user.png') // 1대1 채팅
+        : (chat.ownerProfile || '/resources/images/user.png'); // 그룹 채팅
+      
+        const roomLabel = chat.groupFl === 'Y' ? `[그룹] ${chat.roomName}` : chat.roomName;
+
         div.innerHTML = `
           <div class="profile-box">
             <div class="profile profile-inBox">
-              <img src="${chat.ownerProfile || '/resources/images/user.png'}" alt="">
+              <img src="${profileImgSrc}" alt="">
             </div>
           </div>
           <div class="chat">
-            <div class="chat-name">${chat.roomName}</div>
+            <div class="chat-name">${roomLabel}</div>
             <div class="chat-content">${lastMessage || '대화를 시작해보세요!'}</div>
           </div>
           <div class="chat-info">
@@ -270,6 +276,7 @@ fetch(`/chatting/selectMessageList?chattingNo=${roomNo}&memberNo=${loginMemberNo
         nicknameDiv.dataset.memberNo = msg.senderNo;
         nicknameDiv.dataset.memberNick = msg.senderNickname;
         nicknameDiv.dataset.productName = msg.roomName || msg.productName || "1대1 채팅";
+        nicknameDiv.dataset.messageNo = msg.messageNo;
       }
 
       nicknameDiv.innerText = isMine ? loginMemberNickname : msg.senderNickname || "상대방";
