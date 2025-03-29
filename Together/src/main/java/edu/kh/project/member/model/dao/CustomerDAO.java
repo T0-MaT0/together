@@ -167,6 +167,23 @@ public class CustomerDAO {
 		return sqlSession.update("customerMapper.boardDelete", boardNo);
 	}
 
+	public int countPinned() {
+		return sqlSession.selectOne("customerMapper.countPinned");
+	}
+
+	public int updateBStateS(int boardNo) {
+		return sqlSession.update("customerMapper.updateBStateS", boardNo);
+	}
+
+	public int updateBStateNull(int boardNo) {
+		return sqlSession.update("customerMapper.updateBStateNull", boardNo);
+	}
+
+	public List<Board> selectFixedNoticeList() {
+		return sqlSession.selectList("customerMapper.selectFixedNoticeList");
+	}
+
+
 
 	
 

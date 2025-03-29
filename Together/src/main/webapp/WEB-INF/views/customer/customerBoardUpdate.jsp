@@ -16,7 +16,12 @@
 
         <section id="notice-header">
 
-            <div id="notice-header-title">공지사항 수정하기</div>
+            <c:if test="${boardCode == 3}">
+                <div id="notice-header-title">공지사항 수정하기</div>
+            </c:if>
+            <c:if test="${boardCode == 4}">
+                <div id="notice-header-title">FAQ 수정하기</div>
+            </c:if>
 
         </section>
     
@@ -26,12 +31,12 @@
 
                 <c:if test="${boardCode == 4}">
                     <select name="boardCd" id="boardCd">
-                        <option disabled selected hidden>문의 종류</option>
-                        <option value="9">회원/계정 문의</option>
-                        <option value="10">공동구매 문의</option>
-                        <option value="11">결제/환불 문의</option>
-                        <option value="12">수령/배송 문의</option>
-                        <option value="13">기타 문의</option>
+                        <option disabled hidden ${empty map.boardDetail.boardCd ? 'selected' : ''}>문의 종류</option>
+                        <option value="9"  ${map.boardDetail.boardCd == 9  ? 'selected' : ''}>회원/계정 문의</option>
+                        <option value="10" ${map.boardDetail.boardCd == 10 ? 'selected' : ''}>공동구매 문의</option>
+                        <option value="11" ${map.boardDetail.boardCd == 11 ? 'selected' : ''}>결제/환불 문의</option>
+                        <option value="12" ${map.boardDetail.boardCd == 12 ? 'selected' : ''}>수령/배송 문의</option>
+                        <option value="13" ${map.boardDetail.boardCd == 13 ? 'selected' : ''}>기타 문의</option>
                     </select>
                 </c:if>
         
