@@ -43,6 +43,18 @@
     <ul class="display-chatting" id="chatMessageList"></ul>
   </div>
 
+ <!-- 자주 묻는 질문 영역 -->
+<div id="faqToggleBox" class="faq-toggle-box hidden">
+  <button id="faqToggleBtn">자주 묻는 질문 메뉴 ▼</button>
+  <ul id="faqList" class="faq-list">
+    <li data-answer="공동구매는 주문 후 일정 인원이 모이면 결제됩니다.">공동구매는 어떻게 진행되나요?</li>
+    <li data-answer="배송은 인원 모집 완료 후 2~3일 이내 시작됩니다.">배송은 언제 되나요?</li>
+    <li data-answer="일정 인원이 모이지 않으면 자동으로 취소됩니다.">최소 인원이 안 모이면 어떻게 되나요?</li>
+    <li data-answer="결제 후 마이페이지에서 취소 가능합니다.">결제나 취소가 가능한가요?</li>
+    <li data-answer="결제일은 인원 모집이 완료된 다음날입니다.">결제는 언제 이루어지나요?</li>
+  </ul>
+</div>
+
   <div class="typing-area">
     <div class="textInput-area">
       <div><textarea id="inputChatting"></textarea></div>

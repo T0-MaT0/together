@@ -631,3 +631,7 @@ table img{
     margin-left: auto;
     margin-right: 10px;
 }
+
+.hidden {
+    display: none;
+  }

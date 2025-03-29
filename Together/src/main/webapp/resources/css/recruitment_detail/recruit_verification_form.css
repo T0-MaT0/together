@@ -29,31 +29,28 @@
   
   /* 메인 컨테이너: 폭 1086px 고정, 가운데 정렬 */
   #verificationContainer {
-    width: 1086px;
+    width: 1280px;
     margin: 60px auto; 
-    padding: 40px 30px;
+    padding: 50px 40px;
     background: #fff;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.4);
-  
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+
     display: flex;
     flex-direction: column;
-    /* 섹션 간격을 크게 하고 싶다면 gap 값을 늘려도 좋습니다 */
-    gap: 30px;
-  }
+    gap: 40px;
+}
   
   /* 제목(“모집 인증 폼”) - absolute 위치 대신 기본 흐름으로 배치 */
   .verification-title {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
-    /* 배경에 그라데이션 느낌 주기 */
     background: linear-gradient(to bottom, transparent 35%, #f8df9e 50%);
     display: inline-block;
-    padding: 5px 10px;
+    padding: 8px 14px;
     border-radius: 8px;
-    /* absolute 제거 후, 영역과 겹치지 않도록 margin 부여 */
-    margin-bottom: 20px;
-  }
+    margin-bottom: 30px;
+}
   
   /* 공통 섹션 */
   .verification-section {
@@ -103,8 +100,8 @@
   .date-section {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
-    width: 100%;
+    gap: 60px;
+    width: 500px;
     margin-top: 20px;
     margin-bottom: 30px;
   }
@@ -147,3 +144,225 @@
   .verification-section + .verification-section {
     margin-top: 20px;
   }
+
+  #goBackBtn {
+    background: #FD499A;
+    color: #2c3e50;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+    align-self: flex-start;
+    margin-bottom: 30px;
+    
+}
+
+#goBackBtn:hover {
+    background: #9969FF;
+}
+ 
+
+  /* ---------------------------------------------------------- */
+/* 신고모달 */
+.nickname-menu {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 6px;
+  padding: 5px 0;
+  z-index: 9999;
+  min-width: 120px;
+}
+
+.nickname-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nickname-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.nickname-menu li:hover {
+  background-color: #f5f5f5;
+}
+
+.hidden {
+  display: none;
+}
+
+
+/* 모달 기본 스타일 */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 100%;
+    height: 100%;
+  }
+
+  .modal.show {
+    display: block;
+  }
+
+.modalActive{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+/* 모달 내용 */
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 800px;
+    width: 100%;
+  }
+
+/* 닫기 버튼 */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.clickList{
+    cursor: pointer;
+}
+
+.clickList:hover{
+    text-decoration: underline;
+    color: rgb(0, 0, 69);
+}
+
+
+.modalInner{
+    background-color: #FFE9F3;
+    padding: 20px 20px 0px 20px;
+    border-radius: 10px;
+}
+
+
+/* 위 */
+.modalTop{
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    padding: 10px;
+    align-items: center;
+    border-radius: 10px;
+}
+.modalTitle{margin-left: 10px; width: 500px; text-align: left; font-weight: normal;}
+.modalTitle>strong{margin-right: 5px; font-size: 18px;}
+.memberName{font-weight: normal; margin-right: 10px; }
+.memberName>strong{margin-right: 5px; font-size: 18px;}
+
+/* 위 = 신고 */
+.modalReport{margin-left: 10px; width: 390px; text-align: left; font-weight: normal;}
+.modal-submit{margin:0  10px}
+.modalSubmit{
+    width: 85px;
+    padding: 5px 0 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+/* 중간 */
+.modalMid{padding: 20px 0;}
+.modalMid >div:nth-of-type(1){
+    text-align: left; 
+    margin: 0 0 10px 10px;
+    font-size: 20px;
+}
+.modalMid >.customerText{
+    height: 278px;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    text-align: left;
+    padding: 15px 20px;
+    font-weight: normal;
+    resize: none;
+    border: none ;
+}
+
+
+/* 중간 버튼 */
+.midBtn > input{
+    display: none;
+}
+
+
+
+
+/* .modalBottom{padding:  20px 0;} */
+.modalBottom >div:nth-of-type(1){
+    text-align: left; 
+    margin: 0 0 10px 10px;
+    font-size: 20px;
+}
+.modalBottom >.managerText{
+    height: 250px;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    text-align: left;
+    padding: 15px 20px;
+    font-weight: normal;
+    resize: none;
+    border: none ;
+}
+
+/* 신고 */
+.managerReportText{
+    height: 200px;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    text-align: left;
+    padding: 15px 20px;
+    font-weight: normal;
+    resize: none;
+    border: none ;
+}
+
+
+
+.modal-btn{
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+.midBtn{
+    padding:10px 0 15px 10px;
+}
+.modal-btn > button, .midBtn > button{
+    background-color: #FD499A;
+    border: none;
+    color: white;
+    padding:  5px 35px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.modal-btn > button:hover{
+    filter: brightness(90%);
+}

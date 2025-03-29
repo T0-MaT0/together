@@ -74,33 +74,75 @@
                 </div>
             </div>
 
-            <!-- 버튼 그룹 -->
+
             <div class="button-group">
                 <c:choose>
-                    <%-- 모집 상태가 '진행'이면 취소 버튼만 --%>
-                    <c:when test="${recruitment.recruitmentStatus eq '진행'}">
-                        <form action="/group/participation/cancel" method="post" onsubmit="return confirm('참가를 정말 취소하시겠습니까?');">
-                            <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}" />
-                            <input type="hidden" name="boardNo" value="${recruitment.boardNo}" />
-                            <button type="submit" class="cancel-btn">참가 취소하기</button>
-                        </form>
-                    </c:when>
-            
-                    <%-- 모집 상태가 '마감'이면 모든 버튼 표시 --%>
                     <c:when test="${recruitment.recruitmentStatus eq '마감'}">
+
                         <form action="/group/verification/memberForm" method="get" style="display:inline;">
                             <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}">
                             <input type="hidden" name="boardNo" value="${recruitment.boardNo}">
-                            <button type="submit" class="group-check-btn">모집 인증 폼 확인하기</button>
+                            <button type="submit" id="verification-register-btn">모집 인증 폼 확인하기</button>
                         </form>
-                        <button class="purchase-btn">구매 확정하기</button>
+
+                        <c:choose>
+                            
+                            <c:when test="${recruitment.certStatus ne 'Y'}">
+                                <button id="verification-update-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
+                                    구매 확정하기
+                                </button>
+                            </c:when>
+
+                            <c:when test="${recruitment.certStatus eq 'Y' and not isReviewed}">
+                                <form action="/review/writeForm" method="get" style="display:inline;" target="reviewPopup"
+                                    onsubmit="window.open('', 'reviewPopup', 'width=800,height=700,left=100,top=100');">
+                                    <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}">
+                                    <input type="hidden" name="boardNo" value="${recruitment.boardNo}">
+                                    <button type="submit" id="write-review-btn">후기 남기기</button>
+                                </form>
+                                <button id="verification-update-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
+                                    구매 확정하기
+                                </button>
+                            </c:when>
+
+                            <c:otherwise>
+                                <form action="/group/confirm" method="post" style="display:inline;">
+                                    <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}">
+                                    <input type="hidden" name="boardNo" value="${recruitment.boardNo}">
+                                    <button type="submit" id="verification-update-btn">구매 확정하기</button>
+                                </form>
+                            </c:otherwise>
+
+                        </c:choose>
+
                     </c:when>
                 </c:choose>
             </div>
         </div>
     </main>
 
+    <div id="nicknameMenu" class="nickname-menu hidden">
+        <ul>
+          <li id="startPrivateChat">1대1 채팅</li>
+          <li id="reportUser">신고하기</li>
+        </ul>
+    </div>
+    <!-- 신고 모달 프로필 -->
+    <jsp:include page="/WEB-INF/views/Individual/modal.jsp"/>
+
+    <c:if test="${not empty loginMember}">
+    <script>
+        loginMember = {
+        memberNo: ${loginMember.memberNo},
+        nickname: "${loginMember.memberNick}",
+        targetNo = ${recruitment.hostNo};
+        };
+    </script>
+    </c:if>
+
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+    <script src="/resources/js/individual/purchase_in_progress_host.js"></script>
+
 </body>
 
 </html>
