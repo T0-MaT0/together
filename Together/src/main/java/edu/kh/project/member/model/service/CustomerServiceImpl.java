@@ -378,6 +378,23 @@ public class CustomerServiceImpl implements CustomerService{
 		return dao.boardDelete(boardNo);
 	}
 
+	public int countPinnedNotices() {
+	    return dao.countPinned(); // B_STATE = 'S' 카운트
+	}
+
+	public int setNoticePinned(int boardNo) {
+	    return dao.updateBStateS(boardNo);
+	}
+
+	public int setNoticeUnpinned(int boardNo) {
+	    return dao.updateBStateNull(boardNo);
+	}
+	
+	@Override
+	public List<Board> selectFixedNoticeList() {
+	    return dao.selectFixedNoticeList();
+	}
+
 
 
 }

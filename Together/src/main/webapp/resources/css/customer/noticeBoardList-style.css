@@ -84,13 +84,13 @@
     background-color: #ffffff;
 }
 
-#notice-num{
+.notice-num{
     width: 92px;
 }
-#notice-title{
+.notice-title{
     width: 460px;
 }
-#notice-date{
+.notice-date{
     width: 108px;
 }
 

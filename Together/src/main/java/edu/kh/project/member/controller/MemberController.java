@@ -1,5 +1,6 @@
 package edu.kh.project.member.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
@@ -72,12 +73,17 @@ public class MemberController {
 		return "member/findPw2";
 	}
 	
-	// 비밀번호 변경 화면 이동
+	// 개인 비밀번호 변경 화면 이동
 	@GetMapping("/changePw")
 	public String changePw() {
 		return "member/changePw";
 	}
-	
+	// 기업 비밀번호 변경 화면 이동
+	@GetMapping("/changePw2")
+	public String changePw2() {
+		return "member/changePw2";
+	}
+
 	// 포인트 충전 화면 이동
 	@GetMapping("/chargePoint")
 	public String chargePoint() {
@@ -279,6 +285,54 @@ public class MemberController {
 		return path;
 	
 	}
+	
+	// 기업 패스워드 재설정을 위한 확인
+	@PostMapping("/findPw2")
+	public String findPw2(
+	    @RequestParam("companyId") String companyId,
+	    @RequestParam("companyEmail") String companyEmail,
+	    @RequestParam("companyNo") String companyNo,
+	    Model model,
+	    RedirectAttributes ra
+	) {
+	    Map<String, Object> paramMap = new HashMap<>();
+	    paramMap.put("companyId", companyId);
+	    paramMap.put("companyEmail", companyEmail);
+	    paramMap.put("companyNo", companyNo);
+
+	    Member findMember = service.findCompanyMember(paramMap);
+
+	    if (findMember == null) {
+	        ra.addFlashAttribute("message", "일치하는 회원이 없습니다.");
+	        return "redirect:/member/findPw2";
+	    }
+
+	    model.addAttribute("findMember", findMember);
+	    return "/member/changePw2";
+	}
+	
+	@PostMapping("/changePw2")
+	public String changePw2(Member inputMember, RedirectAttributes ra) {
+
+		System.out.println("비번 변경 inputMember : " + inputMember);
+		int result = service.changePw(inputMember);
+
+		String path = "redirect:";
+		String message = null;
+
+		if(result > 0){
+			message = "비밀번호 변경 성공.";
+			path += "/";
+		} else{
+			message = "비밀번호 변경 실패.";
+			path += "/member/findPw2";
+		}
+		ra.addFlashAttribute("message", message);
+
+		return path;
+	
+	}
+
 	 
 		
 

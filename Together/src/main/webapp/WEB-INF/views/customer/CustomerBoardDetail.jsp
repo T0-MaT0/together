@@ -28,6 +28,16 @@
             <div class="btn-group">
               <div class="btn-update" onclick="location.href='/customer2/${map.boardDetail.boardCd}/${map.boardDetail.boardNo}/update?cp=${param.cp}'">수정</div>
               <div class="btn-delete" onclick="if(confirm('정말 삭제하시겠습니까?')) location.href='/customer2/${map.boardDetail.boardCd}/${map.boardDetail.boardNo}/delete'">삭제</div>
+
+              <!-- 고정 버튼 -->
+              <c:choose>
+                <c:when test="${empty map.boardDetail.bState}">
+                  <div class="pin-btn btn-update" onclick="togglePin(${map.boardDetail.boardNo}, 'pin')">고정하기</div>
+                </c:when>
+                <c:when test="${map.boardDetail.bState == 'S'}">
+                  <div class="pin-btn btn-update" onclick="togglePin(${map.boardDetail.boardNo}, 'unpin')">고정해제</div>
+                </c:when>
+              </c:choose>
             </div>
           </c:if>
           <div id="go-to-list" onclick="location.href='/customer/noticeBoard'">목록으로</div>

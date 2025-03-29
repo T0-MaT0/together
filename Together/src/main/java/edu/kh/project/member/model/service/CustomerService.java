@@ -32,5 +32,13 @@ public interface CustomerService {
 
 	int boardDelete(int boardNo);
 
+	int countPinnedNotices();
+
+	int setNoticePinned(int boardNo);
+
+	int setNoticeUnpinned(int boardNo);
+
+	List<Board> selectFixedNoticeList();
+
 
 }
