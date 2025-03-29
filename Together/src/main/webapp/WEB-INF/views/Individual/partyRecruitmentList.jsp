@@ -35,15 +35,15 @@
                 </div>
                 <div>
                     <span class="buyer-info">🧑
-                        <span class="clickable-nickname"
-                                data-member-no="${recruitmentDetail.hostNo}"
-                                data-member-nick="${recruitmentDetail.hostName}"
-                                data-product-name="${recruitmentDetail.productName}"
-                                data-recruitment-no="${recruitmentDetail.recruitmentNo}">
-                            ${recruitmentDetail.hostName}
-                            </span>
-                            ${recruitmentDetail.hostGrade}
+                    <span class="clickable-nickname"
+                            data-member-no="${recruitmentDetail.hostNo}"
+                            data-member-nick="${recruitmentDetail.hostName}"
+                            data-product-name="${recruitmentDetail.productName}"
+                            data-recruitment-no="${recruitmentDetail.recruitmentNo}">
+                        ${recruitmentDetail.hostName}
                         </span>
+                        ${recruitmentDetail.hostGrade}
+                    </span>
                 </div>
             </div>
 

@@ -62,7 +62,7 @@
             <c:if test="${!empty loginMember}">
                 <!-- 관리자(admin)인 경우 -->
                 <c:if test="${loginMember.authority == 1}">
-                    <a href="/manager/main">관리자 페이지</a>
+                    <a href="/managerArea/main">관리자 페이지</a>
                     <span> | </span>
                 </c:if>
                 
