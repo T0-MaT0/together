@@ -9,14 +9,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
     productOptions.forEach(productOption=>productOption.value = "default");
 });
 
-const adjustMargin=()=>{
-    const headerHeight = document.getElementsByClassName("fixed-option-bar")[0].offsetHeight;
-    document.getElementsByClassName("footer-container")[0].style.marginBottom = `${headerHeight}px`;
-}
-
-window.onload = adjustMargin;
-window.onresize = adjustMargin;
-
 const formatDate=dateString=>{
     if (!dateString) return "-";
     
@@ -497,7 +489,7 @@ setTimeout(()=>{
   }
 
   const reviewNo = url.searchParams.get("review");
-  console.log(reviewNo);
+//   console.log(reviewNo);
   if (reviewNo == 0) {
     setTimeout(()=>{
     openPopup('view');
@@ -730,9 +722,9 @@ const updateReply=(reply, contentArea)=>{
     btnArea.classList.add("reply-btn-area");
     const replyBtn = document.createElement("span");
     replyBtn.classList.add("clickBtn");
+    replyBtn.innerText = "수정";
     replyBtn.addEventListener("click", ()=>{
         const secretReply = secretReplyStatus.checked?"Y":"N";
-        console.log(secretReply);
         fetch(`${location.pathname}/reply`,{
             method: "PUT",
             headers:{"Content-Type":"application/json"},
@@ -750,15 +742,12 @@ const updateReply=(reply, contentArea)=>{
                 alert("Q&A 수정 성공");
                 contentArea.innerHTML = "";
                 const currentCommentContentArea = document.createElement("td");
-                currentCommentContentArea.setAttribute("colspan", "4");
                 currentCommentContentArea.style.display = "table-cell";
                 const currentCommentContent = document.createElement("span");
                 currentCommentContent.classList.add("current-comment");
                 currentCommentContent.innerText = replyContent.value;
                 currentCommentContentArea.append(currentCommentContent);
 
-                const btnArea = document.createElement("td");
-                btnArea.style.display="table-cell";
                 const updateBtn = document.createElement("span");
                 updateBtn.classList.add("clickBtn");
                 updateBtn.addEventListener("click", ()=>updateReply(reply, contentArea));
@@ -768,23 +757,47 @@ const updateReply=(reply, contentArea)=>{
                 deleteBtn.classList.add("clickBtn");
                 deleteBtn.addEventListener("click", ()=>deleteReply(reply));
                 deleteBtn.innerHTML = "삭제";
-        
-                btnArea.append(updateBtn, " | ", deleteBtn);
-                
-                contentArea.append(currentCommentContentArea, btnArea);
+                if(result.parentNo==0){
+                    currentCommentContentArea.setAttribute("colspan", "4");
+    
+                    const btnArea = document.createElement("td");
+                    btnArea.style.display="table-cell";
+                    btnArea.append(updateBtn, " | ", deleteBtn);
+                    contentArea.append(currentCommentContentArea, btnArea);
+                } else {
+                    currentCommentContentArea.setAttribute("colspan", "3");
+                    currentCommentContentArea.style.borderTop="2px solid rgb(153, 153, 153)";
+                    currentCommentContentArea.append(" | ", updateBtn, " | ", deleteBtn);
+
+                    const currentReplyNickname = document.createElement("td");
+                    currentReplyNickname.style.display="table-cell";
+                    currentReplyNickname.style.borderTop="2px solid rgb(153, 153, 153)";
+                    currentReplyNickname.innerText=result.memberNickname;
+                    
+                    const currentReplyDate = document.createElement("td");
+                    currentReplyDate.style.display="table-cell";
+                    currentReplyDate.style.borderTop="2px solid rgb(153, 153, 153)";
+                    currentReplyDate.innerText=formatDate(result.replyCreatedDate);
+
+                    contentArea.append(currentCommentContentArea, currentReplyNickname, currentReplyDate);
+                }
             } else {
                 alert("Q&A 수정 실패");
             }
         })
         .catch(err=>console.log(err));
     });
-    replyBtn.innerText = "수정";
     const label = document.createElement("label");
-    label.innerText = "비밀글";
+    label.classList.add("clickBtn");
     const secretReplyStatus = document.createElement("input");
     secretReplyStatus.type = "checkbox";
+    if(reply.parentNo!=0){
+        secretReplyStatus.style.display="none";
+    } else {
+        label.innerText = "비밀글";
+    }
+    
     label.append(secretReplyStatus);
-
     btnArea.append(label, replyBtn);
     replyContentArea.append(replyContent, btnArea);
     contentArea.append(replyContentArea);
@@ -815,7 +828,6 @@ const deleteReply=reply=>{
 
 // Q&A 답글 등록
 const insertChildReply=(reply, replyContent)=>{
-    console.log(reply)
     fetch(`${location.pathname}/reply`,{
         method: "post",
         headers:{"Content-Type":"application/json"},
@@ -830,7 +842,6 @@ const insertChildReply=(reply, replyContent)=>{
     })
     .then(resp=>resp.json())
     .then(childReply=>{
-        console.log(childReply)
         if(childReply!=null) {
             alert("답글 등록 성공");
             const currentReplyArea = replyContent.parentElement.parentElement;
@@ -997,6 +1008,7 @@ const changeOptionBar=changeOptionBar=>{
     optionArea.classList.remove("show");
 };
 
+// 상품 구매
 const goToBuys = document.querySelectorAll(".go-to-buy");
 goToBuys.forEach(goToBuy=>{
     goToBuy.addEventListener("click", ()=>{
@@ -1013,4 +1025,9 @@ goToBuys.forEach(goToBuy=>{
 
         window.location.href = `${location.pathname}/order?option=${productOptions[0].value}&quantity=${input.value}`;
     });
+});
+
+// 상품 삭제
+document.getElementById("deleteBusiness").addEventListener("click", ()=>{
+    location.href = `${location.pathname}/delete`;
 });

@@ -70,7 +70,7 @@ popupContentArea.addEventListener("input", () => {
 const deleteList = document.getElementById("deleteList");
 const deleteSet = new Set();
 
-// 삭제 후 ID 재정렬 함수
+// ID 재정렬 함수
 const reorderImageIds = () => {
     const imageDivs = document.querySelectorAll(".review-img-area .image-container");
 
@@ -82,8 +82,6 @@ const reorderImageIds = () => {
         div.dataset.index = index;
         input.id = `img${index}`;
         label.setAttribute("for", `img${index}`);
-        console.log(imageLevel)
-        console.log(index)
         imageLevel.value = index;
     });
 };
@@ -188,7 +186,7 @@ document.getElementById("reviewWriteForm")?.addEventListener("submit", e => {
         return;
     }
     
-    if (popupContentArea.value === "") {
+    if (popupContentArea.value.trim() === "") {
         e.preventDefault();
         alert("리뷰 내용을 작성해야 리뷰를 등록할 수 있습니다.");
         popupContentArea.focus();

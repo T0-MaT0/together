@@ -12,6 +12,7 @@ import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Image;
 import edu.kh.project.individual.dto.Recruitment;
+import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.member.model.dto.Board;
 
 @Repository
@@ -314,6 +315,11 @@ public class RecruitmentDAO {
 
         sqlSession.update("recruitmentMapper.updateCertStatus", params);
 		
+	}
+
+	// 신고 제출
+	public int insertReport(Report report) {
+		return sqlSession.insert("recruitmentMapper.insertReport", report);
 	}
 
 	

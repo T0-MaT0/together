@@ -13,7 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import edu.kh.project.business.model.dao.BusinessDao;
 import edu.kh.project.business.model.dto.Business;
+import edu.kh.project.business.model.dto.BusinessOption;
 import edu.kh.project.business.model.dto.Order;
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.common.model.dto.PointUsage;
@@ -312,5 +314,80 @@ public class BusinessServiceIml implements BusinessService {
 	@Override
 	public Reply selectReply(int replyNo) {
 		return dao.selectReply(replyNo);
+	}
+
+	@Override
+	public List<Category> selectCategoryList() {
+		return dao.selectCategoryList();
+	}
+
+	@Override
+	public String selectPermissionFl(int memberNo) {
+		return dao.selectPermissionFl(memberNo);
+	}
+
+	@Override
+	public int insertProduct(
+			Business business, List<String> optionNameList, 
+			List<MultipartFile> images, String webPath, String filePath, 
+			Business board, String permissionFl) throws IllegalStateException, IOException {
+		business.setBoardTitle(Utill.XSSHandling(business.getBoardTitle()));
+		business.setBoardContent(Utill.XSSHandling(business.getBoardContent()));
+		int boardNo = dao.insertBoard(business);
+		
+		if (boardNo>0) {
+			int result = dao.insertProduct(business);
+			if (result>0) {
+				boardNo = business.getBoardNo();
+				List<BusinessOption> optionList = new ArrayList<BusinessOption>();
+				for(int i=0;i<optionNameList.size();i++) {
+					BusinessOption option = new BusinessOption();
+					option.setOptionName(Utill.XSSHandling(optionNameList.get(i)));
+					option.setBoardNo(boardNo);
+					optionList.add(option);
+				}
+				
+				result = dao.insertOptionList(optionList);
+				if (result>0) {
+					List<Image> uploadList = new ArrayList<Image>();
+					for (int i=0;i<images.size();i++) {
+						if (images.get(i).getSize()>0) {
+							Image img = new Image();
+							String fileName = images.get(i).getOriginalFilename();
+							img.setImageReName(Utill.fileRename(fileName));
+							img.setImagePath(webPath);
+							img.setImageOriginal(fileName);
+							img.setImageLevel(i);
+							img.setImageType(1);
+							img.setImageTypeNo(boardNo);
+							
+							uploadList.add(img);
+						}
+					}
+					
+					if (!uploadList.isEmpty()) {
+						result = dao.insertImageList(uploadList);
+						if (result==uploadList.size()) {
+							for (Image img:uploadList) {
+								int i = img.getImageLevel();
+								String rename = img.getImageReName();
+								images.get(i).transferTo(new File(filePath+rename));
+							}
+							if (permissionFl.equals("N")) {
+								board.setBoardTitle(Utill.XSSHandling(board.getBoardContent()));
+								board.setBoardContent(Utill.XSSHandling(board.getBoardContent()));
+								result = dao.insertBoard(board);
+								if (result==0) {
+									boardNo=0;
+								}
+							}
+						} else {
+							throw new  FileUploadException();
+						}
+					}
+				}
+			}
+		}
+		return boardNo;
 	}
 }

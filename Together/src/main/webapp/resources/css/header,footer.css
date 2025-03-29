@@ -132,6 +132,16 @@ header {
     cursor: pointer;
 }
 
+.product-registration{
+    background-color: #9969FF;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
 .sub-nav {
     width: 100%;
     max-width: 1900px;

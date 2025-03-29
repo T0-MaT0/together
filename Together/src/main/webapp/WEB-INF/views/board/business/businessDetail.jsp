@@ -25,6 +25,8 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
     
+    ${loginMember}
+    ${business}
     <main>
         <section class="content">
             <section id="optionArea">
@@ -81,10 +83,20 @@
                             (<span class="total-count-area">0</span>개)
                         </div>
                         <div class="buy-area">
-                            <i class="fa-regular fa-heart"></i>
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            <button class="go-to-buy">혼자 구매</button>
-                            <button>공동 구매</button>
+                            <c:if test="${loginMember.authority==2}">
+                                <i class="fa-regular fa-heart"></i>
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <button class="go-to-buy">혼자 구매</button>
+                                <button>공동 구매</button>
+                            </c:if>
+                            <c:if test="${loginMember.memberNo==business.memberNo}">
+                                <i></i><i></i>
+                                <button>수정</button>
+                                <button id="deleteBusiness">삭제</button>
+                            </c:if>
+                            <c:if test="${loginMember.authority==1}">
+                                <button id="deleteBusiness">삭제</button>
+                            </c:if>
                         </div>
                         <div>
                             <a>REPORT</a>
@@ -326,11 +338,10 @@
     <script src="/resources/js/main.js"></script>
     <script>
         const boardCode = "${boardCode}";
-        const boardNo = "${business.boardNo}";
+        const boardNo = "${boardNo}";
         const boardMemberNo = "${business.memberNo}";
         const productPrice = Number("${business.productPrice}");
         const deliveryFee = Number("${business.deliveryFee}");
-        const loginMemberNo = "${loginMember.memberNo}";
         const thumbnail = "${thumbnail}";
     </script>
     <script src="/resources/js/business/businessDetail.js"></script>

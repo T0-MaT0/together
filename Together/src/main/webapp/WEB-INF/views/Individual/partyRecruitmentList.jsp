@@ -27,9 +27,23 @@
                         ${recruitmentDetail.recruitmentStatus}
                     </span>
                     <span class="recruit-title">${recruitmentDetail.productName}</span>
+                    <c:if test="${loginMember != null && loginMember.authority == 1}">
+                        <button class="delete-board-btn" onclick="deleteBoard(${recruitmentDetail.boardNo})">
+                            삭제
+                        </button>
+                    </c:if>
                 </div>
                 <div>
-                    <span class="buyer-info">🧑${recruitmentDetail.hostName} (${recruitmentDetail.hostGrade})</span>
+                    <span class="buyer-info">🧑
+                    <span class="clickable-nickname"
+                            data-member-no="${recruitmentDetail.hostNo}"
+                            data-member-nick="${recruitmentDetail.hostName}"
+                            data-product-name="${recruitmentDetail.productName}"
+                            data-recruitment-no="${recruitmentDetail.recruitmentNo}">
+                        ${recruitmentDetail.hostName}
+                        </span>
+                        ${recruitmentDetail.hostGrade}
+                    </span>
                 </div>
             </div>
 
@@ -138,22 +152,49 @@
             <!-- 댓글 목록 -->
             <div class="comment-list">
                 <c:forEach var="comment" items="${recruitmentDetail.commentList}">
-                    <div class="comment">
-                        <div class="comment-content">
-                            <img src="${empty recruitmentDetail.profileImg ? '/resources/images/mypage/관리자 프로필.webp' : recruitmentDetail.profileImg}" 
-                                 class="comment-profile" alt="프로필">
-                            <p><span class="comment-user">${comment.memberNick} :</span> ${comment.replyContent}</p>
-                        </div>
-                        <div class="comment-actions">
-                            <c:if test="${comment.memberNo == loginMember.memberNo}">
-                                <button class="delete-btn" onclick="deleteReply(${comment.replyNo})">삭제</button>
-                            </c:if>
-                        </div>
+                <div class="comment">
+                    <div class="comment-content">
+                    <img src="${empty recruitmentDetail.profileImg ? '/resources/images/mypage/관리자 프로필.webp' : recruitmentDetail.profileImg}" 
+                        class="comment-profile" alt="프로필">
+                    <p>
+                        <span class="comment-user clickable-nickname"
+                            data-member-no="${comment.memberNo}"
+                            data-member-nick="${comment.memberNick}"
+                            data-product-name="${recruitmentDetail.productName}"
+                            data-reply-no="${comment.replyNo}">
+                        ${comment.memberNick}
+                        </span>
+                        : ${comment.replyContent}
+                    </p>
                     </div>
+                    <div class="comment-actions">
+                    <c:if test="${comment.memberNo == loginMember.memberNo || loginMember.authority == 1}">
+                        <button class="delete-btn" onclick="deleteReply(${comment.replyNo}, this)">삭제</button>
+                    </c:if>
+                    </div>
+                </div>
                 </c:forEach>
             </div>
         </div>
     </main>
+
+    <div id="nicknameMenu" class="nickname-menu hidden">
+        <ul>
+          <li id="startPrivateChat">1대1 채팅</li>
+          <li id="reportUser">신고하기</li>
+        </ul>
+    </div>
+    <!-- 신고 모달 프로필 -->
+    <jsp:include page="/WEB-INF/views/Individual/modal.jsp"/>
+
+    <c:if test="${not empty loginMember}">
+    <script>
+        loginMember = {
+        memberNo: ${loginMember.memberNo},
+        nickname: "${loginMember.memberNick}"
+        };
+    </script>
+    </c:if>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/individual/partyRecruitmentList.js"></script>
