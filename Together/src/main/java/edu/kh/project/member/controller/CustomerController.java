@@ -93,7 +93,10 @@ public class CustomerController {
 
 		map = service.noticeBoardList(cp);
 		
+		List<Board> fixedList = service.selectFixedNoticeList();
+		
 		model.addAttribute("map", map);
+		model.addAttribute("fixedList", fixedList);
 		return "customer/noticeBoardList";
 	}
 	//  1:1 문의 리스트 페이지 가져옴

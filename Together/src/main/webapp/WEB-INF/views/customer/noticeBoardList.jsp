@@ -41,35 +41,18 @@
 
                 <table class="list-table">
                     
-                    <thead id="fix-notice">
+                <thead id="fix-notice">
+                    <c:forEach var="fixed" items="${fixedList}">
                         <tr>
-                            <th id="notice-num">355</th>
-                            <th id="notice-title">
-                                <a href="#">
-                                    [업데이트] 공동구매 채팅 기능 추가 🚀   
-                                </a></th>
-                            <th id="notice-date">2024-02-10</th>
+                        <th class="notice-num">${fixed.boardNo}</th>
+                        <th class="notice-title">
+                            <a href="/customer/customerBoardDetail/${fixed.boardNo}?cp=${pagination.currentPage}${qs}">
+                            ${fixed.boardTitle}
+                            </a>
+                        </th>
+                        <th class="notice-date">${fixed.bCreateDate}</th>
                         </tr>
-                        <tr>
-                            <th>354</th>
-                            <th><a href="#">
-                                [공지] 설 연휴 고객센터 운영 시간 안내 🏡</a></th>
-                            <th>2024-02-05</th>
-                        </tr>
-                        <tr>
-                            <th>347</th>
-                            <th><a href="#">
-                                [주의] 사기 피해 예방 안내 🚨
-                            </a></th>
-                            <th>2023-12-30</th>
-                        </tr>
-                        <tr>
-                            <th>349</th>
-                            <th><a href="#">
-                                [이벤트] 친구 초대하면 적립금 지급 💰
-                            </a></th>
-                            <th>2024-01-10</th>
-                        </tr>
+                    </c:forEach>
                     </thead>
     
                     <tbody>

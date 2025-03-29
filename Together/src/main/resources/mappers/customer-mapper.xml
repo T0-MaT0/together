@@ -256,7 +256,8 @@
 		UPDATE BOARD SET
 		BOARD_TITLE = #{boardTitle},
 		BOARD_CONTENT = #{boardContent},
-		B_UPDATE_DATE = SYSDATE
+		B_UPDATE_DATE = SYSDATE,
+		BOARD_CD = ${boardCd}
 		WHERE BOARD_NO = ${boardNo}
 	</update>
 	
@@ -295,6 +296,32 @@
 		SET BOARD_DEL_FL = 'Y'
 		WHERE BOARD_NO = ${boardNo}
 	</update>
+	
+	<select id="countPinned" resultType="int">
+	  SELECT COUNT(*) FROM BOARD WHERE BOARD_CD = 3 AND B_STATE = 'S'
+	</select>
+	
+	<update id="updateBStateS">
+	  UPDATE BOARD SET B_STATE = 'S' WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	
+	<update id="updateBStateNull">
+	  UPDATE BOARD SET B_STATE = null WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<select id="selectFixedNoticeList" resultMap="board_rm">
+	  SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
+		TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
+		TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
+		B_STATE, MEMBER_NO, BOARD_CD
+	  FROM BOARD
+	  WHERE BOARD_CD = 3
+	    AND B_STATE = 'S'
+	    AND BOARD_DEL_FL = 'N'
+	  ORDER BY BOARD_NO DESC
+	</select>
+	
 
 
 	

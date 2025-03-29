@@ -70,4 +70,16 @@
         .catch(err => console.error("FAQ 페이지네이션 로딩 실패", err));
     }
   });
+
+
+  function editFAQ(boardNo) {
+    // 예: 수정 페이지로 이동
+    location.href = `/customer2/4/${boardNo}/update`;
+  }
   
+  function deleteFAQ(boardNo) {
+    if (confirm("정말 삭제하시겠습니까?")) {
+      // GET 방식으로 요청
+      location.href = `/customer2/4/${boardNo}/delete`;
+    }
+  }

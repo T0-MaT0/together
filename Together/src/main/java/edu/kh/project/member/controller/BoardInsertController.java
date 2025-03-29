@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -144,6 +145,11 @@ public class BoardInsertController {
 							  HttpSession session // 서버 파일 저장 경로를 얻어올 용도
 							  ) throws IllegalStateException, IOException {
 		
+		if (boardCode == 4 && board.getBoardCd() > 0) {
+	        boardCode = board.getBoardCd();
+	        System.out.println("FAQ 선택으로 boardCode 교체됨: " + boardCode);
+	    }
+		
 		// 1. boardCode, boardNo를 커맨드 객체에 세팅
 		board.setBoardCd(boardCode);
 		board.setBoardNo(boardNo);
@@ -165,8 +171,13 @@ public class BoardInsertController {
 		String path = "redirect:";
 		String message = null;
 		if(result > 0) {
+			if(boardCode == 3) {
+				path += "/customer/customerBoardDetail/"+boardNo + "?cp=" +cp;
+			} else {
+				path += "/customer/FAQBoard/0";
+			}
 			message = "게시글이 수정되었습니다.";
-			path += "/customer/customerBoardDetail/"+boardNo + "?cp=" +cp;
+			
 		}else{
 			message = "게시글 수정 실패.";
 			path +="update";
@@ -190,7 +201,11 @@ public class BoardInsertController {
 		String message = null;
 		if(result > 0) {
 			message = "게시글이 삭제되었습니다.";
-			path +="/customer/noticeBoardList?cp=1";
+			if(boardCode == 3) {
+				path +="/customer/noticeBoardList?cp=1";
+			} else {
+				path += "/customer/FAQBoard/0";
+			}
 		} else {
 			message =  "게시글이 삭제 실패";
 			// path += "/board/"+boardCode + "/" +boardNo + "?cp=" +cp;
@@ -198,6 +213,27 @@ public class BoardInsertController {
 		}
 		ra.addFlashAttribute("message", message);
 		return path;
+	}
+	
+	@GetMapping("/pin-check")
+	@ResponseBody
+	public String checkPinCount() {
+	    int count = service.countPinnedNotices(); // B_STATE = 'S'인 공지사항 개수
+	    return String.valueOf(count);
+	}
+
+	@GetMapping("/pin/{boardNo}")
+	public String pinNotice(@PathVariable int boardNo, RedirectAttributes ra) {
+	    int result = service.setNoticePinned(boardNo);
+	    ra.addFlashAttribute("message", result > 0 ? "고정 완료" : "고정 실패");
+	    return "redirect:/customer/customerBoardDetail/" + boardNo;
+	}
+
+	@GetMapping("/unpin/{boardNo}")
+	public String unpinNotice(@PathVariable int boardNo, RedirectAttributes ra) {
+	    int result = service.setNoticeUnpinned(boardNo);
+	    ra.addFlashAttribute("message", result > 0 ? "고정 해제 완료" : "해제 실패");
+	    return "redirect:/customer/customerBoardDetail/" + boardNo;
 	}
 
 }
