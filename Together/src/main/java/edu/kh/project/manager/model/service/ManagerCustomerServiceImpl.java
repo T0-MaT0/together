@@ -224,8 +224,8 @@ public class ManagerCustomerServiceImpl implements ManageCustomerService{
 			
 		}
 		if(type==2) {
-			int url= dao.getherSelect(no);
-			map.put("url", url);
+			int boardNo= dao.getherSelect(no);
+			map.put("boardNo", boardNo);
 			
 		}
 		if(type==3) {

@@ -11,10 +11,12 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log(type);
     if(type==1){
         location.href = `/board/2/${no}`;
+       
     }
     if(type == 2){
         console.log(url);
-        location.href = `/partyRecruitmentList/${url}/${no}`;
+        location.href = `/partyRecruitmentList/${no}/${recruitmentBoardNo}`;
+         ///partyRecruitmentList/{recruitmentNo}/{boardNo}
     }
     /* if(type == 3){
         console.log('url');

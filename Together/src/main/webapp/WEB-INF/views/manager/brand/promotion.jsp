@@ -14,7 +14,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>promotion</title>
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/brand/ad-list.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/modal.css" />
@@ -58,11 +58,11 @@
             <div class="board-title bottom-line">
                 <div class="title">광고 신청</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <select name="customerStatus" id="customerStatus" onchange="filterCustomerStatus(event)">
                         <option>전체</option>
                         <option>승인</option>
                         <option>대기</option>
-                        <option>거절</option>
+                        <option>거부</option>
                     </select>
                 </div>
             </div>
@@ -150,7 +150,6 @@
                     </select>
                 </div>
             </div>
-
             <canvas id="myChart" style="width:80%;max-width:400px; height: 400px;"  width="400" height="400"></canvas>
         
         </section>
@@ -216,11 +215,21 @@
     </div>
 </div>
 
-
+<c:forEach var="promotionState" items="${map.promStateCount}">
+    <c:if test="${promotionState.B_STATE == '대기'}">
+        <c:set var="wait" value="${promotionState.COUNT}"></c:set>
+    </c:if>
+    <c:if test="${promotionState.B_STATE == '승인'}">
+        <c:set var="accept" value="${promotionState.COUNT}"></c:set>
+    </c:if>
+    <c:if test="${promotionState.B_STATE == '거부'}">
+        <c:set var="refuse" value="${promotionState.COUNT}"></c:set>
+    </c:if>
+</c:forEach>
 
 <script>
-    const xValues = ["대기","승인", "거절"];
-    const yValues = [${map.promStateCount[0].COUNT}, ${map.promStateCount[1].COUNT},${map.promStateCount[2].COUNT}];
+    const xValues = ["대기","승인", "거부"];
+    const yValues = [${wait}, ${accept},${refuse}];
     const barColors = [
     "#DC143C",
     // "#FF6347",
@@ -246,6 +255,7 @@
 </script>
 
 <script src="/resources/js/manager-js/modal.js"></script>
+<script src="/resources/js/manager-js/brand/brandPromCondition.js"></script>
 </body>
 
 </html>

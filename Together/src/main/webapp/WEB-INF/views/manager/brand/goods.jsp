@@ -55,7 +55,7 @@
             <div class="board-title bottom-line">
                 <div class="title">판매 상품</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <select name="customerStatus" id="customerStatus" onchange="filterCustomerStatus(event)">
                         <option>전체</option>
                         <option>판매</option>
                         <option>종료</option>
@@ -157,8 +157,15 @@
 
     <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
-<c:set var="sell" value="${map.goodsStateCount[0].COUNT}"/>
-<c:set var="done" value="${map.goodsStateCount[1].COUNT}"/>
+
+<c:forEach var="goodsState" items="${map.goodsStateCount}">
+    <c:if test="${goodsState.BOARD_DEL_FL == '판매'}">
+        <c:set var="sell" value="${goodsState.COUNT}"></c:set>
+    </c:if>
+    <c:if test="${goodsState.BOARD_DEL_FL == '종료'}">
+        <c:set var="done" value="${goodsState.COUNT}"></c:set>
+    </c:if>
+</c:forEach>
 
 <script>
     const xValues = ["판매","종료"];
@@ -182,12 +189,14 @@
     },
     options: {
         // maintainAspectRatio: false
+        animation:false
     }
     });
 
 </script>
 
 <script src="/resources/js/manager-js/brand/brand.js"></script>
+<script src="/resources/js/manager-js/brand/productCondition.js"></script>
 
 </body>
 

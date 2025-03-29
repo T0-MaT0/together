@@ -1,5 +1,5 @@
-//조건에 따른 목록 조회
-const BoardContainer = document.querySelector("#container-center > section");
+//조건에 따른 회원 조회
+const BoardContainer = document.querySelector("#container-center > section.cus-board.list-card.mainBoard");
 const listAreaWrap = document.createElement('div');
 const filterCustomerStatus = (e)=>{
     BoardContainer.innerHTML ='';
@@ -10,31 +10,27 @@ const filterCustomerStatus = (e)=>{
     //회원, 블랙, 탈퇴
     let customerState = e.target.value;
     // console.log(customerState);
+    if(customerState == '판매') customerState = 'N';
+    if(customerState == '종료') customerState= 'Y';
     const select = document.querySelector('#customerStatus');
-    if (customerState == '대기') {
-        select.value = '대기';
-    
-    } else if (customerState == '반려') {
-        select.value = '반려';
-    
-    } else if (customerState == '경고') {
-        select.value = '경고';
-    
-    } else if (customerState == '블랙') {
-        select.value = '블랙';
-    } else{
-        location.href = '/manageCustomer/report';
+    if (customerState === 'N') {
+        select.value = '판매';
+    } else if (customerState === 'Y') {
+        select.value = '종료';
+    }  else{
+        location.href = '/manageBrand/goods';
+        return;
     }
-    
-    console.log(customerState)
-    fetch("reportCondition?customerState="+ customerState )
+
+    console.log(customerState);
+    fetch("productCondition?customerState="+customerState )
     .then(resp=>resp.json())
     .then(customerList =>{
         console.log(customerList);
         if(customerList.pagination.endPage == 0) {
             const notFound = document.createElement('div');
             notFound.classList.add('notFound');
-            notFound.innerText = "존재하는 회원이 없습니다.";
+            notFound.innerText = "존재하는 상품이 없습니다.";
             BoardContainer.append(notFound);
             return;
         }
@@ -116,28 +112,23 @@ function statePageMove(customerState, cp){
     boardStructureTop();
     boardStructureSubTitle();
     const select = document.querySelector('#customerStatus');
-    if (customerState == '대기') {
-        select.value = '대기';
-    
-    } else if (customerState == '반려') {
-        select.value = '반려';
-    
-    } else if (customerState == '경고') {
-        select.value = '경고';
-    
-    } else if (customerState == '블랙') {
-        select.value = '블랙';
-    } else{
-        location.href = '/manageCustomer/report';
+    if (customerState === 'N') {
+        select.value = '판매';
+    } else if (customerState === 'Y') {
+        select.value = '종료';
+    }  else{
+        location.href = '/manageBrand/goods';
+        return;
     }
-    fetch("reportCondition?customerState="+customerState+"&cp="+cp )
+
+    fetch("productCondition?customerState="+customerState+"&cp="+cp )
     .then(resp=>resp.json())
     .then(customerList =>{
         console.log(customerList);
         if(customerList.pagination.endPage == 0) {
             const notFound = document.createElement('div');
             notFound.classList.add('notFound');
-            notFound.innerText = "존재하는 문의가 없습니다.";
+            notFound.innerText = "존재하는 상품이 없습니다.";
             BoardContainer.append(notFound);
             return;
         }
@@ -146,6 +137,7 @@ function statePageMove(customerState, cp){
             console.log(customer);
             boardStructure(customer);
         }
+
         const StatePagination = document.createElement("ul");
         StatePagination.id = "pagination";
         BoardContainer.append(StatePagination);
@@ -217,7 +209,7 @@ function boardStructureTop(){
 
     const titleDiv = document.createElement('div');
     titleDiv.classList.add('title');
-    titleDiv.innerText = '고객 대상 신고';
+    titleDiv.innerText = '판매 상품';
 
     const selectArea = document.createElement('div');
     selectArea.classList.add('select-area');
@@ -230,22 +222,14 @@ function boardStructureTop(){
     const optionAll = document.createElement('option');
     optionAll.innerText = '전체';
 
-    const optionWait = document.createElement('option');
-    optionWait.innerText = '대기';
+    const optionSell = document.createElement('option');
+    optionSell.innerText = '판매';
+
+    const optionDone= document.createElement('option');
+    optionDone.innerText = '종료';
 
 
-    const optionBack = document.createElement('option');
-    optionBack.innerText = '반려';
-
-    const optionWarn = document.createElement('option');
-    optionWarn.innerText = '경고';
-
-    const optionBlack = document.createElement('option');
-    optionBlack.innerText = '블랙';
-    
-
-
-    select.append(optionAll, optionWait, optionBack, optionWarn, optionBlack );
+    select.append(optionAll, optionSell, optionDone);
     selectArea.append(select);
     boardTitle.append(titleDiv, selectArea);
     BoardContainer.append(boardTitle);
@@ -261,16 +245,16 @@ function boardStructureSubTitle(){
     div1.innerText = '번호';
 
     const div2 = document.createElement('div');
-    div2.innerText = '신고자';
+    div2.innerText = '브랜드';
 
     const div3 = document.createElement('div');
-    div3.innerText = '피신고자';
+    div3.innerText = '상품명';
 
     const div4 = document.createElement('div');
-    div4.innerText = '신고 제목';
+    div4.innerText = '신청일자';
 
     const div5 = document.createElement('div');
-    div5.innerText = '신고 일자';
+    div5.innerText = '재고';
 
     const div6 = document.createElement('div');
     div6.innerText = '상태';
@@ -285,27 +269,25 @@ function boardStructureSubTitle(){
 function boardStructure(customer){
     let listItem = document.createElement('div');
     listItem.classList.add('list', 'item', 'bottom-line', 'clickArea');
-    listItem.setAttribute('onclick', `customerState(${customer.memberNo})`);
+    listItem.setAttribute('onclick', `boardProduct(${customer.memberNo})`);
 
     let div1 = document.createElement('div');
-    div1.innerText = customer.reportNo;
+    div1.innerText = customer.boardNo;
 
     let div2 = document.createElement('div');
-    div2.innerText = customer.memberNick;
+    div2.innerText = customer.brandName;
 
     let div3 = document.createElement('div');
-    div3.innerText = customer.reportedUserNick;
+    div3.innerText = customer.productTitle;
 
     let div4 = document.createElement('div');
-    div4.classList.add("clickList");
-    div4.setAttribute("onclick",`customerReport(${customer.reportNo})`)
-    div4.innerText = customer.reportTitle;
+    div4.innerText = customer.createDate;
 
     let div5 = document.createElement('div');
-    div5.innerText = customer.reportDate;
+    div5.innerText = customer.productCount;
 
     let div6 = document.createElement('div');
-    div6.innerText = customer.reportStatus;
+    div6.innerText = customer.boardDelFl;
 
     listItem.append(div1, div2, div3, div4, div5, div6);
     listAreaWrap.append(listItem);

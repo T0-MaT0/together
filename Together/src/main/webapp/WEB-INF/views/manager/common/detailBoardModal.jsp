@@ -243,7 +243,7 @@ REGION: ${map.REGION}
     <script>
         const no = Number(${no});
         const type = Number(${type});
-        const url = Number(${map.url});
+        const recruitmentBoardNo = '${map.boardNo}';
     </script>
     <script src="/resources/js/manager-js/boardDetailModal.js"></script>
 </body>

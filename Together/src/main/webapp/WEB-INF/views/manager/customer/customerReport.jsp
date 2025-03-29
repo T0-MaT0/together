@@ -185,6 +185,7 @@
 <script src="/resources/js/manager-js/reportModal.js"></script>
 <script src="/resources/js/manager-js/customer/customerReport.js"></script>
 <script src="/resources/js/manager-js/customer/reportCondition.js"></script>
+
 </body>
 
 </html>

@@ -118,6 +118,34 @@ public interface BrandService {
 	 */
 	int promotionApproval( Map<String, Object> requestData);
 
+	/** 조건 적용 브랜드 상품 목록조회
+	 * @param customerState
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> productCondition(String customerState, int cp);
+
+	/** 조건 적용 브랜드 대상 신고 목록 조회
+	 * @param customerState
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> reportCondition(String customerState, int cp);
+
+	/** 조건 적용 브랜드 제휴 조회
+	 * @param customerState
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> brandApplyCondition(String customerState, int cp);
+
+	/** 조건 적용 브랜드 광고 조회
+	 * @param customerState
+	 * @param cp
+	 * @return
+	 */
+	Map<String, Object> brandPromCondition(String customerState, int cp);
+
 	
 	
 	

@@ -23,7 +23,8 @@ const filterCustomerStatus = (e)=>{
     } else if (customerState == '블랙') {
         select.value = '블랙';
     } else{
-        location.href = '/manageCustomer/report';
+        location.href = '/manageBrand/report';
+        return;
     }
     
     console.log(customerState)
@@ -34,7 +35,7 @@ const filterCustomerStatus = (e)=>{
         if(customerList.pagination.endPage == 0) {
             const notFound = document.createElement('div');
             notFound.classList.add('notFound');
-            notFound.innerText = "존재하는 회원이 없습니다.";
+            notFound.innerText = "신고가 존재하지 않습니다.";
             BoardContainer.append(notFound);
             return;
         }
@@ -128,7 +129,8 @@ function statePageMove(customerState, cp){
     } else if (customerState == '블랙') {
         select.value = '블랙';
     } else{
-        location.href = '/manageCustomer/report';
+        location.href = '/manageBrand/report';
+        return;
     }
     fetch("reportCondition?customerState="+customerState+"&cp="+cp )
     .then(resp=>resp.json())
@@ -137,7 +139,7 @@ function statePageMove(customerState, cp){
         if(customerList.pagination.endPage == 0) {
             const notFound = document.createElement('div');
             notFound.classList.add('notFound');
-            notFound.innerText = "존재하는 문의가 없습니다.";
+            notFound.innerText = "신고가 존재하지 않습니다";
             BoardContainer.append(notFound);
             return;
         }
@@ -217,7 +219,7 @@ function boardStructureTop(){
 
     const titleDiv = document.createElement('div');
     titleDiv.classList.add('title');
-    titleDiv.innerText = '고객 대상 신고';
+    titleDiv.innerText = '브랜드 대상 신고';
 
     const selectArea = document.createElement('div');
     selectArea.classList.add('select-area');
@@ -298,7 +300,7 @@ function boardStructure(customer){
 
     let div4 = document.createElement('div');
     div4.classList.add("clickList");
-    div4.setAttribute("onclick",`customerReport(${customer.reportNo})`)
+    div4.setAttribute("onclick",`clickReport(${customer.reportNo})`)
     div4.innerText = customer.reportTitle;
 
     let div5 = document.createElement('div');

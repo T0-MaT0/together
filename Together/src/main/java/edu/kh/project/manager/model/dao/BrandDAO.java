@@ -30,6 +30,12 @@ public class BrandDAO {
 	public int goodsCount() {
 		return sqlSession.selectOne("managerMapper.goodsCount");
 	}
+	/** 조건 적용 상품 수
+	 * @return
+	 */
+	public int goodsCount(String customerState) {
+		return sqlSession.selectOne("managerMapper.goodsCounCondition", customerState);
+	}
 
 	/** 상품 리스트 조회
 	 * @param pagination
@@ -39,6 +45,16 @@ public class BrandDAO {
 		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 		return sqlSession.selectList("managerMapper.goodsList", null, rowBounds);
+	}
+	
+	/** 조건 적용 상품 리스트 조회
+	 * @param pagination
+	 * @return
+	 */
+	public List<QuestCustomer> goodsList(Pagination pagination, String customerState) {
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("managerMapper.goodsListCondition", customerState, rowBounds);
 	}
 	
 
@@ -66,6 +82,13 @@ public class BrandDAO {
 	public int reportCount() {
 		return sqlSession.selectOne("managerMapper.brandReportCount");
 	}
+	
+	/** 조건 적용 브랜드 대상 신고 수
+	 * @return
+	 */
+	public int reportCount(String customerState) {
+		return sqlSession.selectOne("managerMapper.brandReportCountCondition", customerState);
+	}
 
 	/** 브랜드 대상 신고 리스트 조회
 	 * @param pagination
@@ -75,6 +98,16 @@ public class BrandDAO {
 		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 		return sqlSession.selectList("managerMapper.brandReportList", null, rowBounds);
+	}
+	
+	/** 조건 적용 브랜드 대상 신고 리스트 조회
+	 * @param pagination
+	 * @return
+	 */
+	public List<QuestCustomer> reportList(Pagination pagination, String customerState) {
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("managerMapper.brandReportListCondition", customerState, rowBounds);
 	}
 
 	
@@ -86,6 +119,13 @@ public class BrandDAO {
 	 */
 	public int applyCount() {
 		return sqlSession.selectOne("managerMapper.applyCount");
+	}
+	
+	/** 조건 적용 제휴문의 수
+	 * @return
+	 */
+	public int applyCount(String customerState) {
+		return sqlSession.selectOne("managerMapper.applyCountCondition", customerState);
 	}
 	
 	/** 제휴 문의 상태 수
@@ -108,6 +148,16 @@ public class BrandDAO {
 		return sqlSession.selectList("managerMapper.applyList", null, rowBounds);
 	}
 	
+	/** 조건 적용 제휴 문의 리스트 조회
+	 * @param pagination
+	 * @return
+	 */
+	public List<QuestCustomer> applyList(Pagination pagination, String customerState) {
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("managerMapper.applyListCondition", customerState, rowBounds);
+	}
+	
 	//------------------------------------------------------------------
 
 	/** 광고 신청 수
@@ -115,6 +165,13 @@ public class BrandDAO {
 	 */
 	public int promotionCount() {
 		return sqlSession.selectOne("managerMapper.promotionCount");
+	}
+	
+	/** 조건 적용 광고 신청 수
+	 * @return
+	 */
+	public int promotionCount(String customerState) {
+		return sqlSession.selectOne("managerMapper.promotionCountCondition", customerState);
 	}
 
 	/**  광고 신청 목록 조회
@@ -125,6 +182,16 @@ public class BrandDAO {
 		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 		return sqlSession.selectList("managerMapper.promotionList", null, rowBounds);
+	}
+	
+	/**  조건 적용 광고 신청 목록 조회
+	 * @param pagination
+	 * @return
+	 */
+	public List<QuestCustomer> promotionList(Pagination pagination, String customerState) {
+		int offset = (pagination.getCurrentPage()-1)*pagination.getLimit();
+		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
+		return sqlSession.selectList("managerMapper.promotionListCondition", customerState, rowBounds);
 	}
 
 	/** 광고 상태 수

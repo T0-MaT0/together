@@ -256,6 +256,74 @@ public class BrandServiceImpl implements BrandService {
 		return result;
 	}
 
+	//조건 적용 브랜드 상품 목록조회
+	@Override
+	public Map<String, Object> productCondition(String customerState, int cp) {
+		int listCount = dao.goodsCount(customerState);
+
+		Pagination pagination = new Pagination(cp, listCount);
+
+		List<QuestCustomer> goodsList = dao.goodsList(pagination, customerState);
+
+
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("stateList", goodsList);
+		map.put("pagination", pagination);
+
+		return map;
+	}
+
+	// 조건 적용 브랜드 대상 신고 조회
+	@Override
+	public Map<String, Object> reportCondition(String customerState, int cp) {
+		int listCount = dao.reportCount(customerState);
+
+		Pagination pagination = new Pagination(cp, listCount);
+
+		List<QuestCustomer> reportList = dao.reportList(pagination, customerState);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("stateList", reportList);
+		map.put("pagination", pagination);
+
+		return map;
+	}
+
+	
+	// 조건 적용 브랜드 제휴 조회
+	@Override
+	public Map<String, Object> brandApplyCondition(String customerState, int cp) {
+		int listCount = dao.applyCount(customerState);
+
+		Pagination pagination = new Pagination(cp, listCount);
+
+		List<QuestCustomer> applyList = dao.applyList(pagination, customerState);
+
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("stateList", applyList);
+		map.put("pagination", pagination);
+
+		return map;
+	}
+
+	//조건 적용 브랜드 광고 조회
+	@Override
+	public Map<String, Object> brandPromCondition(String customerState, int cp) {
+		int listCount = dao.promotionCount(customerState);
+
+		Pagination pagination = new Pagination(cp, listCount);
+
+		List<QuestCustomer> promotionList = dao.promotionList(pagination, customerState);
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("stateList", promotionList);
+		map.put("pagination", pagination);
+
+		return map;
+	}
+
 
 }
 
