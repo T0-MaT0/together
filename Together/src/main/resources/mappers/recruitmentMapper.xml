@@ -90,6 +90,7 @@
 	    <result property="deliveryExpected" column="DELIVERY_EXPECTED"/>
 	    <result property="memberReceiveDate" column="MEMBER_RECEIVE_DATE"/>
 	    
+	    <result property="certStatus" column="CERT_STATUS"/>
 	    
 	    <collection property="imageList"
   				  select="selectImageList"
@@ -458,13 +459,19 @@
 		    -- 모집장 정보 RECRUITMENT_ROOM에서 직접 가져오기
 		    m.MEMBER_NO AS hostNo,
 		    m.MEMBER_NICK AS hostName,
-		    m.MEMBER_GRADE AS hostGrade
+		    m.MEMBER_GRADE AS hostGrade,
+		    
+		    -- 참가자의 인증 상태
+       		rp.CERT_STATUS
 		
 		FROM RECRUITMENT_ROOM r
 		JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO
 		JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO
 		JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO -- 모집장 정보 가져오기
-		
+		LEFT JOIN RECRUITMENT_PARTICIPANT rp 
+           ON r.RECRUITMENT_NO = rp.RECRUITMENT_NO 
+          AND rp.MEMBER_NO = #{memberNo}
+          
 		WHERE r.RECRUITMENT_NO = #{recruitmentNo}
 	</select>
 	
@@ -795,14 +802,9 @@
     <!-- 인증 상태 업데이트 -->
     <update id="updateCertStatus">
         UPDATE RECRUITMENT_PARTICIPANT
-        SET CERT_STATUS = 'Y'
-        WHERE RECRUITMENT_NO = #{recruitmentNo}
-          AND MEMBER_NO IN (
-            SELECT MEMBER_NO
-            FROM RECRUITMENT_ROOM
-            WHERE RECRUITMENT_NO = #{recruitmentNo}
-              AND QR_TOKEN = #{token}
-          )
+	    SET CERT_STATUS = 'Y'
+	    WHERE RECRUITMENT_NO = #{recruitmentNo}
+	      AND MEMBER_NO = #{memberNo}
     </update>
     
     <!-- 신고 제출 -->
@@ -831,5 +833,80 @@
 	  UPDATE BOARD
 	  SET BOARD_DEL_FL = 'Y'
 	  WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<!-- 모집장 정보 조회 -->
+	<select id="selectHostInfo" parameterType="int" resultType="Member">
+	    SELECT 
+	        m.MEMBER_NO,
+	        m.MEMBER_NICK,
+	        m.MEMBER_GRADE,
+	        m.MEMBER_ADDR,
+	        m.ENROLL_DATE AS enrollDate,
+	        m.PROFILE_IMG AS profileImg
+	    FROM RECRUITMENT_ROOM r
+	    JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO
+	    WHERE r.RECRUITMENT_NO = #{recruitmentNo}
+	</select>
+	
+	<!-- 리뷰 작성 -->
+	<insert id="insertReview" parameterType="Review">
+	    INSERT INTO REVIEW (
+		    REVIEW_NO, REVIEW_CONTENT, REVIEW_STAR,
+		    REVIEW_TYPE, REVIEW_TYPE_NO, MEMBER_NO, ORDER_NO
+		  )
+		  VALUES (
+		    SEQ_REVIEW_NO.NEXTVAL,
+		    #{reviewContent}, #{reviewStar},
+		    #{reviewType}, #{reviewTypeNo}, #{memberNo}, #{orderNo}
+		  )
+	</insert>
+	
+	<!-- 후기 작성 여부 -->
+	<select id="checkIfUserReviewed" resultType="_int">
+	    SELECT COUNT(*) 
+	    FROM REVIEW
+	    WHERE REVIEW_TYPE = 1
+	      AND REVIEW_TYPE_NO = #{recruitmentNo}
+	      AND MEMBER_NO = #{memberNo}
+	</select>
+	
+	<!-- 받은 스타의 평균 -->
+	<select id="selectAverageReviewStar" resultType="double">
+	    SELECT ROUND(AVG(REVIEW_STAR), 1)
+	    FROM REVIEW
+	    WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<!-- 등급 업데이트 -->
+	<update id="updateMemberGrade">
+	  UPDATE MEMBER
+	  SET MEMBER_GRADE = #{avg}
+	  WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	<!-- 구매 확정 -->
+	<update id="updatePointUsageToComplete">
+	  UPDATE POINT_USAGE
+	  SET STATUS = '완료'
+	  WHERE USAGE_TYPE = 2
+	    AND USAGE_TYPE_NO = #{recruitmentNo}
+	    AND MEMBER_NO = #{memberNo}
+	</update>
+	
+	<!-- 모두 구매 확정인지 체크 -->
+	<select id="selectIncompletePointUsageCount" resultType="int">
+	  SELECT COUNT(*)
+	  FROM POINT_USAGE
+	  WHERE USAGE_TYPE = 2
+	    AND USAGE_TYPE_NO = #{recruitmentNo}
+	    AND STATUS != '완료'
+	</select>
+	
+	<!-- 모집방 상태 변경 -->
+	<update id="updateRecruitmentStatusToComplete">
+	  UPDATE RECRUITMENT_ROOM
+	  SET RECRUITMENT_STATUS = '완료'
+	  WHERE RECRUITMENT_NO = #{recruitmentNo}
 	</update>
 </mapper>

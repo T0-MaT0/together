@@ -238,6 +238,8 @@ public class ChattingController {
 	    int targetMemberNo = Integer.parseInt(payload.get("targetMemberNo").toString());
 	    String roomName = (String) payload.get("targetNick");
 
+	    System.out.println("myMemberNo : " + myMemberNo);
+	    System.out.println("targetMemberNo : " + targetMemberNo);
 	    Map<String, Object> result = new HashMap<>();
 
 	    try {
@@ -246,7 +248,7 @@ public class ChattingController {
 	        boolean isNew = (boolean) roomResult.get("isNew");
 	        int roomNo = (int) roomResult.get("roomNo");
 
-	        result.put("success", isNew); // 새로 만든 경우만 true
+	        result.put("success", true); 
 	        result.put("roomNo", roomNo);
 	        result.put("isNew", isNew);
 	    } catch (Exception e) {

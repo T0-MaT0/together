@@ -42,7 +42,7 @@
                             data-recruitment-no="${recruitmentDetail.recruitmentNo}">
                         ${recruitmentDetail.hostName}
                         </span>
-                        ${recruitmentDetail.hostGrade}
+                        (${recruitmentDetail.hostGrade})
                     </span>
                 </div>
             </div>

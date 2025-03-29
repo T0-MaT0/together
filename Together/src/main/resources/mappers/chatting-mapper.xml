@@ -317,14 +317,14 @@
 	
 	<!-- 채팅방 중복 체크 -->
 	<select id="checkPrivateRoom" parameterType="map" resultType="_int">
-	    SELECT ROOM_NO
-	    FROM CHAT_ROOM
-	    WHERE GROUP_FL = 'N'
-	      AND ROOM_DELETED_FL = 'N'
-	      AND ROOM_NO IN (
-	        SELECT ROOM_NO FROM CHAT_ROOM_USER WHERE MEMBER_NO = #{myMemberNo}
-	        INTERSECT
-	        SELECT ROOM_NO FROM CHAT_ROOM_USER WHERE MEMBER_NO = #{targetMemberNo}
-	      )
+	  SELECT ROOM_NO
+	  FROM CHAT_ROOM
+	  WHERE GROUP_FL = 'N'
+	    AND ROOM_DELETED_FL = 'N'
+	    AND ROOM_NO IN (
+	      SELECT ROOM_NO FROM CHAT_ROOM_USER WHERE MEMBER_NO = #{myMemberNo}
+	      INTERSECT
+	      SELECT ROOM_NO FROM CHAT_ROOM_USER WHERE MEMBER_NO = #{targetMemberNo}
+	    )
 	</select>
 </mapper>

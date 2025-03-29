@@ -72,4 +72,6 @@ public class Recruitment {
     private String memberReceiveDate;   // 파티원 수령 예정일 (String 또는 Date)
     private String qrToken;
     
+    // 인증용
+    private String certStatus;
 }

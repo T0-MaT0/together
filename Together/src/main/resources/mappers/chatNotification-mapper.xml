@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="chatNotificationMapper">
+	
+	<resultMap id="chatNotification_rm" type="chatNotification">
+    <id property="notiId" column="NOTI_ID" />
+    
+	    <result property="unreadCount" column="UNREAD_COUNT" />
+	    <result property="memberNo" column="MEMBER_NO" />
+	    <result property="messageNo" column="MESSAGE_NO" />
+	    <result property="roomNo" column="ROOM_NO" />
+	</resultMap>
+	
+	<!-- 알림 인서트 -->
+	<insert id="insertNotification">
+        INSERT INTO CHAT_NOTIFICATION(NOTI_ID, UNREAD_COUNT, MEMBER_NO, MESSAGE_NO, ROOM_NO)
+        VALUES(SEQ_NOTI_ID.NEXTVAL, 1, #{memberNo}, #{messageNo}, #{roomNo})
+    </insert>
+
+	<!-- 알림 +1  -->
+    <update id="updateNotification">
+        UPDATE CHAT_NOTIFICATION
+        SET UNREAD_COUNT = UNREAD_COUNT + 1,
+            MESSAGE_NO = #{messageNo}
+        WHERE MEMBER_NO = #{memberNo}
+          AND ROOM_NO = #{roomNo}
+    </update>
+
+    <select id="selectNotificationList" resultMap="chatNotification_rm">
+        SELECT NOTI_ID, UNREAD_COUNT, MEMBER_NO, MESSAGE_NO, ROOM_NO
+        FROM CHAT_NOTIFICATION
+        WHERE MEMBER_NO = #{memberNo}
+    </select>
+
+	<!-- 알림 읽음 처리 -->
+    <update id="markAsRead">
+        UPDATE CHAT_NOTIFICATION
+	    SET UNREAD_COUNT = 0
+	    WHERE MEMBER_NO = #{memberNo}
+	    AND ROOM_NO = #{roomNo}
+    </update>
+    
+    <select id="selectLastMessageNo" resultType="_int">
+	    SELECT MAX(MESSAGE_NO)
+	    FROM CHAT_MESSAGE
+	    WHERE ROOM_NO = #{roomNo}
+	</select>
+	
+	<!-- 상대방 memberNo 조회 -->
+	<select id="selectTargetMemberNo" parameterType="map" resultType="_int">
+	    SELECT MEMBER_NO
+	    FROM CHAT_ROOM_USER
+	    WHERE ROOM_NO = #{roomNo}
+	    AND MEMBER_NO != #{senderNo}
+	</select>
+	
+	<!-- 1. 존재 여부 확인 -->
+	<select id="checkExistingNotification" resultType="int" parameterType="ChatNotification">
+	  SELECT COUNT(*) 
+	  FROM CHAT_NOTIFICATION 
+	  WHERE MEMBER_NO = #{memberNo}
+	    AND ROOM_NO = #{roomNo}
+	</select>
+	
+	<!-- 읽지 않은 모든 메시지 수  -->
+	<select id="getTotalUnreadCount" resultType="_int">
+	  SELECT NVL(SUM(UNREAD_COUNT), 0)
+	  FROM CHAT_NOTIFICATION
+	  WHERE MEMBER_NO = #{memberNo}
+	</select>
+</mapper>
