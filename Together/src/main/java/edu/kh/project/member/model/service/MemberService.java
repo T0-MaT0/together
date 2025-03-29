@@ -65,6 +65,12 @@ public interface MemberService {
 
 
 	int insertPointTransaction(PointTransaction transaction);
+
+
+	void updateMemberPoint(Map<String, Object> paramMap);
+
+
+	Member selectMemberByNo(int memberNo);
 	
 
 }

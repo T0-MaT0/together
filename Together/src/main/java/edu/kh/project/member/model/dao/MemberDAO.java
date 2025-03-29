@@ -54,5 +54,15 @@ public class MemberDAO {
 		return sqlSession.insert("memberMapper.insertPointTransaction", transaction);
 	}
 
+	public int updateMemberPoint(Map<String, Object> paramMap) {
+		return sqlSession.update("memberMapper.updateMemberPoint", paramMap);
+	}
+
+	public Member selectMemberByNo(int memberNo) {
+		return sqlSession.selectOne("memberMapper.selectMemberByNo", memberNo);
+	}
+
+
+
 
 }

@@ -123,6 +123,26 @@
 		VALUES(${transactionNo}, #{amount}, #{paymentMethod}, DEFAULT, #{memberNo})
 	</insert>
 	
+	<update id="updateMemberPoint">
+	  UPDATE MEMBER
+	  SET POINT = POINT + #{amount}
+	  WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	<select id="selectMemberByNo" parameterType="Member" resultMap="member_rm">
+		SELECT 
+        MEMBER_NO, MEMBER_ID, MEMBER_PW,
+        MEMBER_NICK, MEMBER_NAME, MEMBER_ADDR,
+        MEMBER_TEL, PROFILE_IMG, 
+        TO_CHAR(ENROLL_DATE, 'YYYY-MM-DD HH24:MI:SS') AS ENROLL_DATE,
+        MEMBER_EMAIL, AUTHORITY, MEMBER_GRADE,
+        TO_CHAR(MEMBER_BIRTH, 'YYYY-MM-DD') AS MEMBER_BIRTH,
+        POINT
+	    FROM MEMBER
+	    WHERE MEMBER_DEL_FL = 'N'
+	    AND MEMBER_NO = #{memberNo}
+	</select>
+	
 
 		
 
