@@ -176,7 +176,7 @@
   background-color: #ff4d8e;
 }
 
-#sideBar .talkMenu.unselect > a > img {
+#sideBar .talkMenu.unselect > a > img{
   filter: brightness(0) saturate(100%) invert(64%) sepia(76%) saturate(3835%) hue-rotate(321deg) brightness(115%) contrast(109%);
 }
 

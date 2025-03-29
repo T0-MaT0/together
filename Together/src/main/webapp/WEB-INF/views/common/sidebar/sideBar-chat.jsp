@@ -8,7 +8,7 @@
 <!-- 채팅 검색창 -->
 <div class="search-area">
   <label for="sideBar-input">
-    <form action="">
+    <form onsubmit="return false;">
       <input type="text" placeholder="검색" name="sideBar-input" id="sideBar-input">
       <button type="submit" id="sideBar-search"></button>
       <label for="sideBar-search">
