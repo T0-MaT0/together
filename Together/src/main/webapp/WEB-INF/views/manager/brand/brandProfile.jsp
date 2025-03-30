@@ -45,13 +45,13 @@
                 <div class="title">브랜드 프로필</div>
                 <div class="btn-area">
                     <c:if test="${profile.state eq '블랙'}">
-                        <a href="report?memberNo=${profile.memberNo}" style="background-color: #a3a3a3;">복구</a>
+                        <a href="BeRecover?memberNo=${profile.memberNo}" style="background-color: #a3a3a3;">복구</a>
                     </c:if>
                     <c:if test="${profile.state != '블랙'}">
-                        <a href="report?memberNo=${profile.memberNo}">블랙</a>
+                        <a href="BeBlack?memberNo=${profile.memberNo}">블랙</a>
                    
-                        <a href="report?memberNo=${profile.memberNo}">경고</a>
-                    </c:if>    
+                        <!-- <a href="BeWarn?memberNo=${profile.memberNo}">경고</a> -->
+                    </c:if>      
                 </div>
             </div>
             <div class="profile-area">
@@ -155,11 +155,11 @@
             <div class="board-title">
                 <div class="title"></div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <!-- <select name="customerStatus" id="customerStatus">
                         <option>전체</option>
                         <option>미처리</option>
                         <option>처리</option>
-                    </select>
+                    </select> -->
                 </div>
 
             </div>

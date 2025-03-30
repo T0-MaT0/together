@@ -146,6 +146,10 @@ public interface BrandService {
 	 */
 	Map<String, Object> brandPromCondition(String customerState, int cp);
 
+	int BeRecover(int memberNo);
+
+	int BeBlack(int memberNo);
+
 	
 	
 	

@@ -170,7 +170,7 @@
                     <div class="managerReportText" contenteditable="true">ㅁㄴㅇㄹㅁㄴㅇㄹ</div>
                 </div>
                 <div class="modal-btn">
-                    <button onclick="reportSubmit('customer')">처리</button>
+                    <!-- <button onclick="reportSubmit('customer')">처리</button> -->
                 </div>
             </div>
 

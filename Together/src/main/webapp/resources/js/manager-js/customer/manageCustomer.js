@@ -49,6 +49,7 @@ function boardList(boardCode, memberNo, cp) {
                 }
             }
             
+            console.log(result);
 
             const boardList = result.boardList;
 
@@ -87,7 +88,9 @@ function boardList(boardCode, memberNo, cp) {
                 console.log(board);
                 // 새로운 div 요소들을 생성합니다.
                 const listItem = document.createElement('div');
-                listItem.classList.add('list', 'item', 'bottom-line'); // 클래스 추가
+                listItem.classList.add('list', 'item', 'bottom-line', 'clickArea'); // 클래스 추가
+                listItem.setAttribute("onClick",`profileBoard(${JSON.stringify(board)}, ${boardCode})`);
+                console.log("result", result);
 
                 // 첫 번째 div (번호)
                 const div1 = document.createElement('div');
@@ -144,3 +147,25 @@ function nextPage(boardCode, memberNo, cp){
 }
 
 
+function profileBoard(board , boardCode){
+
+    JSON.parse(JSON.stringify(board));
+
+    let path = '';
+    switch(boardCode){
+        case 0: 
+            const recruitmentNo= Number(board.recruitmentNo);
+            const no = board.no;
+            console.log(no);
+            path = `/partyRecruitmentList/`+recruitmentNo+"/"+no;
+            console.log(path);
+            const popup = window.open(path, '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+             break;
+        case 1: title = "1:1 문의"; break;
+        case 2: title = "주문 목록"; break;
+        case 3: title = "신고 당한 목록"; break;
+        case 4: title = "댓글 목록"; break;
+        case 5: title = "신고한 목록"; break;
+    }
+    console.log("작동")
+}
