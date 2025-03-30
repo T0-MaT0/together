@@ -12,4 +12,5 @@ public class CustProfileBoard {
     private String title;        // 게시글 제목
     private String createDate;   // 작성일 (YYYY-MM-DD 형식)
     private String state;        // 상태 
+    private int recruitmentNo; // 모집글 번호
 }

@@ -78,13 +78,48 @@ function clickReport(reportNo){
         customerText.innerText = reportDetail.reportDetail;
         infoBtn.innerText = reportDetail.reportedUserNick +" 정보 조회";
         
-        managerReportText.innerText  = reportDetail.reply == null? '': reportDetail.reply;
+
+
+        // const  modalbtn = document.querySelector(".modal-btn");
+        // modalbtn.innerHTML ='';
+        // // 처리 버튼
+        // if(reportDetail.reportStatus=='대기'){
+        //     managerReportText.innerText  = reportDetail.reply == null? '': reportDetail.reply;
+        //     managerReportText.setAttribute("contenteditable","true");
+        //     modalbtn.innerHTML = `<button onclick="reportSubmit('customer')">처리</button>`
+        // }else{
+        //     managerReportText.setAttribute("contenteditable","false");
+        // }
+
+
+        let beforeContent = reportDetail.reply == null ? '' : reportDetail.reply;
+
+        beforeContent =  beforeContent.replaceAll("&amp;", "&");
+        beforeContent =  beforeContent.replaceAll("&lt;", "<");
+        beforeContent =  beforeContent.replaceAll("&gt;", ">");
+        beforeContent =  beforeContent.replaceAll("&quot;", "\"");
+
+        
+        const  modalbtn = document.querySelector(".modal-btn");
+        const managerReportText = document.querySelector(".managerReportText");
+        modalbtn.innerHTML ='';
+        // 처리 버튼
+        if(reportDetail.reportStatus=='대기'){
+            managerReportText.innerText  = beforeContent ;
+            managerReportText.setAttribute("contenteditable","true");
+            modalbtn.innerHTML = `<button onclick="reportSubmit('customer')">처리</button>`
+        }else{
+            managerReportText.setAttribute("contenteditable","false");
+        }
+       
        
         // 버튼 영역
         infoBtn.innerText = reportDetail.reportedUserNick +" 정보 조회";
         infoBtn.setAttribute("path", "/manageBrand/brandProfile/-1?boardNo="+reportNo);
         BoardBtn.innerText = "문제 "+ reportDetail.reportTypeName +" 조회";
         BoardBtn.setAttribute("onclick",`openBoard(${reportDetail.reportType}, ${reportDetail.reportTypeNo})`)
+
+   
 
     })
     .catch(err=>console.log(err))
@@ -102,7 +137,7 @@ document.getElementsByClassName("close")[0].addEventListener("click", e=>{
     // }
     customerText.innerText = '';
 
-        managerText.innerText  = '';
+        // managerText.innerText  = '';
         closeProfile();
 })
 
@@ -318,6 +353,7 @@ function customerReport(reportNo){
         BoardBtn.innerText = "문제 "+reportDetail.reportTypeName +" 조회";
         BoardBtn.setAttribute("onclick",`openBoard(${reportDetail.reportType}, ${reportDetail.reportTypeNo})`)
 
+
         let beforeContent = reportDetail.reply == null ? '' : reportDetail.reply;
 
         beforeContent =  beforeContent.replaceAll("&amp;", "&");
@@ -325,7 +361,23 @@ function customerReport(reportNo){
         beforeContent =  beforeContent.replaceAll("&gt;", ">");
         beforeContent =  beforeContent.replaceAll("&quot;", "\"");
 
-        managerReportText.innerText = beforeContent;
+        
+        const  modalbtn = document.querySelector(".modal-btn");
+        const managerReportText = document.querySelector(".managerReportText");
+        modalbtn.innerHTML ='';
+        // 처리 버튼
+        if(reportDetail.reportStatus=='대기'){
+            managerReportText.innerText  = beforeContent ;
+            managerReportText.setAttribute("contenteditable","true");
+            modalbtn.innerHTML = `<button onclick="reportSubmit('customer')">처리</button>`
+        }else{
+            managerReportText.setAttribute("contenteditable","false");
+        }
+       
+
+        
+
+        // managerReportText.innerText = beforeContent;
 
 
         return;

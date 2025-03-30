@@ -22,5 +22,6 @@ public class CustomerBoard {
 	private String boardDelFl;
 	private String state;
 	
+	
 	private String reply;
 }

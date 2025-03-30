@@ -619,6 +619,7 @@
 					BOARD_TITLE TITLE, 
 					TO_CHAR( B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE
 					,RECRUITMENT_STATUS STATE
+					,RECRUITMENT_NO
 			FROM BOARD B
 			JOIN RECRUITMENT_ROOM R ON(R.BOARD_NO = B.BOARD_NO)
 			WHERE BOARD_CD  = 1
@@ -1132,6 +1133,19 @@
 	<update id="companyBlackUpdate">
 		UPDATE COMPANY SET PERMISSION_FL ='N' WHERE MEMBER_NO = ${reportedUserNo}
 	</update>	
+	
+	
+	
+	<!-- ====== 회원 프로필 상태 변경 작업 ========= -->
+	<update id="BeRecover">
+		UPDATE MEMBER SET MEMBER_DEL_FL = 'N' WHERE MEMBER_NO = ${memberNo}	
+	</update>
+	<update id="BeBlack">
+		UPDATE MEMBER SET MEMBER_DEL_FL = 'B' WHERE MEMBER_NO = ${memberNo}	
+	</update>
+	<update id="BeWarn">
+		UPDATE MEMBER SET MEMBER_DEL_FL = 'B' WHERE MEMBER_NO = ${memberNo}	
+	</update>
 	
 	
 	<!--===== POPUP =====-->
