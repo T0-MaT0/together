@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -208,10 +210,12 @@ public class RecruitmentController {
  	// 모집창 상세 경로
  	@GetMapping("/partyRecruitmentList/{recruitmentNo}/{boardNo}")
  	public String partyRecruitmentList(
- 			@PathVariable("recruitmentNo") int recruitmentNo,
- 			@PathVariable("boardNo") int boardNo,
+ 	        @PathVariable("recruitmentNo") int recruitmentNo,
+ 	        @PathVariable("boardNo") int boardNo,
  	        @SessionAttribute(value = "loginMember", required = false) Member loginMember,
  	        RedirectAttributes redirectAttributes,
+ 	        HttpServletRequest request,
+ 	        HttpServletResponse response,
  	        Model model) {
  	    
  	    int boardCode = 1; // 모집 게시판 코드
@@ -221,6 +225,29 @@ public class RecruitmentController {
  	    if (loginMember == null) {
  	        redirectAttributes.addFlashAttribute("message", "로그인을 먼저 해주세요.");
  	        return "redirect:/member/login";
+ 	    }
+ 	    
+ 	   // 조회수 중복 방지 쿠키 체크
+ 	    Cookie[] cookies = request.getCookies();
+ 	    boolean hasViewed = false;
+
+ 	    if (cookies != null) {
+ 	        for (Cookie cookie : cookies) {
+ 	            if (cookie.getName().equals("viewed_board_" + boardNo)) {
+ 	                hasViewed = true;
+ 	                break;
+ 	            }
+ 	        }
+ 	    }
+
+ 	    // 조회수 증가 처리
+ 	    if (!hasViewed) {
+ 	        service.increaseReadCount(boardNo); // DAO 단까지 구현 필요
+
+ 	        Cookie viewCookie = new Cookie("viewed_board_" + boardNo, "true");
+ 	        viewCookie.setMaxAge(60 * 60 * 3); // 3시간 동안 유지
+ 	        viewCookie.setPath("/");
+ 	        response.addCookie(viewCookie);
  	    }
  	    Recruitment recruitmentDetail = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo, memberNo);
  	    System.out.println("recruitmentDetail : " + recruitmentDetail);
@@ -898,4 +925,8 @@ public class RecruitmentController {
 
  	    return "redirect:/";
  	}
+ 	
+ 	
+ 	
+ 	
 }

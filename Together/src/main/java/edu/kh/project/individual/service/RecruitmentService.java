@@ -100,4 +100,7 @@ public interface RecruitmentService {
 	// POINT_USAGE 상태 '취소'로 변경
 	void updatePointUsageStatusToCancel(int recruitmentNo, int memberNo, int usageType);
 
+	// 조회수 증가
+	void increaseReadCount(int boardNo);
+
 }

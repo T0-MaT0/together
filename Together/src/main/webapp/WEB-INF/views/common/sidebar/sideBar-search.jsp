@@ -59,8 +59,7 @@
           <div class="item">
             <div class="itemName">지역 <span>Location</span></div>
             <div class="itemContents">
-              <div class="itemContent BTN selected">GPS 검색</div>
-              <div class="itemContent BTN">직접 선택</div>
+              <div class="itemContent BTN selected">지도 검색</div>
             </div>
           </div>
 

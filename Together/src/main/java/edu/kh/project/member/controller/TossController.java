@@ -89,7 +89,7 @@ public class TossController {
                 session.setAttribute("loginMember", updatedMember);
 
                 // 4. 성공 화면 처리
-                model.addAttribute("msg", "포인트 충전 성공!");
+                model.addAttribute("msg", amount + "포인트 충전 성공!");
                 model.addAttribute("amount", amount);
                 return "member/paymentSuccess";
 
