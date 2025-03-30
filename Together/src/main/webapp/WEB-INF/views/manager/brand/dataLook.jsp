@@ -128,7 +128,9 @@
         
             <div class="board-title ">
                 <div class="title">판매 순위</div>
-                <div class="select-area">
+                <div class="select-area" style="display: flex;">
+                    <div style="color: blue; font-size: normal;">판매수</div>
+                    <div style="color: red; margin-left: 10px ; font-size: normal;">클릭수</div>
                     <!-- <select name="customerStatus" id="customerStatus">
                         <option>전체</option>
                         <option>주</option>
@@ -138,13 +140,28 @@
                 </div>
                 
             </div>
-            
+        <c:set var="maxQuantity" value="0" />
+        <c:forEach var="data" items="${map.dataRank}">
+            <c:if test="${data.QUANTITY > maxQuantity}">
+                <c:set var="maxQuantity" value="${data.QUANTITY}" />
+            </c:if>
+        </c:forEach>
+        <!-- <div>가장 큰 QUANTITY: ${maxQuantity}</div>   -->
+
+        <c:set var="maxReadCount" value="0" />
+        <c:forEach var="data" items="${map.dataRank}">
+            <c:if test="${data.READ_COUNT > maxReadCount}">
+                <c:set var="maxReadCount" value="${data.READ_COUNT}" />
+            </c:if>
+        </c:forEach>
+        <!-- <div>가장 큰 READ_COUNT: ${maxReadCount}</div> -->
+        
             <c:forEach var="i" begin="0" end="${map.dataRank.size() - 1}">
-                <div class="graph-container">
+                <div class="graphBarArea">
                     <div class="label">${i+1}. ${map.dataRank[i].BRAND_NAME}</div>
                     <div class="graphArea">
-                        <div class="graphBar blue"></div><!-- ${dataRank.READ_COUNT} -->
-                        <div class="graphBar red"></div><!-- ${dataRank.QUANTITY} -->
+                        <div class="graphBar blue" style="width: ${map.dataRank[i].QUANTITY / maxQuantity * 180+10}px;" data-quantity="${map.dataRank[i].QUANTITY} "></div>
+                        <div class="graphBar red" style="width: ${map.dataRank[i].READ_COUNT / maxReadCount * 180+10}px;" data-quantity="${map.dataRank[i].READ_COUNT} "></div>
                     </div>
                 </div>
             </c:forEach>

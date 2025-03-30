@@ -292,7 +292,7 @@ function boardStructure(customer){
     div3.innerText = customer.memberEmail;
 
     let div4 = document.createElement('div');
-    div4.innerText = customer.enrollDate;
+    div4.innerText = customer.createDate;
 
     let div5 = document.createElement('div');
     div5.innerText = customer.memberGrade;

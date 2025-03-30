@@ -3,7 +3,8 @@ console.log("managerHome!");
 const mainPageBtn = document.querySelector("#mainPageBtn");
 const privatePageBtn = document.querySelector("#privatePageBtn");
 const brandPageBtn = document.querySelector('#brandPageBtn');
-
+const announce = document.querySelector(".alert");
+const faq = document.querySelector(".faq");
 /* 메인 페이지 관리 버튼 */
 mainPageBtn?.addEventListener("click", ()=>{
     
@@ -20,6 +21,13 @@ privatePageBtn?.addEventListener("click", ()=>{
 brandPageBtn?.addEventListener("click", ()=>{
 
     location.href = "/manageHome/brandPage";
+})
+
+announce?.addEventListener("click", ()=>{
+    location.href = "/customer/noticeBoardList";
+})
+faq?.addEventListener("click", ()=>{
+    location.href="/customer/FAQBoard/0";
 })
 
 /* ----------------------------------------------------------------------------------------- */
