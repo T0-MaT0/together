@@ -561,6 +561,13 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 	    dao.updatePointUsageStatusToCancel(map);
 	}
 
+	// 조회수 증가
+	@Override
+	public void increaseReadCount(int boardNo) {
+		dao.increaseReadCount(boardNo);
+		
+	}
+
 
 	
 	

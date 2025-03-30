@@ -143,7 +143,7 @@
         loginMember = {
         memberNo: ${loginMember.memberNo},
         nickname: "${loginMember.memberNick}",
-        targetNo = ${recruitment.hostNo};
+        targetNo = ${recruitment.hostNo}
         };
     </script>
     </c:if>

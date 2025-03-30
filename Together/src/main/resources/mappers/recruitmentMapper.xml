@@ -964,4 +964,11 @@
 	    AND MEMBER_NO = #{memberNo}
 	    AND STATUS = '대기'
 	</update>
+	
+	<!-- 조회수 증가 -->
+	<update id="increaseReadCount" parameterType="int">
+	    UPDATE PRODUCT
+	    SET READ_COUNT = READ_COUNT + 1
+	    WHERE BOARD_NO = #{boardNo}
+	</update>
 </mapper>

@@ -60,7 +60,7 @@
             
                 <!-- 댓글 목록 -->
                 <c:forEach var="comment" items="${comments}" varStatus="status">
-                    <div class="comment-card ${status.index >= 5 ? 'hidden-comment' : ''}">
+                    <div class="comment-card ">
                         <input type="checkbox" class="checkbox" data-replyno="${comment.replyNo}">
                         <div class="comment-info">
                             <h3 class="comment-title">${comment.boardTitle}</h3> 
