@@ -33,15 +33,14 @@
           <div class="talkMenu unselect"> 
             <a href="" class="no-link" data-url="/sidebar/chat">
               <img src="/resources/images/sidebar/images/Chat.svg" alt="">
-              <div class="noti noti-menu"><span>6</span></div>
+              <div id="chatNotiBadge" class="noti noti-menu" style="display:none;"><span>0</span></div>
             </a>
           </div>          
-          <div class="talkMenu unselect">
-              <a href="" class="no-link" data-url="/sidebar/chatOpen?chattingNo=2">
+          <div class="talkMenu unselect" id="consultMenu">
+              <a href="" class="no-link">
                 <img src="/resources/images/sidebar/images/Home.svg" alt="">
               </a>
           </div>
-          <div class="talkMenu unselect"><a href="" class="no-link"><img src="/resources/images/sidebar/images/Setting.svg" alt=""></a></div>
         </div>
 
 

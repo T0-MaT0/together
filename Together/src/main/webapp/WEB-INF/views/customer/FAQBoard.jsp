@@ -48,7 +48,19 @@
                     <td>▼</td>
                   </tr>
                   <tr class="answer-style hidden-answer">
-                    <td colspan='2'>A. ${FAQ.boardContent}</td>
+                    <td colspan="2">
+                      <div class="answer-wrapper">
+                        <div class="answer-text">
+                          <span class="answer-inner">A. ${FAQ.boardContent}</span>
+                        </div>
+                        <c:if test="${loginMember.authority == 1}">
+                          <div class="faq-admin-btns">
+                            <button onclick="editFAQ(${FAQ.boardNo})">수정</button>
+                            <button onclick="deleteFAQ(${FAQ.boardNo})">삭제</button>
+                          </div>
+                        </c:if>
+                      </div>
+                    </td>
                   </tr>
                 </c:forEach>
               </tbody>

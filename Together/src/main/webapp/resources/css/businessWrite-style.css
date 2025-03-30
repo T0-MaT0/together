@@ -263,3 +263,7 @@ main{
 #modalTitle{
     border: none;
 }
+
+.hidden {
+    display: none;
+  }

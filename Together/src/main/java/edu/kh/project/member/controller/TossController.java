@@ -1,25 +1,23 @@
 package edu.kh.project.member.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.client.RestTemplate;
-
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.PointTransaction;
 import edu.kh.project.member.model.service.MemberService;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/toss")
@@ -31,51 +29,87 @@ public class TossController {
     @GetMapping("/success")
     public String tossSuccess(@RequestParam String paymentKey,
                               @RequestParam String orderId,
-                              @RequestParam String amount,
-                              @SessionAttribute("loginMember") Member loginMember,
+                              @RequestParam int amount,
+                              HttpSession session,
                               Model model) {
 
-        // 1. 결제 검증 요청
-        RestTemplate restTemplate = new RestTemplate();
+        JSONParser parser = new JSONParser();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBasicAuth("test_sk_test_5o8rK9bLX3vW2XzG2MJ6pQjN", ""); // Toss 테스트 Secret Key
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        try {
+            // 1. 토스 결제 승인 요청
+            String secretKey = "test_gsk_docs_OaPz8L5KdmQXkzRz3y47BMw6";
+            String encodedKey = Base64.getEncoder()
+                    .encodeToString((secretKey + ":").getBytes(StandardCharsets.UTF_8));
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("orderId", orderId);
-        body.put("amount", amount);
+            HttpURLConnection connection = (HttpURLConnection)
+                    new URL("https://api.tosspayments.com/v1/payments/confirm").openConnection();
 
-        HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
+            connection.setRequestProperty("Authorization", "Basic " + encodedKey);
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
 
-        ResponseEntity<String> response = restTemplate.postForEntity(
-            "https://api.tosspayments.com/v1/payments/" + paymentKey,
-            request,
-            String.class
-        );
+            JSONObject reqBody = new JSONObject();
+            reqBody.put("paymentKey", paymentKey);
+            reqBody.put("orderId", orderId);
+            reqBody.put("amount", amount);
 
-        if (response.getStatusCode() == HttpStatus.OK) {
-            // 2. 포인트 충전 내역 저장
-            PointTransaction transaction = new PointTransaction();
-            transaction.setMemberNo(loginMember.getMemberNo());
-            transaction.setAmount(Integer.parseInt(amount));
-            transaction.setPaymentMethod("tosspay");
+            OutputStream os = connection.getOutputStream();
+            os.write(reqBody.toString().getBytes(StandardCharsets.UTF_8));
+            os.flush();
+            os.close();
 
-            int result = service.insertPointTransaction(transaction);
+            int code = connection.getResponseCode();
 
-            if (result > 0) {
-                model.addAttribute("msg", "포인트 충전이 완료되었습니다!");
-                return "member/paymentSuccess"; // 성공 페이지
+            if (code == 200) {
+                // 정상 응답만 처리
+                InputStream is = connection.getInputStream();
+                Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
+                JSONObject resultJson = (JSONObject) parser.parse(reader);
+
+                // 2. 포인트 충전 내역 저장 및 포인트 반영
+                Member loginMember = (Member) session.getAttribute("loginMember");
+
+                PointTransaction pt = new PointTransaction();
+                pt.setMemberNo(loginMember.getMemberNo());
+                pt.setAmount(amount);
+
+                String method = (String) resultJson.get("method");
+                String paymentMethod = "카드".equals(method) ? "카드결제" : method;
+                pt.setPaymentMethod(paymentMethod);
+
+                service.insertPointTransaction(pt); // 결제 성공 시에만 insert 실행
+                Map<String, Object> paramMap = new HashMap<>();
+                paramMap.put("memberNo", loginMember.getMemberNo());
+                paramMap.put("amount", amount);
+                service.updateMemberPoint(paramMap);
+
+                // 3. 세션 최신화
+                Member updatedMember = service.selectMemberByNo(loginMember.getMemberNo());
+                session.setAttribute("loginMember", updatedMember);
+
+                // 4. 성공 화면 처리
+                model.addAttribute("msg", "포인트 충전 성공!");
+                model.addAttribute("amount", amount);
+                return "member/paymentSuccess";
+
             } else {
-                model.addAttribute("msg", "충전 내역 저장 실패 😥");
+                // 실패 응답 처리
+                InputStream is = connection.getErrorStream();
+                Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
+                JSONObject errorJson = (JSONObject) parser.parse(reader);
+
+                model.addAttribute("msg", "결제 실패: " + errorJson.get("message"));
                 return "member/paymentFail";
             }
 
-        } else {
-            model.addAttribute("msg", "결제 검증 실패: " + response.getBody());
-            return "member/paymentFail"; // 검증 실패 시
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("msg", "결제 실패: " + e.getMessage());
+            return "member/paymentFail";
         }
     }
+
 
     @GetMapping("/fail")
     public String tossFail(@RequestParam(required = false) String code,

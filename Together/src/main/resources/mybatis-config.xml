@@ -45,6 +45,7 @@
 		<typeAlias type="edu.kh.project.chatting.model.dto.ChattingRoom" alias="ChattingRoom"/>
 		<typeAlias type="edu.kh.project.chatting.model.dto.Message" alias="Message"/>
 		<typeAlias type="edu.kh.project.chatting.model.dto.ChatEmoji" alias="ChatEmoji"/>
+		<typeAlias type="edu.kh.project.sse.model.dto.ChatNotification" alias="chatNotification"/>
 
 
 	</typeAliases>
@@ -64,6 +65,7 @@
 		<mapper resource="/mappers/main-mapper.xml" />
 		<mapper resource="/mappers/category-mapper.xml" />
 		<mapper resource="/mappers/chatting-mapper.xml" />
+		<mapper resource="/mappers/chatNotification-mapper.xml" />
 		
 
 	</mappers>

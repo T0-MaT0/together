@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,6 +25,8 @@
 
 		<div class="myinfo-content-wrapper">
 
+            <c:set var="cp" value="${empty param.cp ? 1 : param.cp}" />
+
             <!-- 메인 콘텐츠 -->
             <section class="myinfo-main-content">
                 <section class="qa-section styled-ask-card" id="ask-section">
@@ -36,7 +38,7 @@
                             <div class="qa-item clean-qa-card">
                                 <div class="qa-left">
                                   <p class="qa-title">
-                                    <a href="/customer/customerBoardDetail/${ask.boardNo}?cp=${pagination.currentPage}">
+                                    <a href="/customer/customerBoardDetail/${ask.boardNo}?cp=${cp}">
                                       ${ask.boardTitle}
                                     </a>
                                   </p>
@@ -44,7 +46,7 @@
                                 <div class="qa-right">
                                   <p class="qa-date">작성일: ${ask.bCreateDate}</p>
                                   <button class="qa-btn"
-                                    onclick="location.href='/customer/customerBoardDetail/${ask.boardNo}?cp=${pagination.currentPage}'">
+                                    onclick="location.href='/customer/customerBoardDetail/${ask.boardNo}?cp=${cp}'">
                                     상세조회
                                   </button>
                                 </div>

@@ -1,6 +1,8 @@
 package edu.kh.project.individual.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,8 @@ public class RecruitmentController {
 	private CategoryService categoryService;
 	@Autowired
 	private ChattingService chatService;
+	
+	
 	
 	// 개인 공동구매 모집방 페이지 (boardCode=1 고정)
 	@GetMapping("/Individual/1")
@@ -507,13 +511,18 @@ public class RecruitmentController {
  	        ra.addFlashAttribute("alertMessage", "로그인 후 이용해주세요.");
  	        return "redirect:/member/login";
  	    }
-
+ 	    int memberNo = loginMember.getMemberNo();
  	    // 참여 정보 조회 (recruitmentNo, boardNo 기준)
  	    Recruitment dto = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo, loginMember.getMemberNo());
  	    if (dto == null) {
  	        ra.addFlashAttribute("alertMessage", "상세 정보를 찾을 수 없습니다.");
  	        return "redirect:/";
  	    }
+ 	    
+ 	    // 후기 작성 여부 확인
+ 	    boolean isReviewed = service.checkIfUserReviewed(recruitmentNo, memberNo);
+ 	    model.addAttribute("isReviewed", isReviewed);
+ 	    
  	    model.addAttribute("boardCode", boardCode);
  	    model.addAttribute("recruitment", dto);
  	    return "Individual/purchase_in_progress_member";
@@ -657,7 +666,7 @@ public class RecruitmentController {
 		
 		// 서비스 호출 (QR 생성 + DB 저장)
 		int result = service.registerVerificationFormWithQr(
-		recruitmentNo, trackingNumber, deliveryExpected, memberReceiveDate, realPath, webPath);
+		recruitmentNo, trackingNumber, deliveryExpected, memberReceiveDate, realPath, webPath, boardNo);
 		
 		if (result > 0) {
 		ra.addFlashAttribute("message", "모집 인증 폼 등록이 완료되었습니다.");
@@ -709,29 +718,14 @@ public class RecruitmentController {
  	    // DB에서 모집 정보, 인증 폼 정보 등을 가져오기
  	    Recruitment dto = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo, memberNo);
  	    
+ 	    
+ 	    
  	    // JSP에서 쓸 수 있도록 model에 담기
  	    model.addAttribute("recruitment", dto);
  	    model.addAttribute("boardCode", boardCode);
  	    return "Individual/recruit_verification_form_member";
  	}
  	
- 	@GetMapping("/recruit/verify")
-    public String verify(
-            @RequestParam("recruitmentNo") int recruitmentNo,
-            @RequestParam("token") String token,
-            Model model) {
- 		int boardCode = 1;
-        boolean success = service.verifyParticipant(recruitmentNo, token);
-
-        if (success) {
-            model.addAttribute("message", "인증이 성공적으로 완료되었습니다!");
-        } else {
-            model.addAttribute("message", "인증 실패: 유효하지 않은 접근입니다.");
-        }
-        model.addAttribute("boardCode", boardCode);
-        // 인증 결과 안내 페이지로 이동
-        return "Individual/result"; 
-    }
  	
  	// 신고
  	@PostMapping("/report/submit")
@@ -748,4 +742,113 @@ public class RecruitmentController {
         response.put("success", result > 0);
         return response;
     }
+ 	
+ 	
+ 	// qr경로
+ 	 @GetMapping("/recruit/verify")
+     public String verifyRecruitment(@RequestParam("recruitmentNo") int recruitmentNo,
+		 							 @RequestParam("boardNo") int boardNo,
+                                     @RequestParam("token") String token,
+                                     HttpSession session,
+                                     RedirectAttributes ra) throws UnsupportedEncodingException {
+
+ 		 int boardCode = 1;
+         // 로그인 여부 확인
+         Member loginMember = (Member) session.getAttribute("loginMember");
+
+         if (loginMember == null) {
+             // 로그인 안 되어 있으면 로그인 페이지로 유도
+        	 String redirectURL = "/recruit/verify?recruitmentNo=" + recruitmentNo
+                     + "&boardNo=" + boardNo
+                     + "&token=" + token;
+             session.setAttribute("redirectAfterLogin", redirectURL);
+
+             return "redirect:/member/login?redirect=" + URLEncoder.encode(redirectURL, "UTF-8");
+         }
+
+         try {
+             // 로그인된 상태 → 인증 처리
+             boolean verified = service.verifyParticipant(recruitmentNo, token, loginMember.getMemberNo());
+
+             if (verified) {
+                 ra.addFlashAttribute("message", "모집 인증이 완료되었습니다!");
+             } else {
+                 ra.addFlashAttribute("alertMessage", "인증 실패: 유효하지 않거나 이미 인증되었습니다.");
+             }
+
+         } catch (Exception e) {
+             e.printStackTrace();
+             ra.addFlashAttribute("alertMessage", "서버 오류 발생");
+         }
+
+         // 인증 후 이동할 페이지 (필요에 따라 수정 가능)
+         return "redirect:/purchase_in_progress_member?recruitmentNo=" + recruitmentNo + "&boardNo=" + boardNo;
+     }
+ 	 
+ 	 
+ 	 // 후기 창 띄우기
+ 	@GetMapping("/review/writeForm")
+ 	public String openReviewForm(@RequestParam("recruitmentNo") int recruitmentNo,
+ 	                             @RequestParam("boardNo") int boardNo,
+ 	                             Model model, HttpSession session) {
+
+ 	    Member loginMember = (Member) session.getAttribute("loginMember");
+
+ 	    // 상대방(모집장 등) 정보 조회
+ 	    Member targetMember = service.selectHostInfo(recruitmentNo);
+
+ 	    model.addAttribute("recruitmentNo", recruitmentNo);
+ 	    model.addAttribute("boardNo", boardNo);
+ 	    model.addAttribute("targetMember", targetMember);
+
+ 	    return "Individual/purchase_confirmation_review";
+ 	}
+ 	
+ 	// 리뷰 등록
+ 	@PostMapping("/review/write")
+ 	@ResponseBody
+ 	public String writeReview(@RequestParam Map<String, String> param, HttpSession session) {
+
+ 	    Member loginMember = (Member) session.getAttribute("loginMember");
+ 	    if (loginMember == null) return "notLogin";
+
+ 	    Review review = new Review();
+ 	    review.setReviewContent(param.get("reviewContent"));
+ 	    review.setReviewStar(Integer.parseInt(param.get("rating")));
+ 	    review.setReviewType(1); // 모집글 후기
+ 	    review.setReviewTypeNo(Integer.parseInt(param.get("recruitmentNo")));
+ 	    review.setMemberNo(loginMember.getMemberNo());
+ 	    review.setOrderNo(Integer.parseInt(param.get("targetNo")));
+ 	    int result = service.insertReview(review);
+
+ 	    if (result > 0) {
+ 	       // 멤버 등급 업데이트
+ 	       service.updateMemberGradeByReview(review.getOrderNo());
+ 	       return "success";
+ 	    }
+ 	    return "fail";
+ 	}
+ 	
+ 	// 구매 확정
+ 	@PostMapping("/group/confirm")
+ 	public String confirmPurchase(@RequestParam("recruitmentNo") int recruitmentNo,
+ 	                              @RequestParam("boardNo") int boardNo,
+ 	                              @SessionAttribute("loginMember") Member loginMember,
+ 	                              RedirectAttributes ra) {
+
+ 	    int memberNo = loginMember.getMemberNo();
+
+ 	    // 1. 포인트 사용 상태 완료 처리
+ 	    int result = service.updatePointUsageToComplete(recruitmentNo, memberNo);
+
+ 	    // 2. 전체 상태 조회 후 모집 상태도 완료로 처리
+ 	    if (result > 0) {
+ 	        service.checkAndUpdateRecruitmentComplete(recruitmentNo);
+ 	        ra.addFlashAttribute("message", "구매 확정이 완료되었습니다.");
+ 	    } else {
+ 	        ra.addFlashAttribute("alertMessage", "확정 처리에 실패했습니다.");
+ 	    }
+
+ 	    return "redirect:/";
+ 	}
 }
