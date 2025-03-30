@@ -18,7 +18,7 @@
                 <div class="notice-title" onclick="location.href='/customer/noticeBoardList'">공지사항</div>
                 <ul class="notice-list">
                     <c:forEach var="notice" items="${map.noticeList}">
-                        <li><a class="noticeTitle" href="/customer/noticeBoardDetail/${notice.boardNo}">${notice.boardTitle}</a></li>
+                        <li><a class="noticeTitle" href="/customer/customerBoardDetail/${notice.boardNo}">${notice.boardTitle}</a></li>
                     </c:forEach>
                 </ul>
             </div>

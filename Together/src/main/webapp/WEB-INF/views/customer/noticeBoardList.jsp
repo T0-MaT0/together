@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지 리스트</title>
     <link rel="stylesheet" href="/resources/css/customer/noticeBoardList-style.css">
-    <script src="https://kit.fontawesome.com/385a4842a7.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/f0f55b003e.js" crossorigin="anonymous"></script>
 </head>
 <body>
     ${map}
@@ -27,7 +27,7 @@
                 <fieldset class="search-area">
     
                     <input type="search" name="query" id="query"
-                    placeholder="검색어를 입력해주세요.">
+                    placeholder="검색어를 입력해주세요." value="${param.query}">
     
                     <button id="searchBtn" class="fa-solid fa-magnifying-glass"></button>
     

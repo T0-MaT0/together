@@ -44,7 +44,7 @@
                 <button type="button" id="checkAuthKeyBtn">인증번호 확인</button>
             </div>
 
-            <button id="findPwBtn" class="company">비밀번호 확인</button>
+            <button id="findPwBtn" class="company">비밀번호 변경</button>
         </form>
     </div>
 </section>

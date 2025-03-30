@@ -16,18 +16,18 @@
   <div class="sideBar" id="sideBar">
     <div class="sidebar-menu-box" id="sidebar-menu-box">
       <div class="sidebar-menu">
-        <div><a href="" id="sideBar-close" class="no-link"><img src="/resources/images/sidebar/images/X.svg" width="30px" height="30px" alt=""></a></div>
-        <div><a href="" id="togglePage" class="no-link"><img src="/resources/images/sidebar/images/favorite-cart.svg" width="32px" height="32px" alt=""></a></div>
-        <div><a href="" class="no-link"><img src="/resources/images/sidebar/images/+.svg" width="31px" height="32px" alt=""></a></div>
+        <div><a href="" id="sideBar-close" class="no-link activate"><img src="/resources/images/sidebar/images/X.svg" width="30px" height="30px" alt=""></a></div>
+        <div><a href="" id="togglePage" class="no-link"><img id="togglePageIcon" src="/resources/images/sidebar/images/favorite-cart.svg" width="32px" height="32px" alt=""></a></div>
+        <div><a href="" id="searchPage" class="no-link"><img src="/resources/images/sidebar/images/+.svg" width="31px" height="32px" alt=""></a></div>
         <div><a href="" class="no-link" id="scrollUp"><img src="/resources/images/sidebar/images/ArrowUp.svg" height="30px" alt=""></a></div>
         <div><a href="" class="no-link" id="scrollDown"><img src="/resources/images/sidebar/images/ArrowDown.svg" height="30px" alt=""></a></div>
       </div>
     </div>
     <div class="sidebar-wrapper">
       <div class="title">
-        <span id="sideBarTitle">장바구니</span>
+        <span id="sideBarTitle">채팅</span>
       </div>
-      <div class="body hidden" id="CHAT">
+      <div class="body" id="CHAT">
 
         <div class="talkMenus sideBox">
           <div class="talkMenu unselect"> 
@@ -110,122 +110,21 @@
         <!-- 추가 콘텐츠 영역 -->
         <div class="content hidden"></div>
       </div>
+    </div>
+
+
+
+    <div class="sidebar-wrapper hidden">
+      <div class="title">
+        <span id="sideBarTitle">관심상품</span>
+      </div>
       <div class="body" id="PICK">
         <div class="sideBox pick"></div>
         <div class="content pick">
           <div id="pickListBox">
 
-            <div class="itemBox">
-              <div class="thumb">
-                <img src="/resources/images/sidebar/images/imageSample.png" alt="">
-              </div>
-              <div class="digit">
-                <div><span>75% 달성</span></div>
-                <div><span>삼다수 16묶음중 1개 팝니다. 거의 나눔입니다.</span></div>
-                <div>
-                  <span>10000원(원가)<br>참가 모집 : 3 / 4명</span>
-                </div>
-                <div>
-                  <div>공구슈킹</div>
-                  <div>500원</div>
-                </div>
-                <div>
-                  <div>참가</div>
-                </div>
-              </div>
-              <div class="deleteBtn-area">
-                <a href=""><img src="/resources/images/sidebar/images/X.svg" alt=""></a>
-              </div>
-            </div>
-            
-
-
-
-            <div class="itemBox">
-              <div class="thumb soldOut">
-                <img src="/resources/images/sidebar/images/imageSample.png" alt="">
-              </div>
-              <div class="digit">
-                <div><span>75% 달성</span></div>
-                <div><span>삼다수 16묶음중 1개 팝니다. 거의 나눔입니다.</span></div>
-                <div>
-                  <span>10000원(원가)<br>참가 모집 : 3 / 4명</span>
-                </div>
-                <div>
-                  <div>공구슈킹</div>
-                  <div>500원</div>
-                </div>
-                <div>
-
-                  <div>수량 : </div>
-                  <!-- js 객체로 묶어서 넘기기 -->
-                  <input type="number" value="0" disabled>
-                </div>
-                <div>
-                  
-                  <img src="/resources/images/sidebar/images/checknon.svg" alt="">
-                  <input type="hidden" value="0">
-                  
-                </div>
-              </div>
-              <div class="deleteBtn-area">
-                <a href=""><img src="/resources/images/sidebar/images/X.svg" alt=""></a>
-              </div>
-            </div>
-            
-
-
-            
-            
-            <div class="itemBox">
-              <div class="thumb">
-                <img src="/resources/images/sidebar/images/imageSample.png" alt="">
-              </div>
-              <div class="digit">
-                <div><span>75% 달성</span></div>
-                <div><span>삼다수 16묶음중 1개 팝니다. 거의 나눔입니다.</span></div>
-                <div>
-                  <span>10000원(원가)<br>참가 모집 : 3 / 4명</span>
-                </div>
-                <div>
-                  <div>공구슈킹</div>
-                  <div>500원</div>
-                </div>
-                <div>
-                  <div>참가</div>
-                </div>
-              </div>
-              <div class="deleteBtn-area">
-                <a href=""><img src="/resources/images/sidebar/images/X.svg" alt=""></a>
-              </div>
-            </div>
-            <div class="itemBox">
-              <div class="thumb">
-                <img src="/resources/images/sidebar/images/imageSample.png" alt="">
-              </div>
-              <div class="digit">
-                <div><span>75% 달성</span></div>
-                <div><span>삼다수 16묶음중 1개 팝니다. 거의 나눔입니다.</span></div>
-                <div>
-                  <span>10000원(원가)<br>참가 모집 : 3 / 4명</span>
-                </div>
-                <div>
-
-                  <div>수량 : </div>
-                  <!-- js 객체로 묶어서 넘기기 -->
-                  <input type="number" value="3" min="1">
-
-                </div>
-                <div>
-                  <div>참가</div>
-                </div>
-              </div>
-              <div class="deleteBtn-area">
-                <a href=""><img src="/resources/images/sidebar/images/X.svg" alt=""></a>
-              </div>
-            </div>
-
           </div>
+
 
           <div id="buyBtn-box">
             <div class="selectAll">전부 선택</div>
@@ -236,15 +135,102 @@
       </div>
     </div>
 
+
+
+
+    <div class="sidebar-wrapper hidden">
+      <div class="title">
+        <span id="title"></span>
+        <div class="Search-box">
+          <label for="sideBarSearchInput">
+            <div id="sideBarSearchArea"><input type="text" name="sideBarSearchInput" id="sideBarSearchInput" ></div>
+          </label>
+          <div id="sideBarSearchBtn"><img src="images/Search.svg" alt=""></div>
+        </div>
+      </div>
+      <div class="body" id="SEARCH">
+        <div class="sideBox search">
+          <div class="category">ALL</div>
+          <div class="category selected">패션</div>
+          <div class="category">뷰티</div>
+          <div class="category">생활</div>
+          <div class="category">식품</div>
+          <div class="category">전자제품</div>
+          <div class="category">공구</div>
+          <div class="category">자동차</div>
+          <div class="category">스포츠 레저</div>
+          <div class="category">유아  아동</div>
+          <div class="category">도서  문구</div>
+          <div class="category">반려동물</div>
+        </div>
+        <div class="content search">
+          <div class="item">
+            <div class="itemName">지역 <span>Location</span></div>
+
+            <div class="itemContents">
+              <div class="itemContent BTN selected">GPS 검색</div>
+              <div class="itemContent BTN">직접 선택</div>
+            </div>
+              
+
+          </div>
+          <div class="item">
+            <div class="itemName">가격 <span>Price</span></div>
+
+            <div class="itemRange">
+              <div class="range-slider-container">
+
+                <div class="slider-track"> 
+                  <div class="progress"></div>
+                </div>
+              
+                <label>
+                  <span class="handle min"><span id="minValue">0</span></span>
+                  <input type="range" class="min-range range-input">
+                </label>
+              
+                <label>
+                  <span class="handle max"><span id="maxValue">990000~</span></span>
+                  <input type="range" class="max-range range-input">
+                </label>
+
+              </div>
+            </div>
+              
+
+          </div>
+          <div class="item">
+            <div class="itemName">카테고리 <span>Category</span></div>
+
+            <div class="itemContents">
+              <div class="itemContent BTN selected">여성 의류</div>
+              <div class="itemContent BTN ">남성 의류</div>
+              <div class="itemContent BTN selected">아동 의류</div>
+              <div class="itemContent BTN ">신발</div>
+              <div class="itemContent BTN selected"> 가방 & 액서서리</div>
+              <div class="itemContent BTN ">스포츠웨어</div>
+              <div class="itemContent BTN ">스포츠웨어</div>
+            </div>
+              
+
+          </div>
+            
+        </div>
+      </div>
+    </div>
+
+
+
+
     
     
     <!-- SockJS를 이용한 WebSocket 라이브러리 추가 -->
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
     <script src="/resources/js/sidebar/sideBarMain.js"></script>
     
-    
 
     <script>
+      const memberNo = "${loginMember.memberNo}";
       const loginMemberNo = "${loginMember.memberNo}";
       const loginMemberNickname = "${loginMember.memberNick}";
     </script>

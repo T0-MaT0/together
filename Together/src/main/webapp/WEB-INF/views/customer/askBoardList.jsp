@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1:1 문의 리스트</title>
     <link rel="stylesheet" href="/resources/css/customer/noticeBoardList-style.css">
-    <script src="https://kit.fontawesome.com/385a4842a7.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/f0f55b003e.js" crossorigin="anonymous"></script>
 </head>
 <body>
     ${map}
