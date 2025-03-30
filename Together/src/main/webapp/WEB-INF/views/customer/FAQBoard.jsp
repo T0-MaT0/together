@@ -10,7 +10,7 @@
   <meta charset="UTF-8">
   <title>FAQ</title>
   <link rel="stylesheet" href="/resources/css/customer/FAQBoard-style.css">
-  <script src="https://kit.fontawesome.com/385a4842a7.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/f0f55b003e.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
