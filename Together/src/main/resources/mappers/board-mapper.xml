@@ -397,6 +397,51 @@
 		UPDATE BOARD SET BOARD_DEL_FL = 'Y' WHERE BOARD_NO = #{boardNo}
 	</update>
 	
+	<!-- 사업자 게시글 수정 -->
+	<update id="updateBoard">
+		UPDATE BOARD SET BOARD_TITLE = #{boardTitle}, 
+		BOARD_CONTENT = #{boardContent}, B_UPDATE_DATE = SYSDATE
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<!-- 사업자 상품 수정 -->
+	<update id="updateProduct">
+		UPDATE PRODUCT SET PRODUCT_PRICE = #{productPrice}, 
+		PRODUCT_COUNT = #{productCount}, DELIVERY_FEE = #{deliveryFee},
+		CATEGORY_NO = #{categoryNo} WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<!-- deleteList가 일치하는 이미지 존재 여부 확인 -->
+	<select id="checkImage" resultType="_int">
+		SELECT COUNT(*) FROM IMG 
+		WHERE IMG_TYPE = ${imageType} 
+		AND IMG_TYPE_NO = ${imageTypeNo} 
+		AND IMG_LEVEL IN (${deleteList})
+	</select>
+	
+	<!-- 이미지 삭제 -->
+	<delete id="deleteBusinessImage">
+		DELETE FROM IMG 
+		WHERE IMG_TYPE = ${imageType} 
+		AND IMG_TYPE_NO = ${imageTypeNo} 
+		AND IMG_LEVEL IN (${deleteList})
+	</delete>
+	
+	<!-- 이미지 수정 -->
+	<update id="updateImage">
+		UPDATE IMG SET 
+		IMG_RENAME = #{imageReName}, IMG_ORIGINAL = #{imageOriginal}
+		WHERE IMG_TYPE = ${imageType} AND IMG_TYPE_NO = ${imageTypeNo} 
+		AND IMG_LEVEL = ${imageLevel}
+	</update>
+	
+	<!-- 이미지 삽입 -->
+	<insert id="insertImage">
+		INSERT INTO BOARD_IMG VALUES(SEQ_IMG_NO.NEXTVAL, 
+			#{imageReName}, #{imagePath}, #{imageOriginal}, 
+			#{imageLevel}, #{imageType}, #{imageTypeNo})
+	</insert>
+	
 	<!-- 특정 상품의 삭제되지 않은 게시글 조회 -->
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*) FROM BOARD B

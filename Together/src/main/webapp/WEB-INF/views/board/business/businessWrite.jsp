@@ -40,7 +40,6 @@
 <body>
     <jsp:include page="/WEB-INF/views/common/header.jsp" />
     
-    ${business}
     <main>
         <form action="/board/${boardCode}/${url}" method="post" id="businessWriteForm" enctype="multipart/form-data">
             <section class="content">
@@ -189,6 +188,7 @@
             <input type="hidden" name="coalitionTitle" id="coalitionTitle">
             <input type="hidden" name="coalitionContent" id="coalitionContent">
             <input type="hidden" name="permissionFl" value="${permissionFl}">
+            <input type="hidden" name="deleteList" id="deleteList">
         </form>
     </main>
 

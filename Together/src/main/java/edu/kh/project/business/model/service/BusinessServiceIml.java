@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import edu.kh.project.business.model.dao.BusinessDao;
 import edu.kh.project.business.model.dto.Business;
 import edu.kh.project.business.model.dto.BusinessOption;
 import edu.kh.project.business.model.dto.Order;
+import edu.kh.project.common.ImageDeleteException;
 import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
@@ -399,7 +402,7 @@ public class BusinessServiceIml implements BusinessService {
 	@Override
 	public int updateProduct(
 			Business business, List<Integer> optionNoList, List<String> optionNameList, List<MultipartFile> images, 
-			String webPath, String filePath) throws IllegalStateException, IOException {
+			String deleteList, String webPath, String filePath) throws IllegalStateException, IOException {
 		business.setBoardTitle(Utill.XSSHandling(business.getBoardTitle()));
 		business.setBoardContent(Utill.XSSHandling(business.getBoardContent()));
 		int result = dao.updateBoard(business);
@@ -407,24 +410,69 @@ public class BusinessServiceIml implements BusinessService {
 		if (result>0) {
 			result = dao.updateProduct(business);
 			if (result>0) {
-				List<BusinessOption> optionList = dao.selectOptionList(business.getBoardNo());
-				int length = optionNameList.size();
-				if (optionList != null && optionNameList != null && optionList.size() > optionNameList.size()) {
-					length = optionList.size();
-				}
+				List<BusinessOption> existingOptions = dao.selectOptionList(business.getBoardNo());
 				
-				for(int i=0;i<length;i++) {
-					BusinessOption option = new BusinessOption();
-					option.setOptionName(Utill.XSSHandling(optionNameList.get(i)));
-					option.setBoardNo(business.getBoardNo());
-					optionList.add(option);
-				}
-				for(BusinessOption option:optionList) {
-					result = dao.deleteOption(option.getOptionNo());
-				}
+				Set<Integer> existingOptionNos = new HashSet<Integer>();
+				Map<Integer, String> existingOptionMap = new HashMap<Integer, String>();
 				
-				result = dao.insertOptionList(optionList);
+				if (existingOptions!=null) {
+					for (BusinessOption option:existingOptions) {
+						existingOptionNos.add(option.getOptionNo());
+						existingOptionMap.put(option.getOptionNo(), option.getOptionName());
+					}
+				}
+
+				for (BusinessOption option:existingOptions) {
+					if (!optionNoList.contains(option.getOptionNo())) {
+						result = dao.deleteOption(option.getOptionNo());
+					}
+				}
 				if (result>0) {
+					List<BusinessOption> newOptions = new ArrayList<BusinessOption>();
+					
+					for (int i=0;i<optionNoList.size();i++) {
+						int optionNo = optionNoList.get(i);
+						String optionName = Utill.XSSHandling(optionNameList.get(i));
+						
+						if (existingOptionNos.contains(optionNo)) {
+							if (!existingOptionMap.get(optionNo).equals(optionName)) {
+								BusinessOption updateOption = new BusinessOption();
+								updateOption.setOptionNo(optionNo);
+								updateOption.setOptionName(optionName);
+								result = dao.updateOption(updateOption);
+							}
+						} else {
+							BusinessOption newOption = new BusinessOption();
+							newOption.setOptionName(optionName);
+							newOption.setBoardNo(business.getBoardNo());
+							newOptions.add(newOption);
+						}
+					}
+					
+					if (result>0&&!newOptions.isEmpty()) {
+						result = dao.insertOptionList(newOptions);
+					}
+				}
+				
+				if (result>0) {
+					if (!deleteList.equals("")) {
+						if (images.get(0).getSize()>0&&!images.get(0).getOriginalFilename().isEmpty()) {
+							deleteList="0,"+deleteList;
+						}
+						Map<String, Object> deleteMap = new HashMap<String, Object>(); 
+						deleteMap.put("imageType", 1);
+						deleteMap.put("imageTypeNo", business.getBoardNo());
+						deleteMap.put("deleteList", deleteList);
+						
+						int count = dao.checkImage(deleteMap);
+						if (count>0) {
+							result = dao.deleteBusinessImage(deleteMap);
+							if (result==0) {
+								throw new ImageDeleteException();
+							}
+						}
+					}
+					
 					List<Image> uploadList = new ArrayList<Image>();
 					for (int i=0;i<images.size();i++) {
 						if (images.get(i).getSize()>0) {
@@ -438,19 +486,18 @@ public class BusinessServiceIml implements BusinessService {
 							img.setImageTypeNo(business.getBoardNo());
 							
 							uploadList.add(img);
+							result = dao.updateImage(img);
+							if (result==0) {
+								result=dao.insertImage(img);
+							}
 						}
 					}
 					
 					if (!uploadList.isEmpty()) {
-						result = dao.insertImageList(uploadList);
-						if (result==uploadList.size()) {
-							for (Image img:uploadList) {
-								int i = img.getImageLevel();
-								String rename = img.getImageReName();
-								images.get(i).transferTo(new File(filePath+rename));
-							}
-						} else {
-							throw new  FileUploadException();
+						for (Image img:uploadList) {
+							int i = img.getImageLevel();
+							String rename = img.getImageReName();
+							images.get(i).transferTo(new File(filePath+rename));
 						}
 					}
 				}

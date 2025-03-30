@@ -67,3 +67,7 @@ const openPopup=key=>{
         `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`
     );
 };
+
+const gotoDetail=()=>{
+    location.href = `/board/${boardCode}/${boardNo}`;
+}

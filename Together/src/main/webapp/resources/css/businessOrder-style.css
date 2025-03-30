@@ -266,6 +266,7 @@ main{
 .business-title>div>span:first-child{
     font-weight: bold;
     font-size: 20px;
+    cursor: pointer;
 }
 
 .business-title>div>button{
@@ -294,6 +295,7 @@ main{
     margin-right: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .option-area>div{
@@ -301,6 +303,8 @@ main{
     flex-direction: column;
     justify-content: space-between;
 }
+
+.option-area>div>span:first-child{cursor: pointer;}
 
 .total-price{
     color: #9969ff;
@@ -324,4 +328,4 @@ main{
 
 .hidden {
     display: none;
-  }
+}
