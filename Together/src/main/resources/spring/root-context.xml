@@ -43,10 +43,12 @@
 
   <!--  <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
      <property name="driverClassName" value="oracle.jdbc.OracleDriver" />
-   <property name="url" value="jdbc:oracle:thin:@(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=g5a594d3daf51b6_projectdatabase_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))" /> 
+<property name="url" value="jdbc:oracle:thin:@(description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-chuncheon-1.oraclecloud.com))(connect_data=(service_name=g5a594d3daf51b6_projectdatabase_high.adb.oraclecloud.com))(security=(ssl_server_dn_match=yes)))" /> 
      <property name="username" value="TOGETHER" />
      <property name="password" value="To_gether0" />  
  -->
+  
+  
  	 <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
      <property name="driverClassName" value="oracle.jdbc.OracleDriver" />
     	<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" /> 
@@ -56,6 +58,7 @@
       
       
         </bean>   
+
 
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="104857600" />

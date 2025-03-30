@@ -3,87 +3,95 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title>포인트 추전</title>
+  <title>포인트 충전</title>
   <script src="https://js.tosspayments.com/v2/standard"></script>
 
   <style>
     body {
       font-family: 'Noto Sans KR', sans-serif;
-      background-color: #f9f9f9;
       margin: 0;
       padding: 0;
     }
 
     .point-container {
-      max-width: 600px;
-      margin: 60px auto;
+      max-width: 800px;
+      margin: 80px auto;
       text-align: center;
       background: #fff;
-      padding: 40px 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      padding: 60px 40px;
+      border-radius: 16px;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.1);
     }
 
     #title {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: bold;
+      margin-bottom: 40px;
+    }
+
+    .radio-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
       margin-bottom: 30px;
     }
 
     .radio-area {
       display: flex;
       justify-content: center;
+      gap: 24px;
       flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .radio-area label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #ccc;
-      border-radius: 50px;
-      padding: 12px 24px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: all 0.2s;
-      background-color: #fff;
     }
 
     .radio-area input[type="radio"] {
       display: none;
     }
 
-    .radio-area input[type="radio"]:checked + span {
-      background-color: #333;
-      color: #fff;
-      border-color: #333;
-      border-radius: 50px;
-      padding: 12px 24px;
+    .radio-btn {
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      padding: 14px 28px;
+      font-size: 18px;
+      background-color: #fff;
+      cursor: pointer;
+      transition: all 0.2s;
+      min-width: 140px;
+      font-weight: 500;
     }
 
-    .radio-area label span {
-      display: inline-block;
-      width: 100%;
+    .radio-area input[type="radio"]:checked + label {
+      background-color: #3182F6;
+      color: #fff;
+      border-color: #3182F6;
+    }
+
+    .custom-input-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 0;
     }
 
     #pointAmount {
-      padding: 10px 16px;
+      width: 180px;
+      height: 50px;
+      padding: 8px 12px;
       font-size: 16px;
       border: 1px solid #ccc;
       border-radius: 8px;
-      width: 160px;
+      text-align: right;
     }
 
     #openPaymentBtn {
       background-color: #3182F6;
       color: #fff;
       border: none;
-      padding: 12px 24px;
+      padding: 14px 32px;
       border-radius: 8px;
-      font-size: 16px;
-      font-weight: 500;
+      font-size: 18px;
+      font-weight: 600;
       cursor: pointer;
       transition: background-color 0.2s;
     }
@@ -118,9 +126,9 @@
       background-color: #3182F6;
       color: #fff;
       border: none;
-      padding: 10px 22px;
-      border-radius: 6px;
-      font-size: 15px;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 16px;
       font-weight: 500;
       cursor: pointer;
       transition: background-color 0.2s;
@@ -135,9 +143,9 @@
       background-color: #e5e7eb;
       color: #374151;
       border: none;
-      padding: 10px 22px;
-      border-radius: 6px;
-      font-size: 15px;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 16px;
       font-weight: 500;
       cursor: pointer;
       transition: background-color 0.2s;
@@ -150,25 +158,35 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/common/header.jsp" />
-
 <section class="point-container">
   <div id="title">포인트 충전하기</div>
-  <div class="radio-area">
-    <label><input type="radio" name="point" value="10000" /><span>10000원</span></label>
-    <label><input type="radio" name="point" value="30000" /><span>30000원</span></label>
-    <label><input type="radio" name="point" value="50000" /><span>50000원</span></label>
-  </div>
+  <div class="radio-wrap">
+    <div class="radio-area">
+      <input type="radio" name="point" value="5000" id="p5000" />
+      <label for="p5000" class="radio-btn">5000원</label>
 
-  <div class="radio-area">
-    <label><input type="radio" name="point" value="custom" id="customPoint" /><span>직접입력</span></label>
-    <input type="text" id="pointAmount" placeholder="금액 입력 (숫자만)" /> 원
-  </div>
+      <input type="radio" name="point" value="10000" id="p10000" />
+      <label for="p10000" class="radio-btn">10000원</label>
+    </div>
+    <div class="radio-area">
+      <input type="radio" name="point" value="30000" id="p30000" />
+      <label for="p30000" class="radio-btn">30000원</label>
 
+      <input type="radio" name="point" value="50000" id="p50000" />
+      <label for="p50000" class="radio-btn">50000원</label>
+    </div>
+    <div class="radio-area">
+      <input type="radio" name="point" value="custom" id="customPoint" />
+      <label for="customPoint" class="radio-btn">직접입력</label>
+    </div>
+    <div class="custom-input-area">
+      <input type="text" id="pointAmount" placeholder="금액 입력 (숫자만)" /> 원
+    </div>
+  </div>
   <div class="radio-area">
     <button id="openPaymentBtn" type="button">결제하기</button>
   </div>
 </section>
-
 <div id="payment-modal">
   <div class="modal-content">
     <div id="payment-method"></div>
@@ -179,7 +197,6 @@
     </div>
   </div>
 </div>
-
 <jsp:include page="/WEB-INF/views/common/footer.jsp" />
 <script>
   const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
@@ -193,9 +210,7 @@
 
   async function initWidgets(amount) {
     widgets = tossPayments.widgets({ customerKey });
-
     await widgets.setAmount({ currency: "KRW", value: amount });
-
     await Promise.all([
       widgets.renderPaymentMethods({ selector: "#payment-method", variantKey: "DEFAULT" }),
       widgets.renderAgreement({ selector: "#agreement", variantKey: "AGREEMENT" })
@@ -204,16 +219,15 @@
 
   document.getElementById("openPaymentBtn").addEventListener("click", async () => {
     const selected = document.querySelector('input[name="point"]:checked');
-
     if (!selected) {
-      alert("추전 금액을 선택하거나 입력해주세요.");
+      alert("충전 금액을 선택하거나 입력해주세요.");
       return;
     }
 
     if (selected.id === "customPoint") {
-      const input = document.getElementById("pointAmount").value.trim();
-      if (!input || isNaN(input) || parseInt(input) <= 0) {
-        alert("유효한 금액을 입력해주세요.");
+      let input = document.getElementById("pointAmount").value.replace(/,/g, "").trim();
+      if (!input || isNaN(input) || parseInt(input) <= 0 || parseInt(input) % 1000 !== 0) {
+        alert("1000원 단위의 유효한 금액을 입력해주세요.");
         return;
       }
       selectedAmount = parseInt(input);
@@ -227,11 +241,10 @@
 
   document.getElementById("paymentBtn").addEventListener("click", async () => {
     const orderId = "order_" + new Date().getTime();
-
     try {
       await widgets.requestPayment({
         orderId,
-        orderName: "포인트 추전",
+        orderName: "포인트 충전",
         successUrl: "http://localhost/toss/success",
         failUrl: "http://localhost/toss/fail",
         customerName,
@@ -246,6 +259,27 @@
   function closeModal() {
     document.getElementById("payment-modal").style.display = "none";
   }
+
+  const input = document.getElementById("pointAmount");
+  input.addEventListener("input", () => {
+    document.getElementById("customPoint").checked = true;
+    let raw = input.value.replace(/[^0-9]/g, "");
+    if (raw === "") {
+      input.value = "";
+      return;
+    }
+    const formatted = Number(raw).toLocaleString();
+    input.value = formatted;
+  });
+
+  const radios = document.querySelectorAll('input[name="point"]');
+  radios.forEach(radio => {
+    if (radio.id !== "customPoint") {
+      radio.addEventListener("change", () => {
+        input.value = ""; // 다른 금액 선택 시 직접입력값 초기화
+      });
+    }
+  });
 </script>
 </body>
 </html>

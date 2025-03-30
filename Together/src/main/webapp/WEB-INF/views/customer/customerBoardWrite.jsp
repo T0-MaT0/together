@@ -134,7 +134,7 @@
 
                 <div id="writeform-button-area">
                     <button type="submit" id="inquiry-write-button">등록</button>
-                    <button id="go-back">취소</button>
+                    <button type="button" id="go-back" onclick="history.back()">취소</button>
                 </div>
             </form>
 
