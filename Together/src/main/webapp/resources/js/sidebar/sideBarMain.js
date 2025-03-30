@@ -1227,7 +1227,7 @@ togglePageBtn.addEventListener("click", () => {
           emptyMessage.textContent = "장바구니에 상품이 없습니다.";
           pickListBox.appendChild(emptyMessage);
         }
-  
+   
       })
       .catch(error => console.error("Error:", error));
     }
@@ -1249,9 +1249,20 @@ searchPageBtn.addEventListener("click", () => {
 
 });
 
+function openAddressSearch() {
+  window.open("/address/search", "주소검색", "width=500,height=600");
+}
 
-
-
+function sample4_execDaumPostcode() {
+  new daum.Postcode({
+    oncomplete: function(data) {
+      const parts = data.jibunAddress.split(" ");
+      const shortAddress = parts.slice(0, 2).join(" ");
+      
+      document.getElementById("sample4_jibunAddress").value = shortAddress;
+    }
+  }).open();
+}
 
 
 

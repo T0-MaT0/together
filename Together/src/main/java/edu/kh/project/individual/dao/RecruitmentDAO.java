@@ -390,5 +390,12 @@ public class RecruitmentDAO {
 	}
 
 	
+	// 조회수 증가
+	public void increaseReadCount(int boardNo) {
+		sqlSession.update("recruitmentMapper.increaseReadCount", boardNo);
+		
+	}
+
+	
 	
 }

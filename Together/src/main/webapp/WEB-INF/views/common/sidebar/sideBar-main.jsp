@@ -9,6 +9,7 @@
   <meta charset="UTF-8">
   <title>Side bar</title>
   <link rel="stylesheet" type="text/css" href="/resources/css/sideBar.css">
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 </head>
 
@@ -168,8 +169,8 @@
             <div class="itemName">지역 <span>Location</span></div>
 
             <div class="itemContents">
-              <div class="itemContent BTN selected">GPS 검색</div>
-              <div class="itemContent BTN">직접 선택</div>
+              <div class="itemContent BTN selected" onclick="sample4_execDaumPostcode()">지도 검색</div>
+              <input type="text" id="sample4_jibunAddress" placeholder="지번주소">
             </div>
               
 
