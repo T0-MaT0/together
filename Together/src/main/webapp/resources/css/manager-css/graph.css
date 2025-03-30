@@ -22,15 +22,46 @@
     border-radius: 0 5px 5px 0 ;
     background-color: red;
 }
-.blue{background-color: blue; margin: 3px 0}
-.red{background-color: red; margin: 3px 0}
+/* .blue{background-color: blue; margin: 3px 0}
+.red{background-color: red; margin: 3px 0} */
+.red {
+    background-color: red;
+    margin: 3px 0;
+    position: relative; /* Add position relative to enable positioning of ::after */
+}
+
+.red::after {
+    content: attr(data-quantity);
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: black;
+}
+
+.blue {
+    background-color: blue;
+    margin: 3px 0;
+    position: relative; /* Add position relative to enable positioning of ::after */
+}
+
+.blue::after {
+    content: attr(data-quantity);
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: black;
+}
 
 
 
 /* ------------------------------------------------------ */
-.graphArea > .blue{
+/* .graphArea > .blue{
     width: 50%;
 }
 .graphArea > .red{
     width: 30%;
-}
+} */
