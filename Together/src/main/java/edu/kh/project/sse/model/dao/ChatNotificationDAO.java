@@ -43,11 +43,11 @@ public class ChatNotificationDAO {
 		return sqlSession.selectOne("chatNotificationMapper.selectLastMessageNo", roomNo);
 	}
 
-	public int selectTargetMemberNo(int roomNo, int senderNo) {
+	public List<Integer> selectTargetMemberNoList(int roomNo, int senderNo) {
 		Map<String, Object> map = new HashMap<>();
 	    map.put("roomNo", roomNo);
 	    map.put("senderNo", senderNo);
-	    return sqlSession.selectOne("chatNotificationMapper.selectTargetMemberNo", map);
+	    return sqlSession.selectList("chatNotificationMapper.selectTargetMemberNoList", map);
 	}
 
 	// 알림 중복 체크

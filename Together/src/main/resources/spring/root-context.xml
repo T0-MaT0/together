@@ -25,9 +25,9 @@
 
 
 
-	  <!--  <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+	 <!-- <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@222.117.24.149:1521:xe" />
+		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
 		<property name="username" value="finalProject1" />
 		<property name="password" value="finalProject1234" />
 		<property name="defaultAutoCommit" value="false" />
@@ -36,7 +36,7 @@
 		<property name="maxIdle" value="100" />
 		<property name="minIdle" value="10" />
 		<property name="maxWaitMillis" value="-1" />
-	</bean>   -->
+	</bean>    -->
 	
 	
 
@@ -47,14 +47,14 @@
      <property name="username" value="TOGETHER" />
      <property name="password" value="To_gether0" /> 
 
-<!--  <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" /> 
+  <!--  <property name="url" value="jdbc:oracle:thin:@localhost:1521:XE" /> 
   		<property name="username" value="together" /> 
-     	<property name="password" value="together1234" />  -->
+     	<property name="password" value="together1234" /> -->   
  
 
       
       
-        </bean>  
+        </bean> 
 
 
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

@@ -586,13 +586,14 @@
 	        JOIN_DATE,
 	        CANCEL_DATE,
 	        RECRUITMENT_NO,
-	        PARTICIPATION_COUNT
+	        PARTICIPATION_COUNT,CERT_STATUS
 	    ) VALUES (
 	        #{memberNo},
 	        SYSDATE,   -- 참가일
 	        NULL,      -- 취소일 없음
 	        #{recruitmentNo},
-	        #{myQuantity}
+	        #{myQuantity},
+	        'Y'
 	    )
 	</insert>
 	

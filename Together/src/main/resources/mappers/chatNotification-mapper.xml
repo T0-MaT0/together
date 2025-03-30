@@ -47,7 +47,7 @@
 	</select>
 	
 	<!-- 상대방 memberNo 조회 -->
-	<select id="selectTargetMemberNo" parameterType="map" resultType="_int">
+	<select id="selectTargetMemberNoList" parameterType="map" resultType="_int">
 	    SELECT MEMBER_NO
 	    FROM CHAT_ROOM_USER
 	    WHERE ROOM_NO = #{roomNo}
