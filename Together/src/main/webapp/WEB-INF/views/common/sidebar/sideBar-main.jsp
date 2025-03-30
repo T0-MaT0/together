@@ -230,7 +230,7 @@
     
 
     <script>
-      const memberNo = "${loginMember.memberNo}";
+      memberNo = "${loginMember.memberNo}";
       const loginMemberNo = "${loginMember.memberNo}";
       const loginMemberNickname = "${loginMember.memberNick}";
     </script>
