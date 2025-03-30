@@ -61,4 +61,9 @@ public interface BusinessService {
 	String selectPermissionFl(int memberNo);
 
 	int insertProduct(Business business, List<String> optionNameList, List<MultipartFile> images, String webPath, String filePath, Business board, String permissionFl) throws IllegalStateException, IOException;
+
+	int deleteProduct(Business business);
+
+	int updateProduct(Business business, List<Integer> optionNoList, List<String> optionNameList, List<MultipartFile> images, String webPath,
+			String filePath) throws IllegalStateException, IOException;
 }

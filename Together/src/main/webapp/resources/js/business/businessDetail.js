@@ -1029,5 +1029,14 @@ goToBuys.forEach(goToBuy=>{
 
 // 상품 삭제
 document.getElementById("deleteBusiness").addEventListener("click", ()=>{
-    location.href = `${location.pathname}/delete`;
+    if(confirm("상품을 삭제하시겠습니까?")){
+        location.href = `${location.pathname}/delete`;
+    }
+});
+
+// 상품 수정
+document.getElementById("updateBusiness").addEventListener("click", ()=>{
+    if(confirm("상품을 수정하시겠습니까?")){
+        location.href = `${location.pathname}/update`;
+    }
 });
