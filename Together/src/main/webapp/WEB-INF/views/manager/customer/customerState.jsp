@@ -90,7 +90,7 @@
                         </c:if>
                         <div>${state.memberNick}</div>
                         <div>${state.memberEmail}</div>
-                        <div>${state.enrollDate}</div>
+                        <div>${state.createDate}</div>
                         <div>${state.memberGrade}</div>
                         <div>${state.memberDelFl}</div>
                     </div>
