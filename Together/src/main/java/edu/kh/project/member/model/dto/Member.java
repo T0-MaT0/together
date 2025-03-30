@@ -23,7 +23,10 @@ public class Member {
     private String memberAddr;
     private String memberTel;
     private String profileImg;
+    
     private Date enrollDate;
+    private String createDate; // MANAGER 
+    
     private String memberEmail;
     private String memberDelFl;
     private int authority;
