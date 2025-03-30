@@ -318,7 +318,7 @@ body {
     font-weight: bold;
 }
 .progress{
-    height: 50px;
+    margin-top:10px;
     display: flex;
     background-color: white;
 }

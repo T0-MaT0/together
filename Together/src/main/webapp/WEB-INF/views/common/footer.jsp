@@ -10,7 +10,7 @@
     </div>
     <nav class="footer-links">
         <a href="#">이용약관</a><span> | </span>
-        <a href="/customer/FAQBoard">FAQ</a><span> | </span>
+        <a href="/customer/FAQBoard/0">FAQ</a><span> | </span>
         <a href="/customer/customerMain">고객센터</a><span> | </span>
         <!-- boardCD가 2이면 브랜드 버튼 클래스 변경 -->
         <c:set var="code" value="to-brand"/>
