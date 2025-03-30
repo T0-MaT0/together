@@ -16,8 +16,6 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 
-    ${loginMember}
-    ${recruitmentList[0].mainBannerList}
     
 
     
@@ -50,7 +48,7 @@
                     <span class="prior-price">${recruitment.productPrice}원</span>
                     <span class="real-price"> → ${discount}</span>
     
-                    <p class="deadline">⏳ ${time}</p>
+                    <p class="deadline">마감일⏳ : ${fn:substring(recruitment.recEndDate, 5, 10)}</p>
                     <div class="progress">
                         <div class="progress-container">
                             <div class="progress-bar"></div>
@@ -85,7 +83,20 @@
               <p>📦 개인도! 사업자도! 누구나 공동구매 가능! 🛍️</p>
               <p>🤔 이렇게 쉬운데, 아직도 안 해보셨나요? 😆</p>
               <p>💡 더 싸게 사고, 더 많이 팔고 싶다면? 지금 가입하세요! 💥</p>
-              <a class="start-button" href="/member/login">공동구매 시작하기</a>
+              <c:choose>
+                <c:when test="${empty loginMember}">
+                    <!-- 로그인 안 된 경우 -->
+                    <a class="start-button" href="/member/login">공동구매 시작하기</a>
+                </c:when>
+                <c:when test="${loginMember.authority == 3}">
+                    <!-- authority = 3 -->
+                    <a class="start-button" href="/board/2/insertProduct">공동구매 시작하기</a>
+                </c:when>
+                <c:otherwise>
+                    <!-- 그 외 -->
+                    <a class="start-button" id="btn-recruit" href="#">공동구매 시작하기</a>
+                </c:otherwise>
+            </c:choose>
             </div>
           </div>
       

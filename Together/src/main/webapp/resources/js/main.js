@@ -168,4 +168,25 @@ document.addEventListener("DOMContentLoaded", function () {
         prevImage();
         resetAutoSlide();
     });
+
+    const recruitBtn = document.getElementById("btn-recruit");
+
+    if (recruitBtn) {
+        recruitBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const width = 930;
+            const height = 700;
+            const left = (window.screen.width / 2) - (width / 2);
+            const top = (window.screen.height / 2) - (height / 2);
+            const options = `width=${width},height=${height},left=${left},top=${top},resizable=no,scrollbars=yes`;
+
+            const popup = window.open("/group/create", "groupCreatePopup", options);
+
+            if (!popup || popup.closed || typeof popup.closed === "undefined") {
+                alert("팝업이 차단되었습니다. 브라우저 설정을 확인해주세요.");
+            }
+        });
+    }
+
 });
