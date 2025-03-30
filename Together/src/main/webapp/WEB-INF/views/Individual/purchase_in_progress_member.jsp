@@ -116,6 +116,14 @@
                         </c:choose>
 
                     </c:when>
+
+                    <c:when test="${recruitment.recruitmentStatus eq '진행'}">
+                        <form action="/group/participation/cancel" method="post">
+                            <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}">
+                            <input type="hidden" name="boardNo" value="${recruitment.boardNo}">
+                            <button type="submit" class="cancel-participation-btn">참가 취소하기</button>
+                        </form>
+                    </c:when>
                 </c:choose>
             </div>
         </div>

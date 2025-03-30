@@ -82,8 +82,20 @@ public class ChattingServiceImpl implements ChattingService{
 
 	// 모집하기 방 생성 시 채팅방 생성
 	@Override
-	public int createGroupChatRoom(String roomName, int ownerNo) {
-		Map<String, Object> map = new HashMap<>();
+	public int createGroupChatRoom(String roomName, int ownerNo, Map<String, Object> outMap) {
+		String finalRoomName = roomName;
+	    int count = 0;
+
+	    // 중복이 존재하는 한 반복
+	    while (dao.checkDuplicateGroupChatRoom(finalRoomName, ownerNo) > 0) {
+	        count++;
+	        finalRoomName = roomName + "_" + ((int)(Math.random() * 1000) + count);
+	        if (count > 20) break; 
+	    }
+	    
+	    outMap.put("roomName", finalRoomName);
+
+	    Map<String, Object> map = new HashMap<>();
 	    map.put("roomName", roomName);
 	    map.put("ownerNo", ownerNo);
 
