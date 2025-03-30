@@ -19,6 +19,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.common.utility.Utill;
@@ -27,6 +28,7 @@ import edu.kh.project.individual.dto.Image;
 import edu.kh.project.individual.dto.Recruitment;
 import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.member.model.dto.Board;
+import edu.kh.project.member.model.dto.Member;
 
 @Service
 public class RecruitmentServiceImpl implements RecruitmentService{
@@ -46,7 +48,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         
         List<Image> mainBannerList = new ArrayList<>();
         for (Image img : bannerImages) {
-            if (img.getImageType() == 6 && img.getImageLevel() == 2) { // 메인 배너 조건
+            if (img.getImageType() == 6 && img.getImageTypeNo() == 2) { // 메인 배너 조건
                 mainBannerList.add(img); // 리스트에 추가
             }
         }
@@ -121,7 +123,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 	@Override
 	public Recruitment selectRecruitmentRoomDetail(int recruitmentNo ,int boardNo, int memberNo) {
 		  // 모집 상세 정보 조회
-	    Recruitment recruitment = dao.selectRecruitmentRoomDetail(recruitmentNo, boardNo);
+	    Recruitment recruitment = dao.selectRecruitmentRoomDetail(recruitmentNo, boardNo,memberNo);
 
 	    if (recruitment != null) {
 	        // 참가자 수 조회
@@ -408,12 +410,13 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 	// 모집 인증 폼 만들기
 	@Override
 	public int registerVerificationFormWithQr(int recruitmentNo, String trackingNumber, String deliveryExpected,
-			String memberReceiveDate, String realPath, String webPath) throws Exception {
+			String memberReceiveDate, String realPath, String webPath, int boardNo) throws Exception {
 		// 1. 토큰 생성
 	    String token = UUID.randomUUID().toString();
 
 	    // 2. QR URL 생성
-	    String qrUrl = "http://www.to-gether.store/recruit/verify?recruitmentNo=" + recruitmentNo + "&token=" + token;
+//	    String qrUrl = "https://www.to-gether.store/recruit/verify?recruitmentNo=" + recruitmentNo + "&token=" + token;
+	    String qrUrl = "http://localhost/recruit/verify?recruitmentNo=" + recruitmentNo + "&boardNo=" + boardNo + "&token=" + token;
 
 	    // 3. QR 이미지 생성 및 저장
 	    String fileName = "qr_" + recruitmentNo + "_" + System.currentTimeMillis() + ".png";
@@ -452,13 +455,13 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
 	@Override
 	@Transactional
-	public boolean verifyParticipant(int recruitmentNo, String token) {
+	public boolean verifyParticipant(int recruitmentNo, String token, int memberNo) {
 		// 토큰이 유효한지 확인
         int valid = dao.checkTokenValid(recruitmentNo, token);
 
         if(valid > 0) {
             // 인증상태 업데이트
-            dao.updateCertStatus(recruitmentNo, token);
+            dao.updateCertStatus(recruitmentNo, token, memberNo);
             return true;
         }
 
@@ -469,6 +472,93 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 	@Override
 	public int insertReport(Report report) {
 		return dao.insertReport(report);
+	}
+
+	// 모집장 정보 조회
+	@Override
+	public Member selectHostInfo(int recruitmentNo) {
+		return dao.selectHostInfo(recruitmentNo);
+	}
+
+	// 리뷰 작성
+	@Override
+	public int insertReview(Review review) {
+		return dao.insertReview(review);
+	}
+
+	// 후기 작성 여부
+	@Override
+	public boolean checkIfUserReviewed(int recruitmentNo, int memberNo) {
+		
+		Map<String, Object> map = new HashMap<>();
+	    map.put("recruitmentNo", recruitmentNo);
+	    map.put("memberNo", memberNo);
+	    
+		return dao.checkIfUserReviewed(map);
+	}
+
+	// 맴버 등급 업데이트
+	@Override
+	public void updateMemberGradeByReview(int memberNo) {
+		dao.updateMemberGradeByReview(memberNo);
+		
+	}
+
+	// 구매 확정
+	@Override
+	public int updatePointUsageToComplete(int recruitmentNo, int memberNo) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("recruitmentNo", recruitmentNo);
+	    map.put("memberNo", memberNo);
+		return dao.updatePointUsageToComplete(map);
+	}
+
+	// 모집방 상태 변경 및 중복체크
+	@Override
+	public void checkAndUpdateRecruitmentComplete(int recruitmentNo) {
+		int incompleteCount = dao.selectIncompletePointUsageCount(recruitmentNo);
+
+        if (incompleteCount == 0) {
+            dao.updateRecruitmentStatusToComplete(recruitmentNo);
+        }
+		
+	}
+
+	// 포인트 수정
+	@Override
+	public void updateMemberPoint(int memberNo, int updatedPoint) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("updatedPoint", updatedPoint);
+	    map.put("memberNo", memberNo);
+		dao.updateMemberPoint2(map);
+		
+	}
+
+	// 포인트 사용 내역 인서트
+	@Override
+	public void insertPointUsage(PointUsage pointUsage) {
+		dao.insertPointUsage(pointUsage);		
+	}
+
+	// 포인트 사용 내역 조회
+	@Override
+	public int selectUsedAmount(int recruitmentNo, int memberNo, int usageType) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("recruitmentNo", recruitmentNo);
+	    map.put("memberNo", memberNo);
+	    map.put("usageType", usageType);
+		return dao.selectUsedAmount(map);
+	}
+	
+	// POINT_USAGE 상태 '취소'로 변경
+	@Override
+	public void updatePointUsageStatusToCancel(int recruitmentNo, int memberNo, int usageType) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("recruitmentNo", recruitmentNo);
+	    map.put("memberNo", memberNo);
+	    map.put("usageType", usageType);
+		
+	    dao.updatePointUsageStatusToCancel(map);
 	}
 
 

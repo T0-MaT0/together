@@ -1,5 +1,9 @@
 console.log("sideBarMain.js");
 
+document.addEventListener("DOMContentLoaded", () => {
+  updateSidebarTotalNoti();
+});
+
 // a 태그 기본 동작 제거 
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("a.no-link").forEach(a => {
@@ -19,8 +23,16 @@ const sideBarClose = document.getElementById("sideBar-close");
 sideBarClose.addEventListener("click", e => {
   e.preventDefault();
   e.stopPropagation();
+
   sideBar.classList.toggle("active");
   sideBarClose.classList.toggle("activate");
+
+  if (sideBar.classList.contains("active")) {
+    if (!window.chatSse) {
+      connectChatSSE(); // 알림용 SSE 연결
+    }
+
+  }
 });
 
 
@@ -71,7 +83,9 @@ function renderChatRoomList(chatList) {
       ? (chat.targetProfile || '/resources/images/user.png')
       : (chat.ownerProfile || '/resources/images/user.png');
 
-    const roomLabel = chat.groupFl === 'Y' ? `[그룹] ${chat.roomName}` : chat.roomName;
+      const roomLabel = chat.groupFl === 'Y' 
+      ? `[그룹] ${chat.roomName}` 
+      : chat.targetNickname || chat.roomName;
 
     div.innerHTML = `
       <div class="profile-box">
@@ -93,18 +107,24 @@ function renderChatRoomList(chatList) {
       const chattingNo = div.dataset.roomNo;
       const roomName = div.dataset.roomName;
       const ownerProfile = div.dataset.ownerProfile;
+      const targetNickname = chat.targetNickname;  
+      const targetProfile = chat.targetProfile; 
       const targetUrl = `/sidebar/chatOpen?chattingNo=${chattingNo}`;
-
+      
       fetch(targetUrl)
         .then(res => res.text())
         .then(html => {
           const contentBox = document.querySelectorAll("#CHAT .content")[0];
           contentBox.innerHTML = html;
 
-          document.querySelector("#roomTitle").innerText = roomName;
+          const roomTitleElem = document.querySelector("#roomTitle");
+          roomTitleElem.innerText = chat.groupFl === 'Y' ? roomName : targetNickname;
+
           const ownerImg = document.querySelector("#ownerProfileImg");
-          ownerImg.src = ownerProfile && ownerProfile !== "null"
-            ? ownerProfile : "/resources/images/user.png";
+          ownerImg.src = chat.groupFl === 'Y'
+          ? (ownerProfile && ownerProfile !== "null" ? ownerProfile : "/resources/images/user.png")
+          : (targetProfile && targetProfile !== "null" ? targetProfile : "/resources/images/user.png");
+            
 
           bindChatRoomHeaderButtons();
           bindSendMessageEvent();
@@ -245,20 +265,82 @@ document.getElementById("scrollDown").addEventListener("click", e => {
 
 
 // WebSocket 소켓 전역
-let chattingSock;
+let chattingSock ;
 
-// 채팅방 열릴 때 호출 WebSocket 연결
+// SSE 전역
+let chatSse ;
+
+// 채팅방 열릴 때 호출 WebSocket + SSE 연결
 function connectChatWebSocket(roomNo) {
-  if (!chattingSock || chattingSock.readyState !== 1) {
-    chattingSock = new SockJS("/chattingSock?roomNo=" + roomNo);
-    console.log("✅ SockJS 연결 성공 / roomNo =", roomNo);
+  // 기존 WebSocket 종료
+  if (chattingSock && chattingSock.readyState === 1) {
+    chattingSock.close();
+    chattingSock = null;
   }
 
+  // 새 WebSocket 연결
+  chattingSock = new SockJS("/chattingSock?roomNo=" + roomNo);
+  console.log("✅ SockJS 연결 시도 / roomNo =", roomNo);
+
+  chattingSock.onopen = () => {
+    console.log("🟢 SockJS 연결됨 / roomNo =", roomNo);
+  };
+
   chattingSock.onmessage = (e) => {
-    console.log("📩 WebSocket 메시지 수신:", e.data);
     const msg = JSON.parse(e.data);
     displayMessage(msg);
+    loadChatRoomList?.();
   };
+
+  chattingSock.onclose = () => {
+    console.log("🔴 SockJS 연결 종료");
+  };
+
+  chattingSock.onerror = (err) => {
+    console.error("❌ SockJS 오류 발생:", err);
+  };
+
+  // SSE 연결 갱신
+  reconnectChatSSE();
+}
+
+// 연결 종료
+function disconnectChatSSE() {
+  if (chatSse) {
+    console.log("🛑 기존 SSE 연결 종료");
+    chatSse.close();
+    chatSse = null;
+  }
+}
+
+// 연결 시작
+function connectChatSSE() {
+  if (chatSse) return; // 이미 연결되어 있으면 무시
+
+  chatSse = new EventSource("/chat/notification/connect");
+
+  chatSse.addEventListener("connect", (e) => {
+    console.log("✅ Chat SSE 연결됨");
+  });
+
+  chatSse.addEventListener("chat", (e) => {
+    console.log("💬 알림 수신:", e.data);
+    const notification = JSON.parse(e.data);
+    showChatNotification(notification);
+    loadChatRoomList?.();
+  });
+
+  chatSse.onerror = (e) => {
+    console.error("❌ SSE 오류:", e);
+    disconnectChatSSE();
+    // 필요시 재연결 로직 추가
+  };
+}
+
+// 연결 재시작
+function reconnectChatSSE() {
+  disconnectChatSSE();
+  connectChatSSE();
 }
 
 
@@ -474,7 +556,7 @@ function bindSendMessageEvent() {
   const input = document.getElementById("inputChatting");
 
   if (sendBtn && input) {
-    sendBtn.addEventListener("click", function(e) {
+    sendBtn.addEventListener("click", function (e) {
       e.preventDefault();
 
       const message = input.value.trim();
@@ -490,22 +572,38 @@ function bindSendMessageEvent() {
         messageType: "TEXT"
       };
 
+      // WebSocket으로 메시지 전송
       chattingSock.send(JSON.stringify(msgObj));
       input.value = "";
+
+      // 🔔 SSE 알림용 알림 전송
+      fetch("/chat/notification/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ roomNo: roomNo })
+      })
+        .then(res => {
+          if (!res.ok) throw new Error("알림 전송 실패");
+          return res.text();
+        })
+        .then(() => {
+          console.log("🔔 채팅 알림 전송 완료");
+        })
+        .catch(err => {
+          console.error("❌ 알림 전송 오류:", err);
+        });
     });
   }
 
   const textarea = document.getElementById("inputChatting");
 
-  textarea.addEventListener("keydown", function(e) {
+  textarea.addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
       if (e.shiftKey) {
-        // Shift + Enter → 줄바꿈
-        return; // 기본 동작 유지
+        return; // Shift + Enter → 줄바꿈
       } else {
-        // Enter → 전송
         e.preventDefault(); // 줄바꿈 막기
-        sendBtn.click(); // 버튼 클릭 이벤트 호출
+        sendBtn.click(); // 버튼 클릭
       }
     }
   });
@@ -716,6 +814,12 @@ function loadChatRoomDetail(roomNo) {
       }
       const memberList = data.members;
 
+      fetch("/chat/notification/read", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ roomNo: roomNo })
+      });
+
       // 인원 수
       const countEl = document.querySelector("#memberCount");
       if (countEl) countEl.innerText = memberList.length;
@@ -806,19 +910,187 @@ function loadChatRoomDetail(roomNo) {
 }
 
 
+// 상담톡 설정
+document.querySelector("#consultMenu a")?.addEventListener("click", e => {
+  e.preventDefault();
+
+  if (!confirm("상담톡을 연결하시겠습니까?")) return;
 
 
+  fetch("/chatting/private/start", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      targetMemberNo: 1, 
+      targetNick: "To-mato 상담사"
+    })
+  })
+    .then(res => res.json())
+    .then(result => {
+      if (result.success) {
+        const chattingNo = result.roomNo;
+        const targetUrl = `/sidebar/chatOpen?chattingNo=${chattingNo}`;
+
+        fetch(targetUrl)
+          .then(res => res.text())
+          .then(html => {
+            const contentBox = document.querySelectorAll("#CHAT .content")[0];
+            contentBox.innerHTML = html;
+
+            document.querySelector("#roomTitle").innerText = "To-mato 상담사";
+            document.querySelector("#ownerProfileImg").src = "/resources/images/user.png";
+
+            // 필수 기능 바인딩
+            bindChatRoomHeaderButtons();
+            bindSendMessageEvent();
+            bindImageUploadEvent();
+            bindEmojiEvent();
+
+            connectChatWebSocket?.(chattingNo);
+            loadMessageList?.();
+            showFAQIfCounselingRoom()
+            initFAQEvent();
+            loadChatRoomDetail(chattingNo);
 
 
+            // 사이드바 메뉴 버튼 UI 처리
+            const talkMenus = document.querySelectorAll(".talkMenu");
+            talkMenus.forEach(menu => {
+              menu.classList.remove("select", "unselect");
+              menu.classList.add("unselect");
+            });
+
+            // 여기서 현재 클릭한 메뉴에 select 적용
+            document.querySelector("#consultMenu")?.classList.remove("unselect");
+            document.querySelector("#consultMenu")?.classList.add("select");
+          });
+      } else {
+        alert("상담톡 연결에 실패했습니다.");
+      }
+    })
+    .catch(err => {
+      console.error("❌ 상담톡 생성 실패", err);
+    });
+});
 
 
+function initFAQEvent() {
+  document.querySelectorAll("#faqList li").forEach(item => {
+    item.addEventListener("click", () => {
+      const answer = item.dataset.answer;
+  
+      // 상담사 메시지처럼 DOM에 출력
+      const messageList = document.getElementById("chatMessageList");
+  
+      const li = document.createElement("li");
+      li.classList.add("chat-left"); // 왼쪽 채팅 스타일 (상담사)
+  
+      li.innerHTML = `
+        <div class="chat-profile">
+          <img src="/resources/images/mypage/관리자 프로필.webp" alt="상담사">
+        </div>
+        <div class="chat-bubble">
+          ${answer}
+        </div>
+      `;
+  
+      messageList.appendChild(li);
+      messageList.scrollTop = messageList.scrollHeight;
+    });
+  });
+
+  document.getElementById("faqToggleBtn")?.addEventListener("click", function () {
+    const list = document.getElementById("faqList");
+    const isOpen = list.classList.contains("show");
+  
+    if (isOpen) {
+      list.classList.remove("show");
+      this.innerText = "자주 묻는 질문 메뉴 ▼";
+    } else {
+      list.classList.add("show");
+      this.innerText = "자주 묻는 질문 메뉴 ▲";
+    }
+  });
+}
+
+function showFAQIfCounselingRoom() {
+  const roomTitle = document.getElementById("roomTitle")?.innerText;
+  const box = document.getElementById("faqToggleBox");
+
+  if (roomTitle && roomTitle.includes("상담사")) {
+    box?.classList.remove("hidden");
+  } else {
+    box?.classList.add("hidden");
+  }
+}
+
+document.getElementById("faqToggleBtn")?.addEventListener("click", toggleFAQ);
+
+function increaseChatRoomNotification(roomNo) {
+  const chatRoom = document.querySelector(`.chat-room[data-room-no="${roomNo}"]`);
+  if (!chatRoom) return;
+
+  const badge = chatRoom.querySelector(".noti-chat span");
+
+  if (badge) {
+    let count = Number(badge.innerText) || 0;
+    count += 1;
+    badge.innerText = count;
+    badge.parentElement.style.display = "flex";
+  }
+}
 
 
+let eventSource = null;
 
+function connectChatSSE() {
+  if (eventSource) return; // 중복 연결 방지
 
+  eventSource = new EventSource("/chat/notification/connect");
 
+  eventSource.onopen = () => {
+    console.log("✅ Chat SSE 연결됨");
+  };
 
+  eventSource.addEventListener("chat", e => {
+    console.log("📩 채팅 알림 수신:", e.data);
+    const notification = JSON.parse(e.data);
+    showChatNotification(notification);
+    loadChatRoomList();
+    updateSidebarTotalNoti();
+  });
 
+  eventSource.onerror = e => {
+    console.error("❌ SSE 오류:", e);
+    eventSource.close();
+    eventSource = null;
+    // 재연결 로직 넣을 수 있음
+  };
+}
+
+function showChatNotification(notification) {
+  const notiBadge = document.querySelector("#chatNotiBadge");
+
+  if (!notiBadge) return;
+
+  const count = parseInt(notiBadge.innerText || 0) + 1;
+  notiBadge.innerText = count;
+  notiBadge.style.display = "inline-block";
+
+  console.log("🔔 채팅 알림: ", notification);
+}
+
+function updateSidebarTotalNoti() {
+  fetch("/chat/notification/count")
+    .then(res => res.text())
+    .then(count => {
+      const badge = document.querySelector("#chatNotiBadge");
+      if (badge) {
+        badge.innerText = count;
+        badge.style.display = count > 0 ? "inline-block" : "none";
+      }
+    });
+}
 
 
 

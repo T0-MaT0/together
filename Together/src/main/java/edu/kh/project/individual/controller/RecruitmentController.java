@@ -1,6 +1,9 @@
 package edu.kh.project.individual.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +27,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.project.chatting.service.ChattingService;
 import edu.kh.project.common.model.dto.Category;
-import edu.kh.project.common.model.dto.Image;
+import edu.kh.project.individual.dto.Image;
+import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Recruitment;
@@ -43,6 +47,8 @@ public class RecruitmentController {
 	@Autowired
 	private ChattingService chatService;
 	
+	
+	
 	// 개인 공동구매 모집방 페이지 (boardCode=1 고정)
 	@GetMapping("/Individual/1")
 	public String individualMainPage(
@@ -53,6 +59,10 @@ public class RecruitmentController {
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 
 	    List<Recruitment> recruitmentList = service.selectRecruitmentList(boardCode, memberNo);
+	    List<Image> mainBannerList = new ArrayList<>();
+	    if (!recruitmentList.isEmpty()) {
+	    	mainBannerList = recruitmentList.get(0).getMainBannerList(); // 공통으로 들어가 있으니까 여기서 꺼내도 됨
+	    }
 	    model.addAttribute("recruitmentList", recruitmentList);
 	    model.addAttribute("boardCode", boardCode);
 
@@ -70,7 +80,6 @@ public class RecruitmentController {
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 
 	    List<Recruitment> recruitmentList = service.selectRecruitmentList(boardCode, memberNo);
-
 	    return recruitmentList; 
 	}
 	
@@ -253,15 +262,42 @@ public class RecruitmentController {
         } catch(Exception e){
             e.printStackTrace();
         }
-
+        System.out.println("dto : " + dto );
         if (recruitNo > 0) {
+            Map<String, Object> outMap = new HashMap<>();
         	// 채팅방 생성
-            int result = chatService.createGroupChatRoom(dto.getBoardTitle(), loginMember.getMemberNo());
-        	
+            int result = chatService.createGroupChatRoom(dto.getBoardTitle(), loginMember.getMemberNo(), outMap);
+
+            // 1. 차감할 포인트 계산
+            int productPrice = dto.getProductPrice();
+            int maxParticipants = dto.getMaxParticipants();
+            int myQuantity = dto.getMyQuantity(); // 모집장 구매 수량
+            int usedPoint = (productPrice / maxParticipants) * myQuantity;
+
+            // 2. 현재 포인트에서 차감
+            int updatedPoint = loginMember.getPoint() - usedPoint;
+            loginMember.setPoint(updatedPoint);
+            System.out.println("usedPoint + " + usedPoint );
+            System.out.println("updatedPoint + " + updatedPoint );
+            // 3. DB에 포인트 업데이트
+            service.updateMemberPoint(loginMember.getMemberNo(), updatedPoint);
+
+            // 4. 포인트 사용 내역 insert (모집장이므로 status = '완료')
+            PointUsage pointUsage = new PointUsage();
+            pointUsage.setUsageAmount(usedPoint);
+            pointUsage.setUsageType(2);
+            pointUsage.setUsageTypeNo(recruitNo);
+            pointUsage.setStatus("완료");
+            pointUsage.setMemberNo(loginMember.getMemberNo());
+           
+            service.insertPointUsage(pointUsage);
+            
+            
+            String roomName = (String) outMap.get("roomName");
             
             if(result > 0) {
                 String script = "<script>"
-                        + "alert('모집글 등록 + 채팅방 생성 성공!');"
+                        + "alert('모집글 등록 성공! 채팅방 이름: " + roomName + "');"
                         + "window.opener.location.href='/Individual/" + 1 + "';"
                         + "window.close();"
                         + "</script>";
@@ -270,8 +306,8 @@ public class RecruitmentController {
                 return null;
             }
 
-            ra.addFlashAttribute("message", "모집글 등록은 성공했지만 채팅방 생성 실패");
-            return "redirect:/group/create";
+            ra.addFlashAttribute("message", "모집글 등록 성공 + 채팅방 생성 실패! ");
+            return null;
         }
 
         ra.addFlashAttribute("message", "모집글 등록 실패");
@@ -507,13 +543,18 @@ public class RecruitmentController {
  	        ra.addFlashAttribute("alertMessage", "로그인 후 이용해주세요.");
  	        return "redirect:/member/login";
  	    }
-
+ 	    int memberNo = loginMember.getMemberNo();
  	    // 참여 정보 조회 (recruitmentNo, boardNo 기준)
  	    Recruitment dto = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo, loginMember.getMemberNo());
  	    if (dto == null) {
  	        ra.addFlashAttribute("alertMessage", "상세 정보를 찾을 수 없습니다.");
  	        return "redirect:/";
  	    }
+ 	    
+ 	    // 후기 작성 여부 확인
+ 	    boolean isReviewed = service.checkIfUserReviewed(recruitmentNo, memberNo);
+ 	    model.addAttribute("isReviewed", isReviewed);
+ 	    
  	    model.addAttribute("boardCode", boardCode);
  	    model.addAttribute("recruitment", dto);
  	    return "Individual/purchase_in_progress_member";
@@ -568,6 +609,21 @@ public class RecruitmentController {
  	            int roomNo = chatService.selectRoomNoByRoomName(roomName);
  	            chatService.deleteChatRoomUser(roomNo, memberNo);
  	            
+ 	            int usageType = 2;
+ 	            // POINT_USAGE에서 사용 금액 조회
+ 	            int usedAmount = service.selectUsedAmount(recruitmentNo, memberNo, usageType);
+ 	            int currentPoint = loginMember.getPoint();
+ 	            int updatedPoint = currentPoint + usedAmount;
+ 	            
+ 	            // DB 업데이트
+ 	            service.updateMemberPoint(memberNo, updatedPoint);
+
+ 	            // 세션 동기화
+ 	            loginMember.setPoint(updatedPoint);
+ 	            
+ 	            // POINT_USAGE 상태 '취소'로 변경
+ 	            service.updatePointUsageStatusToCancel(recruitmentNo, memberNo, usageType);
+ 	            
  	            ra.addFlashAttribute("message", "참가가 성공적으로 취소되었습니다.");
  	        } else {
  	            ra.addFlashAttribute("alertMessage", "이미 취소되었거나 참가 정보가 없습니다.");
@@ -578,7 +634,7 @@ public class RecruitmentController {
  	        ra.addFlashAttribute("alertMessage", "참가 취소 중 오류가 발생했습니다.");
  	    }
  	    model.addAttribute("boardCode", boardCode);
- 	    return "Individual/mainIndividual"; // 또는 다른 이동 경로
+ 	    return "redirect:/Individual/1"; // 또는 다른 이동 경로
  	}
  	
  	// 모집글 삭제
@@ -657,7 +713,7 @@ public class RecruitmentController {
 		
 		// 서비스 호출 (QR 생성 + DB 저장)
 		int result = service.registerVerificationFormWithQr(
-		recruitmentNo, trackingNumber, deliveryExpected, memberReceiveDate, realPath, webPath);
+		recruitmentNo, trackingNumber, deliveryExpected, memberReceiveDate, realPath, webPath, boardNo);
 		
 		if (result > 0) {
 		ra.addFlashAttribute("message", "모집 인증 폼 등록이 완료되었습니다.");
@@ -709,29 +765,14 @@ public class RecruitmentController {
  	    // DB에서 모집 정보, 인증 폼 정보 등을 가져오기
  	    Recruitment dto = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo, memberNo);
  	    
+ 	    
+ 	    
  	    // JSP에서 쓸 수 있도록 model에 담기
  	    model.addAttribute("recruitment", dto);
  	    model.addAttribute("boardCode", boardCode);
  	    return "Individual/recruit_verification_form_member";
  	}
  	
- 	@GetMapping("/recruit/verify")
-    public String verify(
-            @RequestParam("recruitmentNo") int recruitmentNo,
-            @RequestParam("token") String token,
-            Model model) {
- 		int boardCode = 1;
-        boolean success = service.verifyParticipant(recruitmentNo, token);
-
-        if (success) {
-            model.addAttribute("message", "인증이 성공적으로 완료되었습니다!");
-        } else {
-            model.addAttribute("message", "인증 실패: 유효하지 않은 접근입니다.");
-        }
-        model.addAttribute("boardCode", boardCode);
-        // 인증 결과 안내 페이지로 이동
-        return "Individual/result"; 
-    }
  	
  	// 신고
  	@PostMapping("/report/submit")
@@ -748,4 +789,113 @@ public class RecruitmentController {
         response.put("success", result > 0);
         return response;
     }
+ 	
+ 	
+ 	// qr경로
+ 	 @GetMapping("/recruit/verify")
+     public String verifyRecruitment(@RequestParam("recruitmentNo") int recruitmentNo,
+		 							 @RequestParam("boardNo") int boardNo,
+                                     @RequestParam("token") String token,
+                                     HttpSession session,
+                                     RedirectAttributes ra) throws UnsupportedEncodingException {
+
+ 		 int boardCode = 1;
+         // 로그인 여부 확인
+         Member loginMember = (Member) session.getAttribute("loginMember");
+
+         if (loginMember == null) {
+             // 로그인 안 되어 있으면 로그인 페이지로 유도
+        	 String redirectURL = "/recruit/verify?recruitmentNo=" + recruitmentNo
+                     + "&boardNo=" + boardNo
+                     + "&token=" + token;
+             session.setAttribute("redirectAfterLogin", redirectURL);
+
+             return "redirect:/member/login?redirect=" + URLEncoder.encode(redirectURL, "UTF-8");
+         }
+
+         try {
+             // 로그인된 상태 → 인증 처리
+             boolean verified = service.verifyParticipant(recruitmentNo, token, loginMember.getMemberNo());
+
+             if (verified) {
+                 ra.addFlashAttribute("message", "모집 인증이 완료되었습니다!");
+             } else {
+                 ra.addFlashAttribute("alertMessage", "인증 실패: 유효하지 않거나 이미 인증되었습니다.");
+             }
+
+         } catch (Exception e) {
+             e.printStackTrace();
+             ra.addFlashAttribute("alertMessage", "서버 오류 발생");
+         }
+
+         // 인증 후 이동할 페이지 (필요에 따라 수정 가능)
+         return "redirect:/purchase_in_progress_member?recruitmentNo=" + recruitmentNo + "&boardNo=" + boardNo;
+     }
+ 	 
+ 	 
+ 	 // 후기 창 띄우기
+ 	@GetMapping("/review/writeForm")
+ 	public String openReviewForm(@RequestParam("recruitmentNo") int recruitmentNo,
+ 	                             @RequestParam("boardNo") int boardNo,
+ 	                             Model model, HttpSession session) {
+
+ 	    Member loginMember = (Member) session.getAttribute("loginMember");
+
+ 	    // 상대방(모집장 등) 정보 조회
+ 	    Member targetMember = service.selectHostInfo(recruitmentNo);
+
+ 	    model.addAttribute("recruitmentNo", recruitmentNo);
+ 	    model.addAttribute("boardNo", boardNo);
+ 	    model.addAttribute("targetMember", targetMember);
+
+ 	    return "Individual/purchase_confirmation_review";
+ 	}
+ 	
+ 	// 리뷰 등록
+ 	@PostMapping("/review/write")
+ 	@ResponseBody
+ 	public String writeReview(@RequestParam Map<String, String> param, HttpSession session) {
+
+ 	    Member loginMember = (Member) session.getAttribute("loginMember");
+ 	    if (loginMember == null) return "notLogin";
+
+ 	    Review review = new Review();
+ 	    review.setReviewContent(param.get("reviewContent"));
+ 	    review.setReviewStar(Integer.parseInt(param.get("rating")));
+ 	    review.setReviewType(1); // 모집글 후기
+ 	    review.setReviewTypeNo(Integer.parseInt(param.get("recruitmentNo")));
+ 	    review.setMemberNo(loginMember.getMemberNo());
+ 	    review.setOrderNo(Integer.parseInt(param.get("targetNo")));
+ 	    int result = service.insertReview(review);
+
+ 	    if (result > 0) {
+ 	       // 멤버 등급 업데이트
+ 	       service.updateMemberGradeByReview(review.getOrderNo());
+ 	       return "success";
+ 	    }
+ 	    return "fail";
+ 	}
+ 	
+ 	// 구매 확정
+ 	@PostMapping("/group/confirm")
+ 	public String confirmPurchase(@RequestParam("recruitmentNo") int recruitmentNo,
+ 	                              @RequestParam("boardNo") int boardNo,
+ 	                              @SessionAttribute("loginMember") Member loginMember,
+ 	                              RedirectAttributes ra) {
+
+ 	    int memberNo = loginMember.getMemberNo();
+
+ 	    // 1. 포인트 사용 상태 완료 처리
+ 	    int result = service.updatePointUsageToComplete(recruitmentNo, memberNo);
+
+ 	    // 2. 전체 상태 조회 후 모집 상태도 완료로 처리
+ 	    if (result > 0) {
+ 	        service.checkAndUpdateRecruitmentComplete(recruitmentNo);
+ 	        ra.addFlashAttribute("message", "구매 확정이 완료되었습니다.");
+ 	    } else {
+ 	        ra.addFlashAttribute("alertMessage", "확정 처리에 실패했습니다.");
+ 	    }
+
+ 	    return "redirect:/";
+ 	}
 }

@@ -183,6 +183,7 @@ main{
 
 .buy-area>button{
     width: 200px;
+    height: 50px;
     color: white;
     font-size: 20px;
     font-weight: bold;
@@ -631,3 +632,7 @@ table img{
     margin-left: auto;
     margin-right: 10px;
 }
+
+.hidden {
+    display: none;
+  }

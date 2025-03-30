@@ -3,6 +3,23 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<c:set var="imageList" value="${business.imageList}"/>
+<c:if test="${empty business}">
+    <c:set var="hide" value="hide"/>
+</c:if>
+<c:if test="${empty business.deliveryFee}">
+    <c:set var="deliveryFee" value="0"/>
+</c:if>
+<c:if test="${!empty business.deliveryFee}">
+    <c:set var="deliveryFee" value="${business.deliveryFee}"/>
+</c:if>
+<c:if test="${empty business}">
+    <c:set var="url" value="insertProduct"/>
+</c:if>
+<c:if test="${!empty business}">
+    <c:set var="url" value="${boardNo}/update"/>
+</c:if>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,21 +38,22 @@
 </head>
 
 <body>
-	<jsp:include page="/WEB-INF/views/common/header.jsp" />
+    <jsp:include page="/WEB-INF/views/common/header.jsp" />
     
+    ${business}
     <main>
-        <form action="/board/${boardCode}/insertProduct" method="post" id="businessWriteForm" enctype="multipart/form-data">
+        <form action="/board/${boardCode}/${url}" method="post" id="businessWriteForm" enctype="multipart/form-data">
             <section class="content">
                 <section id="optionArea">
                     <div class="product-img">
                         <label>
-                            <img class="preview" src="">
+                            <img class="preview" src="${imageList[0].imagePath}${imageList[0].imageReName}">
                             <input type="file" name="images" id="thumbnail" class="inputImage" accept="image/*">
                         </label>
                         <span class="x-btn">&times;</span>
                     </div>
                     <div class="option-detail-area">
-                        <input type="text" class="product-title" name="boardTitle" value="">
+                        <input type="text" class="product-title" name="boardTitle" value="${business.boardTitle}">
                         <table class="product-info-area border-top">
                             <tbody>
                                 <tr>
@@ -45,26 +63,42 @@
                                             <option value="default">카테고리를 선택해주세요.</option>
                                             <option disabled>--------------------------------------</option>
                                             <c:forEach var="category" items="${categoryList}">
-                                                <c:if test="${category.parentCategoryNo eq null}">
-                                                    <option value="${category.categoryNo}">${category.categoryName}</option>
-                                                </c:if>
+                                                <c:choose>
+                                                    <c:when test="${business.parentCategoryNo==category.categoryNo}">
+                                                        <option value="${category.categoryNo}" selected>${category.categoryName}</option>
+                                                    </c:when>
+                                                    <c:when test="${category.parentCategoryNo==null}">
+                                                        <option value="${category.categoryNo}">${category.categoryName}</option>
+                                                    </c:when>
+                                                </c:choose>
                                             </c:forEach>
                                         </select>
                                     </td>
                                 </tr>
-                                <tr id="childCategoryArea" class="hide">
+                                <tr id="childCategoryArea" class="${hide}">
                                     <td>카테고리 상세</td>
                                     <td>
-                                        <select name="categoryNo" id="childCategory"></select>
+                                        <select name="categoryNo" id="childCategory">
+                                            <c:forEach var="category" items="${categoryList}">
+                                                <c:choose>
+                                                    <c:when test="${business.categoryNo==category.categoryNo}">
+                                                        <option value="${category.categoryNo}" selected>${category.categoryName}</option>
+                                                    </c:when>
+                                                    <c:when test="${category.parentCategoryNo==business.parentCategoryNo}">
+                                                        <option value="${category.categoryNo}">${category.categoryName}</option>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:forEach>
+                                        </select>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>판매가</td>
-                                    <td><input type="text" name="productPrice" id="productPrice" value=""></td>
+                                    <td><input type="text" name="productPrice" id="productPrice" value="${business.productPrice}"></td>
                                 </tr>
                                 <tr>
                                     <td>배송비</td>
-                                    <td><input type="text" name="deliveryFee" id="deliveryFee" value="0"></td>
+                                    <td><input type="text" name="deliveryFee" id="deliveryFee" value="${deliveryFee}"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -72,14 +106,26 @@
                             <span>옵션명</span>
                             <div class="option-input-area">
                                 <div>
-                                    <input type="text" name="optionName" class="optionName" placeholder="옵션을 입력해 주세요">
+                                    <input type="hidden" name="optionNo" value="${business.optionList[0].optionNo}">
+                                    <input type="text" name="optionName" class="optionName" 
+                                    placeholder="옵션을 입력해 주세요" value="${business.optionList[0].optionName}">
                                     <span id="plusBtn">+</span>
                                 </div>
+                                <c:if test="${!empty business.optionList}">
+                                    <c:forEach var="i" begin="1" end="${fn:length(business.optionList)-1}">
+                                        <div>
+                                            <input type="hidden" name="optionNo" value="${business.optionList[i].optionNo}">
+                                            <input type="text" name="optionName" class="optionName" 
+                                            placeholder="옵션을 입력해 주세요" value="${business.optionList[i].optionName}">
+                                            <span class="minusBtn">-</span>
+                                        </div>
+                                    </c:forEach>
+                                </c:if>
                             </div>
                         </div>
                         <div class="stock-area border-top">
                             <span>재고</span>
-                            <input type="text" name="productCount" id="productCount" value="">
+                            <input type="text" name="productCount" id="productCount" value="${business.productCount}">
                         </div>
                     </div>
                 </section>
@@ -95,11 +141,26 @@
                     <div id="productImageArea">
                         <div class="product-img">
                             <label>
-                                <img class="preview" src="">
+                                <img class="preview" src="${imageList[1].imagePath}${imageList[1].imageReName}">
                                 <input type="file" name="images" class="inputImage" accept="image/*">
                             </label>
                             <span class="x-btn">&times;</span>
                         </div>
+                        <c:if test="${!empty imageList}">
+                            <c:forEach var="i" begin="2" end="${imageList[fn:length(imageList)-1].imageLevel}">
+                                <c:if test="${imageList[i].imageLevel==i}">
+                                    <c:set var="image" value="${imageList[i].imagePath}${imageList[i].imageReName}"/>
+                                </c:if>
+                                <div class="product-img">
+                                    <input type="hidden" name="imageNo" value="${imageList[i].imageNo}">
+                                    <label>
+                                        <img class="preview" src="${image}">
+                                        <input type="file" name="images" class="inputImage" accept="image/*">
+                                    </label>
+                                    <span class="x-btn">&times;</span>
+                                </div>
+                            </c:forEach>
+                        </c:if>
                     </div>
                 </section>
                 <section class="product-content border-top">
@@ -110,11 +171,18 @@
                             <li><a href="#productDetail">상품상세정보</a></li>
                         </ul>
                     </nav>
-                    <textarea name="boardContent" id="boardContent"></textarea>
+                    <textarea name="boardContent" id="boardContent">${business.boardContent}</textarea>
                 </section>
                 <div class="btn-area">
                     <button type="button" onclick="history.back()" class="btn">취소하기</button>
-                    <button class="btn">등록하기</button>
+                    <button class="btn">
+                        <c:if test="${empty business}">
+                            등록하기
+                        </c:if>
+                        <c:if test="${!empty business}">
+                            수정하기
+                        </c:if>
+                    </button>
                 </div>
             </section>
 

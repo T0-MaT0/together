@@ -5,10 +5,12 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Recruitment;
 import edu.kh.project.manager.model.dto.Report;
+import edu.kh.project.member.model.dto.Member;
 
 public interface RecruitmentService {
 
@@ -56,16 +58,46 @@ public interface RecruitmentService {
 
 	// 모집 인증 폼 만들기
 	int registerVerificationFormWithQr(int recruitmentNo, String trackingNumber, String deliveryExpected,
-			String memberReceiveDate, String realPath, String webPath) throws Exception;
+			String memberReceiveDate, String realPath, String webPath, int boardNo) throws Exception;
 
 	// 모집 인증 폼 수정
 	int updateVerificationForm(int recruitmentNo, String trackingNumber, String deliveryExpected,
 			String memberReceiveDate);
 
 	// 참가자 중복검사
-	boolean verifyParticipant(int recruitmentNo, String token);
+	boolean verifyParticipant(int recruitmentNo, String token, int memberNo);
 
 	// 신고제출 
 	int insertReport(Report report);
+
+	// 모집장 정보 조회
+	Member selectHostInfo(int recruitmentNo);
+
+	// 리뷰 등록
+	int insertReview(Review review);
+
+	// 후기 작성 여부
+	boolean checkIfUserReviewed(int recruitmentNo, int memberNo);
+
+	// 맴버 등급 업데이트
+	void updateMemberGradeByReview(int memberNo);
+
+	// 구매 확정
+	int updatePointUsageToComplete(int recruitmentNo, int memberNo);
+
+	// 모집방 상태 변경 및 중복체크
+	void checkAndUpdateRecruitmentComplete(int recruitmentNo);
+
+	// 포인트 수정
+	void updateMemberPoint(int memberNo, int updatedPoint);
+
+	// 포인트 사용 내역 인서트
+	void insertPointUsage(PointUsage pointUsage);
+
+	// 포인트 사용 내역 조회
+	int selectUsedAmount(int recruitmentNo, int memberNo, int usageType);
+	
+	// POINT_USAGE 상태 '취소'로 변경
+	void updatePointUsageStatusToCancel(int recruitmentNo, int memberNo, int usageType);
 
 }

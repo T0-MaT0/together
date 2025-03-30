@@ -82,14 +82,32 @@
                             min="2024-01-01" max="2030-12-31">
                         </div>
                     </div>
-    
+                    <button type="button" id="goBackBtn">이전 화면으로</button>
                     <button type="submit" class="register-btn">모집 인증 폼 등록하기</button>
                 </form>
             </c:otherwise>
         </c:choose>
     </main>
+    <div id="nicknameMenu" class="nickname-menu hidden">
+        <ul>
+          <li id="startPrivateChat">1대1 채팅</li>
+          <li id="reportUser">신고하기</li>
+        </ul>
+    </div>
+    <!-- 신고 모달 프로필 -->
+    <jsp:include page="/WEB-INF/views/Individual/modal.jsp"/>
+
+    <c:if test="${not empty loginMember}">
+    <script>
+        loginMember = {
+        memberNo: ${loginMember.memberNo},
+        nickname: "${loginMember.memberNick}"
+        };
+    </script>
+    </c:if>
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+    <script src="/resources/js/individual/recruit_verification_form_member.js"></script>
 </body>
 
 </html>

@@ -37,6 +37,15 @@
            설명설명설명 대충팀소개설명설명설명 대충팀소개설명설명설명</p>
     </div>
 </footer>
+
+<c:if test="${not empty loginMember}">
+    <script>
+        loginMember = {
+        memberNo: ${loginMember.memberNo},
+        nickname: "${loginMember.memberNick}"
+        };
+    </script>
+    </c:if>
 <c:if test="${!empty message}">
 
     <script>

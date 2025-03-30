@@ -930,21 +930,23 @@ img{
   margin-top: 16px;
   margin-right: 12px;
   float: right;
-  width: 180px;
+  width: 270px;
   height: 42px;
-  background-color: #FD499A;
-  color: white;
+  color: black;
   border-radius: 5px;
 
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   text-align: left;
   line-height: 45px;
   font-size: 20px;
 
-  box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, 0.25);
 }
 
+
+.digit>div:nth-of-type(5) span{
+  color: #e101ff;
+}
 
 
 

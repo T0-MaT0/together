@@ -156,6 +156,22 @@ public interface ManageCustomerService {
 	Map<String, Object> reportCondition(String customerState, int cp);
 
 
+	/** 회원 복구 
+	 * @param memberNo
+	 * @return
+	 */
+	int BeRecover(int memberNo);
+
+
+	/** 회원 블랙
+	 * @param memberNo
+	 * @return
+	 */
+	int BeBlack(int memberNo);
+
+
+
+
 
 
 

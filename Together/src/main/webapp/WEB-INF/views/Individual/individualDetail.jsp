@@ -17,13 +17,11 @@
     <jsp:include page="/WEB-INF/views/common/header.jsp" />
     
     <div class="main-container">
-        <!-- 배너 (이미지 적용) -->
-        <div class="banner">
-            <c:if test="${not empty recruitmentList}">
-                <c:forEach var="banner" items="${recruitmentList[0].mainBannerList}">
-                    <img src="${banner.imagePath}${banner.imageReName}" alt="메인 배너">
-                </c:forEach>
-            </c:if>
+        <!-- 메인 배너 -->
+        <div class="banner" id="mainBannerArea">
+            <c:forEach var="banner" items="${recruitmentList[0].mainBannerList}">
+                <img src="${banner.imagePath}${banner.imageReName}" alt="메인 배너" class="main-banner hidden">
+            </c:forEach>
         </div>
 
         <!-- 상세 목록 -->

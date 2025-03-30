@@ -8,12 +8,14 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Image;
 import edu.kh.project.individual.dto.Recruitment;
 import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.member.model.dto.Board;
+import edu.kh.project.member.model.dto.Member;
 
 @Repository
 public class RecruitmentDAO {
@@ -89,10 +91,11 @@ public class RecruitmentDAO {
 	 * @param recruitmentNo
 	 * @return
 	 */
-	public Recruitment selectRecruitmentRoomDetail(int recruitmentNo, int boardNo) {
+	public Recruitment selectRecruitmentRoomDetail(int recruitmentNo, int boardNo, int memberNo) {
 		 	Map<String, Object> paramMap = new HashMap<>();
 		    paramMap.put("recruitmentNo", recruitmentNo);
 		    paramMap.put("boardNo", boardNo);
+		    paramMap.put("memberNo", memberNo);
 		return sqlSession.selectOne("recruitmentMapper.selectRecruitmentRoomDetail", paramMap);
 	}
 
@@ -308,10 +311,11 @@ public class RecruitmentDAO {
         return sqlSession.selectOne("recruitmentMapper.checkTokenValid", params);
 	}
 
-	public void updateCertStatus(int recruitmentNo, String token) {
+	public void updateCertStatus(int recruitmentNo, String token, int memberNo) {
 		Map<String, Object> params = new HashMap<>();
         params.put("recruitmentNo", recruitmentNo);
         params.put("token", token);
+        params.put("memberNo", memberNo);
 
         sqlSession.update("recruitmentMapper.updateCertStatus", params);
 		
@@ -320,6 +324,69 @@ public class RecruitmentDAO {
 	// 신고 제출
 	public int insertReport(Report report) {
 		return sqlSession.insert("recruitmentMapper.insertReport", report);
+	}
+
+	// 모집장 정보 조회
+	public Member selectHostInfo(int recruitmentNo) {
+		return sqlSession.selectOne("recruitmentMapper.selectHostInfo", recruitmentNo);
+	}
+
+	// 리뷰 작성
+	public int insertReview(Review review) {
+		return sqlSession.insert("recruitmentMapper.insertReview", review);
+	}
+
+	// 후기 작성여부
+	public boolean checkIfUserReviewed(Map<String, Object> map) {
+	    int count = sqlSession.selectOne("recruitmentMapper.checkIfUserReviewed", map);
+	    return count > 0;
+	}
+
+	// 맴버 등급 업데이트
+	public void updateMemberGradeByReview(int memberNo) {
+		double avg = sqlSession.selectOne("recruitmentMapper.selectAverageReviewStar", memberNo);
+
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("memberNo", memberNo);
+	    map.put("avg", avg);
+
+	    sqlSession.update("recruitmentMapper.updateMemberGrade", map);
+	}
+
+	// 구매 확정
+	public int updatePointUsageToComplete(Map<String, Object> map) {
+		return sqlSession.update("recruitmentMapper.updatePointUsageToComplete", map);
+	}
+
+	// 모두 구매 확정인지 체크
+	public int selectIncompletePointUsageCount(int recruitmentNo) {
+		return sqlSession.selectOne("recruitmentMapper.selectIncompletePointUsageCount", recruitmentNo);
+	}
+
+	// 모집방 상태 변경
+	public void updateRecruitmentStatusToComplete(int recruitmentNo) {
+		sqlSession.update("recruitmentMapper.updateRecruitmentStatusToComplete", recruitmentNo);
+	}
+
+	// 포인트 변경
+	public void updateMemberPoint2(Map<String, Object> map) {
+
+		sqlSession.update("recruitmentMapper.updateMemberPoint2", map);
+	}
+
+	// 포인트 사용내역 입력
+	public void insertPointUsage(PointUsage pointUsage) {
+		sqlSession.insert("recruitmentMapper.insertPointUsage2", pointUsage);		
+	}
+
+	// 포인트 사용내역 조회
+	public int selectUsedAmount(Map<String, Object> map) {
+		return sqlSession.selectOne("recruitmentMapper.selectUsedAmount", map);
+	}
+	
+	// POINT_USAGE 상태 '취소'로 변경
+	public void updatePointUsageStatusToCancel(Map<String, Object> map) {
+		sqlSession.update("recruitmentMapper.updatePointUsageStatusToCancel", map);		
 	}
 
 	

@@ -15,6 +15,7 @@
 		<result property="deliveryFee" column="DELIVERY_FEE" />
 		<result property="readCount" column="READ_COUNT" />
 		<result property="categoryNo" column="CATEGORY_NO" />
+		<result property="parentCategoryNo" column="PARENT_CATEGORY_NO" />
 		<result property="categoryName" column="CATEGORY_NAME" />
 		<result property="memberNo" column="MEMBER_NO" />
 		<result property="memberNickname" column="MEMBER_NICK" />
@@ -289,6 +290,7 @@
 		ORDER BY REPLY_NO DESC
 	</select>
 	
+	<!-- 리뷰 댓글 조회 -->
 	<select id="selectReplyComment" resultMap="reply_rm">
 		SELECT R.*,
 			(SELECT MEMBER_NICK FROM "MEMBER" M 
@@ -377,7 +379,6 @@
 		#{productCount}, #{deliveryFee}, DEFAULT, #{categoryNo})
 	</insert>
 	
-	
 	<!-- 옵션 리스트 삽입 -->
 	<insert id="insertOptionList" parameterType="list">
 		INSERT INTO PRODUCT_OPTION 
@@ -391,6 +392,11 @@
 			) A
 	</insert>
 	
+	<!-- 사업자 상품 삭제 -->
+	<update id="deleteProduct">
+		UPDATE BOARD SET BOARD_DEL_FL = 'Y' WHERE BOARD_NO = #{boardNo}
+	</update>
+	
 	<!-- 특정 상품의 삭제되지 않은 게시글 조회 -->
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*) FROM BOARD B
@@ -402,14 +408,17 @@
 	
 	<!-- 브랜드 상품 게시글 상세 조회 -->
 	<select id="selectBusiness" resultMap="business_rm">
-		SELECT BOARD_NO, BOARD_TITLE, MEMBER_NICK, PRODUCT_PRICE, 
-			DELIVERY_FEE, PRODUCT_COUNT, BOARD_CONTENT, MEMBER_NO
-		FROM BOARD 
-		JOIN "MEMBER" USING(MEMBER_NO) 
-		JOIN PRODUCT USING(BOARD_NO) 
-		WHERE BOARD_DEL_FL = 'N' 
-		AND BOARD_CD = #{boardCode} 
-		AND BOARD_NO = #{boardNo}
+		SELECT B.BOARD_NO, B.BOARD_TITLE, M.MEMBER_NICK, P.PRODUCT_PRICE, 
+			P.DELIVERY_FEE, P.PRODUCT_COUNT, B.BOARD_CONTENT, B.MEMBER_NO,
+			P.CATEGORY_NO, (SELECT PC.CATEGORY_NO FROM CATEGORY PC 
+			WHERE C.PARENT_CATEGORY_NO = PC.CATEGORY_NO) PARENT_CATEGORY_NO
+		FROM BOARD B
+		LEFT JOIN "MEMBER" M ON(B.MEMBER_NO = M.MEMBER_NO) 
+		LEFT JOIN PRODUCT P ON(P.BOARD_NO = B.BOARD_NO) 
+		LEFT JOIN CATEGORY C ON(C.CATEGORY_NO = P.CATEGORY_NO)
+		WHERE B.BOARD_DEL_FL = 'N'
+		AND B.BOARD_CD = #{boardCode}
+		AND B.BOARD_NO = #{boardNo}
 	</select>
 	
 	<!-- 찜하기 여부 확인 -->

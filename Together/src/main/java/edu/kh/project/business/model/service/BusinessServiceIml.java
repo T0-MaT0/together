@@ -390,4 +390,72 @@ public class BusinessServiceIml implements BusinessService {
 		}
 		return boardNo;
 	}
+
+	@Override
+	public int deleteProduct(Business business) {
+		return dao.deleteProduct(business);
+	}
+	
+	@Override
+	public int updateProduct(
+			Business business, List<Integer> optionNoList, List<String> optionNameList, List<MultipartFile> images, 
+			String webPath, String filePath) throws IllegalStateException, IOException {
+		business.setBoardTitle(Utill.XSSHandling(business.getBoardTitle()));
+		business.setBoardContent(Utill.XSSHandling(business.getBoardContent()));
+		int result = dao.updateBoard(business);
+		
+		if (result>0) {
+			result = dao.updateProduct(business);
+			if (result>0) {
+				List<BusinessOption> optionList = dao.selectOptionList(business.getBoardNo());
+				int length = optionNameList.size();
+				if (optionList != null && optionNameList != null && optionList.size() > optionNameList.size()) {
+					length = optionList.size();
+				}
+				
+				for(int i=0;i<length;i++) {
+					BusinessOption option = new BusinessOption();
+					option.setOptionName(Utill.XSSHandling(optionNameList.get(i)));
+					option.setBoardNo(business.getBoardNo());
+					optionList.add(option);
+				}
+				for(BusinessOption option:optionList) {
+					result = dao.deleteOption(option.getOptionNo());
+				}
+				
+				result = dao.insertOptionList(optionList);
+				if (result>0) {
+					List<Image> uploadList = new ArrayList<Image>();
+					for (int i=0;i<images.size();i++) {
+						if (images.get(i).getSize()>0) {
+							Image img = new Image();
+							String fileName = images.get(i).getOriginalFilename();
+							img.setImageReName(Utill.fileRename(fileName));
+							img.setImagePath(webPath);
+							img.setImageOriginal(fileName);
+							img.setImageLevel(i);
+							img.setImageType(1);
+							img.setImageTypeNo(business.getBoardNo());
+							
+							uploadList.add(img);
+						}
+					}
+					
+					if (!uploadList.isEmpty()) {
+						result = dao.insertImageList(uploadList);
+						if (result==uploadList.size()) {
+							for (Image img:uploadList) {
+								int i = img.getImageLevel();
+								String rename = img.getImageReName();
+								images.get(i).transferTo(new File(filePath+rename));
+							}
+						} else {
+							throw new  FileUploadException();
+						}
+					}
+				}
+			}
+		}
+		return result;
+	}
 }

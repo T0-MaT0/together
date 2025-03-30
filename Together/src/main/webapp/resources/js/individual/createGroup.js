@@ -261,3 +261,13 @@ for(let i =0; i<preview.length; i++){
         }
     });
 }
+
+
+const titleInput = document.getElementById('boardTitle');
+
+  titleInput.addEventListener('input', function () {
+    if (this.value.length > 29) {
+      alert("제목은 30자까지 입력할 수 있습니다.");
+      this.value = this.value.substring(0, 30); // 초과된 글자 잘라냄
+    }
+  });

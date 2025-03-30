@@ -329,6 +329,21 @@ public class ManagerCustomerServiceImpl implements ManageCustomerService{
 		return map;
 	}
 
+	
+	// =========== 회원 프로필 상태 업데이트 작업 =====================
+	//회원 복구
+	@Override
+	public int BeRecover(int memberNo) {
+		return dao.BeRecover(memberNo);
+	}
+
+	
+	// 회원 블랙
+	@Override
+	public int BeBlack(int memberNo) {
+		return dao.BeBlack(memberNo);
+	}
+
 
 
 	

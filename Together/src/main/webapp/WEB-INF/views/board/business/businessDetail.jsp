@@ -25,8 +25,6 @@
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
     
-    ${loginMember}
-    ${business}
     <main>
         <section class="content">
             <section id="optionArea">
@@ -83,7 +81,7 @@
                             (<span class="total-count-area">0</span>개)
                         </div>
                         <div class="buy-area">
-                            <c:if test="${loginMember.authority==2}">
+                            <c:if test="${loginMember.authority!=1&&loginMember.memberNo!=business.memberNo}">
                                 <i class="fa-regular fa-heart"></i>
                                 <i class="fa-solid fa-cart-shopping"></i>
                                 <button class="go-to-buy">혼자 구매</button>
@@ -91,7 +89,7 @@
                             </c:if>
                             <c:if test="${loginMember.memberNo==business.memberNo}">
                                 <i></i><i></i>
-                                <button>수정</button>
+                                <button id="updateBusiness">수정</button>
                                 <button id="deleteBusiness">삭제</button>
                             </c:if>
                             <c:if test="${loginMember.authority==1}">

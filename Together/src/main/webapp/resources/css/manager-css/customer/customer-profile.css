@@ -300,3 +300,10 @@ html, body {
     text-decoration: none;
     text-shadow: 1px 1px 2px white;
 }
+
+
+
+.list.item.bottom-line.clickArea{cursor: pointer;}
+.list.item.bottom-line.clickArea:active{
+    background-color: rgba(0, 0, 0, 0.146);
+}

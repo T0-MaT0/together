@@ -103,8 +103,27 @@
         </div>
     </main>
     
+    <div id="nicknameMenu" class="nickname-menu hidden">
+        <ul>
+          <li id="startPrivateChat">1대1 채팅</li>
+          <li id="reportUser">신고하기</li>
+        </ul>
+    </div>
+    <!-- 신고 모달 프로필 -->
+    <jsp:include page="/WEB-INF/views/Individual/modal.jsp"/>
+
+    <c:if test="${not empty loginMember}">
+    <script>
+        loginMember = {
+        memberNo: ${loginMember.memberNo},
+        nickname: "${loginMember.memberNick}"
+        };
+    </script>
+    </c:if>
+
 
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+    <script src="/resources/js/individual/purchase_in_progress_host.js"></script>
 </body>
 
 </html>

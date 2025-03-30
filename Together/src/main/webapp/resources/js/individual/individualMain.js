@@ -410,3 +410,28 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
       alert("오류가 발생했습니다.");
     });
   }
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const banners = document.querySelectorAll(".main-banner");
+    let currentIndex = 0;
+
+    function showBanner(index) {
+        banners.forEach((banner, i) => {
+            banner.classList.remove("active");
+            banner.classList.add("hidden");
+        });
+        banners[index].classList.add("active");
+        banners[index].classList.remove("hidden");
+    }
+
+    function cycleBanner() {
+        currentIndex = (currentIndex + 1) % banners.length;
+        showBanner(currentIndex);
+    }
+
+    if (banners.length > 0) {
+        showBanner(currentIndex);
+        setInterval(cycleBanner, 4000); // 4초 간격
+    }
+});

@@ -152,13 +152,83 @@ public class BusinessController {
 	@GetMapping("/{boardNo:[0-9]+}/delete")
 	public String deleteProduct(
 			@PathVariable("boardCode") int boardCode,
-			@PathVariable("boardNo") int boardNo) {
-		return null;
+			@PathVariable("boardNo") int boardNo,
+			RedirectAttributes ra) {
+		Business business = new Business();
+		business.setBoardCode(boardCode);
+		business.setBoardNo(boardNo);
+		int result = service.deleteProduct(business);
+		
+		String message = null;
+		String path = "redirect:/board/"+boardCode;
+		if (result>0) {
+			message = "상품 삭제를 성공했습니다.";
+		} else {
+			message = "상품 삭제 실패";
+			path+="/"+boardNo;
+		}
+		ra.addFlashAttribute("message", message);
+		return path;
+	}
+
+	// 상품 수정
+	@PostMapping("/update")
+	public String updateProduct(
+			@PathVariable("boardCode") int boardCode,
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
+			@RequestParam(value = "images", required = false) List<MultipartFile> images,
+			@RequestParam(value = "optionNo", required = false) List<Integer> optionNoList,
+			@RequestParam(value = "optionName", required = false) List<String> optionNameList,
+			Business business, RedirectAttributes ra, HttpSession session) throws IllegalStateException, IOException {
+		business.setMemberNo(loginMember.getMemberNo());
+		
+		String webPath = "/resources/images/product/";
+		String filePath = session.getServletContext().getRealPath(webPath);
+		
+		int boardNo = service.updateProduct(business, optionNoList, optionNameList, images, webPath, filePath);
+		
+		String message = null;
+		String path = "redirect:/board/"+boardCode+"/";
+		if (boardNo>0) {
+			message = "상품이 등록되었습니다.";
+			path += boardNo;
+		} else {
+			message = "상품 등록 실패";
+			path += "insertProduct";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		return path;
+	}
+	
+	// 상품 수정
+	@GetMapping("/{boardNo:[0-9]+}/update")
+	public String updateProduct(
+			@PathVariable("boardCode") int boardCode,
+			@PathVariable("boardNo") int boardNo,
+			Model model) throws JsonProcessingException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("boardCode", boardCode);
+		map.put("boardNo", boardNo);
+		
+		Business business = service.selectBusiness(map);
+		List<Category> categoryList = service.selectCategoryList();
+		
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		String categoryListJson = objectMapper.writeValueAsString(categoryList);
+		
+		model.addAttribute("categoryListJson", categoryListJson);
+		model.addAttribute("business", business);
+		model.addAttribute("categoryList", categoryList);
+		
+		return "board/business/businessWrite";
 	}
 	
 	// 게시글 상세 조회
 	@GetMapping("/{boardNo:[0-9]+}")
-	public String businessList(@PathVariable("boardCode") int boardCode,
+	public String businessList(
+			@PathVariable("boardCode") int boardCode,
 			@PathVariable("boardNo") int boardNo,
 			@RequestParam(value = "cp", required = false, defaultValue = "1") int cp,
 			Model model,

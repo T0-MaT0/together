@@ -137,6 +137,31 @@ public class ManageBrandController {
 		return map;
 	}
 	
+	
+	// 프로필 복구 
+	@GetMapping("/BeRecover")
+	public String BeRecover(int memberNo) {
+		
+		int result = service.BeRecover(memberNo);
+		if(result == 1) {
+			System.out.println("복구 작동");
+		}
+		return "redirect:brandProfile?memberNo="+memberNo;
+	}
+	
+	// 프로필 블랙
+	@GetMapping("/BeBlack")
+	public String BeBlack(int memberNo) {
+		
+		int result = service.BeBlack(memberNo);
+		if(result == 1) {
+			System.out.println("블랙 작동");
+		}
+		return "redirect:brandProfile?memberNo="+memberNo;
+	}
+	
+
+	
 	// ** brand Profile End**//
 	
 	

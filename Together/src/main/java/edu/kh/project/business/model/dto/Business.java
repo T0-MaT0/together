@@ -25,6 +25,7 @@ public class Business {
 	private int deliveryFee;
 	private int readCount;
 	private int categoryNo;
+	private int parentCategoryNo;
 	
 	// 상품 카테고리 join
 	private String categoryName;
