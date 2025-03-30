@@ -77,6 +77,10 @@ plusBtn.addEventListener("click", ()=>{
     optionInputArea.append(optionArea);
 });
 
+document.querySelectorAll(".minusBtn").forEach(minusBtn=>{
+    minusBtn.addEventListener("click", ()=>deleteOptionArea(minusBtn.parentElement));
+});
+
 // 옵션 영역 삭제 함수
 const deleteOptionArea=optionArea=>{
     optionArea.remove();
@@ -129,10 +133,17 @@ const boardContent = document.getElementById("boardContent");
 const modal = document.getElementById("modal");
 const businessWriteForm = document.getElementById("businessWriteForm");
 businessWriteForm.addEventListener("submit", e=>{
-    if(thumbnail.value==""){
-        alert("상품의 썸네일을 넣어야 상품 등록이 가능합니다.");
-        e.preventDefault();
-        return;
+    if(e.target.action.split("/").pop()!="update"){
+        if(thumbnail.value==""){
+            alert("상품의 썸네일을 넣어야 상품 등록이 가능합니다.");
+            e.preventDefault();
+            return;
+        }
+
+        if(permissionFl=="N"){
+            modal.classList.add("modalActive");
+            e.preventDefault();
+        }
     }
     
     if(productTitle.value.trim()===""){
@@ -189,11 +200,6 @@ businessWriteForm.addEventListener("submit", e=>{
         boardContent.focus();
         e.preventDefault();
         return;
-    }
-
-    if(permissionFl=="N"){
-        modal.classList.add("modalActive");
-        e.preventDefault();
     }
 });
 

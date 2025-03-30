@@ -52,11 +52,11 @@
             <div class="board-title bottom-line">
                 <div class="title">성과 데이터</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <!-- <select name="customerStatus" id="customerStatus">
                         <option>전체</option>
                         <option>클릭수</option>
                         <option>상품수</option>
-                    </select>
+                    </select> -->
                 </div>
             </div>
 
@@ -129,12 +129,12 @@
             <div class="board-title ">
                 <div class="title">판매 순위</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <!-- <select name="customerStatus" id="customerStatus">
                         <option>전체</option>
                         <option>주</option>
                         <option>월</option>
                         <option>년</option>
-                    </select>
+                    </select> -->
                 </div>
                 
             </div>

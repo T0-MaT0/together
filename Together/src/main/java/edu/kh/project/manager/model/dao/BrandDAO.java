@@ -361,7 +361,21 @@ public class BrandDAO {
 
 
 
-	
+	/// ***회원 프로필 상태 업데이트
+	/** 회원 복구
+	 * @param memberNo
+	 * @return
+	 */
+	public int BeRecover(int memberNo) {
+		return sqlSession.update("managerMapper.BeRecover", memberNo);
+	}
+	/** 회원 블랙
+	 * @param memberNo
+	 * @return
+	 */
+	public int BeBlack(int memberNo) {
+		return sqlSession.update("managerMapper.BeBlack", memberNo);
+	}
 	
 	
 	
