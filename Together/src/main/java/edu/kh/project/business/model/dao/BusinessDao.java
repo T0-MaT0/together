@@ -181,4 +181,28 @@ public class BusinessDao {
 	public int insertOptionList(List<BusinessOption> optionList) {
 		return sqlSession.insert("boardMapper.insertOptionList", optionList);
 	}
+
+	public int deleteProduct(Business business) {
+		return sqlSession.update("boardMapper.deleteProduct", business);
+	}
+
+	public int updateBoard(Business business) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public int updateProduct(Business business) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public List<BusinessOption> selectOptionList(int boardNo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int deleteOption(int optionNo) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
