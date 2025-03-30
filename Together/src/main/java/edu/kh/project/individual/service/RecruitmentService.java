@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Recruitment;
@@ -86,5 +87,17 @@ public interface RecruitmentService {
 
 	// 모집방 상태 변경 및 중복체크
 	void checkAndUpdateRecruitmentComplete(int recruitmentNo);
+
+	// 포인트 수정
+	void updateMemberPoint(int memberNo, int updatedPoint);
+
+	// 포인트 사용 내역 인서트
+	void insertPointUsage(PointUsage pointUsage);
+
+	// 포인트 사용 내역 조회
+	int selectUsedAmount(int recruitmentNo, int memberNo, int usageType);
+	
+	// POINT_USAGE 상태 '취소'로 변경
+	void updatePointUsageStatusToCancel(int recruitmentNo, int memberNo, int usageType);
 
 }

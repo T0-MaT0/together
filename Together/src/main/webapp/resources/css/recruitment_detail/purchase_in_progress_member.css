@@ -437,3 +437,19 @@ body {
   .modal-btn > button:hover{
       filter: brightness(90%);
   }
+
+  .cancel-participation-btn {
+    width: 100%;
+    background: #ccc;
+    color: white;
+    padding: 14px;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cancel-participation-btn:hover {
+    background: #999;
+}

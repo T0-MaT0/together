@@ -209,6 +209,14 @@ public class ChattingDAO {
 	    return sqlSession.selectOne("chattingMapper.checkPrivateRoom", map);
 	}
 
+	// 그룹 채팅방 중복 체크
+	public int checkDuplicateGroupChatRoom(String roomName, int ownerNo) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("roomName", roomName);
+	    map.put("ownerNo", ownerNo);
+		return sqlSession.selectOne("chattingMapper.checkDuplicateGroupChatRoom", map);
+	}
+
 
 	
 

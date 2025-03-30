@@ -19,12 +19,10 @@
 
     <div class="main-container">
         <!-- 메인 배너 -->
-        <div class="banner">
-            <c:if test="${not empty recruitmentList}">
-                <c:forEach var="banner" items="${recruitmentList[0].mainBannerList}">
-                    <img src="${banner.imagePath}${banner.imageReName}" alt="메인 배너">
-                </c:forEach>
-            </c:if>
+        <div class="banner" id="mainBannerArea">
+            <c:forEach var="banner" items="${recruitmentList[0].mainBannerList}">
+                <img src="${banner.imagePath}${banner.imageReName}" alt="메인 배너" class="main-banner hidden">
+            </c:forEach>
         </div>
 
         <!-- 최신 상품 (NEW) -->
@@ -263,12 +261,16 @@
     <script src="/resources/js/individual/individualMain.js"></script>
 
 
-    <c:if test="${!empty message}">
-
+    <c:if test="${not empty message}">
         <script>
-            alert('${message}');
+            alert("${message}");
         </script>
-
+    </c:if>
+    
+    <c:if test="${not empty alertMessage}">
+        <script>
+            alert("${alertMessage}");
+        </script>
     </c:if>
 </body>
 

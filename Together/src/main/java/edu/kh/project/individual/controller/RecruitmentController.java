@@ -3,6 +3,7 @@ package edu.kh.project.individual.controller;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.project.chatting.service.ChattingService;
 import edu.kh.project.common.model.dto.Category;
-import edu.kh.project.common.model.dto.Image;
+import edu.kh.project.individual.dto.Image;
+import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Recruitment;
@@ -57,6 +59,10 @@ public class RecruitmentController {
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 
 	    List<Recruitment> recruitmentList = service.selectRecruitmentList(boardCode, memberNo);
+	    List<Image> mainBannerList = new ArrayList<>();
+	    if (!recruitmentList.isEmpty()) {
+	    	mainBannerList = recruitmentList.get(0).getMainBannerList(); // 공통으로 들어가 있으니까 여기서 꺼내도 됨
+	    }
 	    model.addAttribute("recruitmentList", recruitmentList);
 	    model.addAttribute("boardCode", boardCode);
 
@@ -74,7 +80,6 @@ public class RecruitmentController {
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 
 	    List<Recruitment> recruitmentList = service.selectRecruitmentList(boardCode, memberNo);
-
 	    return recruitmentList; 
 	}
 	
@@ -257,15 +262,42 @@ public class RecruitmentController {
         } catch(Exception e){
             e.printStackTrace();
         }
-
+        System.out.println("dto : " + dto );
         if (recruitNo > 0) {
+            Map<String, Object> outMap = new HashMap<>();
         	// 채팅방 생성
-            int result = chatService.createGroupChatRoom(dto.getBoardTitle(), loginMember.getMemberNo());
-        	
+            int result = chatService.createGroupChatRoom(dto.getBoardTitle(), loginMember.getMemberNo(), outMap);
+
+            // 1. 차감할 포인트 계산
+            int productPrice = dto.getProductPrice();
+            int maxParticipants = dto.getMaxParticipants();
+            int myQuantity = dto.getMyQuantity(); // 모집장 구매 수량
+            int usedPoint = (productPrice / maxParticipants) * myQuantity;
+
+            // 2. 현재 포인트에서 차감
+            int updatedPoint = loginMember.getPoint() - usedPoint;
+            loginMember.setPoint(updatedPoint);
+            System.out.println("usedPoint + " + usedPoint );
+            System.out.println("updatedPoint + " + updatedPoint );
+            // 3. DB에 포인트 업데이트
+            service.updateMemberPoint(loginMember.getMemberNo(), updatedPoint);
+
+            // 4. 포인트 사용 내역 insert (모집장이므로 status = '완료')
+            PointUsage pointUsage = new PointUsage();
+            pointUsage.setUsageAmount(usedPoint);
+            pointUsage.setUsageType(2);
+            pointUsage.setUsageTypeNo(recruitNo);
+            pointUsage.setStatus("완료");
+            pointUsage.setMemberNo(loginMember.getMemberNo());
+           
+            service.insertPointUsage(pointUsage);
+            
+            
+            String roomName = (String) outMap.get("roomName");
             
             if(result > 0) {
                 String script = "<script>"
-                        + "alert('모집글 등록 + 채팅방 생성 성공!');"
+                        + "alert('모집글 등록 성공! 채팅방 이름: " + roomName + "');"
                         + "window.opener.location.href='/Individual/" + 1 + "';"
                         + "window.close();"
                         + "</script>";
@@ -274,8 +306,8 @@ public class RecruitmentController {
                 return null;
             }
 
-            ra.addFlashAttribute("message", "모집글 등록은 성공했지만 채팅방 생성 실패");
-            return "redirect:/group/create";
+            ra.addFlashAttribute("message", "모집글 등록 성공 + 채팅방 생성 실패! ");
+            return null;
         }
 
         ra.addFlashAttribute("message", "모집글 등록 실패");
@@ -577,6 +609,21 @@ public class RecruitmentController {
  	            int roomNo = chatService.selectRoomNoByRoomName(roomName);
  	            chatService.deleteChatRoomUser(roomNo, memberNo);
  	            
+ 	            int usageType = 2;
+ 	            // POINT_USAGE에서 사용 금액 조회
+ 	            int usedAmount = service.selectUsedAmount(recruitmentNo, memberNo, usageType);
+ 	            int currentPoint = loginMember.getPoint();
+ 	            int updatedPoint = currentPoint + usedAmount;
+ 	            
+ 	            // DB 업데이트
+ 	            service.updateMemberPoint(memberNo, updatedPoint);
+
+ 	            // 세션 동기화
+ 	            loginMember.setPoint(updatedPoint);
+ 	            
+ 	            // POINT_USAGE 상태 '취소'로 변경
+ 	            service.updatePointUsageStatusToCancel(recruitmentNo, memberNo, usageType);
+ 	            
  	            ra.addFlashAttribute("message", "참가가 성공적으로 취소되었습니다.");
  	        } else {
  	            ra.addFlashAttribute("alertMessage", "이미 취소되었거나 참가 정보가 없습니다.");
@@ -587,7 +634,7 @@ public class RecruitmentController {
  	        ra.addFlashAttribute("alertMessage", "참가 취소 중 오류가 발생했습니다.");
  	    }
  	    model.addAttribute("boardCode", boardCode);
- 	    return "Individual/mainIndividual"; // 또는 다른 이동 경로
+ 	    return "redirect:/Individual/1"; // 또는 다른 이동 경로
  	}
  	
  	// 모집글 삭제

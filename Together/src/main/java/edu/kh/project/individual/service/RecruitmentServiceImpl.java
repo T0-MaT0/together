@@ -19,6 +19,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.common.utility.Utill;
@@ -47,7 +48,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         
         List<Image> mainBannerList = new ArrayList<>();
         for (Image img : bannerImages) {
-            if (img.getImageType() == 6 && img.getImageLevel() == 2) { // 메인 배너 조건
+            if (img.getImageType() == 6 && img.getImageTypeNo() == 2) { // 메인 배너 조건
                 mainBannerList.add(img); // 리스트에 추가
             }
         }
@@ -521,6 +522,43 @@ public class RecruitmentServiceImpl implements RecruitmentService{
             dao.updateRecruitmentStatusToComplete(recruitmentNo);
         }
 		
+	}
+
+	// 포인트 수정
+	@Override
+	public void updateMemberPoint(int memberNo, int updatedPoint) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("updatedPoint", updatedPoint);
+	    map.put("memberNo", memberNo);
+		dao.updateMemberPoint2(map);
+		
+	}
+
+	// 포인트 사용 내역 인서트
+	@Override
+	public void insertPointUsage(PointUsage pointUsage) {
+		dao.insertPointUsage(pointUsage);		
+	}
+
+	// 포인트 사용 내역 조회
+	@Override
+	public int selectUsedAmount(int recruitmentNo, int memberNo, int usageType) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("recruitmentNo", recruitmentNo);
+	    map.put("memberNo", memberNo);
+	    map.put("usageType", usageType);
+		return dao.selectUsedAmount(map);
+	}
+	
+	// POINT_USAGE 상태 '취소'로 변경
+	@Override
+	public void updatePointUsageStatusToCancel(int recruitmentNo, int memberNo, int usageType) {
+		Map<String, Object> map = new HashMap<>();
+	    map.put("recruitmentNo", recruitmentNo);
+	    map.put("memberNo", memberNo);
+	    map.put("usageType", usageType);
+		
+	    dao.updatePointUsageStatusToCancel(map);
 	}
 
 

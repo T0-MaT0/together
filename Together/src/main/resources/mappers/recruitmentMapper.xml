@@ -156,7 +156,7 @@
 		    p.READ_COUNT, 
 		    p.CATEGORY_NO,
 		
-		    -- 모집장 닉네임과 등급을 RECRUITMENT_ROOM에서 직접 가져옴
+		    -- 모집장 닉네임과 등급
 		    m.MEMBER_NO AS hostNo,
 		    m.MEMBER_NICK AS hostName,
 		    m.MEMBER_GRADE AS hostGrade,
@@ -164,17 +164,20 @@
 		    (SELECT I.IMG_PATH || I.IMG_RENAME 
 		     FROM IMG I	
 		     WHERE I.IMG_TYPE_NO = B.BOARD_NO 
-		     AND I.IMG_LEVEL = 0
-		     AND I.IMG_TYPE = 2
+		       AND I.IMG_LEVEL = 0
+		       AND I.IMG_TYPE = 2
 		     FETCH FIRST 1 ROWS ONLY) AS thumbnail
 		
 		FROM RECRUITMENT_ROOM r
 		JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO  
 		JOIN BOARD_TYPE bt ON b.BOARD_CD = bt.BOARD_CD  
 		JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO  
-		JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO  -- 모집장 정보 가져오기
+		JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO
+		
 		WHERE bt.BOARD_CD = 1
-		AND b.BOARD_DEL_FL = 'N' 
+		  AND b.BOARD_DEL_FL = 'N' 
+		  AND r.RECRUITMENT_STATUS != '완료'
+		
 		ORDER BY r.REC_CREATED_DATE DESC
 	</select>
 	
@@ -199,7 +202,7 @@
 		    p.CATEGORY_NO,
 		    b.BOARD_DEL_FL,  
 		
-		    -- 모집장 정보 RECRUITMENT_ROOM에서 가져오기
+		    -- 모집장 정보
 		    m.MEMBER_NO AS hostNo,
 		    m.MEMBER_NICK AS hostName,
 		    m.MEMBER_GRADE AS hostGrade,
@@ -207,17 +210,20 @@
 		    (SELECT I.IMG_PATH || I.IMG_RENAME 
 		     FROM IMG I
 		     WHERE I.IMG_TYPE_NO = b.BOARD_NO 
-		     AND I.IMG_LEVEL = 0
-		     AND I.IMG_TYPE = 2
+		       AND I.IMG_LEVEL = 0
+		       AND I.IMG_TYPE = 2
 		     FETCH FIRST 1 ROWS ONLY) AS thumbnail
 		
 		FROM RECRUITMENT_ROOM r
 		JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO  
 		JOIN BOARD_TYPE bt ON b.BOARD_CD = bt.BOARD_CD  
 		JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO  
-		JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO  -- 모집장 정보 가져오기
+		JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO
+		
 		WHERE bt.BOARD_CD = 1
-		AND b.BOARD_DEL_FL = 'N'  
+		  AND b.BOARD_DEL_FL = 'N'
+		  AND r.RECRUITMENT_STATUS != '완료'
+		
 		ORDER BY p.READ_COUNT DESC
 	</select>
 	
@@ -908,5 +914,53 @@
 	  UPDATE RECRUITMENT_ROOM
 	  SET RECRUITMENT_STATUS = '완료'
 	  WHERE RECRUITMENT_NO = #{recruitmentNo}
+	</update>
+	
+	<!-- 포인트 업데이트 -->
+	<update id="updateMemberPoint2">
+	    UPDATE MEMBER
+	    SET POINT = #{updatedPoint}
+	    WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	<!-- 포인트 사용내역 입력 -->
+	<insert id="insertPointUsage2" parameterType="PointUsage">
+	    INSERT INTO POINT_USAGE (
+	        USAGE_NO,
+	        USED_AMOUNT,
+	        USAGE_TYPE,
+	        USAGE_TYPE_NO,
+	        STATUS,
+	        USED_DATE,
+	        MEMBER_NO
+	    ) VALUES (
+	        SEQ_USAGE_NO.NEXTVAL,
+	        #{usageAmount},
+	        #{usageType},
+	        #{usageTypeNo},
+	        #{status},
+	        SYSDATE,
+	        #{memberNo}
+	    )
+	</insert>
+	
+	<!-- 포인트 사용 내역 조회 -->
+	<select id="selectUsedAmount" resultType="int">
+    	SELECT USED_AMOUNT
+	    FROM POINT_USAGE
+	    WHERE USAGE_TYPE = #{usageType}
+	    AND USAGE_TYPE_NO = #{recruitmentNo}
+	    AND MEMBER_NO = #{memberNo}
+	    AND STATUS = '대기'
+	</select>
+	
+	<!-- POINT_USAGE 상태 '취소'로 변경 -->
+	<update id="updatePointUsageStatusToCancel">
+	    UPDATE POINT_USAGE
+	    SET STATUS = '취소'
+	    WHERE USAGE_TYPE = #{usageType}
+	    AND USAGE_TYPE_NO = #{recruitmentNo}
+	    AND MEMBER_NO = #{memberNo}
+	    AND STATUS = '대기'
 	</update>
 </mapper>

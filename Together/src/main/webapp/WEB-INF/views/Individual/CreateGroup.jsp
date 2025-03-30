@@ -31,7 +31,7 @@
                 <div class="form-group title-row">
                     <label for="boardTitle" class="title-label">제목</label>
                     <input type="text" id="boardTitle" name="boardTitle" class="title-input" 
-                           placeholder="제목을 입력해 주세요">
+                           placeholder="제목을 입력해 주세요" maxlength="30">
                 </div>
 
                 <!-- 카테고리 (부모/자식) -->
