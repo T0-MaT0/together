@@ -42,33 +42,36 @@ public class ChatNotificationServiceImpl implements ChatNotificationService {
 
     @Override
     public void sendChatNotification(ChatNotification noti) {
-    	int roomNo = noti.getRoomNo();
+        int roomNo = noti.getRoomNo();
         int senderNo = noti.getMemberNo();
 
-        // 마지막 메시지 조회
+        // 마지막 메시지 번호 조회
         int messageNo = dao.selectLastMessageNo(roomNo);
         noti.setMessageNo(messageNo);
 
-        // 상대방 memberNo 조회
-        int targetNo = dao.selectTargetMemberNo(roomNo, senderNo);
-        noti.setMemberNo(targetNo); 
-        
-        int exists = dao.checkExistingNotification(noti);
+        // 상대방 memberNo 리스트 조회 (나를 제외한 참가자들)
+        List<Integer> targetMemberNoList = dao.selectTargetMemberNoList(roomNo, senderNo);
 
-        if (exists > 0) {
-            dao.updateNotification(noti);
-        } else {
-            dao.insertNotification(noti);
-        }
+        for (int targetNo : targetMemberNoList) {
+            noti.setMemberNo(targetNo); // 개별 대상자에게 알림 세팅
 
-        SseEmitter emitter = emitterMap.get(targetNo);
-        if (emitter != null) {
-            try {
-                emitter.send(SseEmitter.event()
-                    .name("chat")
-                    .data(new Gson().toJson(noti)));
-            } catch (IOException e) {
-                emitterMap.remove(targetNo);
+            int exists = dao.checkExistingNotification(noti);
+
+            if (exists > 0) {
+                dao.updateNotification(noti);
+            } else {
+                dao.insertNotification(noti);
+            }
+
+            SseEmitter emitter = emitterMap.get(targetNo);
+            if (emitter != null) {
+                try {
+                    emitter.send(SseEmitter.event()
+                        .name("chat")
+                        .data(new Gson().toJson(noti)));
+                } catch (IOException e) {
+                    emitterMap.remove(targetNo); // 에러 발생 시 제거
+                }
             }
         }
     }
