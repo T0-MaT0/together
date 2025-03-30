@@ -88,7 +88,8 @@ function boardList(boardCode, memberNo, cp) {
                 console.log(board);
                 // 새로운 div 요소들을 생성합니다.
                 const listItem = document.createElement('div');
-                listItem.classList.add('list', 'item', 'bottom-line'); // 클래스 추가
+                listItem.classList.add('list', 'item', 'bottom-line', 'clickArea'); // 클래스 추가
+                listItem.setAttribute("onclick", `goToBrand(${board.no}, ${boardCode})`)
 
                 // 첫 번째 div (번호)
                 const div1 = document.createElement('div');
@@ -142,4 +143,21 @@ function prevPage(boardCode, memberNo, cp){
 function nextPage(boardCode, memberNo, cp){
     console.log('nextPage');
     boardList(boardCode, memberNo, cp );
+}
+
+
+// 브랜드 화면 창 조회
+function goToBrand(boardNo, boardCode){
+
+    switch(boardCode){
+        case 0: window.open(`/board/2/${boardNo}`, '_blank', 'width=1000,height=600');break;
+        case 1: 
+                
+        break;
+               
+        case 2: break;
+        case 3: break;
+        case 4: break;
+    }
+    
 }
