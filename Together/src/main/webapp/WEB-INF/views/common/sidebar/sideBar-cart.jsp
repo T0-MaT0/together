@@ -41,5 +41,7 @@
   </div>
 
   <script src="/resources/js/sidebar/sideBarMain.js"></script>
+  <script src="/resources/js/sidebar/sideBarCart.js"></script>
+
 </body>
 </html>
