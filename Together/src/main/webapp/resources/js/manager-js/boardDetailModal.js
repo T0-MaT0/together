@@ -17,28 +17,9 @@ document.addEventListener('DOMContentLoaded', function () {
         location.href = `/partyRecruitmentList/${no}/${recruitmentBoardNo}`;
          ///partyRecruitmentList/{recruitmentNo}/{boardNo}
     }
-    /* if(type == 3){
-        console.log('url');
-        if(boardCode == 1){
-            location.href = `/partyRecruitmentList/${url}/${no}`;
-        }else{
-            this.location.href = `/board/${boardCode}/${boardNo}`;
-        }
-    } */
-    // screenSelect();
 });
 
 
-// function screenSelect(){
-
-//     fetch('/manageCustomer/boardDetail/'+type+'?no='+no)
-//         .then(resp => resp.json())
-//         .then(data => {
-//         console.log(data.url);
-//             location.href = `/partyRecruitmentList/${data.url}/${no}`
-//         })
-//         .catch(err => console.error(err));
-// }
 
 function replyDelete(replyNo) {
     fetch("/manageCustomer/replyDelete?replyNo="+replyNo)

@@ -131,7 +131,6 @@
         
         <!-- 제휴 규모 -->
         <section class="cus-board graph-card">
-            ${map.applyStateCount[1]}
             <div class="board-title ">
                 <div class="title">제휴 규모</div>
                 <div class="select-area">
@@ -189,6 +188,14 @@
                 <div class="modal-btn barndBtn">
                     <!-- <button >처리</button> -->
                 </div>
+
+                <!-- 로딩 화면 -->
+                <div class="loadingCoverPurple">
+                    <div class="spinner">
+                        <div class="double-bounce1Purple"></div>
+                        <div class="double-bounce2Purple"></div>
+                    </div>
+                </div>               
             </div>
             
         </div>
