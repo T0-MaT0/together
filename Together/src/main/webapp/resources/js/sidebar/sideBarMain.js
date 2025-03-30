@@ -1,7 +1,7 @@
 console.log("sideBarMain.js");
 
 document.addEventListener("DOMContentLoaded", () => {
-  updateSidebarTotalNoti();
+  // updateSidebarTotalNoti();
 });
 
 // a 태그 기본 동작 제거 
@@ -44,7 +44,7 @@ sideBarClose.addEventListener("click", function (e) {
 });
 
 
-
+/*
 
 
 let fullChatList = [];
@@ -1250,12 +1250,275 @@ searchPageBtn.addEventListener("click", () => {
 });
 
 
+console.log("사이드바 페이지 상태:", currentPage);
+
+const minValue = document.getElementById("minValue");
+const maxValue = document.getElementById("maxValue");
+
+// 숫자 -> 금액 문자열로 변환
+function transferValue( value) {
+  if (value == 10) return '0';
+  if (value == 20) return '10000';
+  if (value == 30) return '100000';
+  if (value == 40) return '999999~';
+  
+  
+  
+
+  let numString = value.toString();  
+  let n = +numString[0];
+  let a = +numString[1];
+
+  console.log(n, a);
+  return a*100*(10**(n));
+}
+
+// 범위 슬라이더 
+class RangeSlider {
+  constructor() {
+    this.constants = {
+      MAX_VALUE: this.getGlobalCssValue('--max-value'),
+      MIN_VALUE: this.getGlobalCssValue('--min-value'),
+      RANGE_STEP: this.getGlobalCssValue('--range-step'),
+      HANDLE_SIZE: this.getGlobalCssValue('--handle-size'),
+      get RANGE() {
+        return this.MAX_VALUE - this.MIN_VALUE;
+      }
+    };
+
+    this.elements = {
+      progress: document.querySelector('.progress'),
+      minRange: document.querySelector('.min-range'),
+      maxRange: document.querySelector('.max-range'),
+      handles: document.querySelectorAll('.handle')
+    };
+
+    this.elements.minRange.addEventListener("input", (e) => {
+      let value = transferValue(+e.target.value);
+      if (value == '999999~') {
+        value = '990000';
+      }
+
+      if (value > +maxValue.innerText) {
+        value = +maxValue.innerText
+      }
+
+      minValue.innerText = value;
+      this.setStartValue(+e.target.value);
+    });
+
+    this.elements.maxRange.addEventListener("input", (e) => {
+      let value = transferValue(+e.target.value);
+      if (value == 0) {
+        value = 1000;
+      }
+
+      if (value < +minValue.innerText) {
+        value = +minValue.innerText
+      }
+      
+      maxValue.innerText = value;
+      this.setEndValue(+e.target.value);
+    });
+  }
+
+  getGlobalCssValue(key) {
+    const property = getComputedStyle(document.documentElement).getPropertyValue(key);
+    return property ? parseFloat(property) : 0;
+  }
+
+  init({ min, max }) {
+    const { MIN_VALUE, MAX_VALUE, RANGE_STEP } = this.constants;
+    const { minRange, maxRange } = this.elements;
+
+    minRange.min = maxRange.min = MIN_VALUE;
+    minRange.max = maxRange.max = MAX_VALUE;
+    minRange.step = maxRange.step = RANGE_STEP;
+    
+    // Initialize values
+    minRange.value = min; 
+    maxRange.value = max;
+    
+    this.setStartValue(min);
+    this.setEndValue(max);
+  }
+
+  setHandlePos(range, handle) {
+    const { MIN_VALUE, RANGE, HANDLE_SIZE } = this.constants;
+    const percentage = (range.value - MIN_VALUE) / RANGE;
+    const offset = HANDLE_SIZE / 2 - HANDLE_SIZE * percentage;
+    const left = `calc(${percentage * 100}% + ${offset}px)`;
+    handle.style.left = left;
+  }
+
+  setStartValue(v) {
+    const { minRange, maxRange, progress, handles } = this.elements;
+    if (v >= +maxRange.value) {
+      v = +maxRange.value - this.constants.RANGE_STEP;
+      minRange.value = v;
+    }
+    const value = this.getCurrStep(v) * this.constants.RANGE_STEP;
+    progress.style.left = `${(value / this.constants.RANGE) * 100}%`;
+    this.setHandlePos(minRange, handles[0]);
+  }
+
+  setEndValue(v) {
+    const { minRange, maxRange, progress, handles } = this.elements;
+    if (v <= +minRange.value) {
+      v = +minRange.value + this.constants.RANGE_STEP;
+      maxRange.value = v;
+    }
+    const value = this.getCurrStep(v) * this.constants.RANGE_STEP;
+    progress.style.right = `${100 - (value / this.constants.RANGE) * 100}%`;
+    this.setHandlePos(maxRange, handles[1]);
+  }
+
+  getCurrStep(v) {
+    return (v - this.constants.MIN_VALUE) / this.constants.RANGE_STEP;
+  }
+}
+
+// 범위 슬라이더 초기화
+const slider = new RangeSlider();
+slider.init({ min: 10, max: 40 });
+
+
+
+// 검색 버튼 클릭 시
+const sideBarSearchBtn = document.getElementById("sideBarSearchBtn");
+const sideBarSearchInput = document.getElementById("sideBarSearchInput");
+
+
+/* <div class="body" id="SEARCH">
+        <div class="sideBox search">
+          <div class="category" data-categoryNo="0">ALL</div>
+          <div class="category" data-categoryNo="1">패션</div>
+          <div class="category" data-categoryNo="2">뷰티</div>
+          <div class="category" data-categoryNo="3">생활</div>
+          <div class="category" data-categoryNo="4">식품</div>
+          <div class="category" data-categoryNo="5">전자제품</div>
+          <div class="category" data-categoryNo="6">공구</div>
+          <div class="category" data-categoryNo="7">자동차</div>
+          <div class="category" data-categoryNo="8">스포츠 레저</div>
+          <div class="category" data-categoryNo="9">유아  아동</div>
+          <div class="category" data-categoryNo="10">도서  문구</div>
+          <div class="category" data-categoryNo="11">반려동물</div>
+        </div>
 
 
 
 
+        <div class="content search">
+          <div class="member-bar">
+            <div class="under-line company-line" id="underLine"></div>
+            <a class="member-type bold" data-type="personal">브랜드 상품</a>
+            <a class="member-type" data-type="company">공구 모집</a>
+            <div id="bottomLine"></div>
+          </div>
+          <div class="item" id = "locationList">
+            <div class="itemName">지역 <span>Location</span></div>
+
+            <div class="itemContents">
+              <div class="itemContent BTN selected">GPS 검색</div>
+              <div class="itemContent BTN">직접 선택</div>
+            </div>
+              
+
+          </div>
+          <div class="item" id = "priceRange">
+            <div class="itemName">가격 <span>Price</span></div>
+
+            <div class="itemRange">
+              <div class="range-slider-container">
+
+                <div class="slider-track"> 
+                  <div class="progress"></div>
+                </div>
+              
+                <label>
+                  <span class="handle min"><span id="minValue">0</span></span>
+                  <input type="range" class="min-range range-input">
+                </label>
+              
+                <label>
+                  <span class="handle max"><span id="maxValue">990000~</span></span>
+                  <input type="range" class="max-range range-input">
+                </label>
+
+              </div>
+            </div>
+              
+
+          </div>
+          <div class="item" id = "categoryList">
+            <div class="itemName" >카테고리 <span>Category</span></div>
+
+            <div class="itemContents" id="categoryListItems">
+              <div class="itemContent BTN selected" data-subCategoryNo="12">여성 의류</div>
+              <div class="itemContent BTN ">남성 의류</div>
+              <div class="itemContent BTN selected">아동 의류</div>
+              <div class="itemContent BTN ">신발</div>
+              <div class="itemContent BTN selected"> 가방 & 액서서리</div>
+              <div class="itemContent BTN ">스포츠웨어</div>
+              <div class="itemContent BTN ">스포츠웨어</div>
+            </div>
+              
+
+          </div>
+            
 
 
+
+
+          </div>
+        </div> */
+
+// 카테고리 선택
+
+const categories = document.querySelectorAll(".category");
+
+categories.forEach(category => {
+  category.addEventListener("click", function () {
+    categories.forEach(c => c.classList.remove("selected"));
+    this.classList.add("selected");
+
+    const categoryNo = parseInt(this.getAttribute("data-categoryNo"), 10);
+    const categoryList = document.getElementById("categoryList");
+    console.log(categoryNo);
+    if (categoryNo === 0) {
+      categoryList.innerHTML = "범위가 너무 넓습니다. 카테고리를 선택해주세요.";
+      return;
+    } 
+      
+    fetch("/mypage/getCategory", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ categoryNo: categoryNo })
+    })
+      .then(response => response.json())
+      .then(data => {
+        categoryList.innerHTML = ""; // 기존 내용 초기화
+
+        data.forEach(item => {
+          const itemDiv = document.createElement("div");
+          itemDiv.className = "itemContent BTN";
+          itemDiv.textContent = item.categoryName;
+          itemDiv.dataset.subCategoryNo = item.subCategoryNo;
+
+          // 클릭 시 선택 효과
+          itemDiv.addEventListener("click", () => {
+            itemDiv.classList.toggle("selected");
+          });
+
+          categoryList.appendChild(itemDiv);
+        });
+      })
+      .catch(error => console.error("Error:", error));
+
+    
+        
+  });
+})
 
 
 
