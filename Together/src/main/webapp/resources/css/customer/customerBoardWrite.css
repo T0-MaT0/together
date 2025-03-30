@@ -147,5 +147,68 @@
   width: 100%;
   display: flex;
   justify-content: space-between;
+  margin : 10px 0;
 }
 
+/* 캡챠 영역: 이미지 + 입력창 수평 정렬 */
+#security-test {
+  display: flex;
+  align-items: center; /* 세로 중앙 정렬 */
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* 캡챠 입력창 크기 조절 */
+.check-captcha-code {
+  width: 200px; /* ✅ 고정 너비로 설정 */
+  height: 36px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+/* 새로고침 / 음성듣기 버튼 */
+.captcha-button-div {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+/* 개별 버튼 스타일 */
+.captcha-button {
+  padding: 6px 12px;
+  font-size: 13px;
+  border: none;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* 등록 / 취소 버튼 영역 */
+#writeform-button-area {
+  display: flex;
+  justify-content: center; /* 가운데 정렬 */
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* 등록/취소 버튼 공통 */
+#inquiry-write-button,
+#go-back {
+  padding: 10px 25px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* 등록 버튼 스타일 */
+#inquiry-write-button {
+  background-color: #ffbedb; /* 연핑크 */
+  color: black;
+}
+
+/* 취소 버튼 스타일 */
+#go-back {
+  background-color: #f1f1f1;
+  color: black;
+}

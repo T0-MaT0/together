@@ -125,7 +125,10 @@ public class CustomerController {
 	                           Model model) {
 
 	    Map<String, Object> map = service.searchNoticeList(query, cp);
-	    model.addAttribute("map", map);
+	    List<Board> fixedList = service.selectFixedNoticeList();
+		
+		model.addAttribute("map", map);
+		model.addAttribute("fixedList", fixedList);
 	    return "customer/noticeBoardList";
 	}
 	

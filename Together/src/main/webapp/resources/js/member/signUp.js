@@ -1,5 +1,28 @@
 console.log('signUp.js')
 
+
+document.addEventListener("DOMContentLoaded", function () {
+    const allAgree = document.getElementById("all-agree");
+    const checkboxes = document.querySelectorAll("#all-agree-area ~ .agree-area input[type='checkbox']");
+
+    // "모두 동의" 클릭 시 -> 모든 항목 체크/해제
+    allAgree.addEventListener("change", function () {
+        checkboxes.forEach(cb => {
+            cb.checked = allAgree.checked;
+        });
+    });
+
+    // 개별 체크박스 변경 시 -> 모두 체크됐는지 확인해서 상단 체크박스 상태 업데이트
+    checkboxes.forEach(cb => {
+        cb.addEventListener("change", function () {
+            const allChecked = Array.from(checkboxes).every(box => box.checked);
+            allAgree.checked = allChecked;
+        });
+    });
+});
+
+
+
 const checkObj = {
     "memberId" : false,
     "memberPw": false,

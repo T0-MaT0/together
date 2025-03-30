@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import edu.kh.project.individual.dto.Recruitment;
 import edu.kh.project.main.service.MainService;
@@ -17,6 +18,7 @@ import edu.kh.project.member.model.dto.Member;
 
 
 @Controller
+@SessionAttributes("loginMember")
 public class MainController {
 	
 	@Autowired
@@ -26,6 +28,7 @@ public class MainController {
 	public String mainForward(Model model,
 	        @SessionAttribute(value = "loginMember", required = false) Member loginMember) {
 		
+		System.out.println("MainController 실행됨");
 		int boardCode = 1; 
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 
@@ -38,7 +41,7 @@ public class MainController {
 
 		Map<String, Object> map = service.selectBusinessList(boardCode);
 		
-		
+		model.addAttribute("loginMember", loginMember);
 		model.addAttribute("map", map);
 		
 		return "/common/main";
