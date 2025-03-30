@@ -845,12 +845,24 @@
 }
 
 #sideBar .deleteBtn-area{
-  width: 53px;
+  width: 75px;
   height: 192px;
   display: flex;
   flex-direction: row;
   justify-content: end;
   align-items: center;
+}
+
+#sideBar .deleteBtn-area>a{
+  width: 75px;
+  height: 30px;
+  background: linear-gradient(to right, #FF4D8E, #A45FE3);
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 17px;
 }
 
 #sideBar .digit>div:nth-of-type(1){
@@ -1703,4 +1715,10 @@
   max-width: 60%;
   margin-left: 8px;
   text-align: left;
+}
+
+
+#sideBar .hidden{
+  /* 중요 */
+  display: none !important;
 }
