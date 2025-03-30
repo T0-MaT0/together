@@ -18,14 +18,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // 사이드바 열고 닫기
 const sideBar = document.getElementById("sideBar");
+const sideBarBox = document.getElementById("sidebar-menu-box");
 const sideBarClose = document.getElementById("sideBar-close");
 
-sideBarClose.addEventListener("click", e => {
-  e.preventDefault();
-  e.stopPropagation();
 
-  sideBar.classList.toggle("active");
-  sideBarClose.classList.toggle("activate");
+sideBarBox.addEventListener("click", function (e) {
+  if (sideBar.classList.contains("active") || !sideBarClose.classList.contains("activate")) {
+    return;
+  }
+  sideBar.classList.add("active");
+  sideBarClose.classList.remove("activate");
 
   if (sideBar.classList.contains("active")) {
     if (!window.chatSse) {
@@ -34,6 +36,15 @@ sideBarClose.addEventListener("click", e => {
 
   }
 });
+
+sideBarClose.addEventListener("click", function (e) {
+  e.stopPropagation();
+  sideBar.classList.toggle("active");
+  sideBarClose.classList.toggle("activate");
+});
+
+
+
 
 
 let fullChatList = [];
@@ -83,8 +94,8 @@ function renderChatRoomList(chatList) {
       ? (chat.targetProfile || '/resources/images/user.png')
       : (chat.ownerProfile || '/resources/images/user.png');
 
-      const roomLabel = chat.groupFl === 'Y' 
-      ? `[그룹] ${chat.roomName}` 
+    const roomLabel = chat.groupFl === 'Y'
+      ? `[그룹] ${chat.roomName}`
       : chat.targetNickname || chat.roomName;
 
     div.innerHTML = `
@@ -107,10 +118,10 @@ function renderChatRoomList(chatList) {
       const chattingNo = div.dataset.roomNo;
       const roomName = div.dataset.roomName;
       const ownerProfile = div.dataset.ownerProfile;
-      const targetNickname = chat.targetNickname;  
-      const targetProfile = chat.targetProfile; 
+      const targetNickname = chat.targetNickname;
+      const targetProfile = chat.targetProfile;
       const targetUrl = `/sidebar/chatOpen?chattingNo=${chattingNo}`;
-      
+
       fetch(targetUrl)
         .then(res => res.text())
         .then(html => {
@@ -122,9 +133,9 @@ function renderChatRoomList(chatList) {
 
           const ownerImg = document.querySelector("#ownerProfileImg");
           ownerImg.src = chat.groupFl === 'Y'
-          ? (ownerProfile && ownerProfile !== "null" ? ownerProfile : "/resources/images/user.png")
-          : (targetProfile && targetProfile !== "null" ? targetProfile : "/resources/images/user.png");
-            
+            ? (ownerProfile && ownerProfile !== "null" ? ownerProfile : "/resources/images/user.png")
+            : (targetProfile && targetProfile !== "null" ? targetProfile : "/resources/images/user.png");
+
 
           bindChatRoomHeaderButtons();
           bindSendMessageEvent();
@@ -172,33 +183,7 @@ function bindChatRoomSearchEvent() {
 
 
 
-// 채팅 + 장바구니 토글
-let flag = 0;
-const toggleIcon = document.getElementById("togglePage");
-const toggleBodies = document.getElementsByClassName("body");
-const toggleTitle = document.getElementById("sideBarTitle");
 
-toggleIcon.addEventListener("click", e => {
-  e.preventDefault();
-
-  const isChat = flag === 0;
-
-  e.target.setAttribute("src", isChat
-    ? "/resources/images/sidebar/images/favorite-cart.svg"
-    : "/resources/images/sidebar/images/talk.svg")
-
-  toggleTitle.innerText = isChat ? "채팅" : "장바구니";
-  flag = isChat ? 1 : 0;
-
-  Array.from(toggleBodies).forEach(body => body.classList.toggle("hidden"));
-
-  if (isChat) {
-    initializeChatTabs(); 
-
-    const firstTab = document.querySelector('#CHAT .talkMenu > a.no-link[data-url]');
-    if (firstTab) firstTab.click(); 
-  }
-});
 
 
 // 탭 이벤트 등록 함수
@@ -211,7 +196,7 @@ function initializeChatTabs() {
     menu.addEventListener("click", function (e) {
       e.preventDefault();
 
-      
+
 
       if (talkMenus[i].classList.contains("select")) return;
 
@@ -233,9 +218,9 @@ function initializeChatTabs() {
             if (url.includes("chat")) loadChatRoomList();
             if (url.includes("chatOpen")) {
               const roomNo = document.getElementById("chatRoom")?.dataset.roomNo;
-            
+
               if (roomNo) {
-                connectChatWebSocket(roomNo);  
+                connectChatWebSocket(roomNo);
                 loadMessageList?.();
                 loadChatTargetInfo(roomNo);
               }
@@ -265,10 +250,10 @@ document.getElementById("scrollDown").addEventListener("click", e => {
 
 
 // WebSocket 소켓 전역
-let chattingSock ;
+let chattingSock;
 
 // SSE 전역
-let chatSse ;
+let chatSse;
 
 // 채팅방 열릴 때 호출 WebSocket + SSE 연결
 function connectChatWebSocket(roomNo) {
@@ -346,105 +331,105 @@ function reconnectChatSSE() {
 
 // 채팅 메시지 목록 불러오기
 function loadMessageList() {
-const roomNo = document.getElementById("chatRoom").dataset.roomNo;
-const ul = document.getElementById("chatMessageList");
-fetch(`/chatting/selectMessageList?chattingNo=${roomNo}&memberNo=${loginMemberNo}`)
+  const roomNo = document.getElementById("chatRoom").dataset.roomNo;
+  const ul = document.getElementById("chatMessageList");
+  fetch(`/chatting/selectMessageList?chattingNo=${roomNo}&memberNo=${loginMemberNo}`)
     .then(res => res.json())
     .then(list => {
-    ul.innerHTML = "";
-    console.log(list)
+      ul.innerHTML = "";
+      console.log(list)
 
-    list.forEach(msg => {
-      const li = document.createElement("li");
-    
-      console.log(typeof msg.senderNo, msg.senderNo);
-      console.log(typeof loginMemberNo, loginMemberNo);
-      // 나인지 상대방인지 판단
-      const isMine = Number(msg.senderNo) === Number(loginMemberNo);
-    
-      // 루트 div (own / other)
-      const rootDiv = document.createElement("div");
-      rootDiv.classList.add(isMine ? "own" : "other");
-    
-      // 닉네임
-      const nicknameDiv = document.createElement("div");
-      nicknameDiv.classList.add("nickname");
+      list.forEach(msg => {
+        const li = document.createElement("li");
 
-      if (!isMine) {
-        nicknameDiv.classList.add("clickable-nickname");
-        nicknameDiv.dataset.memberNo = msg.senderNo;
-        nicknameDiv.dataset.memberNick = msg.senderNickname;
-        nicknameDiv.dataset.productName = msg.roomName || msg.productName || "1대1 채팅";
-        nicknameDiv.dataset.messageNo = msg.messageNo;
-      }
+        console.log(typeof msg.senderNo, msg.senderNo);
+        console.log(typeof loginMemberNo, loginMemberNo);
+        // 나인지 상대방인지 판단
+        const isMine = Number(msg.senderNo) === Number(loginMemberNo);
 
-      nicknameDiv.innerText = isMine ? loginMemberNickname : msg.senderNickname || "상대방";
-    
-      // 프로필 이미지
-      const profileBox = document.createElement("div");
-      profileBox.classList.add("profile-box");
-    
-      const profile = document.createElement("div");
-      profile.classList.add("profile", "profile-inChat");
-    
-      const img = document.createElement("img");
-      img.src = msg.senderProfile || "/resources/images/user.png";
-    
-      profile.appendChild(img);
-      profileBox.appendChild(profile);
-    
-      // 메시지 박스
-      const chatBoxes = document.createElement("div");
-      chatBoxes.classList.add("chat-boxes");
+        // 루트 div (own / other)
+        const rootDiv = document.createElement("div");
+        rootDiv.classList.add(isMine ? "own" : "other");
 
-      const chatBox = document.createElement("div");
-      chatBox.classList.add("chat-box");
+        // 닉네임
+        const nicknameDiv = document.createElement("div");
+        nicknameDiv.classList.add("nickname");
 
-      if (msg.messageType === "IMAGE" || msg.messageType === "EMOJI") {
-        if (
-          /\.(png|jpe?g|gif|webp)$/i.test(msg.messageContent)
-        ) {
-          const image = document.createElement("img");
-          image.src = msg.messageContent;
-          image.alt = "전송된 이미지/이모지";
-          image.classList.add("chat-image");
+        if (!isMine) {
+          nicknameDiv.classList.add("clickable-nickname");
+          nicknameDiv.dataset.memberNo = msg.senderNo;
+          nicknameDiv.dataset.memberNick = msg.senderNickname;
+          nicknameDiv.dataset.productName = msg.roomName || msg.productName || "1대1 채팅";
+          nicknameDiv.dataset.messageNo = msg.messageNo;
+        }
 
-          image.style.cursor = "pointer";
-          image.addEventListener("click", () => window.open(image.src, "_blank"));
+        nicknameDiv.innerText = isMine ? loginMemberNickname : msg.senderNickname || "상대방";
 
-          chatBox.appendChild(image);
+        // 프로필 이미지
+        const profileBox = document.createElement("div");
+        profileBox.classList.add("profile-box");
+
+        const profile = document.createElement("div");
+        profile.classList.add("profile", "profile-inChat");
+
+        const img = document.createElement("img");
+        img.src = msg.senderProfile || "/resources/images/user.png";
+
+        profile.appendChild(img);
+        profileBox.appendChild(profile);
+
+        // 메시지 박스
+        const chatBoxes = document.createElement("div");
+        chatBoxes.classList.add("chat-boxes");
+
+        const chatBox = document.createElement("div");
+        chatBox.classList.add("chat-box");
+
+        if (msg.messageType === "IMAGE" || msg.messageType === "EMOJI") {
+          if (
+            /\.(png|jpe?g|gif|webp)$/i.test(msg.messageContent)
+          ) {
+            const image = document.createElement("img");
+            image.src = msg.messageContent;
+            image.alt = "전송된 이미지/이모지";
+            image.classList.add("chat-image");
+
+            image.style.cursor = "pointer";
+            image.addEventListener("click", () => window.open(image.src, "_blank"));
+
+            chatBox.appendChild(image);
+          } else {
+            const span = document.createElement("span");
+            span.innerText = msg.messageContent;
+            span.classList.add("emoji-message");
+            chatBox.appendChild(span);
+          }
         } else {
           const span = document.createElement("span");
-          span.innerText = msg.messageContent;
-          span.classList.add("emoji-message");
+          span.innerHTML = msg.messageContent;
           chatBox.appendChild(span);
         }
-      } else {
-        const span = document.createElement("span");
-        span.innerHTML = msg.messageContent;
-        chatBox.appendChild(span);
-      }
 
-      chatBoxes.appendChild(chatBox);
-    
-      // 전송 시간 
-      const time = document.createElement("div");
-      time.classList.add("chatDate");
-      time.innerText = msg.sendTime;
-      chatBoxes.appendChild(time);
-    
-      // 조립
-      rootDiv.appendChild(nicknameDiv);
-      rootDiv.appendChild(profileBox);
-      rootDiv.appendChild(chatBoxes);
-    
-      // <li>에 붙이기
-      li.appendChild(rootDiv);
-      ul.appendChild(li);
-    });
+        chatBoxes.appendChild(chatBox);
 
-    ul.scrollTop = ul.scrollHeight; 
-    scrollToBottom();  // 메시지 목록 불러온 후 맨 아래로 스크롤
+        // 전송 시간 
+        const time = document.createElement("div");
+        time.classList.add("chatDate");
+        time.innerText = msg.sendTime;
+        chatBoxes.appendChild(time);
+
+        // 조립
+        rootDiv.appendChild(nicknameDiv);
+        rootDiv.appendChild(profileBox);
+        rootDiv.appendChild(chatBoxes);
+
+        // <li>에 붙이기
+        li.appendChild(rootDiv);
+        ul.appendChild(li);
+      });
+
+      ul.scrollTop = ul.scrollHeight;
+      scrollToBottom();  // 메시지 목록 불러온 후 맨 아래로 스크롤
     })
     .catch(err => console.error("메시지 목록 불러오기 실패", err));
 }
@@ -489,7 +474,7 @@ function bindChatRoomHeaderButtons() {
   const plusBtn = document.querySelector(".title-menu .plus")?.closest("a");
 
   if (minusBtn) {
-    minusBtn.addEventListener("click", function(e) {
+    minusBtn.addEventListener("click", function (e) {
       e.preventDefault();
 
       if (confirm("채팅방을 삭제하시겠습니까?")) {
@@ -500,7 +485,7 @@ function bindChatRoomHeaderButtons() {
           .then(result => {
             if (result.success) {
               alert("채팅방이 삭제되었습니다.");
-              plusBtn?.click(); 
+              plusBtn?.click();
             } else {
               alert("채팅방 삭제에 실패했습니다.");
             }
@@ -514,7 +499,7 @@ function bindChatRoomHeaderButtons() {
   }
 
   if (plusBtn) {
-    plusBtn.addEventListener("click", function(e) {
+    plusBtn.addEventListener("click", function (e) {
       e.preventDefault();
 
       const targetMenu = document.querySelector(`#CHAT .talkMenu > a[data-url="/sidebar/chat"]`);
@@ -706,7 +691,7 @@ function displayMessage(msg) {
     ul.scrollTop = ul.scrollHeight;
   }, 0);
 
- 
+
 }
 
 // 이미지 업로드
@@ -726,12 +711,12 @@ function bindImageUploadEvent() {
       method: "POST",
       body: formData
     })
-    .then(res => res.json())
-    .then(msg => {
-      chattingSock?.send(JSON.stringify(msg)); 
+      .then(res => res.json())
+      .then(msg => {
+        chattingSock?.send(JSON.stringify(msg));
 
-    })
-    .catch(err => console.error("이미지 전송 실패", err));
+      })
+      .catch(err => console.error("이미지 전송 실패", err));
   });
 
   const btn = document.getElementById("imageUploadBtn");
@@ -746,7 +731,7 @@ function bindImageUploadEvent() {
 function bindEmojiEvent() {
 
   // 미니 이모지 삽입 함수
-  window.insertEmojiToInput = function(emoji) {
+  window.insertEmojiToInput = function (emoji) {
     const input = document.getElementById("inputChatting");
     const cursorPos = input.selectionStart;
     input.value = input.value.substring(0, cursorPos) + emoji + input.value.substring(cursorPos);
@@ -754,7 +739,7 @@ function bindEmojiEvent() {
   };
 
   // 큰 이모지 전송 함수
-  window.sendBigEmoji = function(emojiPath) {
+  window.sendBigEmoji = function (emojiPath) {
     const roomNo = document.getElementById("chatRoom")?.dataset.roomNo;
     if (!roomNo) return;
 
@@ -762,7 +747,7 @@ function bindEmojiEvent() {
       senderNo: loginMemberNo,
       roomNo: roomNo,
       messageType: "EMOJI",
-      messageContent: emojiPath  
+      messageContent: emojiPath
     };
 
     chattingSock?.send(JSON.stringify(msg));
@@ -770,13 +755,13 @@ function bindEmojiEvent() {
 
   // 이모지 토글 버튼
   const toggleBtn = document.getElementById("emojiToggleBtn");
-  toggleBtn?.addEventListener("click", function(e) {
+  toggleBtn?.addEventListener("click", function (e) {
     e.preventDefault();
     const picker = document.getElementById("emojiPicker");
     picker?.classList.toggle("hidden");
 
     if (!picker.classList.contains("loaded")) {
-      loadBigEmojis(); 
+      loadBigEmojis();
       picker.classList.add("loaded");
     }
   });
@@ -788,7 +773,7 @@ function bindEmojiEvent() {
       .then(emojis => {
         const container = document.getElementById("bigEmojiContainer");
         container.innerHTML = "";
-  
+
         emojis.forEach(e => {
           const img = document.createElement("img");
           img.src = e.emojiCode; // 이미지 경로
@@ -807,7 +792,7 @@ function loadChatRoomDetail(roomNo) {
   fetch(`/chatting/memberList?roomNo=${roomNo}`)
     .then(res => res.json())
     .then(data => {
-      
+
       if (!data || !data.roomName || !Array.isArray(data.members)) {
         console.error("📛 불완전한 채팅방 정보:", data);
         return;
@@ -921,7 +906,7 @@ document.querySelector("#consultMenu a")?.addEventListener("click", e => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      targetMemberNo: 1, 
+      targetMemberNo: 1,
       targetNick: "To-mato 상담사"
     })
   })
@@ -978,13 +963,13 @@ function initFAQEvent() {
   document.querySelectorAll("#faqList li").forEach(item => {
     item.addEventListener("click", () => {
       const answer = item.dataset.answer;
-  
+
       // 상담사 메시지처럼 DOM에 출력
       const messageList = document.getElementById("chatMessageList");
-  
+
       const li = document.createElement("li");
       li.classList.add("chat-left"); // 왼쪽 채팅 스타일 (상담사)
-  
+
       li.innerHTML = `
         <div class="chat-profile">
           <img src="/resources/images/mypage/관리자 프로필.webp" alt="상담사">
@@ -993,7 +978,7 @@ function initFAQEvent() {
           ${answer}
         </div>
       `;
-  
+
       messageList.appendChild(li);
       messageList.scrollTop = messageList.scrollHeight;
     });
@@ -1002,7 +987,7 @@ function initFAQEvent() {
   document.getElementById("faqToggleBtn")?.addEventListener("click", function () {
     const list = document.getElementById("faqList");
     const isOpen = list.classList.contains("show");
-  
+
     if (isOpen) {
       list.classList.remove("show");
       this.innerText = "자주 묻는 질문 메뉴 ▼";
@@ -1093,18 +1078,176 @@ function updateSidebarTotalNoti() {
 }
 
 
+/* 
+// 채팅 + 장바구니 토글
+let flag = 0;
+const toggleIcon = document.getElementById("togglePage");
+const toggleBodies = document.getElementsByClassName("body");
+const toggleTitle = document.getElementById("sideBarTitle");
+
+toggleIcon.addEventListener("click", e => {
+  e.preventDefault();
+
+  const isChat = flag === 0;
+
+  e.target.setAttribute("src", isChat
+    ? "/resources/images/sidebar/images/favorite-cart.svg"
+    : "/resources/images/sidebar/images/talk.svg")
+
+  toggleTitle.innerText = isChat ? "장바구니" : "채팅";
+  flag = isChat ? 1 : 0;
+
+  Array.from(toggleBodies).forEach(body => body.classList.toggle("hidden"));
+
+  if (isChat) {
+    initializeChatTabs();
+
+    const firstTab = document.querySelector('#CHAT .talkMenu > a.no-link[data-url]');
+    if (firstTab) firstTab.click();
+  }
+});
+
+ */
+
+
+const togglePageBtn = document.getElementById("togglePage");
+const togglePageIcon = document.getElementById("togglePageIcon");
+const searchPageBtn = document.getElementById("searchPage");
+
+
+const sidebarWrapper = document.getElementsByClassName("sidebar-wrapper")
+// 0. 채팅
+// 1. 장바구니
+// 2. 통합검색
+
+
+let currentPage = 0; // 현재 페이지 상태 (0: 채팅, 1: 장바구니, 2, 3: 통합검색)
+// 2 : 채팅 -> 통합검색
+// 3 : 장바구니 -> 통합검색
+
+
+togglePageBtn.addEventListener("click", () => {
+
+  currentPage = (currentPage + 1) % 2;
 
 
 
+  if (currentPage === 0) {
+    sidebarWrapper[0].classList.remove("hidden");
+    sidebarWrapper[1].classList.add("hidden");
+    sidebarWrapper[2].classList.add("hidden");
+
+    togglePageIcon.setAttribute("src", "/resources/images/sidebar/images/favorite-cart.svg");
+
+    initializeChatTabs();
+    const firstTab = document.querySelector('#CHAT .talkMenu > a.no-link[data-url]');
+    if (firstTab) firstTab.click();
+  }
 
 
+  if (currentPage === 1) {
+    sidebarWrapper[0].classList.add("hidden");
+    sidebarWrapper[1].classList.remove("hidden");
+    sidebarWrapper[2].classList.add("hidden");
 
 
+    togglePageIcon.setAttribute("src", "/resources/images/sidebar/images/talk.svg");
+
+    // 비동기 로딩
+    
+    const pick = document.getElementById("PICK");
+
+    if (pick) {
+      fetch("/mypage/getPickProduct", {
+        method: "post",
+        headers: { "Content-Type": "application/json" },
+        body: memberNo
+      })
+      .then(response => response.json())
+      .then(data => {
+        
+        const pickListBox = document.getElementById("pickListBox");
+        pickListBox.innerHTML = ""; // 기존 내용 초기화
+        
+  
+        data.forEach(item => {
+          
+          const itemBox = document.createElement("div");
+          itemBox.className = "itemBox";
+  
+          const thumb = document.createElement("div");
+          thumb.className = "thumb";
+  
+          const img = document.createElement("img");
+          img.src = item.imgPath;
+          img.alt = item.boardTitle;
+  
+          thumb.appendChild(img);
+          itemBox.appendChild(thumb);
+  
+          const digit = document.createElement("div");
+          digit.className = "digit";
+  
+          const titleDiv = document.createElement("div");
+          titleDiv.innerHTML = `<span>${item.boardTitle}</span>`;
+          digit.appendChild(titleDiv);
+  
+          const priceDiv = document.createElement("div");
+          digit.appendChild(priceDiv);
+          
+          const companyDiv = document.createElement("div");
+          companyDiv.innerHTML = `<span>${item.price}원(원가)</span>`;
+          digit.appendChild(companyDiv);
+          const companyDiv2 = document.createElement("div");
+          digit.appendChild(companyDiv2);
+  
+          const quantityDiv = document.createElement("div");
+          quantityDiv.innerHTML = `<div>조회수 : <span>${item.readCount}</span></div>`;
+          digit.appendChild(quantityDiv);
+          
+          const deleteBtnArea = document.createElement("div");
+          deleteBtnArea.className = "deleteBtn-area";
+          
+          const deleteLink = document.createElement("a");
+          deleteLink.href = `/board/${item.boardCode}/${item.boardNo}`; 
+          deleteLink.innerText = "보러가기"
+          
+          deleteBtnArea.appendChild(deleteLink);
+          
+          itemBox.appendChild(digit);
+          itemBox.appendChild(deleteBtnArea);
+          
+          pickListBox.appendChild(itemBox);
+  
+        });
+  
+        if (data.array.length === 0) {
+          const emptyMessage = document.createElement("div");
+          emptyMessage.className = "emptyMessage";
+          emptyMessage.textContent = "장바구니에 상품이 없습니다.";
+          pickListBox.appendChild(emptyMessage);
+        }
+  
+      })
+      .catch(error => console.error("Error:", error));
+    }
 
 
+  }
+});
 
+searchPageBtn.addEventListener("click", () => {
+  if (currentPage < 2) {
+    currentPage = currentPage + 2
+  } else {
+    return;
+  }
 
+  sidebarWrapper[0].classList.add("hidden");
+  sidebarWrapper[1].classList.add("hidden");
+  sidebarWrapper[2].classList.remove("hidden");
 
+});
 
 
 

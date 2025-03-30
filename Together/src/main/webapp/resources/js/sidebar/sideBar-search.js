@@ -123,6 +123,11 @@ class RangeSlider {
       if (value == '999999~') {
         value = '990000';
       }
+
+      if (value > +maxValue.innerText) {
+        value = +maxValue.innerText
+      }
+
       minValue.innerText = value;
       this.setStartValue(+e.target.value);
     });
@@ -132,6 +137,11 @@ class RangeSlider {
       if (value == 0) {
         value = 1000;
       }
+
+      if (value < +minValue.innerText) {
+        value = +minValue.innerText
+      }
+      
       maxValue.innerText = value;
       this.setEndValue(+e.target.value);
     });
@@ -196,3 +206,9 @@ class RangeSlider {
 // 범위 슬라이더 초기화
 const slider = new RangeSlider();
 slider.init({ min: 10, max: 40 });
+
+
+
+// 검색 버튼 클릭 시
+const sideBarSearchBtn = document.getElementById("sideBarSearchBtn");
+const sideBarSearchInput = document.getElementById("sideBarSearchInput");

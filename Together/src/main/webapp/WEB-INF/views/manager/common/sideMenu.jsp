@@ -39,6 +39,10 @@
 
     </div>
 
+    <div class="goToMain">
+        <a href="/">메인페이지로 가기</a>
+    </div>
+    
 </div>
 
 

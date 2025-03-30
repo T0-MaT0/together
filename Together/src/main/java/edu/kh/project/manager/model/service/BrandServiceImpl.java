@@ -176,8 +176,10 @@ public class BrandServiceImpl implements BrandService {
 		if("승인".equals(brandBoard.getState())) {
 			result = dao.applyAccept(brandBoard);
 //			System.out.println("제휴 승인 처리 result: "+ result );
+			
 		}
 		
+		// 답글
 		result = dao.applyInsert(brandBoard);
 		
 		return result;
