@@ -217,4 +217,12 @@ public class BusinessDao {
 	public int insertImage(Image img) {
 		return sqlSession.update("boardMapper.insertImage", img);
 	}
+
+	public int insertProductPick(Map<String, Integer> paramMap) {
+		return sqlSession.insert("boardMapper.insertProductPick", paramMap);
+	}
+
+	public int deleteProductPick(Map<String, Integer> paramMap) {
+		return sqlSession.delete("boardMapper.deleteProductPick", paramMap);
+	}
 }

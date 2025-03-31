@@ -477,6 +477,16 @@
 		SELECT COUNT(*) FROM PICK WHERE BOARD_NO = #{boardNo} AND MEMBER_NO = #{memberNo}
 	</select>
 	
+	<!-- 찜하기 테이블 삽입 -->
+	<insert id="insertProductPick">
+		INSERT INTO PICK VALUES (${memberNo}, #{boardNo})
+	</insert>
+	
+	<!-- 찜하기 테이블 삭제 -->
+	<delete id="deleteProductPick">
+		DELETE FROM PICK WHERE BOARD_NO = #{boardNo} AND MEMBER_NO = #{memberNo}
+	</delete>
+	
 	<!-- 조회수 증가 -->
 	<update id="updateReadCount">
 		UPDATE PRODUCT SET READ_COUNT = READ_COUNT + 1 WHERE BOARD_NO = #{boardNo}
