@@ -1387,10 +1387,8 @@ slider.init({ min: 10, max: 40 });
 
 
 
+// 검색창
 
-// 검색 버튼 클릭 시
-const sideBarSearchBtn = document.getElementById("sideBarSearchBtn");
-const sideBarSearchInput = document.getElementById("sideBarSearchInput");
 
 
 /* <div class="body" id="SEARCH">
@@ -1506,7 +1504,7 @@ categories.forEach(category => {
 
       data.forEach(item => {
         const itemDiv = document.createElement("div");
-        itemDiv.className = "itemContent BTN";
+        itemDiv.className = "itemContent BTN selected";
         itemDiv.setAttribute("data-subCategoryNo", item.categoryNo);
         itemDiv.innerText = item.categoryName;
         
@@ -1527,6 +1525,8 @@ categories.forEach(category => {
 const memberBar = document.getElementById("memberBar");
 const memberTypes = memberBar.querySelectorAll(".member-type");
 
+const locationList = document.getElementById("locationList");
+
 memberTypes.forEach(type => {
   type.addEventListener("click", function () {
     memberTypes.forEach(t => t.classList.remove("bold"));
@@ -1534,14 +1534,18 @@ memberTypes.forEach(type => {
 
     const typeValue = this.getAttribute("data-type");
     const underLine = document.getElementById("underLine");
-    const bottomLine = document.getElementById("bottomLine");
 
     if (typeValue === "personal") {
       underLine.classList.remove("personal-line");
       underLine.classList.add("company-line");
+
+      locationList.classList.add("hidden");
+
     } else {
       underLine.classList.remove("company-line");
       underLine.classList.add("personal-line");
+
+      locationList.classList.remove("hidden");
     }
       
 
@@ -1551,6 +1555,27 @@ memberTypes.forEach(type => {
 
 
 
+// 검색 버튼 클릭 시
+const sideBarSearchBtn = document.getElementById("sideBarSearchBtn");
+
+const sideBarSearchInput = document.getElementById("sideBarSearchInput");
+
+sideBarSearchBtn.addEventListener("click", e => {
+  e.preventDefault();
+  const searchValue = sideBarSearchInput.value.trim();
+
+  const selectedCategorieParants = document.querySelectorAll(".sideBox .category.selected");
+  const categoryNoParants = Array.from(selectedCategorieParants).map(c => c.getAttribute("data-categoryNo"));
+  const selectedCategories = document.querySelectorAll("#categoryListItems .itemContent.selected");
+  const categoryNo = Array.from(selectedCategories).map(c => c.getAttribute("data-subCategoryNo"));
+
+  const minValue = document.getElementById("minValue").innerText;
+  const maxValue = document.getElementById("maxValue").innerText;
+
+  const location = document.getElementById("sample4_jibunAddress").value;
+  
+  fetch("
+})
 
 
 
