@@ -71,3 +71,8 @@ const openPopup=key=>{
 const gotoDetail=()=>{
     location.href = `/board/${boardCode}/${boardNo}`;
 }
+
+// 포인트 충전
+document.getElementById("chargePoint").addEventListener("click", ()=>{
+    location.href = "/member/chargePoint";
+});
