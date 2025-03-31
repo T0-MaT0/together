@@ -619,4 +619,29 @@
 		UPDATE REPLY SET REPLY_DEL_FL = 'Y' 
 		WHERE REPLY_NO = #{replyNo}
 	</update>
+	
+	<!-- 신고 접수 -->
+	<insert id="insertReport" parameterType="Report">
+        INSERT INTO REPORT (
+            REPORT_NO,
+            REPORT_TYPE,
+            REPORT_TYPE_NO,
+            REPORT_TITLE,
+            REPORT_DETAIL,
+            MEMBER_NO,
+            REPORTED_USER_NO,
+            REPORT_DATE,
+            REPORT_STATUS
+        ) VALUES (
+            SEQ_REPORT_NO.NEXTVAL,
+            #{reportType},
+            #{reportTypeNo},
+            #{reportTitle},
+            #{reportDetail},
+            #{memberNo},
+            #{reportedUserNo},
+            SYSDATE,
+            '처리중'
+        )
+    </insert>
 </mapper>

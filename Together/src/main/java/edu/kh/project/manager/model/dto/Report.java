@@ -25,6 +25,8 @@ public class Report {
 	private String reportDate;
 	private String reportStatus;
 	
+	private int replyNo;
+	private int reviewNo; 
 	private String reply;
 	
 	

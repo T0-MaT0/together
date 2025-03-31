@@ -43,6 +43,7 @@ import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
+import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.member.model.dto.Member;
 
 @Controller
@@ -708,5 +709,53 @@ public class BusinessController {
 		model.addAttribute("usage", usage);
 		
 		return "board/business/businessOrderDetail";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 신고 요청
+	@PostMapping("/report/submit")
+	@ResponseBody
+	public Map<String, Object> submitReport(@RequestBody Report report,
+	                                        @SessionAttribute("loginMember") Member loginMember) {
+
+	    Map<String, Object> result = new HashMap<>();
+
+	    try {
+	        report.setMemberNo(loginMember.getMemberNo()); // 신고자 번호 설정
+	        int rowCount = service.insertReport(report);
+
+	        if (rowCount > 0) {
+	            result.put("success", true);
+	        } else {
+	            result.put("success", false);
+	            result.put("message", "신고 등록 실패");
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        result.put("success", false);
+	        result.put("message", "서버 오류 발생");
+	    }
+
+	    return result;
 	}
 }

@@ -13,6 +13,7 @@ import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
+import edu.kh.project.manager.model.dto.Report;
 
 public interface BusinessService {
 	Map<String, Object> selectBusinessList(Map<String, Object> paramMap, int cp);
@@ -67,5 +68,10 @@ public interface BusinessService {
 	int updateProduct(Business business, List<Integer> optionNoList, List<String> optionNameList, List<MultipartFile> images, 
 			String deleteList, String webPath, String filePath) throws IllegalStateException, IOException;
 
+
+	// 게시글 신고 접수
+	int insertReport(Report report);
+
 	int pick(Map<String, Integer> paramMap);
+
 }

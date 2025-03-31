@@ -101,8 +101,9 @@
                                 <button id="deleteBusiness">삭제</button>
                             </c:if>
                         </div>
+                        
                         <div>
-                            <a>REPORT</a>
+                            <a href="javascript:void(0);" onclick="openReportModal(1, ${business.boardNo}, ${business.memberNo}, '${loginMember.memberNick}')">REPORT</a>
                             <a href="#review">REVIEW <span>0</span></a>
                             <a href="#q&a">Q & A <span>0</span></a>
                         </div>
@@ -336,6 +337,18 @@
             </div>
         </div>
     </div>
+    <jsp:include page="/WEB-INF/views/board/business/reportModal.jsp"/>
+
+    
+
+    <c:if test="${not empty loginMember}">
+        <script>
+            loginMember = {
+            memberNo: ${loginMember.memberNo},
+            nickname: "${loginMember.memberNick}"
+            };
+        </script>
+    </c:if>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/main.js"></script>
@@ -348,5 +361,6 @@
         const thumbnail = "${thumbnail}";
     </script>
     <script src="/resources/js/business/businessDetail.js"></script>
+    
 </body>
 </html>
