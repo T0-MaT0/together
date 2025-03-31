@@ -1719,8 +1719,7 @@
 
 
 
-.member-bar{
-  padding-top: 6000000px;
+#SEARCH .member-bar{
   width: 100%;
   display: flex;
   position: relative;
@@ -1730,7 +1729,7 @@
 
 }
 
-#bottomLine{
+#SEARCH #bottomLine{
   width: 100%;
   height: 3px;
   background: linear-gradient(to left, #FF4D8E, #A45FE3);
@@ -1739,26 +1738,26 @@
 }
 
 
-.under-line{
+#SEARCH .under-line{
   height: 4px;
   position: absolute;
   width: 30%;
   top: 54px;
 }
-.personal-line{
+#SEARCH .personal-line{
   background-color: #FF54A1;
   right: 12.5%;
 }
-.company-line{
+#SEARCH .company-line{
   background-color: #B862FF;
   left: 12.5%;
 }
-.bold{
+#SEARCH .bold{
   font-weight: bold;
   
 }
 
-.member-type{
+#SEARCH .member-type{
   font-size: 24px;
   width: 45%;
   height: 43px;

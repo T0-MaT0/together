@@ -1,7 +1,7 @@
 console.log("sideBarMain.js");
 
 document.addEventListener("DOMContentLoaded", () => {
-  // updateSidebarTotalNoti();
+  updateSidebarTotalNoti();
 });
 
 // a 태그 기본 동작 제거 
@@ -44,7 +44,6 @@ sideBarClose.addEventListener("click", function (e) {
 });
 
 
-/*
 
 
 let fullChatList = [];
@@ -1409,7 +1408,7 @@ const sideBarSearchInput = document.getElementById("sideBarSearchInput");
 
 
         <div class="content search">
-          <div class="member-bar">
+          <div class="member-bar" id="memberBar">
             <div class="under-line company-line" id="underLine"></div>
             <a class="member-type bold" data-type="personal">브랜드 상품</a>
             <a class="member-type" data-type="company">공구 모집</a>
@@ -1483,44 +1482,67 @@ categories.forEach(category => {
     this.classList.add("selected");
 
     const categoryNo = parseInt(this.getAttribute("data-categoryNo"), 10);
-    const categoryList = document.getElementById("categoryList");
-    console.log(categoryNo);
+    const categoryList = document.getElementById("categoryListItems");
     if (categoryNo === 0) {
-      categoryList.innerHTML = "범위가 너무 넓습니다. 카테고리를 선택해주세요.";
+      categoryList.innerHTML = "카테고리가 너무 많습니다. <br>원하는 카테고리를 선택해주세요."; 
       return;
-    } 
-      
-    fetch("/mypage/getCategory", {
+    }
+    
+    fetch("/ajax/getCategory", {
       method: "post",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ categoryNo: categoryNo })
+      body: categoryNo
     })
-      .then(response => response.json())
-      .then(data => {
-        categoryList.innerHTML = ""; // 기존 내용 초기화
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      
+      categoryList.innerHTML = ""; // 기존 내용 초기화
 
-        data.forEach(item => {
-          const itemDiv = document.createElement("div");
-          itemDiv.className = "itemContent BTN";
-          itemDiv.textContent = item.categoryName;
-          itemDiv.dataset.subCategoryNo = item.subCategoryNo;
-
-          // 클릭 시 선택 효과
-          itemDiv.addEventListener("click", () => {
-            itemDiv.classList.toggle("selected");
-          });
-
-          categoryList.appendChild(itemDiv);
-        });
-      })
-      .catch(error => console.error("Error:", error));
-
-    
+      data.forEach(item => {
+        const itemDiv = document.createElement("div");
+        itemDiv.className = "itemContent BTN";
+        itemDiv.setAttribute("data-subCategoryNo", item.categoryNo);
+        itemDiv.innerText = item.categoryName;
         
+        // 클릭 시 선택 효과
+        itemDiv.addEventListener("click", function () {
+          this.classList.toggle("selected");
+        });
+        
+        categoryList.appendChild(itemDiv);
+      });
+    })
+    .catch(error => console.error("Error:", error));
   });
 })
 
 
+
+const memberBar = document.getElementById("memberBar");
+const memberTypes = memberBar.querySelectorAll(".member-type");
+
+memberTypes.forEach(type => {
+  type.addEventListener("click", function () {
+    memberTypes.forEach(t => t.classList.remove("bold"));
+    this.classList.add("bold");
+
+    const typeValue = this.getAttribute("data-type");
+    const underLine = document.getElementById("underLine");
+    const bottomLine = document.getElementById("bottomLine");
+
+    if (typeValue === "personal") {
+      underLine.classList.remove("personal-line");
+      underLine.classList.add("company-line");
+    } else {
+      underLine.classList.remove("company-line");
+      underLine.classList.add("personal-line");
+    }
+      
+
+
+  });
+});
 
 
 
