@@ -47,6 +47,7 @@
         <div class="head-title">
             <div>브랜드 관리</div>
              &nbsp; <div> - 제휴</div>
+             <jsp:include page="/WEB-INF/views/manager/common/searchManager.jsp"/>
         </div>
     </header>
 
@@ -134,12 +135,12 @@
             <div class="board-title ">
                 <div class="title">제휴 규모</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <!-- <select name="customerStatus" id="customerStatus">
                         <option>전체</option>
                         <option>주</option>
                         <option>월</option>
                         <option>년</option>
-                    </select>
+                    </select> -->
                 </div>
             </div>
             <canvas id="myChart" style="width:80%;max-width:400px; height: 400px;"  width="400" height="400"></canvas>

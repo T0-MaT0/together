@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/customer/question-list.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/modal.css" />
+
     
     <script>
         // 사이드 메뉴 설정
@@ -41,6 +42,8 @@
         <div class="head-title">
             <div>고객 관리</div>
              &nbsp; <div> - 문의</div>
+
+             <jsp:include page="/WEB-INF/views/manager/common/searchManager.jsp"/>
         </div>
     </header>
 

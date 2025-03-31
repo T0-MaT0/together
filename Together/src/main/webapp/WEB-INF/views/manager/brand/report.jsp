@@ -42,6 +42,7 @@
         <div class="head-title">
             <div>브랜드 관리</div>
              &nbsp; <div> - 신고</div>
+             <jsp:include page="/WEB-INF/views/manager/common/searchManager.jsp"/>
         </div>
     </header>
 
