@@ -1,5 +1,6 @@
 package edu.kh.project.member.model.service;
 
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.manager.model.dto.QuestCustomer;
@@ -83,6 +84,11 @@ public class MypageServiceImpl implements MypageService {
     @Override
     public List<QuestCustomer> getPromotionInfo(int memberNo) {
         return dao.getPromotionInfo(memberNo);
+    }
+
+    @Override
+    public List<Category> getCategory(int categoryNo) {
+        return dao.getCategory(categoryNo);
     }
 
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.service.AjaxService;
 
@@ -75,7 +75,14 @@ public class AjaxController {
 		return service.searchQueryList(query);
 	}
 	
-	
-	
+    @PostMapping(value = "/ajax/getCategory", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public List<Category> getCategory(@RequestBody int categoryNo) {
+        List<Category> category = service.getCategory(categoryNo);
+        System.out.println("category = " + category);
+        return category;
+    }
+
+
 
 }

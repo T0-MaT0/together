@@ -1,5 +1,6 @@
 package edu.kh.project.member.controller;
 
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
 
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.CheckedOutputStream;
 
 import javax.servlet.http.HttpSession;
 
@@ -142,12 +144,19 @@ public class MypageController {
         return service.getBusinessInfo(memberNo);
     }
 
-    @PostMapping(value = "getPromotionInfo", produces="application/json; charset=UTF-8")
+    @PostMapping(value = "/getPromotionInfo", produces="application/json; charset=UTF-8")
     @ResponseBody
     public List<QuestCustomer> getPromotionInfo(@RequestBody int memberNo) {
         return service.getPromotionInfo(memberNo);
     }
-    
+
+    @PostMapping(value = "/getCategory", produces="application/json; charset=UTF-8")
+    @ResponseBody
+    public List<Category> getCategory(@RequestBody int categoryNo) {
+        List<Category> category = service.getCategory(categoryNo);
+        System.out.println("category = " + category);
+        return category;
+    }
 
 
 

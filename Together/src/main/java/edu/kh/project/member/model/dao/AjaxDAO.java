@@ -3,6 +3,7 @@ package edu.kh.project.member.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import edu.kh.project.common.model.dto.Category;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -41,5 +42,9 @@ public class AjaxDAO {
 		return sqlSession.selectList("ajaxMapper.searchQueryList", query);
 	}
 
-	
+
+    public List<Category> getCategory(int categoryNo) {
+		int parentNo = categoryNo;
+		return sqlSession.selectList("categoryMapper.selectChildCategories", parentNo);
+    }
 }
