@@ -422,11 +422,6 @@ public class BusinessServiceIml implements BusinessService {
 					}
 				}
 
-				for (BusinessOption option:existingOptions) {
-					if (!optionNoList.contains(option.getOptionNo())) {
-						result = dao.deleteOption(option.getOptionNo());
-					}
-				}
 				if (result>0) {
 					List<BusinessOption> newOptions = new ArrayList<BusinessOption>();
 					
@@ -441,14 +436,20 @@ public class BusinessServiceIml implements BusinessService {
 								updateOption.setOptionName(optionName);
 								result = dao.updateOption(updateOption);
 							}
-						} else {
-							BusinessOption newOption = new BusinessOption();
-							newOption.setOptionName(optionName);
-							newOption.setBoardNo(business.getBoardNo());
-							newOptions.add(newOption);
-						}
+						} 
 					}
 					
+					for(int i=optionNoList.size();i<optionNameList.size();i++) {
+						String optionName = Utill.XSSHandling(optionNameList.get(i));
+						BusinessOption newOption = new BusinessOption();
+						newOption.setOptionName(optionName);
+						newOption.setBoardNo(business.getBoardNo());
+						newOptions.add(newOption);
+					}
+					
+					System.out.println(optionNoList);
+					System.out.println(existingOptionNos);
+					System.out.println(newOptions);
 					if (result>0&&!newOptions.isEmpty()) {
 						result = dao.insertOptionList(newOptions);
 					}

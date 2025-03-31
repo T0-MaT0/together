@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:set var="imageList" value="${business.imageList}"/>
+    <c:set var="maxLevel" value="${imageList[fn:length(imageList)-1].imageLevel}"/>
 <c:if test="${empty business}">
     <c:set var="hide" value="hide"/>
 </c:if>
@@ -116,7 +117,6 @@
                                             <input type="hidden" name="optionNo" value="${business.optionList[i].optionNo}">
                                             <input type="text" name="optionName" class="optionName" 
                                             placeholder="옵션을 입력해 주세요" value="${business.optionList[i].optionName}">
-                                            <span class="minusBtn">-</span>
                                         </div>
                                     </c:forEach>
                                 </c:if>
@@ -147,13 +147,17 @@
                         </div>
                         <c:if test="${!empty imageList}">
                             <c:forEach var="i" begin="2" end="${imageList[fn:length(imageList)-1].imageLevel}">
-                                <c:if test="${imageList[i].imageLevel==i}">
-                                    <c:set var="image" value="${imageList[i].imagePath}${imageList[i].imageReName}"/>
-                                </c:if>
+                                <c:set var="imageSrc" value=""/>
+                                <c:forEach var="image" items="${imageList}">
+                                    ${image}
+                                    <c:if test="${image.imageLevel==i}">
+                                        <c:set var="imageSrc" value="${imageList[i].imagePath}${imageList[i].imageReName}"/>
+                                    </c:if>
+                                </c:forEach>
                                 <div class="product-img">
                                     <input type="hidden" name="imageNo" value="${imageList[i].imageNo}">
                                     <label>
-                                        <img class="preview" src="${image}">
+                                        <img class="preview" src="${imageSrc}">
                                         <input type="file" name="images" class="inputImage" accept="image/*">
                                     </label>
                                     <span class="x-btn">&times;</span>

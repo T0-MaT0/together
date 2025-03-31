@@ -198,10 +198,6 @@ public class BusinessDao {
 		return sqlSession.selectList("boardMapper.selectOptionList", boardNo);
 	}
 
-	public int deleteOption(int optionNo) {
-		return sqlSession.delete("boardMapper.deleteOption", optionNo);
-	}
-
 	public int updateOption(BusinessOption updateOption) {
 		return sqlSession.update("boardMapper.updateOption", updateOption);
 	}
