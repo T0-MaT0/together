@@ -127,7 +127,7 @@
                             <img src="/resources/images/business/logo.png">
                             <span>머니</span>
                         </div>
-                        <button class="btn">충전하기</button>
+                        <button id="chargePoint" class="btn">충전하기</button>
                     </div>
                     <div class="content-row">
                         <span>현재 포인트</span>
