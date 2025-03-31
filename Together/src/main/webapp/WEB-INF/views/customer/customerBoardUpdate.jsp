@@ -72,7 +72,7 @@
 
                 </c:forEach>
 
-                <c:if test="${boardCode != 4}">
+                <c:if test="${boardCode == 3}">
 
                     <div class="img-box">
 

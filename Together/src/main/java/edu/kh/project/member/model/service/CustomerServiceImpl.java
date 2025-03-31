@@ -168,32 +168,35 @@ public class CustomerServiceImpl implements CustomerService{
 		List<Image> uploadList = new ArrayList<Image>();
 
 		// images에 담겨 있는 파일 중 실제로 업로드된 파일만 분류
-		for (int i = 0; i < images.size(); i++) {
-
-			// i 번재 요소에 업로드한 파일이 있다면
-			if (images.get(i).getSize() > 0) {
-				Image img = new Image();
-
-				// img에 파일 정보를 담아서 uploadList에 추가
-				img.setImagePath(webPath);// 웹 접근경로
-
-				String fileName = images.get(i).getOriginalFilename();
-				img.setImageReName(Utill.fileRename(fileName));// 파일 변경명
-				img.setImageOriginal(fileName);// 파일 원본명
-				img.setImageLevel(i); // 이미지 순서
-				img.setImageTypeNo(boardNo);// 게시글 번호
+		if (images != null) {
+			
+			for (int i = 0; i < images.size(); i++) {
 				
-				if(board.getBoardCd() == 3) { // 공지사항
-					img.setImageType(9);
-				} else if(board.getBoardCd() == 6){ // 1대1 문의
-					img.setImageType(10);
-				} 
+				// i 번재 요소에 업로드한 파일이 있다면
+				if (images.get(i).getSize() > 0) {
+					Image img = new Image();
+					
+					// img에 파일 정보를 담아서 uploadList에 추가
+					img.setImagePath(webPath);// 웹 접근경로
+					
+					String fileName = images.get(i).getOriginalFilename();
+					img.setImageReName(Utill.fileRename(fileName));// 파일 변경명
+					img.setImageOriginal(fileName);// 파일 원본명
+					img.setImageLevel(i); // 이미지 순서
+					img.setImageTypeNo(boardNo);// 게시글 번호
+					
+					if(board.getBoardCd() == 3) { // 공지사항
+						img.setImageType(9);
+					} else if(board.getBoardCd() == 6){ // 1대1 문의
+						img.setImageType(10);
+					} 
+					
+					
+					uploadList.add(img);
+					
+				}
 				
-
-				uploadList.add(img);
-
 			}
-
 		}
 		if (!uploadList.isEmpty()) {
 
