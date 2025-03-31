@@ -31,4 +31,6 @@ public interface MypageService {
     List<QuestCustomer> getPromotionInfo(int memberNo);
 
     List<Category> getCategory(int categoryNo);
+
+    int updateProfile(int memberNo, Image img, MultipartFile file, String filePath);
 }
