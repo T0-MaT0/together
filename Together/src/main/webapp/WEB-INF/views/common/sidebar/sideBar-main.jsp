@@ -203,7 +203,7 @@
             <div class="itemName" >카테고리 <span>Category</span></div>
 
             <div class="itemContents" id="categoryListItems">
-              <br>원하는 분류를 선택해주세요.
+              원하는 분류를 선택해주세요.
             </div>
           </div>
 
@@ -215,7 +215,9 @@
               <input type="text" id="sample4_jibunAddress" placeholder="지번주소">
             </div>
           </div>
+          <div class="item" id = "searchItemList">
             
+          </div>
 
 
 

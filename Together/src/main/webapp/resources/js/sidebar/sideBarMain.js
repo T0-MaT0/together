@@ -1487,7 +1487,7 @@ categories.forEach(category => {
     const categoryNo = parseInt(this.getAttribute("data-categoryNo"), 10);
     const categoryList = document.getElementById("categoryListItems");
     if (categoryNo === 0) {
-      categoryList.innerHTML = "카테고리가 너무 많습니다. <br>원하는 분류를 선택해주세요."; 
+      categoryList.innerHTML = "원하는 분류를 선택해주세요."; 
       return;
     }
     
@@ -1547,9 +1547,6 @@ memberTypes.forEach(type => {
 
       locationList.classList.remove("hidden");
     }
-      
-
-
   });
 });
 
@@ -1563,7 +1560,7 @@ const sideBarSearchInput = document.getElementById("sideBarSearchInput");
 sideBarSearchBtn.addEventListener("click", e => {
   e.preventDefault();
   const searchValue = sideBarSearchInput.value.trim();
-
+  const type = document.querySelector(".member-type.bold").getAttribute("data-type");
   const selectedCategorieParants = document.querySelectorAll(".sideBox .category.selected");
   const categoryNoParants = Array.from(selectedCategorieParants).map(c => c.getAttribute("data-categoryNo"));
   const selectedCategories = document.querySelectorAll("#categoryListItems .itemContent.selected");
@@ -1574,7 +1571,122 @@ sideBarSearchBtn.addEventListener("click", e => {
 
   const location = document.getElementById("sample4_jibunAddress").value;
   
+  fetch("/ajax/totalSearch", {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      searchValue: searchValue,
+      categoryNo: categoryNo,
+      categoryNoParants: categoryNoParants,
+      type: type,
+      minValue: minValue,
+      maxValue: maxValue,
+      location: location
+    })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    const searchItemList = document.getElementById("searchItemList");
+    searchItemList.innerHTML = ""; // 기존 내용 초기화
+    /* boardCode
+: 
+2
+boardContent
+: 
+"240Hz 주사율을 지원하는 고성능 게이밍 모니터입니다."
+boardNo
+: 
+92
+boardTitle
+: 
+"최신형 게이밍 모니터"
+category
+: 
+"생활"
+categoryNo
+: 
+3
+imgPath
+: 
+"/resources/images/product/48.jpg"
+price
+: 
+31000
+purchaseDate
+: 
+null
+readCount
+: 
+32
+reviewContent
+: 
+null
+reviewDate
+: 
+null
+reviewNo
+: 
+0
+reviewScore
+: 
+0 */
+data.forEach(item => {
+  if ("${item.boardCode}" != 2){
+    boardCode = 1;
+  }
+
+  const itemBox = document.createElement("div");
+  itemBox.className = "itemBox";
+
+  const thumb = document.createElement("div");
+  thumb.className = "thumb";
+
+  const img = document.createElement("img");
+  img.src = item.imgPath;
+  img.alt = item.boardTitle;
+
+  thumb.appendChild(img);
+  itemBox.appendChild(thumb);
+
+  const digit = document.createElement("div");
+  digit.className = "digit";
+
+  const titleDiv = document.createElement("div");
+  titleDiv.innerHTML = `<span>${item.boardTitle}</span>`;
+  digit.appendChild(titleDiv);
+
+  const priceDiv = document.createElement("div");
+  digit.appendChild(priceDiv);
   
+  const companyDiv = document.createElement("div");
+  companyDiv.innerHTML = `<span>${item.price}원(원가)</span>`;
+  digit.appendChild(companyDiv);
+  const companyDiv2 = document.createElement("div");
+  digit.appendChild(companyDiv2);
+
+  const quantityDiv = document.createElement("div");
+  quantityDiv.innerHTML = `<div>조회수 : <span>${item.readCount}</span></div>`;
+  digit.appendChild(quantityDiv);
+  
+  const deleteBtnArea = document.createElement("div");
+  deleteBtnArea.className = "deleteBtn-area";
+  
+  const deleteLink = document.createElement("a");
+  deleteLink.href = `/board/${item.boardCode}/${item.boardNo}`; 
+  deleteLink.innerText = "보러가기"
+  
+  deleteBtnArea.appendChild(deleteLink);
+  
+  itemBox.appendChild(digit);
+  itemBox.appendChild(deleteBtnArea);
+  
+  searchItemList.appendChild(itemBox);
+
+});
+  })
+  .catch(error => console.error("Error:", error));
+
 })
 
 
