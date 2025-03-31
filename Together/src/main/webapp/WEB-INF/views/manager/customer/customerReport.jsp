@@ -44,6 +44,7 @@
         <div class="head-title">
             <div>고객 관리</div>
              &nbsp; <div> - 신고</div>
+             <jsp:include page="/WEB-INF/views/manager/common/searchManager.jsp"/>
         </div>
     </header>
 

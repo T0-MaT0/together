@@ -42,6 +42,7 @@
         <div class="head-title">
             <div>브랜드 관리</div>
              &nbsp; <div> - 성과</div>
+             <jsp:include page="/WEB-INF/views/manager/common/searchManager.jsp"/>
         </div>
     </header>
 
@@ -156,12 +157,22 @@
         </c:forEach>
         <!-- <div>가장 큰 READ_COUNT: ${maxReadCount}</div> -->
         
+            <!-- <c:forEach var="i" begin="0" end="${map.dataRank.size() - 1}">
+                <div class="graphBarArea">
+                    <div class="label">${i+1}. ${map.dataRank[i].BRAND_NAME}</div>
+                    <div class="graphArea">
+                        <div class="graphBar blue" style="width: ${map.dataRank[i].QUANTITY / maxQuantity * 180 + 10}px;" data-quantity="${map.dataRank[i].QUANTITY}"></div>
+                        <div class="graphBar red" style="width: ${map.dataRank[i].READ_COUNT / maxReadCount * 180 + 10}px;" data-quantity="${map.dataRank[i].READ_COUNT}"></div>
+                    </div>
+                </div>
+            </c:forEach> -->
+
             <c:forEach var="i" begin="0" end="${map.dataRank.size() - 1}">
                 <div class="graphBarArea">
                     <div class="label">${i+1}. ${map.dataRank[i].BRAND_NAME}</div>
                     <div class="graphArea">
-                        <div class="graphBar blue" style="width: ${map.dataRank[i].QUANTITY / maxQuantity * 180+10}px;" data-quantity="${map.dataRank[i].QUANTITY} "></div>
-                        <div class="graphBar red" style="width: ${map.dataRank[i].READ_COUNT / maxReadCount * 180+10}px;" data-quantity="${map.dataRank[i].READ_COUNT} "></div>
+                        <div class="graphBar blue" style="height: 20px; width:${Math.min(map.dataRank[i].QUANTITY*10, 200)}px;" data-quantity="${map.dataRank[i].QUANTITY}"></div>
+                        <div class="graphBar red" style="height: 20px; width: ${Math.min(map.dataRank[i].READ_COUNT*10, 200)}px;" data-quantity="${map.dataRank[i].READ_COUNT}"></div>
                     </div>
                 </div>
             </c:forEach>
