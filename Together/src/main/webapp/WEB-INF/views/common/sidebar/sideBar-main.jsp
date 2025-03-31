@@ -24,7 +24,7 @@
         <div><a href="" class="no-link" id="scrollDown"><img src="/resources/images/sidebar/images/ArrowDown.svg" height="30px" alt=""></a></div>
       </div>
     </div>
-    <div class="sidebar-wrapper">
+    <div class="sidebar-wrapper hidden">
       <div class="title">
         <span id="sideBarTitle">채팅</span>
       </div>
@@ -139,7 +139,7 @@
 
 
 
-    <div class="sidebar-wrapper hidden">
+    <div class="sidebar-wrapper">
       <div class="title">
         <span id="title"></span>
         <div class="Search-box">

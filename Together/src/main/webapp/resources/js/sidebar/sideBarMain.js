@@ -29,12 +29,6 @@ sideBarBox.addEventListener("click", function (e) {
   sideBar.classList.add("active");
   sideBarClose.classList.remove("activate");
 
-  if (sideBar.classList.contains("active")) {
-    if (!window.chatSse) {
-      connectChatSSE(); // 알림용 SSE 연결
-    }
-
-  }
 });
 
 sideBarClose.addEventListener("click", function (e) {
@@ -1256,10 +1250,19 @@ function openAddressSearch() {
 function sample4_execDaumPostcode() {
   new daum.Postcode({
     oncomplete: function(data) {
-      const parts = data.jibunAddress.split(" ");
-      const shortAddress = parts.slice(0, 2).join(" ");
+            // 지번 주소가 있으면 우선 사용
+            if (data.jibunAddress && data.jibunAddress !== "") {
+              const parts = data.jibunAddress.split(" ");
+              selectedAddress = parts.slice(0, 2).join(" ");
+            }
+            // 도로명 주소로 대체
+            else if (data.roadAddress && data.roadAddress !== "") {
+              const parts = data.roadAddress.split(" ");
+              selectedAddress = parts.slice(0, 2).join(" ");
+            }
       
-      document.getElementById("sample4_jibunAddress").value = shortAddress;
+      
+      document.getElementById("sample4_jibunAddress").value = selectedAddress;
     }
   }).open();
 }
