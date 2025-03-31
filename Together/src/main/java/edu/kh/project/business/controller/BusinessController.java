@@ -205,10 +205,6 @@ public class BusinessController {
 			@RequestParam(value = "optionNo", required = false) List<Integer> optionNoList,
 			@RequestParam(value = "optionName", required = false) List<String> optionNameList,
 			Business business, RedirectAttributes ra, HttpSession session) throws IllegalStateException, IOException {
-		System.out.println(images);
-		System.out.println(optionNoList);
-		System.out.println(optionNameList);
-		System.out.println(business);
 		business.setMemberNo(loginMember.getMemberNo());
 		
 		String webPath = "/resources/images/product/";
