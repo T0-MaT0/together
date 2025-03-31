@@ -222,7 +222,7 @@ const renderList=map=>{
         } else {
             const reportBtn = document.createElement("span");
             reportBtn.classList.add("clickBtn")
-            reportBtn.addEventListener("click", ()=>reportReply(reply));
+            reportBtn.addEventListener("click", ()=>reportReviewReply(reply));
             reportBtn.innerText = "신고";
             btnArea.append(reportBtn);
         }
@@ -254,7 +254,7 @@ const renderList=map=>{
             } else {
                 const reportBtn = document.createElement("span");
                 reportBtn.classList.add("clickBtn")
-                reportBtn.addEventListener("click", ()=>reportReply(childReply));
+                reportBtn.addEventListener("click", ()=>reportReviewReply(childReply));
                 reportBtn.innerText = "신고";
                 currentReplyContentArea.append(" | ", reportBtn);
             }
@@ -619,12 +619,22 @@ const insertReviewReply=(reviewNo, replyContent)=>{
 
 // 리뷰 신고 보내기
 const reportReview = review=>{
-    
+    const reviewNo = review.reviewNo;            
+    const reportedUserNo = review.memberNo;    
+    const reporterName = loginMember.memberNick; 
+
+    openReportModal(5, reviewNo, reportedUserNo, reporterName);
+
 };
 
 // 리뷰 댓글 신고 보내기
 const reportReviewReply = reply=>{
-
+    const replyNo = reply.replyNo;            
+    const reportedUserNo = reply.memberNo;    
+    const reporterName = loginMember.memberNick; 
+  
+    // type = 3: 댓글 신고
+    openReportModal(3, replyNo, reportedUserNo, reporterName);
 };
 
 // 리뷰 수정
@@ -701,10 +711,6 @@ const deleteReviewReply = reply=>{
     .catch(err=>console.log(err));
 };
 
-// Q&A 신고
-const reportReply=reply=>{
-
-};
 
 // Q&A 수정
 const updateReply=(reply, contentArea)=>{
@@ -1040,3 +1046,155 @@ document.getElementById("updateBusiness").addEventListener("click", ()=>{
         location.href = `${location.pathname}/update`;
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function openReportModal(type, typeNo, reportedUserNo, reporterName) {
+    window.reportType = type;
+    window.reportTypeNo = typeNo;
+    window.reportedUserNo = reportedUserNo;
+    // 신고자 이름 채우기
+    document.getElementById("reporterName").innerText = reporterName;
+
+    // 제목/내용 초기화
+    document.getElementById("reportTitle").value = "";
+    document.getElementById("reportReason").innerText = "";
+  
+    // 모달 보이기
+    const modal = document.getElementById("reportModal");
+    if (modal) {
+      modal.classList.remove("hidden");
+      modal.classList.add("show"); // 선택사항: transition 효과 줄 거면
+    } else {
+      console.warn("❗ 모달을 찾을 수 없습니다: #reportModal");
+    }
+  }
+  
+  function closeReportModal() {
+    const modal = document.getElementById("reportModal");
+    if (modal) {
+      modal.classList.add("hidden");
+      modal.classList.remove("show");
+    }
+  }
+  
+  function submitReport() {
+    const title = document.getElementById("reportTitle").value.trim();
+    const detail = document.getElementById("reportReason").innerText.trim();
+  
+    if (!title || !detail) {
+      alert("제목과 내용을 모두 입력해주세요.");
+      return;
+    }
+  
+    const data = {
+      reportType: window.reportType,
+      reportTypeNo: window.reportTypeNo,
+      reportedUserNo: window.reportedUserNo,
+      reportTitle: title,
+      reportDetail: detail
+    };
+  
+    fetch("/report/submit", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.success) {
+          alert("신고가 접수되었습니다.");
+          closeReportModal();
+        } else {
+          alert("신고 실패: " + result.message);
+        }
+      })
+      .catch(err => {
+        console.error("❌ 신고 중 오류 발생", err);
+        alert("오류가 발생했습니다.");
+      });
+  }
+
+
+
+
+
+

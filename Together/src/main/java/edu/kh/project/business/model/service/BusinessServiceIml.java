@@ -25,6 +25,7 @@ import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.common.utility.Utill;
+import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.manager.model.exception.FileUploadException;
 import edu.kh.project.member.model.dto.Member;
 
@@ -505,5 +506,12 @@ public class BusinessServiceIml implements BusinessService {
 			}
 		}
 		return result;
+	}
+
+	
+	//게시글 신고 접수
+	@Override
+	public int insertReport(Report report) {
+		return dao.insertReport(report);
 	}
 }
