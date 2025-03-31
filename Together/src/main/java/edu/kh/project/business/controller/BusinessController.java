@@ -65,6 +65,7 @@ public class BusinessController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		String bannerList = objectMapper.writeValueAsString(map.get("bannerList"));
 		model.addAttribute("bannerList", bannerList);
+		model.addAttribute("boardCode", boardCode);
 		
 		model.addAttribute("map", map);
 		
@@ -85,6 +86,7 @@ public class BusinessController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		String bannerList = objectMapper.writeValueAsString(map.get("bannerList"));
 		model.addAttribute("bannerList", bannerList);
+		model.addAttribute("boardCode", boardCode);
 		
 		model.addAttribute("map", map);
 		
@@ -297,6 +299,13 @@ public class BusinessController {
 		}
 		
 		return path;
+	}
+	
+	// 찜히기 처리
+	@PostMapping("/pick")
+	@ResponseBody
+	public int pick(@RequestBody Map<String, Integer> paramMap) {
+		return service.pick(paramMap);
 	}
 	
 	// 게시글 상세 화면에 리뷰 목록 조회

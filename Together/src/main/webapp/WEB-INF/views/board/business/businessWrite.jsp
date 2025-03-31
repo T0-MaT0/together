@@ -149,9 +149,8 @@
                             <c:forEach var="i" begin="2" end="${imageList[fn:length(imageList)-1].imageLevel}">
                                 <c:set var="imageSrc" value=""/>
                                 <c:forEach var="image" items="${imageList}">
-                                    ${image}
                                     <c:if test="${image.imageLevel==i}">
-                                        <c:set var="imageSrc" value="${imageList[i].imagePath}${imageList[i].imageReName}"/>
+                                        <c:set var="imageSrc" value="${image.imagePath}${image.imageReName}"/>
                                     </c:if>
                                 </c:forEach>
                                 <div class="product-img">
