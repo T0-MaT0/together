@@ -47,7 +47,6 @@
             <div class="banner">
                 <img src="" id="bannerImg">
             </div>
-
             
             <section class="boardList">
                 <div class="title-area">

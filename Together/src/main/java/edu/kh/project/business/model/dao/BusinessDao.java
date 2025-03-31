@@ -232,4 +232,8 @@ public class BusinessDao {
 	public int deleteProductPick(Map<String, Integer> paramMap) {
 		return sqlSession.delete("boardMapper.deleteProductPick", paramMap);
 	}
+
+	public int updateQuantity(Order order) {
+		return sqlSession.update("boardMapper.updateQuantity", order);
+	}
 }

@@ -132,7 +132,8 @@ public class BusinessServiceIml implements BusinessService {
 
 	@Override
 	public int insertOrder(Map<String, Object> paramMap) {
-		int result = dao.insertOrder((Order)paramMap.get("order"));
+		Order order = (Order)paramMap.get("order");
+		int result = dao.insertOrder(order);
 		
 		if (result>0) {
 			Member loginMember = (Member) paramMap.get("loginMember");
@@ -147,6 +148,9 @@ public class BusinessServiceIml implements BusinessService {
 			if (result>0) {
 				loginMember.setPoint(loginMember.getPoint()-totalPrice);
 				result = dao.updatePoint(loginMember);
+			}
+			if (result>0) {
+				result = dao.updateQuantity(order);
 			}
 		}
 		

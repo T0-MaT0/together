@@ -515,6 +515,11 @@
 		UPDATE "MEMBER" SET POINT = #{point} WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
+	<!-- 상품 제고 수정 -->
+	<update id="updateQuantity">
+		UPDATE PRODUCT SET PRODUCT_COUNT = #{quantity} WHERE BOARD_NO = #{boardNo}
+	</update>
+	
 	<!-- 포인트 사용 내역 조회 -->
 	<select id="selectUsage" resultMap="usage_rm">
 		SELECT * FROM POINT_USAGE 
