@@ -100,11 +100,11 @@
             <div class="item lineGraph">
                 <div class="titleArea bottom-line-pink">
                     <span class="titleName">개인/브랜드 회원 가입 수 추이</span> 
-                    <select name="customerStatus" id="customerStatus">
+                    <!-- <select name="customerStatus" id="customerStatus">
                         <option selected>주</option>
                         <option>월</option>
                         <option>년</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <canvas id="myChart2" style="width:100%;max-width:600px"></canvas>

@@ -417,6 +417,15 @@ public class ManagerDAO {
 		return sqlSession.selectOne("managerMapper.waitCustReportCount");
 	}
 
+	/** 고객 검색
+	 * @param query
+	 * @return
+	 */
+	public List<Member> managerSearchMember(String query) {
+		RowBounds rowBounds = new RowBounds(0, 10);
+		return sqlSession.selectList("managerMapper.managerSearchMember", query, rowBounds);
+	}
+
 
 
 
