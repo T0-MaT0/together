@@ -51,6 +51,13 @@ function loadChatRoomList() {
       fullChatList = chatList; // 전체 목록 저장
       renderChatRoomList(fullChatList); // 화면 출력
       bindChatRoomSearchEvent(); // 검색 필터 이벤트 연결
+
+      if (!chatSse) connectChatSSE(); // SSE 연결 (한 번만)
+      if (!chattingSock || chattingSock.readyState !== 1) {
+        // 가장 최근 채팅방 번호로 WebSocket 연결
+        const latestRoom = chatList[0];
+        if (latestRoom) connectChatWebSocket(latestRoom.roomNo);
+      }
     })
     .catch(err => {
       console.error("채팅방 목록 불러오기 실패", err);
