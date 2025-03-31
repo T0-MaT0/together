@@ -6,8 +6,7 @@
 <div class="mypage-sidebar">
 	<ul>
     <div class="main-item home"><a href="home">마이 홈</a></div>
-    <div class="main-item section-title orders"><a href="orders">주문 내역</a></div>
-    <div class="main-item section-title wishlist recentPurchase"><a href="wishlist">관심 상품</a>
+    <div class="main-item section-title wishlist recentPurchase"><a href="wishlist">상품</a>
       <div class="sub-item wishlist"><a href="wishlist">찜한 상품</a></div>
       <div class="sub-item recentPurchase"><a href="recentPurchase">최근 구매 상품</a></div>
     </div>

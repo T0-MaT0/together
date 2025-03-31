@@ -144,9 +144,9 @@
         <span id="title"></span>
         <div class="Search-box">
           <label for="sideBarSearchInput">
-            <div id="sideBarSearchArea"><input type="text" name="sideBarSearchInput" id="sideBarSearchInput" ></div>
+            <div id="sideBarSearchArea"><input type="text" name="sideBarSearchInput" id="sideBarSearchInput" placeholder="검색어를 입력해 주세요."></div>
           </label>
-          <div id="sideBarSearchBtn"><img src="images/Search.svg" alt=""></div>
+          <div id="sideBarSearchBtn"><img src="/resources/images/sidebar/images/Search.svg" alt=""></div>
         </div>
       </div>
       <div class="body" id="SEARCH">
@@ -175,55 +175,45 @@
             <a class="member-type" data-type="company">공구 모집</a>
             <div id="bottomLine"></div>
           </div>
-          <div class="item" id = "locationList">
-            <div class="itemName">지역 <span>Location</span></div>
-
-            <div class="itemContents">
-              <div class="itemContent BTN selected" onclick="sample4_execDaumPostcode()">지도 검색</div>
-              <input type="text" id="sample4_jibunAddress" placeholder="지번주소">
-            </div>
-              
-
-          </div>
-          <div class="item" id = "priceRange">
+          
+          <div class="item" id="priceRange">
             <div class="itemName">가격 <span>Price</span></div>
 
             <div class="itemRange">
               <div class="range-slider-container">
-
-                <div class="slider-track"> 
-                  <div class="progress"></div>
+                <div class="slider-track">
+                  <div class="progressBar"></div> <!-- 변경된 클래스 이름 -->
                 </div>
-              
+                
                 <label>
                   <span class="handle min"><span id="minValue">0</span></span>
                   <input type="range" class="min-range range-input">
                 </label>
-              
+                
                 <label>
                   <span class="handle max"><span id="maxValue">990000~</span></span>
                   <input type="range" class="max-range range-input">
                 </label>
-
               </div>
             </div>
-              
-
           </div>
+
+
           <div class="item" id = "categoryList">
             <div class="itemName" >카테고리 <span>Category</span></div>
 
             <div class="itemContents" id="categoryListItems">
-              <div class="itemContent BTN selected" data-subCategoryNo="12">여성 의류</div>
-              <div class="itemContent BTN ">남성 의류</div>
-              <div class="itemContent BTN selected">아동 의류</div>
-              <div class="itemContent BTN ">신발</div>
-              <div class="itemContent BTN selected"> 가방 & 액서서리</div>
-              <div class="itemContent BTN ">스포츠웨어</div>
-              <div class="itemContent BTN ">스포츠웨어</div>
+              <br>원하는 분류를 선택해주세요.
             </div>
-              
+          </div>
 
+
+          <div class="item hidden" id = "locationList">
+            <div class="itemName">지역 <span>Location</span></div>
+            <div class="itemContents">
+              <div class="itemContent BTN selected" onclick="sample4_execDaumPostcode()">지도 검색</div>
+              <input type="text" id="sample4_jibunAddress" placeholder="지번주소">
+            </div>
           </div>
             
 
