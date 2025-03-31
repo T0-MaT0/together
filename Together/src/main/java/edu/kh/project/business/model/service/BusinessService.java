@@ -68,6 +68,10 @@ public interface BusinessService {
 	int updateProduct(Business business, List<Integer> optionNoList, List<String> optionNameList, List<MultipartFile> images, 
 			String deleteList, String webPath, String filePath) throws IllegalStateException, IOException;
 
+
 	// 게시글 신고 접수
 	int insertReport(Report report);
+
+	int pick(Map<String, Integer> paramMap);
+
 }

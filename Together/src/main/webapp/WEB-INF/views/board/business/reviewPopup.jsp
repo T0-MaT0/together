@@ -83,19 +83,21 @@
                 </div>
                 <div class="review-img-area">
                     <c:forEach var="i" begin="0" end="4">
-                        <c:if test="${!empty imageList[i]}">
-                            <c:set var="displayStyle" value="display: inline;"/>
-                            <c:set var="imageNo" value="${imageList[i].imageNo}"/>
-                        </c:if>
-                        <c:if test="${empty imageList[i]}">
-                            <c:set var="displayStyle" value="display: none;"/>
-                            <c:set var="imageNo" value="-1"/>
-                        </c:if>
+                        <c:set var="imageSrc" value=""/>
+                        <c:set var="displayStyle" value="display: none;"/>
+                        <c:set var="imageNo" value="-1"/>
+                        <c:forEach var="image" items="${imageList}">
+                            <c:if test="${image.imageLevel==i}">
+                                <c:set var="imageSrc" value="${image.imagePath}${image.imageReName}"/>
+                                <c:set var="displayStyle" value="display: inline;"/>
+                                <c:set var="imageNo" value="${image.imageNo}"/>
+                            </c:if>
+                        </c:forEach>
                         <div class="image-container" draggable="true">
                             <input type="hidden" name="imageNo" value="${imageNo}">
                             <input type="hidden" name="imageLevel" value="${i}">
                             <label for="img${i}">
-                                <img class="preview" src="${imageList[i].imagePath}${imageList[i].imageReName}">
+                                <img class="preview" src="${imageSrc}">
                             </label>
                             <input type="file" name="images" class="input-image" id="img${i}" accept="image/*">
                             <span class="delete-image" style="${displayStyle}">&times</span>

@@ -28,7 +28,6 @@ public class MainController {
 	public String mainForward(Model model,
 	        @SessionAttribute(value = "loginMember", required = false) Member loginMember) {
 		
-		System.out.println("MainController 실행됨");
 		int boardCode = 1; 
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 

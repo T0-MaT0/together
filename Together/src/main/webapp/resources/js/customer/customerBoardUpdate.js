@@ -75,7 +75,7 @@ const deleteImage = document.getElementsByClassName("delete-image");
 for (let i = 0; i < preview.length; i++) {
   inputImage[i].addEventListener("change", e => {
     const file = e.target.files[0];
-    if (file !== undefined) {
+    if (file != undefined) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = function (e) {
@@ -88,7 +88,7 @@ for (let i = 0; i < preview.length; i++) {
   });
 
   deleteImage[i].addEventListener("click", e => {
-    if (preview[i].getAttribute("src")) {
+    if (preview[i].getAttribute("src") != '') {
       preview[i].removeAttribute("src");
       inputImage[i].value = '';
       deleteSet.add(i); // 삭제된 이미지 순서 저장

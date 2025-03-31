@@ -159,7 +159,7 @@ public class BoardInsertController {
 		System.out.println("삭제 리스트 : " + deleteList);
 		
 		// 2. 이미지 서버 저장 경로, 웹 접근 경로
-		String webPath = "/resources/images/board/";
+		String webPath = "/resources/images/customer/";
 		String filePath = session.getServletContext().getRealPath(webPath);
 		
 		// 3. 게시글 수정 서비스 호출

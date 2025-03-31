@@ -183,6 +183,10 @@ public class CustomerDAO {
 		return sqlSession.selectList("customerMapper.selectFixedNoticeList");
 	}
 
+	public List<Image> imageList(int boardNo) {
+		return sqlSession.selectList("customerMapper.imageList", boardNo);
+	}
+
 
 
 	

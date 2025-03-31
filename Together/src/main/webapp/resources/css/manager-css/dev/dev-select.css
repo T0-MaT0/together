@@ -210,7 +210,7 @@
     background-color: white;
     border-radius: 5px;
     /* width: 1060px; */
-    height: 1000px;
+    height: 900px;
     position: relative;
     padding: 10px;    
 }
@@ -226,13 +226,16 @@
     background-color: rgba(239, 188, 197, 0.187);
     border: 2px solid pink;
     border-radius: 3px;
-    width: 1030px; height: 930px;
+    width: 1030px; height: 95%;
+
+    /* 가운데 정렬을 위한 패딩 */
+    padding: 45px;
 
     overflow: scroll;
 
 }
 .promotionImage{
-    width: 1000px;
+    width: 900px;
     height: auto;
     border: 1px solid #ccc;
     border-radius: 5px;

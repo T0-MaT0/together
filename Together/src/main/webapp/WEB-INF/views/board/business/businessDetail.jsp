@@ -82,13 +82,18 @@
                         </div>
                         <div class="buy-area">
                             <c:if test="${loginMember.authority!=1&&loginMember.memberNo!=business.memberNo}">
-                                <i class="fa-regular fa-heart"></i>
-                                <i class="fa-solid fa-cart-shopping"></i>
+                                <c:if test="${empty pickCheck}">
+                                    <i class="fa-regular fa-heart" id="pickProduct"></i>
+                                </c:if>
+                                
+                                <c:if test="${!empty pickCheck}">
+                                    <i class="fa-solid fa-heart" id="pickProduct"></i>
+                                </c:if>
                                 <button class="go-to-buy">혼자 구매</button>
                                 <button>공동 구매</button>
                             </c:if>
                             <c:if test="${loginMember.memberNo==business.memberNo}">
-                                <i></i><i></i>
+                                <i></i>
                                 <button id="updateBusiness">수정</button>
                                 <button id="deleteBusiness">삭제</button>
                             </c:if>

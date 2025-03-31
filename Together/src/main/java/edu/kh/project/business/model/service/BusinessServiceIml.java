@@ -513,5 +513,17 @@ public class BusinessServiceIml implements BusinessService {
 	@Override
 	public int insertReport(Report report) {
 		return dao.insertReport(report);
+}
+	@Override
+	public int pick(Map<String, Integer> paramMap) {
+		int result = 0;
+		if (paramMap.get("check")==0) {
+			result = dao.insertProductPick(paramMap);
+		} else {
+			result = dao.deleteProductPick(paramMap);
+		}
+		
+		if (result==0) result = -1;
+		return result;
 	}
 }

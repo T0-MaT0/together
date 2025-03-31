@@ -3,6 +3,7 @@ package edu.kh.project.member.model.service;
 import java.util.List;
 import java.util.Map;
 
+import edu.kh.project.common.model.dto.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -51,7 +52,10 @@ public class AjaxServiceImpl implements AjaxService{
 		return dao.searchQueryList(query);
 	}
 
+    @Override
+    public List<Category> getCategory(int categoryNo) {
+        return dao.getCategory(categoryNo);
+    }
 
 
-	
 }

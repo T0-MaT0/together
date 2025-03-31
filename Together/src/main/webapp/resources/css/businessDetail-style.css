@@ -172,15 +172,6 @@ main{
     cursor: pointer;
 }
 
-.fa-cart-shopping{
-    color: #9969ff;
-    width: 50px;
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
 .buy-area>button{
     width: 200px;
     height: 50px;
@@ -191,11 +182,13 @@ main{
     cursor: pointer;
 }
 
-.buy-area>button:nth-child(3){
+.buy-area>button:nth-child(2),
+.buy-area>#updateBusiness{
     background-color: #9969ff;
 }
 
-.buy-area>button:last-child{
+.buy-area>button:last-child,
+.buy-area>#deleteBusiness{
     background-color: #ff54a1;
 }
 

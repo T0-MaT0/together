@@ -1034,99 +1034,20 @@ goToBuys.forEach(goToBuy=>{
 });
 
 // 상품 삭제
-document.getElementById("deleteBusiness").addEventListener("click", ()=>{
+document.getElementById("deleteBusiness")?.addEventListener("click", ()=>{
     if(confirm("상품을 삭제하시겠습니까?")){
         location.href = `${location.pathname}/delete`;
     }
 });
 
 // 상품 수정
-document.getElementById("updateBusiness").addEventListener("click", ()=>{
+document.getElementById("updateBusiness")?.addEventListener("click", ()=>{
     if(confirm("상품을 수정하시겠습니까?")){
         location.href = `${location.pathname}/update`;
     }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// 신고 모달 열기
 function openReportModal(type, typeNo, reportedUserNo, reporterName) {
     window.reportType = type;
     window.reportTypeNo = typeNo;
@@ -1148,6 +1069,7 @@ function openReportModal(type, typeNo, reportedUserNo, reporterName) {
     }
   }
   
+// 신고 모달 닫기
   function closeReportModal() {
     const modal = document.getElementById("reportModal");
     if (modal) {
@@ -1156,6 +1078,7 @@ function openReportModal(type, typeNo, reportedUserNo, reporterName) {
     }
   }
   
+//신고 제출
   function submitReport() {
     const title = document.getElementById("reportTitle").value.trim();
     const detail = document.getElementById("reportReason").innerText.trim();
@@ -1193,8 +1116,34 @@ function openReportModal(type, typeNo, reportedUserNo, reporterName) {
       });
   }
 
-
-
-
-
+// 관심 상품 처리
+const pickProduct = document.getElementById("pickProduct");
+pickProduct?.addEventListener("click", e=>{
+    if(loginMemberNo==""){
+        alert("로그인 후 이용해주세요.");
+        return;
+    }
+    let check;
+    if(e.target.classList.contains("fa-regular")) {
+        check=0;
+    } else {
+        check=1;
+    }
+    const data={boardNo:boardNo, memberNo:loginMemberNo, check:check};
+    fetch(`/board/${boardCode}/pick`, {
+        method:"post",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(data)
+    })
+    .then(resp=>resp.text())
+    .then(count=>{
+        if(count==-1) {
+            alert("찜하기 처리 실패");
+            return;
+        }
+        e.target.classList.toggle("fa-regular");
+        e.target.classList.toggle("fa-solid");
+    })
+    .catch(err=>console.log(err));
+});
 

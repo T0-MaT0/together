@@ -1,6 +1,7 @@
 package edu.kh.project.member.model.dao;
 
 
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.manager.model.dto.QuestCustomer;
@@ -61,5 +62,11 @@ public class MypageDAO {
 
     public List<QuestCustomer> getPromotionInfo(int memberNo) {
         return sqlSession.selectList("mypageMapper.getPromotionInfo", memberNo);
+    }
+
+    public List<Category> getCategory(int categoryNo) {
+        int parentNo = categoryNo;
+        System.out.println("parentNo = " + parentNo);
+        return sqlSession.selectList("categoryMapper.selectChildCategories", parentNo);
     }
 }
