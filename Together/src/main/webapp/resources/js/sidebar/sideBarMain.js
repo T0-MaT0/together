@@ -1249,9 +1249,6 @@ searchPageBtn.addEventListener("click", () => {
 
 });
 
-function openAddressSearch() {
-  window.open("/address/search", "주소검색", "width=500,height=600");
-}
 
 
 
@@ -1290,7 +1287,7 @@ class RangeSlider {
     };
 
     this.elements = {
-      progress: document.querySelector('.progress'),
+      progressBar: document.querySelector('.progressBar'), // 변경된 클래스 이름
       minRange: document.querySelector('.min-range'),
       maxRange: document.querySelector('.max-range'),
       handles: document.querySelectorAll('.handle')
@@ -1303,7 +1300,7 @@ class RangeSlider {
       }
 
       if (value > +maxValue.innerText) {
-        value = +maxValue.innerText
+        value = +maxValue.innerText;
       }
 
       minValue.innerText = value;
@@ -1317,7 +1314,7 @@ class RangeSlider {
       }
 
       if (value < +minValue.innerText) {
-        value = +minValue.innerText
+        value = +minValue.innerText;
       }
       
       maxValue.innerText = value;
@@ -1355,54 +1352,39 @@ class RangeSlider {
   }
 
   setStartValue(v) {
-    const { minRange, maxRange, progress, handles } = this.elements;
+    const { minRange, maxRange, progressBar, handles } = this.elements;
     if (v >= +maxRange.value) {
       v = +maxRange.value - this.constants.RANGE_STEP;
       minRange.value = v;
     }
     const value = this.getCurrStep(v) * this.constants.RANGE_STEP;
-    progress.style.left = `${(value / this.constants.RANGE) * 100}%`;
+    progressBar.style.left = `${(value / this.constants.RANGE) * 100}%`;
     this.setHandlePos(minRange, handles[0]);
   }
 
   setEndValue(v) {
-    const { minRange, maxRange, progress, handles } = this.elements;
+    const { minRange, maxRange, progressBar, handles } = this.elements;
     if (v <= +minRange.value) {
       v = +minRange.value + this.constants.RANGE_STEP;
       maxRange.value = v;
     }
     const value = this.getCurrStep(v) * this.constants.RANGE_STEP;
-    progress.style.right = `${100 - (value / this.constants.RANGE) * 100}%`;
+    progressBar.style.right = `${100 - (value / this.constants.RANGE) * 100}%`;
     this.setHandlePos(maxRange, handles[1]);
   }
 
   getCurrStep(v) {
     return (v - this.constants.MIN_VALUE) / this.constants.RANGE_STEP;
   }
-
-function sample4_execDaumPostcode() {
-  new daum.Postcode({
-    oncomplete: function(data) {
-            // 지번 주소가 있으면 우선 사용
-            if (data.jibunAddress && data.jibunAddress !== "") {
-              const parts = data.jibunAddress.split(" ");
-              selectedAddress = parts.slice(0, 2).join(" ");
-            }
-            // 도로명 주소로 대체
-            else if (data.roadAddress && data.roadAddress !== "") {
-              const parts = data.roadAddress.split(" ");
-              selectedAddress = parts.slice(0, 2).join(" ");
-            }
-      
-      
-      document.getElementById("sample4_jibunAddress").value = selectedAddress;
-    }
-  }).open();
 }
+
 
 // 범위 슬라이더 초기화
 const slider = new RangeSlider();
 slider.init({ min: 10, max: 40 });
+
+
+
 
 
 
@@ -1454,7 +1436,7 @@ const sideBarSearchInput = document.getElementById("sideBarSearchInput");
               <div class="range-slider-container">
 
                 <div class="slider-track"> 
-                  <div class="progress"></div>
+                  <div class="progressBar"></div>
                 </div>
               
                 <label>
@@ -1591,6 +1573,30 @@ memberTypes.forEach(type => {
 
 
 
+
+
+function openAddressSearch() {
+  window.open("/address/search", "주소검색", "width=500,height=600");
+}
+function sample4_execDaumPostcode() {
+  new daum.Postcode({
+    oncomplete: function(data) {
+            // 지번 주소가 있으면 우선 사용
+            if (data.jibunAddress && data.jibunAddress !== "") {
+              const parts = data.jibunAddress.split(" ");
+              selectedAddress = parts.slice(0, 2).join(" ");
+            }
+            // 도로명 주소로 대체
+            else if (data.roadAddress && data.roadAddress !== "") {
+              const parts = data.roadAddress.split(" ");
+              selectedAddress = parts.slice(0, 2).join(" ");
+            }
+      
+      
+      document.getElementById("sample4_jibunAddress").value = selectedAddress;
+    }
+  }).open();
+}
 
 
 

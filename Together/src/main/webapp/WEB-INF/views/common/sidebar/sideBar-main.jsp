@@ -185,30 +185,26 @@
               
 
           </div>
-          <div class="item" id = "priceRange">
+          <div class="item" id="priceRange">
             <div class="itemName">가격 <span>Price</span></div>
 
             <div class="itemRange">
               <div class="range-slider-container">
-
-                <div class="slider-track"> 
-                  <div class="progress"></div>
+                <div class="slider-track">
+                  <div class="progressBar"></div> <!-- 변경된 클래스 이름 -->
                 </div>
-              
+                
                 <label>
                   <span class="handle min"><span id="minValue">0</span></span>
                   <input type="range" class="min-range range-input">
                 </label>
-              
+                
                 <label>
                   <span class="handle max"><span id="maxValue">990000~</span></span>
                   <input type="range" class="max-range range-input">
                 </label>
-
               </div>
             </div>
-              
-
           </div>
           <div class="item" id = "categoryList">
             <div class="itemName" >카테고리 <span>Category</span></div>
