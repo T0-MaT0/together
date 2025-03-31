@@ -416,7 +416,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
 	    // 2. QR URL 생성
 //	    String qrUrl = "https://www.to-gether.store/recruit/verify?recruitmentNo=" + recruitmentNo + "&token=" + token;
-	    String qrUrl = "http://localhost/recruit/verify?recruitmentNo=" + recruitmentNo + "&boardNo=" + boardNo + "&token=" + token;
+	    String qrUrl = "https://to-gether.store/recruit/verify?recruitmentNo=" + recruitmentNo + "&boardNo=" + boardNo + "&token=" + token;
 
 	    // 3. QR 이미지 생성 및 저장
 	    String fileName = "qr_" + recruitmentNo + "_" + System.currentTimeMillis() + ".png";
