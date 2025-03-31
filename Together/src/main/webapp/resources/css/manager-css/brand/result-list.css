@@ -168,7 +168,7 @@
 /* 고객 규모 그래프 */
 
 #container-center > section.cus-board.graph-card{
-    height: 400px;
+    min-height: 400px;
 }
 
 
@@ -178,10 +178,11 @@
     color:#6700CF;
 }
 
-
-.graphBarArea{
+.graphBarArea {
     width: 500px; /* 그래프 전체 너비 */
     margin: 20px 10px;
     display: grid;
-    grid-template-columns: 100px 268px;
+    grid-template-columns: 140px 240px;
+    align-items: center; /* 수평 중앙 정렬 */
+    margin-bottom: 10px;
 }

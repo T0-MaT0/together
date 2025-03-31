@@ -3,6 +3,8 @@ package edu.kh.project.manager.model.service;
 import java.util.List;
 import java.util.Map;
 
+import edu.kh.project.member.model.dto.Member;
+
 public interface ManagerService {
 
 	
@@ -98,8 +100,11 @@ public interface ManagerService {
 	 */
 	int cusWaitCount();
 
-	
 
+	//--------------------------------------------
+	// 고객 검색
+	List<Member> managerSearchMember(String query);
+	
 
 
 

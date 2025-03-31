@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function showImage(index) {
         images.forEach(img => img.classList.remove("active"));
-        images[index].classList.add("active");
+        images[index]?.classList.add("active");
     }
 
     function nextImage() {
@@ -159,12 +159,12 @@ document.addEventListener("DOMContentLoaded", function () {
     startAutoSlide();
 
     // 버튼 이벤트
-    nextBtn.addEventListener("click", () => {
+    nextBtn?.addEventListener("click", () => {
         nextImage();
         resetAutoSlide();
     });
 
-    prevBtn.addEventListener("click", () => {
+    prevBtn?.addEventListener("click", () => {
         prevImage();
         resetAutoSlide();
     });

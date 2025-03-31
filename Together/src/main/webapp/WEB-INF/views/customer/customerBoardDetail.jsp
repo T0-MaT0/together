@@ -52,6 +52,13 @@
           <div id="notice-date">${map.boardDetail.bCreateDate}</div>
         </div>
         <div id="notice-content">${map.boardDetail.boardContent}</div>
+        <c:if test="${not empty map.imageList}">
+          <div class="notice-image-area">
+            <c:forEach var="img" items="${map.imageList}">
+              <img src="${img.imagePath}${img.imageReName}" alt="첨부 이미지" class="notice-image">
+            </c:forEach>
+          </div>
+        </c:if>
       </section>
 
       

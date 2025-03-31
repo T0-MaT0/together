@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>개인 로그인</title>
+    <title>로그인</title>
     
     <link rel="stylesheet" href="/resources/css/member/login-style.css">
 </head>

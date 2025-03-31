@@ -264,6 +264,14 @@ public class ManagerServiceImpl implements ManagerService {
 	public int cusWaitCount() {
 		return dao.cusWaitCount();
 	}
+
+	
+	//--------------------------------------------------
+	// 고객 검색
+	@Override
+	public List<Member> managerSearchMember(String query) {
+		return dao.managerSearchMember(query);
+	}
 	
 
 

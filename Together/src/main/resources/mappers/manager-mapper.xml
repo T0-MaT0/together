@@ -1263,4 +1263,11 @@
 	</update>
 	
 	
+	<!-- 고객 검색  -->
+	<select id="managerSearchMember" resultMap="MemberState">
+		SELECT MEMBER_NO, MEMBER_NICK, AUTHORITY
+		FROM MEMBER
+		WHERE LOWER(MEMBER_NICK) LIKE LOWER('%${query}%')
+		AND MEMBER_NO != 1
+	</select>
 </mapper>

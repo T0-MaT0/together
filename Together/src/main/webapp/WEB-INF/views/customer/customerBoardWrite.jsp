@@ -31,7 +31,7 @@
 
                 <c:if test="${boardCode == 4}">
                     <select name="boardCd" id="boardCd">
-                        <option disabled selected hidden>문의 종류</option>
+                        <option disabled selected hidden value="">문의 종류</option>
                         <option value="9">회원/계정 문의</option>
                         <option value="10">공동구매 문의</option>
                         <option value="11">결제/환불 문의</option>
@@ -56,7 +56,7 @@
                     비밀번호<input type="password" id="check-pw">
                 </div>
 
-                <c:if test="${boardCode != 4}">
+                <c:if test="${boardCode == 3}">
 
                     <div class="img-box">
 
@@ -87,33 +87,6 @@
                 </c:if>
                
                     
-
-                <c:if test="${boardCode == 4}">
-                    <div class="img-box" style="display: none;">
-
-                        <div class="boardImg">
-                            <label for="img1">
-                                <img class="preview" src="">
-                            </label>
-                            <input type="file" name="images" class="inputImage" id="img1" accept="image/*">
-                            <span class="delete-image">&times;</span>
-                        </div>
-                        <div class="boardImg">
-                            <label for="img2">
-                                <img class="preview" src="">
-                            </label>
-                            <input type="file" name="images" class="inputImage" id="img2" accept="image/*">
-                            <span class="delete-image">&times;</span>
-                        </div>
-                        <div class="boardImg">
-                            <label for="img3">
-                                <img class="preview" src="">
-                            </label>
-                            <input type="file" name="images" class="inputImage" id="img3" accept="image/*">
-                            <span class="delete-image">&times;</span>
-                        </div>
-                    </div>
-                </c:if>
 
    
                 

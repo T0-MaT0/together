@@ -17,6 +17,7 @@ import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
+import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.member.model.dto.Member;
 
 @Repository
@@ -216,5 +217,19 @@ public class BusinessDao {
 
 	public int insertImage(Image img) {
 		return sqlSession.update("boardMapper.insertImage", img);
+	}
+
+
+	
+	// 게시글 신고 접수
+	public int insertReport(Report report) {
+		return sqlSession.insert("boardMapper.insertReport", report);
+  }
+	public int insertProductPick(Map<String, Integer> paramMap) {
+		return sqlSession.insert("boardMapper.insertProductPick", paramMap);
+	}
+
+	public int deleteProductPick(Map<String, Integer> paramMap) {
+		return sqlSession.delete("boardMapper.deleteProductPick", paramMap);
 	}
 }

@@ -249,12 +249,12 @@
     <jsp:include page="/WEB-INF/views/Individual/modal.jsp"/>
 
     <c:if test="${not empty loginMember}">
-    <script>
-        loginMember = {
-        memberNo: ${loginMember.memberNo},
-        nickname: "${loginMember.memberNick}"
-        };
-    </script>
+        <script>
+            loginMember = {
+            memberNo: ${loginMember.memberNo},
+            nickname: "${loginMember.memberNick}"
+            };
+        </script>
     </c:if>
     
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
