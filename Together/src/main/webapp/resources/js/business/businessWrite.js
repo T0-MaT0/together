@@ -12,6 +12,9 @@ for(let i=0;i<inputImage.length;i++){
         if(preview[i].getAttribute("src")!=""){
             preview[i].removeAttribute("src");
             inputImage[i].value="";
+            if(i!=0){
+                deleteSet.add(i);
+            }
         }
     });
 }
@@ -132,6 +135,10 @@ const productCount = document.getElementById("productCount");
 const boardContent = document.getElementById("boardContent");
 const modal = document.getElementById("modal");
 const businessWriteForm = document.getElementById("businessWriteForm");
+
+const deleteList = document.getElementById("deleteList");
+const deleteSet = new Set();
+
 businessWriteForm.addEventListener("submit", e=>{
     if(e.target.action.split("/").pop()!="update"){
         if(thumbnail.value==""){
@@ -201,6 +208,8 @@ businessWriteForm.addEventListener("submit", e=>{
         e.preventDefault();
         return;
     }
+
+    deleteList.value=Array.from(deleteSet);
 });
 
 // 모달 닫기

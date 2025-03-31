@@ -64,6 +64,6 @@ public interface BusinessService {
 
 	int deleteProduct(Business business);
 
-	int updateProduct(Business business, List<Integer> optionNoList, List<String> optionNameList, List<MultipartFile> images, String webPath,
-			String filePath) throws IllegalStateException, IOException;
+	int updateProduct(Business business, List<Integer> optionNoList, List<String> optionNameList, List<MultipartFile> images, 
+			String deleteList, String webPath, String filePath) throws IllegalStateException, IOException;
 }

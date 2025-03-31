@@ -187,22 +187,38 @@ public class BusinessDao {
 	}
 
 	public int updateBoard(Business business) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.update("boardMapper.updateBoard", business);
 	}
 
 	public int updateProduct(Business business) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.update("boardMapper.updateProduct", business);
 	}
 
 	public List<BusinessOption> selectOptionList(int boardNo) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectList("boardMapper.selectOptionList", boardNo);
 	}
 
 	public int deleteOption(int optionNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sqlSession.delete("boardMapper.deleteOption", optionNo);
+	}
+
+	public int updateOption(BusinessOption updateOption) {
+		return sqlSession.update("boardMapper.updateOption", updateOption);
+	}
+
+	public int checkImage(Map<String, Object> deleteMap) {
+		return sqlSession.selectOne("boardMapper.checkImage", deleteMap);
+	}
+
+	public int deleteBusinessImage(Map<String, Object> deleteMap) {
+		return sqlSession.delete("boardMapper.deleteBusinessImage" ,deleteMap);
+	}
+
+	public int updateImage(Image img) {
+		return sqlSession.update("boardMapper.updateImage", img);
+	}
+
+	public int insertImage(Image img) {
+		return sqlSession.update("boardMapper.insertImage", img);
 	}
 }

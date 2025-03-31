@@ -73,7 +73,7 @@
             <div class="content-box">
                 <div class="business-title">
                     <div>
-                        <span>${business.boardTitle}</span>
+                        <span onclick="gotoDetail()">${business.boardTitle}</span>
                         <span class="small">
                             배송비 
                             <c:if test="${empty business.deliveryFee}">
@@ -93,9 +93,9 @@
                     구매일 <fmt:formatDate value="${parsedDate}" pattern="yyyy.MM.dd(E)" />
                 </span>
                 <div class="option-area">
-                    <img src="${thumbnail}">
+                    <img src="${thumbnail}" onclick="gotoDetail()">
                     <div>
-                        <span>${business.boardTitle}</span>
+                        <span onclick="gotoDetail()">${business.boardTitle}</span>
                         <span class="small">${optionName} | ${order.quantity}개</span>
                         <span>
                             <fmt:formatNumber value="${price}" type="number" maxFractionDigits="0"/>원
