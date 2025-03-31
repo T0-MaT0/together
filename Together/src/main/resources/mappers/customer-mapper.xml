@@ -29,6 +29,18 @@
 	  <result property="parentNo" column="PARENT_REPLY_NO" />
 	</resultMap>
 	
+	<resultMap id="image_rm" type="Image">
+    
+	    <id property="imageNo" column="IMG_NO"/>
+	    
+	    <result property="imageReName" column="IMG_RENAME"/>
+	    <result property="imagePath" column="IMG_PATH"/>
+	    <result property="imageOriginal" column="IMG_ORIGINAL"/>
+	    <result property="imageLevel" column="IMG_LEVEL"/>
+	    <result property="imageType" column="IMG_TYPE"/>
+	    <result property="imageTypeNo" column="IMG_TYPE_NO"/>
+	
+	</resultMap>
 	
 	
 	
@@ -264,31 +276,31 @@
 	<!-- deleteList가 일치하는 이미지 존재 여부 확인 -->
 	<select id="checkImageOrder" resultType="_int">
 		SELECT COUNT(*) FROM IMG 
-		WHERE BOARD_NO = ${boardNo}
+		WHERE IMG_TYPE_NO = ${boardNo}
 		AND IMG_LEVEL IN ( ${deleteList} )
 	</select>
 	
 	<!-- 이미지 삭제 -->
 	<delete id="imageDelete">
 		DELETE FROM IMG
-		WHERE BOARD_NO = ${boardNo}
+		WHERE IMG_TYPE_NO = ${boardNo}
 		AND IMG_LEVEL IN (${deleteList})
 	</delete>
 	
 	<!-- 이미지 수정 -->
 	<update id="imageUpdate">
-		UPDATE BOARD_IMG SET
+		UPDATE IMG SET
 		IMG_PATH = #{imagePath},
 		IMG_RENAME = #{imageReName},
 		IMG_ORIGINAL = #{imageOriginal}
 		WHERE IMG_LEVEL = ${imageLevel}
-		AND BOARD_NO = ${boardNo}
+		AND IMG_TYPE_NO = ${imageTypeNo}
 	</update>
 	
 	<!-- 이미지 삽입 -->
 	<insert id="imageInsert">
 		INSERT INTO IMG VALUES 
-		(SEQ_IMG_NO.NEXTVAL, #{imageReName}, #{imagePath},  #{imageOriginal}, ${imageLevel}, 9, ${boardNo})
+		(SEQ_IMG_NO.NEXTVAL, #{imageReName}, #{imagePath},  #{imageOriginal}, ${imageLevel}, 9, ${imageTypeNo})
 	</insert>
 	<!-- 게시글 삭제 -->
 	<update id="boardDelete">
@@ -320,6 +332,12 @@
 	    AND B_STATE = 'S'
 	    AND BOARD_DEL_FL = 'N'
 	  ORDER BY BOARD_NO DESC
+	</select>
+	
+	<select id="imageList" resultMap="image_rm">
+		SELECT * FROM IMG
+		WHERE IMG_TYPE_NO = #{boardNo}
+		ORDER BY IMG_LEVEL
 	</select>
 	
 

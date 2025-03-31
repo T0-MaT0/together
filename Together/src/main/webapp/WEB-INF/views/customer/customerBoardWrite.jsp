@@ -31,7 +31,7 @@
 
                 <c:if test="${boardCode == 4}">
                     <select name="boardCd" id="boardCd">
-                        <option disabled selected hidden>문의 종류</option>
+                        <option disabled selected hidden value="">문의 종류</option>
                         <option value="9">회원/계정 문의</option>
                         <option value="10">공동구매 문의</option>
                         <option value="11">결제/환불 문의</option>
