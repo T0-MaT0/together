@@ -6,6 +6,7 @@ import java.util.Map;
 
 import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.member.model.dto.Member;
+import edu.kh.project.member.model.dto.Product;
 
 public interface AjaxService {
 	
@@ -49,4 +50,6 @@ public interface AjaxService {
 
 
     List<Category> getCategory(int categoryNo);
+
+	List<Product> totalSearch(Map<String, Object> searchMap);
 }

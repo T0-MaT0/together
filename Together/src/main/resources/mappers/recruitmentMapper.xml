@@ -971,4 +971,56 @@
 	    SET READ_COUNT = READ_COUNT + 1
 	    WHERE BOARD_NO = #{boardNo}
 	</update>
+
+	<select id="totalSearchRecruit" resultMap="recruitmentRoom_rm">
+    SELECT 
+		    r.RECRUITMENT_NO, 
+		    r.MAX_PARTICIPANTS, 
+		    r.RECRUITMENT_STATUS, 
+		    r.REC_CREATED_DATE, 
+		    r.REC_END_DATE, 
+		    r.REGION, 
+		    r.PRODUCT_URL, 
+		    r.QR_CODE, 
+		    r.BOARD_NO, 
+		    bt.BOARD_CD,
+		    b.BOARD_TITLE AS PRODUCT_NAME,   
+		    p.PRODUCT_PRICE, 
+		    p.PRODUCT_COUNT, 
+		    p.DELIVERY_FEE, 
+		    p.READ_COUNT, 
+		    p.CATEGORY_NO,
+		
+		    -- 모집장 닉네임과 등급
+		    m.MEMBER_NO AS hostNo,
+		    m.MEMBER_NICK AS hostName,
+		    m.MEMBER_GRADE AS hostGrade,
+		
+		    (SELECT I.IMG_PATH || I.IMG_RENAME 
+		     FROM IMG I	
+		     WHERE I.IMG_TYPE_NO = B.BOARD_NO 
+		       AND I.IMG_LEVEL = 0
+		       AND I.IMG_TYPE = 2
+		     FETCH FIRST 1 ROWS ONLY) AS thumbnail
+		
+		FROM RECRUITMENT_ROOM r
+		JOIN BOARD b ON r.BOARD_NO = b.BOARD_NO  
+		JOIN BOARD_TYPE bt ON b.BOARD_CD = bt.BOARD_CD  
+		JOIN PRODUCT p ON b.BOARD_NO = p.BOARD_NO  
+		JOIN MEMBER m ON r.MEMBER_NO = m.MEMBER_NO
+		
+		WHERE bt.BOARD_CD = 1
+		  AND b.BOARD_DEL_FL = 'N' 
+		  AND r.RECRUITMENT_STATUS != '완료'
+	AND p.PRODUCT_PRICE BETWEEN ${minValue} AND ${maxValue}
+	<if test="categoryNo != ''">
+			AND p.CATEGORY_NO IN (${categoryNo})
+		</if>
+        <if test="searchValue != ''">
+            AND b.BOARD_TITLE LIKE #{searchValue}
+        </if>
+		<if test="categoryNoParents != ''">
+			AND c.PARENT_CATEGORY_NO = ${categoryNoParents}
+		</if>
+	</select>
 </mapper>

@@ -367,4 +367,42 @@
 		ORDER BY B_CREATE_DATE DESC
 	</select>
 
+
+<select id="totalSearch" resultMap="product_rm">
+    SELECT
+        B.BOARD_NO,
+        B.BOARD_TITLE,
+        B.BOARD_CONTENT,
+        B.BOARD_CD,
+        I2.IMG_PATH || I2.IMG_RENAME AS IMG_PATH,
+        P.PRODUCT_PRICE AS PRICE,
+        P.READ_COUNT,
+        C.CATEGORY_NAME,
+        C.CATEGORY_NO
+    FROM PRODUCT P
+    LEFT JOIN BOARD B ON P.BOARD_NO = B.BOARD_NO
+    LEFT JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
+    LEFT JOIN (
+        SELECT IMG_TYPE_NO, IMG_PATH, IMG_RENAME
+        FROM IMG
+        WHERE IMG_TYPE = 2 AND IMG_LEVEL = 0
+    ) I2 ON B.BOARD_NO = I2.IMG_TYPE_NO
+    WHERE B.BOARD_DEL_FL = 'N'
+	AND BOARD_CD = 2
+	AND P.PRODUCT_PRICE BETWEEN ${minValue} AND ${maxValue}
+	<if test="categoryNo != ''">
+			AND P.CATEGORY_NO IN (${categoryNo})
+		</if>
+        <if test="searchValue != ''">
+            AND B.BOARD_TITLE LIKE #{searchValue}
+        </if>
+		<if test="categoryNoParents != ''">
+			AND C.PARENT_CATEGORY_NO = ${categoryNoParents}
+		</if>
+</select>
+
+
+
+
+
 </mapper>
