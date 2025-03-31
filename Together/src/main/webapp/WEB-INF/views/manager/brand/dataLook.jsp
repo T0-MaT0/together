@@ -166,10 +166,9 @@
                     </div>
                 </div>
             </c:forEach> -->
-
             <c:forEach var="i" begin="0" end="${map.dataRank.size() - 1}">
                 <div class="graphBarArea">
-                    <div class="label">${i+1}. ${map.dataRank[i].BRAND_NAME}</div>
+                    <div class="label">${i+1}. ${map.dataRank[i].BRAND_NAME} <br> ${map.dataRank[i].BOARD_TITLE}</div>
                     <div class="graphArea">
                         <div class="graphBar blue" style="height: 20px; width:${Math.min(map.dataRank[i].QUANTITY*10, 200)}px;" data-quantity="${map.dataRank[i].QUANTITY}"></div>
                         <div class="graphBar red" style="height: 20px; width: ${Math.min(map.dataRank[i].READ_COUNT*10, 200)}px;" data-quantity="${map.dataRank[i].READ_COUNT}"></div>
