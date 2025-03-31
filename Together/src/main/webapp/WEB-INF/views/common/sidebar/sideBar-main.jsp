@@ -9,6 +9,7 @@
   <meta charset="UTF-8">
   <title>Side bar</title>
   <link rel="stylesheet" type="text/css" href="/resources/css/sideBar.css">
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 </head>
 
@@ -23,7 +24,7 @@
         <div><a href="" class="no-link" id="scrollDown"><img src="/resources/images/sidebar/images/ArrowDown.svg" height="30px" alt=""></a></div>
       </div>
     </div>
-    <div class="sidebar-wrapper">
+    <div class="sidebar-wrapper hidden">
       <div class="title">
         <span id="sideBarTitle">채팅</span>
       </div>
@@ -138,7 +139,7 @@
 
 
 
-    <div class="sidebar-wrapper hidden">
+    <div class="sidebar-wrapper">
       <div class="title">
         <span id="title"></span>
         <div class="Search-box">
@@ -178,8 +179,8 @@
             <div class="itemName">지역 <span>Location</span></div>
 
             <div class="itemContents">
-              <div class="itemContent BTN selected">GPS 검색</div>
-              <div class="itemContent BTN">직접 선택</div>
+              <div class="itemContent BTN selected" onclick="sample4_execDaumPostcode()">지도 검색</div>
+              <input type="text" id="sample4_jibunAddress" placeholder="지번주소">
             </div>
               
 
@@ -245,7 +246,7 @@
     
 
     <script>
-      const memberNo = "${loginMember.memberNo}";
+      memberNo = "${loginMember.memberNo}";
       const loginMemberNo = "${loginMember.memberNo}";
       const loginMemberNickname = "${loginMember.memberNick}";
     </script>

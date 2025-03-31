@@ -33,7 +33,6 @@
                 <div class="profile-info">
                     <p><strong>등급 :</strong> ${targetMember.memberGrade}</p>
                     <p><strong>${targetMember.memberNick}</strong></p>
-                    <p>${fn:split(targetMember.memberAddr, '^^^')[1]}</p>
                     <p class="join-date">
                         <fmt:formatDate value="${targetMember.enrollDate}" pattern="yyyy.MM.dd 가입" />
                     </p>

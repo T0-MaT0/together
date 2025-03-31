@@ -58,6 +58,8 @@
     background-color: #FFE9F3;
     padding: 20px 20px 0px 20px;
     border-radius: 10px;
+
+    position: relative;
 }
 
 
@@ -172,3 +174,118 @@
 .brandInner{background-color: #d3beff;}
 .barndSubmit{border-radius: 3px solid #6700CF!important;}
 .barndBtn > button{background-color: #6700CF; }
+
+
+.loadingCover{
+
+    /* modalInner */
+    /* position : relative */
+    z-index: 100000;
+    background-color: blue;
+    position: absolute;
+    margin: auto;
+    left: 0 ; right: 0; top: 0; bottom: 0;
+    height: 100%;
+    width: 100%;
+
+    border-radius: 10px;
+    background-color: #FFE9F3;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.loadingCover.active{
+    display: flex;
+}
+
+
+.spinner {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    margin: auto;
+}
+
+.double-bounce1, .double-bounce2 {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #db34ae;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2 {
+    animation-delay: -1.0s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(0.0);
+    }
+    50% {
+        transform: scale(1.0);
+    }
+}
+
+/* ----------------------------------------------- */
+
+.loadingCoverPurple{
+    z-index: 100000;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    background-color: #d3beff;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.loadingCoverPurple.active{
+    display: flex;
+}
+
+
+.spinner {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    margin: auto;
+}
+
+.double-bounce1Purple, .double-bounce2Purple {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #6800cf86;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    animation: bounce 2.0s infinite ease-in-out;
+}
+
+.double-bounce2Purple {
+    animation-delay: -1.0s;
+}
+
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(0.0);
+    }
+    50% {
+        transform: scale(1.0);
+    }
+}

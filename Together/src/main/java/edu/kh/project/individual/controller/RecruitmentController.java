@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -208,10 +210,12 @@ public class RecruitmentController {
  	// 모집창 상세 경로
  	@GetMapping("/partyRecruitmentList/{recruitmentNo}/{boardNo}")
  	public String partyRecruitmentList(
- 			@PathVariable("recruitmentNo") int recruitmentNo,
- 			@PathVariable("boardNo") int boardNo,
+ 	        @PathVariable("recruitmentNo") int recruitmentNo,
+ 	        @PathVariable("boardNo") int boardNo,
  	        @SessionAttribute(value = "loginMember", required = false) Member loginMember,
  	        RedirectAttributes redirectAttributes,
+ 	        HttpServletRequest request,
+ 	        HttpServletResponse response,
  	        Model model) {
  	    
  	    int boardCode = 1; // 모집 게시판 코드
@@ -221,6 +225,29 @@ public class RecruitmentController {
  	    if (loginMember == null) {
  	        redirectAttributes.addFlashAttribute("message", "로그인을 먼저 해주세요.");
  	        return "redirect:/member/login";
+ 	    }
+ 	    
+ 	   // 조회수 중복 방지 쿠키 체크
+ 	    Cookie[] cookies = request.getCookies();
+ 	    boolean hasViewed = false;
+
+ 	    if (cookies != null) {
+ 	        for (Cookie cookie : cookies) {
+ 	            if (cookie.getName().equals("viewed_board_" + boardNo)) {
+ 	                hasViewed = true;
+ 	                break;
+ 	            }
+ 	        }
+ 	    }
+
+ 	    // 조회수 증가 처리
+ 	    if (!hasViewed) {
+ 	        service.increaseReadCount(boardNo); // DAO 단까지 구현 필요
+
+ 	        Cookie viewCookie = new Cookie("viewed_board_" + boardNo, "true");
+ 	        viewCookie.setMaxAge(60 * 60 * 3); // 3시간 동안 유지
+ 	        viewCookie.setPath("/");
+ 	        response.addCookie(viewCookie);
  	    }
  	    Recruitment recruitmentDetail = service.selectRecruitmentRoomDetail(recruitmentNo, boardNo, memberNo);
  	    System.out.println("recruitmentDetail : " + recruitmentDetail);
@@ -237,82 +264,84 @@ public class RecruitmentController {
  	    return "Individual/partyRecruitmentList"; 
  	}
  	
- 	// 모집글 작성
  	@PostMapping("/group/create/insert")
-    public String createGroupInsert(Recruitment dto,
-        @RequestParam("images") List<MultipartFile> images,
-        @SessionAttribute(value="loginMember", required=false) Member loginMember,
-        HttpSession session,
-        RedirectAttributes ra,
-        HttpServletResponse response) throws IOException {
+ 	public String createGroupInsert(Recruitment dto,
+ 	    @RequestParam("images") List<MultipartFile> images,
+ 	    @SessionAttribute(value="loginMember", required=false) Member loginMember,
+ 	    HttpSession session,
+ 	    RedirectAttributes ra,
+ 	    HttpServletResponse response) throws IOException {
 
-        if(loginMember == null) {
-            ra.addFlashAttribute("message","로그인해주세요.");
-            return "redirect:/member/login";
-        }
+ 	    if(loginMember == null) {
+ 	        ra.addFlashAttribute("message","로그인해주세요.");
+ 	        return "redirect:/member/login";
+ 	    }
 
-        // 파일 저장 경로
-        String webPath = "/resources/images/recruitment/";
-	    String filePath = session.getServletContext().getRealPath(webPath);
-        int recruitNo = 0;
-        try {
-            recruitNo = service.createRecruitment(dto, images,
-                                        loginMember.getMemberNo(), 
-                                        webPath, filePath);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        System.out.println("dto : " + dto );
-        if (recruitNo > 0) {
-            Map<String, Object> outMap = new HashMap<>();
-        	// 채팅방 생성
-            int result = chatService.createGroupChatRoom(dto.getBoardTitle(), loginMember.getMemberNo(), outMap);
+ 	    // 1. 차감할 포인트 계산
+ 	    int productPrice = dto.getProductPrice();
+ 	    int maxParticipants = dto.getMaxParticipants();
+ 	    int myQuantity = dto.getMyQuantity(); // 모집장 구매 수량
+ 	    int usedPoint = (productPrice / maxParticipants) * myQuantity;
 
-            // 1. 차감할 포인트 계산
-            int productPrice = dto.getProductPrice();
-            int maxParticipants = dto.getMaxParticipants();
-            int myQuantity = dto.getMyQuantity(); // 모집장 구매 수량
-            int usedPoint = (productPrice / maxParticipants) * myQuantity;
+ 	    // 2. 포인트 부족 시 차단
+ 	    if(loginMember.getPoint() < usedPoint) {
+ 	        ra.addFlashAttribute("message", "포인트가 부족합니다. 현재 포인트: " 
+ 	            + loginMember.getPoint() + ", 필요한 포인트: " + usedPoint);
+ 	        return "redirect:/group/create";
+ 	    }
 
-            // 2. 현재 포인트에서 차감
-            int updatedPoint = loginMember.getPoint() - usedPoint;
-            loginMember.setPoint(updatedPoint);
-            System.out.println("usedPoint + " + usedPoint );
-            System.out.println("updatedPoint + " + updatedPoint );
-            // 3. DB에 포인트 업데이트
-            service.updateMemberPoint(loginMember.getMemberNo(), updatedPoint);
+ 	    // 3. 파일 저장 경로
+ 	    String webPath = "/resources/images/recruitment/";
+ 	    String filePath = session.getServletContext().getRealPath(webPath);
 
-            // 4. 포인트 사용 내역 insert (모집장이므로 status = '완료')
-            PointUsage pointUsage = new PointUsage();
-            pointUsage.setUsageAmount(usedPoint);
-            pointUsage.setUsageType(2);
-            pointUsage.setUsageTypeNo(recruitNo);
-            pointUsage.setStatus("완료");
-            pointUsage.setMemberNo(loginMember.getMemberNo());
-           
-            service.insertPointUsage(pointUsage);
-            
-            
-            String roomName = (String) outMap.get("roomName");
-            
-            if(result > 0) {
-                String script = "<script>"
-                        + "alert('모집글 등록 성공! 채팅방 이름: " + roomName + "');"
-                        + "window.opener.location.href='/Individual/" + 1 + "';"
-                        + "window.close();"
-                        + "</script>";
-                response.setContentType("text/html; charset=UTF-8");
-                response.getWriter().write(script);
-                return null;
-            }
+ 	    int recruitNo = 0;
+ 	    try {
+ 	        recruitNo = service.createRecruitment(dto, images,
+ 	                                loginMember.getMemberNo(), 
+ 	                                webPath, filePath);
+ 	    } catch(Exception e){
+ 	        e.printStackTrace();
+ 	    }
 
-            ra.addFlashAttribute("message", "모집글 등록 성공 + 채팅방 생성 실패! ");
-            return null;
-        }
+ 	    if (recruitNo > 0) {
+ 	        // 채팅방 생성
+ 	        Map<String, Object> outMap = new HashMap<>();
+ 	        int result = chatService.createGroupChatRoom(dto.getBoardTitle(), loginMember.getMemberNo(), outMap);
 
-        ra.addFlashAttribute("message", "모집글 등록 실패");
-        return "redirect:/group/create";
-    }
+ 	        // 4. 현재 포인트에서 차감
+ 	        int updatedPoint = loginMember.getPoint() - usedPoint;
+ 	        loginMember.setPoint(updatedPoint);
+ 	        service.updateMemberPoint(loginMember.getMemberNo(), updatedPoint);
+
+ 	        // 5. 포인트 사용 내역 insert (모집장이므로 status = '완료')
+ 	        PointUsage pointUsage = new PointUsage();
+ 	        pointUsage.setUsageAmount(usedPoint);
+ 	        pointUsage.setUsageType(2);
+ 	        pointUsage.setUsageTypeNo(recruitNo);
+ 	        pointUsage.setStatus("완료");
+ 	        pointUsage.setMemberNo(loginMember.getMemberNo());
+ 	        service.insertPointUsage(pointUsage);
+
+ 	        String roomName = (String) outMap.get("roomName");
+
+ 	        if(result > 0) {
+ 	            String script = "<script>"
+ 	                    + "alert('모집글 등록 성공! 채팅방 이름: " + roomName + "');"
+ 	                    + "window.opener.location.href='/Individual/1';"
+ 	                    + "window.close();"
+ 	                    + "</script>";
+ 	            response.setContentType("text/html; charset=UTF-8");
+ 	            response.getWriter().write(script);
+ 	            return null;
+ 	        }
+
+ 	        ra.addFlashAttribute("message", "모집글 등록 성공 + 채팅방 생성 실패! ");
+ 	        return null;
+ 	    }
+
+ 	    ra.addFlashAttribute("message", "모집글 등록 실패");
+ 	    return "redirect:/group/create";
+ 	}
 	
  	// 수정 버튼 조회
  	@GetMapping("/group/edit")
@@ -898,4 +927,8 @@ public class RecruitmentController {
 
  	    return "redirect:/";
  	}
+ 	
+ 	
+ 	
+ 	
 }

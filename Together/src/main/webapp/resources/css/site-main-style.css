@@ -76,7 +76,10 @@ body {
 
 .product img {
     width: 100%;
-    border-radius: 15px;
+    height: 185px;
+    border-radius: 15px;   
+    object-fit: cover; /* 비율 유지하면서 꽉 채우기 */
+
     border: 1px solid darkgrey;
 }
 

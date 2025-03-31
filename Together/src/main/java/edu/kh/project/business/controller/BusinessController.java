@@ -170,38 +170,8 @@ public class BusinessController {
 		ra.addFlashAttribute("message", message);
 		return path;
 	}
-
-	// 상품 수정
-	@PostMapping("/update")
-	public String updateProduct(
-			@PathVariable("boardCode") int boardCode,
-			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
-			@RequestParam(value = "images", required = false) List<MultipartFile> images,
-			@RequestParam(value = "optionNo", required = false) List<Integer> optionNoList,
-			@RequestParam(value = "optionName", required = false) List<String> optionNameList,
-			Business business, RedirectAttributes ra, HttpSession session) throws IllegalStateException, IOException {
-		business.setMemberNo(loginMember.getMemberNo());
-		
-		String webPath = "/resources/images/product/";
-		String filePath = session.getServletContext().getRealPath(webPath);
-		
-		int boardNo = service.updateProduct(business, optionNoList, optionNameList, images, webPath, filePath);
-		
-		String message = null;
-		String path = "redirect:/board/"+boardCode+"/";
-		if (boardNo>0) {
-			message = "상품이 등록되었습니다.";
-			path += boardNo;
-		} else {
-			message = "상품 등록 실패";
-			path += "insertProduct";
-		}
-		
-		ra.addFlashAttribute("message", message);
-		return path;
-	}
 	
-	// 상품 수정
+	// 상품 수정 페이지
 	@GetMapping("/{boardNo:[0-9]+}/update")
 	public String updateProduct(
 			@PathVariable("boardCode") int boardCode,
@@ -214,7 +184,6 @@ public class BusinessController {
 		Business business = service.selectBusiness(map);
 		List<Category> categoryList = service.selectCategoryList();
 		
-
 		ObjectMapper objectMapper = new ObjectMapper();
 		String categoryListJson = objectMapper.writeValueAsString(categoryList);
 		
@@ -223,6 +192,38 @@ public class BusinessController {
 		model.addAttribute("categoryList", categoryList);
 		
 		return "board/business/businessWrite";
+	}
+	
+	// 상품 수정
+	@PostMapping("/{boardNo:[0-9]+}/update")
+	public String updateProduct(
+			@PathVariable("boardCode") int boardCode,
+			@PathVariable("boardNo") int boardNo,
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
+			@RequestParam(value = "images", required = false) List<MultipartFile> images,
+			@RequestParam(value = "deleteList", required = false) String deleteList,
+			@RequestParam(value = "optionNo", required = false) List<Integer> optionNoList,
+			@RequestParam(value = "optionName", required = false) List<String> optionNameList,
+			Business business, RedirectAttributes ra, HttpSession session) throws IllegalStateException, IOException {
+		business.setMemberNo(loginMember.getMemberNo());
+		
+		String webPath = "/resources/images/product/";
+		String filePath = session.getServletContext().getRealPath(webPath);
+		
+		int result = service.updateProduct(business, optionNoList, optionNameList, images, deleteList, webPath, filePath);
+		
+		String message = null;
+		String path = "redirect:/board/"+boardCode+"/";
+		if (result>0) {
+			message = "상품이 등록되었습니다.";
+			path += boardNo;
+		} else {
+			message = "상품 등록 실패";
+			path += "insertProduct";
+		}
+		
+		ra.addFlashAttribute("message", message);
+		return path;
 	}
 	
 	// 게시글 상세 조회

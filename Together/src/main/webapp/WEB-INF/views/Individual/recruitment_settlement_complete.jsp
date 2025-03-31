@@ -28,33 +28,19 @@
             <!-- 상세정보 보기 버튼 -->
             <button class="details-btn"
                     onclick="location.href='/purchase_in_progress_member?recruitmentNo=${recruitmentNo}&boardNo=${boardNo}'">
-                상세정보 보기
+                상세정보 보기 
             </button>
         </div>
     </main>
-    <div id="nicknameMenu" class="nickname-menu hidden">
-        <ul>
-          <li id="startPrivateChat">1대1 채팅</li>
-          <li id="reportUser">신고하기</li>
-        </ul>
-    </div>
-    <!-- 신고 모달 프로필 -->
-    <jsp:include page="/WEB-INF/views/Individual/modal.jsp"/>
-
-    <c:if test="${not empty loginMember}">
-    <script>
-        loginMember = {
-        memberNo: ${loginMember.memberNo},
-        nickname: "${loginMember.memberNick}"
-        };
-    </script>
-    </c:if>
-
+    
+    
     <jsp:include page="/WEB-INF/views/common/footer.jsp" />
+    <!-- 신고 모달 프로필 -->
+    <script src="/resources/js/individual/recruitment_settlement_complete.js"></script>
     <c:if test="${not empty alertMessage}">
         <script>
             alert("${alertMessage}");
-        </script>
+            </script>
     </c:if>
 </body>
 

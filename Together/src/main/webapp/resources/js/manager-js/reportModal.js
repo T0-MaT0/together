@@ -21,7 +21,10 @@ let reportedUserNo = 0;
 
 // 신고 화면
 function clickReport(reportNo){
-    console.log(reportNo);
+    const loadingCover = document.querySelector(".loadingCoverPurple");
+    loadingCover.classList.add('active');
+
+    // console.log(reportNo);
 
     outRepotNo = reportNo;
 
@@ -103,9 +106,10 @@ function clickReport(reportNo){
         const  modalbtn = document.querySelector(".modal-btn");
         const managerReportText = document.querySelector(".managerReportText");
         modalbtn.innerHTML ='';
+        managerReportText.innerText  = beforeContent ;
+
         // 처리 버튼
         if(reportDetail.reportStatus=='대기'){
-            managerReportText.innerText  = beforeContent ;
             managerReportText.setAttribute("contenteditable","true");
             modalbtn.innerHTML = `<button onclick="reportSubmit('customer')">처리</button>`
         }else{
@@ -123,6 +127,12 @@ function clickReport(reportNo){
 
     })
     .catch(err=>console.log(err))
+
+
+    setTimeout(() => {
+        loadingCover.classList.remove('active');
+
+    }, 1000);
 }
 
 /* 모달 닫기 */
@@ -297,7 +307,8 @@ function openBoard(type, no){
 
 // 고객 신고 화면
 function customerReport(reportNo){
-    // console.log(reportNo);
+    const loadingCover = document.querySelector(".loadingCover");
+    loadingCover.classList.add('active');
 
     outRepotNo = reportNo;
     
@@ -365,9 +376,11 @@ function customerReport(reportNo){
         const  modalbtn = document.querySelector(".modal-btn");
         const managerReportText = document.querySelector(".managerReportText");
         modalbtn.innerHTML ='';
+
+        managerReportText.innerText  = beforeContent ;
+        
         // 처리 버튼
         if(reportDetail.reportStatus=='대기'){
-            managerReportText.innerText  = beforeContent ;
             managerReportText.setAttribute("contenteditable","true");
             modalbtn.innerHTML = `<button onclick="reportSubmit('customer')">처리</button>`
         }else{
@@ -385,6 +398,11 @@ function customerReport(reportNo){
     })
     .catch(err=>console.log(err))
 
+
+    setTimeout(() => {
+        loadingCover.classList.remove('active');
+
+    }, 1000);
 }
 
 
@@ -403,7 +421,7 @@ modalSubmit.addEventListener("change", function () {
 function reportSubmit(where){
 
     
-    if(state == ''){
+    if(state == ''||state=='대기'){
         alert("처리 방법을 선택해주세요.");
         return;
     }

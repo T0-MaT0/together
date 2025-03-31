@@ -59,11 +59,11 @@
 
                         <c:forEach var="notice" items="${noticeList}">
                             <tr>
-                                <td>${notice.boardNo}</td>
-                                <td><a href="/customer/customerBoardDetail/${notice.boardNo}?cp=${pagination.currentPage}${qs}">
+                                <td class="notice-num">${notice.boardNo}</td>
+                                <td class="notice-title"><a href="/customer/customerBoardDetail/${notice.boardNo}?cp=${pagination.currentPage}${qs}">
                                     ${notice.boardTitle}
                                 </a></td>
-                                <td>${notice.bCreateDate}</td>
+                                <td class="notice-date">${notice.bCreateDate}</td>
                             </tr>    
                         </c:forEach>
                     </tbody>

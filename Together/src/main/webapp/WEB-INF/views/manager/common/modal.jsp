@@ -50,6 +50,15 @@
             <div class="modal-btn barndBtn">
                 <button onclick="reportSubmit('brand')">처리</button>
             </div>
+
+
+            <!-- 로딩 화면 -->
+            <div class="loadingCoverPurple">
+                <div class="spinner">
+                    <div class="double-bounce1Purple"></div>
+                    <div class="double-bounce2Purple"></div>
+                </div>
+            </div>
         </div>
 
     </div>
