@@ -1507,7 +1507,7 @@ categories.forEach(category => {
     const categoryNo = parseInt(this.getAttribute("data-categoryNo"), 10);
     const categoryList = document.getElementById("categoryListItems");
     if (categoryNo === 0) {
-      categoryList.innerHTML = "카테고리가 너무 많습니다. <br>원하는 카테고리를 선택해주세요."; 
+      categoryList.innerHTML = "카테고리가 너무 많습니다. <br>원하는 분류를 선택해주세요."; 
       return;
     }
     
