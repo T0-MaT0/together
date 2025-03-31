@@ -24,6 +24,24 @@ if (captchaImg) {
 boardWriteFrm.addEventListener("submit", async e => {
   e.preventDefault(); // 항상 가장 먼저 막아줌
 
+
+
+  /* const boardCd = document.getElementById("boardCd");
+
+if (boardCd) {
+  const selectedValue = boardCd.options[boardCd.selectedIndex].value;
+  const selectedIndex = boardCd.selectedIndex;
+
+  console.log("선택된 인덱스:", selectedIndex);
+  console.log("선택된 값:", selectedValue);
+
+  if (!selectedValue || selectedValue.trim() === "" || selectedIndex === 0) {
+    alert("문의 종류를 선택해주세요.");
+    boardCd.focus();
+    return;
+  }
+} 셀렉트 검사 안됨........*/
+
   // 제목 검사
   if (boardTitle.value.trim().length === 0) {
     alert("제목을 입력해주세요.");
@@ -47,6 +65,8 @@ boardWriteFrm.addEventListener("submit", async e => {
     checkPw.value = "";
     return;
   }
+
+
 
   // [추가] 캡차 검사 (1:1 문의일 때만 실행)
   if (captchaInput) {

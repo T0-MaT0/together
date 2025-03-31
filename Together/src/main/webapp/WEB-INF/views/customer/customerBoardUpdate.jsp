@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>고객센터 글 작성하기</title>
 
-    <link rel="stylesheet" href="/resources/css/customer/customerBoardWrite.css">
+    <link rel="stylesheet" href="/resources/css/customer/customerBoardUpdate.css">
 </head>
 <body>
     ${map}
@@ -56,88 +56,54 @@
                     비밀번호<input type="password" id="check-pw">
                 </div>
 
+                <!-- board.imageList에 존재하는 이미지 객체를 얻어와서 순서(imageLevel)대로 변수 생성 -->
+                <c:forEach items="${map.imageList}" var="img">
+                    <c:choose>
+                        <c:when test="${img.imageLevel == 0}">
+                            <c:set var="img1" value="${img.imagePath}${img.imageReName}"/>
+                        </c:when>
+                        <c:when test="${img.imageLevel == 1}">
+                            <c:set var="img2" value="${img.imagePath}${img.imageReName}"/>
+                        </c:when>
+                        <c:when test="${img.imageLevel == 2}">
+                            <c:set var="img3" value="${img.imagePath}${img.imageReName}"/>
+                        </c:when>
+                    </c:choose>
+
+                </c:forEach>
+
                 <c:if test="${boardCode != 4}">
 
                     <div class="img-box">
 
                         <div class="boardImg">
                             <label for="img1">
-                                <img class="preview" src="">
-                            </label>
-                            <input type="file" name="images" class="inputImage" id="img1" accept="image/*">
-                            <span class="delete-image">&times;</span>
-                        </div>
-                        <div class="boardImg">
-                            <label for="img2">
-                                <img class="preview" src="">
-                            </label>
-                            <input type="file" name="images" class="inputImage" id="img2" accept="image/*">
-                            <span class="delete-image">&times;</span>
-                        </div>
-                        <div class="boardImg">
-                            <label for="img3">
-                                <img class="preview" src="">
-                            </label>
-                            <input type="file" name="images" class="inputImage" id="img3" accept="image/*">
-                            <span class="delete-image">&times;</span>
-                        </div>
-                    </div>
-
-
-                </c:if>
-                ${map.imageList}
-                
-
-                <!-- board.imageList에 존재하는 이미지 객체를 얻어와서 순서(imageOrder)대로 변수 생성 -->
-            <c:forEach items="${map.imageList}" var="img">
-                <c:choose>
-                    <c:when test="${img.imageOrder == 0}">
-                        <c:set var="img0" value="${img.imagePath}${img.imageReName}"/>
-                    </c:when>
-                    <c:when test="${img.imageOrder == 1}">
-                        <c:set var="img1" value="${img.imagePath}${img.imageReName}"/>
-                    </c:when>
-                    <c:when test="${img.imageOrder == 2}">
-                        <c:set var="img2" value="${img.imagePath}${img.imageReName}"/>
-                    </c:when>
-                    <c:when test="${img.imageOrder == 3}">
-                        <c:set var="img3" value="${img.imagePath}${img.imageReName}"/>
-                    </c:when>
-                    <c:when test="${img.imageOrder == 4}">
-                        <c:set var="img4" value="${img.imagePath}${img.imageReName}"/>
-                    </c:when>
-                </c:choose>
-
-            </c:forEach>
-               
-                    
-
-                <c:if test="${boardCode == 4}">
-                    <div class="img-box" style="display: none;">
-
-                        <div class="boardImg">
-                            <label for="img1">
-                                <img class="preview" src="${img0}">
-                            </label>
-                            <input type="file" name="images" class="inputImage" id="img1" accept="image/*">
-                            <span class="delete-image">&times;</span>
-                        </div>
-                        <div class="boardImg">
-                            <label for="img2">
                                 <img class="preview" src="${img1}">
                             </label>
+                            <input type="file" name="images" class="inputImage" id="img1" accept="image/*">
+                            <span class="delete-image">&times;</span>
+                        </div>
+                        <div class="boardImg">
+                            <label for="img2">
+                                <img class="preview" src="${img2}">
+                            </label>
                             <input type="file" name="images" class="inputImage" id="img2" accept="image/*">
                             <span class="delete-image">&times;</span>
                         </div>
                         <div class="boardImg">
                             <label for="img3">
-                                <img class="preview" src="${img2}">
+                                <img class="preview" src="${img3}">
                             </label>
                             <input type="file" name="images" class="inputImage" id="img3" accept="image/*">
                             <span class="delete-image">&times;</span>
                         </div>
                     </div>
+
+
                 </c:if>
+                
+                
+
 
    
                 
@@ -164,7 +130,7 @@
 
                 <div id="writeform-button-area">
                     <button type="submit" id="writebtn">등록</button>
-                    <button id="go-back">취소</button>
+                    <button type="button" id="go-back" onclick="history.back()">취소</button>
                 </div>
             </form>
 
