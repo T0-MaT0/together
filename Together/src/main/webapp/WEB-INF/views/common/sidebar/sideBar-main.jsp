@@ -168,7 +168,7 @@
 
 
         <div class="content search">
-          <div class="member-bar">
+          <div class="member-bar" id="memberBar">
             <div class="under-line company-line" id="underLine"></div>
             <a class="member-type bold" data-type="personal">브랜드 상품</a>
             <a class="member-type" data-type="company">공구 모집</a>
