@@ -24,7 +24,7 @@
         <div><a href="" class="no-link" id="scrollDown"><img src="/resources/images/sidebar/images/ArrowDown.svg" height="30px" alt=""></a></div>
       </div>
     </div>
-    <div class="sidebar-wrapper">
+    <div class="sidebar-wrapper hidden">
       <div class="title">
         <span id="sideBarTitle">채팅</span>
       </div>
@@ -139,7 +139,7 @@
 
 
 
-    <div class="sidebar-wrapper hidden">
+    <div class="sidebar-wrapper">
       <div class="title">
         <span id="title"></span>
         <div class="Search-box">
@@ -151,21 +151,31 @@
       </div>
       <div class="body" id="SEARCH">
         <div class="sideBox search">
-          <div class="category">ALL</div>
-          <div class="category selected">패션</div>
-          <div class="category">뷰티</div>
-          <div class="category">생활</div>
-          <div class="category">식품</div>
-          <div class="category">전자제품</div>
-          <div class="category">공구</div>
-          <div class="category">자동차</div>
-          <div class="category">스포츠 레저</div>
-          <div class="category">유아  아동</div>
-          <div class="category">도서  문구</div>
-          <div class="category">반려동물</div>
+          <div class="category selected" data-categoryNo="0">ALL</div>
+          <div class="category" data-categoryNo="1">패션</div>
+          <div class="category" data-categoryNo="2">뷰티</div>
+          <div class="category" data-categoryNo="3">생활</div>
+          <div class="category" data-categoryNo="4">식품</div>
+          <div class="category" data-categoryNo="5">전자제품</div>
+          <div class="category" data-categoryNo="6">공구</div>
+          <div class="category" data-categoryNo="7">자동차</div>
+          <div class="category" data-categoryNo="8">스포츠 레저</div>
+          <div class="category" data-categoryNo="9">유아 아동</div>
+          <div class="category" data-categoryNo="10">도서 문구</div>
+          <div class="category" data-categoryNo="11">반려동물</div>
         </div>
+
+
+
+
         <div class="content search">
-          <div class="item">
+          <div class="member-bar" id="memberBar">
+            <div class="under-line company-line" id="underLine"></div>
+            <a class="member-type bold" data-type="personal">브랜드 상품</a>
+            <a class="member-type" data-type="company">공구 모집</a>
+            <div id="bottomLine"></div>
+          </div>
+          <div class="item" id = "locationList">
             <div class="itemName">지역 <span>Location</span></div>
 
             <div class="itemContents">
@@ -175,7 +185,7 @@
               
 
           </div>
-          <div class="item">
+          <div class="item" id = "priceRange">
             <div class="itemName">가격 <span>Price</span></div>
 
             <div class="itemRange">
@@ -200,11 +210,11 @@
               
 
           </div>
-          <div class="item">
-            <div class="itemName">카테고리 <span>Category</span></div>
+          <div class="item" id = "categoryList">
+            <div class="itemName" >카테고리 <span>Category</span></div>
 
-            <div class="itemContents">
-              <div class="itemContent BTN selected">여성 의류</div>
+            <div class="itemContents" id="categoryListItems">
+              <div class="itemContent BTN selected" data-subCategoryNo="12">여성 의류</div>
               <div class="itemContent BTN ">남성 의류</div>
               <div class="itemContent BTN selected">아동 의류</div>
               <div class="itemContent BTN ">신발</div>
@@ -216,8 +226,13 @@
 
           </div>
             
+
+
+
+
+          </div>
         </div>
-      </div>
+      
     </div>
 
 

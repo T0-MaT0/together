@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.member.model.dto.Member;
 
 public interface AjaxService {
@@ -47,8 +48,5 @@ public interface AjaxService {
 	List<Map<String, Object>> searchQueryList(String query);
 
 
-
-
-	
-
+    List<Category> getCategory(int categoryNo);
 }

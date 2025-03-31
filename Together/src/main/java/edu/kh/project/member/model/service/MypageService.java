@@ -1,5 +1,6 @@
 package edu.kh.project.member.model.service;
 
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.manager.model.dto.QuestCustomer;
@@ -28,4 +29,6 @@ public interface MypageService {
     Company getBusinessInfo(int memberNo);
 
     List<QuestCustomer> getPromotionInfo(int memberNo);
+
+    List<Category> getCategory(int categoryNo);
 }
