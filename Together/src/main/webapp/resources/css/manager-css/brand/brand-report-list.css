@@ -30,7 +30,12 @@
     border: 2px solid #eeeeee85;
     -webkit-box-shadow: 0px 2px 12px 1px rgba(0, 0, 0, 0.144); 
     box-shadow: 0px 2px 12px 1px rgba(0, 0, 0, 0.217);
+
+    min-height: 550px;
+    position: relative;
 }
+
+
 
 
 /* ---------------------------------------------------------------- */
@@ -99,10 +104,14 @@
 #pagination{
     display: flex;
     justify-content: center;
-
     list-style-type: none;
-
     font-size: 13px;
+
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom:0;
+
 }
 
 #pagination >li{
@@ -115,9 +124,25 @@
    font-weight: bolder;
 }
 
+
+#pagination >li>a{
+    color: black;
+    text-decoration: none;
+}
+
 /* ---------------------------------------------------------------- */
 /* 신고 메뉴 색 */
 
 #menu-items > div.open-menu > a:nth-child(2){
     color:#6700CF;
+}
+
+/* -------------------------------------------------------------------- */
+
+.notFound{
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

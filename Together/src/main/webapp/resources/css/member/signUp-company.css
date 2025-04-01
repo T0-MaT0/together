@@ -51,6 +51,7 @@ body{
 
     margin-bottom: 35px;
     margin-top: 20px;
+
 } 
 
 
@@ -70,7 +71,7 @@ body{
 #pink-box {
     padding-top: 15px;
     width: 360px;
-    height: 1401px;
+    max-height: 1800px;
     box-shadow : 0 0 15px 0 #B862FF;
     border-radius: 10px;
 
@@ -80,7 +81,7 @@ body{
 
 
     font-size: 12px;
-
+    padding-bottom: 20px;
 
 }
 
@@ -141,7 +142,7 @@ body{
 
 }
 
-#memberAddr,#authKey, #businessNo{
+#sample6_postcode,#authKey, #businessNo{
     width: 229px;
     height: 99%;
     border: none;
@@ -238,5 +239,31 @@ body{
 
 .marginBottom {
     margin-bottom: 15px;
+}
+
+#bankName{
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+
+    width: 295px;
+    height: 44px;
+    border-radius: 10px;
+    border: 1px #A3A3A3 solid;
+    padding: 0 8px;
+    font-size: 12px;
+    color: #918F8F;
+    margin-bottom: 10px;
+    padding: 0 15px;
+    
+}
+
+.placeholder{
+    display: none;
+    
+}
+
+.g-recaptcha{
+    margin: 20px 0;
 }
 

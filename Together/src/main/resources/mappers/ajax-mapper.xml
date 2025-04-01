@@ -20,6 +20,13 @@
 		AND
 		MEMBER_NICKNAME = #{nickname}
 	</select>
+	<!-- 아이디 중복 검사 -->
+	<select id="dupCheckId" resultType="string">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MEMBER_DEL_FL = 'N'
+		AND MEMBER_ID = #{id}
+	</select>
 	<!-- 이메일 중복 검사 -->
 	<select id="dupCheckEmail" resultType="string">
 		SELECT COUNT(*)

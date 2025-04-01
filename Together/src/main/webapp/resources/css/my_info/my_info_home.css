@@ -1,77 +1,59 @@
-@font-face {
-    font-family: 'GmarketSansMedium';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-body {
-    font-family: 'GmarketSansMedium', sans-serif;
-    background-color: white;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* 전체 페이지 컨테이너 */
-.myinfo-container {
-    width: 1200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-}
 
 /* 프로필 섹션 */
 .profile-section {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+  margin: auto;
+  width: 950px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
 }
+
+.home-title{
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    display: inline-block;
+
+}
+
+main.myinfo-container a{
+  text-decoration: none;
+  color: inherit;
+}
+
 
 .profile-card {
-    width: 800px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    margin-left: 50px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    position: relative;
+  width: 950px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
 }
-
 /* 프로필 이미지 */
 .profile-img {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    margin-right: 20px;
+  width: 200px;
+  height: 200px;
+  
+  border-radius: 40px;
+  margin-right: 20px;
+  object-fit: contain;
+  overflow: hidden;
 }
 
 /* 프로필 정보 */
 .profile-info {
-    flex: 1;
+  flex: 1;
 }
 
 .profile-info p {
-    margin: 10px 0;
-    font-size: 20px; 
-    font-weight: bold;
+  margin: 10px 0;
+  font-size: 20px; 
+  font-weight: bold;
 }
 
-/* 포인트를 오른쪽 아래로 정렬 */
-.points {
-    position: absolute;
-    bottom: 15px;
-    right: 20px;
-    font-size: 22px; 
-    font-weight: bold;
-    color: #ff6600;
-}
 
 /* 수정 버튼 */
 .edit-btn {
@@ -90,88 +72,8 @@ body {
     background: #bbb;
 }
 
-/* 메인 콘텐츠 */
-.myinfo-content-wrapper {
-    display: flex;
-    width: 100%;
-    max-width: 1200px;
-}
 
-/* 사이드바 스타일 */
-.sidebar {
-    width: 160px;
-    height: 600px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
-    padding: 10px 0;
-    text-align: center;
-    position: sticky;
-    top: 40px; 
-}
 
-/* 리스트 스타일 */
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-/* 사이드바 클릭 가능하게 설정 */
-.sidebar ul li {
-    cursor: pointer;
-    padding: 10px 15px;
-    transition: background 0.2s ease-in-out;
-}
-
-.sidebar ul li:hover {
-    background: rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
-}
-
-/* 마이 홈 */
-.sidebar .home {
-    font-size: 20px;
-    font-weight: bold;
-    color: green;
-    padding: 12px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-/* 섹션 제목 */
-.sidebar .section-title {
-    font-size: 20px;
-    font-weight: bold;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
-}
-
-/* 서브 항목 */
-.sidebar .sub-item {
-    font-size: 15px;
-    padding: 8px 0;
-    color: #555;
-}
-
-/* Q&A */
-.sidebar .qna {
-    font-size: 14px;
-    font-weight: bold;
-    padding: 12px 0;
-    border-top: 1px solid #ddd;
-}
-
-/* 메인 콘텐츠 */
-.myinfo-main-content {
-    width: calc(90% - 180px); /* 사이드바 고려하여 조정 */
-    max-width: 1000px;
-    margin: 20px auto; /* 사이드바 공간 확보 */
-    padding: 30px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-    transition: margin 0.3s ease-in-out;
-}
 
 
 /* 공통 섹션 스타일  */
@@ -179,17 +81,18 @@ body {
 .recommendation-section, 
 .purchase-history, 
 .interest-store, 
-.wishlist {
+.wishlist-area {
     background: white;
     border-radius: 12px;
     padding: 30px;
     margin-bottom: 20px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    width: 950px;
 }
 
 /* 상단 바 스타일 */
 .top-bar2 {
-    width: 95%;
+    width: 950px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -235,6 +138,7 @@ body {
     border-radius: 50%;
     background: #f5f5f5; 
     padding: 5px;
+    object-fit: cover;
 }
 
 .menu-item p {
@@ -259,11 +163,11 @@ body {
 
 /* 추천 상품 캐러셀 */
 .recommendation-section {
-    width: 95%;
+    width: 950px;
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    padding: 20px;
+    padding: 20px 40px;
     margin-bottom: 30px;
 }
 
@@ -304,7 +208,7 @@ body {
     gap: 10px;
     overflow: hidden;
     position: relative;
-    width: 100%;
+    width: 870px;
     padding: 10px 0;
 }
 
@@ -382,6 +286,8 @@ body {
     color: inherit; 
 }
 
+
+
 .item-container {
     display: flex;
     flex-direction: column;
@@ -400,6 +306,13 @@ body {
     justify-content: center;
     cursor: pointer; 
     transition: transform 0.2s ease-in-out;
+}
+
+.item-box>img{
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 20px;
 }
 
 .item-box:hover {
@@ -432,7 +345,8 @@ body {
 .store-circle img {
     width: 80px;
     height: 80px;
-    border-radius: 50%;
+    border-radius: 16px;
+    object-fit: contain;
     transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
@@ -453,7 +367,16 @@ body {
 /* 찜한 상품 */
 .product-list {
     display: flex;
-    gap: 20px;
+    gap: 35px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.wishlist-section h4 {
+    font-weight: bold;
+    margin-bottom: 20px;
+    margin-top: 10px;
+
 }
 
 .product-item {
@@ -493,4 +416,85 @@ body {
     font-weight: bold;
     color: black;
     margin-top: 3px;
+}
+
+#business-info {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 10px;
+
+  font-size: 20px;
+
+}
+
+#promotion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+}
+
+
+
+.promotion-item {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: #bbb 1px solid;
+  padding-bottom: 10px;
+}
+
+
+
+.promotion-item>span{
+  color: #bbb;
+}
+.promotion-item strong{
+  color: black;
+}
+
+.promotion-status {
+  margin-right: 30px;
+  width: 50px;
+  height: 35px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 20px;
+
+  text-align: center;
+  line-height: 35px;
+  
+}
+
+.promotion-status.waiting {
+  background-color: yellowgreen;
+  color: white;
+}
+
+.promotion-status.approved {
+  background-color: #9969ff;
+  color: white;
+}
+
+.promotion-status.rejected {
+  background-color: #fd499a;
+  color: white;
+}
+
+.promotion-btn{
+  float: right;
+  background: linear-gradient(to right, #9969ff, #fd499a);
+  color: white;
+  border: none;
+  width: 200px;
+  height: 40px;
+  font-size: 16px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
 }

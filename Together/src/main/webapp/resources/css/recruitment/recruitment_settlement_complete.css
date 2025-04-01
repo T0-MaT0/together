@@ -10,8 +10,6 @@ body {
     background-color: white;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
 }
 
 /* 정산 완료 컨테이너 */
@@ -64,3 +62,5 @@ body {
 .details-btn:hover {
     background: #e6b800;
 }
+
+

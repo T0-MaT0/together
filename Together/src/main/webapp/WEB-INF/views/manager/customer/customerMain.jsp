@@ -53,19 +53,19 @@
                 <div class="cs-top-content">
                     <div  class="ch-number">
                         <div> 총 회원 수</div>
-                        <div>0</div>
+                        <div>${map.customerTotalCount}</div>
                      </div>                   
                      <div  class="ch-number">
                          <div> 신규 가입 수</div>
-                         <div>0</div>
+                         <div>${map.customerNewCount}</div>
                      </div>                   
                      <div  class="ch-number">
                          <div> 회원 탈퇴 수</div>
-                         <div>0</div>
+                         <div>${map.customerOutCount}</div>
                      </div>                   
                      <div  class="ch-number">
                          <div>블랙 리스트</div>
-                         <div>0</div>
+                         <div>${map.customerBlackCount}</div>
                      </div>      
                 </div>
 
@@ -80,36 +80,14 @@
                             <div>이메일</div>
                             <div>상태</div>
                     </div>
-                    <div class="ch-list bottom-line">
-                            <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
-                            <div>루피</div>
-                            <div>rupy@kk.com</div>
-                            <div>가입</div>
-                    </div>
-                    <div class="ch-list bottom-line">
-                            <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
-                            <div>해달</div>
-                            <div>hedal@gmail.com</div>
-                            <div>탈퇴</div>
-                    </div>
-                    <div class="ch-list bottom-line">
-                            <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
-                            <div>로즈마리</div>
-                            <div>rose@gmail.com</div>
-                            <div>블랙</div>
-                    </div>
-                    <div class="ch-list bottom-line">
-                            <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
-                            <div>라일라</div>
-                            <div>rose@gmail.com</div>
-                            <div>가입</div>
-                    </div>
-                    <div class="ch-list">
-                            <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
-                            <div>김달수</div>
-                            <div>dalsoo@gmail.com</div>
-                            <div>가입</div>
-                    </div>
+                    <c:forEach begin="0" end="4" var="i">
+                        <div class="ch-list bottom-line">
+                                <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
+                                <div>${map.customerStateList[i].memberNick}</div>
+                                <div>${map.customerStateList[i].memberEmail}</div>
+                                <div>${map.customerStateList[i].memberDelFl}</div>
+                        </div>
+                    </c:forEach>
             </div>
         </section>
 
@@ -123,19 +101,19 @@
             <div class="cs-top-content">
                 <div  class="ch-number">
                     <div> 총 공구 모집 수</div>
-                    <div>0</div>
+                    <div>${map.GatherTotalCount}</div>
                  </div>                   
                  <div  class="ch-number">
                      <div> 성사된 모집</div>
-                     <div>0</div>
+                     <div>${map.GatherSuccessCount}</div>
                  </div>                   
                  <div  class="ch-number">
                      <div>최소된 모집</div>
-                     <div>0</div>
+                     <div>${map.GatherCancelCount}</div>
                  </div>                   
                  <div  class="ch-number">
                      <div>정지된 모집</div>
-                     <div>0</div>
+                     <div>${map.GatherStopCount}</div>
                  </div>      
             </div>
         </section>
@@ -148,15 +126,15 @@
             <div class="cs-top-content">
                 <div  class="ch-number">
                     <div>총 문의 개수</div>
-                    <div>0</div>
+                    <div>${map.questTotalCount}</div>
                  </div>                   
                  <div  class="ch-number ">
                      <div>미처리 문의</div>
-                     <div>0</div>
+                     <div>${map.questWaitCount}</div>
                  </div>                   
                  <div  class="ch-number">
                      <div>처리 문의</div>
-                     <div>0</div>
+                     <div>${map.questAcceptCount}</div>
                  </div>                   
             </div>
         </section>
@@ -175,48 +153,29 @@
                         <div class="ch-title">회원</div>
                         <div  class="ch-number bottom-line">
                             <div>미처리 건</div>
-                            <div>0</div>
+                            <div>${map.customerWaitReport}</div>
                         </div>    
                         <div  class="ch-number bottom-line">
                             <div>처리 건</div>
-                            <div>0</div>
+                            <div>${map.customerDoneReport}</div>
                         </div>    
                     </div>
 
                     <div class="cs-item">
-                        <div class="cs-bot-title">
-                            회원 신고 내역
-                        </div>
                         <div class="ch-list bottom-line">
-                                <div>프로필</div>
-                                <div>닉네임</div>
-                                <div>신고날짜</div>
-                                <div>종류</div>
+                                <div>신고자</div>
+                                <div>피신고자</div>
+                                <div>신고내용</div>
+                                <div>상태</div>
                         </div>
-                        <div class="ch-list bottom-line">
-                                <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
-                                <div>루피</div>
-                                <div>2025.02.24</div>
-                                <div>불법물품판매</div>
-                        </div>
-                        <div class="ch-list bottom-line">
-                                <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
-                                <div>해달</div>
-                                <div>2025.02.24</div>
-                                <div>지나친 욕설</div>
-                        </div>
-                        <div class="ch-list bottom-line">
-                                <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
-                                <div>로즈마리</div>
-                                <div>2025.02.24</div>
-                                <div>허위 광고</div>
-                        </div>
-                        <div class="ch-list bottom-line">
-                                <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
-                                <div>라일라</div>
-                                <div>2025.02.24</div>
-                                <div>판매 회피</div>
-                        </div>
+                        <c:forEach items="${map.customerReportFourList}" var="reportList">
+                            <div class="ch-list bottom-line">
+                                    <div>${reportList.memberNick}</div>
+                                    <div>${reportList.reportedUserNick}</div>
+                                    <div>${reportList.reportTitle}</div>
+                                    <div>${reportList.reportStatus}</div>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
 
@@ -224,51 +183,32 @@
                 <div class="report-item">
 
                     <div class="wrap-chart">
-                        <div class="ch-title">공구모집 게시글</div>
+                        <div class="ch-title">공구 모집글</div>
                         <div  class="ch-number bottom-line">
                             <div>미처리 건</div>
-                            <div>0</div>
+                            <div>${map.gatherWaitReport}</div>
                         </div>    
                         <div  class="ch-number bottom-line">
                             <div>처리 건</div>
-                            <div>0</div>
+                            <div>${map.gatherDoneReport}</div>
                         </div>    
                     </div>
 
                     <div class="cs-item">
-                        <div class="cs-bot-title">
-                            게시글 신고 내역
-                        </div>
                         <div class="ch-list bottom-line">
-                                <div> 게시글 번호 </div>
-                                <div>작성자</div>
-                                <div>신고날짜</div>
-                                <div>종류</div>
+                            <div>신고자</div>
+                            <div>피신고자</div>
+                            <div>신고내용</div>
+                            <div>상태</div>
                         </div>
-                        <div class="ch-list bottom-line">
-                                <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
-                                <div>루피</div>
-                                <div>2025.02.24</div>
-                                <div>불법물품판매</div>
-                        </div>
-                        <div class="ch-list bottom-line">
-                                <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
-                                <div>해달</div>
-                                <div>2025.02.24</div>
-                                <div>지나친 욕설</div>
-                        </div>
-                        <div class="ch-list bottom-line">
-                                <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
-                                <div>로즈마리</div>
-                                <div>2025.02.24</div>
-                                <div>허위 광고</div>
-                        </div>
-                        <div class="ch-list bottom-line">
-                                <img src="/resources/images/image-manager/profile.png" alt="회원 프로필">
-                                <div>라일라</div>
-                                <div>2025.02.24</div>
-                                <div>판매 회피</div>
-                        </div>
+                        <c:forEach items="${map.gatherReportFourList}" var="reportList">
+                            <div class="ch-list bottom-line">
+                                <div>${reportList.memberNick}</div>
+                                <div>${reportList.reportedUserNick}</div>
+                                <div>${reportList.reportTitle}</div>
+                                <div>${reportList.reportStatus}</div>
+                              </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -277,7 +217,7 @@
         
     </div>
 
-
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 
 </body>

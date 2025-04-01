@@ -3,9 +3,9 @@
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-}
-
-body {
+  }
+  
+  body {
     font-family: 'GmarketSansMedium', sans-serif;
     background-color: white;
     margin: 0;
@@ -13,9 +13,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.review-container {
+  }
+  
+  /* 팝업 컨테이너 */
+  .review-container {
     width: 500px;
     height: 700px;
     background: white;
@@ -23,134 +24,133 @@ body {
     border-radius: 12px;
     margin: 60px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-}
-
-/* 후기 남기기 헤더 */
-.review-header {
+  }
+  
+  /* 상단 헤더 */
+  .review-header {
+    width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    width: 100%;
-    font-size: 22px;
-    font-weight: bold;
-    color: black;
-    padding-bottom: 10px;
-}
-
-.review-title {
-    font-size: 30px;
-    width: 60%;
+  }
+  
+  .review-title {
+    font-size: 28px;
     font-weight: bold;
     background: linear-gradient(to bottom, transparent 35%, #f8df9e 50%);
-    padding: 0px 10px;
-}
-
-/* 프로필 카드 */
-.profile-card {
-    width: 80%;
+    padding: 0 10px;
+  }
+  
+  .member-type {
+    margin-left: auto;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+  }
+  
+  /* 프로필 카드 */
+  .profile-card {
+    width: 100%;
     background: #f5f5f5;
-    padding: 25px;
+    padding: 20px;
     border-radius: 12px;
     display: flex;
     align-items: center;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    margin: 20px 0;
-}
-
-/* 파티원 텍스트 오른쪽 정렬 */
-.member-type {
-    font-size: 18px;
-    font-weight: bold;
-    color: black;
-    text-align: right; 
-    width: 100%;
-    padding-right: 20px;
-}
-
-/* 프로필 이미지 */
-.profile-img {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .profile-img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     margin-right: 20px;
-}
-
-/* 프로필 정보 */
-.profile-info {
+    object-fit: cover;
+  }
+  
+  .profile-info {
     text-align: left;
     flex: 1;
-}
-
-.profile-info p {
+  }
+  
+  .profile-info p {
     margin: 6px 0;
-    font-size: 18px;
-}
-
-.join-date {
-    font-size: 14px;
+    font-size: 16px;
+  }
+  
+  .join-date {
+    font-size: 13px;
     color: gray;
     text-align: right;
-}
-
-/* 별점 */
-.star-rating {
-    font-size: 50px; /* 별 크기 증가 */
+  }
+  
+  .star-rating span {
+    color: #ddd;
+    font-size: 36px;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  /* 마우스 오버용 */
+  .star-rating.hover span:hover,
+  .star-rating.hover span:hover ~ span {
     color: gold;
-    letter-spacing: 8px; /* 간격 조정 */
-    margin: 15px 0;
-}
-
-/* 후기 작성 영역 */
-.review-textarea {
-    width: 90%;
+  }
+  
+  /* 선택된 별 */
+  .star-rating span.selected {
+    color: gold;
+  }
+  
+  /* 후기 작성 입력창 */
+  .review-textarea {
+    width: 100%;
     height: 120px;
+    padding: 12px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 12px;
-    font-size: 16px;
-    background: #fff8f2;
+    font-size: 15px;
+    background: #fffdf8;
+    resize: none;
     outline: none;
     margin: 20px 0;
-    resize: none;
-}
-
-/* 버튼 그룹 */
-.button-group {
-    width: 90%;
+  }
+  
+  /* 버튼 그룹 */
+  .button-group {
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-top: 40px;
-}
-
-/* 나중에 하기 버튼 */
-.disable-btn {
-    width: 45%;
-    background: #ccc;
-    color: white;
-    padding: 14px;
+  }
+  
+  /* 공통 버튼 스타일 */
+  .submit-btn, .disable-btn {
+    width: 48%;
+    padding: 12px;
+    font-size: 15px;
     border: none;
     border-radius: 30px;
-    font-size: 16px;
     cursor: pointer;
-}
-
-/* 작성 완료 버튼 */
-.submit-btn {
-    width: 45%;
+  }
+  
+  .submit-btn {
     background: #ffcc00;
     color: white;
-    padding: 14px;
-    border: none;
-    border-radius: 30px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.submit-btn:hover {
+  }
+  
+  .submit-btn:hover {
     background: #e6b800;
-}
+  }
+  
+  .disable-btn {
+    background: #ccc;
+    color: white;
+  }
+  
+  /* 유틸 */
+  .hidden {
+    display: none;
+  }

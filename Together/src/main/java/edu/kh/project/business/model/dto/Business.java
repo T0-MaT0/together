@@ -2,6 +2,7 @@ package edu.kh.project.business.model.dto;
 
 import java.util.List;
 
+import edu.kh.project.common.model.dto.Image;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,6 +25,7 @@ public class Business {
 	private int deliveryFee;
 	private int readCount;
 	private int categoryNo;
+	private int parentCategoryNo;
 	
 	// 상품 카테고리 join
 	private String categoryName;
@@ -37,11 +39,14 @@ public class Business {
 	private String parentCategoryName;
 	private String thumbnail;
 	
+	// 배너 목록
+	private List<Image> bannerList;
+	
 	// 상품 옵션 목록
 	private List<BusinessOption> optionList;
 	
 	// 이미지 목록
-	private List<BusinessImage> imageList;
+	private List<Image> imageList;
 
 	// 댓글 목록
 //	private List<Comment> commentList;

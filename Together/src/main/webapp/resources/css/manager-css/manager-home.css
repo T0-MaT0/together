@@ -117,7 +117,7 @@
   /* third section */
 .third-wrap{
   display: grid;
-  grid-template-columns: 541px 523px;
+  grid-template-columns: 445px 523px;
   gap:25px;
 }
 
@@ -127,12 +127,12 @@
   border-radius: 10px;
 
   display: grid;
-  grid-template-columns: repeat(4, 125px);
+  grid-template-columns: repeat(3, 125px);
   grid-template-rows: 45px 40px 85px;
   grid-template-areas:
-  "t t t t"
-  "i3c1 i3c1 i3c2 i3c2"
-  "i3c3 i3c4 i3c5 i3c6"
+  "t  t t"
+  "i3c1 i3c2 i3c2"
+  "i3c3 i3c5 i3c6"
   ;
   gap: 5px;
   align-items: center;
@@ -294,6 +294,7 @@
 }
 
 #myChart2{
-  margin: 0 20px;
+  padding-top: 20px;
+  margin: auto;
 }
 

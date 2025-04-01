@@ -13,6 +13,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/dev/dev-select.css" />
+    <script src="https://kit.fontawesome.com/975074ef7f.js" crossorigin="anonymous"></script>
     <script>
         // 사이드 메뉴 설정
         const menuName = "${menuName}";
@@ -43,99 +44,89 @@
         
         <section class="dev-board">
             <h3>TOP 배너</h3>
-            <div class="topBannerArea">
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
 
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
-                
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
-                
+            <!-- 기존 있음: 1 기존 없음: 0 없앰: -1, 수정: 2 -->
+            <form action="privatePage/submit" method="POST" name="BannerSubmit" enctype="multipart/form-data" onsubmit="imageSubmit(event)">
 
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
+                <div class="topBannerArea">
+                    
+
+                    <c:forEach begin="0" end="4" var="i" varStatus="status">
+                        <div class="bannerItemWrapper">
+                            
+                            <c:if test="${!empty imgList[i]}">
+                                <img class="bannerItem" src="${imgList[i].imagePath}${imgList[i].imageReName}" state="1"/>
+                            </c:if>
+                            <c:if test="${empty imgList[i]}">
+                                <img class="bannerItem" state="0" src="/resources/images/image-manager/banner/noneImg.png"/>
+                            </c:if>
+                            <button type="button" class="refreshButton" onclick="refreshImage(`${imgList[i].imagePath}${imgList[i].imageReName}`, `${status.index}`)" style="display: none;">
+                                <i class="fa-solid fa-rotate-right"></i>
+                            </button>
+                            <button type="button" class="closeButton" onclick="removeImage(${i})">X</button>
+                            <input type="file" accept="image/*" name="images" no="${status.index}">
+
+                        </div>
+                    </c:forEach>
+
+    
+                </div>
+                <div class="btnArea">
+                    <button>적용</button>
+                </div>
+                <input type="hidden" name="InsertNo">
+                <input type="hidden" name="updateNo">
+                <input type="hidden" name="deleteNo">
                 
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
-            </div>
-            <div class="btnArea">
-                <button>적용</button>
-            </div>
+            </form>
         </section>
 
         <section class="dev-board">
             <h3>Mid 배너</h3>
             <div class="MidBannerArea">
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
+                <img class="bannerItem" src="/resources/images/image-manager/midPromotion.png" style="cursor: pointer;"
+                onclick="promotionCollection(7)"/>
+                <!-- <input type="file" accept="image/*"> -->
             </div>
-            <div class="btnArea">
+            <!-- <div class="btnArea">
                 <button>적용</button>
-            </div>
+            </div> -->
         </section>
         
         
         <section class="dev-board">
             <h3>Mini 배너</h3>
-            <div class="bottomBannerArea">
+            <div class="bottomBannerArea" src>
                 
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
-                
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
-
-                <img class="bannerItem"/>
-                <input type="file" accept="image/*">
+                <img class="bannerItem" src="/resources/images/image-manager/miniImage.png" style="cursor: pointer;"
+                onclick="promotionCollection(8)"/>
+                <!-- <input type="file" accept="image/*"> -->
 
             </div>
-            <div class="btnArea">
+            <!-- <div class="btnArea">
                 <button>적용</button>
-            </div>
+            </div> -->
         </section>
-
-
-
     </div>
-
-
+    
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 
-<script>
-const bannerItems = document.getElementsByClassName("bannerItem");
-const bannerInput = document.getElementsByTagName("input");
 
-for (let i = 0; i < bannerItems.length; i++) {
-    bannerItems[i].addEventListener("click", () => {
-        bannerInput[i].click();
-    });
+        <!-- 모달 -->
+        <div id="modalMidPromotionSection">
+            <div class="promotionWrap">
+                <span class="promotionListClose" onclick="closeAdModal()" style="cursor: pointer;">&times;</span>
+                <div class="promotionImageListTitle" style="font-size: 25px;">Mid 광고 이미지</div>
 
-    bannerInput[i].addEventListener("change", function () {
-        const file = this.files[0]; 
-        
-        if (file) {
-            console.log("파일 선택됨");
-            const reader = new FileReader();
-
-            reader.readAsDataURL(file);
-
-            reader.onload = function (e) {
-                bannerItems[i].setAttribute("src", e.target.result);
-            };
-        } else {
-            console.log("파일 없음");
-            bannerItems[i].removeAttribute("src");
-            bannerInput[i].value = '';
-        }
-    });
-}
+                <div class="promotionImageContent">
+                    
+                </div>
+            </div>
+        </div>
 
 
-
-
-</script>
+<script src="/resources/js/manager-js/home/homeMain.js"></script>
 </body>
 
 </html>

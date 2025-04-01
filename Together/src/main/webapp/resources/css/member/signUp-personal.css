@@ -69,7 +69,7 @@ body{
 #pink-box {
     padding-top: 15px;
     width: 360px;
-    height: 1302px;
+    max-height: 1800px;
     box-shadow : 0 0 15px 0 #FF54A1;
     border-radius: 10px;
 
@@ -79,6 +79,7 @@ body{
 
 
     font-size: 12px;
+    padding-bottom: 20px;
 
 
 }
@@ -236,4 +237,8 @@ body{
 
 .marginTop-10{
     margin-top: 10px;
+}
+
+.g-recaptcha{
+    margin: 20px 0;
 }

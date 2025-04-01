@@ -2,6 +2,8 @@ package edu.kh.project.member.model.dto;
 
 
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -21,11 +23,14 @@ public class Member {
     private String memberAddr;
     private String memberTel;
     private String profileImg;
-    private String enrollDate;
+    
+    private Date enrollDate;
+    private String createDate; // MANAGER 
+    
     private String memberEmail;
     private String memberDelFl;
     private int authority;
-    private int memberGrade;
+    private String memberGrade;
     private String memberBirth;
     private int point;
 

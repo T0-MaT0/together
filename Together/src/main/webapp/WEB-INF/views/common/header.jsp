@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <link rel="stylesheet" href="/resources/css/header,footer.css">
 
@@ -26,7 +27,12 @@
         <div class="user-info">
             <c:if test="${!empty loginMember}">
                 <span>${loginMember.memberNick} | ${loginMember.point}pt</span>
-                <button class="btn-recruit  ">모집하기</button>
+                <c:if test="${loginMember.authority==2}">
+                    <button class="btn-recruit  ">모집하기</button>
+                </c:if>
+                <c:if test="${loginMember.authority==3}">
+                    <a href="/board/2/insertProduct" class="product-registration">상품등록</a>
+                </c:if>
             </c:if>
         </div>
     </div>
@@ -35,29 +41,38 @@
 <nav class="sub-nav">
     <div class="container2">
         <div class="left-links">
-            <a href="#">공구 상품</a>
-            <span> | </span>
-            <a href="#">내 모집 중</a>
-            <span> | </span>
-            <a href="#">리뷰 후기</a>
-            <span> | </span>
-            <a href="#">고객 센터</a>
+            <c:choose>
+                <c:when test="${boardCode == 1}">
+                    <a href="/Individual/detail">모집 상품</a>
+                    <span> | </span>
+                    <a href="/myRecruitment?key=myRecruitment">내 모집 중</a>
+                    <span> | </span>
+                    <a href="/customer/customerMain">고객 센터</a>
+                </c:when>
+                <c:otherwise>
+                    <a href="/board/2/reviewList">리뷰 목록</a>
+                    <span> | </span>
+                    <a href="/board/2/replyList">Q&A 목록</a>
+                    <span> | </span>
+                    <a href="/customer/customerMain">고객 센터</a>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div class="right-links">
             <c:if test="${!empty loginMember}">
                 <!-- 관리자(admin)인 경우 -->
                 <c:if test="${loginMember.authority == 1}">
-                    <a href="/manager/main">관리자 페이지</a>
+                    <a href="/managerArea/main">관리자 페이지</a>
                     <span> | </span>
                 </c:if>
                 
                 <!-- 로그인한 모든 사용자 -->
-                <a href="/member/mypage">마이페이지</a>
+                <a href="/mypage/home">마이페이지</a>
                 <span> | </span>
         
                 <!-- 일반 회원만 포인트 충전 가능 -->
                 <c:if test="${loginMember.authority != 1}">
-                    <a href="/point/charge">포인트 충전</a>
+                    <a href="/member/chargePoint">포인트 충전</a>
                     <span> | </span>
                 </c:if>
         
@@ -73,3 +88,4 @@
         </div>
     </div>
 </nav>
+<script src="/resources/js/header.js"></script>

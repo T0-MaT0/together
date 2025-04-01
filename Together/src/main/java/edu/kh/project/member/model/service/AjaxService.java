@@ -4,9 +4,18 @@ import java.util.List;
 import java.util.Map;
 
 
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.member.model.dto.Member;
+import edu.kh.project.member.model.dto.Product;
 
 public interface AjaxService {
+	
+	
+	/** 아이디 중복 체크
+	 * @param id
+	 * @return
+	 */
+	String dupCheckId(String id);
 
 	
 	/** 이메일 중복 체크
@@ -39,4 +48,8 @@ public interface AjaxService {
 	 */
 	List<Map<String, Object>> searchQueryList(String query);
 
+
+    List<Category> getCategory(int categoryNo);
+
+	List<Product> totalSearch(Map<String, Object> searchMap);
 }

@@ -57,7 +57,7 @@
                 <!-- 신고 개수 -->
                 <div class="chart-board ch-number">
                     <div>신고 수</div>  
-                    <div>0</div>  
+                    <div>${cusReportListCount}</div>  
                 </div>                
             </div>
 
@@ -69,19 +69,19 @@
                 <!-- 제휴 문의 -->
                 <div class="chart-board ch-number">
                     <div>제휴 신청</div>
-                    <div>10</div>
+                    <div>${brandQuestCount}</div>
                 </div>
 
                 <!-- 광고 신청 제의 건수 -->
                 <div class="chart-board ch-number">
                     <div>광고 신청</div>
-                    <div>10</div>
+                    <div>${brandAdCount}</div>
                 </div>
 
                 <!-- 신고 문의 -->
                 <div class="chart-board ch-number">
                     <div>신고 수</div>
-                    <div>10</div>
+                    <div>${brandReportCount}</div>
                 </div>
 
             </div>
@@ -99,13 +99,12 @@
             </div>
             <div class="item lineGraph">
                 <div class="titleArea bottom-line-pink">
-                    <span class="titleName">회원, 브랜드 수 추이</span> 
-                    <select name="customerStatus" id="customerStatus">
-                        <option>전체</option>
-                        <option>주</option>
+                    <span class="titleName">개인/브랜드 회원 가입 수 추이</span> 
+                    <!-- <select name="customerStatus" id="customerStatus">
+                        <option selected>주</option>
                         <option>월</option>
                         <option>년</option>
-                    </select>
+                    </select> -->
                 </div>
 
                 <canvas id="myChart2" style="width:100%;max-width:600px"></canvas>
@@ -114,33 +113,34 @@
 
         <!-- 문의 -->
         <section class="third-wrap">
+
             <!-- 이용 문의 -->
             <div class="item">
                 
                 <div class="que-title">
-                    <div>문의</div> 
-                    <a href="#">상세 보기 ></a>
+                    <div>미처리 문의 건수</div> 
+                    <!-- <a href="#">상세 보기 ></a> -->
                 </div>
 
-                <div class="i3-chart1 ">미처리</div>
-                <div class="i3-chart2 ">처리</div>
+                <div class="i3-chart1 ">고객 대상</div>
+                <div class="i3-chart2 ">브랜드 대상</div>
                 <div class="i3-chart3 bottom-line-purple ch-number">
-                    <div>이용 문의</div>
-                    <div>0</div>
+                    <div>1:1문의</div>
+                    <div>${custQuestCount}</div>
 
                 </div> 
-                <div class="i3-chart4 bottom-line-purple ch-number">
-                    <div>상담 톡</div>
+                <!-- <div class="i3-chart4 bottom-line-purple ch-number">
+                    <div>신고</div>
                     <div>0</div>
                 
-                </div>
+                </div> -->
                 <div class="i3-chart5 bottom-line-pink ch-number">
-                    <div>이용 문의</div>
-                    <div>0</div>
+                    <div>제휴</div>
+                    <div>${notPassApplyCount}</div>
                 </div>
                 <div class="i3-chart6 bottom-line-pink ch-number">
-                    <div>상담 톡</div>
-                    <div>0</div>
+                    <div>광고</div>
+                    <div>${brandAddCount}</div>
                 </div>
 
 
@@ -148,24 +148,24 @@
 
             <!-- 신고 문의 -->
             <div class="item">
-
                 <div class="report-title">
-                    <span class="title-name">신고</span> <a href="#">상세 보기 ></a>
+                    <span class="title-name">미처리 신고 건수</span>
+                     <!-- <a href="#">상세 보기 ></a> -->
                 </div>
 
                 <div class="ch-number">
-                    <div>총건수</div>
-                    <div>0</div>
+                    <div>총 신고</div>
+                    <div>${cusWaitCount+waitCount}</div>
                 </div>
 
                 <div class="ch-number">
-                    <div>미처리 건</div>
-                    <div>0</div>
+                    <div>고객 대상</div>
+                    <div>${cusWaitCount}</div>
                 </div>
 
                 <div class="ch-number">
-                    <div>처리 건</div>
-                    <div>0</div>
+                    <div>브랜드 대상</div>
+                    <div>${waitCount}</div>
                 </div>
 
             </div>
@@ -174,12 +174,15 @@
         
     </div>
 
-
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 
 <script>
+    const goodsCount = ${productCount};
+    const getherCount = ${customerboardCount};
+
     const xValues = ["고객 모집", "브랜드 상품"];
-    const yValues = [10000, 50000];
+    const yValues = [goodsCount, getherCount];
     const barColors = [
     "#DC143C",
     // "#FF6347",
@@ -201,7 +204,7 @@
         // maintainAspectRatio: false
         title: {
       display: true,
-      text: "총 브랜드 상품/고객 모집글 수 ",
+      text: "상품/ 모집글 누적 수 ",
       fontSize: 24, 
       fontColor: "#000000"
     }
@@ -211,40 +214,36 @@
 </script>
 
 <script>
-    const xValues1 = [1, 2, 3, 4, 5];
-    const yValues1 = [66, 70, 50, 33, 22];  // 첫 번째 선 데이터
-    const yValues2 = [60, 65, 80, 77, 90];  // 두 번째 선 데이터 (새로운 선)
-    
-    new Chart("myChart2", {
-      type: "line",
-      data: {
-        labels: xValues,
-        datasets: [{
-          label: "고객 모집",  // 첫 번째 선의 레이블 이름
-          fill: false,
-          lineTension: 0,
-          backgroundColor: "rgba(0,0,255,1.0)",  // 첫 번째 선의 배경색
-          borderColor: "rgba(0,0,255,0.1)",      // 첫 번째 선의 선 색상
-          data: yValues1
+        const custCount = "${dayCustomerCount}";
+        const brandCount = "${dayBrandCount}";
+        console.log(custCount);
+        console.log(brandCount);
+        // const xValues2 = [100,200,300,400,500,600,700,800,900,1000];
+        const xValues2 = [${graph.SEVEN}, ${graph.SIX}, ${graph.FIVE}, ${graph.FOUR}, ${graph.THREE}
+        , ${graph.TWO}, ${graph.ONE}, ${graph.TODAY}];
+
+        new Chart("myChart2", {
+        type: "line",
+        data: {
+            labels: xValues2,
+            datasets: [{ 
+            data: ${dayCustomerCount},
+            label: "개인회원",
+            borderColor: "rgba(0,0,255,0.1)",
+            backgroundColor: "rgba(0,0,255,1.0)",
+            fill: false
+            }, 
+            { data: ${dayBrandCount},
+            label: "브랜드 회원",
+            borderColor: "rgba(255,0,0,0.1)",
+            backgroundColor: "rgba(255,0,0,1.0)",
+            fill: false
+            }]
         },
-        {
-          label: "브랜드 상품",  // 두 번째 선의 레이블 이름
-          fill: false,
-          lineTension: 0,
-          backgroundColor: "rgba(255,0,0,1.0)",  // 두 번째 선의 배경색 (예: 빨간색)
-          borderColor: "rgba(255,0,0,0.1)",      // 두 번째 선의 선 색상
-          data: yValues2
-        }]
-      },
-      options: {
-        legend: {display: true},  // 레전드 표시
-        scales: {
-          yAxes: [{
-            ticks: {min: 0, max: 100}
-          }]
+        options: {
+            legend: {display: true}
         }
-      }
-    });
+        });
     </script>
 
     <script src="/resources/js/manager-js/managerMain.js"></script>

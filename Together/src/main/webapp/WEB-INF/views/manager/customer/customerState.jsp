@@ -5,13 +5,16 @@
 
 <c:set var="menuName" value="customer"/> <!-- 사이드 메뉴 설정 -->
 
+
+<c:set var="pagination" value="${map.pagination}"/>
+<c:set var="stateList" value="${map.stateList}"/>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>customerState</title>
     <link rel="stylesheet" href="/resources/css/manager-css/manager-common.css" />
     <link rel="stylesheet" href="/resources/css/manager-css/customer/customer-list.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -50,12 +53,12 @@
 
     <!-- 본문(종앙) -->
     <div id="container-center">
-        <section class="cus-board list-card">
+        <section class="cus-board list-card mainList">
             <!-- 고객 상태 리스트 -->
             <div class="board-title bottom-line">
                 <div class="title">고객 상태 리스트</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <select name="customerStatus" id="customerStatus" onchange="filterCustomerStatus(event)">
                         <option>전체</option>
                         <option>회원</option>
                         <option>탈퇴</option>
@@ -73,19 +76,26 @@
                     <div>닉네임</div>
                     <div>이메일</div>
                     <div>가입일자</div>
-                    <div>탈퇴일자</div>
+                    <div>회원 등급</div>
                     <div>상태</div>
                 </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div>pom@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>회원</div>
-                </div>
-                <div class="list item bottom-line">
+                <c:forEach  items="${stateList}" var="state">
+                    <div class="list item bottom-line clickArea" onclick="customerState(${state.memberNo})">
+                        <div>${state.memberNo}</div>
+                        <c:if test="${empty state.profileImg}">
+                            <img src="/resources/images/image-manager/profile.png" alt="프로필">
+                        </c:if>
+                        <c:if test="${!empty state.profileImg}">
+                            <img src="${state.profileImg}" alt="프로필">
+                        </c:if>
+                        <div>${state.memberNick}</div>
+                        <div>${state.memberEmail}</div>
+                        <div>${state.createDate}</div>
+                        <div>${state.memberGrade}</div>
+                        <div>${state.memberDelFl}</div>
+                    </div>
+                </c:forEach>
+                <!-- <div class="list item bottom-line">
                     <div>2</div>
                     <img src="/resources/images/image-manager/profile.png" alt="프로필">
                     <div>호빵맨</div>
@@ -93,144 +103,33 @@
                     <div>2025.02.25</div>
                     <div>2025.02.26</div>
                     <div>탈퇴</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>3</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>식빵맨</div>
-                    <div>sick@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>블랙</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div>pom@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>회원</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>2</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>호빵맨</div>
-                    <div>hopang@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>탈퇴</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>3</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>식빵맨</div>
-                    <div>sick@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>블랙</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div>pom@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>회원</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>2</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>호빵맨</div>
-                    <div>hopang@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>탈퇴</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>3</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>식빵맨</div>
-                    <div>sick@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>블랙</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div>pom@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>회원</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>2</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>호빵맨</div>
-                    <div>hopang@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>탈퇴</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>3</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>식빵맨</div>
-                    <div>sick@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>블랙</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>1</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>폼폼프리</div>
-                    <div>pom@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>----.--.--</div>
-                    <div>회원</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>2</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>호빵맨</div>
-                    <div>hopang@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>탈퇴</div>
-                </div>
-                <div class="list item bottom-line">
-                    <div>3</div>
-                    <img src="/resources/images/image-manager/profile.png" alt="프로필">
-                    <div>식빵맨</div>
-                    <div>sick@gmail.com</div>
-                    <div>2025.02.25</div>
-                    <div>2025.02.26</div>
-                    <div>블랙</div>
-                </div>
+                </div> -->
 
             </div>
 
+            <!-- 페이지네이션션 -->
+            <c:set var="urlCp" value="/manageCustomer/state?cp="></c:set>
             <ul id="pagination">
-                <li>&lt;&lt;</li>
-                <li>&lt;</li>
-                <li class="curr">1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
-                <li>10</li>
-                <li>&gt;</li>
-                <li>&gt;&gt;</li>
+                <li><a href="${urlCp}1">&lt;&lt;</a></li>
+                <li><a href="${urlCp}${pagination.prevPage}">&lt;</a></li>
+                
+                    <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}">
+                        <c:choose>
+                            <c:when test="${pagination.currentPage == i}">
+                                <!-- 현재 페이지인 경우 -->
+                                <li class="curr">${i}</li>
+                            </c:when>
+            
+                            <c:otherwise>
+                                <!-- 현재 페이지가 아닌 경우 -->
+                                <li><a href="${urlCp}${i}">${i}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>                
+                
+                <li><a href="${urlCp}${pagination.nextPage}">&gt;</a></li>
+                <li><a href="${urlCp}${pagination.maxPage}">&gt;&gt;</a></li>
             </ul>
-
         </section>
 
 
@@ -238,11 +137,11 @@
         <section class="cus-board count-card">
         
             <div class="board-title ">
-                <div class="title">현재 총 회원 수</div>
+                <div class="title">현재 회원 수</div>
             </div>
             <div class="customer-count">
-                <div class="count">5,000,000,000 명</div>
-                <progress id="progressBar" value="100" max="100"></progress>
+                <div class="count">${map.customerTotal}명</div>
+                <progress id="progressBar" value="${map.customerTotal}" max="${map.customerTotal}"></progress>
             </div>
         
         </section>
@@ -253,29 +152,44 @@
             <div class="board-title ">
                 <div class="title">고객 규모</div>
                 <div class="select-area">
-                    <select name="customerStatus" id="customerStatus">
+                    <!-- <select name="customerStatus" id="customerStatus">
                         <option>전체</option>
                         <option>주</option>
                         <option>월</option>
                         <option>년</option>
-                    </select>
+                    </select> -->
                 </div>
             </div>
             <canvas id="myChart" style="width:80%;max-width:400px; height: 400px;"></canvas>
+
+
         </section>
 
         
     </div>
 
-
+    <jsp:include page="/WEB-INF/views/common/sidebar/sideBar-main.jsp" /> 
 </main>
 
+<!-- 고객 상태 여부 -->
+<c:forEach var="customerState" items="${map.CustomersSelect}">
+    <c:if test="${customerState.MEMBER_DEL_FL == 'B'}">
+        <c:set var="black" value="${customerState.MEMBER_COUNT}"></c:set>
+    </c:if>
+    <c:if test="${customerState.MEMBER_DEL_FL == 'N'}">
+        <c:set var="member" value="${customerState.MEMBER_COUNT}"></c:set>
+    </c:if>
+    <c:if test="${customerState.MEMBER_DEL_FL == 'Y'}">
+        <c:set var="nonMember" value="${customerState.MEMBER_COUNT}"></c:set>
+    </c:if>
+</c:forEach>
+
 <script>
-    const xValues = ["탈퇴", "블랙", "회원", "신규"];
-    const yValues = [55, 49, 44, 24];
+    const xValues = ["회원", "탈퇴", "블랙"];
+    const yValues = [${member}, ${nonMember}, ${black}];
     const barColors = [
     "#DC143C",
-    "#FF6347",
+    // "#FF6347",
     // "#FFA500",
     "#6B8E23",
     "#6495ED"
@@ -292,9 +206,13 @@
     },
     options: {
         // maintainAspectRatio: false
+        animation: false
     }
     });
 </script>
+
+<script src="/resources/js/manager-js/customer/manageCustomer.js"></script>
+<script src="/resources/js/manager-js/customer/statePagination.js"></script>
 </body>
 
 </html>

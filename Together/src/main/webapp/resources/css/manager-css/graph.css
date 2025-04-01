@@ -14,23 +14,59 @@
 
 
 .graphArea{
-    display: block;
-    width: 300px;
+    display: flex;
+    justify-content: flex-start; /* 그래프를 왼쪽에서 시작 */
+    align-items: center;
+    width: 200px; /* 그래프의 최대 너비를 설정 */
 }
 .graphBar{
     height: 10px;
     border-radius: 0 5px 5px 0 ;
     background-color: red;
+
+    height: 20px; /* 높이를 설정하여 수평 그래프 형태로 */
+    margin-right: 5px; /* 그래프들 간에 간격을 둡니다 */
 }
-.blue{background-color: blue; margin: 3px 0}
-.red{background-color: red; margin: 3px 0}
+/* .blue{background-color: blue; margin: 3px 0}
+.red{background-color: red; margin: 3px 0} */
+.red {
+    background-color: red;
+    margin: 3px 0;
+    position: relative; /* Add position relative to enable positioning of ::after */
+}
+
+.red::after {
+    content: attr(data-quantity);
+    position: absolute;
+    right: 0;
+    top: -10px;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: black;
+}
+
+.blue {
+    background-color: blue;
+    margin: 3px 0;
+    position: relative; /* Add position relative to enable positioning of ::after */
+}
+
+.blue::after {
+    content: attr(data-quantity);
+    position: absolute;
+    left: -10px; /* 그래프와 텍스트 간의 간격을 늘림 */
+    top: -10px;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: black;
+}
 
 
 
 /* ------------------------------------------------------ */
-.graphArea > .blue{
+/* .graphArea > .blue{
     width: 50%;
 }
 .graphArea > .red{
     width: 30%;
-}
+} */

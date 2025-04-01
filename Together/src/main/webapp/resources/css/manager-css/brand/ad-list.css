@@ -39,7 +39,11 @@
     box-shadow: 0px 2px 12px 1px rgba(0, 0, 0, 0.217);
 
 }
-
+.mainBoard{
+    min-height: 550px;
+    max-height: 550px;
+    position: relative;
+}
 .list-card{grid-area: li;}
 .count-card{grid-area: c;}
 .graph-card{grid-area: g;}
@@ -81,7 +85,7 @@
     justify-items: center;
     justify-content: center;
     align-items: center;
-    padding: 5px 0;
+    padding: 10px 0;
 }
 
 .list >img{
@@ -99,14 +103,10 @@
     background-color: #6700CF;
     color: white;
     border-radius: 5px;
-    padding-top: 7px;
+    padding-top: 13px;
 }
 
 
-#container-center > section.cus-board.list-card{
-    min-height: 400px;
-    max-height: 450px;
-}
 
 /* ------------------------------------------------------------------ */
 /* 현재 총 회원 수 */
@@ -140,10 +140,14 @@
 #pagination{
     display: flex;
     justify-content: center;
-
     list-style-type: none;
-
     font-size: 13px;
+
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom:0;
+
 }
 
 #pagination >li{
@@ -156,7 +160,10 @@
    font-weight: bold;
 }
 
-
+#pagination >li>a{
+    color: black;
+    text-decoration: none;
+}
 /* ---------------------------------------------------------------- */
 
 /* 고객 규모 그래프 */
@@ -169,4 +176,66 @@
 /* 광고 신청 색 */
 #menu-items > div.open-menu > a:nth-child(4){
     color:#6700CF;
+}
+
+
+/* ------------------------------------------------------------------- */
+/* 광고 모달 */
+#imageView{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    
+    /* style */
+    background-color: rgba(0, 0, 0, 0.212);
+    z-index: 1000;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
+}
+
+#imageView.active{
+    display: flex;
+    opacity: 1;
+
+    
+}
+
+#imageView  img{
+    border-radius: 3px;
+    max-width: 1060px;
+    max-height: 670px;
+
+    object-fit: fill;
+}
+.proImage-wrap{ 
+    position: relative; 
+    background-color: white; 
+    padding: 20px; 
+    border-radius: 5px;
+
+    max-width: 1160px;
+    max-height: 670px;
+}
+.proImage-wrap>span{ position: absolute; top:0px; right: 5px; font-size: 20px; cursor: pointer;}
+
+#imgType{
+    width: 85px;
+    padding: 5px 0 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+
+.notFound{
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

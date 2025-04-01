@@ -4,6 +4,7 @@
 
 <c:set var="businessHotList" value="${map.businessHotList}"/>
 <c:set var="businessNewList" value="${map.businessNewList}"/>
+<c:set var="url" value="/board/${boardCode}/"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -26,11 +27,7 @@
     <main>
         <section class="content">
             <div class="banner">
-                <img src="/resources/images/business/banner.png">
-                <div class="banner-text">
-                    Buy Together,<br>
-                    <span>Sell Together!</span>
-                </div>
+                <img src="" id="bannerImg">
             </div>
 
             <section class="boardList">
@@ -52,17 +49,19 @@
                     <!-- 상품 목록 조회 결과가 비어있지 않다면 -->
                     <c:if test="${!empty businessHotList}">
                         <c:forEach var="product" items="${businessHotList}">
-                            <div>
+                            <div class="product-item">
                                 <div class="product-img-area">
-                                    <img src="/resources/images/business/product.png">
+                                    <a href="${url}${product.boardNo}">
+                                        <img src="${product.thumbnail}">
+                                    </a>
                                 </div>
-                                <div class="product-info">
-                                    <span class="hidden">${product.memberNickname}</span>
-                                    <span>${product.boardTitle}</span>
+                                <div class="product-info" url="${url}${product.boardNo}">
+                                    <span>${product.memberNickname}</span>
+                                    <a href="${url}${product.boardNo}">${product.boardTitle}</a>
                                     <div class="product-price-area">
-                                        <span>
+                                        <!-- <span>
                                             <fmt:formatNumber value="${product.productPrice / 2}" type="number" maxFractionDigits="0"/>원
-                                        </span>
+                                        </span> -->
                                         <span>
                                             <fmt:formatNumber value="${product.productPrice}" type="number" maxFractionDigits="0"/>원
                                         </span>
@@ -93,17 +92,16 @@
                     <!-- 상품 목록 조회 결과가 비어있지 않다면 -->
                     <c:if test="${!empty businessNewList}">
                         <c:forEach var="product" items="${businessNewList}">
-                            <div>
+                            <div class="product-item">
                                 <div class="product-img-area">
-                                    <img src="/resources/images/business/product.png">
+                                    <a href="${url}${product.boardNo}">
+                                        <img src="${product.thumbnail}">
+                                    </a>
                                 </div>
-                                <div class="product-info">
-                                    <span class="hidden">${product.memberNickname}</span>
-                                    <span>${product.boardTitle}</span>
+                                <div class="product-info" url="${url}${product.boardNo}">
+                                    <span>${product.memberNickname}</span>
+                                    <a href="${url}${product.boardNo}">${product.boardTitle}</a>
                                     <div class="product-price-area">
-                                        <span>
-                                            <fmt:formatNumber value="${product.productPrice / 2}" type="number" maxFractionDigits="0"/>원
-                                        </span>
                                         <span>
                                             <fmt:formatNumber value="${product.productPrice}" type="number" maxFractionDigits="0"/>원
                                         </span>
@@ -119,6 +117,9 @@
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/main.js"></script>
+    <script>
+        const bannerList = JSON.parse(`${bannerList}`);
+    </script>
     <script src="/resources/js/business/businessList.js"></script>
 </body>
 </html>

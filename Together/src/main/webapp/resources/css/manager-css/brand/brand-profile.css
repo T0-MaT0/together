@@ -108,7 +108,7 @@ html, body {
 
 .status-area{
     display: grid;
-    grid-template-columns: repeat(3, 110px);
+    grid-template-columns: repeat(4, 110px);
     grid-template-rows: repeat(2, 100px);
     justify-content: center;
     gap: 10px;
@@ -157,6 +157,8 @@ html, body {
 
     display: grid;
     grid-template-columns: 90px 330px;
+
+    align-items: center;
 }
 
 .info-item > div:nth-of-type(2){
@@ -200,6 +202,8 @@ html, body {
     display: inline-block;
     text-decoration: none;
     color: black;
+
+    cursor: pointer;
 
     text-align: center;
 }
@@ -253,10 +257,13 @@ html, body {
 #pagination{
     display: flex;
     justify-content: center;
-
     list-style-type: none;
-
     font-size: 13px;
+
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
 }
 
 #pagination >li{
@@ -265,8 +272,17 @@ html, body {
 }
 
 .curr{
-   color:#6700CF;
-   font-weight: bolder;
+    margin: 5px 10px;
+    font-weight: normal;
+    padding: 6px 10px 4px;
+    background-color: #b573f7;
+    border-radius: 5px;
+    color: white;
+}
+
+#pagination > li>a{
+    color: black;
+    text-decoration: none;
 }
 
 
@@ -274,4 +290,43 @@ html, body {
 /* 문의이력 보드 */
 #container-center > section:nth-child(2){
     height: 637px;
+    position: relative;
+}
+
+
+/* -------------------------------------------- */
+
+.noBoard{
+    padding: 10px 0;
+    margin: auto;
+}
+
+/* -------------------------------- */
+/* 문의이력 보드 */
+#container-center > section:nth-child(2){
+    height: 637px;
+}
+
+
+/* 존재하지 않은 게시물 */
+#list-area > div.notFound{
+    padding: 15px 0;
+    margin: auto;
+}
+/* ----------------------------------- */
+/* 이전페이지로 돌아가기 */
+.backToHistory{
+    margin-left: 600px;
+    color: #9d3aff;
+    text-decoration: none;
+    text-shadow: 1px 1px 2px white;
+}
+
+/* -------------------------------------- */
+.clickArea{
+    cursor: pointer;
+}
+
+.clickArea:active{
+    background-color: rgba(0, 0, 0, 0.178);
 }

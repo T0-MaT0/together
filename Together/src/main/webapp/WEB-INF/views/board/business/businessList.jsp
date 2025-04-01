@@ -1,7 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="title" value="${param.query}/부모 카테고리>자식 카테고리"/>
+<c:set var="businessList" value="${map.businessList}"/>
+<c:set var="pagination" value="${map.pagination}"/>
+<c:set var="url" value="search?cp="/>
+<c:set var="qs" value="&category=${param.category}&query=${param.query}"/>
+
+<c:if test="${param.category=='hot'||param.category=='new'}">
+	<c:set var="qs" value="&category=${param.category}"/>
+</c:if>
 
 <c:if test="${param.category=='hot'}">
     <c:set var="title" value="지금 🔥HOT🔥한 상품들"/>
@@ -36,13 +45,8 @@
     <main>
         <section class="content">
             <div class="banner">
-                <img src="/resources/images/business/banner.png">
-                <div class="banner-text">
-                    Buy Together,<br>
-                    <span>Sell Together!</span>
-                </div>
+                <img src="" id="bannerImg">
             </div>
-
             
             <section class="boardList">
                 <div class="title-area">
@@ -60,160 +64,59 @@
                 </div>
 
                 <div class="list-area">
-                    <div>
-                        <div class="product-img-area">
-                            <img src="../../../resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
+                    <c:if test="${!empty businessList}">
+                        <c:forEach var="product" items="${businessList}">
+                            <div class="product-item">
+                                <div class="product-img-area">
+                                    <a href="/board/${boardCode}/${product.boardNo}">
+                                        <img src="${product.imageList[0].imagePath}${product.imageList[0].imageReName}">
+                                    </a>
+                                </div>
+                                <div class="product-info" url="/board/${boardCode}/${product.boardNo}">
+                                    <span>${product.memberNickname}</span>
+                                    <a href="/board/${boardCode}/${product.boardNo}">${product.boardTitle}</a>
+                                    <div class="product-price-area">
+                                        <span>
+                                            <fmt:formatNumber value="${product.productPrice}" type="number" maxFractionDigits="0"/>원
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div class="product-img-area">
-                            <img src="../../../resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div class="product-img-area">
-                            <img src="../../../resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div class="product-img-area">
-                            <img src="../../../resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div class="product-img-area">
-                            <img src="../../../resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <div class="product-img-area">
-                            <img src="../../../resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="product-img-area">
-                            <img src="../../../resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="product-img-area">
-                            <img src="../../../resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="product-img-area">
-                            <img src="../../../resources/images/business/product.png">
-                        </div>
-                        <div class="product-info">
-                            <span class="hidden">제품 회사 이름</span>
-                            <span>제품 이름이 긴 상품</span>
-                            <div class="product-price-area">
-                                <span>5000원</span>
-                                <span>10000원</span>
-                            </div>
-                        </div>
-                    </div>
+                        </c:forEach>
+                    </c:if>
                 </div>
             </section>
             <div class="pagination-area">
-                <ul class="pagination">
-                    <li><a href="#">&lt;&lt;</a></li>
-
-                    <li><a href="#">&lt;</a></li>
-                    
-                    <li><a class="current">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">6</a></li>
-                    <li><a href="#">7</a></li>
-                    <li><a href="#">8</a></li>
-                    <li><a href="#">9</a></li>
-                    <li><a href="#">10</a></li>
-                    
-                    <li><a href="#">&gt;</a></li>
-
-                    <li><a href="#">&gt;&gt;</a></li>
-                </ul>
+                <c:if test="${pagination.maxPage>1}">
+                    <ul class="pagination">
+                        <li><a href="${url}1${qs}">&lt;&lt;</a></li>
+    
+                        <li><a href="${url}${pagination.prevPage}${qs}">&lt;</a></li>
+                        
+                        <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}">
+                            <c:if test="${pagination.currentPage==i}">
+                                <li><a class="current">${i}</a></li>
+                            </c:if>
+                            
+                            <c:if test="${pagination.currentPage!=i}">
+                                <li><a href="${url}${i}${qs}">${i}</a></li>
+                            </c:if>
+                        </c:forEach>
+                        
+                        <li><a href="${url}${pagination.nextPage}${qs}">&gt;</a></li>
+    
+                        <li><a href="${url}${pagination.maxPage}${qs}">&gt;&gt;</a></li>
+                    </ul>
+                </c:if>
             </div>
         </section>
     </main>
 
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/main.js"></script>
+    <script>
+        const bannerList = JSON.parse(`${bannerList}`);
+    </script>
     <script src="/resources/js/business/businessList.js"></script>
 </body>
 </html>
