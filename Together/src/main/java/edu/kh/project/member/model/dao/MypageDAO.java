@@ -69,4 +69,8 @@ public class MypageDAO {
         System.out.println("parentNo = " + parentNo);
         return sqlSession.selectList("categoryMapper.selectChildCategories", parentNo);
     }
+
+    public int updateProfile(Image img) {
+        return sqlSession.update("mypageMapper.updateProfile", img);
+    }
 }

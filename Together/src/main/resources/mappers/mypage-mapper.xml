@@ -401,6 +401,11 @@
 		</if>
 </select>
 
+	<update id="updateProfile" resultType="_int">
+		UPDATE MEMBER
+		SET MEMBER_PROFILE_IMG = '${imagePath}${imageReName}'
+		WHERE MEMBER_NO = ${memberNo}
+
 
 
 

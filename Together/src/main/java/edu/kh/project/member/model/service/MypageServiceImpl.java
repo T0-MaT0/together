@@ -91,5 +91,25 @@ public class MypageServiceImpl implements MypageService {
         return dao.getCategory(categoryNo);
     }
 
+    @Override
+    public int updateProfile(int memberNo, Image img, MultipartFile file, String filePath) {
+        int result = 0;
+
+        if (img != null) {
+            img.setImageTypeNo(memberNo);
+            result = dao.updateProfile(img);
+            if (result > 0) {
+                try {
+                    file.transferTo(new File(filePath + img.getImageReName()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    result = 0;
+                }
+            }
+        }
+
+        return result;
+    }
+
 
 }
