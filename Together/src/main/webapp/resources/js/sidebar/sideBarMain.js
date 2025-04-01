@@ -142,6 +142,9 @@ function renderChatRoomList(chatList) {
           bindImageUploadEvent();
           bindEmojiEvent();
 
+          showFAQIfCounselingRoom();
+          initFAQEvent();
+
           connectChatWebSocket?.(chattingNo);
           loadMessageList?.();
           loadChatRoomDetail(chattingNo);
@@ -1009,7 +1012,6 @@ function showFAQIfCounselingRoom() {
   }
 }
 
-document.getElementById("faqToggleBtn")?.addEventListener("click", toggleFAQ);
 
 function increaseChatRoomNotification(roomNo) {
   const chatRoom = document.querySelector(`.chat-room[data-room-no="${roomNo}"]`);
