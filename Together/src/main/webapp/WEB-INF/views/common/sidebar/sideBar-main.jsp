@@ -37,7 +37,7 @@
               <div id="chatNotiBadge" class="noti noti-menu" style="display:none;"><span>0</span></div>
             </a>
           </div>          
-          <div class="talkMenu unselect" id="consultMenu">
+          <div class="talkMenu unselect" id="consultMenu" >
               <a href="" class="no-link">
                 <img src="/resources/images/sidebar/images/Home.svg" alt="">
               </a>
