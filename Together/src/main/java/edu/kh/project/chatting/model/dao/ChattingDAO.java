@@ -157,8 +157,8 @@ public class ChattingDAO {
 	}
 	
 	// 참가하기 시 채팅방 참여(roomName 조회)
-	public String selectBoardTitle(int boardNo) {
-		return sqlSession.selectOne("chattingMapper.selectBoardTitle", boardNo);
+	public String selectBoardTitle(int recruitmentNo) {
+		return sqlSession.selectOne("chattingMapper.selectBoardTitle", recruitmentNo);
 	}
 
 	// 참가하기 시 채팅방 참여(roomNo 조회)

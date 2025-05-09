@@ -182,7 +182,30 @@ public class MypageController {
     }
 
 
+    //프로필 변경
+    @GetMapping("/editProfile")
+    public String profileUpdate(Model model) {
+        return "member/mypage/profileUpdate";
+    }
 
+    //프로필 변경
+    @PostMapping("/profileUpdate")
+    public int profileUpdate(
+            @RequestParam("memberNo") int memberNo,
+            @RequestParam("file") MultipartFile file,
+            HttpSession session
+    ) {
+        if (file.isEmpty()) {
+            return 0;
+        }
+        String webPath = "/resources/images/profile-images/";
+        String filePath = session.getServletContext().getRealPath(webPath);
+        Image img = new Image();
+        img.setImagePath(webPath);
+        img.setImageOriginal(file.getOriginalFilename());
+        img.setImageReName(Utill.fileRename(file.getOriginalFilename()));
+        return service.updateProfile(memberNo, img, file, filePath);
+    }
 
 
 // PostMapping

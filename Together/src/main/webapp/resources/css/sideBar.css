@@ -906,16 +906,10 @@
 
 #sideBar .digit>div:nth-of-type(5){
   margin-top: 16px;
-  margin-right: 12px;
-  float: right;
-  width: 270px;
   height: 42px;
   color: black;
   border-radius: 5px;
 
-  display: flex;
-  justify-content: space-between;
-  text-align: left;
   line-height: 45px;
   font-size: 20px;
 
@@ -934,8 +928,18 @@
 
 #sideBar .content.search{
   width: 522px;
+  overflow-y: auto;
 
   display: flex;
+}
+
+#sideBar .content.search>div{
+  width: 522px;
+  flex-shrink: 0;
+}
+
+#sideBar .content.search::-webkit-scrollbar {
+  width: 0px;
 }
 
 #sideBar .Search-box{
@@ -1770,4 +1774,16 @@
 #sideBar .hidden{
   /* 중요 */
   display: none !important;
+}
+
+#sideBar #searchItemList{
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+
+}
+
+#sideBar #searchItemList .digit{
+  width: 220px;
 }

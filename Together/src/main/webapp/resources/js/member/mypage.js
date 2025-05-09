@@ -337,7 +337,10 @@ const menuItems = document.getElementsByClassName("menu-item");
 
 
 
-
+editProfile = document.getElementById("editProfile");
+if (editProfile) {
+  
+}
 
 
 // 문서 로드 시

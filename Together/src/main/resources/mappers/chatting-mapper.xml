@@ -260,7 +260,10 @@
 	
 	<!-- roomName 조회 -->
 	<select id="selectBoardTitle" resultType="string">
-	  SELECT BOARD_TITLE FROM BOARD WHERE BOARD_NO = #{boardNo}
+	    SELECT P.PRODUCT_TITLE
+	    FROM RECRUITMENT_ROOM R
+	    JOIN PRODUCT P ON R.PRODUCT_NO = P.PRODUCT_NO
+	    WHERE R.RECRUITMENT_NO = #{recruitmentNo}
 	</select>
 	
 	<!-- roomNo 조회 -->

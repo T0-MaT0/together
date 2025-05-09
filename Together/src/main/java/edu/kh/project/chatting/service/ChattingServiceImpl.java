@@ -111,8 +111,8 @@ public class ChattingServiceImpl implements ChattingService{
 
 	// 참가하기 시 채팅방 참여(roomName 조회)
 	@Override
-	public String selectBoardTitle(int boardNo) {
-		return dao.selectBoardTitle(boardNo);
+	public String selectRecruitmentTitle(int recruitmentNo) {
+		return dao.selectBoardTitle(recruitmentNo);
 	}
 
 	// 참가하기 시 채팅방 참여(roomNo 조회)

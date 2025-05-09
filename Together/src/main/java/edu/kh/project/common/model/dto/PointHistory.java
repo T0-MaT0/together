@@ -1,5 +1,7 @@
 package edu.kh.project.common.model.dto;
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -8,11 +10,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class PointHistory {
-	private int historyNo;
-	private String usedDate;
-	private int pointAmount;
-	private String usedDetail;
-	private String pointType;
-	private int pointTypeNo;
-	private int memberNo;
+  private int pointHistoryNo;
+  private Date usedDate;
+  private int pointAmount;
+  private String usageDetail;
+  private String pointType;
+  private int pointTypeNo;
+  private int memberNo;
 }

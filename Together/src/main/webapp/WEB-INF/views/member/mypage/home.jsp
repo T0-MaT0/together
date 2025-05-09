@@ -54,7 +54,7 @@
 			  <p>내 지역 : ${addrArr[1]}</p>
               <p class="points">포인트 : ${loginMember.point}pt</p>
 						</div>
-						<button class="edit-btn">설정</button>
+						<button class="edit-btn" onclick="openEditProfile(${loginMember.memberNo})">프로필 변경</button>
 					</div>
 				</section>
         <c:if test="${loginMember.authority == 3}">
@@ -163,6 +163,18 @@
     const popup = window.open(
       '/mypage/promotion?memberNo=' + memberNo,
       'promotionPopup',
+      'width=800,height=600,scrollbars=yes'
+    );
+    if (popup) {
+      popup.focus();
+    } else {
+      alert('팝업이 차단되었습니다. 팝업 차단을 해제해주세요.');
+    }
+  }
+  function openEditProfile(memberNo) {
+    const popup = window.open(
+      '/mypage/editProfile?memberNo=' + memberNo,
+      'editProfilePopup',
       'width=800,height=600,scrollbars=yes'
     );
     if (popup) {

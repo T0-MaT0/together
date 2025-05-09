@@ -364,6 +364,12 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.2.2</version>
 			</plugin>
+			
+			<dependency>
+			    <groupId>org.webjars</groupId>
+			    <artifactId>sockjs-client</artifactId>
+			    <version>1.6.1</version>
+			</dependency>
 
 
 		</plugins>
