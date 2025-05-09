@@ -10,13 +10,11 @@ import lombok.ToString;
 @Setter
 @ToString
 public class PointHistory {
-	
-	 	private int pointHistoryNo;
-	    private Date usedDate;
-	    private int pointAmount;
-	    private String usageDetail;
-	    private String pointType;
-	    private int pointTypeNo;
-	    private int memberNo;
-	
+  private int pointHistoryNo;
+  private Date usedDate;
+  private int pointAmount;
+  private String usageDetail;
+  private String pointType;
+  private int pointTypeNo;
+  private int memberNo;
 }

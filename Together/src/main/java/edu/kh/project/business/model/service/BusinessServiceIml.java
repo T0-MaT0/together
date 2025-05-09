@@ -16,12 +16,12 @@ import org.springframework.web.multipart.MultipartFile;
 import edu.kh.project.business.model.dao.BusinessDao;
 import edu.kh.project.business.model.dto.Business;
 import edu.kh.project.business.model.dto.BusinessOption;
+import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.business.model.dto.Order;
 import edu.kh.project.common.ImageDeleteException;
-import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
-import edu.kh.project.common.model.dto.PointUsage;
+import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.common.utility.Utill;
@@ -62,13 +62,12 @@ public class BusinessServiceIml implements BusinessService {
 				map.put("pagination", pagination);
 			}
 		}
-		
 		return map;
 	}
 
 	@Override
-	public Business selectBusiness(Map<String, Object> map) {
-		return dao.selectBusiness(map);
+	public Business selectBusiness(int productNo) {
+		return dao.selectBusiness(productNo);
 	}
 
 	@Override
@@ -136,21 +135,26 @@ public class BusinessServiceIml implements BusinessService {
 		int result = dao.insertOrder(order);
 		
 		if (result>0) {
-			Member loginMember = (Member) paramMap.get("loginMember");
-			int totalPrice =  Integer.parseInt(String.valueOf(paramMap.get("totalPrice")));
+			// 오더 디테일 삽입 예정
 			
-			PointUsage usage = new PointUsage();
-			usage.setUsageAmount(totalPrice);
-			usage.setUsageTypeNo(result);
-			usage.setMemberNo(loginMember.getMemberNo());
-			result = dao.insertPointUsage(usage);
 			
 			if (result>0) {
-				loginMember.setPoint(loginMember.getPoint()-totalPrice);
-				result = dao.updatePoint(loginMember);
-			}
-			if (result>0) {
-				result = dao.updateQuantity(order);
+				Member loginMember = (Member) paramMap.get("loginMember");
+				int totalPrice =  Integer.parseInt(String.valueOf(paramMap.get("totalPrice")));
+				
+				PointHistory history = new PointHistory();
+				history.setPointAmount(totalPrice);
+				history.setPointTypeNo(result);
+				history.setMemberNo(loginMember.getMemberNo());
+				result = dao.insertPointHistory(history);
+				
+				if (result>0) {
+					loginMember.setPoint(loginMember.getPoint()-totalPrice);
+					result = dao.updatePoint(loginMember);
+					if (result>0) {
+						result = dao.updateQuantity(order);
+					}
+				}
 			}
 		}
 		
@@ -158,8 +162,8 @@ public class BusinessServiceIml implements BusinessService {
 	}
 
 	@Override
-	public PointUsage selectUsage(int orderNo) {
-		return dao.selectUsage(orderNo);
+	public PointHistory selectPointHistory(int orderNo) {
+		return dao.selectPointHistory(orderNo);
 	}
 
 	@Override
@@ -191,7 +195,7 @@ public class BusinessServiceIml implements BusinessService {
 						img.setImageReName(Utill.fileRename(fileName));
 						img.setImageOriginal(fileName);
 						img.setImageLevel(i);
-						img.setImageType(3);
+						img.setImageType("REVIEW");
 						img.setImageTypeNo(reviewNo);
 						
 						uploadList.add(img);
@@ -253,7 +257,7 @@ public class BusinessServiceIml implements BusinessService {
 				        img.setImageReName(Utill.fileRename(fileName));
 				        img.setImageOriginal(fileName);
 				        img.setImageLevel(i);  // 레벨 설정
-				        img.setImageType(3);   // 리뷰 이미지 타입
+				        img.setImageType("REVIEW");   // 리뷰 이미지 타입
 				        img.setImageTypeNo(reviewUpdateNo);
 
 				        uploadList.add(img);
@@ -339,19 +343,19 @@ public class BusinessServiceIml implements BusinessService {
 			Business business, List<String> optionNameList, 
 			List<MultipartFile> images, String webPath, String filePath, 
 			Business board, String permissionFl) throws IllegalStateException, IOException {
-		business.setBoardTitle(Utill.XSSHandling(business.getBoardTitle()));
-		business.setBoardContent(Utill.XSSHandling(business.getBoardContent()));
-		int boardNo = dao.insertBoard(business);
+		business.setProductTitle(Utill.XSSHandling(business.getProductTitle()));
+		business.setProductContent(Utill.XSSHandling(business.getProductContent()));
+		int productNo = dao.insertProduct(business);
 		
-		if (boardNo>0) {
-			int result = dao.insertProduct(business);
+		if (productNo>0) {
+			int result = dao.insertCompanyProduct(business);
 			if (result>0) {
-				boardNo = business.getBoardNo();
+				productNo = business.getProductNo();
 				List<BusinessOption> optionList = new ArrayList<BusinessOption>();
 				for(int i=0;i<optionNameList.size();i++) {
 					BusinessOption option = new BusinessOption();
 					option.setOptionName(Utill.XSSHandling(optionNameList.get(i)));
-					option.setBoardNo(boardNo);
+					option.setProductNo(productNo);
 					optionList.add(option);
 				}
 				
@@ -366,8 +370,8 @@ public class BusinessServiceIml implements BusinessService {
 							img.setImagePath(webPath);
 							img.setImageOriginal(fileName);
 							img.setImageLevel(i);
-							img.setImageType(1);
-							img.setImageTypeNo(boardNo);
+							img.setImageType("PRODUCT");
+							img.setImageTypeNo(productNo);
 							
 							uploadList.add(img);
 						}
@@ -382,11 +386,11 @@ public class BusinessServiceIml implements BusinessService {
 								images.get(i).transferTo(new File(filePath+rename));
 							}
 							if (permissionFl.equals("N")) {
-								board.setBoardTitle(Utill.XSSHandling(board.getBoardContent()));
-								board.setBoardContent(Utill.XSSHandling(board.getBoardContent()));
+//								board.setBoardTitle(Utill.XSSHandling(board.getBoardContent()));
+//								board.setBoardContent(Utill.XSSHandling(board.getBoardContent()));
 								result = dao.insertBoard(board);
 								if (result==0) {
-									boardNo=0;
+									productNo=0;
 								}
 							}
 						} else {
@@ -396,7 +400,7 @@ public class BusinessServiceIml implements BusinessService {
 				}
 			}
 		}
-		return boardNo;
+		return productNo;
 	}
 
 	@Override
@@ -408,14 +412,14 @@ public class BusinessServiceIml implements BusinessService {
 	public int updateProduct(
 			Business business, List<Integer> optionNoList, List<String> optionNameList, List<MultipartFile> images, 
 			String deleteList, String webPath, String filePath) throws IllegalStateException, IOException {
-		business.setBoardTitle(Utill.XSSHandling(business.getBoardTitle()));
-		business.setBoardContent(Utill.XSSHandling(business.getBoardContent()));
-		int result = dao.updateBoard(business);
+		business.setProductTitle(Utill.XSSHandling(business.getProductTitle()));
+		business.setProductContent(Utill.XSSHandling(business.getProductContent()));
+		int result = dao.updateProduct(business);
 		
 		if (result>0) {
-			result = dao.updateProduct(business);
+			result = dao.updateCompanyProduct(business);
 			if (result>0) {
-				List<BusinessOption> existingOptions = dao.selectOptionList(business.getBoardNo());
+				List<BusinessOption> existingOptions = dao.selectOptionList(business.getProductNo());
 				
 				Set<Integer> existingOptionNos = new HashSet<Integer>();
 				Map<Integer, String> existingOptionMap = new HashMap<Integer, String>();
@@ -448,13 +452,10 @@ public class BusinessServiceIml implements BusinessService {
 						String optionName = Utill.XSSHandling(optionNameList.get(i));
 						BusinessOption newOption = new BusinessOption();
 						newOption.setOptionName(optionName);
-						newOption.setBoardNo(business.getBoardNo());
+						newOption.setProductNo(business.getProductNo());
 						newOptions.add(newOption);
 					}
 					
-					System.out.println(optionNoList);
-					System.out.println(existingOptionNos);
-					System.out.println(newOptions);
 					if (result>0&&!newOptions.isEmpty()) {
 						result = dao.insertOptionList(newOptions);
 					}
@@ -466,8 +467,8 @@ public class BusinessServiceIml implements BusinessService {
 							deleteList="0,"+deleteList;
 						}
 						Map<String, Object> deleteMap = new HashMap<String, Object>(); 
-						deleteMap.put("imageType", 1);
-						deleteMap.put("imageTypeNo", business.getBoardNo());
+						deleteMap.put("imageType", "PRODUCT");
+						deleteMap.put("imageTypeNo", business.getProductNo());
 						deleteMap.put("deleteList", deleteList);
 						
 						int count = dao.checkImage(deleteMap);
@@ -488,8 +489,8 @@ public class BusinessServiceIml implements BusinessService {
 							img.setImagePath(webPath);
 							img.setImageOriginal(fileName);
 							img.setImageLevel(i);
-							img.setImageType(1);
-							img.setImageTypeNo(business.getBoardNo());
+							img.setImageType("PRODUCT");
+							img.setImageTypeNo(business.getProductNo());
 							
 							uploadList.add(img);
 							result = dao.updateImage(img);

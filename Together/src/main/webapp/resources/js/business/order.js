@@ -13,7 +13,7 @@ const insertMyAddr=()=>{
 
 document.getElementById("myAddr")?.addEventListener("click", insertMyAddr);
 
-// 결제 페이지로
+// 결제 페이지로 이동
 const resultPrice = document.getElementById("resultPrice");
 const goToBuy=()=>{
     if(resultPrice.classList[0]==='minus'){
@@ -68,6 +68,7 @@ const openPopup=key=>{
     );
 };
 
+// 상품 상세 페이지로 이동
 const gotoDetail=()=>{
     location.href = `/board/${boardCode}/${boardNo}`;
 }

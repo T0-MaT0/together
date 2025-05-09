@@ -7,8 +7,10 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class BusinessOption {
+public class OrderDetail {
+	private int orderDetailNo;
+	private int quantity;
+	private int orderNo;
 	private int optionNo;
-	private String optionName;
 	private int productNo;
 }

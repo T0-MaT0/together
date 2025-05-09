@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.member.model.dao.AjaxDAO;
 import edu.kh.project.member.model.dto.Member;
 

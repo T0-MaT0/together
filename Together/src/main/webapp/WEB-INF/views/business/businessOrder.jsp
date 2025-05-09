@@ -186,6 +186,7 @@
             }).open();
         }
 
+        // 회원 주소 전역변수로 선언(split을 이용한 배열)
         const memberAddr="${loginMember.memberAddr}".split("^^^ ");
     </script>
     <script src="/resources/js/business/order.js"></script>

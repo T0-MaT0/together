@@ -96,6 +96,7 @@ main{
 .list-toggle+label>div>div:nth-child(2){
     height: 10px;
     background-color: #D9D9D9;
+    /* 변화하는 속성에 딜레이 부여 */
     transition: height 0.3s ease, margin 0.3s ease;
 }
 
@@ -114,12 +115,14 @@ main{
 
 .list-area{
     display: flex;
+    /* 내부 요소가 한 줄에 다 들어가지 않을 경우 줄바꿈 함 */
     flex-wrap: wrap;
     justify-content: space-between;
     transition: all 0.5s ease-in-out;
 }
 
 .product-img-area{
+    /* 내부 요소의 크기를 초과할 경우 넘친 부분을 보이지 않게 잘라내는 속성 */
     overflow: hidden;
     border: 1px solid #ddd;
     height: 400px;
@@ -165,8 +168,11 @@ main{
     display: inline-block;
     width: 100%;
     height: 75px;
+    /* 줄바꿈 없이 텍스트를 한 줄로 유지 */
     white-space: nowrap;
+    /* 영역을 넘는 텍스트는 보이지 않게 잘라냄 */
     overflow: hidden;
+    /* 잘린 부분을 ...으로 표시 */
     text-overflow: ellipsis;
 }
 
@@ -195,8 +201,11 @@ main{
     font-size: 24px;
     color: white;
 
+    /* Flexbox와 비슷한 옛날 WebKit 전용 레이아웃 박스 */
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* 최대 3줄까지만 표시 */
+    /* 최대 3줄까지만 표시 */
+    -webkit-line-clamp: 3; 
+    /* 박스의 방향을 세로로 설정 */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;

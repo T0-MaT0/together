@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.kh.project.common.model.dto.PointHistory;
-import edu.kh.project.common.model.dto.PointUsage;
+yimport edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Image;
@@ -273,7 +273,7 @@ public class RecruitmentDAO {
 		sqlSession.update("recruitmentMapper.updateRecruitmentStatusToComplete", recruitmentNo);
 	}
 
-	// 맴버 등급 업데이트.
+  // 맴버 등급 업데이트.
 	public void updateMemberGradeByReview(int memberNo) {
 		double avg = sqlSession.selectOne("recruitmentMapper.selectAverageReviewStar", memberNo);
 

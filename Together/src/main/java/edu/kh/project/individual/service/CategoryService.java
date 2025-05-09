@@ -2,7 +2,7 @@ package edu.kh.project.individual.service;
 
 import java.util.List;
 
-import edu.kh.project.common.model.dto.Category;
+import edu.kh.project.business.model.dto.Category;
 
 public interface CategoryService {
 

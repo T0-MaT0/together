@@ -101,16 +101,4 @@ public interface RecruitmentService {
 	// 맴버 등급 업데이트.
 	void updateMemberGradeByReview(int memberNo);
 
-
-
-	
-
-
-
-	
-	
-	
-
-	
-
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.kh.project.common.model.dto.Category;
+import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.dto.Product;
 import edu.kh.project.member.model.service.AjaxService;

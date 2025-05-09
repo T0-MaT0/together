@@ -3,17 +3,21 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<!-- 이미지 리스트와 마지막 이미지의 imageLevel -->
 <c:set var="imageList" value="${business.imageList}"/>
-    <c:set var="maxLevel" value="${imageList[fn:length(imageList)-1].imageLevel}"/>
+<c:set var="maxLevel" value="${imageList[fn:length(imageList)-1].imageLevel}"/>
+<!-- 상품 등록할 시 하위 카테고리 영역을 숨기기 위한 hide 클래스 -->
 <c:if test="${empty business}">
     <c:set var="hide" value="hide"/>
 </c:if>
+<!-- 배송비가 없을 경우 0, 있을 경우 해당 값 -->
 <c:if test="${empty business.deliveryFee}">
     <c:set var="deliveryFee" value="0"/>
 </c:if>
 <c:if test="${!empty business.deliveryFee}">
     <c:set var="deliveryFee" value="${business.deliveryFee}"/>
 </c:if>
+<!-- 상품 등록인지 수정인지에 따라 form 태그의 url -->
 <c:if test="${empty business}">
     <c:set var="url" value="insertProduct"/>
 </c:if>
@@ -39,9 +43,11 @@
 </head>
 
 <body>
+    <!-- 헤더 영역 -->
     <jsp:include page="/WEB-INF/views/common/header.jsp" />
     
     <main>
+        <!-- 상품 등록/수정 form, 파일 업로드 허용 -->
         <form action="/board/${boardCode}/${url}" method="post" id="businessWriteForm" enctype="multipart/form-data">
             <section class="content">
                 <section id="optionArea">
@@ -59,6 +65,7 @@
                                 <tr>
                                     <td>카테고리</td>
                                     <td>
+                                        <!-- 상위 카테고리 -->
                                         <select name="parentCategoryNo" id="parentCategory">
                                             <option value="default">카테고리를 선택해주세요.</option>
                                             <option disabled>--------------------------------------</option>
@@ -78,6 +85,7 @@
                                 <tr id="childCategoryArea" class="${hide}">
                                     <td>카테고리 상세</td>
                                     <td>
+                                        <!-- 하위 카테고리 -->
                                         <select name="categoryNo" id="childCategory">
                                             <c:forEach var="category" items="${categoryList}">
                                                 <c:choose>
@@ -92,6 +100,7 @@
                                         </select>
                                     </td>
                                 </tr>
+                                <!-- 판매가, 배송비 입력란 -->
                                 <tr>
                                     <td>판매가</td>
                                     <td><input type="text" name="productPrice" id="productPrice" value="${business.productPrice}"></td>
@@ -111,6 +120,7 @@
                                     placeholder="옵션을 입력해 주세요" value="${business.optionList[0].optionName}">
                                     <span id="plusBtn">+</span>
                                 </div>
+                                <!-- 수정 시 기존 옵션 -->
                                 <c:if test="${!empty business.optionList}">
                                     <c:forEach var="i" begin="1" end="${fn:length(business.optionList)-1}">
                                         <div>
@@ -145,6 +155,7 @@
                             </label>
                             <span class="x-btn">&times;</span>
                         </div>
+                        <!-- 수정 시 기존 이미지 -->
                         <c:if test="${!empty imageList}">
                             <c:forEach var="i" begin="2" end="${imageList[fn:length(imageList)-1].imageLevel}">
                                 <c:set var="imageSrc" value=""/>
@@ -178,9 +189,11 @@
                 <div class="btn-area">
                     <button type="button" onclick="history.back()" class="btn">취소하기</button>
                     <button class="btn">
+                        <!-- 등록: business 객체 X -->
                         <c:if test="${empty business}">
                             등록하기
                         </c:if>
+                        <!-- 수정: business 객체 O -->
                         <c:if test="${!empty business}">
                             수정하기
                         </c:if>
@@ -188,6 +201,7 @@
                 </div>
             </section>
 
+            <!-- 백엔드로 넘겨줄 숨겨진 데이터들 -->
             <input type="hidden" name="coalitionTitle" id="coalitionTitle">
             <input type="hidden" name="coalitionContent" id="coalitionContent">
             <input type="hidden" name="permissionFl" value="${permissionFl}">
@@ -195,6 +209,7 @@
         </form>
     </main>
 
+    <!-- 제휴 신청을 위한 모달 -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -222,9 +237,11 @@
         </div>
     </div>
         
+    <!-- 푸터 영역 -->
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/main.js"></script>
     <script>
+        // JS에서 사용하기 위한 전역 변수
         const boardCode = "${boardCode}";
         const categoryList = ${categoryListJson};
         const permissionFl = "${permissionFl}";
