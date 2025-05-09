@@ -21,10 +21,10 @@ import edu.kh.project.member.model.dto.Member;
 // 클라이언트 -> Filter -> Dispatcher Servlet
 
 // @WebFilter : 해당 클래스를 필터로 등록하고 지정된 주소로 요청이 올 때 마다 동작
-@WebFilter(filterName="ManagerFilter",
-			urlPatterns={"/managerArea/*","/managerArea/*",
-					"/managerArea/*", "/managerArea/*"})
-@SessionAttributes("loginMember")
+//@WebFilter(filterName="ManagerFilter",
+//			urlPatterns={"/managerArea/*","/managerArea/*",
+//					"/managerArea/*", "/managerArea/*"})
+//@SessionAttributes("loginMember")
 public class ManagerFilter implements Filter {
 
 	public void init(FilterConfig fConfig) throws ServletException {

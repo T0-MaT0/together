@@ -290,7 +290,7 @@ public class ManagerDAO {
 	 * @return
 	 */
 	public int questWaitCount() {
-		char fl = 'N';
+		String fl = "대기";
 		return sqlSession.selectOne("managerMapper.questWaitCount", fl);
 	}
 
@@ -298,7 +298,7 @@ public class ManagerDAO {
 	 * @return
 	 */
 	public int questAcceptCount() {
-		char fl = 'Y';
+		String fl = "처리";
 		return sqlSession.selectOne("managerMapper.questWaitCount", fl);
 	}
 
@@ -394,12 +394,15 @@ public class ManagerDAO {
 	 * @return
 	 */
 	public int notPassApplyCount() {
-		int boardCd = 8;
+		int boardCd = 2;
 		return sqlSession.selectOne("managerMapper.notPassBrandCount", boardCd);
 	}
 
+	/** 미처리 광고 수
+	 * @return
+	 */
 	public int brandAddCount() {
-		int boardCd = 7;
+		int boardCd = 1;
 		return sqlSession.selectOne("managerMapper.notPassBrandCount", boardCd);
 	}
 
