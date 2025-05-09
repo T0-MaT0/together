@@ -51,8 +51,8 @@ public interface ChattingService {
 	// 모집하기 방 만들 시 채팅방 생성
 	int createGroupChatRoom(String roomName, int ownerNo, Map<String, Object> outMap);
 
-	// 참가하기 시 채팅방 참여(roomName 조회)
-	String selectBoardTitle(int boardNo);
+	// 참가하기 시 채팅방 참여(roomName 조회).
+	String selectRecruitmentTitle(int recruitmentNo);
 
 	// 참가하기 시 채팅방 참여(roomNo 조회)
 	int selectRoomNoByRoomName(String roomName);

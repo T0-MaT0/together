@@ -13,6 +13,6 @@ public class Image {
 	private String imagePath;
 	private String imageOriginal;
 	private int imageLevel;
-	private int imageType;
+	private String imageType;
 	private int imageTypeNo;
 }
