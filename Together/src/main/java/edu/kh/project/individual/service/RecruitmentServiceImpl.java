@@ -19,7 +19,7 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
-import edu.kh.project.common.model.dto.PointUsage;
+import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.common.utility.Utill;
@@ -536,7 +536,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
 	// 포인트 사용 내역 인서트
 	@Override
-	public void insertPointUsage(PointUsage pointUsage) {
+	public void insertPointUsage(PointHistory pointUsage) {
 		dao.insertPointUsage(pointUsage);		
 	}
 

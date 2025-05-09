@@ -3,22 +3,19 @@
 <mapper namespace="boardMapper">
 	<!-- Board DTO에 대한 resultMap -->
 	<resultMap type="Business" id="business_rm">
-		<id property="boardNo" column="BOARD_NO" />
-		<result property="boardName" column="BOARD_NAME" />
-		<result property="boardTitle" column="BOARD_TITLE" />
-		<result property="boardContent" column="BOARD_CONTENT" />
-		<result property="boardCreateDate" column="B_CREATE_DATE" />
-		<result property="boardUpdateDate" column="B_UPDATE_DATE" />
-		<result property="boardCode" column="BOARD_CD" />
+		<id property="productNo" column="PRODUCT_NO" />
+		<result property="productTitle" column="PRODUCT_TITLE" />
+		<result property="productContent" column="PRODUCT_CONTENT" />
+		<result property="productCreateDate" column="P_CREATE_DATE" />
 		<result property="productPrice" column="PRODUCT_PRICE" />
 		<result property="productCount" column="PRODUCT_COUNT" />
-		<result property="deliveryFee" column="DELIVERY_FEE" />
 		<result property="readCount" column="READ_COUNT" />
 		<result property="categoryNo" column="CATEGORY_NO" />
-		<result property="parentCategoryNo" column="PARENT_CATEGORY_NO" />
+		<result property="deliveryFee" column="DELIVERY_FEE" />
 		<result property="categoryName" column="CATEGORY_NAME" />
+		<result property="parentCategoryNo" column="PARENT_CATEGORY_NO" />
 		<result property="memberNo" column="MEMBER_NO" />
-		<result property="memberNickname" column="MEMBER_NICK" />
+		<result property="memberNick" column="MEMBER_NICK" />
 		<result property="profileImage" column="PROFILE_IMG" />
 		<result property="parentCategoryName" column="PARENT_CATEGORY_NAME" />
 		<result property="thumbnail" column="THUMBNAIL" />
@@ -32,10 +29,10 @@
 			ofType: List(컬렉션)의 제네릭(타입 제한) 지정
 		-->
 		<collection property="optionList" select="selectOptionList"
-					column="BOARD_NO" javaType="java.util.ArrayList"
+					column="PRODUCT_NO" javaType="java.util.ArrayList"
 					ofType="BusinessOption" />
 		<collection property="imageList" select="selectImageList"
-					column="BOARD_NO" javaType="java.util.ArrayList"
+					column="PRODUCT_NO" javaType="java.util.ArrayList"
 					ofType="Image" />
 	</resultMap>
 	
@@ -54,7 +51,7 @@
 	<resultMap type="BusinessOption" id="businessOption_rm">
 		<id property="optionNo" column="OPTION_NO" />
 		<result property="optionName" column="OPTION_NAME" />
-		<result property="boardNo" column="BOARD_NO" />
+		<result property="productNo" column="PRODUCT_NO" />
 	</resultMap>
 	
 	<!-- Review resultMap -->
@@ -70,7 +67,7 @@
 		<result property="memberNo" column="MEMBER_NO" />
 		<result property="orderNo" column="ORDER_NO" />
 		
-		<result property="memberNickname" column="MEMBER_NICK"/>
+		<result property="memberNick" column="MEMBER_NICK"/>
 		<result property="memberProfile" column="MEMBER_PROFILE"/>
 		<result property="businessThumbnail" column="BUSINESS_THUMBNAIL"/>
 		
@@ -80,6 +77,9 @@
 		<collection property="replyList" select="selectReviewReply"
 					column="REVIEW_NO" javaType="java.util.ArrayList"
 					ofType="Reply" />
+		<collection property="orderDetailList" select="selectOrderDetailList"
+					column="ORDER_NO" javaType="java.util.ArrayList"
+					ofType="OrderDetail" />
 	</resultMap>
 	
 	<!-- Reply resultMap -->
@@ -94,7 +94,7 @@
 		<result property="replyTypeNo" column="REPLY_TYPE_NO" />
 		<result property="parentNo" column="PARENT_REPLY_NO" />
 		
-		<result property="memberNickname" column="MEMBER_NICK"/>
+		<result property="memberNick" column="MEMBER_NICK"/>
 		
 		<result property="thumbnail" column="THUMBNAIL"/>
 		
@@ -106,22 +106,33 @@
 	<!-- 주문 resultMap -->
 	<resultMap type="Order" id="order_rm">
 		<id property="orderNo" column="ORDER_NO" />
-		<result property="quantity" column="QUANTITY" />
 		<result property="orderAddress" column="DELIVERY_ADDR" />
 		<result property="trackingNo" column="TRACKING_NO" />
-		<result property="boardNo" column="BOARD_NO" />
+		<result property="status" column="STATUS" />
 		<result property="memberNo" column="MEMBER_NO" />
-		<result property="optionNo" column="OPTION_NO" />
+		
+		<collection property="orderDetailList" select="selectOrderDetailList"
+					column="ORDER_NO" javaType="java.util.ArrayList"
+					ofType="OrderDetail" />
+	</resultMap>
+	
+	<!-- 주문 상세 resultMap -->
+	<resultMap type="OrderDetail" id="orderDetail_rm">
+		<id property="orderDetailNo" column="ORDER_DETAIL_NO"/>
+		<result property="quantity" column="QUANTITY"/>
+		<result property="orderNo" column="ORDER_NO"/>
+		<result property="optionNo" column="OPTION_NO"/>
+		<result property="productNo" column="PRODUCT_NO"/>
 	</resultMap>
 	
 	<!-- 포인트 사용 내역 resultMap -->
-	<resultMap type="PointUsage" id="usage_rm">
-		<id property="usageNo" column="USAGE_NO" />
-		<result property="usageAmount" column="USED_AMOUNT" />
-		<result property="usageType" column="USAGE_TYPE" />
-		<result property="usageTypeNo" column="USAGE_TYPE_NO" />
-		<result property="status" column="STATUS" />
-		<result property="usageDate" column="USED_DATE" />
+	<resultMap type="PointHistory" id="history_rm">
+		<id property="historyNo" column="POINT_HISTORY_NO" />
+		<result property="usedDate" column="USED_DATE" />
+		<result property="pointAmount" column="POINT_AMOUNT" />
+		<result property="usedDetail" column="USAGE_DETAIL" />
+		<result property="pointType" column="POINT_TYPE" />
+		<result property="pointTypeNo" column="POINT_TYPE_NO" />
 		<result property="memberNo" column="MEMBER_NO" />
 	</resultMap>
 	
@@ -134,14 +145,14 @@
 	<!-- 특정 상품 이미지 조회 -->
 	<select id="selectImageList" resultMap="image_rm">
 		SELECT * FROM IMG 
-		WHERE IMG_TYPE = 1 AND IMG_TYPE_NO = #{boardNo} 
+		WHERE IMG_TYPE = 'PRODUCT' AND IMG_TYPE_NO = #{productNo} 
 		ORDER BY IMG_LEVEL
 	</select>
 	
 	<!-- 특정 상품 리뷰 이미지 조회 -->
 	<select id="selectReviewImageList" resultMap="image_rm">
 		SELECT * FROM IMG 
-		WHERE IMG_TYPE = 3 AND IMG_TYPE_NO = #{reviewNo} 
+		WHERE IMG_TYPE = 'REVIEW' AND IMG_TYPE_NO = #{reviewNo} 
 		ORDER BY IMG_LEVEL
 	</select>
 	
@@ -159,19 +170,19 @@
 	<!-- 특정 상품 옵션 조회 -->
 	<select id="selectOptionList" resultMap="businessOption_rm">
 		SELECT * FROM PRODUCT_OPTION 
-		WHERE BOARD_NO = #{boardNo} 
+		WHERE PRODUCT_NO = #{productNo} 
 		ORDER BY OPTION_NO
 	</select>
 		
 	<!-- 특정 상품의 삭제되지 않은 리뷰 개수 조회 -->
 	<select id="getReviewListCount" resultType="_int">
 		SELECT COUNT(*) FROM REVIEW R 
-		JOIN BOARD B ON(R.REVIEW_TYPE_NO = B.BOARD_NO)
-		WHERE REVIEW_TYPE = #{boardCode}
-		AND B.BOARD_DEL_FL = 'N'
+		JOIN PRODUCT P ON(R.REVIEW_TYPE_NO = P.PRODUCT_NO)
+		WHERE REVIEW_TYPE = 'PRODUCT'
+		AND P.PRODUCT_DEL_FL = 'N'
 		AND REVIEW_DEL_FL = 'N'
 		<if test='key!="all"'>
-			AND REVIEW_TYPE_NO = #{boardNo} 
+			AND REVIEW_TYPE_NO = #{productNo} 
 		</if>
 	</select>
 	
@@ -179,23 +190,20 @@
 	<select id="selectReviewList" resultMap="review_rm">
 		SELECT R.*, 
 			(SELECT MEMBER_NICK FROM "MEMBER" M 
-			WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK,
+				WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK,
 			(SELECT PROFILE_IMG FROM "MEMBER" M 
-			WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_PROFILE,
+				WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_PROFILE,
 			(SELECT IMG_PATH||IMG_RENAME FROM IMG I 
-			WHERE I.IMG_TYPE_NO = R.REVIEW_TYPE_NO
-			AND I.IMG_TYPE = 1 AND IMG_LEVEL = 0) BUSINESS_THUMBNAIL,
-			(SELECT OPTION_NAME FROM PRODUCT_OPTION P
-			WHERE OPTION_NO = (SELECT OPTION_NO FROM "ORDER" O
-				WHERE O.ORDER_NO = R.ORDER_NO)) OPTION_NAME,
-			(SELECT QUANTITY FROM "ORDER" O 
-			WHERE O.ORDER_NO = R.ORDER_NO) QUANTITY
-		FROM REVIEW R JOIN BOARD B ON(R.REVIEW_TYPE_NO = B.BOARD_NO)
-		WHERE REVIEW_TYPE = #{boardCode}
-		AND B.BOARD_DEL_FL = 'N'
+				WHERE I.IMG_TYPE_NO = R.REVIEW_TYPE_NO
+				AND I.IMG_TYPE = 'PRODUCT' 
+				AND IMG_LEVEL = 0) BUSINESS_THUMBNAIL
+		FROM REVIEW R 
+		JOIN PRODUCT P ON(R.REVIEW_TYPE_NO = P.PRODUCT_NO)
+		WHERE REVIEW_TYPE = 'PRODUCT'
+		AND P.PRODUCT_DEL_FL = 'N'
 		AND REVIEW_DEL_FL = 'N'
 		<if test='key!="all"'>
-			AND R.REVIEW_TYPE_NO = #{boardNo} 
+			AND R.REVIEW_TYPE_NO = #{productNo} 
 		</if>
 		ORDER BY REVIEW_NO DESC
 	</select>
@@ -204,10 +212,10 @@
 	<select id="selectReviewReply" resultMap="reply_rm">
 		SELECT R.*,
 			(SELECT MEMBER_NICK FROM "MEMBER" M 
-			WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK
+				WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK
 		FROM REPLY R 
 		JOIN REVIEW RV ON(R.REPLY_TYPE_NO = RV.REVIEW_NO)
-		WHERE REPLY_TYPE = 2 
+		WHERE REPLY_TYPE = 'REVIEW'
 		AND RV.REVIEW_DEL_FL = 'N'
 		AND REPLY_DEL_FL = 'N'
 		AND REPLY_TYPE_NO = #{reviewNo} 
@@ -225,8 +233,8 @@
 			SELECT SEQ_REPLY_NO.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO REPLY VALUES(#{replyNo}, DEFAULT, DEFAULT, 
-		#{replyContent}, DEFAULT, #{memberNo}, 2, #{replyTypeNo},
-		NULL)
+		#{replyContent}, DEFAULT, 'REVIEW', #{replyTypeNo}, 
+		#{memberNo}, NULL)
 	</insert>
 	
 	<!-- 리뷰에 댓글 수정 -->
@@ -244,14 +252,15 @@
 	<!-- 특정 상품의 삭제되지 않은 문의 개수 조회 -->
 	<select id="getReplyListCount" resultType="_int">
 		SELECT COUNT(*) FROM REPLY R
-		JOIN BOARD B ON(R.REPLY_TYPE_NO = B.BOARD_NO)
-		WHERE REPLY_TYPE = 1 
+		JOIN PRODUCT P ON(R.REPLY_TYPE_NO = P.PRODUCT_NO)
+		JOIN COMPANY_PRODUCT CP ON(P.PRODUCT_NO = CP.PRODUCT_NO)
+		WHERE REPLY_TYPE = 'PRODUCT' 
 		AND R.PARENT_REPLY_NO IS NULL
-		AND B.BOARD_CD = #{boardCode}
-		AND B.BOARD_DEL_FL = 'N'
-		AND REPLY_DEL_FL = 'N'
+		AND CP.DELIVERY_FEE IS NOT NULL
+		AND P.PRODUCT_DEL_FL = 'N'
+		AND R.REPLY_DEL_FL = 'N'
 		<if test='key!="all"'>
-			AND R.REPLY_TYPE_NO = #{boardNo}
+			AND R.REPLY_TYPE_NO = #{productNo}
 		</if>
 		<if test="myQNA">
 			AND R.MEMBER_NO = #{loginMemberNo}
@@ -267,18 +276,19 @@
 		SELECT R.*, 
 			(SELECT IMG_PATH || IMG_RENAME FROM IMG I
 			WHERE I.IMG_TYPE_NO = R.REPLY_TYPE_NO AND I.IMG_LEVEL = 0
-			AND I.IMG_TYPE = 1) THUMBNAIL,
+			AND I.IMG_TYPE = 'PRODUCT') THUMBNAIL,
 			(SELECT MEMBER_NICK FROM "MEMBER" M 
 			WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK
 		FROM REPLY R 
-		JOIN BOARD B ON(R.REPLY_TYPE_NO = B.BOARD_NO)
-		WHERE REPLY_TYPE = 1 
+		JOIN PRODUCT P ON(R.REPLY_TYPE_NO = P.PRODUCT_NO)
+		JOIN COMPANY_PRODUCT CP ON(P.PRODUCT_NO = CP.PRODUCT_NO)
+		WHERE R.REPLY_TYPE = 'PRODUCT' 
 		AND R.PARENT_REPLY_NO IS NULL
-		AND B.BOARD_CD = #{boardCode}
-		AND B.BOARD_DEL_FL = 'N'
-		AND REPLY_DEL_FL = 'N'
+		AND CP.DELIVERY_FEE IS NOT NULL
+		AND P.PRODUCT_DEL_FL = 'N'
+		AND R.REPLY_DEL_FL = 'N'
 		<if test='key!="all"'>
-			AND R.REPLY_TYPE_NO = #{boardNo}
+			AND R.REPLY_TYPE_NO = #{productNo}
 		</if>
 		<if test="myQNA">
 			AND R.MEMBER_NO = #{loginMemberNo}
@@ -287,16 +297,16 @@
 			AND (R.SECRET_REPLY_STATUS = 'N' 
 			OR R.MEMBER_NO = #{loginMemberNo})
 		</if>
-		ORDER BY REPLY_NO DESC
+		ORDER BY R.REPLY_NO DESC
 	</select>
 	
-	<!-- 리뷰 댓글 조회 -->
+	<!-- 문의 댓글 조회 -->
 	<select id="selectReplyComment" resultMap="reply_rm">
 		SELECT R.*,
 			(SELECT MEMBER_NICK FROM "MEMBER" M 
 			WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK
 		FROM REPLY R 
-		WHERE REPLY_TYPE = 1 
+		WHERE REPLY_TYPE = 'PRODUCT' 
 		AND REPLY_DEL_FL = 'N'
 		AND PARENT_REPLY_NO = #{replyNo} 
 		ORDER BY REPLY_NO DESC
@@ -304,53 +314,54 @@
 	
 	<!-- 사업자 베너 이미지 목록 조회 -->
 	<select id="selectBannerList" resultMap="image_rm">
-		SELECT * FROM IMG WHERE IMG_TYPE_NO = 3 AND IMG_TYPE = 6
+		SELECT * FROM IMG 
+		WHERE IMG_TYPE_NO = 3 AND IMG_TYPE = 'AD BANNER'
 	</select>
 	
 	<!-- 상품 목록 조회(메인 화면) -->
 	<select id="selectBusinessList" resultMap="business_rm">
-		SELECT B.BOARD_NO, B.BOARD_TITLE, P.READ_COUNT, P.PRODUCT_PRICE, 
-			M.MEMBER_NICK, C.CATEGORY_NAME,
+		SELECT P.PRODUCT_NO, P.PRODUCT_TITLE, P.READ_COUNT, 
+			P.PRODUCT_PRICE, M.MEMBER_NICK, C.CATEGORY_NAME,
 			(SELECT PC.CATEGORY_NAME FROM CATEGORY PC 
 			WHERE C.PARENT_CATEGORY_NO = PC.CATEGORY_NO) PARENT_CATEGORY_NAME,
 			(SELECT I.IMG_PATH || I.IMG_RENAME FROM	IMG I	
-			WHERE I.IMG_TYPE_NO = B.BOARD_NO AND I.IMG_LEVEL = 0
-			AND I.IMG_TYPE = 1) THUMBNAIL
-		FROM BOARD B
-		LEFT JOIN PRODUCT P ON(P.BOARD_NO = B.BOARD_NO) 
-		LEFT JOIN "MEMBER" M ON(M.MEMBER_NO = B.MEMBER_NO)
+			WHERE I.IMG_TYPE_NO = P.PRODUCT_NO AND I.IMG_LEVEL = 0
+			AND I.IMG_TYPE = 'PRODUCT') THUMBNAIL
+		FROM PRODUCT P 
+		LEFT JOIN COMPANY_PRODUCT CP ON(CP.PRODUCT_NO = P.PRODUCT_NO)
+		LEFT JOIN "MEMBER" M ON(M.MEMBER_NO = P.MEMBER_NO)
 		LEFT JOIN COMPANY COM ON(COM.MEMBER_NO = M.MEMBER_NO) 
 		LEFT JOIN CATEGORY C ON(C.CATEGORY_NO = P.CATEGORY_NO)
-		WHERE BOARD_DEL_FL = 'N' AND BOARD_CD = #{boardCode}
+		WHERE P.PRODUCT_DEL_FL = 'N' AND CP.DELIVERY_FEE IS NOT NULL
 		AND COM.PERMISSION_FL = 'Y'
 		ORDER BY
 		<if test='category=="hot"'>
 			P.READ_COUNT DESC,
 		</if>
-		BOARD_NO DESC FETCH FIRST 6 ROWS ONLY
+		P.PRODUCT_NO DESC FETCH FIRST 6 ROWS ONLY
 	</select>
 	
 	<!-- 상품 목록 조회(조회수, 최신순, 검색) -->
 	<select id="selectSearchBusinessList" resultMap="business_rm">
-		SELECT B.BOARD_NO, B.BOARD_TITLE, P.READ_COUNT, P.PRODUCT_PRICE, 
-			M.MEMBER_NICK, C.CATEGORY_NAME,
+		SELECT P.PRODUCT_NO, P.PRODUCT_TITLE, P.READ_COUNT, 
+			P.PRODUCT_PRICE, M.MEMBER_NICK, C.CATEGORY_NAME,
 			(SELECT PC.CATEGORY_NAME FROM CATEGORY PC 
 			WHERE C.PARENT_CATEGORY_NO = PC.CATEGORY_NO) PARENT_CATEGORY_NAME,
 			(SELECT I.IMG_PATH || I.IMG_RENAME FROM IMG I	
-			WHERE I.IMG_TYPE_NO = B.BOARD_NO AND I.IMG_LEVEL = 0
-			AND I.IMG_TYPE = 1) THUMBNAIL
-		FROM BOARD B
-		LEFT JOIN PRODUCT P ON(P.BOARD_NO = B.BOARD_NO) 
-		LEFT JOIN "MEMBER" M ON(M.MEMBER_NO = B.MEMBER_NO)
+			WHERE I.IMG_TYPE_NO = P.PRODUCT_NO AND I.IMG_LEVEL = 0
+			AND I.IMG_TYPE = 'PRODUCT') THUMBNAIL
+		FROM PRODUCT P
+		LEFT JOIN COMPANY_PRODUCT CP ON(CP.PRODUCT_NO = P.PRODUCT_NO) 
+		LEFT JOIN "MEMBER" M ON(M.MEMBER_NO = P.MEMBER_NO)
 		LEFT JOIN COMPANY COM ON(COM.MEMBER_NO = M.MEMBER_NO)
 		LEFT JOIN CATEGORY C ON(C.CATEGORY_NO = P.CATEGORY_NO)
-		WHERE BOARD_DEL_FL = 'N' AND BOARD_CD = #{boardCode}
+		WHERE PRODUCT_DEL_FL = 'N' AND CP.DELIVERY_FEE IS NOT NULL
 		AND COM.PERMISSION_FL = 'Y'
 		ORDER BY
 		<if test='category=="hot"'>
 			P.READ_COUNT DESC,
 		</if>
-		BOARD_NO DESC
+		PRODUCT_NO DESC
 	</select>
 	
 	<!-- 카테고리 목록 조회 -->
@@ -363,52 +374,69 @@
 		SELECT PERMISSION_FL FROM COMPANY WHERE MEMBER_NO = #{memberNo}
 	</select>
 	
-	<!-- 게시글 등록 -->
-	<insert id="insertBoard" parameterType="Business" useGeneratedKeys="true">
-		<selectKey order="BEFORE" resultType="_int" keyProperty="boardNo">
-			SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
+	<!-- 상품 등록 -->
+	<insert id="insertProduct" parameterType="Business" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="productNo">
+			SELECT SEQ_PRODUCT_NO.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO BOARD VALUES(#{boardNo}, #{boardTitle}, 
-		#{boardContent}, DEFAULT, NULL, DEFAULT, NULL, #{memberNo},
-		#{boardCode})
+		INSERT INTO PRODUCT VALUES(#{productNo}, #{productTitle}, 
+		#{productContent}, DEFAULT, DEFAULT, #{productPrice}, 
+		#{productCount}, DEFAULT, #{categoryNo}, #{memberNo})
 	</insert>
 	
 	<!-- 상품 등록 -->
-	<insert id="insertProduct">
-		INSERT INTO PRODUCT VALUES(#{boardNo}, #{productPrice}, 
-		#{productCount}, #{deliveryFee}, DEFAULT, #{categoryNo})
+	<insert id="insertCompanyProduct">
+		INSERT INTO COMPANY_PRODUCT VALUES(#{productNo}, #{deliveryFee})
 	</insert>
 	
 	<!-- 옵션 리스트 삽입 -->
 	<insert id="insertOptionList" parameterType="list">
 		INSERT INTO PRODUCT_OPTION 
-		SELECT SEQ_PRODUCT_OPTION_NO.NEXTVAL, A.*
+		SELECT SEQ_OPTION_NO.NEXTVAL, A.*
 		FROM (
 			<foreach collection="list" item="option" separator=" UNION ALL ">
 				SELECT #{option.optionName} OPTION_NAME, 
-					#{option.boardNo} BOARD_NO 
+					#{option.productNo} PRODUCT_NO 
 				FROM DUAL
 			</foreach>
 			) A
 	</insert>
 	
+	<!-- 제휴 문의 게시글 등록 -->
+	<insert id="insertBoard" parameterType="Business" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="boardNo">
+			SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO BOARD VALUES(#{boardNo}, #{boardTitle}, 
+		#{boardContent}, DEFAULT, NULL, DEFAULT, #{memberNo})
+	</insert>
+	
+	<!-- 제휴 문의 등록 -->
+	<insert id="insertInquiry">
+		INSERT INTO INQUIRY VALUES(#{boardNo}, 2, '대기', NULL, NULL)
+	</insert>
+	
 	<!-- 사업자 상품 삭제 -->
 	<update id="deleteProduct">
-		UPDATE BOARD SET BOARD_DEL_FL = 'Y' WHERE BOARD_NO = #{boardNo}
+		UPDATE PRODUCT SET PRODUCT_DEL_FL = 'Y' 
+		WHERE PRODUCT_NO = #{productNo}
 	</update>
 	
 	<!-- 사업자 게시글 수정 -->
-	<update id="updateBoard">
-		UPDATE BOARD SET BOARD_TITLE = #{boardTitle}, 
-		BOARD_CONTENT = #{boardContent}, B_UPDATE_DATE = SYSDATE
-		WHERE BOARD_NO = #{boardNo}
+	<update id="updateProduct">
+		UPDATE PRODUCT SET 
+		PRODUCT_TITLE = #{productTitle}, 
+		PRODUCT_CONTENT = #{productContent}, 
+		PRODUCT_PRICE = #{productPrice}, 
+		PRODUCT_COUNT = #{productCount},
+		CATEGORY_NO = #{categoryNo}
+		WHERE PRODUCT_NO = #{productNo}
 	</update>
 	
 	<!-- 사업자 상품 수정 -->
-	<update id="updateProduct">
-		UPDATE PRODUCT SET PRODUCT_PRICE = #{productPrice}, 
-		PRODUCT_COUNT = #{productCount}, DELIVERY_FEE = #{deliveryFee},
-		CATEGORY_NO = #{categoryNo} WHERE BOARD_NO = #{boardNo}
+	<update id="updateCompanyProduct">
+		UPDATE COMPANY_PRODUCT SET DELIVERY_FEE = #{deliveryFee}
+		WHERE PRODUCT_NO = #{productNo}
 	</update>
 
 	<!-- 상품 옵션 수정 -->
@@ -420,7 +448,7 @@
 	<!-- deleteList가 일치하는 이미지 존재 여부 확인 -->
 	<select id="checkImage" resultType="_int">
 		SELECT COUNT(*) FROM IMG 
-		WHERE IMG_TYPE = ${imageType} 
+		WHERE IMG_TYPE = #{imageType} 
 		AND IMG_TYPE_NO = ${imageTypeNo} 
 		AND IMG_LEVEL IN (${deleteList})
 	</select>
@@ -428,7 +456,7 @@
 	<!-- 이미지 삭제 -->
 	<delete id="deleteBusinessImage">
 		DELETE FROM IMG 
-		WHERE IMG_TYPE = ${imageType} 
+		WHERE IMG_TYPE = #{imageType} 
 		AND IMG_TYPE_NO = ${imageTypeNo} 
 		AND IMG_LEVEL IN (${deleteList})
 	</delete>
@@ -437,59 +465,67 @@
 	<update id="updateImage">
 		UPDATE IMG SET 
 		IMG_RENAME = #{imageReName}, IMG_ORIGINAL = #{imageOriginal}
-		WHERE IMG_TYPE = ${imageType} AND IMG_TYPE_NO = ${imageTypeNo} 
+		WHERE IMG_TYPE = #{imageType} AND IMG_TYPE_NO = ${imageTypeNo} 
 		AND IMG_LEVEL = ${imageLevel}
 	</update>
 	
 	<!-- 이미지 삽입 -->
 	<insert id="insertImage">
-		INSERT INTO IMG VALUES(SEQ_IMG_NO.NEXTVAL, 
-			#{imageReName}, #{imagePath}, #{imageOriginal}, 
-			#{imageLevel}, #{imageType}, #{imageTypeNo})
+		<selectKey order="BEFORE" resultType="_int" keyProperty="imageNo">
+			SELECT SEQ_IMG_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO IMG VALUES(#{imageNo}, #{imageReName}, 
+			#{imageOriginal}, #{imageLevel}, #{imageType}, 
+			#{imageTypeNo}, #{imagePath})
 	</insert>
 	
-	<!-- 특정 상품의 삭제되지 않은 게시글 조회 -->
+	<!-- 삭제되지 않은 상품 수 조회 -->
 	<select id="getListCount" resultType="_int">
-		SELECT COUNT(*) FROM BOARD B
-		LEFT JOIN "MEMBER" M ON(M.MEMBER_NO = B.MEMBER_NO)
+		SELECT COUNT(*) FROM PRODUCT P
+		LEFT JOIN COMPANY_PRODUCT CP ON(CP.PRODUCT_NO = P.PRODUCT_NO)
+		LEFT JOIN "MEMBER" M ON(M.MEMBER_NO = P.MEMBER_NO)
 		LEFT JOIN COMPANY COM ON(COM.MEMBER_NO = M.MEMBER_NO)
-		WHERE B.BOARD_CD = #{boardCode} AND B.BOARD_DEL_FL = 'N'
+		WHERE CP.DELIVERY_FEE IS NOT NULL AND P.PRODUCT_DEL_FL = 'N'
 		AND COM.PERMISSION_FL = 'Y'
 	</select>
 	
 	<!-- 브랜드 상품 게시글 상세 조회 -->
 	<select id="selectBusiness" resultMap="business_rm">
-		SELECT B.BOARD_NO, B.BOARD_TITLE, M.MEMBER_NICK, P.PRODUCT_PRICE, 
-			P.DELIVERY_FEE, P.PRODUCT_COUNT, B.BOARD_CONTENT, B.MEMBER_NO,
-			P.CATEGORY_NO, (SELECT PC.CATEGORY_NO FROM CATEGORY PC 
+		SELECT P.PRODUCT_NO, P.PRODUCT_TITLE, M.MEMBER_NICK, 
+			P.PRODUCT_PRICE, CP.DELIVERY_FEE, P.PRODUCT_COUNT, 
+			P.PRODUCT_CONTENT, P.MEMBER_NO, P.CATEGORY_NO, 
+			(SELECT PC.CATEGORY_NO FROM CATEGORY PC 
 			WHERE C.PARENT_CATEGORY_NO = PC.CATEGORY_NO) PARENT_CATEGORY_NO
-		FROM BOARD B
-		LEFT JOIN "MEMBER" M ON(B.MEMBER_NO = M.MEMBER_NO) 
-		LEFT JOIN PRODUCT P ON(P.BOARD_NO = B.BOARD_NO) 
+		FROM PRODUCT P
+		LEFT JOIN "MEMBER" M ON(P.MEMBER_NO = M.MEMBER_NO) 
+		LEFT JOIN COMPANY_PRODUCT CP ON(CP.PRODUCT_NO = P.PRODUCT_NO) 
 		LEFT JOIN CATEGORY C ON(C.CATEGORY_NO = P.CATEGORY_NO)
-		WHERE B.BOARD_DEL_FL = 'N'
-		AND B.BOARD_CD = #{boardCode}
-		AND B.BOARD_NO = #{boardNo}
+		WHERE P.PRODUCT_DEL_FL = 'N'
+		AND CP.DELIVERY_FEE IS NOT NULL
+		AND P.PRODUCT_NO = #{productNo}
 	</select>
 	
 	<!-- 찜하기 여부 확인 -->
 	<select id="pickCheck" resultType="_int">
-		SELECT COUNT(*) FROM PICK WHERE BOARD_NO = #{boardNo} AND MEMBER_NO = #{memberNo}
+		SELECT COUNT(*) FROM PICK WHERE PRODUCT_NO = #{productNo} 
+		AND MEMBER_NO = #{memberNo}
 	</select>
 	
 	<!-- 찜하기 테이블 삽입 -->
 	<insert id="insertProductPick">
-		INSERT INTO PICK VALUES (${memberNo}, #{boardNo})
+		INSERT INTO PICK VALUES (${memberNo}, #{productNo})
 	</insert>
 	
 	<!-- 찜하기 테이블 삭제 -->
 	<delete id="deleteProductPick">
-		DELETE FROM PICK WHERE BOARD_NO = #{boardNo} AND MEMBER_NO = #{memberNo}
+		DELETE FROM PICK WHERE PRODUCT_NO = #{productNo} 
+		AND MEMBER_NO = #{memberNo}
 	</delete>
 	
 	<!-- 조회수 증가 -->
 	<update id="updateReadCount">
-		UPDATE PRODUCT SET READ_COUNT = READ_COUNT + 1 WHERE BOARD_NO = #{boardNo}
+		UPDATE PRODUCT SET READ_COUNT = READ_COUNT + 1 
+		WHERE PRODUCT_NO = #{productNo}
 	</update>
 	
 	<!-- 주문 내역 삽입 -->
@@ -497,39 +533,57 @@
 		<selectKey order="BEFORE" resultType="_int" keyProperty="orderNo">
 			SELECT SEQ_ORDER_NO.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO "ORDER" VALUES(#{orderNo}, #{quantity}, 
-		#{orderAddress}, NULL, #{boardNo}, #{memberNo}, #{optionNo})
+		INSERT INTO "ORDER" VALUES(#{orderNo}, #{orderAddress}, 
+		NULL, DEFAULT, #{memberNo})
+	</insert>
+	
+	<!-- 주문 상세 내역 삽입 -->
+	<insert id="insertOrderDetailList" parameterType="list">
+		INSERT INTO ORDER_DETAIL 
+		SELECT SEQ_ORDER_DETAIL_NO.NEXTVAL, A.*
+		FROM (
+			<foreach collection="list" item="orderDetail" separator=" UNION ALL ">
+				SELECT #{orderDetail.quantity} QUANTITY, 
+					#{orderDetail.orderNo} ORDER_NO, 
+					#{orderDetail.optionNo} OPTION_NO, 
+					#{orderDetail.productNo} PRODUCT_NO, 
+				FROM DUAL
+			</foreach>
+			) A
 	</insert>
 	
 	<!-- 포인트 사용 내역 삽입 -->
-	<insert id="insertPointUsage" parameterType="PointUsage" useGeneratedKeys="true">
-		<selectKey order="BEFORE" resultType="_int" keyProperty="usageNo">
-			SELECT SEQ_USAGE_NO.NEXTVAL FROM DUAL
+	<insert id="insertPointHistory" parameterType="PointHistory" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="historyNo">
+			SELECT SEQ_POINT_HISTORY_NO.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO POINT_USAGE VALUES(#{usageNo}, #{usageAmount}, 
-		1, #{usageTypeNo}, DEFAULT, DEFAULT, #{memberNo})
+		INSERT INTO POINT_HISTORY VALUES(#{historyNo}, DEFAULT, 
+		#{pointAmount}, '상품구매', 'PRODUCT', #{pointTypeNo}, 
+		#{memberNo})
 	</insert>
 	
 	<!-- 회원의 포인트 수정 -->
 	<update id="updatePoint">
-		UPDATE "MEMBER" SET POINT = #{point} WHERE MEMBER_NO = #{memberNo}
+		UPDATE "MEMBER" SET POINT = #{point} 
+		WHERE MEMBER_NO = #{memberNo}
 	</update>
 	
 	<!-- 상품 제고 수정 -->
 	<update id="updateQuantity">
-		UPDATE PRODUCT SET PRODUCT_COUNT = #{quantity} WHERE BOARD_NO = #{boardNo}
+		UPDATE PRODUCT SET PRODUCT_COUNT = #{quantity} 
+		WHERE PRODUCT_NO = #{productNo}
 	</update>
 	
 	<!-- 포인트 사용 내역 조회 -->
-	<select id="selectUsage" resultMap="usage_rm">
-		SELECT * FROM POINT_USAGE 
-		WHERE USAGE_TYPE = 1 AND USAGE_TYPE_NO = #{orderNo}
+	<select id="selectPointHistory" resultMap="history_rm">
+		SELECT * FROM POINT_HISTORY 
+		WHERE POINT_TYPE = 'PRODUCT' AND POINT_TYPE_NO = #{orderNo}
 	</select>
 	
 	<!-- 주문 내역 조회 -->
 	<select id="selectOrder" resultMap="order_rm">
 		SELECT * FROM "ORDER" O
-		WHERE O.BOARD_NO = #{boardNo} AND O.MEMBER_NO = #{memberNo}
+		WHERE O.MEMBER_NO = #{memberNo} AND O.ORDER_NO = #{orderNo}
 		<if test="reviewNo!=-1">
 			AND O.ORDER_NO = (SELECT R.ORDER_NO FROM REVIEW R
 				WHERE R.REVIEW_NO = #{reviewNo})
@@ -541,25 +595,27 @@
 		ORDER BY O.ORDER_NO DESC FETCH FIRST 1 ROWS ONLY
 	</select>
 	
+	<!-- 주문 상세 내역 조회 -->
+	<select id="selectOrderDetailList" resultMap="orderDetail_rm">
+		SELECT * FROM ORDER_DETAIL WHERE ORDER_NO = #{orderNo}
+	</select>
+	
 	<!-- 리뷰 수정 시 리뷰 조회 -->
 	<select id="selectReview" resultMap="review_rm">
 		SELECT R.*, 
 			(SELECT MEMBER_NICK FROM "MEMBER" M 
-			WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK,
+				WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_NICK,
 			(SELECT PROFILE_IMG FROM "MEMBER" M 
-			WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_PROFILE,
+				WHERE M.MEMBER_NO = R.MEMBER_NO) MEMBER_PROFILE,
 			(SELECT IMG_PATH||IMG_RENAME FROM IMG I 
-			WHERE I.IMG_TYPE_NO = R.REVIEW_TYPE_NO
-			AND I.IMG_TYPE = 1 AND IMG_LEVEL = 0) BUSINESS_THUMBNAIL,
-			(SELECT OPTION_NAME FROM PRODUCT_OPTION P
-			WHERE OPTION_NO = (SELECT OPTION_NO FROM "ORDER" O
-				WHERE O.ORDER_NO = R.ORDER_NO)) OPTION_NAME,
-			(SELECT QUANTITY FROM "ORDER" O 
-			WHERE O.ORDER_NO = R.ORDER_NO) QUANTITY
-		FROM REVIEW R JOIN BOARD B ON(R.REVIEW_TYPE_NO = B.BOARD_NO)
-		WHERE REVIEW_NO = #{reviewNo}
-		AND B.BOARD_DEL_FL = 'N'
-		AND REVIEW_DEL_FL = 'N'
+				WHERE I.IMG_TYPE_NO = R.REVIEW_TYPE_NO
+				AND I.IMG_TYPE = 'PRODUCT' 
+				AND IMG_LEVEL = 0) BUSINESS_THUMBNAIL
+		FROM REVIEW R 
+		JOIN PRODUCT P ON(R.REVIEW_TYPE_NO = P.PRODUCT_NO)
+		WHERE R.REVIEW_NO = #{reviewNo}
+		AND P.PRODUCT_DEL_FL = 'N'
+		AND R.REVIEW_DEL_FL = 'N'
 	</select>
 	
 	<!-- 리뷰 수정 -->
@@ -585,11 +641,11 @@
 		FROM (
 			<foreach collection="list" item="img" separator=" UNION ALL ">
 				SELECT #{img.imageReName} IMG_RENAME, 
-					#{img.imagePath} IMG_PATH, 
 					#{img.imageOriginal} IMG_ORIGINAL, 
 					#{img.imageLevel} IMG_LEVEL, 
 					#{img.imageType} IMG_TYPE, 
-					#{img.imageTypeNo} IMG_TYPE_NO 
+					#{img.imageTypeNo} IMG_TYPE_NO, 
+					#{img.imagePath} IMG_PATH 
 				FROM DUAL
 			</foreach>
 			) A
@@ -601,8 +657,8 @@
 			SELECT SEQ_REPLY_NO.NEXTVAL FROM DUAL
 		</selectKey>
 		INSERT INTO REPLY VALUES(#{replyNo}, DEFAULT, DEFAULT,
-		#{replyContent}, #{secretReplyStatus}, #{memberNo}, 
-		#{replyType}, #{replyTypeNo},
+		#{replyContent}, #{secretReplyStatus}, #{replyType}, 
+		#{replyTypeNo}, #{memberNo},
 		<if test="parentNo==0">
 			NULL
 		</if>
@@ -629,24 +685,24 @@
 	<insert id="insertReport" parameterType="Report">
         INSERT INTO REPORT (
             REPORT_NO,
-            REPORT_TYPE,
-            REPORT_TYPE_NO,
             REPORT_TITLE,
             REPORT_DETAIL,
-            MEMBER_NO,
-            REPORTED_USER_NO,
             REPORT_DATE,
-            REPORT_STATUS
+            REPORT_STATUS, 
+            REPORT_TYPE,
+            REPORT_TYPE_NO,
+            MEMBER_NO,
+            REPORTED_USER_NO
         ) VALUES (
             SEQ_REPORT_NO.NEXTVAL,
-            #{reportType},
-            #{reportTypeNo},
             #{reportTitle},
             #{reportDetail},
+            DEFAULT,
+            '처리중',
+            #{reportType},
+            #{reportTypeNo},
             #{memberNo},
-            #{reportedUserNo},
-            SYSDATE,
-            '처리중'
+            #{reportedUserNo}
         )
     </insert>
 </mapper>

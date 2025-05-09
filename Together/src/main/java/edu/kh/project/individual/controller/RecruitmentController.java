@@ -27,10 +27,10 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.chatting.service.ChattingService;
-import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.individual.dto.Image;
-import edu.kh.project.common.model.dto.PointUsage;
+import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Recruitment;
@@ -314,7 +314,7 @@ public class RecruitmentController {
  	        service.updateMemberPoint(loginMember.getMemberNo(), updatedPoint);
 
  	        // 5. 포인트 사용 내역 insert (모집장이므로 status = '완료')
- 	        PointUsage pointUsage = new PointUsage();
+ 	        PointHistory pointUsage = new PointHistory();
  	        pointUsage.setUsageAmount(usedPoint);
  	        pointUsage.setUsageType(2);
  	        pointUsage.setUsageTypeNo(recruitNo);

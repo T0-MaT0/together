@@ -1,5 +1,7 @@
 package edu.kh.project.business.model.dto;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,10 +11,10 @@ import lombok.ToString;
 @ToString
 public class Order {
 	private int orderNo;
-	private int quantity;
 	private String orderAddress;
 	private String trackingNo;
-	private int boardNo;
+	private String status;
 	private int memberNo;
-	private int optionNo;
+	
+	private List<OrderDetail> orderDetailList;
 }

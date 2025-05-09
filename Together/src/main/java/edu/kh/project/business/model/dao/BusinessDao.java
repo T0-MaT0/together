@@ -10,11 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import edu.kh.project.business.model.dto.Business;
 import edu.kh.project.business.model.dto.BusinessOption;
+import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.business.model.dto.Order;
-import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
-import edu.kh.project.common.model.dto.PointUsage;
+import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.manager.model.dto.Report;
@@ -39,8 +39,8 @@ public class BusinessDao {
 		return sqlSession.selectList("boardMapper.selectSearchBusinessList", paramMap, rowBounds);
 	}
 
-	public Business selectBusiness(Map<String, Object> map) {
-		return sqlSession.selectOne("boardMapper.selectBusiness", map);
+	public Business selectBusiness(int productNo) {
+		return sqlSession.selectOne("boardMapper.selectBusiness", productNo);
 	}
 
 	public int getReviewListCount(Map<String, Object> paramMap) {
@@ -83,16 +83,16 @@ public class BusinessDao {
 		return result;
 	}
 
-	public int insertPointUsage(PointUsage usage) {
-		return sqlSession.insert("boardMapper.insertPointUsage", usage);
+	public int insertPointHistory(PointHistory usage) {
+		return sqlSession.insert("boardMapper.insertPointHistory", usage);
 	}
 
 	public int updatePoint(Member loginMember) {
 		return sqlSession.update("boardMapper.updatePoint", loginMember);
 	}
 
-	public PointUsage selectUsage(int orderNo) {
-		return sqlSession.selectOne("boardMapper.selectUsage", orderNo);
+	public PointHistory selectPointHistory(int orderNo) {
+		return sqlSession.selectOne("boardMapper.selectPointHistory", orderNo);
 	}
 
 	public Order selectOrder(Map<String, Object> map) {
@@ -171,12 +171,12 @@ public class BusinessDao {
 		return sqlSession.selectOne("boardMapper.selectPermissionFl", memberNo);
 	}
 
-	public int insertBoard(Business business) {
-		return sqlSession.insert("boardMapper.insertBoard", business);
-	}
-
 	public int insertProduct(Business business) {
 		return sqlSession.insert("boardMapper.insertProduct", business);
+	}
+
+	public int insertCompanyProduct(Business business) {
+		return sqlSession.insert("boardMapper.insertCompanyProduct", business);
 	}
 
 	public int insertOptionList(List<BusinessOption> optionList) {
@@ -187,12 +187,12 @@ public class BusinessDao {
 		return sqlSession.update("boardMapper.deleteProduct", business);
 	}
 
-	public int updateBoard(Business business) {
-		return sqlSession.update("boardMapper.updateBoard", business);
-	}
-
 	public int updateProduct(Business business) {
 		return sqlSession.update("boardMapper.updateProduct", business);
+	}
+
+	public int updateCompanyProduct(Business business) {
+		return sqlSession.update("boardMapper.updateCompanyProduct", business);
 	}
 
 	public List<BusinessOption> selectOptionList(int boardNo) {
@@ -216,15 +216,14 @@ public class BusinessDao {
 	}
 
 	public int insertImage(Image img) {
-		return sqlSession.update("boardMapper.insertImage", img);
+		return sqlSession.insert("boardMapper.insertImage", img);
 	}
 
-
-	
 	// 게시글 신고 접수
 	public int insertReport(Report report) {
 		return sqlSession.insert("boardMapper.insertReport", report);
-  }
+  	}
+	
 	public int insertProductPick(Map<String, Integer> paramMap) {
 		return sqlSession.insert("boardMapper.insertProductPick", paramMap);
 	}
@@ -235,5 +234,16 @@ public class BusinessDao {
 
 	public int updateQuantity(Order order) {
 		return sqlSession.update("boardMapper.updateQuantity", order);
+	}
+
+	public int insertBoard(Business board) {
+		int result = sqlSession.insert("boardMapper.insertBoard", board);
+		
+		if (result>0) {
+//			result = sqlSession.insert("boardMapper.insertInquiry", board.getBoardNo);
+//			result=board.getBoardNo();
+		}
+		
+		return result;
 	}
 }

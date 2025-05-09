@@ -3,19 +3,17 @@ console.log("businessList.js");
 const boardLists = document.querySelectorAll(".boardList");
 const bannerImg = document.getElementById("bannerImg");
 
-// 배너 이미지 삽입
+// 배너 이미지 자동 순환
 let index = 0;
 document.addEventListener("DOMContentLoaded", () => {
-    console.log(bannerList);
-
     // 초기 배너 설정
     updateBanner();
 
-    // 3초마다 배너 변경
+    // 5초마다 배너 변경
     setInterval(() => {
         index = (index + 1) % bannerList.length; // 마지막 배너 후 처음으로 순환
         updateBanner();
-    }, 3000);
+    }, 5000);
 });
 
 // 배너 업데이트 함수
@@ -24,16 +22,20 @@ function updateBanner() {
     bannerImg.setAttribute("src", banner);
 };
 
+// 리스트 뷰 변경
 boardLists.forEach(boardList=>{
     let listToggle = boardList.querySelector(".list-toggle");
     let productImgAreas = boardList.querySelectorAll(".product-img-area");
     
     listToggle.addEventListener("change", ()=>{
         productImgAreas.forEach(productImgArea=>{
+            // 해당 이미지 영역의 다음 요소(상품 정보)
             let productInfo=productImgArea.nextElementSibling;
             let productImg=productImgArea.querySelector("img");
             
+            // 토글 체크 O
             if(listToggle.checked){
+                // 상세 뷰
                 productInfo.classList.add("product-detail-area");
                 setTimeout(()=>{
                     productInfo.classList.add("show");
@@ -46,6 +48,8 @@ boardLists.forEach(boardList=>{
                 productInfo.removeEventListener("mouseover", infoHover);
                 productInfo.removeEventListener("mouseleave", infoLeave);
             } else {
+                // 토글 체크 X
+                // 오버레이 방식
                 productInfo.classList.remove("show");
                 setTimeout(()=>{
                     productInfo.classList.remove("product-detail-area");

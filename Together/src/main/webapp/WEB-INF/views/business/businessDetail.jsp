@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<!-- 상품 옵션 수 -->
 <c:set var="optionCount" value="${fn:length(business.optionList)}"/>
 
 <!DOCTYPE html>
@@ -23,11 +24,13 @@
 </head>
 
 <body>
+    <!-- 헤더 영역 -->
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
     
     <main>
         <section class="content">
             <section id="optionArea">
+                <!-- 상품 썸네일 -->
                 <div class="product-img">
                     <img src="${business.imageList[0].imagePath}${business.imageList[0].imageReName}">
                 </div>
@@ -42,6 +45,7 @@
                             <tr>
                                 <td>판매가</td>
                                 <td>
+                                    <!-- 가격 형식화해서 출력 -->
                                     <fmt:formatNumber value="${business.productPrice}" type="number" maxFractionDigits="0"/> 원
                                 </td>
                             </tr>
@@ -63,6 +67,7 @@
                         <select class="product-option">
                             <option value="default">-[필수] 옵션을 선택해 주세요</option>
                             <option disabled>--------------------------------------</option>
+                            <!-- 상품 옵션 목록 -->
                             <c:forEach var="option" items="${business.optionList}">
                                 <option value="${option.optionNo}-${option.optionName}">${option.optionName}</option>
                             </c:forEach>
@@ -81,28 +86,33 @@
                             (<span class="total-count-area">0</span>개)
                         </div>
                         <div class="buy-area">
+                            <!-- 로그인한 회원이 일반 회원일 경우 -->
                             <c:if test="${loginMember.authority!=1&&loginMember.memberNo!=business.memberNo}">
                                 <c:if test="${empty pickCheck}">
                                     <i class="fa-regular fa-heart" id="pickProduct"></i>
                                 </c:if>
                                 
+                                <!-- 회원이 찜하기를 한 적이 있을 경우 -->
                                 <c:if test="${!empty pickCheck}">
                                     <i class="fa-solid fa-heart" id="pickProduct"></i>
                                 </c:if>
                                 <button class="go-to-buy">혼자 구매</button>
                                 <button>공동 구매</button>
                             </c:if>
+                            <!-- 로그인한 회원이 판매자일 경우 -->
                             <c:if test="${loginMember.memberNo==business.memberNo}">
                                 <i></i>
                                 <button id="updateBusiness">수정</button>
                                 <button id="deleteBusiness">삭제</button>
                             </c:if>
+                            <!-- 로그인한 회원이 관리자일 경우 -->
                             <c:if test="${loginMember.authority==1}">
                                 <button id="deleteBusiness">삭제</button>
                             </c:if>
                         </div>
                         
                         <div>
+                            <!-- 상품 신고 모달 열기 -->
                             <a href="javascript:void(0);" onclick="openReportModal(1, ${business.boardNo}, ${business.memberNo}, '${loginMember.memberNick}')">REPORT</a>
                             <a href="#review">REVIEW <span>0</span></a>
                             <a href="#q&a">Q & A <span>0</span></a>
@@ -197,6 +207,7 @@
                 <div class="list-area review-area">
                     <h3>REVIEW</h3>
                     <table>
+                        <!-- table 요소에 각 열의 너비(width)를 설정하기 위한 태그 -->
                         <colgroup>
                             <col style="width: 10%;"> <!-- 첫 번째 열 (번호) -->
                             <col style="width: 20%;"> <!-- 두 번째 열 (이미지) -->
@@ -216,6 +227,7 @@
                         <tbody id="reviewListArea"></tbody>
                     </table>
                     <div class="btn-area">
+                        <!-- 로그인한 회원이 판매자가 아닐 경우 -->
                         <c:if test="${!empty loginMember and business.memberNo!=loginMember.memberNo}">
                             <button onclick="openPopup('view')">리뷰작성</button>
                         </c:if>
@@ -274,6 +286,7 @@
                         <tbody id="replyListArea"></tbody>
                     </table>
                     <div class="btn-area">
+                        <!-- 로그인한 회원이 판매자가 아닐 경우 -->
                         <c:if test="${!empty loginMember and business.memberNo!=loginMember.memberNo}">
                             <button onclick="openPopup('ply')">문의작성</button>
                         </c:if>
@@ -286,7 +299,8 @@
             </section>
         </section>
     </main>
-        
+    
+    <!-- 고정 옵션 바 -->
     <section class="fixed-option-bar">
         <section class="fixed-option-area">
             <div class="product-option-area">
@@ -318,6 +332,7 @@
         <span class="fixed-option-btn" onclick="changeOptionBar(this)">옵션보기></span>
     </section>
 
+    <!-- 리뷰 상세 보기용 모달창 -->
     <div class="modal hide">
         <div id="modalContent">
             <div class="modal-img-area"></div>
@@ -339,8 +354,7 @@
     </div>
     <jsp:include page="/WEB-INF/views/board/business/reportModal.jsp"/>
 
-    
-
+    <!-- 로그인한 유저 전역변수(JS)로 등록 -->
     <c:if test="${not empty loginMember}">
         <script>
             loginMember = {
@@ -361,6 +375,5 @@
         const thumbnail = "${thumbnail}";
     </script>
     <script src="/resources/js/business/businessDetail.js"></script>
-    
 </body>
 </html>

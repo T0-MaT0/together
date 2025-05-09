@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.kh.project.common.model.dto.Category;
+import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.individual.service.CategoryService;
 
 @Controller

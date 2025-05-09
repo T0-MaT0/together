@@ -8,7 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import edu.kh.project.common.model.dto.PointUsage;
+import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Image;
@@ -375,7 +375,7 @@ public class RecruitmentDAO {
 	}
 
 	// 포인트 사용내역 입력
-	public void insertPointUsage(PointUsage pointUsage) {
+	public void insertPointUsage(PointHistory pointUsage) {
 		sqlSession.insert("recruitmentMapper.insertPointUsage2", pointUsage);		
 	}
 

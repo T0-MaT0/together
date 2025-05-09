@@ -11,43 +11,34 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Business {
-	private int boardNo;
-	private String boardName;
-	private String boardTitle;
-	private String boardContent;
-	private String boardCreateDate;
-	private String boardUpdateDate;
-	private int boardCode;
-	
-	// 상품 join
+	private int productNo;
+	private String productTitle;
+	private String productContent;
+	private String productCreateDate;
 	private int productPrice;
 	private int productCount;
-	private int deliveryFee;
 	private int readCount;
 	private int categoryNo;
-	private int parentCategoryNo;
+	
+	// 상품 join
+	private int deliveryFee;
 	
 	// 상품 카테고리 join
 	private String categoryName;
+	private int parentCategoryNo;
 
 	// 회원 join
 	private int memberNo;
-	private String memberNickname;
+	private String memberNick;
 	private String profileImage;
 	
 	// 서브쿼리
 	private String parentCategoryName;
 	private String thumbnail;
 	
-	// 배너 목록
-	private List<Image> bannerList;
-	
 	// 상품 옵션 목록
 	private List<BusinessOption> optionList;
 	
 	// 이미지 목록
 	private List<Image> imageList;
-
-	// 댓글 목록
-//	private List<Comment> commentList;
 }

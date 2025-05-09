@@ -1,4 +1,4 @@
-package edu.kh.project.common.model.dto;
+package edu.kh.project.business.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;

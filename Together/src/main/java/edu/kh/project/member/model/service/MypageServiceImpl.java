@@ -1,6 +1,6 @@
 package edu.kh.project.member.model.service;
 
-import edu.kh.project.common.model.dto.Category;
+import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.manager.model.dto.QuestCustomer;

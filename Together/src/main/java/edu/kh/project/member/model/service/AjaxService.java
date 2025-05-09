@@ -3,8 +3,7 @@ package edu.kh.project.member.model.service;
 import java.util.List;
 import java.util.Map;
 
-
-import edu.kh.project.common.model.dto.Category;
+import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.member.model.dto.Member;
 
 public interface AjaxService {

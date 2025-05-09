@@ -7,10 +7,10 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.kh.project.business.model.dto.Business;
+import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.business.model.dto.Order;
-import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
-import edu.kh.project.common.model.dto.PointUsage;
+import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.manager.model.dto.Report;
@@ -18,7 +18,7 @@ import edu.kh.project.manager.model.dto.Report;
 public interface BusinessService {
 	Map<String, Object> selectBusinessList(Map<String, Object> paramMap, int cp);
 
-	Business selectBusiness(Map<String, Object> map);
+	Business selectBusiness(int productNo);
 
 	Map<String, Object> selectList(Map<String, Object> paramMap, int reviewCp, int replyCp);
 
@@ -32,7 +32,7 @@ public interface BusinessService {
 
 	int insertOrder(Map<String, Object> paramMap);
 
-	PointUsage selectUsage(int orderNo);
+	PointHistory selectPointHistory(int orderNo);
 
 	Order selectOrder(Map<String, Object> map);
 

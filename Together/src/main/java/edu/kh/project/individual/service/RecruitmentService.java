@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import edu.kh.project.common.model.dto.PointUsage;
+import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Recruitment;
@@ -92,7 +92,7 @@ public interface RecruitmentService {
 	void updateMemberPoint(int memberNo, int updatedPoint);
 
 	// 포인트 사용 내역 인서트
-	void insertPointUsage(PointUsage pointUsage);
+	void insertPointUsage(PointHistory pointUsage);
 
 	// 포인트 사용 내역 조회
 	int selectUsedAmount(int recruitmentNo, int memberNo, int usageType);
