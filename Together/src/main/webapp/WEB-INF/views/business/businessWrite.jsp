@@ -22,7 +22,7 @@
     <c:set var="url" value="insertProduct"/>
 </c:if>
 <c:if test="${!empty business}">
-    <c:set var="url" value="${boardNo}/update"/>
+    <c:set var="url" value="${productNo}/update"/>
 </c:if>
 
 <!DOCTYPE html>
@@ -48,7 +48,7 @@
     
     <main>
         <!-- 상품 등록/수정 form, 파일 업로드 허용 -->
-        <form action="/board/${boardCode}/${url}" method="post" id="businessWriteForm" enctype="multipart/form-data">
+        <form action="/product/${url}" method="post" id="businessWriteForm" enctype="multipart/form-data">
             <section class="content">
                 <section id="optionArea">
                     <div class="product-img">
@@ -59,7 +59,7 @@
                         <span class="x-btn">&times;</span>
                     </div>
                     <div class="option-detail-area">
-                        <input type="text" class="product-title" name="boardTitle" value="${business.boardTitle}">
+                        <input type="text" class="product-title" name="productTitle" value="${business.productTitle}">
                         <table class="product-info-area border-top">
                             <tbody>
                                 <tr>
@@ -184,7 +184,7 @@
                             <li><a href="#productDetail">상품상세정보</a></li>
                         </ul>
                     </nav>
-                    <textarea name="boardContent" id="boardContent">${business.boardContent}</textarea>
+                    <textarea name="productContent" id="productContent">${business.productContent}</textarea>
                 </section>
                 <div class="btn-area">
                     <button type="button" onclick="history.back()" class="btn">취소하기</button>
@@ -242,7 +242,6 @@
     <script src="/resources/js/main.js"></script>
     <script>
         // JS에서 사용하기 위한 전역 변수
-        const boardCode = "${boardCode}";
         const categoryList = ${categoryListJson};
         const permissionFl = "${permissionFl}";
     </script>

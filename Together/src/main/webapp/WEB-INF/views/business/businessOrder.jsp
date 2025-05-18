@@ -66,7 +66,7 @@
                         <h3>배송지</h3>
                         <button class="btn" id="myAddr">내 주소</button>
                     </div>
-                    <form id="orderForm" method="post" action="/board/2/${boardNo}/order">
+                    <form id="orderForm" method="post" action="/product/${productNo}/order">
                         <div class="content-row">
                             <input type="text" name="postCode" placeholder="우편번호" maxlength="6" id="sample6_postcode">
                             <button class="btn" type="button" onclick="sample6_execDaumPostcode()">주소검색</button>
@@ -88,7 +88,7 @@
                         <h3>주문 상품</h3>
                     </div>
                     <div class="content-row">
-                        <span>${business.boardTitle}</span>
+                        <span>${business.productTitle}</span>
                         <img src="${thumbnail}">
                     </div>
                     <div class="content-row">

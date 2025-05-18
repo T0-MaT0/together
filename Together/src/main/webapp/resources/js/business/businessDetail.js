@@ -176,7 +176,7 @@ const renderList=map=>{
         const replyNo = document.createElement("td");
         const replyImg = document.createElement("td");
         const replyContent = document.createElement("td");
-        const replyNickName = document.createElement("td");
+        const replyNick = document.createElement("td");
         const replyDate = document.createElement("td");
     
         replyNo.innerText = reply.replyNo;
@@ -186,7 +186,7 @@ const renderList=map=>{
         replyImg.append(replyThumbnail);
         
         // 비밀글 여부 판단
-        if(reply.secretReplyStatus=='N'||reply.memberNo==loginMemberNo||loginMemberNo==boardMemberNo){
+        if(reply.secretReplyStatus=='N'||reply.memberNo==loginMemberNo||loginMemberNo==productMemberNo){
             reply.replyContent = reply.replyContent.replaceAll("&amp;", "&");
             reply.replyContent = reply.replyContent.replaceAll("&lt;", "<");
             reply.replyContent = reply.replyContent.replaceAll("&gt;", ">");
@@ -207,10 +207,10 @@ const renderList=map=>{
             replyContent.addEventListener("click", ()=>alert("비밀글 입니다."));
         }
 
-        replyNickName.innerText = reply.memberNickname;
+        replyNick.innerText = reply.memberNick;
         replyDate.innerText = formatDate(reply.replyCreatedDate);
 
-        replyRow.append(replyNo, replyImg, replyContent, replyNickName, replyDate);
+        replyRow.append(replyNo, replyImg, replyContent, replyNick, replyDate);
         replyListArea.append(replyRow);
 
         // Q&A 상세보기 영역
@@ -282,15 +282,15 @@ const renderList=map=>{
                 currentReplyContentArea.append(" | ", reportBtn);
             }
             
-            const currentReplyNickname = document.createElement("td");
-            currentReplyNickname.innerText = childReply.memberNickname;
+            const currentReplyNick = document.createElement("td");
+            currentReplyNick.innerText = childReply.memberNick;
             const currentReplyDate = document.createElement("td");
             currentReplyDate.innerText = formatDate(childReply.replyCreatedDate);
-            currentReplyArea.append(currentReplyContentArea, currentReplyNickname, currentReplyDate);
+            currentReplyArea.append(currentReplyContentArea, currentReplyNick, currentReplyDate);
             replyListArea.append(currentReplyArea);
         } else {
             // 리뷰 댓글이 없는 경우(판매자가 답글 등록 가능)
-            if(loginMemberNo==boardMemberNo){
+            if(loginMemberNo==productMemberNo){
                 const currentReplyContentArea = document.createElement("td");
                 currentReplyContentArea.setAttribute("colspan", "4");
                 
@@ -450,7 +450,7 @@ const modalShow = review=>{
         replyMemberArea.innerHTML = "";
         replyContentArea.innerHTML = "";
         const replyMember = document.createElement("span");
-        replyMember.innerText = review.replyList[0].memberNickname + " | " +
+        replyMember.innerText = review.replyList[0].memberNick + " | " +
                                 formatDate(review.replyList[0].replyCreatedDate);
     
         replyMemberArea.append(replyMember, " | ");
@@ -483,7 +483,7 @@ const modalShow = review=>{
         replyContentArea.append(replyContent);
     } else {
         // 댓글이 없고 로그인한 회원이 판매자일 경우 댓글 입력창 제공
-        if(boardMemberNo===loginMemberNo){
+        if(productMemberNo===loginMemberNo){
             replyMemberArea.innerHTML = "";
             replyContentArea.innerHTML = "";
             const replyContent = document.createElement("textarea");
@@ -679,7 +679,7 @@ const reportReview = review=>{
     const reporterName = loginMember.memberNick; 
 
     // 신고용 모달창 열기
-    openReportModal(5, reviewNo, reportedUserNo, reporterName);
+    openReportModal("REVIEW", reviewNo, reportedUserNo, reporterName);
 };
 
 // 리뷰 댓글 신고 보내기
@@ -688,8 +688,8 @@ const reportReviewReply = reply=>{
     const reportedUserNo = reply.memberNo;    
     const reporterName = loginMember.memberNick; 
   
-    // type = 3: 댓글 신고
-    openReportModal(3, replyNo, reportedUserNo, reporterName);
+    // type = REPLY: 댓글 신고
+    openReportModal("REPLY", replyNo, reportedUserNo, reporterName);
 };
 
 // 리뷰 수정
@@ -847,17 +847,17 @@ const updateReply=(reply, contentArea)=>{
                     currentCommentContentArea.style.borderTop="2px solid rgb(153, 153, 153)";
                     currentCommentContentArea.append(" | ", updateBtn, " | ", deleteBtn);
 
-                    const currentReplyNickname = document.createElement("td");
-                    currentReplyNickname.style.display="table-cell";
-                    currentReplyNickname.style.borderTop="2px solid rgb(153, 153, 153)";
-                    currentReplyNickname.innerText=result.memberNickname;
+                    const currentReplyNick = document.createElement("td");
+                    currentReplyNick.style.display="table-cell";
+                    currentReplyNick.style.borderTop="2px solid rgb(153, 153, 153)";
+                    currentReplyNick.innerText=result.memberNick;
                     
                     const currentReplyDate = document.createElement("td");
                     currentReplyDate.style.display="table-cell";
                     currentReplyDate.style.borderTop="2px solid rgb(153, 153, 153)";
                     currentReplyDate.innerText=formatDate(result.replyCreatedDate);
 
-                    contentArea.append(currentCommentContentArea, currentReplyNickname, currentReplyDate);
+                    contentArea.append(currentCommentContentArea, currentReplyNick, currentReplyDate);
                 }
             } else {
                 alert("Q&A 수정 실패");
@@ -920,7 +920,7 @@ const insertChildReply=(reply, replyContent)=>{
             "replyContent":replyContent.value,
             secretReplyStatus:"N",
             "memberNo":loginMemberNo,
-            replyType:1,
+            replyType:"PRODUCT",
             replyTypeNo:reply.replyTypeNo,
             "parentNo":reply.replyNo
         })
@@ -956,15 +956,15 @@ const insertChildReply=(reply, replyContent)=>{
     
             currentReplyContentArea.append(" | ", updateBtn, " | ", deleteBtn);
             
-            const currentReplyNickname = document.createElement("td");
-            currentReplyNickname.style.display="table-cell";
-            currentReplyNickname.style.borderTop = "2px solid rgb(153, 153, 153)";
-            currentReplyNickname.innerText = childReply.memberNickname;
+            const currentReplyNick = document.createElement("td");
+            currentReplyNick.style.display="table-cell";
+            currentReplyNick.style.borderTop = "2px solid rgb(153, 153, 153)";
+            currentReplyNick.innerText = childReply.memberNick;
             const currentReplyDate = document.createElement("td");
             currentReplyDate.style.display="table-cell";
             currentReplyDate.style.borderTop = "2px solid rgb(153, 153, 153)";
             currentReplyDate.innerText = formatDate(childReply.replyCreatedDate);
-            currentReplyArea.append(currentReplyContentArea, currentReplyNickname, currentReplyDate);
+            currentReplyArea.append(currentReplyContentArea, currentReplyNick, currentReplyDate);
         } else {
             alert("답글 등록 실패");
         }
@@ -1223,9 +1223,9 @@ pickProduct?.addEventListener("click", e=>{
     } else {
         check=1;
     }
-    const data={boardNo:boardNo, memberNo:loginMemberNo, check:check};
+    const data={productNo:productNo, memberNo:loginMemberNo, check:check};
     // 관심 상품 처리 요청(비동기)
-    fetch(`/board/${boardCode}/pick`, {
+    fetch("/product/pick", {
         method:"post",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify(data)

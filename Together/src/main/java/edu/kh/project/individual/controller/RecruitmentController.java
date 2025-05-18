@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.chatting.service.ChattingService;
 import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.individual.dto.Image;
