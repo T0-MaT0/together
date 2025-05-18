@@ -34,7 +34,7 @@
             </div>
 
             <!-- 조회수 순 상품 6개 정렬 -->
-            <section class="boardList">
+            <section class="productList">
                 <div class="title-area">
                     <a href="/product/search?category=hot">지금 🔥HOT🔥한 상품들</a>
 
@@ -53,6 +53,10 @@
 
                 <!-- 상품 리스트 영역 -->
                 <div class="list-area">
+                    <!-- 상품 목록 조회 결과가 비어있다면 -->
+                    <c:if test="${empty businessHotList}">
+                        등록된 상품이 없습니다.
+                    </c:if>
                     <!-- 상품 목록 조회 결과가 비어있지 않다면 -->
                     <c:if test="${!empty businessHotList}">
                         <c:forEach var="product" items="${businessHotList}">
@@ -81,7 +85,7 @@
             </section>
 
             <!-- 최신순 상품 6개 정렬 -->
-            <section class="boardList">
+            <section class="productList">
                 <div class="title-area">
                     <a href="/product/search?category=new">🆕새로 올라온 상품들🆕</a>
 
@@ -99,6 +103,10 @@
 
                 <!-- 상품 리스트 영역 -->
                 <div class="list-area">
+                    <!-- 상품 목록 조회 결과가 비어있다면 -->
+                    <c:if test="${empty businessNewList}">
+                        등록된 상품이 없습니다.
+                    </c:if>
                     <!-- 상품 목록 조회 결과가 비어있지 않다면 -->
                     <c:if test="${!empty businessNewList}">
                         <c:forEach var="product" items="${businessNewList}">

@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.kh.project.business.model.dto.Category;
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.individual.dao.CategoryDAO;
 
 

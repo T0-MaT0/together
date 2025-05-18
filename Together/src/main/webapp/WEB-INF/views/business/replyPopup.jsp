@@ -24,7 +24,7 @@
 <body>
 	<div id="reviewPopup">
         <div class="popup-header">Q&A 작성하기</div>
-        <form action="/board/${boardCode}/${boardNo}/insertReply" method="post" id="replyWriteForm" enctype="multipart/form-data">
+        <form action="/prouduct/${productNo}/insertReply" method="post" id="replyWriteForm" enctype="multipart/form-data">
             <div class="popup-content-area">
                 <div class="popup-content">
                     <textarea name="replyContent" id="popupContentArea" placeholder="문의 내용을 입력하세요"></textarea>

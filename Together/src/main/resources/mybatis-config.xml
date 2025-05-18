@@ -17,6 +17,7 @@
 		<typeAlias type="edu.kh.project.common.model.dto.Review" alias="Review" />
 		<typeAlias type="edu.kh.project.common.model.dto.Reply" alias="Reply" />
 		<typeAlias type="edu.kh.project.common.model.dto.PointHistory" alias="PointHistory" />
+		<typeAlias type="edu.kh.project.common.model.dto.Category" alias="Category"/>
 		<typeAlias type="edu.kh.project.individual.dto.Recruitment" alias="RecruitmentRoomDTO" />
 		<typeAlias type="edu.kh.project.individual.dto.Recruitment" alias="RecruitmentRoomDetailDTO" />
 		<typeAlias type="edu.kh.project.member.model.dto.Company" alias="Company"/>
@@ -42,7 +43,6 @@
 		<typeAlias type="edu.kh.project.member.model.dto.Board" alias="Board" />
 
 		<typeAlias type="edu.kh.project.member.model.dto.Brand" alias="Brand"/>
-		<typeAlias type="edu.kh.project.business.model.dto.Category" alias="Category"/>
 		<typeAlias type="edu.kh.project.chatting.model.dto.ChattingRoom" alias="ChattingRoom"/>
 		<typeAlias type="edu.kh.project.chatting.model.dto.Message" alias="Message"/>
 		<typeAlias type="edu.kh.project.chatting.model.dto.ChatEmoji" alias="ChatEmoji"/>

@@ -45,10 +45,10 @@
     <main>
         <section class="content">
             <div class="banner">
-                <img src="" id="bannerImg">
+                <img src="/resources/images/business/businessbanner.png" id="bannerImg">
             </div>
             
-            <section class="boardList">
+            <section class="productList">
                 <div class="title-area">
                     <span>${title}</span>
 
@@ -64,17 +64,20 @@
                 </div>
 
                 <div class="list-area">
+                    <c:if test="${empty businessList}">
+                        해당되는 상품이 없습니다.
+                    </c:if>
                     <c:if test="${!empty businessList}">
                         <c:forEach var="product" items="${businessList}">
                             <div class="product-item">
                                 <div class="product-img-area">
-                                    <a href="/board/${boardCode}/${product.boardNo}">
+                                    <a href="/product/${product.productNo}">
                                         <img src="${product.imageList[0].imagePath}${product.imageList[0].imageReName}">
                                     </a>
                                 </div>
-                                <div class="product-info" url="/board/${boardCode}/${product.boardNo}">
+                                <div class="product-info" url="/product/${product.productNo}">
                                     <span>${product.memberNickname}</span>
-                                    <a href="/board/${boardCode}/${product.boardNo}">${product.boardTitle}</a>
+                                    <a href="/product/${product.productNo}">${product.productTitle}</a>
                                     <div class="product-price-area">
                                         <span>
                                             <fmt:formatNumber value="${product.productPrice}" type="number" maxFractionDigits="0"/>원

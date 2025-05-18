@@ -5,7 +5,7 @@
 <c:set var="replyList" value="${map.replyList}"/>
 <c:set var="pagination" value="${map.replyPagination}"/>
 
-<c:set var="url" value="/board/${boardCode}/replyList?replyCp="/>
+<c:set var="url" value="/product/replyList?replyCp="/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -83,7 +83,7 @@
                                             </c:if>
                                         </div>
                                     </td>
-                                    <td>${reply.memberNickname}</td>
+                                    <td>${reply.memberNick}</td>
                                     <td class="date-area" data-date="${reply.replyCreatedDate}"></td>
                                 </tr>
                                 <tr class="current-detail">
@@ -97,7 +97,7 @@
                                 <c:if test="${!empty comment}">
                                     <tr class="current-detail">
                                         <td colspan="3">${comment.replyContent}</td>
-                                        <td>${comment.memberNickname}</td>
+                                        <td>${comment.memberNick}</td>
                                         <td class="comment-area" data-comment="${comment.replyCreatedDate}"></td>
                                     </tr>
                                 </c:if>

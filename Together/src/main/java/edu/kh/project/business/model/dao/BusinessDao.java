@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import edu.kh.project.business.model.dto.Business;
 import edu.kh.project.business.model.dto.BusinessOption;
-import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.business.model.dto.Order;
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
 import edu.kh.project.common.model.dto.PointHistory;

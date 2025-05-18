@@ -35,12 +35,12 @@
             <div class="product-option-area">
                 <img src="${thumbnail}">
                 <div>
-                    <span>${business.memberNickname}</span>
-                    <span>${business.boardTitle}</span>
+                    <span>${business.memberNick}</span>
+                    <span>${business.productTitle}</span>
                     <span>${optionName}</span>
                 </div>
             </div>
-            <form action="/board/${boardCode}/${boardNo}/insertReview" method="post" id="reviewWriteForm" enctype="multipart/form-data">
+            <form action="/product/${productNo}/insertReview" method="post" id="reviewWriteForm" enctype="multipart/form-data">
                 <input type="hidden" name="orderNo" value="${order.orderNo}">
                 <input type="hidden" name="reviewUpdateNo" value="${review.reviewNo}">
                 <input type="hidden" name="deleteList" id="deleteList">

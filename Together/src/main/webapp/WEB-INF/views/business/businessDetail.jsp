@@ -35,7 +35,7 @@
                     <img src="${business.imageList[0].imagePath}${business.imageList[0].imageReName}">
                 </div>
                 <div class="option-detail-area">
-                    <span class="product-title">${business.boardTitle}</span>
+                    <span class="product-title">${business.productTitle}</span>
                     <table class="product-info-area border-top">
                         <tbody>
                             <tr>
@@ -88,6 +88,7 @@
                         <div class="buy-area">
                             <!-- 로그인한 회원이 일반 회원일 경우 -->
                             <c:if test="${loginMember.authority!=1&&loginMember.memberNo!=business.memberNo}">
+                                <!-- 회원이 찜하기를 한 적이 없을 경우 -->
                                 <c:if test="${empty pickCheck}">
                                     <i class="fa-regular fa-heart" id="pickProduct"></i>
                                 </c:if>
@@ -113,12 +114,12 @@
                         
                         <div>
                             <!-- 상품 신고 모달 열기 -->
-                            <a href="javascript:void(0);" onclick="openReportModal(1, ${business.boardNo}, ${business.memberNo}, '${loginMember.memberNick}')">REPORT</a>
+                            <a href="javascript:void(0);" onclick="openReportModal(1, ${business.productNo}, ${business.memberNo}, '${loginMember.memberNick}')">REPORT</a>
                             <a href="#review">REVIEW <span>0</span></a>
                             <a href="#q&a">Q & A <span>0</span></a>
                         </div>
                     </div>
-                </div>
+                </div> 
             </section>
             <section class="product-content border-top">
                 <nav class="content-nav" id="detail">
@@ -146,7 +147,7 @@
                         </c:otherwise>
                     </c:choose>
                 </div>
-                <div>${business.boardContent}</div>
+                <div>${business.productContent}</div>
             </section>
             <section class="product-content border-top">
                 <nav class="content-nav" id="guide">
@@ -231,7 +232,7 @@
                         <c:if test="${!empty loginMember and business.memberNo!=loginMember.memberNo}">
                             <button onclick="openPopup('view')">리뷰작성</button>
                         </c:if>
-                        <a href="/board/2/reviewList">모두보기</a>
+                        <a href="/product/reviewList">모두보기</a>
                     </div>
                     <div class="pagination-area">
                         <ul class="pagination" id="reviewPaginationArea"></ul>
@@ -290,7 +291,7 @@
                         <c:if test="${!empty loginMember and business.memberNo!=loginMember.memberNo}">
                             <button onclick="openPopup('ply')">문의작성</button>
                         </c:if>
-                        <a href="/board/2/replyList">모두보기</a>
+                        <a href="/product/replyList">모두보기</a>
                     </div>
                     <div class="pagination-area">
                         <ul class="pagination" id="replyPaginationArea"></ul>
@@ -347,12 +348,12 @@
                 </div>
                 <div class="modal-btn-area">
                     <button id="closeModalBtn" onclick="closeModal(event)">취소</button>
-                    <a href="/board/2/reviewList">리뷰목록</a>
+                    <a href="/porduct/reviewList">리뷰목록</a>
                 </div>
             </div>
         </div>
     </div>
-    <jsp:include page="/WEB-INF/views/board/business/reportModal.jsp"/>
+    <jsp:include page="/WEB-INF/views/business/reportModal.jsp"/>
 
     <!-- 로그인한 유저 전역변수(JS)로 등록 -->
     <c:if test="${not empty loginMember}">
@@ -367,9 +368,8 @@
 	<jsp:include page="/WEB-INF/views/common/footer.jsp" />
     <script src="/resources/js/main.js"></script>
     <script>
-        const boardCode = "${boardCode}";
-        const boardNo = "${boardNo}";
-        const boardMemberNo = "${business.memberNo}";
+        const productNo = "${productNo}";
+        const productMemberNo = "${business.memberNo}";
         const productPrice = Number("${business.productPrice}");
         const deliveryFee = Number("${business.deliveryFee}");
         const thumbnail = "${thumbnail}";

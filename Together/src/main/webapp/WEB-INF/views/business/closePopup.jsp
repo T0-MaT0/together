@@ -9,7 +9,7 @@
     <title>브랜드 팝업창 닫기</title>
 
     <script>
-        window.opener.location.href="/board/2/${boardNo}";
+        window.opener.location.href="/product/${productNo}";
         window.close();
     </script>
 </head>

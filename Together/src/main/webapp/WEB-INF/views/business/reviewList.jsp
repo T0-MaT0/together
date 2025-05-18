@@ -6,7 +6,7 @@
 <c:set var="reviewList" value="${map.reviewList}"/>
 <c:set var="pagination" value="${map.reviewPagination}"/>
 
-<c:set var="url" value="/board/${boardCode}/reviewList?reviewCp="/>
+<c:set var="url" value="/product/reviewList?reviewCp="/>
 
 <!DOCTYPE html>
 <html lang="en">
