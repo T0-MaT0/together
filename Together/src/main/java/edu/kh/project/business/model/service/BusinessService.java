@@ -7,8 +7,8 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.kh.project.business.model.dto.Business;
-import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.business.model.dto.Order;
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.common.model.dto.Reply;

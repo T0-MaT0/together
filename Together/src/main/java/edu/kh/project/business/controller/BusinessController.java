@@ -36,9 +36,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.kh.project.business.model.dto.Business;
-import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.business.model.dto.Order;
 import edu.kh.project.business.model.service.BusinessService;
+import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.common.model.dto.Reply;
@@ -65,7 +65,6 @@ public class BusinessController {
 		model.addAttribute("bannerList", bannerList);
 		
 		model.addAttribute("map", map);
-		System.out.println(map);
 		
 		return "business/mainBusiness";
 	}

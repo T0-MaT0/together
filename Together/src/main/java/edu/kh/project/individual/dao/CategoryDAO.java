@@ -6,7 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import edu.kh.project.business.model.dto.Category;
+import edu.kh.project.common.model.dto.Category;
 
 @Repository
 public class CategoryDAO {

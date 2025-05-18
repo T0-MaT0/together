@@ -2,7 +2,6 @@ package edu.kh.project.common.model.dto;
 
 import java.util.List;
 
-import edu.kh.project.business.model.dto.OrderDetail;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
