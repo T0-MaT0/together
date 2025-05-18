@@ -9,13 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.kh.project.common.model.dto.PointHistory;
-yimport edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Image;
 import edu.kh.project.individual.dto.Recruitment;
 import edu.kh.project.manager.model.dto.Report;
-import edu.kh.project.member.model.dto.Board;
 import edu.kh.project.member.model.dto.Member;
 
 @Repository

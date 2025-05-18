@@ -28,10 +28,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.project.business.model.dto.Category;
 import edu.kh.project.chatting.service.ChattingService;
-import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.individual.dto.Image;
-import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Recruitment;

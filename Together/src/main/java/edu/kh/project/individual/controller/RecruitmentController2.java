@@ -118,7 +118,7 @@ public class RecruitmentController2 {
         }
 
         reply.setMemberNo(loginMember.getMemberNo());
-        reply.setReplyType(1);
+        reply.setReplyType("RECRUITMENT");
 
         int result = service.insertReply(reply);
 
