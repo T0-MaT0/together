@@ -2,41 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="chattingMapper">
 	
-	<resultMap type="ChattingRoom" id="chattingRoom_rm">
-	    <id property="roomNo" column="ROOM_NO" />
-	
-	    <result property="roomName" column="ROOM_NAME" />
-	    <result property="lastMessage" column="LAST_MESSAGE" />
-	    <result property="lastSendTime" column="LAST_SEND_TIME" />
-	    <result property="targetNickname" column="TARGET_NICKNAME" />
-	    <result property="targetProfile" column="TARGET_PROFILE" />
-	    <result property="unreadCount" column="UNREAD_COUNT" />
-	    <result property="maxMessageNo" column="MAX_MESSAGE_NO" />
-	    <result property="ownerProfile" column="OWNER_PROFILE_IMG" />
-	    <result property="ownerMemberNo" column="OWNER_MEMBER_NO" />
-	    <result property="groupFl" column="GROUP_FL" />
-	</resultMap>
-	
-	<resultMap type="Message" id="message_rm">
-	    <id property="messageNo" column="MESSAGE_NO" />
-	
-	    <result property="messageContent" column="MESSAGE_CONTENT" />
-	    <result property="messageType" column="MESSAGE_TYPE" />
-	    <result property="sendTime" column="SEND_TIME" />
-	
-	    <result property="senderNo" column="senderNo" />
-	    <result property="chattingNo" column="ROOM_NO" />
-	
-	    <result property="senderNickname" column="senderNickname"/>
-		<result property="senderProfile" column="senderProfile"/>
-	</resultMap>
-	
-	<resultMap id="emoji_rm" type="ChatEmoji">
-	  <id property="emojiNo" column="EMOJI_NO"/>
-	  <result property="messageId" column="MESSAGE_ID"/>
-	  <result property="emojiCode" column="EMOJI_CODE"/>
-	  <result property="emojiType" column="EMOJI_TYPE"/>
-	</resultMap>
+  <resultMap type="ChattingRoom" id="chattingRoom_rm">
+    <id property="roomNo" column="ROOM_NO" />
+    <result property="roomName" column="ROOM_NAME" />
+    <result property="lastMessage" column="LAST_MESSAGE" />
+    <result property="lastSendTime" column="LAST_SEND_TIME" />
+    <result property="targetNickname" column="TARGET_NICKNAME" />
+    <result property="targetProfile" column="TARGET_PROFILE" />
+    <result property="unreadCount" column="UNREAD_COUNT" />
+    <result property="maxMessageNo" column="MAX_MESSAGE_NO" />
+    <result property="ownerProfile" column="OWNER_PROFILE_IMG" />
+    <result property="ownerMemberNo" column="OWNER_MEMBER_NO" />
+    <result property="groupFl" column="GROUP_FL" />
+  </resultMap>
+
+  <resultMap type="Message" id="message_rm">
+    <id property="messageNo" column="MESSAGE_NO" />
+    <result property="messageContent" column="MESSAGE_CONTENT" />
+    <result property="messageType" column="MESSAGE_TYPE" />
+    <result property="sendTime" column="SEND_TIME" />
+    <result property="senderNo" column="senderNo" />
+    <result property="chattingNo" column="ROOM_NO" />
+    <result property="senderNickname" column="senderNickname"/>
+    <result property="senderProfile" column="senderProfile"/>
+  </resultMap>
+
+  <resultMap id="emoji_rm" type="ChatEmoji">
+    <id property="emojiNo" column="EMOJI_NO"/>
+    <result property="messageId" column="MESSAGE_ID"/>
+    <result property="emojiCode" column="EMOJI_CODE"/>
+    <result property="emojiType" column="EMOJI_TYPE"/>
+  </resultMap>
 
 	<!-- 채팅방 조회 -->
 	<select id="getChattingList" resultMap="chattingRoom_rm">

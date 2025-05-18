@@ -20,7 +20,6 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import edu.kh.project.common.model.dto.PointHistory;
-import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.common.utility.Utill;
@@ -28,7 +27,6 @@ import edu.kh.project.individual.dao.RecruitmentDAO;
 import edu.kh.project.individual.dto.Image;
 import edu.kh.project.individual.dto.Recruitment;
 import edu.kh.project.manager.model.dto.Report;
-import edu.kh.project.member.model.dto.Board;
 import edu.kh.project.member.model.dto.Member;
 
 @Service

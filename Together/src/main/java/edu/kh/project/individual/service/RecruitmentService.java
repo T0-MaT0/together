@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import edu.kh.project.common.model.dto.PointHistory;
-import edu.kh.project.common.model.dto.PointUsage;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Recruitment;

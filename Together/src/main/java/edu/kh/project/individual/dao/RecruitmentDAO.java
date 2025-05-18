@@ -9,10 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import edu.kh.project.common.model.dto.PointHistory;
-<<<<<<< HEAD
-=======
-//import edu.kh.project.common.model.dto.PointUsage;
->>>>>>> 45fa682ae6194f8d59ea0bc27e9d6d6dc719c38c
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.individual.dto.Image;

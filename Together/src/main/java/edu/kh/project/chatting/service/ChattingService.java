@@ -11,104 +11,57 @@ import edu.kh.project.member.model.dto.Member;
 
 public interface ChattingService {
 
-	/** 채팅방 목록 조회
-	 * @param memberNo
-	 * @return chattingList
-	 */
-	List<ChattingRoom> getChattingList(int memberNo);
+    /** 채팅방 목록 조회 */
+    List<ChattingRoom> getChattingList(int memberNo);
 
-	/** 채팅 메세지 조회
-	 * @param paramMap
-	 * @return messageList
-	 */
-	List<Message> selectMessageList(Map<String, Object> paramMap);
+    /** 채팅 메시지 조회 */
+    List<Message> selectMessageList(Map<String, Object> paramMap);
 
-	/** 상대 프로필
-	 * @param roomNo
-	 * @param memberNo
-	 * @return
-	 */
-	List<Object> selectChatTarget(int roomNo, int memberNo);
+    /** 채팅 대상 정보 조회 */
+    List<Object> selectChatTarget(int roomNo, int memberNo);
 
-	// 채팅방 삭제
-	int deleteRoom(int roomNo, int memberNo);
+    /** 채팅방 삭제 */
+    int deleteRoom(int roomNo, int memberNo);
 
-	// 채팅방 주인 확인
-	int selectOwnerNo(int roomNo);
+    /** 채팅방 방장 번호 조회 */
+    int selectOwnerNo(int roomNo);
 
-	// 메세지 입력
-	int insertMessage(Message msg);
+    /** 텍스트 메시지 삽입 */
+    int insertMessage(Message msg);
 
-	// 메세지 이미지 입력
-	int insertImageMessage(Message msg);
+    /** 이미지 메시지 삽입 */
+    int insertImageMessage(Message msg);
 
-	// 메세지 이미지 입력
-	void insertChatImage(Image img);
+    /** 이미지 정보 저장 (IMG 테이블) */
+    void insertChatImage(Image img);
 
-	// 메시지 큰 이모지 조회
-	List<ChatEmoji> getBigEmojiList();
+    /** 채팅 이모지 리스트 조회 */
+    List<ChatEmoji> getBigEmojiList();
 
-	// 모집하기 방 만들 시 채팅방 생성
-	int createGroupChatRoom(String roomName, int ownerNo, Map<String, Object> outMap);
+    /** 공동구매 채팅방 생성 (모집글 등록 시) */
+    int createGroupChatRoom(String roomName, int ownerNo, Map<String, Object> outMap);
 
-	// 참가하기 시 채팅방 참여(roomName 조회).
-	String selectRecruitmentTitle(int recruitmentNo);
+    /** 모집글 제목으로 채팅방 이름 조회 */
+    String selectRecruitmentTitle(int recruitmentNo);
 
-	// 참가하기 시 채팅방 참여(roomNo 조회)
-	int selectRoomNoByRoomName(String roomName);
+    /** 채팅방 이름으로 방 번호 조회 */
+    int selectRoomNoByRoomName(String roomName);
 
-	// 참가하기 시 채팅방 참여(user insert)
-	void insertChatRoomUser(int roomNo, int memberNo);
+    /** 채팅방에 사용자 추가 (참여자 추가) */
+    void insertChatRoomUser(int roomNo, int memberNo);
 
-	// 방 나가기(참가자 삭제)
-	void deleteChatRoomUser(int roomNo, int memberNo);
+    /** 채팅방에서 사용자 제거 */
+    void deleteChatRoomUser(int roomNo, int memberNo);
 
-	// 채팅방 참가자 조회
-	List<Member> selectRoomMemberList(int roomNo);
+    /** 채팅방 참여자 리스트 조회 */
+    List<Member> selectRoomMemberList(int roomNo);
 
-	// 채팅방 이름
-	ChattingRoom selectRoomName(int roomNo);
+    /** 채팅방 정보 조회 (이름, 방장 등) */
+    ChattingRoom selectRoomName(int roomNo);
 
-	// 채팅방 추방
-	int kickMemberFromRoom(int roomNo, int targetMemberNo);
+    /** 채팅방에서 유저 강제 퇴장 (방장 기능) */
+    int kickMemberFromRoom(int roomNo, int targetMemberNo);
 
-	// 1대1 채팅방 만들기
-	Map<String, Object> createOrGetPrivateChatRoom(int myMemberNo, int targetMemberNo, String roomName);
-
-
-
-	
-	
-
-//
-//	
-//	/** 닉네임 또는 이메일로 회원 검색
-//	 * @param map
-//	 * @return list
-//	 */
-//	List<Member> searchTargetList(Map<String, Object> map);
-//
-//
-//	/** 채팅방 입장(없으면 생성)
-//	 * @param map
-//	 * @return chattingNo
-//	 */
-//	int chattingEnter(Map<String, Integer> map);
-//
-//
-//	/** 채팅방 생성
-//	 * @param map
-//	 * @return chattingNo
-//	 */
-//	int createChattingRoom(Map<String, Integer> map);
-//
-//
-//	/** 채팅방 읽음 표시
-//	 * @param paramMap
-//	 * @return result
-//	 */
-//	int updateReadFlag(Map<String, Object> paramMap);
-
-
-
+    /** 1대1 채팅방 생성 or 존재 여부 확인 */
+    Map<String, Object> createOrGetPrivateChatRoom(int myMemberNo, int targetMemberNo, String roomName);
 }
