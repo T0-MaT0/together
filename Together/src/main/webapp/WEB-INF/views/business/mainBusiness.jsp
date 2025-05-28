@@ -67,7 +67,7 @@
                                     </a>
                                 </div>
                                 <div class="product-info" url="${url}${product.productNo}">
-                                    <span>${product.memberNickname}</span>
+                                    <span>${product.memberNick}</span>
                                     <a href="${url}${product.productNo}">${product.productTitle}</a>
                                     <div class="product-price-area">
                                         <!-- <span>
@@ -117,7 +117,7 @@
                                     </a>
                                 </div>
                                 <div class="product-info" url="${url}${product.productNo}">
-                                    <span>${product.memberNickname}</span>
+                                    <span>${product.memberNick}</span>
                                     <a href="${url}${product.productNo}">${product.productTitle}</a>
                                     <div class="product-price-area">
                                         <span>

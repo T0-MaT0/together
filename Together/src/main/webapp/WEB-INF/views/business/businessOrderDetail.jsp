@@ -136,8 +136,7 @@
 
     <script>
         const memberAddr="${loginMember.memberAddr}".split("^^^ ");
-        const boardCode = "${boardCode}";
-        const boardNo = "${boardNo}";
+        const productNo = "${productNo}";
         const orderNo = "${order.orderNo}";
     </script>
     <script src="/resources/js/business/order.js"></script>

@@ -62,7 +62,7 @@ const openPopup=key=>{
     const top = (screenHeight - popupHeight) / 2;
 
     window.open(
-        `/board/${boardCode}/${boardNo}/insertRe${key}`, 
+        `/product/${productNo}/insertRe${key}`, 
         "PopupWindow", 
         `width=${popupWidth},height=${popupHeight},left=${left},top=${top}`
     );
@@ -70,7 +70,7 @@ const openPopup=key=>{
 
 // 상품 상세 페이지로 이동
 const gotoDetail=()=>{
-    location.href = `/board/${boardCode}/${boardNo}`;
+    location.href = `/product/${productNo}`;
 }
 
 // 포인트 충전

@@ -40,7 +40,7 @@
                         <tbody>
                             <tr>
                                 <td>브랜드</td>
-                                <td>${business.memberNickname}</td>
+                                <td>${business.memberNick}</td>
                             </tr>
                             <tr>
                                 <td>판매가</td>

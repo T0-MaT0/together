@@ -139,7 +139,7 @@ const renderList=map=>{
             replyContent.addEventListener("click", ()=>alert("비밀글 입니다."));
         }
 
-        replyNickName.innerText = reply.memberNickname;
+        replyNickName.innerText = reply.memberNick;
         replyDate.innerText = formatDate(reply.replyCreatedDate);
 
         replyRow.append(replyNo, replyImg, replyContent, replyNickName, replyDate);
@@ -211,7 +211,7 @@ const renderList=map=>{
             }
             
             const currentReplyNickname = document.createElement("td");
-            currentReplyNickname.innerText = childReply.memberNickname;
+            currentReplyNickname.innerText = childReply.memberNick;
             const currentReplyDate = document.createElement("td");
             currentReplyDate.innerText = formatDate(childReply.replyCreatedDate);
             currentReplyArea.append(currentReplyContentArea, currentReplyNickname, currentReplyDate);
@@ -300,7 +300,7 @@ const updateReply=(reply, contentArea)=>{
     replyBtn.innerText = "수정";
     replyBtn.addEventListener("click", ()=>{
         const secretReply = secretReplyStatus.checked?"Y":"N";
-        fetch(`/board/2/${reply.replyTypeNo}/reply`,{
+        fetch(`/product/${reply.replyTypeNo}/reply`,{
             method: "PUT",
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify({
@@ -346,7 +346,7 @@ const updateReply=(reply, contentArea)=>{
                     const currentReplyNickname = document.createElement("td");
                     currentReplyNickname.style.display="table-cell";
                     currentReplyNickname.style.borderTop="2px solid rgb(153, 153, 153)";
-                    currentReplyNickname.innerText=result.memberNickname;
+                    currentReplyNickname.innerText=result.memberNick;
                     
                     const currentReplyDate = document.createElement("td");
                     currentReplyDate.style.display="table-cell";
@@ -381,7 +381,7 @@ const updateReply=(reply, contentArea)=>{
 const deleteReply=reply=>{
     if(!confirm("정말로 삭제하시겠습니까?")) return;
 
-    fetch(`/board/2/${reply.replyTypeNo}/reply`,{
+    fetch(`/product/${reply.replyTypeNo}/reply`,{
         method: "DELETE",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({
