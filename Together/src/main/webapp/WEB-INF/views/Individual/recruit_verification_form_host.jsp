@@ -24,7 +24,6 @@
             <c:when test="${isVerificationFormExists}">
                 <form action="/group/verification/update" method="post">
                     <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}" />
-                    <input type="hidden" name="boardNo" value="${recruitment.boardNo}" />
     
                     <div class="verification-section">
                         <label class="section-label">모집 인증 QR</label>
@@ -56,7 +55,6 @@
             <c:otherwise>
                 <form action="/group/verification/register" method="post">
                     <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}" />
-                    <input type="hidden" name="boardNo" value="${recruitment.boardNo}" />
     
                     <div class="verification-section">
                         <label class="section-label">모집 인증 QR</label>

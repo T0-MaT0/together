@@ -27,9 +27,16 @@
         <!-- 상세 목록 -->
         <section class="detail-products">
             <h2 class="section-title"><span class="highlight">상품목록</span></h2>
-                <div class="product-grid">
+                <div id="product-grid" class="product-grid">
                     <c:forEach var="recruitment" items="${recruitmentList}" varStatus="status">
-                            <c:set var="progress" value="${(recruitment.currentParticipants * 100.0) / recruitment.maxParticipants}" />
+                            <c:choose>
+                                <c:when test="${recruitment.maxParticipants > 0}">
+                                    <c:set var="progress" value="${(recruitment.currentParticipants * 100.0) / recruitment.maxParticipants}" />
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set var="progress" value="0" />
+                                </c:otherwise>
+                            </c:choose>
                             <c:set var="discount" value="${Math.ceil(recruitment.productPrice / recruitment.maxParticipants).intValue()}" />                                
 
                             <div class="product">
@@ -39,18 +46,18 @@
                                         <span class="clickable-nickname"
                                             data-member-no="${recruitment.hostNo}"
                                             data-member-nick="${recruitment.hostName}"
-                                            data-product-name="${recruitment.productName}"
+                                            data-product-name="${recruitment.productTitle}"
                                             data-recruitment-no="${recruitment.recruitmentNo}">
                                         ${recruitment.hostName}
                                         </span>
                                         (등급: ${recruitment.hostGrade})
                                     </p>
-                                <p class="product-name">${recruitment.productName}</p>
+                                <p class="product-name">${recruitment.productTitle}</p>
                                 <p class="discount-price">${discount}원</p>
                                 <p class="original-price">${recruitment.productPrice}원 (원가)</p>
                                 <p class="participants">📅 생성일:
-                                    <c:out value="${fn:substring(recruitment.recCreatedDate, 5, 10)}" />
-                                    <c:out value="${fn:substring(recruitment.recCreatedDate, 11, 16)}" />~
+                                    <c:out value="${fn:substring(recruitment.pCreateDate, 5, 10)}" />
+                                    <c:out value="${fn:substring(recruitment.pCreateDate, 11, 16)}" />
                                 </p>
                                 <p class="participants">⏳ 마감일:
                                     <c:out value="${fn:substring(recruitment.recEndDate, 5, 10)}" />
@@ -68,8 +75,7 @@
                                         </div>
                                     </div>
                                     <button class="join-btn ${recruitment.recruitmentStatus == '마감' ? 'closed-btn' : 'active-btn'}"
-                                            data-recruitment-no="${recruitment.recruitmentNo}"
-                                            data-board-no="${recruitment.boardNo}">
+                                            data-recruitment-no="${recruitment.recruitmentNo}">
                                         ${recruitment.recruitmentStatus == '진행' ? '참가' : recruitment.recruitmentStatus}
                                     </button>
                                 </div>

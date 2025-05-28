@@ -42,39 +42,38 @@
                     <div class="banner-product-group small-group">
                         <div class="new-banner">
                             <c:forEach var="image" items="${recruitmentList[0].imageList}" varStatus="status">
-                                <c:if test="${image.imageType == 8}">
+                                <c:if test="${image.imageType eq 'MINI AD IMG'}">
                                     <img src="${image.imagePath}${image.imageReName}" 
-                                         class="banner-image ${status.first ? 'active' : ''}" 
-                                         alt="NEW 공동구매 배너">
+                                        class="banner-image ${status.first ? 'active' : ''}" 
+                                        alt="NEW 공동구매 배너">
                                 </c:if>
                             </c:forEach>
                         </div>
+                        
                         <c:forEach var="recruitment" items="${recruitmentList}" varStatus="status" begin="${i}" end="${i+1}">
                             <c:if test="${status.index < fn:length(recruitmentList)}">
-                                <!-- 참가율(%) 계산 -->
                                 <c:set var="progress" value="${(recruitment.currentParticipants * 100.0) / recruitment.maxParticipants}" />
                                 <c:set var="discount" value="${Math.ceil(recruitment.productPrice / recruitment.maxParticipants).intValue()}" />                                
 
                                 <div class="product">
                                     <img src="${recruitment.thumbnail != null ? recruitment.thumbnail : '/resources/images/mypage/관리자 프로필.webp'}" 
                                         alt="제품 이미지">
-                                        <p class="seller-info">
-                                            <span class="clickable-nickname"
-                                                data-member-no="${recruitment.hostNo}"
-                                                data-member-nick="${recruitment.hostName}"
-                                                data-product-name="${recruitment.productName}"
-                                                data-recruitment-no="${recruitment.recruitmentNo}">
+                                    <p class="seller-info">
+                                        <span class="clickable-nickname"
+                                            data-member-no="${recruitment.hostNo}"
+                                            data-member-nick="${recruitment.hostName}"
+                                            data-product-name="${recruitment.productTitle}"
+                                            data-recruitment-no="${recruitment.recruitmentNo}">
                                             ${recruitment.hostName}
-                                            </span>
-                                            (등급: ${recruitment.hostGrade})
-                                        </p>
-                                    <p class="product-name">${recruitment.productName}</p>
+                                        </span>
+                                        (등급: ${recruitment.hostGrade})
+                                    </p>
+                                    <p class="product-name">${recruitment.productTitle}</p>
                                     <p class="discount-price">${discount}원</p>
                                     <p class="original-price">${recruitment.productPrice}원 (원가)</p>
-                                    
                                     <p class="participants">📅 생성일:
-                                        <c:out value="${fn:substring(recruitment.recCreatedDate, 5, 10)}" />
-                                        <c:out value="${fn:substring(recruitment.recCreatedDate, 11, 16)}" />~
+                                        <c:out value="${fn:substring(recruitment.pCreateDate, 5, 10)}" />
+                                        <c:out value="${fn:substring(recruitment.pCreateDate, 11, 16)}" />~
                                     </p>
                                     <p class="participants">⏳ 마감일:
                                         <c:out value="${fn:substring(recruitment.recEndDate, 5, 10)}" />
@@ -84,7 +83,6 @@
                                     
                                     <div class="progress-button-container">
                                         <div class="progress-container">
-                                            <!-- 퍼센트 값 출력 (소수점 한 자리까지 표시) -->
                                             <span class="progress-label">
                                                 <fmt:formatNumber value="${progress}" type="number" maxFractionDigits="1" />%
                                             </span>
@@ -93,8 +91,7 @@
                                             </div>
                                         </div>
                                         <button class="join-btn ${recruitment.recruitmentStatus == '마감' ? 'closed-btn' : 'active-btn'}"
-                                                data-recruitment-no="${recruitment.recruitmentNo}"
-                                                data-board-no="${recruitment.boardNo}">
+                                                data-recruitment-no="${recruitment.recruitmentNo}">
                                             ${recruitment.recruitmentStatus == '진행' ? '참가' : recruitment.recruitmentStatus}
                                         </button>
                                     </div>
@@ -113,22 +110,22 @@
                                 <div class="product">
                                     <img src="${recruitment.thumbnail != null ? recruitment.thumbnail : '/resources/images/mypage/관리자 프로필.webp'}" 
                                         alt="제품 이미지">
-                                        <p class="seller-info">
-                                            <span class="clickable-nickname"
-                                                data-member-no="${recruitment.hostNo}"
-                                                data-member-nick="${recruitment.hostName}"
-                                                data-product-name="${recruitment.productName}"
-                                                data-recruitment-no="${recruitment.recruitmentNo}">
+                                    <p class="seller-info">
+                                        <span class="clickable-nickname"
+                                            data-member-no="${recruitment.hostNo}"
+                                            data-member-nick="${recruitment.hostName}"
+                                            data-product-name="${recruitment.productTitle}"
+                                            data-recruitment-no="${recruitment.recruitmentNo}">
                                             ${recruitment.hostName}
-                                            </span>
-                                            (등급: ${recruitment.hostGrade})
-                                        </p>
-                                    <p class="product-name">${recruitment.productName}</p>
+                                        </span>
+                                        (등급: ${recruitment.hostGrade})
+                                    </p>
+                                    <p class="product-name">${recruitment.productTitle}</p>
                                     <p class="discount-price">${discount}원</p>
                                     <p class="original-price">${recruitment.productPrice}원 (원가)</p>
                                     <p class="participants">📅 생성일:
-                                        <c:out value="${fn:substring(recruitment.recCreatedDate, 5, 10)}" />
-                                        <c:out value="${fn:substring(recruitment.recCreatedDate, 11, 16)}" />~
+                                        <c:out value="${fn:substring(recruitment.pCreateDate, 5, 10)}" />
+                                        <c:out value="${fn:substring(recruitment.pCreateDate, 11, 16)}" />~
                                     </p>
                                     <p class="participants">⏳ 마감일:
                                         <c:out value="${fn:substring(recruitment.recEndDate, 5, 10)}" />
@@ -146,8 +143,7 @@
                                             </div>
                                         </div>
                                         <button class="join-btn ${recruitment.recruitmentStatus == '마감' ? 'closed-btn' : 'active-btn'}"
-                                                data-recruitment-no="${recruitment.recruitmentNo}"
-                                                data-board-no="${recruitment.boardNo}">
+                                                data-recruitment-no="${recruitment.recruitmentNo}">
                                             ${recruitment.recruitmentStatus == '진행' ? '참가' : recruitment.recruitmentStatus}
                                         </button>
                                     </div>
@@ -169,22 +165,22 @@
                                 <div class="product">
                                     <img src="${recruitment.thumbnail != null ? recruitment.thumbnail : '/resources/images/mypage/관리자 프로필.webp'}" 
                                         alt="제품 이미지">
-                                        <p class="seller-info">
-                                            <span class="clickable-nickname"
-                                                data-member-no="${recruitment.hostNo}"
-                                                data-member-nick="${recruitment.hostName}"
-                                                data-product-name="${recruitment.productName}"
-                                                data-recruitment-no="${recruitment.recruitmentNo}">
+                                    <p class="seller-info">
+                                        <span class="clickable-nickname"
+                                            data-member-no="${recruitment.hostNo}"
+                                            data-member-nick="${recruitment.hostName}"
+                                            data-product-name="${recruitment.productTitle}"
+                                            data-recruitment-no="${recruitment.recruitmentNo}">
                                             ${recruitment.hostName}
-                                            </span>
-                                            (등급: ${recruitment.hostGrade})
-                                        </p>
-                                    <p class="product-name">${recruitment.productName}</p>
+                                        </span>
+                                        (등급: ${recruitment.hostGrade})
+                                    </p>
+                                    <p class="product-name">${recruitment.productTitle}</p>
                                     <p class="discount-price">${discount}원</p>
                                     <p class="original-price">${recruitment.productPrice}원 (원가)</p>
                                     <p class="participants">📅 생성일:
-                                        <c:out value="${fn:substring(recruitment.recCreatedDate, 5, 10)}" />
-                                        <c:out value="${fn:substring(recruitment.recCreatedDate, 11, 16)}" />~
+                                        <c:out value="${fn:substring(recruitment.pCreateDate, 5, 10)}" />
+                                        <c:out value="${fn:substring(recruitment.pCreateDate, 11, 16)}" />~
                                     </p>
                                     <p class="participants">⏳ 마감일:
                                         <c:out value="${fn:substring(recruitment.recEndDate, 5, 10)}" />
@@ -194,7 +190,6 @@
 
                                     <div class="progress-button-container">
                                         <div class="progress-container">
-                                            <!-- 퍼센트 값 출력 (소수점 한 자리까지 표시) -->
                                             <span class="progress-label">
                                                 <fmt:formatNumber value="${progress}" type="number" maxFractionDigits="1" />%
                                             </span>
@@ -203,8 +198,7 @@
                                             </div>
                                         </div>
                                         <button class="join-btn ${recruitment.recruitmentStatus == '마감' ? 'closed-btn' : 'active-btn'}"
-                                                data-recruitment-no="${recruitment.recruitmentNo}"
-                                                data-board-no="${recruitment.boardNo}">
+                                                data-recruitment-no="${recruitment.recruitmentNo}">
                                             ${recruitment.recruitmentStatus == '진행' ? '참가' : recruitment.recruitmentStatus}
                                         </button>
                                     </div>
@@ -220,10 +214,10 @@
         <!-- 광고 배너 -->
         <div class="ad-banner">
             <c:forEach var="image" items="${recruitmentList[0].imageList}" varStatus="status">
-                <c:if test="${image.imageType == 7}">
+                <c:if test="${image.imageType eq 'MID AD IMG'}">
                     <img src="${image.imagePath}${image.imageReName}" 
-                        class="ad-image ${status.first ? 'active' : ''}" 
-                        alt="광고 배너">
+                         class="ad-image ${status.first ? 'active' : ''}" 
+                         alt="광고 배너">
                 </c:if>
             </c:forEach>
         </div>

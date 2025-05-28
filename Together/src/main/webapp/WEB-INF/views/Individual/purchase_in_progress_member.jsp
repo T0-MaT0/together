@@ -45,8 +45,8 @@
                 <div class="info-row">
                     <span class="label">글 제목</span>
                     <span class="value">
-                        <a href="/partyRecruitmentList/${recruitment.recruitmentNo}/${recruitment.boardNo}">
-                            ${recruitment.productName}
+                        <a href="/partyRecruitmentList/${recruitment.recruitmentNo}">
+                            ${recruitment.productTitle}
                         </a>
                     </span>
                 </div>
@@ -81,7 +81,6 @@
 
                         <form action="/group/verification/memberForm" method="get" style="display:inline;">
                             <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}">
-                            <input type="hidden" name="boardNo" value="${recruitment.boardNo}">
                             <button type="submit" id="verification-register-btn">모집 인증 폼 확인하기</button>
                         </form>
 
@@ -97,7 +96,6 @@
                                 <form action="/review/writeForm" method="get" style="display:inline;" target="reviewPopup"
                                     onsubmit="window.open('', 'reviewPopup', 'width=800,height=700,left=100,top=100');">
                                     <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}">
-                                    <input type="hidden" name="boardNo" value="${recruitment.boardNo}">
                                     <button type="submit" id="write-review-btn">후기 남기기</button>
                                 </form>
                                 <button id="verification-update-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
@@ -108,7 +106,6 @@
                             <c:otherwise>
                                 <form action="/group/confirm" method="post" style="display:inline;">
                                     <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}">
-                                    <input type="hidden" name="boardNo" value="${recruitment.boardNo}">
                                     <button type="submit" id="verification-update-btn">구매 확정하기</button>
                                 </form>
                             </c:otherwise>
@@ -120,7 +117,6 @@
                     <c:when test="${recruitment.recruitmentStatus eq '진행'}">
                         <form action="/group/participation/cancel" method="post">
                             <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}">
-                            <input type="hidden" name="boardNo" value="${recruitment.boardNo}">
                             <button type="submit" class="cancel-participation-btn">참가 취소하기</button>
                         </form>
                     </c:when>
@@ -141,10 +137,10 @@
     <c:if test="${not empty loginMember}">
     <script>
         loginMember = {
-        memberNo: ${loginMember.memberNo},
-        nickname: "${loginMember.memberNick}",
-        targetNo = ${recruitment.hostNo}
+            memberNo: ${loginMember.memberNo},
+            nickname: "${loginMember.memberNick}"
         };
+        const targetNo = ${recruitment.hostNo};
     </script>
     </c:if>
 

@@ -25,7 +25,7 @@
             <div class="qr-box">
                 <c:choose>
                     <c:when test="${not empty recruitment.qrImagePath}">
-                        <img src="${recruitment.qrImagePath}" alt="공구 인증 QR" class="qr-preview">
+                        <img src="${recruitment.qrImagePath}" alt="${recruitment.productTitle} 인증 QR" class="qr-preview">
                     </c:when>
                     <c:otherwise>
                         <span class="plus-icon">+</span>
@@ -36,7 +36,14 @@
 
         <div class="verification-section">
             <label class="section-label">운송장</label>
-            <p>${recruitment.trackingNumber}</p>
+            <c:choose>
+                <c:when test="${not empty recruitment.trackingNumber}">
+                    <p>${recruitment.trackingNumber}</p>
+                </c:when>
+                <c:otherwise>
+                    <p class="placeholder-text">운송장 정보 없음</p>
+                </c:otherwise>
+            </c:choose>
         </div>
         <div class="date-section">
             <div class="date-box">

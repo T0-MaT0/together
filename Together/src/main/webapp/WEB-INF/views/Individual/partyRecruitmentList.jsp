@@ -26,9 +26,9 @@
                     <span class="badge" data-status="${recruitmentDetail.recruitmentStatus}">
                         ${recruitmentDetail.recruitmentStatus}
                     </span>
-                    <span class="recruit-title">${recruitmentDetail.productName}</span>
+                    <span class="recruit-title">${recruitmentDetail.productTitle}</span>
                     <c:if test="${loginMember != null && loginMember.authority == 1}">
-                        <button class="delete-board-btn" onclick="deleteBoard(${recruitmentDetail.boardNo})">
+                        <button class="delete-board-btn" onclick="deleteBoard(${recruitmentDetail.recruitmentNo})">
                             삭제
                         </button>
                     </c:if>
@@ -38,7 +38,7 @@
                     <span class="clickable-nickname"
                             data-member-no="${recruitmentDetail.hostNo}"
                             data-member-nick="${recruitmentDetail.hostName}"
-                            data-product-name="${recruitmentDetail.productName}"
+                            data-product-title="${recruitmentDetail.productTitle}"
                             data-recruitment-no="${recruitmentDetail.recruitmentNo}">
                         ${recruitmentDetail.hostName}
                         </span>
@@ -65,7 +65,7 @@
             <!-- 모집 정보 -->
             <div class="recruit-info-container">
                 <div class="product-details">
-                    <h3>${recruitmentDetail.productName}</h3>
+                    <h3>${recruitmentDetail.productTitle}</h3>
                     <a href="${recruitmentDetail.productUrl}" class="product-link" target="_blank" rel="noopener noreferrer">🔗 링크 바로가기</a>
                 </div>
 
@@ -103,9 +103,9 @@
                 <c:when test="${recruitmentDetail.myParticipationCount > 0}">
                     <c:choose>
                         <%-- 모집장인 경우 --%>
-                        <c:when test="${loginMember.memberNick == recruitmentDetail.hostName}">
+                        <c:when test="${loginMember.memberNo == recruitmentDetail.hostNo}">
                             <button class="join-btn"
-                                    onclick="location.href='/purchase_in_progress_host?recruitmentNo=${recruitmentDetail.recruitmentNo}&boardNo=${recruitmentDetail.boardNo}'">
+                                    onclick="location.href='/purchase_in_progress_host?recruitmentNo=${recruitmentDetail.recruitmentNo}'">
                                 상세보기
                             </button>
                         </c:when>
@@ -113,7 +113,7 @@
                         <%-- 일반 파티원인 경우 --%>
                         <c:otherwise>
                             <button class="join-btn"
-                                    onclick="location.href='/purchase_in_progress_member?recruitmentNo=${recruitmentDetail.recruitmentNo}&boardNo=${recruitmentDetail.boardNo}'">
+                                    onclick="location.href='/purchase_in_progress_member?recruitmentNo=${recruitmentDetail.recruitmentNo}'">
                                 상세보기
                             </button>
                         </c:otherwise>
@@ -121,22 +121,20 @@
                 </c:when>
                 <c:otherwise>
                     <button class="join-btn"
-                        onclick="location.href='/group/participate?recruitmentNo=${recruitmentDetail.recruitmentNo}&boardNo=${recruitmentDetail.boardNo}'">
+                        onclick="location.href='/group/participate?recruitmentNo=${recruitmentDetail.recruitmentNo}'">
                         참여하기
                     </button>
                 </c:otherwise>
             </c:choose>
 
             <!-- 설명란 -->
-            <div class="recruit-description">
-                <textarea placeholder="상세 내용을 입력하세요." readonly>${recruitmentDetail.boardContent}</textarea>
-            </div>
+            <div class="recruit-description">${recruitmentDetail.boardContent}</div>
 
             <!-- 목록 버튼 -->
             <div class="button-container">
                 <!-- 수정 버튼 (로그인한 사용자의 닉네임과 hostName이 같을 때만 보임) -->
                 <c:if test="${not empty loginMember && loginMember.memberNick eq recruitmentDetail.hostName}">
-                    <button class="edit-btn2" onclick="openEditPopup(${recruitmentDetail.recruitmentNo}, ${recruitmentDetail.boardNo})">수정</button>
+                    <button class="edit-btn2" onclick="openEditPopup(${recruitmentDetail.recruitmentNo})">수정</button>
                 </c:if>
                 <!-- 목록 버튼 (모든 사용자에게 보임) -->
                 <button class="list-btn" onclick="location.href='/Individual/detail'">목록</button>
@@ -144,7 +142,7 @@
 
             <!-- 댓글 입력 -->
             <div class="comment-section">
-                <input type="hidden" id="boardNo" value="${recruitmentDetail.boardNo}">
+                <input type="hidden" id="recruitmentNo" value="${recruitmentDetail.recruitmentNo}">
                 <input type="text" class="comment-input" placeholder="💬 댓글을 입력해 주세요.">
                 <button class="comment-btn">등록</button>
             </div>
@@ -154,13 +152,13 @@
                 <c:forEach var="comment" items="${recruitmentDetail.commentList}">
                 <div class="comment">
                     <div class="comment-content">
-                    <img src="${empty recruitmentDetail.profileImg ? '/resources/images/mypage/관리자 프로필.webp' : recruitmentDetail.profileImg}" 
+                    <img src="${empty comment.profileImg ? '/resources/images/mypage/관리자 프로필.webp' : comment.profileImg}"  
                         class="comment-profile" alt="프로필">
                     <p>
                         <span class="comment-user clickable-nickname"
                             data-member-no="${comment.memberNo}"
                             data-member-nick="${comment.memberNick}"
-                            data-product-name="${recruitmentDetail.productName}"
+                            data-product-title="${recruitmentDetail.productTitle}"
                             data-reply-no="${comment.replyNo}">
                         ${comment.memberNick}
                         </span>

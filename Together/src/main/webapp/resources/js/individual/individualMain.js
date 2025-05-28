@@ -60,37 +60,34 @@ function renderRecruitmentList() {
 
         grid.innerHTML += `
             <div class="product">
-                <img src="${recruitment.thumbnail != null ? recruitment.thumbnail : '/resources/images/mypage/관리자 프로필.webp'}" 
-                alt="제품 이미지">
-                ${recruitment.recruitmentNo}
-                ${recruitment.boardNo}
+                <img src="${recruitment.thumbnail ? recruitment.thumbnail : '/resources/images/mypage/관리자 프로필.webp'}" 
+                     alt="제품 이미지">
                 <p class="seller-info">
                     <span class="clickable-nickname"
-                            data-member-no="${recruitment.hostNo}"
-                            data-member-nick="${recruitment.hostName}"
-                            data-product-name="${recruitment.productName}"
-                            data-recruitment-no="${recruitment.recruitmentNo}">
+                          data-member-no="${recruitment.hostNo}"
+                          data-member-nick="${recruitment.hostName}"
+                          data-product-name="${recruitment.productTitle}"
+                          data-recruitment-no="${recruitment.recruitmentNo}">
                         ${recruitment.hostName}
-                        </span>
+                    </span>
                     (등급: ${recruitment.hostGrade})
                 </p>
-                <p class="product-name">${recruitment.productName}</p>
+                <p class="product-name">${recruitment.productTitle}</p>
                 <p class="discount-price">${discount}원</p>
                 <p class="original-price">${recruitment.productPrice}원 (원가)</p>
-                <p class="participants">📅 생성일: ${formatDate(recruitment.recCreatedDate)} ~</p> 
+                <p class="participants">📅 생성일: ${formatDate(recruitment.pCreateDate)} ~</p> 
                 <p class="participants">⏳ 마감일: ${formatDate(recruitment.recEndDate)}</p>
                 <p class="participants">참가 모집 : ${recruitment.currentParticipants} / ${recruitment.maxParticipants}명</p>
                 <div class="progress-button-container">
                     <div class="progress-container">
                         <span class="progress-label">${progress.toFixed(1)}%</span>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${progress}%;"></div>
+                            <div class="progress-fill" style="width: ${progress.toFixed(1)}%;"></div>
                         </div>
                     </div>
-                    <button class="join-btn ${recruitment.recruitmentStatus == '마감' ? 'closed-btn' : 'active-btn'}"
-                            data-recruitment-no="${recruitment.recruitmentNo}"
-                            data-board-no="${recruitment.boardNo}">
-                        ${recruitment.recruitmentStatus == '진행' ? '참가' : recruitment.recruitmentStatus}
+                    <button class="join-btn ${recruitment.recruitmentStatus === '마감' ? 'closed-btn' : 'active-btn'}"
+                            data-recruitment-no="${recruitment.recruitmentNo}">
+                        ${recruitment.recruitmentStatus === '진행' ? '참가' : recruitment.recruitmentStatus}
                     </button>
                 </div>
             </div>
@@ -113,35 +110,34 @@ function renderExtraRecruitmentList() {
 
         grid.innerHTML += `
             <div class="product">
-                <img src="${recruitment.thumbnail != null ? recruitment.thumbnail : '/resources/images/mypage/관리자 프로필.webp'}" 
-                alt="제품 이미지">
+                <img src="${recruitment.thumbnail ? recruitment.thumbnail : '/resources/images/mypage/관리자 프로필.webp'}" 
+                     alt="제품 이미지">
                 <p class="seller-info">
                     <span class="clickable-nickname"
-                        data-member-no="${recruitment.hostNo}"
-                        data-member-nick="${recruitment.hostName}"
-                        data-product-name="${recruitment.productName}"
-                        data-recruitment-no="${recruitment.recruitmentNo}">
-                    ${recruitment.hostName}
+                          data-member-no="${recruitment.hostNo}"
+                          data-member-nick="${recruitment.hostName}"
+                          data-product-name="${recruitment.productTitle}"
+                          data-recruitment-no="${recruitment.recruitmentNo}">
+                        ${recruitment.hostName}
                     </span>
                     (등급: ${recruitment.hostGrade})
                 </p>
-                <p class="product-name">${recruitment.productName}</p>
+                <p class="product-name">${recruitment.productTitle}</p>
                 <p class="discount-price">${discount}원</p>
                 <p class="original-price">${recruitment.productPrice}원 (원가)</p>
-                <p class="participants">📅 생성일: ${formatDate(recruitment.recCreatedDate)} ~</p> 
+                <p class="participants">📅 생성일: ${formatDate(recruitment.pCreateDate)} ~</p> 
                 <p class="participants">⏳ 마감일: ${formatDate(recruitment.recEndDate)}</p>
                 <p class="participants">참가 모집 : ${recruitment.currentParticipants} / ${recruitment.maxParticipants}명</p>
                 <div class="progress-button-container">
                     <div class="progress-container">
                         <span class="progress-label">${progress.toFixed(1)}%</span>
                         <div class="progress-bar">
-                            <div class="progress-fill" style="width: ${progress}%;"></div>
+                            <div class="progress-fill" style="width: ${progress.toFixed(1)}%;"></div>
                         </div>
                     </div>
-                  <button class="join-btn ${recruitment.recruitmentStatus == '마감' ? 'closed-btn' : 'active-btn'}"
-                            data-recruitment-no="${recruitment.recruitmentNo}"
-                            data-board-no="${recruitment.boardNo}">
-                        ${recruitment.recruitmentStatus == '진행' ? '참가' : recruitment.recruitmentStatus}
+                    <button class="join-btn ${recruitment.recruitmentStatus === '마감' ? 'closed-btn' : 'active-btn'}"
+                            data-recruitment-no="${recruitment.recruitmentNo}">
+                        ${recruitment.recruitmentStatus === '진행' ? '참가' : recruitment.recruitmentStatus}
                     </button>
                 </div>
             </div>
@@ -193,14 +189,14 @@ document.addEventListener("click", function (event) {
 
         // 버튼의 data-recruitment-no 값 가져오기
         const recruitmentNo = event.target.getAttribute("data-recruitment-no");
-        const boardNo = event.target.getAttribute("data-board-no");
 
         if (recruitmentNo) {
-
-        window.location.href = `/partyRecruitmentList/${recruitmentNo}/${boardNo}`;
+            // boardNo 제거 → 새로운 URL 형식으로 이동
+            window.location.href = `/partyRecruitmentList/${recruitmentNo}`;
         }
     }
 });
+
 
 //-------------------------------------------------------------------------//
 // 닉네임 클릭 시 메뉴 띄우기 (위임)

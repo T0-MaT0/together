@@ -27,7 +27,7 @@
 
             <!-- 상품명 -->
             <div class="product-name">
-                <p><strong>${recruitment.productName}</strong></p>
+                <p><strong>${recruitment.productTitle}</strong></p>
             </div>
 
             <!-- 결제 금액 -->
@@ -70,12 +70,16 @@
             <!-- 결제하기 버튼 -->
             <form action="/group/settlement/complete" method="post">
                 <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}" />
-                <input type="hidden" name="boardNo" value="${recruitment.boardNo}" />
                 <input type="hidden" name="paymentAmount" 
                        value="${(recruitment.productPrice / recruitment.maxParticipants) * (recruitment.myParticipationCount > 0 ? recruitment.myParticipationCount : 1)}" />
                 <input type="hidden" id="currentPoint" value="${loginMember.point}" />
                 <input type="hidden" name="myQuantity" value="${recruitment.myParticipationCount}" />
-                <button class="payment-btn" type="submit">결제하기</button>
+                <c:if test="${loginMember.point lt amountToPay}">
+                    <button class="payment-btn" type="button" onclick="alert('포인트가 부족합니다.');">포인트 부족</button>
+                </c:if>
+                <c:if test="${loginMember.point ge amountToPay}">
+                    <button class="payment-btn" type="submit">결제하기</button>
+                </c:if>
             </form>
         </div>
     </main>

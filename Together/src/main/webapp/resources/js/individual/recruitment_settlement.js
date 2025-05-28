@@ -38,10 +38,9 @@ document.addEventListener("click", function (e) {
       menu.dataset.targetNo = target.dataset.memberNo;
       menu.dataset.targetNick = target.dataset.memberNick;
       menu.dataset.recruitmentNo = target.dataset.recruitmentNo || "";
-
+      menu.dataset.productTitle = target.dataset.productTitle || "";
       menu.dataset.messageNo = target.dataset.messageNo || "";
       menu.dataset.replyNo = target.dataset.replyNo || "";
-      menu.dataset.recruitmentNo = target.dataset.recruitmentNo || "";
     }
   
     // 메뉴 외부 클릭 시 숨기기
@@ -146,19 +145,19 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
     const payload = {
       targetNo: menu.dataset.targetNo,
       targetNick: menu.dataset.targetNick,
-      productName: menu.dataset.productName,
+      productTitle: menu.dataset.productTitle,
       typeKey: menu.dataset.messageNo ? "messageNo" :
                menu.dataset.replyNo ? "replyNo" :
                "recruitmentNo",
       typeValue: menu.dataset.messageNo || menu.dataset.replyNo || menu.dataset.recruitmentNo,
-      loginMemberNickname
+      memberNick: loginMember.nickname
     };
 
     openReportModal(payload);
     menu.classList.add("hidden");
   });
 
-  function openReportModal({ targetNo, targetNick, productName, typeKey, typeValue }) {
+  function openReportModal({ targetNo, targetNick, productTitle, typeKey, typeValue }) {
     const modal = document.getElementById("modal");
     modal.classList.add("show");
 
@@ -167,7 +166,7 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
     modal.dataset.reportType = typeKey;
 
     document.getElementById("reportTitle").value = ""; // 사용자가 직접 입력하도록 초기화
-    document.getElementById("reporterName").innerText = loginMemberNickname;
+    document.getElementById("reporterName").innerText = loginMember.nickname;
     document.getElementById("reportReason").innerText = "";
   }
 
@@ -189,18 +188,18 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
     };
     
     if (modal.dataset.recruitmentNo) {
-        payload.reportType = 2;
+        payload.reportType = "RECRUITMENT";
         payload.reportTypeNo = Number(modal.dataset.recruitmentNo);
-      } else if (modal.dataset.replyNo) {
-        payload.reportType = 3;
+    } else if (modal.dataset.replyNo) {
+        payload.reportType = "REPLY";
         payload.reportTypeNo = Number(modal.dataset.replyNo);
-      } else if (modal.dataset.messageNo) {
-        payload.reportType = 4;
+    } else if (modal.dataset.messageNo) {
+        payload.reportType = "CHATTING";
         payload.reportTypeNo = Number(modal.dataset.messageNo);
-      } else {
-        alert("신고할 대상을 찾을 수 없습니다.");
-        return;
-      }
+    } else {
+      alert("신고할 대상을 찾을 수 없습니다.");
+      return;
+    }
 
     fetch("/report/submit", {
       method: "POST",

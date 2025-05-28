@@ -27,8 +27,17 @@
 
             <!-- 제품 정보 -->
             <div class="product-info">
-                <p><strong>제품:</strong> ${recruitment.productName}</p>
-                <p class="buyer-info">모집장: ${recruitment.hostName}</p>
+                <p><strong>제품:</strong> ${recruitment.productTitle}</p>
+                <p class="buyer-info">
+                    모집장:
+                    <span class="clickable-nickname"
+                            data-member-no="${recruitment.hostNo}"
+                            data-member-nick="${recruitment.hostName}"
+                            data-product-title="${recruitment.productTitle}"
+                            data-recruitment-no="${recruitment.recruitmentNo}">
+                        ${recruitment.hostName}
+                    </span>
+                </p>
             </div>
 
             <!-- 인원 선택 (왼쪽 정렬, 제주 삼다수 아래 배치) -->
@@ -82,8 +91,9 @@
             <!-- 참여하기 버튼 -->
             <form action="/group/participate/submit" method="post">
                 <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}" />
-                <input type="hidden" name="boardNo" value="${recruitment.boardNo}" />
                 <input type="hidden" id="hiddenMyQuantity" name="myQuantity" value="${recruitment.myParticipationCount > 0 ? recruitment.myParticipationCount : 1}" />
+                <input type="hidden" id="paymentAmount" name="paymentAmount" 
+                    value="${(recruitment.productPrice / recruitment.maxParticipants) * (recruitment.myParticipationCount > 0 ? recruitment.myParticipationCount : 1)}" />
                 <button class="participation-btn" type="submit">참여하기</button>
             </form>
         </div>

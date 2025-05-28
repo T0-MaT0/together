@@ -26,15 +26,14 @@
                 method="post" 
                 enctype="multipart/form-data">
                 
-                <input type="hidden" name="boardNo" value="${recruitment.boardNo}" />
                 <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}" />
 
                 <!-- 제목 -->
                 <div class="form-group title-row">
-                    <label for="boardTitle" class="title-label">제목</label>
-                    <input type="text" id="boardTitle" name="boardTitle" class="title-input" 
+                    <label for="productTitle" class="title-label">제목</label>
+                    <input type="text" id="productTitle" name="productTitle" class="title-input" 
                             placeholder="제목을 입력해 주세요"
-                            value="${recruitment.productName}">
+                            value="${recruitment.productTitle}">
                 </div>
 
                 <!-- 카테고리 (부모/자식) -->
@@ -78,7 +77,7 @@
 
                 <!-- 설명 -->
                 <div class="form-group">
-                    <textarea id="description" name="boardContent" placeholder="모집 상품에 대해 설명해주세요">${recruitment.boardContent}</textarea>
+                    <textarea id="productContent" name="productContent" placeholder="모집 상품에 대해 설명해주세요">${recruitment.productContent}</textarea>
                 </div>
 
                 <!-- 이미지 업로드 (4장 예시) -->

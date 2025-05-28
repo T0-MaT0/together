@@ -23,11 +23,11 @@
             <h2 class="settlement-title">정산 완료</h2>
     
             <!-- 메시지 -->
-            <p class="settlement-message">모집장이 구매를 완료하면 알려드릴게요!</p>
+            <p class="settlement-message">모집장이 구매를 완료하면 알림을 드릴 예정입니다.</p>
     
             <!-- 상세정보 보기 버튼 -->
             <button class="details-btn"
-                    onclick="location.href='/purchase_in_progress_member?recruitmentNo=${recruitmentNo}&boardNo=${boardNo}'">
+                    onclick="location.href='/purchase_in_progress_member?recruitmentNo=${recruitmentNo}'">
                 상세정보 보기 
             </button>
         </div>

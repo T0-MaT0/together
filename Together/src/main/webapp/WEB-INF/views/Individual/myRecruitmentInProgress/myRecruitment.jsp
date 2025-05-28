@@ -3,7 +3,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,7 +12,6 @@
     <title>myRecruitment</title>
     <link rel="stylesheet" href="/resources/css/header,footer.css">
     <link rel="stylesheet" href="/resources/css//myRecruitmentInProgress/myRecruitment.css">
-
 </head>
 
 <body>
@@ -29,8 +27,7 @@
             <button data-key="reviews" class="${key eq 'reviews' ? 'selected' : ''}">리뷰</button>
         </nav>
 
-        <div id="container"> <!-- 모든 내용을 감싸는 div -->
-
+        <div id="container">
             <!-- 상단 프로필 -->
             <div id="profile">
                 <img src="${not empty loginMember.profileImg ? loginMember.profileImg : '/resources/images/mypage/관리자 프로필.webp'}" alt="프로필 이미지" class="profile-img">
@@ -43,17 +40,17 @@
                     <p class="points">포인트 : <span>${loginMember.point}pt</span></p>
                 </div>
             </div>
-            
+
             <!-- 모집 목록 -->
             <div id="recruit-list">
                 <div class="recruit-header">
                     <span class="title"> 전체 모집방 </span>
                 </div>
-                
+
                 <c:forEach var="recruitment" items="${recruitments}">
-                    <div class="recruit-card ${recruitment.recruitmentStatus eq '모집 완료' ? 'completed' : 'in-progress'}">
-                        <input type="checkbox" class="checkbox" data-boardno="${recruitment.boardNo}">
-                        
+                    <div class="recruit-card ${recruitment.recruitmentStatus eq '완료' ? 'completed' : 'in-progress'}">
+                        <input type="checkbox" class="checkbox" data-recruitment-no="${recruitment.recruitmentNo}">
+
                         <div class="recruit-info">
                             <div class="header">
                                 <span class="badge 
@@ -62,17 +59,17 @@
                                     ${recruitment.recruitmentStatus}
                                 </span>
                                 <h3>
-                                    <a href="/partyRecruitmentList/${recruitment.recruitmentNo}/${recruitment.boardNo}">
-                                      ${recruitment.productName != null ? recruitment.productName : '상품명 없음'}
+                                    <a href="/partyRecruitmentList/${recruitment.recruitmentNo}">
+                                      ${recruitment.productTitle != null ? recruitment.productTitle : '상품명 없음'}
                                     </a>
                                 </h3>
                             </div>
-                            
+
                             <div class="info-footer">
                                 <div class="details">
                                     <span class="period">📅 생성일: 
-                                        <c:out value="${fn:substring(recruitment.recCreatedDate, 5, 10)}" /> 
-                                        <c:out value="${fn:substring(recruitment.recCreatedDate, 11, 16)}" /> ~
+                                        <c:out value="${fn:substring(recruitment.pCreateDate, 5, 10)}" /> 
+                                        <c:out value="${fn:substring(recruitment.pCreateDate, 11, 16)}" /> ~
                                     </span>
                                     <span>⏳ 마감일: 
                                         <c:out value="${fn:substring(recruitment.recEndDate, 5, 10)}" /> 
@@ -92,11 +89,11 @@
                                     </span>
                                 </div>
                             </div>
-            
+
                             <!-- 모집 진행도 바 -->
                             <div class="progress-bar">
                                 <c:set var="progress" value="${(recruitment.currentParticipants * 100) / recruitment.maxParticipants}" />
-                                <div class="progress ${recruitment.recruitmentStatus eq '모집 완료' ? 'red-bar' : 'blue-bar'}" 
+                                <div class="progress ${recruitment.recruitmentStatus eq '완료' ? 'red-bar' : 'blue-bar'}" 
                                      style="width: ${progress}%;">
                                 </div>
                             </div>
@@ -110,19 +107,15 @@
                     <button class="delete-btn">모집 삭제</button>
                 </div>
             </div>
-
-
-        </div> <!-- container 종료 -->
-
-
+        </div>
     </main>
+
     <div id="nicknameMenu" class="nickname-menu hidden">
         <ul>
           <li id="startPrivateChat">1대1 채팅</li>
           <li id="reportUser">신고하기</li>
         </ul>
     </div>
-    <!-- 신고 모달 프로필 -->
     <jsp:include page="/WEB-INF/views/Individual/modal.jsp"/>
 
     <c:if test="${not empty loginMember}">

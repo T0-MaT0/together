@@ -52,28 +52,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 마감 버튼 ajax
     const closeBtn = document.querySelector(".close-btn");
-
-    closeBtn.addEventListener("click", function () {
+    closeBtn?.addEventListener("click", function () {
         const checkedBoxes = document.querySelectorAll(".recruit-card input[type='checkbox']:checked");
 
-        if (checkedBoxes.length === 0) {
-            alert("마감할 모집글을 선택해주세요.");
+        if (checkedBoxes.length !== 1) {
+            alert("하나의 모집글만 선택해주세요.");
             return;
         }
 
-        if (checkedBoxes.length > 1) {
-            alert("하나만 선택해주세요.");
-            return;
-        }
-
-        const checkedBox = checkedBoxes[0]; 
-        const boardNo = parseInt(checkedBox.dataset.boardno, 10); 
-        const loginMemberNo = parseInt(document.querySelector("#loginMemberNo").value, 10); // memberNo를 int 변환
+        const recruitmentNo = parseInt(checkedBoxes[0].dataset.recruitmentNo, 10);
+        const loginMemberNo = parseInt(document.querySelector("#loginMemberNo").value, 10);
 
         fetch("/updateRecruitmentStatus", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ boardNo, loginMemberNo }) 
+            body: JSON.stringify({ recruitmentNo, loginMemberNo })
         })
         .then(response => response.json())
         .then(data => {
@@ -117,34 +110,28 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-const deleteBtn = document.querySelector(".delete-btn");
-
-deleteBtn.addEventListener("click", function () {
+// 모집 삭제 처리
+deleteBtn?.addEventListener("click", function () {
     const checkedBoxes = document.querySelectorAll(".recruit-card input[type='checkbox']:checked");
 
-    if (checkedBoxes.length === 0) {
-        alert("마감할 모집글을 선택해주세요.");
+    if (checkedBoxes.length !== 1) {
+        alert("하나의 모집글만 선택해주세요.");
         return;
     }
 
-    if (checkedBoxes.length > 1) {
-        alert("하나만 선택해주세요.");
-        return;
-    }
+    const recruitmentNo = parseInt(checkedBoxes[0].dataset.recruitmentNo, 10); // ✅ 수정: boardNo → recruitmentNo
+    const loginMemberNo = parseInt(document.querySelector("#loginMemberNo").value, 10);
 
-    const boardNo = parseInt(checkedBox.dataset.boardno, 10); 
-    const loginMemberNo = parseInt(document.querySelector("#loginMemberNo").value, 10); // memberNo를 int 변환
-
-    console.log("삭제 요청: ", { boardNo, loginMemberNo });
+    console.log("삭제 요청:", { recruitmentNo, loginMemberNo });
 
     fetch("/deleteRecruitment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ boardNo, loginMemberNo })
+        body: JSON.stringify({ recruitmentNo, loginMemberNo })
     })
     .then(response => response.json())
     .then(data => {
-        console.log("서버 응답: ", data);
+        console.log("서버 응답:", data);
         if (data.success) {
             alert("모집글이 삭제되었습니다.");
             location.reload();

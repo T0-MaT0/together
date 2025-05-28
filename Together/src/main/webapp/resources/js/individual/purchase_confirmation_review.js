@@ -43,12 +43,19 @@ function submitReview() {
         return;
     }
 
+    const params = new URLSearchParams({
+      recruitmentNo,
+      targetNo,
+      reviewContent,
+      rating: selectedRating
+    });
+
     fetch("/review/write", {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: `recruitmentNo=${recruitmentNo}&boardNo=${boardNo}&targetNo=${targetNo}&reviewContent=${encodeURIComponent(reviewContent)}&rating=${selectedRating}`
+        body: params.toString() 
     })
     .then(response => response.text())
     .then(result => {

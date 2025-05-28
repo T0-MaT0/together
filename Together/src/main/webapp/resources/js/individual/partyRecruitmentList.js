@@ -32,19 +32,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const track = document.querySelector(".carousel-track");
     const items = document.querySelectorAll(".carousel-item");
     const totalSlides = items.length;
-    let currentIndex = 1; // 첫 번째 실제 이미지에서 시작 (복제된 이미지 때문에 1부터 시작)
-    
-    // 첫 번째 & 마지막 이미지 복제하여 무한 루프 구현
+
+    // 🔐 이미지가 2개 이상일 때만 슬라이드 처리
+    if (totalSlides < 2) return;
+
+    let currentIndex = 1;
+
+    // 복제 슬라이드 생성
     const firstClone = items[0].cloneNode(true);
     const lastClone = items[totalSlides - 1].cloneNode(true);
-    
-    track.appendChild(firstClone); // 마지막 뒤에 첫 번째 복제
-    track.insertBefore(lastClone, items[0]); // 처음 앞에 마지막 복제
-    
-    const allSlides = document.querySelectorAll(".carousel-item"); // 복제 포함한 전체 리스트
+
+    track.appendChild(firstClone);
+    track.insertBefore(lastClone, items[0]);
+
+    const allSlides = document.querySelectorAll(".carousel-item");
     const totalSlidesWithClones = allSlides.length;
-    
-    // 초기 위치 설정 (첫 번째 실제 이미지가 중앙에 오도록)
+
+    // 초기 위치 설정
     track.style.transform = `translateX(-${100}%)`;
 
     function moveSlide(direction) {
@@ -78,11 +82,11 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     const commentBtn = document.querySelector(".comment-btn");
     const commentInput = document.querySelector(".comment-input");
-    const hiddenBoardNo = document.getElementById("boardNo");
+    const hiddenRecruitmentNo = document.getElementById("recruitmentNo");
 
     commentBtn.addEventListener("click", function () {
         const replyContent = commentInput.value.trim();
-        const boardNo = parseInt(hiddenBoardNo.value, 10); // 숫자로 변환
+        const recruitmentNo = parseInt(hiddenRecruitmentNo.value, 10); // 숫자로 변환
 
         if (!replyContent) {
             alert("댓글을 입력해주세요.");
@@ -94,7 +98,7 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 replyContent: replyContent,
-                boardNo: boardNo
+                recruitmentNo: recruitmentNo
             }),
         })
         .then(response => response.text())
@@ -140,14 +144,14 @@ function deleteReply(replyNo, btn) {
 }
 
 /* 수정 버튼 */
-function openEditPopup(recruitmentNo, boardNo) {
+function openEditPopup(recruitmentNo) {
     const width = 930;
     const height = 700;
     const left = (window.screen.width / 2) - (width / 2);
     const top = (window.screen.height / 2) - (height / 2);
     const options = `width=${width},height=${height},left=${left},top=${top},resizable=no,scrollbars=yes`;
 
-    window.open(`/group/edit?recruitmentNo=${recruitmentNo}&boardNo=${boardNo}`, "groupEditPopup", options);
+    window.open(`/group/edit?recruitmentNo=${recruitmentNo}`, "groupEditPopup", options);
 }
 
 //-------------------------------------------------------------------------//
@@ -269,7 +273,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-
 // --- 신고하기 클릭 ---
 document.getElementById("reportUser")?.addEventListener("click", () => {
     const menu = document.getElementById("nicknameMenu");
@@ -284,19 +287,19 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
     const payload = {
       targetNo: menu.dataset.targetNo,
       targetNick: menu.dataset.targetNick,
-      productName: menu.dataset.productName,
+      productTitle: menu.dataset.productTitle,
       typeKey: menu.dataset.messageNo ? "messageNo" :
-               menu.dataset.replyNo ? "replyNo" :
-               "recruitmentNo",
+              menu.dataset.replyNo ? "replyNo" :
+              "recruitmentNo",
       typeValue: menu.dataset.messageNo || menu.dataset.replyNo || menu.dataset.recruitmentNo,
-      loginMemberNickname
+      memberNick: loginMember.memberNick
     };
 
     openReportModal(payload);
     menu.classList.add("hidden");
   });
 
-  function openReportModal({ targetNo, targetNick, productName, typeKey, typeValue }) {
+  function openReportModal({ targetNo, targetNick, productTitle, typeKey, typeValue }) {
     const modal = document.getElementById("modal");
     modal.classList.add("show");
 
@@ -307,7 +310,7 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
     modal.dataset.reportType = typeKey;
 
     document.getElementById("reportTitle").value = ""; // 사용자가 직접 입력하도록 초기화
-    document.getElementById("reporterName").innerText = loginMemberNickname;
+    document.getElementById("reporterName").innerText = loginMember.memberNick;
     document.getElementById("reportReason").innerText = "";
   }
 
@@ -320,27 +323,33 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
     const modal = document.getElementById("modal");
     const reportDetail = document.getElementById("reportReason").innerText;
     const reportTitle = document.getElementById("reportTitle").value;
+
+    let reportType = "";
+    let reportTypeNo = 0;
+    
+    if (modal.dataset.recruitmentNo) {
+      payload.reportType = "RECRUITMENT";
+      payload.reportTypeNo = Number(modal.dataset.recruitmentNo);
+    } else if (modal.dataset.replyNo) {
+      payload.reportType = "REPLY";
+      payload.reportTypeNo = Number(modal.dataset.replyNo);
+    } else if (modal.dataset.messageNo) {
+      payload.reportType = "CHATTING";
+      payload.reportTypeNo = Number(modal.dataset.messageNo);
+    } else {
+      alert("신고할 대상을 찾을 수 없습니다.");
+      return;
+    }
+
     const payload = {
       reportTitle: reportTitle,
       reportDetail: reportDetail,
       reportedUserNo: modal.dataset.targetNo,
       reportDate: new Date().toISOString(),
       mReply: "",
+      reportType,
+      reportTypeNo
     };
-    
-    if (modal.dataset.recruitmentNo) {
-        payload.reportType = 2;
-        payload.reportTypeNo = Number(modal.dataset.recruitmentNo);
-      } else if (modal.dataset.replyNo) {
-        payload.reportType = 3;
-        payload.reportTypeNo = Number(modal.dataset.replyNo);
-      } else if (modal.dataset.messageNo) {
-        payload.reportType = 4;
-        payload.reportTypeNo = Number(modal.dataset.messageNo);
-      } else {
-        alert("신고할 대상을 찾을 수 없습니다.");
-        return;
-      }
 
     fetch("/report/submit", {
       method: "POST",
@@ -362,20 +371,14 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
     });
   }
 
-
-
-
-
-
-
   // 관리자 게시글 삭제
-  function deleteBoard(boardNo) {
+  function deleteBoard(recruitmentNo) {
     if (!confirm("정말 이 모집글을 삭제하시겠습니까?")) return;
   
     fetch("/board/delete", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ boardNo })
+      body: JSON.stringify({ recruitmentNo })
     })
       .then(res => res.text())
       .then(result => {

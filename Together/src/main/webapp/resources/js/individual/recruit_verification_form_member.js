@@ -11,7 +11,7 @@ document.addEventListener("click", function (e) {
     // 닉네임 클릭했을 경우
     if (target.classList.contains("clickable-nickname")) {
       // 로그인 안 했을 경우 경고 후 종료
-      if (!loginMember || !loginMember.memberNo) {
+      if (typeof loginMember === "undefined" || !loginMember.memberNo) {
         alert("로그인이 필요한 기능입니다.");
         return;
       }
@@ -28,10 +28,9 @@ document.addEventListener("click", function (e) {
       menu.dataset.targetNo = target.dataset.memberNo;
       menu.dataset.targetNick = target.dataset.memberNick;
       menu.dataset.recruitmentNo = target.dataset.recruitmentNo || "";
-
+      menu.dataset.productTitle = target.dataset.productTitle || "";
       menu.dataset.messageNo = target.dataset.messageNo || "";
       menu.dataset.replyNo = target.dataset.replyNo || "";
-      menu.dataset.recruitmentNo = target.dataset.recruitmentNo || "";
     }
   
     // 메뉴 외부 클릭 시 숨기기
@@ -126,8 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById("reportUser")?.addEventListener("click", () => {
     const menu = document.getElementById("nicknameMenu");
     const targetNo = menu.dataset.targetNo;
-    console.log(targetNo)
-    console.log(loginMember.memberNo)
     if (Number(loginMember.memberNo) === Number(targetNo)) {
         alert("자기 자신은 신고할 수 없습니다.");
         return;
@@ -136,19 +133,19 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
     const payload = {
       targetNo: menu.dataset.targetNo,
       targetNick: menu.dataset.targetNick,
-      productName: menu.dataset.productName,
+      productTitle: menu.dataset.productTitle,
       typeKey: menu.dataset.messageNo ? "messageNo" :
-               menu.dataset.replyNo ? "replyNo" :
-               "recruitmentNo",
+              menu.dataset.replyNo ? "replyNo" :
+              "recruitmentNo",
       typeValue: menu.dataset.messageNo || menu.dataset.replyNo || menu.dataset.recruitmentNo,
-      loginMemberNickname
+      memberNick: loginMember.nickname  // 수정
     };
 
     openReportModal(payload);
     menu.classList.add("hidden");
   });
 
-  function openReportModal({ targetNo, targetNick, productName, typeKey, typeValue }) {
+  function openReportModal({ targetNo, targetNick, productTitle, typeKey, typeValue }) {
     const modal = document.getElementById("modal");
     modal.classList.add("show");
 
@@ -157,7 +154,7 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
     modal.dataset.reportType = typeKey;
 
     document.getElementById("reportTitle").value = ""; // 사용자가 직접 입력하도록 초기화
-    document.getElementById("reporterName").innerText = loginMemberNickname;
+    document.getElementById("reporterName").innerText = loginMember.nickname;
     document.getElementById("reportReason").innerText = "";
   }
 
@@ -179,18 +176,18 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
     };
     
     if (modal.dataset.recruitmentNo) {
-        payload.reportType = 2;
+        payload.reportType = "RECRUITMENT";
         payload.reportTypeNo = Number(modal.dataset.recruitmentNo);
-      } else if (modal.dataset.replyNo) {
-        payload.reportType = 3;
+    } else if (modal.dataset.replyNo) {
+        payload.reportType = "REPLY";
         payload.reportTypeNo = Number(modal.dataset.replyNo);
-      } else if (modal.dataset.messageNo) {
-        payload.reportType = 4;
+    } else if (modal.dataset.messageNo) {
+        payload.reportType = "CHATTING";
         payload.reportTypeNo = Number(modal.dataset.messageNo);
-      } else {
-        alert("신고할 대상을 찾을 수 없습니다.");
-        return;
-      }
+    } else {
+      alert("신고할 대상을 찾을 수 없습니다.");
+      return;
+    }
 
     fetch("/report/submit", {
       method: "POST",

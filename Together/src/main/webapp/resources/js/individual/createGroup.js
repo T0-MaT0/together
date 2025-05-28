@@ -106,10 +106,10 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    const titleInput   = document.getElementById("boardTitle");
+    const titleInput = document.getElementById("productTitle");
     const parentSelect = document.getElementById("parentCategory");
     const childSelect  = document.getElementById("childCategory");
-    const description  = document.getElementById("description");
+    const description  = document.getElementById("productContent");
     const productUrlField  = document.getElementById("productUrl");       // 상품 URL
     const hiddenRangeInput = document.getElementById("hiddenRangeInput"); // 마감 기한 (내부 값)
     const chosenAddress = document.getElementById("chosenAddress"); // 지역역
@@ -118,6 +118,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const submitBtn    = document.querySelector(".btn-submit");
     
     submitBtn.addEventListener("click", function(e) {
+
+        childSelect.disabled = false;
+
         // 쉽표 제거
         const priceField = document.getElementById("productPrice"); 
         if(priceField){ 
@@ -172,9 +175,8 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
         // 7) 지역 체크
-        if (!chosenAddress.value.trim()) {
+        if (!chosenAddress.textContent.trim()) {
             alert("지역을 선택해주세요.");
-            chosenAddress.focus(); 
             e.preventDefault();
             return;
         }
@@ -263,11 +265,11 @@ for(let i =0; i<preview.length; i++){
 }
 
 
-const titleInput = document.getElementById('boardTitle');
+const titleInput = document.getElementById('productTitle'); 
 
-  titleInput.addEventListener('input', function () {
-    if (this.value.length > 29) {
-      alert("제목은 30자까지 입력할 수 있습니다.");
-      this.value = this.value.substring(0, 30); // 초과된 글자 잘라냄
-    }
-  });
+titleInput.addEventListener('input', function () {
+  if (this.value.length > 29) {
+    alert("제목은 30자까지 입력할 수 있습니다.");
+    this.value = this.value.substring(0, 30); 
+  }
+});

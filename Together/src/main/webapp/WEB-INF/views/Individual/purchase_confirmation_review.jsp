@@ -16,7 +16,7 @@
 
 <body>
     <main class="verification-container">
-        <main class="review-container">
+        <div class="review-container">
             <div class="review-header">
                 <h2 class="review-title">후기 남기기</h2>
             </div>
@@ -52,12 +52,11 @@
             <div class="button-group">
                 <button class="submit-btn" onclick="submitReview()">작성 완료</button>
             </div>
-        </main>
+        </div>
     </main>
 
     <script>
         recruitmentNo = ${recruitmentNo};
-        boardNo = ${boardNo};
         const targetNo = ${targetMember.memberNo};
     </script>
     <script src="/resources/js/individual/purchase_confirmation_review.js"></script>

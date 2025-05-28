@@ -1,3 +1,11 @@
+const displaySingle = document.getElementById("displaySingle");
+const hiddenEndDate = document.getElementById("hiddenRangeInput");
+
+if (displaySingle && hiddenEndDate && hiddenEndDate.value) {
+    const date = new Date(hiddenEndDate.value);
+    displaySingle.textContent = formatYYMMDD(date);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const createBtn = document.querySelector(".btn-create");
 
@@ -106,10 +114,10 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    const titleInput   = document.getElementById("boardTitle");
+    const titleInput   = document.getElementById("productTitle");
     const parentSelect = document.getElementById("parentCategory");
     const childSelect  = document.getElementById("childCategory");
-    const description  = document.getElementById("description");
+    const description  = document.getElementById("productContent");
     const productUrlField  = document.getElementById("productUrl");       // 상품 URL
     const hiddenRangeInput = document.getElementById("hiddenRangeInput"); // 마감 기한 (내부 값)
     const chosenAddress = document.getElementById("chosenAddress"); // 지역역
@@ -120,6 +128,8 @@ document.addEventListener("DOMContentLoaded", function() {
     submitBtn.addEventListener("click", function(e) {
         // 쉽표 제거
         const priceField = document.getElementById("productPrice"); 
+        childSelect.disabled = false;
+
         if(priceField){ 
             priceField.value = priceField.value.replace(/,/g, "");
         }
@@ -172,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
         // 7) 지역 체크
-        if (!chosenAddress.value.trim()) {
+        if (!chosenAddress.textContent.trim()) {
             alert("지역을 선택해주세요.");
             chosenAddress.focus(); 
             e.preventDefault();

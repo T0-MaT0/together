@@ -32,13 +32,10 @@ document.addEventListener("click", function (event) {
             return;
         }
 
-        // 버튼의 data-recruitment-no 값 가져오기
         const recruitmentNo = event.target.getAttribute("data-recruitment-no");
-        const boardNo = event.target.getAttribute("data-board-no");
 
         if (recruitmentNo) {
-
-        window.location.href = `/partyRecruitmentList/${recruitmentNo}/${boardNo}`;
+        window.location.href = `/partyRecruitmentList/${recruitmentNo}`;
         }
     }
 });
@@ -164,79 +161,84 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // --- 신고하기 클릭 ---
 document.getElementById("reportUser")?.addEventListener("click", () => {
-    const menu = document.getElementById("nicknameMenu");
-    const targetNo = menu.dataset.targetNo;
-    console.log(targetNo)
-    console.log(loginMember.memberNo)
-    if (Number(loginMember.memberNo) === Number(targetNo)) {
-        alert("자기 자신은 신고할 수 없습니다.");
-        return;
-    }
+  const menu = document.getElementById("nicknameMenu");
+  const targetNo = menu.dataset.targetNo;
 
-    const payload = {
-      targetNo: menu.dataset.targetNo,
-      targetNick: menu.dataset.targetNick,
-      productName: menu.dataset.productName,
-      typeKey: menu.dataset.messageNo ? "messageNo" :
-               menu.dataset.replyNo ? "replyNo" :
-               "recruitmentNo",
-      typeValue: menu.dataset.messageNo || menu.dataset.replyNo || menu.dataset.recruitmentNo,
-      loginMemberNickname
-    };
-
-    openReportModal(payload);
-    menu.classList.add("hidden");
-  });
-
-  function openReportModal({ targetNo, targetNick, productName, typeKey, typeValue }) {
-    const modal = document.getElementById("modal");
-    modal.classList.add("show");
-
-    modal.dataset.targetNo = targetNo;
-    modal.dataset[typeKey] = typeValue;
-    modal.dataset.reportType = typeKey;
-
-    document.getElementById("reportTitle").value = ""; // 사용자가 직접 입력하도록 초기화
-    document.getElementById("reporterName").innerText = loginMemberNickname;
-    document.getElementById("reportReason").innerText = "";
+  if (Number(loginMember.memberNo) === Number(targetNo)) {
+    alert("자기 자신은 신고할 수 없습니다.");
+    return;
   }
 
-  function closeReportModal() {
-    const modal = document.getElementById("modal");
-    modal.classList.remove("show");
+  const payload = {
+    targetNo: targetNo,
+    targetNick: menu.dataset.targetNick,
+    productTitle: menu.dataset.productTitle,
+    typeKey: menu.dataset.messageNo ? "messageNo" :
+             menu.dataset.replyNo ? "replyNo" :
+             "recruitmentNo",
+    typeValue: menu.dataset.messageNo || menu.dataset.replyNo || menu.dataset.recruitmentNo,
+    memberNick: loginMember.memberNick 
+  };
+
+  openReportModal(payload);
+  menu.classList.add("hidden");
+});
+
+// 모달 열기
+function openReportModal({ targetNo, targetNick, productTitle, typeKey, typeValue }) {
+  const modal = document.getElementById("modal");
+  modal.classList.add("show");
+
+  modal.dataset.targetNo = targetNo;
+  modal.dataset[typeKey] = typeValue;
+  modal.dataset.reportType = typeKey;
+
+  document.getElementById("reportTitle").value = `[${productTitle}] 관련 신고`;  
+  document.getElementById("reporterName").innerText = loginMember.memberNick; 
+  document.getElementById("reportReason").innerText = "";
+}
+
+// 모달 닫기
+function closeReportModal() {
+  document.getElementById("modal").classList.remove("show");
+}
+
+// 신고 전송
+function submitReport() {
+  const modal = document.getElementById("modal");
+  const reportDetail = document.getElementById("reportReason").innerText;
+  const reportTitle = document.getElementById("reportTitle").value;
+
+  const payload = {
+    reportTitle: reportTitle,
+    reportDetail: reportDetail,
+    reportedUserNo: modal.dataset.targetNo,
+    reportDate: new Date().toISOString(),
+    mReply: "",
+    reportType: "",        
+    reportTypeNo: 0        
+  };
+
+  // 문자열 기반 reportType 설정
+  if (modal.dataset.recruitmentNo) {
+    payload.reportType = "RECRUITMENT";
+    payload.reportTypeNo = Number(modal.dataset.recruitmentNo);
+  } else if (modal.dataset.replyNo) {
+    payload.reportType = "REPLY";
+    payload.reportTypeNo = Number(modal.dataset.replyNo);
+  } else if (modal.dataset.messageNo) {
+    payload.reportType = "CHATTING";
+    payload.reportTypeNo = Number(modal.dataset.messageNo);
+  } else {
+    alert("신고할 대상을 찾을 수 없습니다.");
+    return;
   }
 
-  function submitReport() {
-    const modal = document.getElementById("modal");
-    const reportDetail = document.getElementById("reportReason").innerText;
-    const reportTitle = document.getElementById("reportTitle").value;
-    const payload = {
-      reportTitle: reportTitle,
-      reportDetail: reportDetail,
-      reportedUserNo: modal.dataset.targetNo,
-      reportDate: new Date().toISOString(),
-      mReply: "",
-    };
-    
-    if (modal.dataset.recruitmentNo) {
-        payload.reportType = 2;
-        payload.reportTypeNo = Number(modal.dataset.recruitmentNo);
-      } else if (modal.dataset.replyNo) {
-        payload.reportType = 3;
-        payload.reportTypeNo = Number(modal.dataset.replyNo);
-      } else if (modal.dataset.messageNo) {
-        payload.reportType = 4;
-        payload.reportTypeNo = Number(modal.dataset.messageNo);
-      } else {
-        alert("신고할 대상을 찾을 수 없습니다.");
-        return;
-      }
-
-    fetch("/report/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    })
+  fetch("/report/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  })
     .then(res => res.json())
     .then(result => {
       if (result.success) {
@@ -250,7 +252,7 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
       console.error("❌ 신고 처리 실패", err);
       alert("오류가 발생했습니다.");
     });
-  }
+}
 
 
   document.addEventListener("DOMContentLoaded", function () {
