@@ -131,7 +131,7 @@ showModalAreas.forEach(showModalArea=>{
             replyMemberArea.innerHTML = "";
             replyContentArea.innerHTML = "";
             const replyMember = document.createElement("span");
-            replyMember.innerText = review.replyList[0].memberNickname + " | " +
+            replyMember.innerText = review.replyList[0].memberNick + " | " +
                 formatDate(review.replyList[0].replyCreatedDate);
     
             replyMemberArea.append(replyMember, " | ");
@@ -181,8 +181,8 @@ const closeModal = e=>{
 
 // 팝업창 열기
 const openPopup=async(key, item)=>{
-    let popupUrl = `/board/2/${item.reviewTypeNo}/insertRe${key}`;
-    let fetchUrl = `/board/2/${item.reviewTypeNo}/selectOrder?reviewNo=${item.reviewNo}`;
+    let popupUrl = `/product/${item.reviewTypeNo}/insertRe${key}`;
+    let fetchUrl = `/product/${item.reviewTypeNo}/selectOrder?reviewNo=${item.reviewNo}`;
 
     try {
         const resp = await fetch(fetchUrl);
@@ -264,7 +264,7 @@ const updateReviewReply = reply=>{
     const replyBtn = document.createElement("span");
     replyBtn.classList.add("clickBtn", "reply-btn");
     replyBtn.addEventListener("click", ()=>{
-        fetch(`/board/2/${reply.reviewTypeNo}/reviewReply`,{
+        fetch(`/product/${reply.reviewTypeNo}/reviewReply`,{
             method: "PUT",
             headers:{"Content-Type":"application/json"},
             body:JSON.stringify({
@@ -291,7 +291,7 @@ const updateReviewReply = reply=>{
 // 리뷰 삭제
 const deleteReview = review=>{
     if(confirm("정말로 삭제 하시겠습니까?")){
-        location.href=`/board/2/${review.reviewTypeNo}/deleteReview?reviewNo=${review.reviewNo}`;
+        location.href=`/product/${review.reviewTypeNo}/deleteReview?reviewNo=${review.reviewNo}`;
     }
 };
 
@@ -299,7 +299,7 @@ const deleteReview = review=>{
 const deleteReviewReply = reply=>{
     if(!confirm("정말로 삭제 하시겠습니까?")) return;
 
-    fetch(`/board/2/${reply.reviewTypeNo}/reviewReply`,{
+    fetch(`/product/${reply.reviewTypeNo}/reviewReply`,{
         method: "DELETE",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({
