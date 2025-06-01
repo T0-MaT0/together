@@ -56,17 +56,23 @@ public class MypageServiceImpl implements MypageService {
     // 마이페이지 광고 제휴 문의
     @Override
     public int insertPromotion(Board board, Image img, MultipartFile file, String filePath) {
-        int result=0;
+        // 1. BOARD 등록
+        int result = dao.insertPromotionBoard(board); 
+        int boardNo = board.getBoardNo();
 
-        result = dao.insertPromotionBoard(board);
-        if(result>0){
-            if(img != null){
-                img.setImageTypeNo(result);
+        if(result > 0) {
+            // 2. INQUIRY 등록
+            result = dao.insertInquiry(boardNo, board.getInquiryCategoryNo());
+
+            if(result > 0 && img != null) {
+                // 3. 이미지 등록
+                img.setImageTypeNo(boardNo);
                 result = dao.insertPromotionImage(img);
-                if(result>0){
+
+                if(result > 0) {
                     try {
                         file.transferTo(new File(filePath + img.getImageReName()));
-                    } catch (Exception e) {
+                    } catch(Exception e) {
                         e.printStackTrace();
                         result = 0;
                     }

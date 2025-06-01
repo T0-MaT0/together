@@ -82,55 +82,49 @@ public class AjaxController {
 		List<Category> category = service.getCategory(categoryNo);
 		return category;
 	}
-    // 수정해야함
-	@PostMapping(value = "/ajax/totalSearch", produces="application/json; charset=UTF-8")
+	
+    // 통합 검색 ajax
+	@PostMapping(value = "/ajax/totalSearch", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<Product> totalSearch(@RequestBody Map<String, Object> paramMap) {
 
-		String searchValue = (String)paramMap.get("searchValue");
-		String categoryNo = String.join(",", (List<String>)paramMap.get("categoryNo")); // "12,13,14,15,16,17"
-		int categoryNoParents = Integer.parseInt(((List<Object>)paramMap.get("categoryNoParants")).get(0).toString());
-		String type = (String)paramMap.get("type");
-		String minValues = (String)paramMap.get("minValue");
-		String maxValues = (String)paramMap.get("maxValue");
-		String location = (String)paramMap.get("location");
-		if (maxValues.equals("999999~") || maxValues.equals("990000~")) {
-			maxValues = "99999999";
-		}
-		int minValue = 0;
-		int maxValue = 0;
-		try {
-			minValue = Integer.parseInt(minValues);
-			maxValue = Integer.parseInt(maxValues);
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		}
+	    // 파라미터 추출
+	    String searchValue = (String) paramMap.get("searchValue");
+	    String categoryNo = String.join(",", (List<String>) paramMap.get("categoryNo")); // "12,13,14"
+	    int categoryNoParents = Integer.parseInt(((List<Object>) paramMap.get("categoryNoParants")).get(0).toString());
+	    String type = (String) paramMap.get("type");
+	    String minValues = (String) paramMap.get("minValue");
+	    String maxValues = (String) paramMap.get("maxValue");
+	    String location = (String) paramMap.get("location");
 
-		int boardCd = 0;
-		if (type.equals("company")) {
-			boardCd = 1;
-		} else if (type.equals("personal")) {
-			boardCd = 2;
-		} else {
-			boardCd = -1;
-		}
-		
-		searchValue = "%" + searchValue + "%"; 
-		location = "%" + location + "%"; 
-		
+	    // 금액 범위 보정
+	    if (maxValues.equals("999999~") || maxValues.equals("990000~")) {
+	        maxValues = "99999999";
+	    }
 
-		Map<String, Object> searchMap = Map.of(
-				"searchValue", searchValue,
-				"categoryNo", categoryNo,
-				"categoryNoParents", categoryNoParents,
-				"location", location,
-				"boardCd", boardCd,
-				"minValue", minValue,
-				"maxValue", maxValue
-				);
-		//searchMap = {searchValue=, categoryNoParents=8, maxValue=100000, categoryNo=43,53, location=, boardCd=2, minValue=10000}
-		System.out.println("searchMap = " + searchMap);
-		return service.totalSearch(searchMap);
+	    int minValue = 0;
+	    int maxValue = 0;
+	    try {
+	        minValue = Integer.parseInt(minValues);
+	        maxValue = Integer.parseInt(maxValues);
+	    } catch (NumberFormatException e) {
+	        e.printStackTrace();
+	    }
+
+	    // LIKE 검색 처리
+	    searchValue = "%" + searchValue + "%";
+	    location = "%" + location + "%";
+
+	    Map<String, Object> searchMap = Map.of(
+	        "searchValue", searchValue,
+	        "categoryNo", categoryNo,
+	        "categoryNoParents", categoryNoParents,
+	        "location", location,
+	        "minValue", minValue,
+	        "maxValue", maxValue
+	    );
+
+	    return service.totalSearch(searchMap);
 	}
 
 

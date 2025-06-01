@@ -43,10 +43,10 @@
 <!-- 		    ) A -->
 
 
-<!-- 	</insert> -->
+    <!-- 마이페이지 광고 제휴 문의(이미지 등록) -->
 	<insert id="insertImage">
-    INSERT INTO IMG (IMG_NO, IMG_RENAME, IMG_PATH, IMG_ORIGINAL, IMG_LEVEL, IMG_TYPE, IMG_TYPE_NO)
-    VALUES (SEQ_IMG_NO.NEXTVAL, #{imageReName}, #{imagePath}, #{imageOriginal}, #{imageLevel}, #{imageType}, #{imageTypeNo})
+	    INSERT INTO IMG (IMG_NO, IMG_RENAME, IMG_PATH, IMG_ORIGINAL, IMG_LEVEL, IMG_TYPE, IMG_TYPE_NO)
+	    VALUES (SEQ_IMG_NO.NEXTVAL, #{imageReName}, #{imagePath}, #{imageOriginal}, #{imageLevel}, #{imageType}, #{imageTypeNo})
 	</insert>
 	
 	<update id="updateImage">

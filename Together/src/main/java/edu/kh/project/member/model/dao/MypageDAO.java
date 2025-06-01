@@ -10,7 +10,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class MypageDAO {
@@ -47,12 +49,13 @@ public class MypageDAO {
         return sqlSession.selectList("mypageMapper.getReview", memberNo);
     }
 
-
+    // 마이페이지 광고 제휴 문의(BOARD 등록)
     public int insertPromotionBoard(Board board) {
         int result = sqlSession.insert("customerMapper.boardInsert", board);
         return result == 1 ? board.getBoardNo() : 0;
     }
-
+    
+    // 마이페이지 광고 제휴 문의(이미지 등록)
     public int insertPromotionImage(Image img) {
         return sqlSession.insert("imageMapper.insertImage", img);
     }
@@ -73,5 +76,14 @@ public class MypageDAO {
 
     public int updateProfile(Image img) {
         return sqlSession.update("mypageMapper.updateProfile", img);
+    }
+
+    // 마이페이지 광고 제휴 문의(INQUIRY 등록)
+    public int insertInquiry(int boardNo, int inquiryCategoryNo) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("boardNo", boardNo);
+        paramMap.put("inquiryCategoryNo", inquiryCategoryNo);
+
+        return sqlSession.insert("customerMapper.insertInquiry", paramMap);
     }
 }

@@ -13,7 +13,6 @@
     <result property="boardDelFl" column="BOARD_DEL_FL" />
     <result property="bState" column="B_STATE" />
     <result property="memberNo" column="MEMBER_NO" />
-    <result property="boardCd" column="BOARD_CD" />
 
 	</resultMap>
 	
@@ -176,22 +175,20 @@
     ORDER BY BOARD_NO
 </select>
 	
-	<insert id="boardInsert" parameterType="Board"
-		useGeneratedKeys="true">
-
-		<selectKey order="BEFORE" resultType="_int"
-			keyProperty="boardNo">
+	<!-- 마이페이지 광고 제휴 문의(BOARD 등록) -->
+	<insert id="boardInsert" parameterType="Board" useGeneratedKeys="true">
+	
+		<selectKey order="BEFORE" resultType="_int" keyProperty="boardNo">
 			SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
 		</selectKey>
-
-		INSERT INTO BOARD
-		VALUES(#{boardNo},
-		#{boardTitle},
-		#{boardContent},
-		SYSDATE,
-		DEFAULT, DEFAULT, DEFAULT,
-		${memberNo},
-		${boardCd})
+	
+		INSERT INTO BOARD (
+			BOARD_NO, BOARD_TITLE, BOARD_CONTENT, B_CREATE_DATE,
+			B_UPDATE_DATE, BOARD_DEL_FL, B_STATE, MEMBER_NO
+		) VALUES (
+			#{boardNo}, #{boardTitle}, #{boardContent},
+			SYSDATE, NULL, 'N', NULL, #{memberNo}
+		)
 	</insert>
 	
 	<insert id="insertImageList" parameterType="list">
@@ -340,7 +337,14 @@
 		ORDER BY IMG_LEVEL
 	</select>
 	
-
-
+	<!-- 마이페이지 광고 제휴 문의(INQUIRY 등록) -->
+	<insert id="insertInquiry">
+	    INSERT INTO INQUIRY (
+	        BOARD_NO, INQUIRY_CATEGORY_NO, STATUS
+	    )
+	    VALUES (
+	        #{boardNo}, #{inquiryCategoryNo}, '대기'
+	    )
+	</insert>
 	
 </mapper>

@@ -216,6 +216,7 @@ public class MypageController {
             @RequestParam("title") String title,
             @RequestParam("brandName") String brandName,
             @RequestParam("content") String content,
+            @RequestParam("inquiryCategoryNo") int inquiryCategoryNo,
             @RequestParam("file") MultipartFile file,
             HttpSession session
     ) {
@@ -235,13 +236,14 @@ public class MypageController {
         img.setImageOriginal(file.getOriginalFilename());
         img.setImageReName(Utill.fileRename(file.getOriginalFilename()));
         img.setImageLevel(0);
-        img.setImageType("PRODUCT_AD_INQUIRY"); // 숫자 대신 문자열 코드 사용 (ENUM 권장)
+        img.setImageType("PRODUCT_AD_INQUIRY"); 
 
         // 게시글 정보 생성(INQUIRY 게시판)
         Board board = new Board();
         board.setBoardTitle(title);
         board.setBoardContent(content);
         board.setMemberNo(memberNo);
+        board.setInquiryCategoryNo(inquiryCategoryNo);
 
         return service.insertPromotion(board, img, file, filePath);
     }
