@@ -14,6 +14,7 @@ public interface MypageService {
 
     List<Product> getCategoryPick(int categoryNo);
 
+    // 사이드바 관심상품 JSON
     List<Product> getPickProduct(int memberNo);
 
     List<Member> recommendBrand(int memberNo);

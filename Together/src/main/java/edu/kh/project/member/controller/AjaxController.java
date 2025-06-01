@@ -82,7 +82,7 @@ public class AjaxController {
 		List<Category> category = service.getCategory(categoryNo);
 		return category;
 	}
-
+    // 수정해야함
 	@PostMapping(value = "/ajax/totalSearch", produces="application/json; charset=UTF-8")
 	@ResponseBody
 	public List<Product> totalSearch(@RequestBody Map<String, Object> paramMap) {

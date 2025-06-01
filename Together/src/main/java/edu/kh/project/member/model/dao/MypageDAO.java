@@ -26,6 +26,7 @@ public class MypageDAO {
         return sqlSession.selectList("mypageMapper.getCategoryPick", categoryNo);
     }
 
+    // 사이드바 관심상품 JSON
     public List<Product> getPickProduct(int memberNo) {
         return sqlSession.selectList("mypageMapper.getPickProduct", memberNo);
     }

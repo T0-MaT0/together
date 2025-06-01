@@ -27,6 +27,7 @@ public class MypageServiceImpl implements MypageService {
     @Override
     public List<Product> getCategoryPick(int categoryNo) { return dao.getCategoryPick(categoryNo); }
 
+    // 사이드바 관심상품 JSON
     @Override
     public List<Product> getPickProduct(int memberNo) {
         return dao.getPickProduct(memberNo);

@@ -69,32 +69,16 @@
 		<result property="memberNo" column="MEMBER_NO" />
 	</resultMap>
 
-
-
-
-	<!--product rm-->
+	<!-- product -->
 	<resultMap type="Product" id="product_rm">
-		<id property="boardNo" column="BOARD_NO" />
-		<result property="boardTitle" column="BOARD_TITLE"/>
-		<result property="boardContent" column="BOARD_CONTENT" />
-		<result property="boardCode" column="BOARD_CD" />
-		<result property="imgPath" column="IMG_PATH" />
-		<result property="price" column="PRICE" />
-		<result property="readCount" column="READ_COUNT" />
-		<result property="category" column="CATEGORY_NAME" />
-		<result property="categoryNo" column="CATEGORY_NO"/>
-
-		<result property="businessNo" column="BUSINESS_NO" />
-
-		<result property="purchaseDate" column="PURCHASE_DATE" />
-		<!--    private String reviewContent;
-    private int reviewScore;
-    private String reviewDate; -->
-		<result property="reviewNo" column="REVIEW_NO" />
-		<result property="reviewContent" column="REVIEW_CONTENT" />
-		<result property="reviewScore" column="REVIEW_STAR" />
-		<result property="reviewDate" column="REVIEW_CREATED_DATE" />
-
+	  <id property="productNo" column="PRODUCT_NO" />
+	  <result property="productTitle" column="PRODUCT_TITLE" />
+	  <result property="productContent" column="PRODUCT_CONTENT" />
+	  <result property="imgPath" column="IMG_PATH" />
+	  <result property="price" column="PRODUCT_PRICE" />
+	  <result property="readCount" column="READ_COUNT" />
+	  <result property="category" column="CATEGORY_NAME" />
+	  <result property="categoryNo" column="CATEGORY_NO" />
 	</resultMap>
 
 
@@ -231,37 +215,28 @@
 			FETCH FIRST 5 ROWS ONLY
 	</select>
 
+	<!-- 사이드바 관심상품 JSON -->
 	<select id="getPickProduct" resultMap="product_rm">
-		SELECT
-			PK.BOARD_NO,
-			B.BOARD_TITLE,
-			B.BOARD_CONTENT,
-			B.BOARD_CD,
-			COALESCE(I1.IMG_PATH || I1.IMG_RENAME, I2.IMG_PATH || I2.IMG_RENAME) AS IMG_PATH,
-			P.PRODUCT_PRICE AS PRICE,
-			P.READ_COUNT,
-			C.CATEGORY_NAME,
-			C.CATEGORY_NO
-		FROM (
-				 SELECT BOARD_NO
-				 FROM PICK
-				 WHERE MEMBER_NO = ${memberNo}
-			 ) PK
-				 LEFT JOIN BOARD B ON PK.BOARD_NO = B.BOARD_NO
-				 LEFT JOIN (
-			SELECT IMG_TYPE_NO, IMG_PATH, IMG_RENAME
-			FROM IMG
-			WHERE IMG_TYPE = 1 AND IMG_LEVEL = 0
-		) I1 ON PK.BOARD_NO = I1.IMG_TYPE_NO
-				 LEFT JOIN (
-			SELECT IMG_TYPE_NO, IMG_PATH, IMG_RENAME
-			FROM IMG
-			WHERE IMG_TYPE = 2 AND IMG_LEVEL = 0
-		) I2 ON PK.BOARD_NO = I2.IMG_TYPE_NO
-				 LEFT JOIN PRODUCT P ON PK.BOARD_NO = P.BOARD_NO
-				 LEFT JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
-		WHERE B.BOARD_DEL_FL = 'N'
-		  AND P.PRODUCT_COUNT > 0
+	  SELECT
+	    P.PRODUCT_NO,
+	    P.PRODUCT_TITLE,
+	    P.PRODUCT_CONTENT,
+	    COALESCE(I.IMG_PATH || I.IMG_RENAME, '') AS IMG_PATH,
+	    P.PRODUCT_PRICE AS PRICE,
+	    P.READ_COUNT,
+	    C.CATEGORY_NAME,
+	    C.CATEGORY_NO
+	  FROM PICK PK
+	  JOIN PRODUCT P ON PK.PRODUCT_NO = P.PRODUCT_NO
+	  LEFT JOIN (
+	    SELECT IMG_TYPE_NO, IMG_PATH, IMG_RENAME
+	    FROM IMG
+	    WHERE IMG_TYPE = 'PRODUCT' AND IMG_LEVEL = 0
+	  ) I ON P.PRODUCT_NO = I.IMG_TYPE_NO
+	  LEFT JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
+	  WHERE PK.MEMBER_NO = #{memberNo}
+	    AND P.PRODUCT_DEL_FL = 'N'
+	    AND P.PRODUCT_COUNT > 0
 	</select>
 
 	<select id="recommendBrand" resultMap="member_rm">

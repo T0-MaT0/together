@@ -107,6 +107,7 @@ public class MypageController {
         return service.getCategoryPick(categoryNo);
     }
 
+    // 사이드바 관심상품 JSON
     @PostMapping(value = "/getPickProduct", produces="application/json; charset=UTF-8")
     @ResponseBody
     public List<Product> getPickProduct(@RequestBody int memberNo) {
@@ -149,7 +150,7 @@ public class MypageController {
     public List<QuestCustomer> getPromotionInfo(@RequestBody int memberNo) {
         return service.getPromotionInfo(memberNo);
     }
-
+    // 수정해야함
     @PostMapping(value = "/getCategory", produces="application/json; charset=UTF-8")
     @ResponseBody
     public List<Category> getCategory(@RequestBody int categoryNo) {

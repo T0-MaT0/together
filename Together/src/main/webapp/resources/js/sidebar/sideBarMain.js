@@ -1,48 +1,56 @@
-console.log("sideBarMain.js");
+/* ---------------------------공통 부분 JS------------------------- */
 
+// 페이지 로딩 시 이벤트 동작 
 document.addEventListener("DOMContentLoaded", () => {
+  // 알림 갱신
   updateSidebarTotalNoti();
-});
 
-// a 태그 기본 동작 제거 
-document.addEventListener("DOMContentLoaded", () => {
+  // a 태그 기본 동작 제거 
   document.querySelectorAll("a.no-link").forEach(a => {
     a.addEventListener("click", e => {
       const url = a.getAttribute("data-url");
-      if (!url) {
-        e.preventDefault(); // data-url 없는 경우만 기본 동작 막기
-      }
+      if (!url) e.preventDefault(); // data-url 없는 경우만 기본 동작 막기
     });
   });
 });
 
-// 사이드바 열고 닫기
+// 사이드바 열고 닫기 변수
 const sideBar = document.getElementById("sideBar");
 const sideBarBox = document.getElementById("sidebar-menu-box");
 const sideBarClose = document.getElementById("sideBar-close");
 
+// 사이드바 열기
+sideBarBox?.addEventListener("click", (e) => {
+  const isOpen = sideBar?.classList.contains("active");
+  const isCloseBtnActive = sideBarClose?.classList.contains("activate");
 
-sideBarBox.addEventListener("click", function (e) {
-  if (sideBar.classList.contains("active") || !sideBarClose.classList.contains("activate")) {
-    return;
-  }
-  sideBar.classList.add("active");
-  sideBarClose.classList.remove("activate");
+  if (isOpen || !isCloseBtnActive) return;
 
+  sideBar?.classList.add("active");
+  sideBarClose?.classList.remove("activate");
 });
 
-sideBarClose.addEventListener("click", function (e) {
+// 사이드바 닫기
+sideBarClose?.addEventListener("click", (e) => {
   e.stopPropagation();
-  sideBar.classList.toggle("active");
-  sideBarClose.classList.toggle("activate");
+  sideBar?.classList.toggle("active");
+  sideBarClose?.classList.toggle("activate");
 });
 
-
-
-
+/* ---------------------------채팅 부분 JS------------------------- */
+// 전체 목록 초기화
 let fullChatList = [];
+// WebSocket 소켓 전역
+let chattingSock;
+// SSE 전역
+let chatSse;
+let sseRetryCount = 0;
+const maxSseRetries = 5;
+const sseRetryDelay = 3000; 
 
-// 채팅방 목록 비동기 로딩
+// -----------1. 초기 목록 로딩 및 채팅 내역 로딩-----------
+
+// 전체 채팅방 목록 비동기 요청 및 초기화
 function loadChatRoomList() {
   fetch("/chatting/roomList")
     .then(response => response.json())
@@ -52,7 +60,7 @@ function loadChatRoomList() {
       bindChatRoomSearchEvent(); // 검색 필터 이벤트 연결
 
       if (!chatSse) connectChatSSE(); // SSE 연결 (한 번만)
-      if (!chattingSock || chattingSock.readyState !== 1) {
+      if (!chattingSock || chattingSock?.readyState !== 1) {
         // 가장 최근 채팅방 번호로 WebSocket 연결
         const latestRoom = chatList[0];
         if (latestRoom) connectChatWebSocket(latestRoom.roomNo);
@@ -165,7 +173,7 @@ function renderChatRoomList(chatList) {
   });
 }
 
-// 검색 이벤트 바인딩
+// 채팅방 이름으로 실시간 필터링
 function bindChatRoomSearchEvent() {
   const input = document.getElementById("sideBar-input");
   if (!input) return;
@@ -181,15 +189,7 @@ function bindChatRoomSearchEvent() {
   });
 }
 
-
-
-
-
-
-
-
-
-// 탭 이벤트 등록 함수
+// 탭 클릭 시 AJAX로 채팅창 또는 목록 불러오기
 function initializeChatTabs() {
   const menus = document.querySelectorAll("#CHAT .talkMenu > a");
   const contents = document.querySelectorAll("#CHAT .content");
@@ -198,8 +198,6 @@ function initializeChatTabs() {
   menus.forEach((menu, i) => {
     menu.addEventListener("click", function (e) {
       e.preventDefault();
-
-
 
       if (talkMenus[i].classList.contains("select")) return;
 
@@ -235,30 +233,9 @@ function initializeChatTabs() {
   });
 }
 
+// ---------2. 채팅방 입장 / WebSocket 연결-----------
 
-
-
-
-
-// 메인 페이지 전체 스크롤 이동
-document.getElementById("scrollUp").addEventListener("click", e => {
-  e.preventDefault();
-  window.scrollBy({ top: -document.body.scrollHeight, behavior: 'smooth' });
-});
-
-document.getElementById("scrollDown").addEventListener("click", e => {
-  e.preventDefault();
-  window.scrollBy({ top: document.body.scrollHeight, behavior: 'smooth' });
-});
-
-
-// WebSocket 소켓 전역
-let chattingSock;
-
-// SSE 전역
-let chatSse;
-
-// 채팅방 열릴 때 호출 WebSocket + SSE 연결
+// 특정 채팅방으로 WebSocket 연결 (SockJS 사용)
 function connectChatWebSocket(roomNo) {
   // 기존 WebSocket 종료
   if (chattingSock && chattingSock.readyState === 1) {
@@ -292,7 +269,7 @@ function connectChatWebSocket(roomNo) {
   reconnectChatSSE();
 }
 
-// 연결 종료
+// 기존 SSE 종료
 function disconnectChatSSE() {
   if (chatSse) {
     console.log("🛑 기존 SSE 연결 종료");
@@ -301,7 +278,7 @@ function disconnectChatSSE() {
   }
 }
 
-// 연결 시작
+// SSE 초기 연결 (/chat/notification/connect)
 function connectChatSSE() {
   if (chatSse) return; // 이미 연결되어 있으면 무시
 
@@ -309,6 +286,7 @@ function connectChatSSE() {
 
   chatSse.addEventListener("connect", (e) => {
     console.log("✅ Chat SSE 연결됨");
+    sseRetryCount = 0;
   });
 
   chatSse.addEventListener("chat", (e) => {
@@ -316,23 +294,35 @@ function connectChatSSE() {
     const notification = JSON.parse(e.data);
     showChatNotification(notification);
     loadChatRoomList?.();
+    updateSidebarTotalNoti?.();
   });
 
   chatSse.onerror = (e) => {
-    console.error("❌ SSE 오류:", e);
+    console.error("❌ SSE 오류 발생:", e);
     disconnectChatSSE();
-    // 필요시 재연결 로직 추가
+
+    if (sseRetryCount < maxSseRetries) {
+      sseRetryCount++;
+      console.warn(`🔁 SSE 재연결 시도 (${sseRetryCount}/${maxSseRetries})...`);
+
+      setTimeout(() => {
+        connectChatSSE();
+      }, sseRetryDelay);
+    } else {
+      console.error("⛔ SSE 재연결 시도 횟수 초과. 중단합니다.");
+    }
   };
 }
 
-// 연결 재시작
+// 	SSE 재연결
 function reconnectChatSSE() {
   disconnectChatSSE();
   connectChatSSE();
 }
 
+// ---------3. 메시지 처리-----------
 
-// 채팅 메시지 목록 불러오기
+// 기존 채팅 메시지 전체 조회 후 출력 (/chatting/selectMessageList)
 function loadMessageList() {
   const roomNo = document.getElementById("chatRoom").dataset.roomNo;
   const ul = document.getElementById("chatMessageList");
@@ -437,108 +427,7 @@ function loadMessageList() {
     .catch(err => console.error("메시지 목록 불러오기 실패", err));
 }
 
-
-// 메시지 목록 불러온 후 맨 아래로 스크롤
-function scrollToBottom() {
-  const chatArea = document.querySelector('.chat-area');
-  if (chatArea) {
-    chatArea.scrollTop = chatArea.scrollHeight;
-  }
-}
-
-
-// 상대 프로필 확인용
-function loadChatTargetInfo(roomNo) {
-  fetch(`/chatting/targetInfo?roomNo=${roomNo}&memberNo=${loginMemberNo}`)
-    .then(res => res.json())
-    .then(target => {
-      console.log("상대방 정보:", target);
-
-      // 닉네임 출력
-      const nicknameEl = document.querySelector(".chat-title span");
-      if (nicknameEl) nicknameEl.innerText = target.memberNick || "알 수 없음";
-
-      // 프로필 이미지
-      const profileImg = document.querySelector(".title-profile-box img");
-      if (profileImg && target.profileImg) {
-        profileImg.src = target.profileImg;
-      }
-
-    })
-    .catch(err => {
-      console.error("채팅 상대 정보 불러오기 실패", err);
-    });
-}
-
-
-// 상단 메뉴바
-function bindChatRoomHeaderButtons() {
-  const minusBtn = document.querySelector(".title-menu .minus")?.closest("a");
-  const plusBtn = document.querySelector(".title-menu .plus")?.closest("a");
-
-  if (minusBtn) {
-    minusBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-
-      if (confirm("채팅방을 삭제하시겠습니까?")) {
-        const roomNo = document.getElementById("chatRoom")?.dataset.roomNo;
-
-        fetch(`/chatting/deleteRoom?roomNo=${roomNo}`, { method: "POST" })
-          .then(res => res.json())
-          .then(result => {
-            if (result.success) {
-              alert("채팅방이 삭제되었습니다.");
-              plusBtn?.click();
-            } else {
-              alert("채팅방 삭제에 실패했습니다.");
-            }
-          })
-          .catch(err => {
-            console.log(err);
-            alert("오류가 발생했습니다.");
-          });
-      }
-    });
-  }
-
-  if (plusBtn) {
-    plusBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-
-      const targetMenu = document.querySelector(`#CHAT .talkMenu > a[data-url="/sidebar/chat"]`);
-      const talkMenus = document.querySelectorAll("#CHAT .talkMenu");
-      const contents = document.querySelectorAll("#CHAT .content");
-
-      talkMenus.forEach(menu => {
-        menu.classList.remove("select");
-        menu.classList.add("unselect");
-      });
-
-      contents.forEach(content => content.classList.add("hidden"));
-
-      if (targetMenu) {
-        const parentMenu = targetMenu.parentElement;
-        parentMenu.classList.add("select");
-        parentMenu.classList.remove("unselect");
-
-        const menus = document.querySelectorAll("#CHAT .talkMenu > a");
-        const index = Array.from(menus).indexOf(targetMenu);
-        if (index !== -1 && contents[index]) {
-          contents[index].classList.remove("hidden");
-          fetch("/sidebar/chat")
-            .then(res => res.text())
-            .then(html => {
-              contents[index].innerHTML = html;
-              loadChatRoomList();
-            });
-        }
-      }
-    });
-  }
-}
-
-
-// 메세지 입력
+// 메시지 입력 후 전송 (Enter 및 버튼)
 function bindSendMessageEvent() {
   const sendBtn = document.getElementById("sendMessageBtn");
   const input = document.getElementById("inputChatting");
@@ -585,20 +474,25 @@ function bindSendMessageEvent() {
 
   const textarea = document.getElementById("inputChatting");
 
-  textarea.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-      if (e.shiftKey) {
-        return; // Shift + Enter → 줄바꿈
-      } else {
+  if (textarea) {
+    textarea.addEventListener("keydown", function (e) {
+      // Enter 키 눌림
+      if (e.key === "Enter") {
+        if (e.shiftKey) {
+          // Shift + Enter → 줄바꿈 허용
+          return;
+        }
+
+        // 그냥 Enter → 메시지 전송
         e.preventDefault(); // 줄바꿈 막기
-        sendBtn.click(); // 버튼 클릭
+        const sendBtn = document.getElementById("sendMessageBtn");
+        sendBtn?.click(); // 안전하게 버튼 클릭
       }
-    }
-  });
+    });
+  }
 }
 
-
-// 메세지 동기화
+// WebSocket 수신 메시지를 채팅창에 출력
 function displayMessage(msg) {
   console.log("🧾 displayMessage 실행", msg);
   const ul = document.getElementById("chatMessageList");
@@ -693,11 +587,11 @@ function displayMessage(msg) {
   setTimeout(() => {
     ul.scrollTop = ul.scrollHeight;
   }, 0);
-
-
 }
 
-// 이미지 업로드
+// ---------4. 이미지 / 이모지-----------
+
+// 이미지 업로드 및 WebSocket 전송 (FormData)
 function bindImageUploadEvent() {
   const input = document.getElementById("chatImageInput");
 
@@ -729,8 +623,7 @@ function bindImageUploadEvent() {
   });
 }
 
-
-// 이모지 업로드
+// 이모지 관련 토글 및 전송 기능 (min/large emoji)
 function bindEmojiEvent() {
 
   // 미니 이모지 삽입 함수
@@ -769,7 +662,7 @@ function bindEmojiEvent() {
     }
   });
 
-  // 큰 이모지 Ajax로 불러오기
+  // 큰 이모지 Ajax로 불러오기 (/chatting/bigEmojis)
   function loadBigEmojis() {
     fetch("/chatting/bigEmojis")
       .then(res => res.json())
@@ -789,8 +682,9 @@ function bindEmojiEvent() {
   }
 }
 
+// ---------5. 채팅방 정보 / 멤버 관련-----------
 
-// 채팅방 상세 정보 및 멤버 목록 로딩
+// 방 인원 조회 + 프로필 출력 + 추방 기능
 function loadChatRoomDetail(roomNo) {
   fetch(`/chatting/memberList?roomNo=${roomNo}`)
     .then(res => res.json())
@@ -897,8 +791,98 @@ function loadChatRoomDetail(roomNo) {
     .catch(err => console.error("🔴 채팅방 상세 로딩 실패", err));
 }
 
+// 상대 프로필 정보 조회 (/chatting/targetInfo)
+function loadChatTargetInfo(roomNo) {
+  fetch(`/chatting/targetInfo?roomNo=${roomNo}&memberNo=${loginMemberNo}`)
+    .then(res => res.json())
+    .then(target => {
+      console.log("상대방 정보:", target);
 
-// 상담톡 설정
+      // 닉네임 출력
+      const nicknameEl = document.querySelector(".chat-title span");
+      if (nicknameEl) nicknameEl.innerText = target.memberNick || "알 수 없음";
+
+      // 프로필 이미지
+      const profileImg = document.querySelector(".title-profile-box img");
+      if (profileImg && target.profileImg) {
+        profileImg.src = target.profileImg;
+      }
+
+    })
+    .catch(err => {
+      console.error("채팅 상대 정보 불러오기 실패", err);
+    });
+}
+
+// 	+, - 버튼 클릭 처리 (방 삭제 / 목록 돌아가기)
+function bindChatRoomHeaderButtons() {
+  const minusBtn = document.querySelector(".title-menu .minus")?.closest("a");
+  const plusBtn = document.querySelector(".title-menu .plus")?.closest("a");
+
+  if (minusBtn) {
+    minusBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      if (confirm("채팅방을 삭제하시겠습니까?")) {
+        const roomNo = document.getElementById("chatRoom")?.dataset.roomNo;
+
+        fetch(`/chatting/deleteRoom?roomNo=${roomNo}`, { method: "POST" })
+          .then(res => res.json())
+          .then(result => {
+            if (result.success) {
+              alert("채팅방이 삭제되었습니다.");
+              plusBtn?.click();
+            } else {
+              alert("채팅방 삭제에 실패했습니다.");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            alert("오류가 발생했습니다.");
+          });
+      }
+    });
+  }
+
+  if (plusBtn) {
+    plusBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const targetMenu = document.querySelector(`#CHAT .talkMenu > a[data-url="/sidebar/chat"]`);
+      const talkMenus = document.querySelectorAll("#CHAT .talkMenu");
+      const contents = document.querySelectorAll("#CHAT .content");
+
+      talkMenus.forEach(menu => {
+        menu.classList.remove("select");
+        menu.classList.add("unselect");
+      });
+
+      contents.forEach(content => content.classList.add("hidden"));
+
+      if (targetMenu) {
+        const parentMenu = targetMenu.parentElement;
+        parentMenu.classList.add("select");
+        parentMenu.classList.remove("unselect");
+
+        const menus = document.querySelectorAll("#CHAT .talkMenu > a");
+        const index = Array.from(menus).indexOf(targetMenu);
+        if (index !== -1 && contents[index]) {
+          contents[index].classList.remove("hidden");
+          fetch("/sidebar/chat")
+            .then(res => res.text())
+            .then(html => {
+              contents[index].innerHTML = html;
+              loadChatRoomList();
+            });
+        }
+      }
+    });
+  }
+}
+
+// ---------6. 상담톡 연결 & FAQ-----------
+
+// 상담톡 연결 요청(/chatting/private/start) 및 채팅창 오픈
 document.querySelector("#consultMenu a")?.addEventListener("click", e => {
   e.preventDefault();
 
@@ -961,7 +945,19 @@ document.querySelector("#consultMenu a")?.addEventListener("click", e => {
     });
 });
 
+// 채팅 상대가 상담사일 경우 FAQ 표시
+function showFAQIfCounselingRoom() {
+  const roomTitle = document.getElementById("roomTitle")?.innerText;
+  const box = document.getElementById("faqToggleBox");
 
+  if (roomTitle && roomTitle.includes("상담사")) {
+    box?.classList.remove("hidden");
+  } else {
+    box?.classList.add("hidden");
+  }
+}
+
+// 	FAQ 클릭 시 자동 채팅 삽입
 function initFAQEvent() {
   document.querySelectorAll("#faqList li").forEach(item => {
     item.addEventListener("click", () => {
@@ -1001,18 +997,35 @@ function initFAQEvent() {
   });
 }
 
-function showFAQIfCounselingRoom() {
-  const roomTitle = document.getElementById("roomTitle")?.innerText;
-  const box = document.getElementById("faqToggleBox");
+// ---------7. 알림 기능-----------
 
-  if (roomTitle && roomTitle.includes("상담사")) {
-    box?.classList.remove("hidden");
-  } else {
-    box?.classList.add("hidden");
-  }
+// 알림 뱃지 증가 처리
+function showChatNotification(notification) {
+  const notiBadge = document.querySelector("#chatNotiBadge");
+
+  if (!notiBadge) return;
+
+  const count = parseInt(notiBadge.innerText || 0) + 1;
+  notiBadge.innerText = count;
+  notiBadge.style.display = "inline-block";
+
+  console.log("🔔 채팅 알림: ", notification);
 }
 
+// 알림 총 수 갱신 (/chat/notification/count)
+function updateSidebarTotalNoti() {
+  fetch("/chat/notification/count")
+    .then(res => res.text())
+    .then(count => {
+      const badge = document.querySelector("#chatNotiBadge");
+      if (badge) {
+        badge.innerText = count;
+        badge.style.display = count > 0 ? "inline-block" : "none";
+      }
+    });
+}
 
+// 특정 채팅방 UI 뱃지 증가
 function increaseChatRoomNotification(roomNo) {
   const chatRoom = document.querySelector(`.chat-room[data-room-no="${roomNo}"]`);
   if (!chatRoom) return;
@@ -1027,245 +1040,177 @@ function increaseChatRoomNotification(roomNo) {
   }
 }
 
+// ---------8. 부가가 기능-----------
 
-let eventSource = null;
-
-function connectChatSSE() {
-  if (eventSource) return; // 중복 연결 방지
-
-  eventSource = new EventSource("/chat/notification/connect");
-
-  eventSource.onopen = () => {
-    console.log("✅ Chat SSE 연결됨");
-  };
-
-  eventSource.addEventListener("chat", e => {
-    console.log("📩 채팅 알림 수신:", e.data);
-    const notification = JSON.parse(e.data);
-    showChatNotification(notification);
-    loadChatRoomList();
-    updateSidebarTotalNoti();
-  });
-
-  eventSource.onerror = e => {
-    console.error("❌ SSE 오류:", e);
-    eventSource.close();
-    eventSource = null;
-    // 재연결 로직 넣을 수 있음
-  };
-}
-
-function showChatNotification(notification) {
-  const notiBadge = document.querySelector("#chatNotiBadge");
-
-  if (!notiBadge) return;
-
-  const count = parseInt(notiBadge.innerText || 0) + 1;
-  notiBadge.innerText = count;
-  notiBadge.style.display = "inline-block";
-
-  console.log("🔔 채팅 알림: ", notification);
-}
-
-function updateSidebarTotalNoti() {
-  fetch("/chat/notification/count")
-    .then(res => res.text())
-    .then(count => {
-      const badge = document.querySelector("#chatNotiBadge");
-      if (badge) {
-        badge.innerText = count;
-        badge.style.display = count > 0 ? "inline-block" : "none";
-      }
-    });
-}
-
-
-/* 
-// 채팅 + 장바구니 토글
-let flag = 0;
-const toggleIcon = document.getElementById("togglePage");
-const toggleBodies = document.getElementsByClassName("body");
-const toggleTitle = document.getElementById("sideBarTitle");
-
-toggleIcon.addEventListener("click", e => {
+// 메인 페이지 전체 스크롤 이동
+document.getElementById("scrollUp").addEventListener("click", e => {
   e.preventDefault();
-
-  const isChat = flag === 0;
-
-  e.target.setAttribute("src", isChat
-    ? "/resources/images/sidebar/images/favorite-cart.svg"
-    : "/resources/images/sidebar/images/talk.svg")
-
-  toggleTitle.innerText = isChat ? "장바구니" : "채팅";
-  flag = isChat ? 1 : 0;
-
-  Array.from(toggleBodies).forEach(body => body.classList.toggle("hidden"));
-
-  if (isChat) {
-    initializeChatTabs();
-
-    const firstTab = document.querySelector('#CHAT .talkMenu > a.no-link[data-url]');
-    if (firstTab) firstTab.click();
-  }
+  window.scrollBy({ top: -document.body.scrollHeight, behavior: 'smooth' });
 });
 
- */
+document.getElementById("scrollDown").addEventListener("click", e => {
+  e.preventDefault();
+  window.scrollBy({ top: document.body.scrollHeight, behavior: 'smooth' });
+});
 
+// 메시지 목록 불러온 후 맨 아래로 스크롤
+function scrollToBottom() {
+  const chatArea = document.querySelector('.chat-area');
+  if (chatArea) {
+    chatArea.scrollTop = chatArea.scrollHeight;
+  }
+}
 
+/* ---------------------------관심 상품 부분 JS------------------------- */
+
+// 사이드바 토글 버튼 (채팅 <-> 장바구니)
 const togglePageBtn = document.getElementById("togglePage");
+// 토글 버튼 내부 아이콘 (talk.svg / favorite-cart.svg 변경용)
 const togglePageIcon = document.getElementById("togglePageIcon");
+// 통합검색 탭 열기 버튼
 const searchPageBtn = document.getElementById("searchPage");
-
-
+// 사이드바 내용 wrapper (인덱스별 의미)
+// [0]: 채팅 화면
+// [1]: 장바구니(찜목록) 화면
+// [2]: 통합검색 화면
 const sidebarWrapper = document.getElementsByClassName("sidebar-wrapper")
-// 0. 채팅
-// 1. 장바구니
-// 2. 통합검색
+// 현재 사이드바 페이지 상태를 나타냄
+// 0: 채팅 탭
+// 1: 장바구니 탭
+// 2: 채팅 → 통합검색으로 진입
+// 3: 장바구니 → 통합검색으로 진입
+let currentPage = 0;
 
 
-let currentPage = 0; // 현재 페이지 상태 (0: 채팅, 1: 장바구니, 2, 3: 통합검색)
-// 2 : 채팅 -> 통합검색
-// 3 : 장바구니 -> 통합검색
-
-
+// 사이드바에서 채팅(기본) ↔ 장바구니 탭을 전환하는 토글 기능
 togglePageBtn.addEventListener("click", () => {
-
+  
   currentPage = (currentPage + 1) % 2;
 
-
-
+  // currentPage === 0일 경우 (채팅 탭으로 전환)
   if (currentPage === 0) {
+    // 채팅 영역만 표시, 나머지 숨김
     sidebarWrapper[0].classList.remove("hidden");
     sidebarWrapper[1].classList.add("hidden");
     sidebarWrapper[2].classList.add("hidden");
 
+    // 아이콘을 "장바구니 아이콘"으로 변경
     togglePageIcon.setAttribute("src", "/resources/images/sidebar/images/favorite-cart.svg");
 
-    initializeChatTabs();
+    initializeChatTabs(); // 채팅 탭 기능 초기화
+    // 채팅 탭의 첫 번째 버튼을 클릭하여 자동 진입
     const firstTab = document.querySelector('#CHAT .talkMenu > a.no-link[data-url]');
     if (firstTab) firstTab.click();
   }
 
-
+  // currentPage === 1일 경우 (장바구니 탭으로 전환)
   if (currentPage === 1) {
+    // 장바구니(찜 목록) 영역만 표시, 나머지 숨김
     sidebarWrapper[0].classList.add("hidden");
     sidebarWrapper[1].classList.remove("hidden");
     sidebarWrapper[2].classList.add("hidden");
 
-
+    // 아이콘을 "채팅 아이콘"으로 변경
     togglePageIcon.setAttribute("src", "/resources/images/sidebar/images/talk.svg");
 
-    // 비동기 로딩
-    
+    // 장바구니 목록 비동기 로딩
     const pick = document.getElementById("PICK");
 
     if (pick) {
       fetch("/mypage/getPickProduct", {
-        method: "post",
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: memberNo
+        body: JSON.stringify(memberNo)
       })
       .then(response => response.json())
       .then(data => {
-        
         const pickListBox = document.getElementById("pickListBox");
-        pickListBox.innerHTML = ""; // 기존 내용 초기화
-        
-  
-        data.forEach(item => {
-          
-          const itemBox = document.createElement("div");
-          itemBox.className = "itemBox";
-  
-          const thumb = document.createElement("div");
-          thumb.className = "thumb";
-  
-          const img = document.createElement("img");
-          img.src = item.imgPath;
-          img.alt = item.boardTitle;
-  
-          thumb.appendChild(img);
-          itemBox.appendChild(thumb);
-  
-          const digit = document.createElement("div");
-          digit.className = "digit";
-  
-          const titleDiv = document.createElement("div");
-          titleDiv.innerHTML = `<span>${item.boardTitle}</span>`;
-          digit.appendChild(titleDiv);
-  
-          const priceDiv = document.createElement("div");
-          digit.appendChild(priceDiv);
-          
-          const companyDiv = document.createElement("div");
-          companyDiv.innerHTML = `<span>${item.price}원(원가)</span>`;
-          digit.appendChild(companyDiv);
-          const companyDiv2 = document.createElement("div");
-          digit.appendChild(companyDiv2);
-  
-          const quantityDiv = document.createElement("div");
-          quantityDiv.innerHTML = `<div>조회수 : <span>${item.readCount}</span></div>`;
-          digit.appendChild(quantityDiv);
-          
-          const deleteBtnArea = document.createElement("div");
-          deleteBtnArea.className = "deleteBtn-area";
-          
-          const deleteLink = document.createElement("a");
-          deleteLink.href = `/board/${item.boardCode}/${item.boardNo}`; 
-          deleteLink.innerText = "보러가기"
-          
-          deleteBtnArea.appendChild(deleteLink);
-          
-          itemBox.appendChild(digit);
-          itemBox.appendChild(deleteBtnArea);
-          
-          pickListBox.appendChild(itemBox);
-  
-        });
-  
-        if (data.array.length === 0) {
+        pickListBox.innerHTML = "";
+
+        if (data.length === 0) {
           const emptyMessage = document.createElement("div");
           emptyMessage.className = "emptyMessage";
           emptyMessage.textContent = "장바구니에 상품이 없습니다.";
           pickListBox.appendChild(emptyMessage);
+          return;
         }
-   
+
+        data.forEach(item => {
+          const itemBox = document.createElement("div");
+          itemBox.className = "itemBox";
+
+          const thumb = document.createElement("div");
+          thumb.className = "thumb";
+
+          const img = document.createElement("img");
+          img.src = item.imgPath;
+          img.alt = item.productTitle;
+          thumb.appendChild(img);
+
+          itemBox.appendChild(thumb);
+
+          const digit = document.createElement("div");
+          digit.className = "digit";
+
+          const titleDiv = document.createElement("div");
+          titleDiv.innerHTML = `<span>${item.productTitle}</span>`;
+          digit.appendChild(titleDiv);
+
+          const companyDiv = document.createElement("div");
+          companyDiv.innerHTML = `<span>${item.price}원(원가)</span>`;
+          digit.appendChild(companyDiv);
+
+          const quantityDiv = document.createElement("div");
+          quantityDiv.innerHTML = `<div>조회수 : <span>${item.readCount}</span></div>`;
+          digit.appendChild(quantityDiv);
+
+          const deleteBtnArea = document.createElement("div");
+          deleteBtnArea.className = "deleteBtn-area";
+
+          const detailLink = document.createElement("a");
+          detailLink.href = `/product/detail/${item.productNo}`; 
+          detailLink.innerText = "보러가기";
+
+          deleteBtnArea.appendChild(detailLink);
+
+          itemBox.appendChild(digit);
+          itemBox.appendChild(deleteBtnArea);
+
+          pickListBox.appendChild(itemBox);
+        });
       })
-      .catch(error => console.error("Error:", error));
+      .catch(error => console.error("찜 목록 로딩 오류:", error));
     }
-
-
   }
 });
 
+
+/* ---------------------------통합 검색 부분 JS------------------------- */
+
+const minValue = document.getElementById("minValue"); // 최소 가격 출력 영역
+const maxValue = document.getElementById("maxValue"); // 최대 가격 출력 영역
+
+// 통합검색 페이지로 전환하는 버튼
 searchPageBtn.addEventListener("click", () => {
+  // 현재 페이지가 0(채팅) 또는 1(장바구니)일 때만 통합검색으로 전환
   if (currentPage < 2) {
     currentPage = currentPage + 2
   } else {
     return;
   }
 
+  // 통합 검색만 보이게
   sidebarWrapper[0].classList.add("hidden");
   sidebarWrapper[1].classList.add("hidden");
   sidebarWrapper[2].classList.remove("hidden");
-
 });
 
-
-
-
-const minValue = document.getElementById("minValue");
-const maxValue = document.getElementById("maxValue");
-
-// 숫자 -> 금액 문자열로 변환
+// 범위 숫자 → 실제 금액(문자열)로 매핑하는 함수
 function transferValue( value) {
   if (value == 10) return '0';
   if (value == 20) return '10000';
   if (value == 30) return '100000';
   if (value == 40) return '999999~';
-  
-  
-  
 
   let numString = value.toString();  
   let n = +numString[0];
@@ -1277,6 +1222,7 @@ function transferValue( value) {
 
 // 범위 슬라이더 
 class RangeSlider {
+  // 슬라이더와 핸들 요소를 미리 저장
   constructor() {
     this.constants = {
       MAX_VALUE: this.getGlobalCssValue('--max-value'),
@@ -1306,7 +1252,7 @@ class RangeSlider {
       }
 
       minValue.innerText = value;
-      this.setStartValue(+e.target.value);
+      this.setStartValue(+e.target.value); // 최소 범위값(minRange) 기준으로 위치 계산
     });
 
     this.elements.maxRange.addEventListener("input", (e) => {
@@ -1320,7 +1266,7 @@ class RangeSlider {
       }
       
       maxValue.innerText = value;
-      this.setEndValue(+e.target.value);
+      this.setEndValue(+e.target.value); // 최대 범위값(maxRange) 기준으로 위치 계산
     });
   }
 
@@ -1380,105 +1326,11 @@ class RangeSlider {
   }
 }
 
-
 // 범위 슬라이더 초기화
 const slider = new RangeSlider();
 slider.init({ min: 10, max: 40 });
 
-
-
-
-
-// 검색창
-
-
-
-/* <div class="body" id="SEARCH">
-        <div class="sideBox search">
-          <div class="category" data-categoryNo="0">ALL</div>
-          <div class="category" data-categoryNo="1">패션</div>
-          <div class="category" data-categoryNo="2">뷰티</div>
-          <div class="category" data-categoryNo="3">생활</div>
-          <div class="category" data-categoryNo="4">식품</div>
-          <div class="category" data-categoryNo="5">전자제품</div>
-          <div class="category" data-categoryNo="6">공구</div>
-          <div class="category" data-categoryNo="7">자동차</div>
-          <div class="category" data-categoryNo="8">스포츠 레저</div>
-          <div class="category" data-categoryNo="9">유아  아동</div>
-          <div class="category" data-categoryNo="10">도서  문구</div>
-          <div class="category" data-categoryNo="11">반려동물</div>
-        </div>
-
-
-
-
-        <div class="content search">
-          <div class="member-bar" id="memberBar">
-            <div class="under-line company-line" id="underLine"></div>
-            <a class="member-type bold" data-type="personal">브랜드 상품</a>
-            <a class="member-type" data-type="company">공구 모집</a>
-            <div id="bottomLine"></div>
-          </div>
-          <div class="item" id = "locationList">
-            <div class="itemName">지역 <span>Location</span></div>
-
-            <div class="itemContents">
-              <div class="itemContent BTN selected">GPS 검색</div>
-              <div class="itemContent BTN">직접 선택</div>
-            </div>
-              
-
-          </div>
-          <div class="item" id = "priceRange">
-            <div class="itemName">가격 <span>Price</span></div>
-
-            <div class="itemRange">
-              <div class="range-slider-container">
-
-                <div class="slider-track"> 
-                  <div class="progressBar"></div>
-                </div>
-              
-                <label>
-                  <span class="handle min"><span id="minValue">0</span></span>
-                  <input type="range" class="min-range range-input">
-                </label>
-              
-                <label>
-                  <span class="handle max"><span id="maxValue">990000~</span></span>
-                  <input type="range" class="max-range range-input">
-                </label>
-
-              </div>
-            </div>
-              
-
-          </div>
-          <div class="item" id = "categoryList">
-            <div class="itemName" >카테고리 <span>Category</span></div>
-
-            <div class="itemContents" id="categoryListItems">
-              <div class="itemContent BTN selected" data-subCategoryNo="12">여성 의류</div>
-              <div class="itemContent BTN ">남성 의류</div>
-              <div class="itemContent BTN selected">아동 의류</div>
-              <div class="itemContent BTN ">신발</div>
-              <div class="itemContent BTN selected"> 가방 & 액서서리</div>
-              <div class="itemContent BTN ">스포츠웨어</div>
-              <div class="itemContent BTN ">스포츠웨어</div>
-            </div>
-              
-
-          </div>
-            
-
-
-
-
-          </div>
-        </div> */
-
-// 카테고리 선택
-
+// 카테고리 필터 선택 기능
 const categories = document.querySelectorAll(".category");
 
 categories.forEach(category => {
@@ -1496,7 +1348,7 @@ categories.forEach(category => {
     fetch("/ajax/getCategory", {
       method: "post",
       headers: { "Content-Type": "application/json" },
-      body: categoryNo
+      body: JSON.stringify({ categoryNo })
     })
     .then(response => response.json())
     .then(data => {
@@ -1522,12 +1374,10 @@ categories.forEach(category => {
   });
 })
 
-
-
-const memberBar = document.getElementById("memberBar");
-const memberTypes = memberBar.querySelectorAll(".member-type");
-
-const locationList = document.getElementById("locationList");
+// 브랜드 상품 / 공구 모집 탭 전환
+const memberBar = document.getElementById("memberBar"); // 탭 영역 (브랜드 상품 / 공구 모집)
+const memberTypes = memberBar.querySelectorAll(".member-type"); // 각 탭 (<a class="member-type">)
+const locationList = document.getElementById("locationList"); // 지역 검색 항목 (지도 검색, 지번 주소 입력 포함 영역)
 
 memberTypes.forEach(type => {
   type.addEventListener("click", function () {
@@ -1540,38 +1390,31 @@ memberTypes.forEach(type => {
     if (typeValue === "personal") {
       underLine.classList.remove("personal-line");
       underLine.classList.add("company-line");
-
       locationList.classList.add("hidden");
 
     } else {
       underLine.classList.remove("company-line");
       underLine.classList.add("personal-line");
-
       locationList.classList.remove("hidden");
     }
   });
 });
 
-
-
 // 검색 버튼 클릭 시
-const sideBarSearchBtn = document.getElementById("sideBarSearchBtn");
-
-const sideBarSearchInput = document.getElementById("sideBarSearchInput");
+const sideBarSearchBtn = document.getElementById("sideBarSearchBtn"); // 검색 버튼
+const sideBarSearchInput = document.getElementById("sideBarSearchInput"); // 검색어 입력창
 
 sideBarSearchBtn.addEventListener("click", e => {
   e.preventDefault();
-  const searchValue = sideBarSearchInput.value.trim();
-  const type = document.querySelector(".member-type.bold").getAttribute("data-type");
+  const searchValue = sideBarSearchInput.value.trim(); // 검색어
+  const type = document.querySelector(".member-type.bold").getAttribute("data-type"); // 브랜드/공구 구분
   const selectedCategorieParants = document.querySelectorAll(".sideBox .category.selected");
-  const categoryNoParants = Array.from(selectedCategorieParants).map(c => c.getAttribute("data-categoryNo"));
+  const categoryNoParants = Array.from(selectedCategorieParants).map(c => c.getAttribute("data-categoryNo")); // 대분류
   const selectedCategories = document.querySelectorAll("#categoryListItems .itemContent.selected");
-  const categoryNo = Array.from(selectedCategories).map(c => c.getAttribute("data-subCategoryNo"));
-
+  const categoryNo = Array.from(selectedCategories).map(c => c.getAttribute("data-subCategoryNo")); // 소분류
   const minValue = document.getElementById("minValue").innerText;
   const maxValue = document.getElementById("maxValue").innerText;
-
-  const location = document.getElementById("sample4_jibunAddress").value;
+  const location = document.getElementById("sample4_jibunAddress").value; // 주소
   
   fetch("/ajax/totalSearch", {
     method: "post",
@@ -1588,132 +1431,58 @@ sideBarSearchBtn.addEventListener("click", e => {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data);
     const searchItemList = document.getElementById("searchItemList");
     searchItemList.innerHTML = ""; // 기존 내용 초기화
-    /* boardCode
-: 
-2
-boardContent
-: 
-"240Hz 주사율을 지원하는 고성능 게이밍 모니터입니다."
-boardNo
-: 
-92
-boardTitle
-: 
-"최신형 게이밍 모니터"
-category
-: 
-"생활"
-categoryNo
-: 
-3
-imgPath
-: 
-"/resources/images/product/48.jpg"
-price
-: 
-31000
-purchaseDate
-: 
-null
-readCount
-: 
-32
-reviewContent
-: 
-null
-reviewDate
-: 
-null
-reviewNo
-: 
-0
-reviewScore
-: 
-0 */
-data.forEach(item => {
-  if ("${item.boardCode}" != 2){
-    boardCode = 1;
-  }
-
-  const itemBox = document.createElement("div");
-  itemBox.className = "itemBox";
-
-  const thumb = document.createElement("div");
-  thumb.className = "thumb";
-
-  const img = document.createElement("img");
-  img.src = item.imgPath;
-  img.alt = item.boardTitle;
-
-  thumb.appendChild(img);
-  itemBox.appendChild(thumb);
-
-  const digit = document.createElement("div");
-  digit.className = "digit";
-
-  const titleDiv = document.createElement("div");
-  titleDiv.innerHTML = `<span>${item.boardTitle}</span>`;
-  digit.appendChild(titleDiv);
-
-  const priceDiv = document.createElement("div");
-  digit.appendChild(priceDiv);
   
-  const companyDiv = document.createElement("div");
-  companyDiv.innerHTML = `<span>${item.price}원(원가)</span>`;
-  digit.appendChild(companyDiv);
-  const companyDiv2 = document.createElement("div");
-  digit.appendChild(companyDiv2);
+    data.forEach(item => {
+      const itemBox = document.createElement("div");
+      itemBox.className = "itemBox";
 
-  const quantityDiv = document.createElement("div");
-  quantityDiv.innerHTML = `<div>조회수 : <span>${item.readCount}</span></div>`;
-  digit.appendChild(quantityDiv);
-  
-  const deleteBtnArea = document.createElement("div");
-  deleteBtnArea.className = "deleteBtn-area";
-  
-  const deleteLink = document.createElement("a");
-  deleteLink.href = `/board/${item.boardCode}/${item.boardNo}`; 
-  deleteLink.innerText = "보러가기"
-  
-  deleteBtnArea.appendChild(deleteLink);
-  
-  itemBox.appendChild(digit);
-  itemBox.appendChild(deleteBtnArea);
-  
-  searchItemList.appendChild(itemBox);
+      // 썸네일
+      const thumb = document.createElement("div");
+      thumb.className = "thumb";
 
-});
+      const img = document.createElement("img");
+      img.src = item.imgPath;
+      img.alt = item.productTitle;
+      thumb.appendChild(img);
+      itemBox.appendChild(thumb);
+
+      // 정보 영역
+      const digit = document.createElement("div");
+      digit.className = "digit";
+
+      const titleDiv = document.createElement("div");
+      titleDiv.innerHTML = `<span>${item.productTitle}</span>`;
+      digit.appendChild(titleDiv);
+
+      const priceDiv = document.createElement("div");
+      priceDiv.innerHTML = `<span>${item.price.toLocaleString()}원(원가)</span>`;
+      digit.appendChild(priceDiv);
+
+      const readDiv = document.createElement("div");
+      readDiv.innerHTML = `<div>조회수 : <span>${item.readCount}</span></div>`;
+      digit.appendChild(readDiv);
+
+      // 버튼 영역
+      const deleteBtnArea = document.createElement("div");
+      deleteBtnArea.className = "deleteBtn-area";
+
+      const link = document.createElement("a");
+      link.href = `/product/${item.productNo}`;
+      link.innerText = "보러가기";
+      deleteBtnArea.appendChild(link);
+
+      // 조립
+      itemBox.appendChild(digit);
+      itemBox.appendChild(deleteBtnArea);
+      searchItemList.appendChild(itemBox);
+    });
   })
   .catch(error => console.error("Error:", error));
-
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// 주소 api검색
 function openAddressSearch() {
   window.open("/address/search", "주소검색", "width=500,height=600");
 }
@@ -1736,193 +1505,3 @@ function sample4_execDaumPostcode() {
     }
   }).open();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* -------------------------------------------------------------------------------- */
-
