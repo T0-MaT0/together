@@ -65,9 +65,9 @@ public class MypageDAO {
         return sqlSession.selectList("mypageMapper.getPromotionInfo", memberNo);
     }
 
+    // 통합 검색 자식 카테고리 JSON
     public List<Category> getCategory(int categoryNo) {
         int parentNo = categoryNo;
-        System.out.println("parentNo = " + parentNo);
         return sqlSession.selectList("categoryMapper.selectChildCategories", parentNo);
     }
 

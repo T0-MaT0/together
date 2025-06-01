@@ -25,12 +25,14 @@ public interface MypageService {
 
     List<Product> getReview(int memberNo);
 
+    // 마이페이지 광고 제휴 문의
     int insertPromotion(Board board, Image img, MultipartFile file, String filePath);
 
     Company getBusinessInfo(int memberNo);
 
     List<QuestCustomer> getPromotionInfo(int memberNo);
 
+    // 통합 검색 자식 카테고리 JSON
     List<Category> getCategory(int categoryNo);
 
     int updateProfile(int memberNo, Image img, MultipartFile file, String filePath);

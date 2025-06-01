@@ -1348,7 +1348,7 @@ categories.forEach(category => {
     fetch("/ajax/getCategory", {
       method: "post",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ categoryNo })
+      body: JSON.stringify( categoryNo )
     })
     .then(response => response.json())
     .then(data => {

@@ -16,7 +16,7 @@
 	    ORDER BY CATEGORY_NO
 	</select>
 
-	<!-- 자식 카테고리 ajax -->
+	<!-- 통합 검색 자식 카테고리 JSON -->
 	<select id="selectChildCategories" resultMap="category_rm">
 	    SELECT CATEGORY_NO, CATEGORY_NAME, PARENT_CATEGORY_NO
 	    FROM CATEGORY

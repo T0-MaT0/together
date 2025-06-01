@@ -150,12 +150,12 @@ public class MypageController {
     public List<QuestCustomer> getPromotionInfo(@RequestBody int memberNo) {
         return service.getPromotionInfo(memberNo);
     }
-    // 수정해야함
+    
+    // 통합 검색 자식 카테고리 JSON
     @PostMapping(value = "/getCategory", produces="application/json; charset=UTF-8")
     @ResponseBody
     public List<Category> getCategory(@RequestBody int categoryNo) {
         List<Category> category = service.getCategory(categoryNo);
-        System.out.println("category = " + category);
         return category;
     }
 
@@ -208,9 +208,7 @@ public class MypageController {
         return service.updateProfile(memberNo, img, file, filePath);
     }
 
-
-// PostMapping
-
+    // 마이페이지 광고 제휴 문의
     @PostMapping("/promotion")
     @ResponseBody
     public int insertPromotion(
@@ -222,31 +220,30 @@ public class MypageController {
             HttpSession session
     ) {
 
+        // 파일이 비어있으면 실패로 처리
         if (file.isEmpty()) {
             return 0;
         }
 
+        // 저장 경로 세팅
+        final String webPath = "/resources/images/ad-board/";
+        final String filePath = session.getServletContext().getRealPath(webPath);
 
-        String webPath = "/resources/images/ad-board/";
-        String filePath = session.getServletContext().getRealPath(webPath);
+        // 이미지 정보 생성
         Image img = new Image();
         img.setImagePath(webPath);
         img.setImageOriginal(file.getOriginalFilename());
-
         img.setImageReName(Utill.fileRename(file.getOriginalFilename()));
-
         img.setImageLevel(0);
-        img.setImageType(4);
+        img.setImageType("PRODUCT_AD_INQUIRY"); // 숫자 대신 문자열 코드 사용 (ENUM 권장)
 
-
+        // 게시글 정보 생성(INQUIRY 게시판)
         Board board = new Board();
         board.setBoardTitle(title);
         board.setBoardContent(content);
         board.setMemberNo(memberNo);
-        board.setBoardCd(7);
 
         return service.insertPromotion(board, img, file, filePath);
-
     }
 
 

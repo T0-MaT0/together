@@ -185,7 +185,7 @@
           <div class="category" data-categoryNo="7">자동차</div>
           <div class="category" data-categoryNo="8">스포츠 레저</div>
           <div class="category" data-categoryNo="9">유아 아동</div>
-          <div class="category" data-categoryNo="10">도서 문구</div>
+          <div class="category" data-catego ryNo="10">도서 문구</div>
           <div class="category" data-categoryNo="11">반려동물</div>
         </div> <!-- 검색 사이드바 카테고리 끝 -->
 

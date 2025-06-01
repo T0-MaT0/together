@@ -53,12 +53,12 @@ public class MypageServiceImpl implements MypageService {
         return dao.getReview(memberNo);
     }
 
+    // 마이페이지 광고 제휴 문의
     @Override
     public int insertPromotion(Board board, Image img, MultipartFile file, String filePath) {
         int result=0;
 
         result = dao.insertPromotionBoard(board);
-        System.out.println("result = " + result);
         if(result>0){
             if(img != null){
                 img.setImageTypeNo(result);
@@ -73,7 +73,6 @@ public class MypageServiceImpl implements MypageService {
                 }
             }
         }
-        System.out.println("result = " + result);
         return result;
     }
 
@@ -87,6 +86,7 @@ public class MypageServiceImpl implements MypageService {
         return dao.getPromotionInfo(memberNo);
     }
 
+    // 통합 검색 자식 카테고리 JSON
     @Override
     public List<Category> getCategory(int categoryNo) {
         return dao.getCategory(categoryNo);
