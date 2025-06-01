@@ -714,6 +714,11 @@ signUpFrm.addEventListener("submit", function(e) {
       return;
     }
   
+    //<<추후 삭제>>
+    // 이메일 및 이메일 인증 키 유효성 검사를 강제로 통과시킴
+    checkObj.memberEmail = true;
+    checkObj.emailAuthKey = true;
+
 
     // 이메일 인증 상태 처리
     // checkObj.emailAuthKey = true;  // 이 값을 true로 설정해야 합니다.
@@ -760,7 +765,12 @@ signUpFrm.addEventListener("submit", function(e) {
     const authority = document.getElementById("authority-input");
     if(authority.value == "3"){
         for (let key in checkObjCompany) { 
-           
+
+            //<<추후 삭제>>
+            // 'businessNo' 필드는 유효성 검사에서 제외
+            if (key === "businessNo") {
+              continue; // 이 필드는 건너뛰고 다음 필드로 넘어갑니다.
+            }
             if (!checkObjCompany[key]) {
                 switch (key) {
                     case "businessNo": message = "사업자 번호가"; break;
