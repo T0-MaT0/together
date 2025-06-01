@@ -29,10 +29,12 @@ public class MainServiceImpl implements MainService{
         
         
         List<Image> bannerImages = dao.selectAllBannerImages();
-        
+        System.out.println(bannerImages);
         List<Image> mainBannerList = new ArrayList<>();
         for (Image img : bannerImages) {
-            if (img.getImageType() == 6 && img.getImageTypeNo() == 1) { // 메인 배너 조건
+        	int getImageType = Integer.parseInt(img.getImageType());
+        	
+            if (getImageType == 6 && getImageType == 1) { // 메인 배너 조건
                 mainBannerList.add(img); // 리스트에 추가
             }
         }
