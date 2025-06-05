@@ -152,6 +152,11 @@
 	      AND C.BUSINESS_NO = #{companyNo}
 	</select>
 	
+	<insert id="insertAgree">
+		INSERT INTO TERMS 
+		VALUES(#{emailAgree}, #{snsAgree}, #{memberNo})
+	</insert>
+	
 
 		
 

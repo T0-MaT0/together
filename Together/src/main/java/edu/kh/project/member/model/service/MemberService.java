@@ -76,6 +76,15 @@ public interface MemberService {
 	Member findCompanyMember(Map<String, Object> paramMap);
 
 
+	/** 회원의 약관 동의 정보 저장
+	 * @param memberNo 회원 번호
+	 * @param emailAgree 이메일 수신 동의 여부
+	 * @param snsAgree SNS 수신 동의 여부
+	 * @return result(0:실패, 1:성공)
+	 */
+	int insertAgree(int memberNo, String emailAgree, String snsAgree);
+
+
 	//int changePw2(Member inputMember);
 	
 
