@@ -549,18 +549,38 @@ sample6_detailAddress.addEventListener("input", validateAddressInputs);
 // 필수 체크박스 유무 검사
 const useAgree = document.getElementById("use-agree");
 const userdataPsAgree = document.getElementById("userdataPS-agree");
+const allAgree = document.getElementById("all-agree");
 
 // 주소 입력값을 검사하는 함수
 function validateAgreeInputs() {
+    // 필수 체크박스가 모두 체크되어 있는지 확인
     if (useAgree.checked && userdataPsAgree.checked) {
         checkObj.agree = true;
     } else {
         checkObj.agree = false;
-    } 
+    }
 }
 
-useAgree.addEventListener("input", validateAgreeInputs);
-userdataPsAgree.addEventListener("input", validateAgreeInputs);
+// 초기 상태 확인
+validateAgreeInputs();
+
+// 개별 체크박스 변경 시
+useAgree.addEventListener("change", function() {
+    validateAgreeInputs();
+});
+
+userdataPsAgree.addEventListener("change", function() {
+    validateAgreeInputs();
+});
+
+// "모두 동의" 체크박스 변경 시
+allAgree.addEventListener("change", function() {
+    const checkboxes = document.querySelectorAll("#all-agree-area ~ .agree-area input[type='checkbox']");
+    checkboxes.forEach(cb => {
+        cb.checked = allAgree.checked;
+    });
+    validateAgreeInputs();
+});
 
 // --------------------------------------------------------------------------
 // -------------------------------------------------------------------------

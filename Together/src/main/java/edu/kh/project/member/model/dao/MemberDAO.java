@@ -66,6 +66,10 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.findCompanyMember", paramMap);
 	}
 
+	public int insertAgree(Map<String, Object> paramMap) {
+		return sqlSession.insert("memberMapper.insertAgree", paramMap);
+	}
+
 	//public int changePw2(Member inputMember) {
 	//	return sqlSession.update("memberMapper.changePw2", inputMember);
 	//}

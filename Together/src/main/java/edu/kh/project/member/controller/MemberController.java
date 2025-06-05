@@ -153,11 +153,14 @@ public class MemberController {
 	// 개인 회원 가입 진행 
 	@PostMapping("/signUp1")
 	public String signUp(Member inputMember, String[] memberAddr, Company inputCompany, 
-			 RedirectAttributes ra) {
+			@RequestParam(value="email-agree", required=false, defaultValue="off") String emailAgree,
+			@RequestParam(value="sns-agree", required=false, defaultValue="off") String snsAgree,
+			RedirectAttributes ra) {
 		
 		System.out.println("inputMember : " + inputMember);
 		System.out.println("inputCompany : " + inputCompany);
-		
+		System.out.println("광고성 정보 이메일 수신 동의 : " + emailAgree);
+		System.out.println("광고성 정보 SNS 수신 동의 : " + snsAgree);
 
 		if(inputMember.getMemberAddr().equals(",,")) {
 			
@@ -171,7 +174,8 @@ public class MemberController {
 		}
 
 		int result = service.signUp(inputMember);
-		
+		int resultAgree = service.insertAgree(inputMember.getMemberNo(), emailAgree, snsAgree);
+		if(resultAgree > 0) System.out.println("동의 약관 insert 성공 여부 " );
 		System.out.println("다시 나온 inputMember : " + inputMember);
 		
 		inputCompany.setMemberNo(inputMember.getMemberNo());

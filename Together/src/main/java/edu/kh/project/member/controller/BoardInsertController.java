@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.project.member.model.dto.Board;
+import edu.kh.project.member.model.dto.FaqCategory;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.service.CustomerService;
 
@@ -35,81 +36,84 @@ public class BoardInsertController {
 	@Autowired
 	private CustomerService service;
 
-	// 게시글 작성 화면 전환
-	@GetMapping("/{boardCode:[0-9]+}/insert")
-	public String boardInsert(@PathVariable("boardCode") int boardCode) {
-		// @PathVariable : 주소 값 가져오기 + request scope에 세팅
-		// System.out.println("boardCode: "+ boardCode);
-		// 1 공지사항 2 큐앤에이 3 1대1
-		return "/customer/customerBoardWrite";
-	}
-
-	//게시글 작성
-	@PostMapping("/{boardCode:[0-9]+}/insert")
-	public String boardInsert(@PathVariable("boardCode") int boardCode
-							, Board board /*커멘드 객체(필드에 전달받은 파라미터 값 담겨 있음*/
-							, @RequestParam(value="images", required=false) List<MultipartFile> images
-							, @SessionAttribute(name = "loginMember", required = false) Member loginMember
-							, RedirectAttributes ra
-							, HttpSession session) throws IllegalStateException, IOException, FileUploadException {
+	// 공지사항 작성 페이지
+	@GetMapping("/notice/insert")
+	public String noticeWrite(
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
+			Model model) {
 		
-		
-
-		System.out.println("넣기전 : " + board);
-		
-		if (boardCode == 4 && board.getBoardCd() > 0) {
-	        boardCode = board.getBoardCd();
-	        System.out.println("FAQ 선택으로 boardCode 교체됨: " + boardCode);
-	    }
-		
-		board.setBoardCd(boardCode);
-		board.setMemberNo(loginMember.getMemberNo());
-		
-		System.out.println("넣은후 : " + board);
-	
-		
-
-		String webPath = "/resources/images/customer/";
-		String filePath = session.getServletContext().getRealPath(webPath);
-		
-		System.out.println(images);
-		
-		//3. 게시글 삽입 서비스 호출 후 
-		int boardNo = service.boardInsert(board, images, webPath, filePath);
-		
-		String path = "redirect:";
-		String message = null;
-		if(boardNo > 0) {
-			
-			message = "1대1 게시글이 등록되었습니다.";
-			if(boardCode == 6) { // 1대1
-				path += "/";
-			} else if (boardCode == 3) { // 공지사항
-				message = "공지사항 게시글이 등록되었습니다.";
-				path += "/customer/customerBoardDetail/"+boardNo;
-				
-			} else { // FAQ
-				message = "FAQ 게시글이 등록되었습니다.";
-				path += "/customer/FAQBoard/0";
-			}
-			
-			
-			
-		}else{
-			message = "게시글 등록 실패.";
-			path +="insert";
-			
-			
+		if(loginMember == null) {
+			return "redirect:/member/login";
 		}
 		
+		model.addAttribute("boardType", "NOTICE");
+		return "customer/customerBoardWrite";
+	}
+
+	// FAQ 작성 페이지
+	@GetMapping("/faq/insert")
+	public String faqWrite(
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
+			Model model) {
+		
+		if(loginMember == null) {
+			return "redirect:/member/login";
+		}
+		
+		List<FaqCategory> categories = service.selectFaqCategories();
+		model.addAttribute("categories", categories);
+		model.addAttribute("boardType", "FAQ");
+		return "customer/customerBoardWrite";
+	}
+
+	// 1:1 문의 작성 페이지
+	@GetMapping("/inquiry/insert")
+	public String inquiryWrite(
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
+			Model model) {
+		
+		if(loginMember == null) {
+			return "redirect:/member/login";
+		}
+		
+		List<FaqCategory> categories = service.selectFaqCategories();
+		model.addAttribute("categories", categories);
+		model.addAttribute("boardType", "INQUIRY");
+		return "customer/customerBoardWrite";
+	}
+
+	// 게시글 작성 처리
+	@PostMapping("/{boardType}/insert")
+	public String boardInsert(
+			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
+			Board board,
+			@RequestParam(value = "images", required = false) List<MultipartFile> images,
+			@RequestParam("boardType") String boardType,
+			RedirectAttributes ra) {
+		
+		if(loginMember == null) {
+			return "redirect:/member/login";
+		}
+		
+		board.setMemberNo(loginMember.getMemberNo());
+		
+		int result = service.insertBoard(board, boardType);
+		
+		String message = null;
+		String path = null;
+		
+		if(result > 0) {
+			message = "게시글이 등록되었습니다.";
+			path = "/customer2/" + boardType.toLowerCase();
+		} else {
+			message = "게시글 등록 실패";
+			path = "/customer2/" + boardType.toLowerCase() + "/insert";
+		}
 		
 		ra.addFlashAttribute("message", message);
-		
-		
-		return path;
-
+		return "redirect:" + path;
 	}
-	
+
 	// 게시글 수정 화면 전환
 	@GetMapping("/{boardCode}/{boardNo}/update")
 	public String boardUpdate(@PathVariable("boardCode") int boardCode,
@@ -145,13 +149,8 @@ public class BoardInsertController {
 							  HttpSession session // 서버 파일 저장 경로를 얻어올 용도
 							  ) throws IllegalStateException, IOException {
 		
-		if (boardCode == 4 && board.getBoardCd() > 0) {
-	        boardCode = board.getBoardCd();
-	        System.out.println("FAQ 선택으로 boardCode 교체됨: " + boardCode);
-	    }
-		
 		// 1. boardCode, boardNo를 커맨드 객체에 세팅
-		board.setBoardCd(boardCode);
+		board.setBoardCode(boardCode);
 		board.setBoardNo(boardNo);
 		
 		System.out.println("cp : " + cp);
@@ -171,11 +170,7 @@ public class BoardInsertController {
 		String path = "redirect:";
 		String message = null;
 		if(result > 0) {
-			if(boardCode == 3) {
-				path += "/customer/customerBoardDetail/"+boardNo + "?cp=" +cp;
-			} else {
-				path += "/customer/FAQBoard/0";
-			}
+			path += "/customer/customerBoardDetail/"+boardNo + "?cp=" +cp;
 			message = "게시글이 수정되었습니다.";
 			
 		}else{
