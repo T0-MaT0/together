@@ -1,6 +1,7 @@
 package edu.kh.project.member.model.service;
 
 import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -158,6 +159,20 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public Member findCompanyMember(Map<String, Object> paramMap) {
 		return dao.findCompanyMember(paramMap);
+	}
+
+	@Override
+	public int insertAgree(int memberNo, String emailAgree, String snsAgree) {
+		Map<String, Object> paramMap = new HashMap<>();
+		
+		System.out.println("email agree "+(emailAgree.equals("on")));
+		System.out.println("sns agree "+(snsAgree.equals("on")));
+		
+		paramMap.put("memberNo", memberNo);
+		paramMap.put("emailAgree", "on".equals(emailAgree) ? "Y" : "N");
+		paramMap.put("snsAgree", "on".equals(snsAgree) ? "Y" : "N");
+		
+		return dao.insertAgree(paramMap);
 	}
 
 	/*@Override

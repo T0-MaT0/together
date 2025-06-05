@@ -188,10 +188,10 @@
                     <input type="checkbox" name="userdataPS-agree" id="userdataPS-agree">
                 </div>
                 <div class="make-line"></div>
-                <div class="agree-area">
+                <!-- <div class="agree-area">
                     <label for="userdateOP-agree">[선택] 개인정보 수집 및 이용동의</label>
                     <input type="checkbox" name="userdateOP-agree" id="userdateOP-agree">
-                </div>
+                </div> -->
                 <div class="agree-area">
                     <label for="email-agree">[선택] 광고성 정보 이메일 수신 동의</label>
                     <input type="checkbox" name="email-agree" id="email-agree">
