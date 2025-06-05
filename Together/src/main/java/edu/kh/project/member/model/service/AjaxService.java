@@ -50,5 +50,6 @@ public interface AjaxService {
 
     List<Category> getCategory(int categoryNo);
 
+    // 통합 검색 ajax
 	List<Product> totalSearch(Map<String, Object> searchMap);
 }

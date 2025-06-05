@@ -1,6 +1,5 @@
 package edu.kh.project.main.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,25 +23,23 @@ public class MainController {
 	@Autowired
 	private MainService service;
 
+	// 메인
 	@RequestMapping("/")
 	public String mainForward(Model model,
 	        @SessionAttribute(value = "loginMember", required = false) Member loginMember) {
-		
-		int boardCode = 1; 
+	    
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 
-	    List<Recruitment> recruitmentList = service.selectRecruitmentList(boardCode, memberNo);
+	    // 개인 공동구매 모집글 조회
+	    List<Recruitment> recruitmentList = service.selectRecruitmentList(memberNo);
 	    model.addAttribute("recruitmentList", recruitmentList);
 
-	    
+	    // 브랜드 상품 리스트 조회
+	    Map<String, Object> map = service.selectBusinessList(); 
+	    model.addAttribute("map", map);
 
-	    boardCode = 2;
+	    model.addAttribute("loginMember", loginMember);
 
-		Map<String, Object> map = service.selectBusinessList(boardCode);
-		
-		model.addAttribute("loginMember", loginMember);
-		model.addAttribute("map", map);
-		
-		return "/common/main";
+	    return "/common/main";
 	}
 }

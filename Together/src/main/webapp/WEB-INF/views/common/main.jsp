@@ -46,7 +46,7 @@
 
                     <div class="product">
                         <img src="${recruitment.thumbnail != null ? recruitment.thumbnail : '/resources/images/mypage/관리자 프로필.webp'}" alt="공구 세트">
-                        <p class="product-name">${recruitment.productName}</p>
+                        <p class="product-name">${recruitment.productTitle}</p>
                         <span class="prior-price">${recruitment.productPrice}원</span>
                         <span class="real-price"> → ${discount}</span>
 
@@ -69,60 +69,59 @@
         <h2 class="sub-title">공동구매를 쉽고 빠르게 경험해 보세요.</h2>
 
         <div class="process-wrapper">
-          <div class="text-scroll-sections">
+            <div class="text-scroll-sections">
             <div class="info-text" data-img="/resources/images/mainJHI/main1.png">
-              <p>🎉 혼자 사지 마세요! 함께 사면 더 저렴해져요! 🎉</p>
-              <p>⚡ 3초 만에 공동구매 시작! 누구나 쉽게 가능! ⚡</p>
-              <p>🔍 좋은 제품 발견? 친구들과 공동구매 GO! 📢</p>
+                <p>🎉 혼자 사지 마세요! 함께 사면 더 저렴해져요! 🎉</p>
+                <p>⚡ 3초 만에 공동구매 시작! 누구나 쉽게 가능! ⚡</p>
+                <p>🔍 좋은 제품 발견? 친구들과 공동구매 GO! 📢</p>
             </div>
             <div class="info-text" data-img="/resources/images/mainJHI/main2.png">
-              <p>💰 사업자님, 공동구매로 매출 UP! 📈</p>
-              <p>✨ 수수료 0원! 부담 없이 판매 시작! ✨</p>
-              <p>📢 광고비 없이 빠르게 고객 확보! 💞</p>
-              <p>🏆 지금 <b>1,000개</b> 이상의 사업자가 함께하고 있어요! 🙌</p>
+                <p>💰 사업자님, 공동구매로 매출 UP! 📈</p>
+                <p>✨ 수수료 0원! 부담 없이 판매 시작! ✨</p>
+                <p>📢 광고비 없이 빠르게 고객 확보! 💞</p>
+                <p>🏆 지금 <b>1,000개</b> 이상의 사업자가 함께하고 있어요! 🙌</p>
             </div>
             <div class="info-text" data-img="/resources/images/mainJHI/main3.png">
-              <p>📦 개인도! 사업자도! 누구나 공동구매 가능! 🛍️</p>
-              <p>🤔 이렇게 쉬운데, 아직도 안 해보셨나요? 😆</p>
-              <p>💡 더 싸게 사고, 더 많이 팔고 싶다면? 지금 가입하세요! 💥</p>
-              <c:choose>
+                <p>📦 개인도! 사업자도! 누구나 공동구매 가능! 🛍️</p>
+                <p>🤔 이렇게 쉬운데, 아직도 안 해보셨나요? 😆</p>
+                <p>💡 더 싸게 사고, 더 많이 팔고 싶다면? 지금 가입하세요! 💥</p>
+                <c:choose>
                 <c:when test="${empty loginMember}">
                     <a class="start-button" href="/member/login">공동구매 시작하기</a>
                 </c:when>
                 <c:when test="${!empty loginMember and loginMember.authority == 3}">
-                    <a class="start-button" href="/board/2/insertProduct">공동구매 시작하기</a>
+                    <a class="start-button" href="/member/login">공동구매 시작하기</a>
                 </c:when>
                 <c:otherwise>
                     <a class="start-button" id="btn-recruit" href="#">공동구매 시작하기</a>
                 </c:otherwise>
-              </c:choose>
+                </c:choose>
             </div>
-          </div>
+            </div>
 
-          <div class="fixed-image">
+            <div class="fixed-image">
             <img id="process-image" src="/resources/images/mainJHI/main1.png" alt="공동구매 이미지" />
-          </div>
+            </div>
         </div>
-      </section>
+    </section>
 
-    <c:set var="url" value="/board/2/"/>
+    <c:set var="url" value="/product/" />
     <section class="hot-products">
         <h2 class="main-product-title">🔥HOT🔥한 상품들</h2>
         <div class="hot-product-list">
-            <%-- map.businessHotList가 비어있지 않은 경우에만 표시 --%>
             <c:if test="${!empty map and !empty map.businessHotList}">
-                <a class="hot-product main-product" href="${url}${map.businessHotList[0].boardNo}">
+                <a class="hot-product main-product" href="${url}${map.businessHotList[0].productNo}">
                     <span class="hot-rank">1</span>
                     <img src="${map.businessHotList[0].thumbnail}" alt="상품 이미지">
-                    <p class="product-name">${map.businessHotList[0].boardTitle}</p>
+                    <p class="product-name">${map.businessHotList[0].productTitle}</p>
                     <p class="price">${map.businessHotList[0].productPrice}원</p>
                 </a>
 
                 <div class="hot-product-group">
                     <c:forEach var="hotList" items="${map.businessHotList}" begin="${i+1}" end="${i+6}" varStatus="status">
-                        <a class="hot-product" href="${url}${hotList.boardNo}">
+                        <a class="hot-product" href="${url}${hotList.productNo}">
                             <img src="${hotList.thumbnail}" alt="상품 이미지">
-                            <p class="product-name">${hotList.boardTitle}</p>
+                            <p class="product-name">${hotList.productTitle}</p>
                             <p class="price">${hotList.productPrice}원</p>
                         </a>
                     </c:forEach>
@@ -131,17 +130,14 @@
         </div>
     </section>
 
-
-
     <section class="new-products">
         <h2 class="main-product-title">🆕새로 올라온 상품들🆕</h2>
         <div class="new-product-list">
-            <%-- map.businessNewList가 비어있지 않은 경우에만 표시 --%>
             <c:if test="${!empty map and !empty map.businessNewList}">
                 <c:forEach var="newList" items="${map.businessNewList}" begin="${i}" end="${i+4}" varStatus="status">
-                    <a class="new-product" href="${url}${newList.boardNo}">
+                    <a class="new-product" href="${url}${newList.productNo}">
                         <img src="${newList.thumbnail}" alt="상품 이미지">
-                        <p class="product-name">${newList.boardTitle}</p>
+                        <p class="product-name">${newList.productTitle}</p>
                         <p class="price">${newList.productPrice}원</p>
                     </a>
                 </c:forEach>

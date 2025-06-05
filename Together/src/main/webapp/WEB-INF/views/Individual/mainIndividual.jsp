@@ -9,7 +9,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToGether</title>
+    <title>공동구매 메인 페이지</title>
     <link rel="stylesheet" href="/resources/css/header,footer.css">
     <link rel="stylesheet" href="/resources/css/mainIndividual.css">
 </head>
@@ -71,10 +71,6 @@
                                     <p class="product-name">${recruitment.productTitle}</p>
                                     <p class="discount-price">${discount}원</p>
                                     <p class="original-price">${recruitment.productPrice}원 (원가)</p>
-                                    <p class="participants">📅 생성일:
-                                        <c:out value="${fn:substring(recruitment.pCreateDate, 5, 10)}" />
-                                        <c:out value="${fn:substring(recruitment.pCreateDate, 11, 16)}" />~
-                                    </p>
                                     <p class="participants">⏳ 마감일:
                                         <c:out value="${fn:substring(recruitment.recEndDate, 5, 10)}" />
                                         <c:out value="${fn:substring(recruitment.recEndDate, 11, 16)}" />
@@ -123,10 +119,6 @@
                                     <p class="product-name">${recruitment.productTitle}</p>
                                     <p class="discount-price">${discount}원</p>
                                     <p class="original-price">${recruitment.productPrice}원 (원가)</p>
-                                    <p class="participants">📅 생성일:
-                                        <c:out value="${fn:substring(recruitment.pCreateDate, 5, 10)}" />
-                                        <c:out value="${fn:substring(recruitment.pCreateDate, 11, 16)}" />~
-                                    </p>
                                     <p class="participants">⏳ 마감일:
                                         <c:out value="${fn:substring(recruitment.recEndDate, 5, 10)}" />
                                         <c:out value="${fn:substring(recruitment.recEndDate, 11, 16)}" />
@@ -178,10 +170,6 @@
                                     <p class="product-name">${recruitment.productTitle}</p>
                                     <p class="discount-price">${discount}원</p>
                                     <p class="original-price">${recruitment.productPrice}원 (원가)</p>
-                                    <p class="participants">📅 생성일:
-                                        <c:out value="${fn:substring(recruitment.pCreateDate, 5, 10)}" />
-                                        <c:out value="${fn:substring(recruitment.pCreateDate, 11, 16)}" />~
-                                    </p>
                                     <p class="participants">⏳ 마감일:
                                         <c:out value="${fn:substring(recruitment.recEndDate, 5, 10)}" />
                                         <c:out value="${fn:substring(recruitment.recEndDate, 11, 16)}" />

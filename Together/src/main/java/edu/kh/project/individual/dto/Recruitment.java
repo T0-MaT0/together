@@ -27,7 +27,7 @@ public class Recruitment {
     private String joinDate;           // 참가일 (SYSDATE)
     private String cancelDate;         // 취소일
     private int myQuantity;            // 내가 담은 수량
-    private int myParticipationCount; // 내가 현재 참여 중인 수량
+    private int myParticipationCount;  // 내가 현재 참여 중인 수량
 
     // PRODUCT 테이블
     private String productTitle;       // 상품명
@@ -38,7 +38,8 @@ public class Recruitment {
     private int readCount;             // 조회수
     private int categoryNo;            // 카테고리 번호
     private Integer parentCategoryNo;  // 상위 카테고리 번호
-
+    private Date pCreateDate;        // 등록일자
+    
     // MEMBER (방장) 정보
     private int hostNo;                // 방장 회원 번호
     private String hostName;           // 방장 닉네임

@@ -1,7 +1,6 @@
 package edu.kh.project.main.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,31 +16,29 @@ public class MainDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
 
-    // 공동구매 모집방 목록 조회 (BOARD_CD = 1인 글만)
-    public List<Recruitment> selectRecruitmentList(Map<String, Object> paramMap) {
-        return sqlSession.selectList("mainMapper.selectRecruitmentList", paramMap);
-    }
+	// 개인 공동구매 모집글 조회 
+	public List<Recruitment> selectRecruitmentList(int memberNo) {
+	    return sqlSession.selectList("mainMapper.selectRecruitmentList", memberNo);
+	}
 
     // 현재 참가자 수 조회
     public int countParticipants(int recruitmentNo) {
         return sqlSession.selectOne("mainMapper.countParticipants", recruitmentNo);
     }
 
-    /** 이미지 리스트 조회
-	 * @param recruitmentNo
-	 * @return
-	 */
-	public List<Image> selectAllBannerImages() {
-	    return sqlSession.selectList("mainMapper.selectAllBannerImages");
+    // 메인 배너 이미지 목록 조회(타입이 AD_BANNER, 타입 넘버가 1)
+	public List<Image> selectMainBannerImages() {
+	    return sqlSession.selectList("mainMapper.selectMainBannerImages");
 	}
 	
+	// 최신순 상품 조회
+	public List<Business> selectBusinessNewList() {
+	    return sqlSession.selectList("mainMapper.selectBusinessNewList");
+	}
 
-	public List<Business> selectBusinessNewList(int boardCode) {
-		return sqlSession.selectList("mainMapper.selectBusinessNewList", boardCode);
-	}
-	
-	public List<Business> selectBusinessHotList(int boardCode) {
-		return sqlSession.selectList("mainMapper.selectBusinessHotList", boardCode);
+	// 조회수 기준 인기 상품 조회
+	public List<Business> selectBusinessHotList() {
+	    return sqlSession.selectList("mainMapper.selectBusinessHotList");
 	}
 
 }

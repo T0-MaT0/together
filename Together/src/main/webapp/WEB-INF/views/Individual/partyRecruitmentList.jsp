@@ -70,8 +70,7 @@
                 </div>
 
                 <div class="info-box">
-                    <p>기간 : <strong>
-                          ${fn:substring(recruitmentDetail.recCreatedDate, 0, 13)}시 ~ 
+                    <p>마감 기간 : <strong>
                         ${fn:substring(recruitmentDetail.recEndDate, 0, 13)}시
                     </strong></p>
 
@@ -128,7 +127,7 @@
             </c:choose>
 
             <!-- 설명란 -->
-            <div class="recruit-description">${recruitmentDetail.boardContent}</div>
+            <div class="recruit-description">${recruitmentDetail.productContent}</div>
 
             <!-- 목록 버튼 -->
             <div class="button-container">
@@ -137,7 +136,7 @@
                     <button class="edit-btn2" onclick="openEditPopup(${recruitmentDetail.recruitmentNo})">수정</button>
                 </c:if>
                 <!-- 목록 버튼 (모든 사용자에게 보임) -->
-                <button class="list-btn" onclick="location.href='/Individual/detail'">목록</button>
+                <button class="list-btn" onclick="location.href='/individual'">목록</button>
             </div>
 
             <!-- 댓글 입력 -->

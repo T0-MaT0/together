@@ -14,17 +14,16 @@
             </div>
             <span class="main-nav">
                 <c:set var="uri" value="${pageContext.request.requestURI}" />
-
                 <%-- 브랜드 버튼 --%>
                 <c:set var="brandClass" value="to-brand" />
-                <c:if test="${fn:contains(uri, '/product')}">
+                <c:if test="${fn:contains(uri, '/business')}">
                     <c:set var="brandClass" value="btn-get-personal" />
                 </c:if>
                 <a href="/product" class="${brandClass}">To 브랜드</a>
 
                 <%-- 개인 공구 버튼 --%>
                 <c:set var="individualClass" value="to-gain" />
-                <c:if test="${fn:contains(uri, '/individual')}">
+                <c:if test="${fn:contains(uri, '/Individual')}">
                     <c:set var="individualClass" value="btn-get-gain" />
                 </c:if>
                 <a href="/individual" class="${individualClass}">Get 개인</a>
@@ -36,11 +35,11 @@
                 <%-- loginMember가 있을 때만 닉네임과 포인트 표시 --%>
                 <span>${loginMember.memberNick} | ${loginMember.point}pt</span>
 
-                <c:if test="${loginMember.authority == 2}">
+                <c:if test="${loginMember.authority == 2 || loginMember.authority == 1}">
                     <button class="btn-recruit">모집하기</button>
                 </c:if>
 
-                <c:if test="${loginMember.authority == 3}">
+                <c:if test="${loginMember.authority == 3 || loginMember.authority == 1}">
                     <a href="/product/insert" class="product-registration">상품등록</a>
                 </c:if>
             </c:if>
@@ -55,7 +54,7 @@
 
             <c:choose>
                 <%-- 개인공구 관련 메뉴 --%>
-                <c:when test="${fn:contains(uri, '/individual')}">
+                <c:when test="${fn:contains(uri, '/Individual')}">
                     <a href="/individual/detail">모집 상품</a>
                     <span> | </span>
                     <a href="/myRecruitment?key=myRecruitment">내 모집 중</a>

@@ -344,7 +344,7 @@ public class BusinessController {
 	public Order selectOrder(
 			@PathVariable("productNo")int productNo,
 			@RequestParam(value = "reviewNo", required = false, defaultValue = "-1") int reviewNo,
-			@SessionAttribute("loginMember") Member loginMember) {
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("boardNo", productNo);
 		map.put("memberNo", loginMember.getMemberNo());
@@ -357,7 +357,7 @@ public class BusinessController {
 	@GetMapping("/{productNo:[0-9]+}/insertReview")
 	public String insertReview(
 			@PathVariable("productNo")int productNo,
-			@SessionAttribute("loginMember") Member loginMember,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
 			@RequestParam(value = "reviewNo", required = false, defaultValue = "-1") int reviewNo,
 			Model model) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -384,7 +384,7 @@ public class BusinessController {
 		    @RequestParam(value = "imageLevel", required = false) List<Integer> imageLevel,
 			@RequestParam(value = "reviewUpdateNo", required = false, defaultValue = "0") int reviewUpdateNo,
 			@RequestParam(value = "deleteList", required = false) String deleteList,
-			@SessionAttribute("loginMember") Member loginMember,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
 			Model model, Review review, 
 			RedirectAttributes ra, HttpSession session) throws IllegalStateException, IOException {
 		review.setReviewType("PRODUCT");
@@ -521,7 +521,7 @@ public class BusinessController {
 	@PostMapping("/{productNo:[0-9]+}/insertReply")
 	public String insertReply(
 			@PathVariable("productNo")int productNo,
-			@SessionAttribute("loginMember") Member loginMember,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
 			Model model, Reply reply, 
 			RedirectAttributes ra, HttpSession session) throws IllegalStateException, IOException {
 		reply.setReplyType("PRODUCT");
@@ -626,7 +626,7 @@ public class BusinessController {
 	@GetMapping("/{productNo:[0-9]+}/order/success")
 	public String orderSuccess(
 			@PathVariable("productNo") int productNo,
-			@SessionAttribute("loginMember") Member loginMember,
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
 			Model model) {
 		Business business = service.selectBusiness(productNo);
 		
@@ -650,7 +650,7 @@ public class BusinessController {
 	@ResponseBody
 	public Map<String, Object> submitReport(
 			@RequestBody Report report,
-            @SessionAttribute("loginMember") Member loginMember) {
+			@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 	    Map<String, Object> result = new HashMap<>();
 
 	    try {

@@ -33,7 +33,7 @@ public class BankingController {
 	public String chargePoint(
 	    @RequestParam("amount") int amount,
 	    @RequestParam("method") String method,
-	    @SessionAttribute("loginMember") Member loginMember,
+	    @SessionAttribute(name = "loginMember", required = false) Member loginMember,
 	    Model model
 	) {
 	    // 1. 사용자 정보 확인

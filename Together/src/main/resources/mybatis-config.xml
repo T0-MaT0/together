@@ -57,9 +57,7 @@
 		<mapper resource="/mappers/board-mapper.xml" />
 		<mapper resource="/mappers/manager-mapper.xml" />
 		<mapper resource="/mappers/recruitmentMapper.xml" />
-
 		<mapper resource="/mappers/mypage-mapper.xml" />
-
 		<mapper resource="/mappers/email-mapper.xml" />
 		<mapper resource="/mappers/customer-mapper.xml" />
 		<mapper resource="/mappers/images-mapper.xml" />
@@ -67,8 +65,6 @@
 		<mapper resource="/mappers/category-mapper.xml" />
 		<mapper resource="/mappers/chatting-mapper.xml" />
 		<mapper resource="/mappers/chatNotification-mapper.xml" />
-		
-
 	</mappers>
 
 </configuration>

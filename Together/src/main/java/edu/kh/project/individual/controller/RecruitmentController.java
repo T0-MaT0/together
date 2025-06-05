@@ -51,7 +51,7 @@ public class RecruitmentController {
 	
 	
 	// 개인 공동구매 모집방 페이지(최신순).
-	@GetMapping("/Individual/1")
+	@GetMapping("/individual")
 	public String individualMainPage(
 	        Model model,
 	        @SessionAttribute(value = "loginMember", required = false) Member loginMember) {
@@ -92,7 +92,7 @@ public class RecruitmentController {
 	}
     
 	// 개인 공동구매 모집방 목록 상세 페이지.
-	@GetMapping("/Individual/detail")
+	@GetMapping("/individual/detail")
 	public String individualDetail(
 	        Model model,
 	        @SessionAttribute(value = "loginMember", required = false) Member loginMember) {
@@ -227,6 +227,7 @@ public class RecruitmentController {
 	    }
 
 	    Recruitment recruitmentDetail = service.selectRecruitmentRoomDetail(recruitmentNo, memberNo);
+	    System.out.println("recruitmentDetail : " + recruitmentDetail);
 	    if (recruitmentDetail == null) {
 	        redirectAttributes.addFlashAttribute("message", "해당 모집글을 찾을 수 없습니다.");
 	        return "redirect:/partyRecruitmentList";
@@ -301,7 +302,7 @@ public class RecruitmentController {
  	        if(result > 0) {
  	            String script = "<script>"
  	                    + "alert('모집글 등록 성공! 채팅방 이름: " + roomName + "');"
- 	                    + "window.opener.location.href='/Individual/1';"
+ 	                    + "window.opener.location.href='/individual';"
  	                    + "window.close();"
  	                    + "</script>";
  	            response.setContentType("text/html; charset=UTF-8");
@@ -320,7 +321,7 @@ public class RecruitmentController {
  	// 수정 버튼 조회.
  	@GetMapping("/group/edit")
  	public String editRecruitmentForm(@RequestParam("recruitmentNo") int recruitmentNo,
- 	                                  @SessionAttribute("loginMember") Member loginMember,
+									  @SessionAttribute(name = "loginMember", required = false) Member loginMember,
  	                                  Model model,
  	                                  RedirectAttributes ra) {
 
@@ -370,7 +371,7 @@ public class RecruitmentController {
  	        @RequestParam Map<String, Object> paramMap,
  	        @RequestParam("recruitmentNo") int recruitmentNo,
  	        @RequestParam(value = "images", required = false) List<MultipartFile> imageList,
- 	        @SessionAttribute("loginMember") Member loginMember,
+ 	        @SessionAttribute(name = "loginMember", required = false) Member loginMember,
  	        HttpServletResponse response,
  	        RedirectAttributes ra,
  	        Model model) throws Exception {
@@ -468,7 +469,7 @@ public class RecruitmentController {
  	@PostMapping("/group/settlement/complete")
  	public String settlementComplete(@RequestParam("recruitmentNo") int recruitmentNo,
  	                                 @RequestParam("paymentAmount") double paymentAmount2,
- 	                                 @SessionAttribute("loginMember") Member loginMember,
+ 	                                 @SessionAttribute(name = "loginMember", required = false) Member loginMember,
  	                                 @RequestParam("myQuantity") int myQuantity,
  	                                 RedirectAttributes ra,
  	                                 HttpSession session,
@@ -565,7 +566,7 @@ public class RecruitmentController {
  	// 모집 취소.
  	@PostMapping("/group/participation/cancel")
  	public String cancelParticipation(@RequestParam("recruitmentNo") int recruitmentNo,
- 	                                  @SessionAttribute("loginMember") Member loginMember,
+									  @SessionAttribute(name = "loginMember", required = false) Member loginMember,
  	                                  RedirectAttributes ra,
  	                                  Model model) {
 
@@ -635,7 +636,7 @@ public class RecruitmentController {
  	// 모집 인증 폼 조회.
  	@GetMapping("/group/verification/form")
  	public String showVerificationForm(@RequestParam("recruitmentNo") int recruitmentNo,
- 	                                   @SessionAttribute("loginMember") Member loginMember,
+									   @SessionAttribute(name = "loginMember", required = false) Member loginMember,
  	                                   Model model) {
 
  	    int memberNo = loginMember.getMemberNo();
@@ -709,7 +710,7 @@ public class RecruitmentController {
  	// 모집 인증 폼 (참가자용) 조회.
  	@GetMapping("/group/verification/memberForm")
  	public String showVerificationFormMember(@RequestParam("recruitmentNo") int recruitmentNo,
- 	                                         @SessionAttribute("loginMember") Member loginMember,
+										     @SessionAttribute(name = "loginMember", required = false) Member loginMember,
  	                                         Model model) {
  	    int memberNo = loginMember.getMemberNo();
 
@@ -725,7 +726,7 @@ public class RecruitmentController {
  	@PostMapping("/report/submit")
  	@ResponseBody
  	public Map<String, Object> submitReport(@RequestBody Report report,
- 	                                        @SessionAttribute("loginMember") Member loginMember) {
+ 											@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 
  	    report.setMemberNo(loginMember.getMemberNo());
  	    report.setReportStatus("대기");
@@ -809,7 +810,7 @@ public class RecruitmentController {
  	// 구매 확정.
  	@PostMapping("/group/confirm")
  	public String confirmPurchase(@RequestParam("recruitmentNo") int recruitmentNo,
- 	                              @SessionAttribute("loginMember") Member loginMember,
+								  @SessionAttribute(name = "loginMember", required = false) Member loginMember,
  	                              RedirectAttributes ra) {
 
  	    int memberNo = loginMember.getMemberNo();

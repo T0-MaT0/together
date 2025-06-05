@@ -150,7 +150,7 @@ public class RecruitmentController2 {
     // 관리자
     @PostMapping("/board/delete")
     public String deleteBoard(@RequestBody Map<String, Integer> param,
-                              @SessionAttribute("loginMember") Member loginMember) {
+    						  @SessionAttribute(name = "loginMember", required = false) Member loginMember) {
 
         int boardNo = param.get("boardNo");
 

@@ -29,4 +29,6 @@ public class Reply {
 	  private String thumbnail;
 	
 	  private List<Reply> commentList;
+	  
+	  private int recruitmentNo;
 }

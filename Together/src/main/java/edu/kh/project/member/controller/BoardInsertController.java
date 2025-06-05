@@ -49,7 +49,7 @@ public class BoardInsertController {
 	public String boardInsert(@PathVariable("boardCode") int boardCode
 							, Board board /*커멘드 객체(필드에 전달받은 파라미터 값 담겨 있음*/
 							, @RequestParam(value="images", required=false) List<MultipartFile> images
-							, @SessionAttribute("loginMember") Member loginMember
+							, @SessionAttribute(name = "loginMember", required = false) Member loginMember
 							, RedirectAttributes ra
 							, HttpSession session) throws IllegalStateException, IOException, FileUploadException {
 		

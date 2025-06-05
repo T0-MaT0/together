@@ -7,8 +7,10 @@ import edu.kh.project.individual.dto.Recruitment;
 
 public interface MainService {
 
-	List<Recruitment> selectRecruitmentList(int boardCode, int memberNo);
+	// 개인 공동구매 모집글 조회
+	List<Recruitment> selectRecruitmentList(int memberNo);
 
-	Map<String, Object> selectBusinessList(int boardCode);
+	// 브랜드 상품 리스트 조회
+	Map<String, Object> selectBusinessList();
 
 }

@@ -342,39 +342,42 @@
 		ORDER BY B_CREATE_DATE DESC
 	</select>
 
-
-<select id="totalSearch" resultMap="product_rm">
-    SELECT
-        B.BOARD_NO,
-        B.BOARD_TITLE,
-        B.BOARD_CONTENT,
-        B.BOARD_CD,
-        I2.IMG_PATH || I2.IMG_RENAME AS IMG_PATH,
-        P.PRODUCT_PRICE AS PRICE,
-        P.READ_COUNT,
-        C.CATEGORY_NAME,
-        C.CATEGORY_NO
-    FROM PRODUCT P
-    LEFT JOIN BOARD B ON P.BOARD_NO = B.BOARD_NO
-    LEFT JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
-    LEFT JOIN (
-        SELECT IMG_TYPE_NO, IMG_PATH, IMG_RENAME
-        FROM IMG
-        WHERE IMG_TYPE = 2 AND IMG_LEVEL = 0
-    ) I2 ON B.BOARD_NO = I2.IMG_TYPE_NO
-    WHERE B.BOARD_DEL_FL = 'N'
-	AND BOARD_CD = 2
-	AND P.PRODUCT_PRICE BETWEEN ${minValue} AND ${maxValue}
-	<if test="categoryNo != ''">
-			AND P.CATEGORY_NO IN (${categoryNo})
-		</if>
-        <if test="searchValue != ''">
-            AND B.BOARD_TITLE LIKE #{searchValue}
-        </if>
-		<if test="categoryNoParents != ''">
-			AND C.PARENT_CATEGORY_NO = ${categoryNoParents}
-		</if>
-</select>
+	<!-- 통합 검색 ajax(브랜드 상품) -->
+	<select id="totalSearch" resultMap="product_rm">
+	    SELECT
+	        P.PRODUCT_NO,
+	        P.PRODUCT_TITLE,
+	        P.PRODUCT_CONTENT,
+	        I.IMG_PATH || I.IMG_RENAME AS IMG_PATH,
+	        P.PRODUCT_PRICE AS PRICE,
+	        P.READ_COUNT,
+	        C.CATEGORY_NAME,
+	        C.CATEGORY_NO
+	    FROM PRODUCT P
+	    JOIN CATEGORY C ON P.CATEGORY_NO = C.CATEGORY_NO
+	    LEFT JOIN (
+	        SELECT IMG_TYPE_NO, IMG_PATH, IMG_RENAME
+	        FROM IMG
+	        WHERE IMG_TYPE = 'PRODUCT' AND IMG_LEVEL = 0
+	    ) I ON P.PRODUCT_NO = I.IMG_TYPE_NO
+	    WHERE P.PRODUCT_DEL_FL = 'N'
+	      AND P.PRODUCT_PRICE BETWEEN #{minValue} AND #{maxValue}
+	
+	    <if test="categoryNo != null and categoryNo != ''">
+	        AND P.CATEGORY_NO IN
+	        <foreach item="cat" collection="categoryNo" open="(" separator="," close=")">
+	            #{cat}
+	        </foreach>
+	    </if>
+	
+	    <if test="searchValue != null and searchValue != ''">
+	        AND P.PRODUCT_TITLE LIKE #{searchValue}
+	    </if>
+	
+	    <if test="categoryNoParents != null and categoryNoParents != ''">
+	        AND C.PARENT_CATEGORY_NO = #{categoryNoParents}
+	    </if>
+	</select>
 
 	<update id="updateProfile">
 		UPDATE MEMBER

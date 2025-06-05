@@ -66,7 +66,8 @@
                     </strong>
                 </p>
             </div>
-
+            
+            <c:set var="amountToPay" value="${(recruitment.productPrice / recruitment.maxParticipants) * (recruitment.myParticipationCount > 0 ? recruitment.myParticipationCount : 1)}" />
             <!-- 결제하기 버튼 -->
             <form action="/group/settlement/complete" method="post">
                 <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}" />

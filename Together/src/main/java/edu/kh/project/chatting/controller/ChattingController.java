@@ -1,14 +1,12 @@
 package edu.kh.project.chatting.controller;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,7 +27,7 @@ public class ChattingController {
     /** 채팅방 목록 조회 */
     @GetMapping(value = "/chatting/roomList", produces="application/json; charset=UTF-8")
     @ResponseBody
-    public List<ChattingRoom> selectRoomList(@SessionAttribute("loginMember") Member loginMember) {
+    public List<ChattingRoom> selectRoomList( @SessionAttribute(name = "loginMember", required = false) Member loginMember) {
         return service.getChattingList(loginMember.getMemberNo());
     }
 
@@ -56,7 +54,7 @@ public class ChattingController {
     @GetMapping("/chatting/targetInfo")
     @ResponseBody
     public List<Object> getChatTargetInfo(@RequestParam("roomNo") int roomNo,
-                                          @SessionAttribute("loginMember") Member loginMember) {
+    										@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
         return service.selectChatTarget(roomNo, loginMember.getMemberNo());
     }
 
@@ -189,7 +187,7 @@ public class ChattingController {
     @PostMapping("/chatting/private/start")
     @ResponseBody
     public Map<String, Object> startPrivateChat(@RequestBody Map<String, Object> payload,
-                                                @SessionAttribute("loginMember") Member loginMember) {
+    											@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
         int myMemberNo = loginMember.getMemberNo();
         int targetMemberNo = Integer.parseInt(payload.get("targetMemberNo").toString());
         String roomName = (String) payload.get("targetNick");

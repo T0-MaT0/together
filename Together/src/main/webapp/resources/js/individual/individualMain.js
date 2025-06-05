@@ -75,7 +75,6 @@ function renderRecruitmentList() {
                 <p class="product-name">${recruitment.productTitle}</p>
                 <p class="discount-price">${discount}원</p>
                 <p class="original-price">${recruitment.productPrice}원 (원가)</p>
-                <p class="participants">📅 생성일: ${formatDate(recruitment.pCreateDate)} ~</p> 
                 <p class="participants">⏳ 마감일: ${formatDate(recruitment.recEndDate)}</p>
                 <p class="participants">참가 모집 : ${recruitment.currentParticipants} / ${recruitment.maxParticipants}명</p>
                 <div class="progress-button-container">
@@ -125,7 +124,6 @@ function renderExtraRecruitmentList() {
                 <p class="product-name">${recruitment.productTitle}</p>
                 <p class="discount-price">${discount}원</p>
                 <p class="original-price">${recruitment.productPrice}원 (원가)</p>
-                <p class="participants">📅 생성일: ${formatDate(recruitment.pCreateDate)} ~</p> 
                 <p class="participants">⏳ 마감일: ${formatDate(recruitment.recEndDate)}</p>
                 <p class="participants">참가 모집 : ${recruitment.currentParticipants} / ${recruitment.maxParticipants}명</p>
                 <div class="progress-button-container">

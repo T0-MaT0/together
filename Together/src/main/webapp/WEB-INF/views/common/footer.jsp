@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <link rel="stylesheet" href="/resources/css/header,footer.css">
 
@@ -8,23 +9,26 @@
         <img src="/resources/images/mainJHI/logo1.png" alt="ToGether Logo">
         <img src="/resources/images/mainJHI/footer image1.png" alt="Buy ToGether, Sell Together!">
     </div>
+
+    <c:set var="uri" value="${pageContext.request.requestURI}" />
+
     <nav class="footer-links">
         <a href="#">이용약관</a><span> | </span>
         <a href="/customer/FAQBoard/0">FAQ</a><span> | </span>
         <a href="/customer/customerMain">고객센터</a><span> | </span>
-        <!-- boardCD가 2이면 브랜드 버튼 클래스 변경 -->
-        <c:set var="code" value="to-brand"/>
-        <c:if test='${boardCode == 2}'>
-            <c:set var="code" value="btn-get-personal"/>
+         <%-- 브랜드 버튼 --%>
+        <c:set var="brandClass" value="to-brand" />
+        <c:if test="${fn:contains(uri, '/business')}">
+            <c:set var="brandClass" value="btn-get-personal" />
         </c:if>
-        <a href="/board/2" class="${code}">To 브랜드</a><span> | </span>
-        
-        <!-- boardCD가 1이면 개인 버튼 클래스 변경 -->
-        <c:set var="code" value="to-gain"/>
-        <c:if test='${boardCode == 1}'>
-            <c:set var="code" value="btn-get-gain"/>
+        <a href="/product" class="${brandClass}">To 브랜드</a><span> | </span>
+
+        <%-- 개인 공구 버튼 --%>
+        <c:set var="individualClass" value="to-gain" />
+        <c:if test="${fn:contains(uri, '/Individual')}">
+            <c:set var="individualClass" value="btn-get-gain" />
         </c:if>
-        <a href="/Individual/1" class="${code}">Get 개인</a>
+        <a href="/individual" class="${individualClass}">Get 개인</a>
     </nav>
     <div class="footer-divider"></div>
     <div class="footer-bottom">

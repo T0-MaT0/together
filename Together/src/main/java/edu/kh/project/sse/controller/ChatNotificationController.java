@@ -26,14 +26,14 @@ public class ChatNotificationController {
 
     // SSE 연결
     @GetMapping(value = "/connect", produces = "text/event-stream")
-    public SseEmitter connect(@SessionAttribute("loginMember") Member loginMember) {
+    public SseEmitter connect(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
         return service.connect(loginMember.getMemberNo());
     }
 
     // 알림 보내기
     @PostMapping("/send")
     public void sendNotification(@RequestBody Map<String, Integer> data,
-                                  @SessionAttribute("loginMember") Member loginMember) {
+    								@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
     	int roomNo = data.get("roomNo");
         int senderNo = loginMember.getMemberNo();
 
@@ -46,13 +46,13 @@ public class ChatNotificationController {
 
     // 알림 목록 조회
     @GetMapping("/list")
-    public List<ChatNotification> getList(@SessionAttribute("loginMember") Member loginMember) {
+    public List<ChatNotification> getList(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
         return service.getNotifications(loginMember.getMemberNo());
     }
 
     // 읽음 처리
     @PutMapping("/read")
-    public void read(@SessionAttribute("loginMember") Member loginMember,
+    public void read(@SessionAttribute(name = "loginMember", required = false) Member loginMember,
                      @RequestBody Map<String, Integer> param) {
         int roomNo = param.get("roomNo");
         service.markAsRead(loginMember.getMemberNo(), roomNo);
@@ -60,8 +60,12 @@ public class ChatNotificationController {
     
     // 안 읽은 모든 채팅 수
     @GetMapping("/count")
-    public int getTotalUnreadCount(@SessionAttribute("loginMember") Member loginMember) {
-    	int memberNo = loginMember.getMemberNo();
+    public int getTotalUnreadCount(@SessionAttribute(name = "loginMember", required = false) Member loginMember) {
+        if (loginMember == null) {
+            return 0;
+        }
+
+        int memberNo = loginMember.getMemberNo();
         return service.getTotalUnreadCount(memberNo);
     }
 }

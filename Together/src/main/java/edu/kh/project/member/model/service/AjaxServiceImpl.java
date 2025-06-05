@@ -6,7 +6,6 @@ import java.util.Map;
 import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.member.model.dto.Product;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import edu.kh.project.member.model.dao.AjaxDAO;
@@ -17,9 +16,6 @@ public class AjaxServiceImpl implements AjaxService{
 	
 	@Autowired
 	private AjaxDAO dao;
-	
-	@Autowired 
-	private BCryptPasswordEncoder bcrypt;
 	
 	@Override
 	public String dupCheckId(String id) {
@@ -58,16 +54,20 @@ public class AjaxServiceImpl implements AjaxService{
         return dao.getCategory(categoryNo);
     }
 
-	@Override
-	public List<Product> totalSearch(Map<String, Object> searchMap) {
-		if ((int) searchMap.get("boardCd") == 1) {
-			return dao.totalSearchRecruit(searchMap);
-		} else if ((int) searchMap.get("boardCd") == 2) {
-			return dao.totalSearchCompany(searchMap);
-		}
-		return null;
+    // 통합 검색 ajax
+    @Override
+    public List<Product> totalSearch(Map<String, Object> searchMap) {
 
-	}
+        String type = (String) searchMap.get("type");
+
+        if ("personal".equals(type)) {
+            return dao.totalSearchRecruit(searchMap); // 공동구매
+        } else if ("company".equals(type)) {
+            return dao.totalSearchCompany(searchMap); // 브랜드 상품
+        }
+
+        return null; 
+    }
 
 
 }

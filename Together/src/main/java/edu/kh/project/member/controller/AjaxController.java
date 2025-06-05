@@ -84,13 +84,14 @@ public class AjaxController {
 	}
 	
     // 통합 검색 ajax
+	@SuppressWarnings("unchecked")
 	@PostMapping(value = "/ajax/totalSearch", produces = "application/json; charset=UTF-8")
 	@ResponseBody
 	public List<Product> totalSearch(@RequestBody Map<String, Object> paramMap) {
 
 	    // 파라미터 추출
 	    String searchValue = (String) paramMap.get("searchValue");
-	    String categoryNo = String.join(",", (List<String>) paramMap.get("categoryNo")); // "12,13,14"
+	    String categoryNo = String.join(",", (List<String>) paramMap.get("categoryNo"));
 	    int categoryNoParents = Integer.parseInt(((List<Object>) paramMap.get("categoryNoParants")).get(0).toString());
 	    String type = (String) paramMap.get("type");
 	    String minValues = (String) paramMap.get("minValue");
@@ -116,13 +117,14 @@ public class AjaxController {
 	    location = "%" + location + "%";
 
 	    Map<String, Object> searchMap = Map.of(
-	        "searchValue", searchValue,
-	        "categoryNo", categoryNo,
-	        "categoryNoParents", categoryNoParents,
-	        "location", location,
-	        "minValue", minValue,
-	        "maxValue", maxValue
-	    );
+    	    "searchValue", searchValue,
+    	    "categoryNo", categoryNo,
+    	    "categoryNoParents", categoryNoParents,
+    	    "location", location,
+    	    "minValue", minValue,
+    	    "maxValue", maxValue,
+    	    "type", type 
+    	);
 
 	    return service.totalSearch(searchMap);
 	}

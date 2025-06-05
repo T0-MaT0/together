@@ -107,9 +107,7 @@ public class MemberController {
 			, HttpServletResponse resp
 			, RedirectAttributes ra, HttpSession session) {
 
-		System.out.println("inputMember: " + inputMember);
 		Member loginMember = service.login(inputMember);
-		System.out.println("loginMember : " + loginMember);
 		
 		
 		String path = "redirect:";
