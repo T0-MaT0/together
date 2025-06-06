@@ -18,6 +18,7 @@ import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.manager.model.dto.Report;
+import edu.kh.project.member.model.dto.Board;
 import edu.kh.project.member.model.dto.Member;
 
 @Repository
@@ -236,12 +237,12 @@ public class BusinessDao {
 		return sqlSession.update("boardMapper.updateQuantity", order);
 	}
 
-	public int insertBoard(Business board) {
+	public int insertBoard(Board board) {
 		int result = sqlSession.insert("boardMapper.insertBoard", board);
 		
 		if (result>0) {
-//			result = sqlSession.insert("boardMapper.insertInquiry", board.getBoardNo);
-//			result=board.getBoardNo();
+			result = sqlSession.insert("boardMapper.insertInquiry", board.getBoardNo());
+			result = board.getBoardNo();
 		}
 		
 		return result;

@@ -23,12 +23,11 @@ public class CustomerDAO {
 		return sqlSession.selectList("customerMapper.selectNoticeBoardList");
 	}
 
-	public List<Board> selectFAQBoardList(int boardCode) {
-		return sqlSession.selectList("customerMapper.selectFAQBoardList", boardCode);
+	public List<Board> selectFAQBoardList(int categoryNo) {
+		return sqlSession.selectList("customerMapper.selectFAQBoardList", categoryNo);
 	}
 
 	public int getListCount(int boardCode) {
-	
 		return sqlSession.selectOne("customerMapper.getListCount", boardCode);
 	}
 

@@ -36,8 +36,6 @@
                 <a href="/customer/FAQBoard/0">자주 묻는 질문</a>
                 <a href="#">실시간 채팅 문의</a>
             </div>
-
-            
         </section>
         
         <!-- 오른쪽 섹션 -->
@@ -46,12 +44,11 @@
             <div class="faq-box">
                 <div class="faq-title" onclick="location.href='/customer/FAQBoard/0'">자주 묻는 질문 (FAQ)</div>
                 <ul class="faq-list">
-                    <c:forEach var="FAQList9" items="${map.FAQList9}">
-                        <li><a class="noticeTitle" href="/customer/FAQBoard/9">${FAQList9.boardTitle}</a></li>
+                    <c:forEach var="FAQList1" items="${map.FAQList1}">
+                        <li><a class="noticeTitle" href="/customer/FAQBoard/1">${FAQList1.boardTitle}</a></li>
                     </c:forEach>
                 </ul>
             </div>
-            
             
             <!-- 고객센터 -->
             <div class="customer-service-box">
