@@ -32,11 +32,11 @@
     
         <section id="notice-detail-content">
             <form action="/customer2/${boardType.toLowerCase()}/insert" method="POST" class="board-write" enctype="multipart/form-data" id="boardWriteFrm">
-                <c:if test="${boardType == 'FAQ' || boardType == 'INQUIRY'}">
-                    <select name="categoryNo" id="categoryNo">
+                <c:if test="${boardType == 'FAQ'}">
+                    <select name="inquiryCategoryNo" id="categoryNo">
                         <option disabled selected hidden value="">문의 종류</option>
                         <c:forEach items="${categories}" var="category">
-                            <option value="${category.categoryNo}">${category.categoryName}</option>
+                            <option value="${category.CATEGORY_NO}">${category.CATEGORY_NAME}</option>
                         </c:forEach>
                     </select>
                 </c:if>

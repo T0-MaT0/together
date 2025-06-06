@@ -1,6 +1,7 @@
 package edu.kh.project.member.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +61,10 @@ public class BoardInsertController {
 			return "redirect:/member/login";
 		}
 		
-		List<FaqCategory> categories = service.selectFaqCategories();
+		// FAQ 카테고리 목록 조회
+		List<Map<String, Object>> categories = service.selectFAQCategories();
+		System.out.println("카테고리 목록: " + categories); // 디버깅용 로그
+		
 		model.addAttribute("categories", categories);
 		model.addAttribute("boardType", "FAQ");
 		return "customer/customerBoardWrite";
@@ -76,8 +80,6 @@ public class BoardInsertController {
 			return "redirect:/member/login";
 		}
 		
-		List<FaqCategory> categories = service.selectFaqCategories();
-		model.addAttribute("categories", categories);
 		model.addAttribute("boardType", "INQUIRY");
 		return "customer/customerBoardWrite";
 	}
@@ -88,30 +90,37 @@ public class BoardInsertController {
 			@SessionAttribute(value = "loginMember", required = false) Member loginMember,
 			Board board,
 			@RequestParam(value = "images", required = false) List<MultipartFile> images,
-			@RequestParam("boardType") String boardType,
-			RedirectAttributes ra) {
+			@PathVariable("boardType") String boardType,
+			RedirectAttributes ra,
+			HttpSession session) {
 		
 		if(loginMember == null) {
 			return "redirect:/member/login";
 		}
-		
+		System.out.println("이미지 목록: " + images);
 		board.setMemberNo(loginMember.getMemberNo());
 		
-		int result = service.insertBoard(board, boardType);
+		// 이미지 업로드 경로 설정
+		String webPath = "/resources/images/customer/";
+		String filePath = session.getServletContext().getRealPath(webPath);
+		
+		int result = 0 ;
+		try {
+			result = service.boardInsert(board, images, webPath, filePath, boardType);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 		String message = null;
-		String path = null;
-		
 		if(result > 0) {
 			message = "게시글이 등록되었습니다.";
-			path = "/customer2/" + boardType.toLowerCase();
 		} else {
 			message = "게시글 등록 실패";
-			path = "/customer2/" + boardType.toLowerCase() + "/insert";
 		}
 		
 		ra.addFlashAttribute("message", message);
-		return "redirect:" + path;
+		
+		return "redirect:/customer2/" + boardType.toLowerCase() +"/insert";
 	}
 
 	// 게시글 수정 화면 전환

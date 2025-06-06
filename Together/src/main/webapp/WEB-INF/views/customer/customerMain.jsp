@@ -26,7 +26,7 @@
             <!-- 하단 버튼 -->
             <div class="button-group">
                 <c:if test="${loginMember != null}">
-                    <a href="/customer2/6/insert">1:1 문의하기</a>
+                    <a href="/customer2/inquiry/insert">1:1 문의하기</a>
                 </c:if>
                 <c:if test="${loginMember == null}">
                     <a href="/member/login?redirect=/customer2/6/insert"

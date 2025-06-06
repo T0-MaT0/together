@@ -73,8 +73,9 @@ public class CustomerDAO {
 		return result;
 	}
 
-	public int insertImageList(List<Image> uploadList) {
-		return sqlSession.insert("customerMapper.insertImageList", uploadList);
+	public int insertImageList(Image image) {
+		
+		return sqlSession.insert("customerMapper.insertImageList", image);
 	}
 
 	public int getSearchListCount(String query) {
@@ -186,9 +187,25 @@ public class CustomerDAO {
 		return sqlSession.selectList("customerMapper.imageList", boardNo);
 	}
 
+	public List<Map<String, Object>> selectFAQCategories() {
+		return sqlSession.selectList("customerMapper.selectFAQCategories");
+	}
 
-
+	// 게시글 등록
+	public int insertBoard(Board board) {
+		return sqlSession.insert("customerMapper.insertBoard", board);
+	}
 	
-
+	public int insertFAQ(Board board) {
+		return sqlSession.insert("customerMapper.insertFAQ", board);
+	}
+	
+	public int insertNotice(Board board) {
+		return sqlSession.insert("customerMapper.insertNotice", board);
+	}
+	
+	public int insertInquiryBoard(Board board) {
+		return sqlSession.insert("customerMapper.insertInquiryBoard", board);
+	}
 
 }
