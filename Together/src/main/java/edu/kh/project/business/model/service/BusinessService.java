@@ -14,6 +14,7 @@ import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.manager.model.dto.Report;
+import edu.kh.project.member.model.dto.Board;
 
 public interface BusinessService {
 	Map<String, Object> selectBusinessList(Map<String, Object> paramMap, int cp);
@@ -61,7 +62,7 @@ public interface BusinessService {
 
 	String selectPermissionFl(int memberNo);
 
-	int insertProduct(Business business, List<String> optionNameList, List<MultipartFile> images, String webPath, String filePath, Business board, String permissionFl) throws IllegalStateException, IOException;
+	int insertProduct(Business business, List<String> optionNameList, List<MultipartFile> images, String webPath, String filePath, Board board, String permissionFl) throws IllegalStateException, IOException;
 
 	int deleteProduct(Business business);
 

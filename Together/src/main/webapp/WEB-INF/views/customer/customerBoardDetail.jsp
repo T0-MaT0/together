@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:if test="${map.boardDetail.inquiryCategoryNo != 0}">
+  <c:set var="boardCd" value="6"/>
+</c:if>
+<c:set var="boardCd" value="0"/>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -12,29 +18,28 @@
   
   </head>
   <body>
-    ${map}
     <jsp:include page="/WEB-INF/views/common/header.jsp" />
     <div id="main-content">
       <section id="notice-header">
 
-        <c:if test="${map.boardDetail.boardCd != 6}">
+        <c:if test="${!empty map.boardDetail.isFixed}">
           <div id="notice-header-title" onclick="location.href='/customer/noticeBoardList'">📢 공지사항</div>
         </c:if>
-        <c:if test="${map.boardDetail.boardCd == 6}">
+        <c:if test="${map.boardDetail.inquiryCategoryNo != 0}">
           <div id="notice-header-title" onclick="location.href='/customer/noticeBoardList'">📢 1:1 문의글</div>
         </c:if>
         <div class="btn-wrap">
-          <c:if test="${map.boardDetail.boardCd != 6 and not empty loginMember and loginMember.authority == 1}">
+          <c:if test="${!empty map.boardDetail.isFixed and not empty loginMember and loginMember.authority == 1}">
             <div class="btn-group">
-              <div class="btn-update" onclick="location.href='/customer2/${map.boardDetail.boardCd}/${map.boardDetail.boardNo}/update?cp=${param.cp}'">수정</div>
-              <div class="btn-delete" onclick="if(confirm('정말 삭제하시겠습니까?')) location.href='/customer2/${map.boardDetail.boardCd}/${map.boardDetail.boardNo}/delete'">삭제</div>
+              <div class="btn-update" onclick="location.href='/customer2/수정/${map.boardDetail.boardNo}/update?cp=${param.cp}'">수정</div>
+              <div class="btn-delete" onclick="if(confirm('정말 삭제하시겠습니까?')) location.href='/customer2/수정/${map.boardDetail.boardNo}/delete'">삭제</div>
 
               <!-- 고정 버튼 -->
               <c:choose>
-                <c:when test="${empty map.boardDetail.bState}">
+                <c:when test="${map.boardDetail.isFixed == 'N'}">
                   <div class="pin-btn btn-update" onclick="togglePin(${map.boardDetail.boardNo}, 'pin')">고정하기</div>
                 </c:when>
-                <c:when test="${map.boardDetail.bState == 'S'}">
+                <c:when test="${map.boardDetail.isFixed == 'Y'}">
                   <div class="pin-btn btn-update" onclick="togglePin(${map.boardDetail.boardNo}, 'unpin')">고정해제</div>
                 </c:when>
               </c:choose>
@@ -61,10 +66,9 @@
         </c:if>
       </section>
 
-      
-      <input type="hidden" id="boardCd" value="${map.boardDetail.boardCd}" />
+      <input type="hidden" id="boardCd" value="${boardCd}" />
 
-      <c:if test="${map.boardDetail.boardCd != 6}">
+      <c:if test="${!empty map.boardDetail.isFixed}">
 
         <section id="up-down-view">
   

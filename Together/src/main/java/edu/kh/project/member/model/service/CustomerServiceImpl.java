@@ -36,25 +36,20 @@ public class CustomerServiceImpl implements CustomerService{
 		
 		List<Board> noticeList = dao.selectNoticeBoardList();
 		
-		int boardCode = 9;
-		List<Board> FAQList9 = dao.selectFAQBoardList(boardCode);
-		boardCode = 10;
-		List<Board> FAQList10 = dao.selectFAQBoardList(boardCode);
-		boardCode = 11;
-		List<Board> FAQList11 = dao.selectFAQBoardList(boardCode);
-		boardCode = 12;
-		List<Board> FAQList12 = dao.selectFAQBoardList(boardCode);
-		boardCode = 13;
-		List<Board> FAQList13 = dao.selectFAQBoardList(boardCode);
+		List<Board> FAQList1 = dao.selectFAQBoardList(1);
+		List<Board> FAQList2 = dao.selectFAQBoardList(2);
+		List<Board> FAQList3 = dao.selectFAQBoardList(3);
+		List<Board> FAQList4 = dao.selectFAQBoardList(4);
+		List<Board> FAQList5 = dao.selectFAQBoardList(5);
 		
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("noticeList", noticeList);
-		map.put("FAQList9", FAQList9);
-		map.put("FAQList10", FAQList10);
-		map.put("FAQList11", FAQList11);
-		map.put("FAQList12", FAQList12);
-		map.put("FAQList13", FAQList13);
+		map.put("FAQList1", FAQList1);
+		map.put("FAQList2", FAQList2);
+		map.put("FAQList3", FAQList3);
+		map.put("FAQList4", FAQList4);
+		map.put("FAQList5", FAQList5);
 		System.out.println("가져오는지 확인" + map);
 		
 		return map;
@@ -62,7 +57,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Override
 	public Map<String, Object> noticeBoardList(int cp) {
-		int boardCode = 3; // 공지사항 보드 코드
+		int boardCode = -1; // 공지사항 보드 코드
 		int listCount = dao.getListCount(boardCode);
 		
 		Pagination pagination = new Pagination(cp, listCount);
@@ -77,16 +72,14 @@ public class CustomerServiceImpl implements CustomerService{
 	
 	@Override
 	public Map<String, Object> searchNoticeList(String query, int cp) {
-		int boardCode = 3; // 공지사항 보드 코드
+		int boardCode = -1; // 공지사항 보드 코드
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("boardCode", boardCode);
 		map.put("query", query);
 		
-		
 		int listCount = dao.getSearchNoticeBoardCount(map);
 		
 		Pagination pagination = new Pagination(cp, listCount);
-		
 		
 		map.put("pagination", pagination);
 		
@@ -96,12 +89,9 @@ public class CustomerServiceImpl implements CustomerService{
 		map.put("pagination", pagination);
 		return map;
 	}
-	
 
 	@Override
 	public Map<String, Object> FAQBoardList(int boardCode, int cp) {
-		
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("boardCode", boardCode);
 		
@@ -124,7 +114,6 @@ public class CustomerServiceImpl implements CustomerService{
 			map.put("FAQList", FAQList);
 			map.put("pagination", pagination);
 			System.out.println("pagination : " + pagination);
-			
 		}
 		return map;
 	}

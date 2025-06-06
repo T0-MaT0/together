@@ -27,6 +27,7 @@ import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.common.utility.Utill;
 import edu.kh.project.manager.model.dto.Report;
 import edu.kh.project.manager.model.exception.FileUploadException;
+import edu.kh.project.member.model.dto.Board;
 import edu.kh.project.member.model.dto.Member;
 
 @Service
@@ -342,7 +343,7 @@ public class BusinessServiceIml implements BusinessService {
 	public int insertProduct(
 			Business business, List<String> optionNameList, 
 			List<MultipartFile> images, String webPath, String filePath, 
-			Business board, String permissionFl) throws IllegalStateException, IOException {
+			Board board, String permissionFl) throws IllegalStateException, IOException {
 		business.setProductTitle(Utill.XSSHandling(business.getProductTitle()));
 		business.setProductContent(Utill.XSSHandling(business.getProductContent()));
 		int productNo = dao.insertProduct(business);
@@ -386,8 +387,8 @@ public class BusinessServiceIml implements BusinessService {
 								images.get(i).transferTo(new File(filePath+rename));
 							}
 							if (permissionFl.equals("N")) {
-//								board.setBoardTitle(Utill.XSSHandling(board.getBoardContent()));
-//								board.setBoardContent(Utill.XSSHandling(board.getBoardContent()));
+								board.setBoardTitle(Utill.XSSHandling(board.getBoardContent()));
+								board.setBoardContent(Utill.XSSHandling(board.getBoardContent()));
 								result = dao.insertBoard(board);
 								if (result==0) {
 									productNo=0;

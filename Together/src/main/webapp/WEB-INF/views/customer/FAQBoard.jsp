@@ -30,11 +30,11 @@
   <section id="FAQ-content">
     <div id="button-content">
       <div class="faq-btn current-focus" data-code="0">전체</div>
-      <div class="faq-btn" data-code="9">회원/계정</div>
-      <div class="faq-btn" data-code="10">공동구매</div>
-      <div class="faq-btn" data-code="11">결제/환불</div>
-      <div class="faq-btn" data-code="12">수령/배송</div>
-      <div class="faq-btn" data-code="13">기타</div>
+      <div class="faq-btn" data-code="1">회원/계정</div>
+      <div class="faq-btn" data-code="2">공동구매</div>
+      <div class="faq-btn" data-code="3">결제/환불</div>
+      <div class="faq-btn" data-code="4">수령/배송</div>
+      <div class="faq-btn" data-code="5">기타</div>
     </div>
 
     <c:choose>

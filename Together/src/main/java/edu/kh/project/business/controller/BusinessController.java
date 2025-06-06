@@ -44,6 +44,7 @@ import edu.kh.project.common.model.dto.PointHistory;
 import edu.kh.project.common.model.dto.Reply;
 import edu.kh.project.common.model.dto.Review;
 import edu.kh.project.manager.model.dto.Report;
+import edu.kh.project.member.model.dto.Board;
 import edu.kh.project.member.model.dto.Member;
 
 @Controller
@@ -116,9 +117,9 @@ public class BusinessController {
 			Business business, RedirectAttributes ra, HttpSession session) throws IllegalStateException, IOException {
 		business.setMemberNo(loginMember.getMemberNo());
 		
-		Business board = new Business();
-//		board.setBoardTitle(coalitionTitle);
-//		board.setBoardContent(coalitionContent);
+		Board board = new Board();
+		board.setBoardTitle(coalitionTitle);
+		board.setBoardContent(coalitionContent);
 		board.setMemberNo(loginMember.getMemberNo());
 		
 		String webPath = "/resources/images/product/";
@@ -346,7 +347,7 @@ public class BusinessController {
 			@RequestParam(value = "reviewNo", required = false, defaultValue = "-1") int reviewNo,
 			@SessionAttribute("loginMember") Member loginMember) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("boardNo", productNo);
+		map.put("productNo", productNo);
 		map.put("memberNo", loginMember.getMemberNo());
 		map.put("reviewNo", reviewNo);
 		Order order = service.selectOrder(map);
@@ -475,11 +476,10 @@ public class BusinessController {
 	
 	// Q&A 목록 조회
 	@GetMapping("/replyList")
-	public String selectReplyList(@PathVariable("boardCode") int boardCode,
+	public String selectReplyList(
 			@RequestParam(value = "replyCp", required = false, defaultValue = "1") int replyCp,
 			@RequestParam Map<String, Object> paramMap,
 			Model model) {
-		paramMap.put("boardCode", boardCode);
 		paramMap.put("key", "all");
 		
 		Map<String, Object> map = service.selectReplyList(paramMap, replyCp);
@@ -631,7 +631,7 @@ public class BusinessController {
 		Business business = service.selectBusiness(productNo);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("boardNo", productNo);
+		map.put("productNo", productNo);
 		map.put("memberNo", loginMember.getMemberNo());
 		map.put("reviewNo", -1);
 		Order order = service.selectOrder(map);

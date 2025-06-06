@@ -16,7 +16,6 @@
     <script src="https://kit.fontawesome.com/f0f55b003e.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    ${map}
     <jsp:include page="/WEB-INF/views/common/header.jsp" />
     <div id="main-content">
 

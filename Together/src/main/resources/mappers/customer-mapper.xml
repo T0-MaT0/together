@@ -3,29 +3,29 @@
 <mapper namespace="customerMapper">
 
 	<resultMap type="Board" id="board_rm">
-
-    <id property="boardNo" column="BOARD_NO" />
-
-    <result property="boardTitle" column="BOARD_TITLE" />
-    <result property="boardContent" column="BOARD_CONTENT" />
-    <result property="bCreateDate" column="B_CREATE_DATE" />
-    <result property="bUpdateDate" column="B_UPDATE_DATE" />
-    <result property="boardDelFl" column="BOARD_DEL_FL" />
-    <result property="bState" column="B_STATE" />
-    <result property="memberNo" column="MEMBER_NO" />
-
+	    <id property="boardNo" column="BOARD_NO" />
+	    <result property="boardTitle" column="BOARD_TITLE" />
+	    <result property="boardContent" column="BOARD_CONTENT" />
+	    <result property="bCreateDate" column="B_CREATE_DATE" />
+	    <result property="bUpdateDate" column="B_UPDATE_DATE" />
+	    <result property="boardDelFl" column="BOARD_DEL_FL" />
+	    <result property="bState" column="B_STATE" />
+	    <result property="memberNo" column="MEMBER_NO" />
+	    <result property="isFixed" column="IS_FIXED" />
+	    <result property="inquiryCategoryNo" column="INQUIRY_CATEGORY_NO" />
+	    <result property="categoryName" column="CATEGORY_NAME" />
 	</resultMap>
 	
 	<resultMap id="reply_rm" type="Reply">
-	  <id property="replyNo" column="REPLY_NO" />
-	  <result property="replyCreatedDate" column="REPLY_CREATE_DATE" />
-	  <result property="replyDelFlag" column="REPLY_DEL_FL" />
-	  <result property="replyContent" column="REPLY_CONTENT" />
-	  <result property="secretReplyStatus" column="SECRET_REPLY_STATUS" />
-	  <result property="memberNo" column="MEMBER_NO" />
-	  <result property="replyType" column="REPLY_TYPE" />
-	  <result property="replyTypeNo" column="REPLY_TYPE_NO" />
-	  <result property="parentNo" column="PARENT_REPLY_NO" />
+		<id property="replyNo" column="REPLY_NO" />
+		<result property="replyCreatedDate" column="REPLY_CREATE_DATE" />
+		<result property="replyDelFlag" column="REPLY_DEL_FL" />
+		<result property="replyContent" column="REPLY_CONTENT" />
+		<result property="secretReplyStatus" column="SECRET_REPLY_STATUS" />
+		<result property="memberNo" column="MEMBER_NO" />
+		<result property="replyType" column="REPLY_TYPE" />
+		<result property="replyTypeNo" column="REPLY_TYPE_NO" />
+		<result property="parentNo" column="PARENT_REPLY_NO" />
 	</resultMap>
 	
 	<resultMap id="image_rm" type="Image">
@@ -47,8 +47,9 @@
 	<select id="selectNoticeBoardList" resultMap="board_rm">
 		SELECT * FROM (
 		    SELECT * FROM BOARD
-		    WHERE BOARD_CD = 3
-		      AND BOARD_DEL_FL = 'N'
+		    JOIN NOTICE USING (BOARD_NO)
+		    WHERE IS_FIXED IS NOT NULL
+			AND BOARD_DEL_FL = 'N'
 		    ORDER BY BOARD_NO DESC
 		)
 		WHERE ROWNUM &lt;= 6
@@ -58,8 +59,9 @@
 	<select id="selectFAQBoardList" resultMap="board_rm">
 		SELECT * FROM (
 		    SELECT * FROM BOARD
-		    WHERE BOARD_CD = ${boardCode}
-		      AND BOARD_DEL_FL = 'N'
+		    JOIN FAQ USING (BOARD_NO)
+		    WHERE FAQ_CATEGORY_NO = ${categoryNo}
+			AND BOARD_DEL_FL = 'N'
 		    ORDER BY BOARD_NO DESC
 		)
 		WHERE ROWNUM &lt;= 5
@@ -68,44 +70,78 @@
 	<!-- 특정 게시판의 삭제되지 않은 게시글 수 조회 -->
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*) FROM BOARD
-		WHERE BOARD_CD = ${boardCode}
-		AND BOARD_DEL_FL = 'N'
+		<if test="boardCode == -1">
+			JOIN NOTICE USING (BOARD_NO)
+		</if>
+		<if test="boardCode != -1">
+			JOIN FAQ USING (BOARD_NO)
+			JOIN FAQ_CATEGORY USING (FAQ_CATEGORY_NO)
+		</if>
+		
+		WHERE BOARD_DEL_FL = 'N'
+		<if test="boardCode == -1">
+			AND IS_FIXED = 'N'
+		</if>
+		<if test="boardCode != -1">
+			AND FAQ_CATEGORY_NO = #{boardCode}
+		</if>
 	</select>
 	
 	<!-- 보드 리스트 불러오기 -->
 	<select id="selectboardList" resultMap="board_rm">
-		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
-		TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
-		TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
-		B_STATE, MEMBER_NO, BOARD_CD
+		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, MEMBER_NO, 
+			TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') AS B_CREATE_DATE,
+			TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') AS B_UPDATE_DATE
+			<if test="boardCode != -1">
+				, CATEGORY_NAME
+			</if>
 		FROM BOARD
-		WHERE BOARD_CD = ${boardCode}
-		AND BOARD_DEL_FL = 'N'
+		
+		<if test="boardCode == -1">
+			JOIN NOTICE USING (BOARD_NO)
+		</if>
+		<if test="boardCode != -1">
+			JOIN FAQ USING (BOARD_NO)
+			JOIN FAQ_CATEGORY USING (FAQ_CATEGORY_NO)
+		</if>
+		
+		WHERE BOARD_DEL_FL = 'N'
+		<if test="boardCode == -1">
+			AND IS_FIXED = 'N'
+		</if>
+		<if test="boardCode != -1">
+			AND FAQ_CATEGORY_NO = #{boardCode}
+		</if>
+		
 		ORDER BY BOARD_NO DESC
 	</select>
-	
+
 	<!-- FAQ 전체 게시판의 삭제되지 않은 게시글 수 조회 -->
 	<select id="getFAQAllListCount" resultType="_int">
 		SELECT COUNT(*) FROM BOARD
-		WHERE BOARD_CD IN (9, 10, 11, 12, 13)
+		JOIN FAQ USING (BOARD_NO)
+	    WHERE FAQ_CATEGORY_NO IS NOT NULL
 		AND BOARD_DEL_FL = 'N'
 	</select>
 	
 	<!-- FAQ 전체 게시판의 삭제되지 않은 검색 게시글 수 조회 -->
 	<select id="getSearchListCount" resultType="_int">
 		SELECT COUNT(*) FROM BOARD
-		WHERE BOARD_CD IN (9, 10, 11, 12, 13)
+			JOIN FAQ USING (BOARD_NO)
+		WHERE FAQ_CATEGORY_NO IS NOT NULL
 		AND BOARD_DEL_FL = 'N'
 		AND (BOARD_TITLE LIKE '%${query}%' OR BOARD_CONTENT LIKE '%${query}%')
 	</select>
 	
 	<select id="searchFAQList" resultMap="board_rm">
 	  SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
-	         TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
-	         TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
-	         B_STATE, MEMBER_NO, BOARD_CD
+	         TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') AS B_CREATE_DATE,
+	         TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') AS B_UPDATE_DATE,
+	         MEMBER_NO, CATEGORY_NAME
 	  FROM BOARD
-	  WHERE BOARD_CD IN (9,10,11,12,13)
+  		JOIN FAQ USING (BOARD_NO)
+		JOIN FAQ_CATEGORY USING (FAQ_CATEGORY_NO)
+	  WHERE FAQ_CATEGORY_NO IS NOT NULL
 	  AND BOARD_DEL_FL = 'N'
 	  AND (BOARD_TITLE LIKE '%${query}%' OR BOARD_CONTENT LIKE '%${query}%')
 	  ORDER BY BOARD_NO DESC
@@ -114,24 +150,28 @@
 	<!-- FAQ 리스트 불러오기 -->
 	<select id="allFAQList" resultMap="board_rm">
 		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
-		TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
-		TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
-		B_STATE, MEMBER_NO, BOARD_CD
+		TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') AS B_CREATE_DATE,
+		TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') AS B_UPDATE_DATE,
+		MEMBER_NO, CATEGORY_NAME
 		FROM BOARD
-		WHERE BOARD_CD IN (9, 10, 11, 12, 13)
+		JOIN FAQ USING (BOARD_NO)
+		JOIN FAQ_CATEGORY USING (FAQ_CATEGORY_NO)
+	    WHERE FAQ_CATEGORY_NO IS NOT NULL
 		AND BOARD_DEL_FL = 'N'
 		ORDER BY BOARD_NO DESC
 	</select>
 	
 	<!-- 글 상세 요소 불러오기 -->
 	<select id="selectBoardDetail" resultMap="board_rm">
-		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
-		TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
-		TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
-		B_STATE, MEMBER_NO, BOARD_CD
+		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, 
+		TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') AS B_CREATE_DATE,
+		TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') AS B_UPDATE_DATE,
+		MEMBER_NO, IS_FIXED, INQUIRY_CATEGORY_NO
 		FROM BOARD
-		WHERE BOARD_NO = ${boardNo}
-		AND BOARD_DEL_FL = 'N'
+		LEFT JOIN NOTICE USING(BOARD_NO)
+		LEFT JOIN INQUIRY USING(BOARD_NO)
+		WHERE BOARD_DEL_FL = 'N'
+			AND BOARD_NO = #{boardNo}
 		ORDER BY BOARD_NO
 	</select>
 
@@ -141,12 +181,12 @@
     FROM (
         SELECT * 
         FROM (
-            SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
-                   TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
-                   TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
-                   B_STATE, MEMBER_NO, BOARD_CD
+            SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, MEMBER_NO, 
+                   TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') AS B_CREATE_DATE,
+                   TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') AS B_UPDATE_DATE
             FROM BOARD
-            WHERE BOARD_CD = 3
+            JOIN NOTICE USING (BOARD_NO)
+            WHERE IS_FIXED IS NOT NULL
               AND BOARD_DEL_FL = 'N'
               AND BOARD_NO &lt; #{boardNo}
             ORDER BY BOARD_NO DESC
@@ -159,12 +199,12 @@
         FROM (
             SELECT * 
             FROM (
-                SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
-                       TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
-                       TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
-                       B_STATE, MEMBER_NO, BOARD_CD
+                SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, MEMBER_NO, 
+                       TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') AS B_CREATE_DATE,
+                       TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') AS B_UPDATE_DATE
                 FROM BOARD
-                WHERE BOARD_CD = 3
+               JOIN NOTICE USING (BOARD_NO)
+           		  WHERE IS_FIXED IS NOT NULL
                   AND BOARD_DEL_FL = 'N'
                   AND BOARD_NO 	&gt; #{boardNo}
                 ORDER BY BOARD_NO ASC
@@ -210,24 +250,25 @@
 	
 	<!-- 검색된 공지사항 개수 조회 -->
 	<select id="getSearchNoticeBoardCount" resultType="_int">
-	  SELECT COUNT(*)
-	  FROM BOARD
-	  WHERE BOARD_DEL_FL = 'N'
-	    AND BOARD_CD = #{boardCode}
-	    AND BOARD_TITLE LIKE '%${query}%'
+		SELECT COUNT(*)
+		FROM BOARD
+		JOIN NOTICE USING (BOARD_NO)
+		WHERE BOARD_DEL_FL = 'N'
+			AND IS_FIXED = 'N'
+			AND (BOARD_TITLE LIKE '%${query}%' OR BOARD_CONTENT LIKE '%${query}%')
 	</select>
 	
 	<!-- 공지사항 검색 리스트 -->
 	<select id="selectSearchNoticeBoardList" resultMap="board_rm">
-	  SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
-		TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
-		TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
-		B_STATE, MEMBER_NO, BOARD_CD
-	  FROM BOARD
-	  WHERE BOARD_DEL_FL = 'N'
-	    AND BOARD_CD = #{boardCode}
-	    AND (BOARD_TITLE LIKE '%${query}%' OR BOARD_CONTENT LIKE '%${query}%')
-	  ORDER BY BOARD_NO DESC
+		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT, MEMBER_NO, 
+			TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') AS B_CREATE_DATE,
+			TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') AS B_UPDATE_DATE
+		FROM BOARD
+			JOIN NOTICE USING (BOARD_NO)
+		WHERE BOARD_DEL_FL = 'N'
+			AND IS_FIXED = 'N'
+			AND (BOARD_TITLE LIKE '%${query}%' OR BOARD_CONTENT LIKE '%${query}%')
+		ORDER BY BOARD_NO DESC
 	</select>
 	
 	<!-- 1:1 게시판의 로그인 회원의 삭제되지 않은 게시글 수 조회 -->
@@ -241,8 +282,8 @@
 	<!-- 1:1 게시판의 로그인 회원의 리스트 -->
 	<select id="selectAskBoardList" resultMap="board_rm">
 	  SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
-		TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
-		TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
+		TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') AS B_CREATE_DATE,
+		TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') AS B_UPDATE_DATE,
 		B_STATE, MEMBER_NO, BOARD_CD
 	  FROM BOARD
 	  WHERE BOARD_DEL_FL = 'N'
@@ -320,13 +361,13 @@
 	</update>
 	
 	<select id="selectFixedNoticeList" resultMap="board_rm">
-	  SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
-		TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') B_CREATE_DATE,
-		TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') B_UPDATE_DATE,
-		B_STATE, MEMBER_NO, BOARD_CD
-	  FROM BOARD
-	  WHERE BOARD_CD = 3
-	    AND B_STATE = 'S'
+		SELECT BOARD_NO, BOARD_TITLE, BOARD_CONTENT,
+			TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') AS B_CREATE_DATE,
+			TO_CHAR(B_UPDATE_DATE, 'YYYY-MM-DD') AS B_UPDATE_DATE,
+			MEMBER_NO, IS_FIXED
+	  	FROM BOARD
+	  	JOIN NOTICE USING (BOARD_NO)
+		WHERE IS_FIXED = 'Y'
 	    AND BOARD_DEL_FL = 'N'
 	  ORDER BY BOARD_NO DESC
 	</select>
@@ -334,6 +375,7 @@
 	<select id="imageList" resultMap="image_rm">
 		SELECT * FROM IMG
 		WHERE IMG_TYPE_NO = #{boardNo}
+		AND IMG_TYPE = 'NOTICE'
 		ORDER BY IMG_LEVEL
 	</select>
 	
