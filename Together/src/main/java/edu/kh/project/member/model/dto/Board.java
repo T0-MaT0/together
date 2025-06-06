@@ -15,6 +15,11 @@ public class Board {
 
     private String categoryName;	// FAQ 카테고리 이름
 
+    // 기본 생성자
+    public Board() {
+        super();
+    }
+
 	public int getBoardNo() {
 		return boardNo;
 	}

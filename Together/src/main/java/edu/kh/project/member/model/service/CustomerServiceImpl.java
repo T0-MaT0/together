@@ -142,7 +142,7 @@ public class CustomerServiceImpl implements CustomerService{
 	// 게시글 삽입
 	// @Transactional(rollbackFor = Exception.class)
 	@Override
-	public int boardInsert(Board board, List<MultipartFile> images, String webPath, String filePath)
+	public int boardInsert(Board board, List<MultipartFile> images, String webPath, String filePath, String boardType)
 			throws IllegalStateException, IOException, FileUploadException {
 
 	// 0. XSS 방지 처리
@@ -171,13 +171,13 @@ public class CustomerServiceImpl implements CustomerService{
 					String fileName = images.get(i).getOriginalFilename();
 					img.setImageReName(Utill.fileRename(fileName));// 파일 변경명
 					img.setImageOriginal(fileName);// 파일 원본명
-					img.setImageLevel(i); // 이미지 순서
+					img.setImageLevel(i); // 이미지 순서 (0, 1, 2)
 					img.setImageTypeNo(boardNo);// 게시글 번호
 					
-					if(board.getBoardCd() == 3) { // 공지사항
-						img.setImageType(9);
-					} else if(board.getBoardCd() == 6){ // 1대1 문의
-						img.setImageType(10);
+					if(boardType.equalsIgnoreCase("notice")) { // 공지사항
+						img.setImageType("NOTICE");
+					} else if(boardType.equalsIgnoreCase("inquiry")){ // 1대1 문의
+						img.setImageType("PRIVATE INQUIRY");
 					} 
 					
 					
@@ -187,22 +187,15 @@ public class CustomerServiceImpl implements CustomerService{
 				
 			}
 		}
+       System.out.println("uploadList : " + uploadList);
+
 		if (!uploadList.isEmpty()) {
-
-			int result = dao.insertImageList(uploadList);
-
-			if (result == uploadList.size()) {
-
-				for (int i = 0; i < uploadList.size(); i++) {
-					int index = uploadList.get(i).getImageLevel();
-
-					String rename = uploadList.get(i).getImageReName();
-
-					images.get(index).transferTo(new File(filePath + rename));
+			// 이미지 정보를 하나씩 삽입
+			for(Image img : uploadList) {
+				int result = dao.insertImageList(img);
+				if(result == 0) {
+					throw new RuntimeException("이미지 정보 삽입 실패");
 				}
-
-			} else {
-				throw new FileUploadException(); // 예외 강제 발생
 			}
 		}
 
@@ -394,6 +387,48 @@ public class CustomerServiceImpl implements CustomerService{
 	    return dao.selectFixedNoticeList();
 	}
 
+	@Override
+	public List<Map<String, Object>> selectFAQCategories() {
+		return dao.selectFAQCategories();
+	}
 
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public int insertBoard(Board board, String boardType) {
+		int result = 0;
+		switch(boardType) {
+		case "faq":
+			// 1. BOARD 테이블에 insert
+			result = dao.insertBoard(board);
+			System.out.println("작동!! board : " + board);
+			if(result > 0) {
+				// 2. FAQ 테이블에 insert
+				result = dao.insertFAQ(board);
+			}
+			break;
+			
+		case "notice":
+			// 1. BOARD 테이블에 insert
+			result = dao.insertBoard(board);
+			
+			if(result > 0) {
+				// 2. NOTICE 테이블에 insert
+				result = dao.insertNotice(board);
+			}
+			break;
+			
+		case "inquiry":
+			// 1. BOARD 테이블에 insert
+			result = dao.insertBoard(board);
+			
+			if(result > 0) {
+				// 2. INQUIRY 테이블에 insert
+				result = dao.insertInquiryBoard(board);
+			}
+			break;
+		}
+		
+		return result;
+	}
 
 }

@@ -20,7 +20,8 @@ public interface CustomerService {
 	Map<String, Object> selectBoardDetail(int boardNo);
 
 
-	int boardInsert(Board board, List<MultipartFile> images, String webPath, String filePath) throws IllegalStateException, IOException, FileUploadException;
+	int boardInsert(Board board, List<MultipartFile> images, String webPath, String filePath, String boardType)
+			throws IllegalStateException, IOException, FileUploadException;
 
 	Map<String, Object> searchFAQ(String query, int cp);
 
@@ -40,5 +41,8 @@ public interface CustomerService {
 
 	List<Board> selectFixedNoticeList();
 
+	List<Map<String, Object>> selectFAQCategories();
+
+	int insertBoard(Board board, String boardType);
 
 }

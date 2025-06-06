@@ -126,7 +126,7 @@
         
         <div class="write-board-button-area">
             <c:if test="${loginMember.authority == 1}">
-                <a href="/customer2/3/insert" id="write-board-button">글작성하기</a>
+                <a href="/customer2/notice/insert" id="write-board-button">글작성하기</a>
             </c:if>
         </div>
 

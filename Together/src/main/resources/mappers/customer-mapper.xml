@@ -222,30 +222,16 @@
 			SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
 		</selectKey>
 	
-		INSERT INTO BOARD (
-			BOARD_NO, BOARD_TITLE, BOARD_CONTENT, B_CREATE_DATE,
-			B_UPDATE_DATE, BOARD_DEL_FL, B_STATE, MEMBER_NO
-		) VALUES (
-			#{boardNo}, #{boardTitle}, #{boardContent},
-			SYSDATE, NULL, 'N', NULL, #{memberNo}
+		INSERT INTO BOARD VALUES (
+			#{boardNo}, #{boardTitle}, #{boardContent}, SYSDATE, NULL, DEFAULT, ${memberNo}
 		)
 	</insert>
 	
-	<insert id="insertImageList" parameterType="list">
-		INSERT INTO IMG
-		SELECT SEQ_IMG_NO.NEXTVAL, A.*
-		FROM (
-
-		<foreach collection="list" item="img" separator=" UNION ALL ">
-			SELECT #{img.imageReName} IMG_RENAME,
-				   #{img.imagePath} IMG_PATH,
-				   #{img.imageOriginal} IMG_ORIGINAL,
-				   #{img.imageLevel} IMG_LEVEL,
-				   #{img.imageType} IMG_TYPE,
-				   #{img.imageTypeNo} IMG_TYPE_NO
-				   FROM DUAL
-		</foreach>
-		)A
+	<insert id="insertImageList" parameterType="Image">
+		INSERT INTO IMG 
+		VALUES(
+			SEQ_IMG_NO.NEXTVAL, #{imageReName}, #{imageOriginal}, #{imageLevel}, #{imageType}, #{imageTypeNo}, #{imagePath}s
+		)
 	</insert>
 	
 	<!-- 검색된 공지사항 개수 조회 -->
@@ -387,6 +373,44 @@
 	    VALUES (
 	        #{boardNo}, #{inquiryCategoryNo}, '대기'
 	    )
+	</insert>
+	
+	<select id="selectFAQCategories" resultType="map">
+		SELECT FAQ_CATEGORY_NO CATEGORY_NO, CATEGORY_NAME
+		FROM FAQ_CATEGORY
+		ORDER BY CATEGORY_NO
+	</select>
+	
+	<!-- 게시글 등록 -->
+	<insert id="insertBoard" parameterType="Board" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="boardNo">
+			SELECT SEQ_BOARD_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		
+		INSERT INTO BOARD VALUES (
+			${boardNo},#{boardTitle}, #{boardContent}, SYSDATE, NULL, DEFAULT, ${memberNo}
+		)
+	</insert>
+	
+	<!-- FAQ 등록 -->
+	<insert id="insertFAQ" parameterType="Board">
+		INSERT INTO FAQ (
+			BOARD_NO, FAQ_CATEGORY_NO
+		) VALUES (
+			#{boardNo}, #{inquiryCategoryNo}
+		)
+	</insert>
+	
+	<!-- 공지사항 등록 -->
+	<insert id="insertNotice" parameterType="Board">
+		INSERT INTO NOTICE 
+		VALUES(#{boardNo}, DEFAULT)
+	</insert>
+	
+	<!-- 1:1 문의 등록 -->
+	<insert id="insertInquiryBoard" parameterType="Board">
+		INSERT INTO INQUIRY 
+		VALUES(#{boardNo}, 3, '대기', NULL, NULL)
 	</insert>
 	
 </mapper>
