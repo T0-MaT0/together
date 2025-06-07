@@ -8,7 +8,7 @@ import edu.kh.project.individual.dto.Recruitment;
 public interface MainService {
 
 	// 개인 공동구매 모집글 조회
-	List<Recruitment> selectRecruitmentList(int memberNo);
+	Map<String, Object> selectRecruitmentList(int memberNo);
 
 	// 브랜드 상품 리스트 조회
 	Map<String, Object> selectBusinessList();

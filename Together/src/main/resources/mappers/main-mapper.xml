@@ -140,7 +140,7 @@
 	        I.IMG_TYPE,
 	        I.IMG_TYPE_NO
 	    FROM IMG I
-	    WHERE I.IMG_TYPE = 'AD_BANNER'
+	    WHERE I.IMG_TYPE = 'AD BANNER'
 	      AND I.IMG_TYPE_NO = 1
 	    ORDER BY I.IMG_LEVEL ASC
 	</select>

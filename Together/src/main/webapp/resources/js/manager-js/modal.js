@@ -296,17 +296,16 @@ function customerQuest(boardNo){
     fetch("questDetail?boardNo="+boardNo)
     .then(resp=>resp.json())
     .then(questDetail =>{
-        console.log(questDetail);
+        console.log(questDetail.state =='대기');
 
 
         // 관리자 답변 유무에 따른 답변 글쓰기 가능 및 버튼 생성
-        if(!questDetail.state){
+        if(questDetail.state =='대기'){
             managerText.setAttribute("contenteditable", "true");
             submitBtn.innerHTML = `<button onclick="submitReply()">제출</button>`;
         }else{
             managerText.setAttribute("contenteditable", "false");
         }
-        
         
         modalTitle.innerHTML = ` <strong>제목:</strong> ${questDetail.boardTitle}`;
         
