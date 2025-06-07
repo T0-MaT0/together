@@ -31,9 +31,12 @@ public class MainController {
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 
 	    // 개인 공동구매 모집글 조회
-	    List<Recruitment> recruitmentList = service.selectRecruitmentList(memberNo);
-	    model.addAttribute("recruitmentList", recruitmentList);
+	    Map<String, Object> resultMap = service.selectRecruitmentList(memberNo);
 
+
+	    model.addAttribute("recruitmentList", resultMap.get("recruitments")); // 모집방 리스트
+		model.addAttribute("mainBannerList", resultMap.get("mainBannerList")); // 이미지 배너
+	    System.out.println("mainBannerList : " + resultMap.get("mainBannerList"));
 	    // 브랜드 상품 리스트 조회
 	    Map<String, Object> map = service.selectBusinessList(); 
 	    model.addAttribute("map", map);

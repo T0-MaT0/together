@@ -281,7 +281,7 @@ public class ManageCustomerDAO {
 	 * @return
 	 */
 	public int questInsert(CustomerBoard customerBoard) {
-		return sqlSession.insert("managerMapper.replyInsert", customerBoard);
+		return sqlSession.update("managerMapper.replyInsert", customerBoard);
 	}
 
 

@@ -50,7 +50,7 @@ public class ManagerHomePageServiceImpl implements ManagerHomePageService{
 		List<Integer> insertNo = (List<Integer>) map.get("InsertNo");
 		List<Integer> updateNo = (List<Integer>) map.get("updateNo");
 		List<Integer> deleteNo = (List<Integer>) map.get("deleteNo");
-
+		
 		// -2 : 정상
 		int result = -2;
 		
@@ -66,7 +66,7 @@ public class ManagerHomePageServiceImpl implements ManagerHomePageService{
 
 
 				img.setImageLevel(no); // 이미지 순서
-				img.setImageType(6);
+				img.setImageType("AD BANNER");
 				img.setImageTypeNo(typeNo);
 
 
@@ -93,7 +93,7 @@ public class ManagerHomePageServiceImpl implements ManagerHomePageService{
 
 
 				img.setImageLevel(no); // 이미지 순서
-				img.setImageType(6);
+				img.setImageType("AD BANNER");
 				img.setImageTypeNo(typeNo);
 
 				result = dao.updateImageList(img);
@@ -115,7 +115,7 @@ public class ManagerHomePageServiceImpl implements ManagerHomePageService{
 				Image img = new Image();
 
 				img.setImageLevel(no); // 이미지 순서
-				img.setImageType(6);
+				img.setImageType("AD BANNER");
 				img.setImageTypeNo(typeNo);
 				
 				result = dao.deleteImageList(img);

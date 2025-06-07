@@ -19,7 +19,7 @@
 
 	<select id="managerBannerList" resultMap="Image">
 		SELECT IMG_NO, IMG_RENAME, IMG_PATH, IMG_ORIGINAL, IMG_LEVEL FROM IMG
-		WHERE IMG_TYPE = 6
+		WHERE IMG_TYPE = 'AD BANNER'
 		AND IMG_TYPE_NO = ${imgNo}
 		ORDER BY IMG_LEVEL		
 	</select>

@@ -19,9 +19,9 @@
 
     <section class="hero">
         <div class="banner carousel">
-            <%-- recruitmentList가 비어있지 않은 경우에만 배너 표시 --%>
-            <c:if test="${!empty recruitmentList and !empty recruitmentList[0] and !empty recruitmentList[0].mainBannerList}">
-                <c:forEach var="banner" items="${recruitmentList[0].mainBannerList}">
+            <%-- mainBannerList가 비어있지 않은 경우에만 배너 표시 --%>
+            <c:if test="${!empty mainBannerList}">
+                <c:forEach var="banner" items="${mainBannerList}">
                     <img src="${banner.imagePath}${banner.imageReName}" alt="메인 배너" class="carousel-image">
                 </c:forEach>
             </c:if>

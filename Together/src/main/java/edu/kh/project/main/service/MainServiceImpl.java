@@ -20,20 +20,24 @@ public class MainServiceImpl implements MainService{
 	
 	// 개인 공동구매 모집글 조회
 	@Override
-	public List<Recruitment> selectRecruitmentList(int memberNo) {
+	public Map<String, Object> selectRecruitmentList(int memberNo) {
 	    List<Recruitment> recruitments = dao.selectRecruitmentList(memberNo);
 
 	    // 메인 배너 이미지 목록 조회(타입이 AD_BANNER, 타입 넘버가 1)
 	    List<Image> mainBannerList = dao.selectMainBannerImages();
 
-	    // 각 모집글에 참가자 수 및 배너 이미지 설정
+	    // 각 모집글에 참가자 수 설정
 	    for (Recruitment recruitment : recruitments) {
 	        int currentParticipants = dao.countParticipants(recruitment.getRecruitmentNo());
 	        recruitment.setCurrentParticipants(currentParticipants);
-	        recruitment.setMainBannerList(mainBannerList);
 	    }
+		
+	  // 결과를 담을 Map 객체 생성
+	    Map<String, Object> resultMap = new HashMap<>();
+	    resultMap.put("mainBannerList", mainBannerList);
+	    resultMap.put("recruitments", recruitments);
 
-	    return recruitments;
+	    return resultMap;
 	}
 
 	// 브랜드 상품 리스트 조회 
