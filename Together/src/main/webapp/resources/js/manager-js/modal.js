@@ -50,7 +50,7 @@ function clickApply(boardNo){
     modal.classList.add("modalActive");
     console.log(boardNo);
 
-    fetch("boardDetail/8?boardNo="+boardNo)
+    fetch("boardDetail/2?boardNo="+boardNo)
     .then(resp=>resp.json())
     .then(applyDetail =>{
         console.log("apply",applyDetail);
@@ -130,11 +130,11 @@ function clickProm(boardNo){
     modal.classList.add("modalActive");
     custBoardNo = boardNo;
 
-    fetch("boardDetail/7?boardNo="+boardNo)
+    fetch("boardDetail/1?boardNo="+boardNo)
     .then(resp=>resp.json())
     .then(boardDetail =>{
-        console.log(boardDetail);
-
+        console.log('boardDetail',boardDetail);
+        console.log('boardDetail.state');
         state = boardDetail.state;
 
         
@@ -234,9 +234,9 @@ function promotionBtn(){
     // 이미지 타입 설정
     let imgTypeNumber = 0;
     if(imgType.value == 'mid'){
-        imgTypeNumber = 7;
+        imgTypeNumber = 'MID_AD_IMG';
     }else{
-        imgTypeNumber = 8;
+        imgTypeNumber = 'MINI _AD_IMG';
     }
     console.log(imgTypeNumber);
     // console.log("submit!");

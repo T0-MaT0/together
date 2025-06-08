@@ -798,15 +798,16 @@
 	</select>
 	<!--조건 적용 제뮤 문의 리스트 목록 조회 -->
 	<select id="applyListCondition" resultMap="Brand_Board">
-		SELECT BOARD_NO, MEMBER_NICK BRAND_NAME, BOARD_TITLE, TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE , NVL(B_STATE, '대기') BOARD_DEL_FL 
+		SELECT BOARD_NO, MEMBER_NICK BRAND_NAME, BOARD_TITLE, TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE , STATUS BOARD_DEL_FL 
 		FROM BOARD
+		JOIN INQUIRY USING(BOARD_NO)
 		JOIN MEMBER USING(MEMBER_NO)
-		WHERE BOARD_CD = 8
+		WHERE INQUIRY_CATEGORY_NO = 2
 		<if test='customerState != "대기"'>
-			AND B_STATE = #{customerState}
+			AND STATUS = #{customerState}
 		</if>
 		<if test='customerState == "대기"'>
-			AND B_STATE IS NULL
+			AND STATUS = '대기'
 		</if>
 		ORDER BY B_CREATE_DATE DESC
 	</select>
@@ -831,13 +832,14 @@
 	<select id="promotionCountCondition" resultType="_int">
 		SELECT COUNT(*)
 		FROM BOARD
+		JOIN INQUIRY USING(BOARD_NO)
 		JOIN MEMBER USING(MEMBER_NO)
-		WHERE BOARD_CD = 7	
+		WHERE INQUIRY_CATEGORY_NO =1	
 		<if test='customerState != "대기"'>
-			AND B_STATE = #{customerState}
+			AND STATUS = #{customerState}
 		</if>
 		<if test='customerState == "대기"'>
-			AND B_STATE IS NULL
+			AND STATUS = '대기'
 		</if>		
 	</select>
 	<!-- 광고 신청 리스트 목록 조회 -->
@@ -851,15 +853,16 @@
 	</select>
 	<!-- 광고 신청 리스트 목록 조회 -->
 	<select id="promotionListCondition" resultMap="Brand_Board">
-		SELECT BOARD_NO, MEMBER_NICK BRAND_NAME, BOARD_TITLE, TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE , NVL(B_STATE, '대기') BOARD_DEL_FL 
+		SELECT BOARD_NO, MEMBER_NICK BRAND_NAME, BOARD_TITLE, TO_CHAR(B_CREATE_DATE, 'YYYY-MM-DD') CREATE_DATE , STATUS BOARD_DEL_FL 
 		FROM BOARD
+		JOIN INQUIRY USING(BOARD_NO)	
 		JOIN MEMBER USING(MEMBER_NO)
-		WHERE BOARD_CD = 7
+		WHERE INQUIRY_CATEGORY_NO = 1
 		<if test='customerState != "대기"'>
-			AND B_STATE = #{customerState}
+			AND STATUS = #{customerState}
 		</if>
 		<if test='customerState == "대기"'>
-			AND B_STATE IS NULL
+			AND STATUS = '대기'
 		</if>		
 		ORDER BY B_CREATE_DATE DESC
 	</select>
@@ -1046,12 +1049,13 @@
 	
 	<!-- 제휴/광고/1:1 문의 상세 페이지 조회  -->
 	<select id="boardDetailSelect" resultMap="Brand_Board">
-			SELECT BOARD_NO, BOARD_TITLE, MEMBER_NICK BRAND_NAME, MEMBER_NO, NVL(B_STATE, '대기') STATE, BOARD_CONTENT
-					,(SELECT REPLY_CONTENT FROM REPLY WHERE REPLY_TYPE=1 AND BOARD_NO = REPLY_TYPE_NO) REPLY
-			FROM BOARD
-			JOIN MEMBER USING(MEMBER_NO)
-			WHERE BOARD_CD = #{boardCode}
-			AND BOARD_NO = #{boardNo}
+		SELECT BOARD_NO, BOARD_TITLE, MEMBER_NICK BRAND_NAME, MEMBER_NO, STATUS STATE, BOARD_CONTENT
+				,ANSWER REPLY
+		FROM BOARD
+		JOIN INQUIRY USING(BOARD_NO)
+		JOIN MEMBER USING(MEMBER_NO)
+		WHERE INQUIRY_CATEGORY_NO = ${boardCode}
+		AND BOARD_NO = ${boardNo}
 	</select>
 	
 	
@@ -1070,7 +1074,7 @@
 	
 	<!-- 브랜드 체휴 승인/미승인 처리 -->
 	<update id="applyUpdate">
-		UPDATE BOARD SET B_STATE = #{state} WHERE BOARD_NO = #{boardNo}
+		UPDATE INQUIRY SET STATUS = #{state} WHERE BOARD_NO = #{boardNo}
 	</update>
 	
 	<!-- 제휴 승인 처리 -->
@@ -1090,8 +1094,8 @@
 	
 	<!-- 브랜드 광고 문의 상태 변경 -->
 	<update id="promotionBoardUpdate">
-		UPDATE BOARD 
-		SET B_STATE = #{state} 
+		UPDATE INQUIRY 
+		SET STATUS = #{state} 
 		WHERE BOARD_NO = ${boardNo}	
 	</update>
 	<!-- **insert/update section end  ** -->

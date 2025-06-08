@@ -340,7 +340,7 @@ public class BrandDAO {
 	public List<Image> promotionImageSelect(int no) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("no", no);
-		map.put("imgType", 4);
+		map.put("imgType", "PRODUCT AD INQUIRY");
 		
 		return sqlSession.selectList("imageMapper.selectImageList", map);
 	}

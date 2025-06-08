@@ -233,7 +233,7 @@ function promotionCollection(typeImg){
     console.log('click');
     modalMidPromotionSection.classList.toggle("active");
 
-    fetch('promotionSelect?typeImg='+typeImg)
+    fetch('promotionSelect?typeImg='+encodeURIComponent(typeImg))
     .then(resp=>resp.json())
     .then(imageList =>{
         console.log(imageList);
@@ -245,7 +245,7 @@ function promotionCollection(typeImg){
             let img = document.createElement("img");
             let closeButton = document.createElement("button");
 
-            if(typeImg ==7){
+            if(typeImg =='MID_AD_IMG'){
                 img.classList.add("promotionImage");
             }else{
                 img.classList.add("miniPromotionImage");

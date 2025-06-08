@@ -100,7 +100,7 @@ public class ManagerHomePage {
 	//광고 이미지 불러오기
 	@GetMapping(value="promotionSelect", produces="application/json; charset=UTF-8")
 	@ResponseBody
-	public List<Image> promotionSelect(int typeImg){
+	public List<Image> promotionSelect(String typeImg){
 		return service.promotionSelect(typeImg);
 	}
 	

@@ -72,14 +72,14 @@
 	<select id="selectImageList" resultMap='Image'>
 		SELECT IMG_NO, IMG_RENAME, IMG_PATH, IMG_ORIGINAL, IMG_LEVEL 
 		,IMG_TYPE ,IMG_TYPE_NO 
-		FROM IMG WHERE IMG_TYPE = ${imgType} AND IMG_TYPE_NO= ${no}	
+		FROM IMG WHERE IMG_TYPE = #{imgType} AND IMG_TYPE_NO= ${no}	
 	</select>
 	
 	<!-- 특정 타입  -->
 	<select id="typeImageList" resultMap="Image">
 		SELECT IMG_NO, IMG_RENAME, IMG_PATH, IMG_ORIGINAL, IMG_LEVEL 
 		,IMG_TYPE ,IMG_TYPE_NO  
-		FROM IMG WHERE IMG_TYPE = ${typeImg}	
+		FROM IMG WHERE IMG_TYPE = #{typeImg}	
 	</select>
 	
 	<!-- ==========*** update/insert section ***=========== -->
@@ -87,7 +87,7 @@
 	<!-- 광고 이미지 업데이트  -->
 	<insert id="promotionImageUpdate">
 		INSERT INTO IMG 
-		SELECT SEQ_IMG_NO.NEXTVAL, IMG_RENAME, IMG_PATH, IMG_ORIGINAL, IMG_LEVEL, ${imgType}, ${boardNo} 
+		SELECT SEQ_IMG_NO.NEXTVAL, IMG_RENAME, IMG_ORIGINAL, IMG_LEVEL, #{imgType}, ${boardNo},IMG_PATH
 		FROM IMG 
 		WHERE IMG_NO = ${imageNo}
 	</insert>
@@ -99,7 +99,7 @@
 	
 	<!-- 승인된 광고 문의 종료 상태로 변환  -->
 	<update id="updatePromotionState">
-		UPDATE BOARD SET B_STATE ='종료' 
+		UPDATE INQUIRY SET STATUS ='종료' 
 		WHERE BOARD_NO  = (SELECT IMG_TYPE_NO FROM IMG WHERE IMG_NO = ${imageNo})
 	</update>
 
