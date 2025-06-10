@@ -124,15 +124,13 @@ public class BoardInsertController {
 	}
 
 	// 게시글 수정 화면 전환
-	@GetMapping("/{boardCode}/{boardNo}/update")
-	public String boardUpdate(@PathVariable("boardCode") int boardCode,
-								@PathVariable("boardNo") int boardNo,
-								Model model // 데이터 전달용 객체(기본 request scope)
+	@GetMapping("/{boardNo}/update")
+	public String boardUpdate(@PathVariable("boardNo") int boardNo,
+							Model model // 데이터 전달용 객체(기본 request scope)
 								) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		map.put("boardCode", boardCode);
 		map.put("boardNo", boardNo);
 		
 		// 게시글 상세 조회 서비스 호출
@@ -145,9 +143,8 @@ public class BoardInsertController {
 	}
 	
 	// 게시글 수정
-	@PostMapping("/{boardCode}/{boardNo}/update")
-	public String boardUpdate(@PathVariable("boardCode") int boardCode,
-							  @PathVariable("boardNo") int boardNo,
+	@PostMapping("/{boardNo}/update")
+	public String boardUpdate(@PathVariable("boardNo") int boardNo,
 							  @RequestParam(value="cp", required=false, defaultValue = "1") String cp,
 							  // 삭제할 이미지 순서
 							  @RequestParam(value="deleteList", required=false) String deleteList,
@@ -158,8 +155,7 @@ public class BoardInsertController {
 							  HttpSession session // 서버 파일 저장 경로를 얻어올 용도
 							  ) throws IllegalStateException, IOException {
 		
-		// 1. boardCode, boardNo를 커맨드 객체에 세팅
-		board.setBoardCode(boardCode);
+		// 1. boardNo를 커맨드 객체에 세팅
 		board.setBoardNo(boardNo);
 		
 		System.out.println("cp : " + cp);
@@ -179,9 +175,12 @@ public class BoardInsertController {
 		String path = "redirect:";
 		String message = null;
 		if(result > 0) {
-			path += "/customer/customerBoardDetail/"+boardNo + "?cp=" +cp;
+			if (board.getFAQCategoryNo()!=0) {
+				path += "/customer/FAQBoard/"+board.getFAQCategoryNo();
+			} else {
+				path += "/customer/customerBoardDetail/"+boardNo + "?cp=" +cp;
+			}
 			message = "게시글이 수정되었습니다.";
-			
 		}else{
 			message = "게시글 수정 실패.";
 			path +="update";
@@ -192,10 +191,10 @@ public class BoardInsertController {
 	}
 	
 	// 게시물 삭제
-	@GetMapping("/{boardCode}/{boardNo}/delete")
-	public String boardDelete(@PathVariable("boardCode") int boardCode,
-				  @PathVariable("boardNo") int boardNo,
+	@GetMapping("/{boardNo}/delete")
+	public String boardDelete(@PathVariable("boardNo") int boardNo,
 				  @RequestParam(value="cp", required=false, defaultValue = "1") String cp,
+				  @RequestParam(value="notice", required=false, defaultValue = "N") String notice,
 				  RedirectAttributes ra, // 리다이렉트 시 값 전달용
 				  @RequestHeader("referer") String referer // 이전 요청 주소
 				  ) {
@@ -205,8 +204,8 @@ public class BoardInsertController {
 		String message = null;
 		if(result > 0) {
 			message = "게시글이 삭제되었습니다.";
-			if(boardCode == 3) {
-				path +="/customer/noticeBoardList?cp=1";
+			if(notice.equals("Y")) {
+				path += "/customer/noticeBoardList?cp=1";
 			} else {
 				path += "/customer/FAQBoard/0";
 			}
@@ -222,7 +221,7 @@ public class BoardInsertController {
 	@GetMapping("/pin-check")
 	@ResponseBody
 	public String checkPinCount() {
-	    int count = service.countPinnedNotices(); // B_STATE = 'S'인 공지사항 개수
+	    int count = service.countPinnedNotices(); // IS_FIXED = 'Y'인 공지사항 개수
 	    return String.valueOf(count);
 	}
 

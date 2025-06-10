@@ -31,8 +31,8 @@
         <div class="btn-wrap">
           <c:if test="${!empty map.boardDetail.isFixed and not empty loginMember and loginMember.authority == 1}">
             <div class="btn-group">
-              <div class="btn-update" onclick="location.href='/customer2/수정/${map.boardDetail.boardNo}/update?cp=${param.cp}'">수정</div>
-              <div class="btn-delete" onclick="if(confirm('정말 삭제하시겠습니까?')) location.href='/customer2/수정/${map.boardDetail.boardNo}/delete'">삭제</div>
+              <div class="btn-update" onclick="location.href='/customer2/${map.boardDetail.boardNo}/update?cp=${param.cp}'">수정</div>
+              <div class="btn-delete" onclick="if(confirm('정말 삭제하시겠습니까?')) location.href='/customer2/${map.boardDetail.boardNo}/delete?notice=Y'">삭제</div>
 
               <!-- 고정 버튼 -->
               <c:choose>

@@ -208,4 +208,8 @@ public class CustomerDAO {
 		return sqlSession.insert("customerMapper.insertInquiryBoard", board);
 	}
 
+	public int updateFAQ(Board board) {
+		return sqlSession.update("customerMapper.updateFAQ", board);
+	}
+
 }
