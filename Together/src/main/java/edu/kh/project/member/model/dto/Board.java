@@ -12,9 +12,9 @@ public class Board {
     private int memberNo;			// 작성자(회원 번호)
     private String isFixed;			// 공지사항 고정 여부
     private int inquiryCategoryNo;	// 문의 카테고리 번호 (1: 광고, 2: 제휴, 3: 1:1)
-
+    private int FAQCategoryNo;		// FAQ 카테고리 번호
     private String categoryName;	// FAQ 카테고리 이름
-
+    
     // 기본 생성자
     public Board() {
         super();
@@ -100,6 +100,14 @@ public class Board {
 		this.inquiryCategoryNo = inquiryCategoryNo;
 	}
 
+	public int getFAQCategoryNo() {
+		return FAQCategoryNo;
+	}
+
+	public void setFAQCategoryNo(int fAQCategoryNo) {
+		FAQCategoryNo = fAQCategoryNo;
+	}
+
 	public String getCategoryName() {
 		return categoryName;
 	}
@@ -113,6 +121,7 @@ public class Board {
 		return "Board [boardNo=" + boardNo + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent
 				+ ", bCreateDate=" + bCreateDate + ", bUpdateDate=" + bUpdateDate + ", boardDelFl=" + boardDelFl
 				+ ", bState=" + bState + ", memberNo=" + memberNo + ", isFixed=" + isFixed + ", inquiryCategoryNo="
-				+ inquiryCategoryNo + ", categoryName=" + categoryName + "]";
+				+ inquiryCategoryNo + ", FAQCategoryNo=" + FAQCategoryNo + ", categoryName=" + categoryName
+				+ ", categoryList=" +  "]";
 	}
 }

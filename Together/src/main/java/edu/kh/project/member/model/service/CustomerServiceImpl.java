@@ -249,6 +249,12 @@ public class CustomerServiceImpl implements CustomerService{
 
 		// 1. 게시글 제목/내용만 수정
 		int result = dao.boardUpdate(board);
+		
+		if (result > 0) {
+			if (board.getFAQCategoryNo()!=0) {
+				result = dao.updateFAQ(board);
+			}
+		}
 
 		// 2. 게시글 수정 성공 했을 때
 		if (result > 0) {
@@ -339,7 +345,7 @@ public class CustomerServiceImpl implements CustomerService{
 						}
 						
 					}
-			}
+				}
 
 			} // 분류 for문 종료
 
@@ -371,7 +377,7 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 	public int countPinnedNotices() {
-	    return dao.countPinned(); // B_STATE = 'S' 카운트
+	    return dao.countPinned(); // IS_FIXED = 'Y' 카운트
 	}
 
 	public int setNoticePinned(int boardNo) {

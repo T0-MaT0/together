@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>고객센터 글 작성하기</title>
+    <title>고객센터 글 수정하기</title>
 
     <link rel="stylesheet" href="/resources/css/customer/customerBoardUpdate.css">
 </head>
@@ -16,27 +16,27 @@
 
         <section id="notice-header">
 
-            <c:if test="${boardCode == 3}">
+            <c:if test="${!empty map.boardDetail.isFixed}">
                 <div id="notice-header-title">공지사항 수정하기</div>
             </c:if>
-            <c:if test="${boardCode == 4}">
+            <c:if test="${map.boardDetail.FAQCategoryNo != 0}">
                 <div id="notice-header-title">FAQ 수정하기</div>
             </c:if>
 
         </section>
     
         <section id="notice-detail-content">
-            <form action="/customer2/${boardCode}/${boardNo}/update" method="POST" class="board-write" 
+            <form action="/customer2/${boardNo}/update" method="POST" class="board-write" 
             enctype="multipart/form-data"  id="boardUpdateFrm">
 
-                <c:if test="${boardCode == 4}">
-                    <select name="boardCd" id="boardCd">
-                        <option disabled hidden ${empty map.boardDetail.boardCd ? 'selected' : ''}>문의 종류</option>
-                        <option value="9"  ${map.boardDetail.boardCd == 9  ? 'selected' : ''}>회원/계정 문의</option>
-                        <option value="10" ${map.boardDetail.boardCd == 10 ? 'selected' : ''}>공동구매 문의</option>
-                        <option value="11" ${map.boardDetail.boardCd == 11 ? 'selected' : ''}>결제/환불 문의</option>
-                        <option value="12" ${map.boardDetail.boardCd == 12 ? 'selected' : ''}>수령/배송 문의</option>
-                        <option value="13" ${map.boardDetail.boardCd == 13 ? 'selected' : ''}>기타 문의</option>
+                <c:if test="${map.boardDetail.FAQCategoryNo != 0}">
+                    <select name="FAQCategoryNo" id="boardCd">
+                        <option disabled hidden ${empty map.boardDetail.FAQCategoryNo ? 'selected' : ''}>문의 종류</option>
+                        <option value="1"  ${map.boardDetail.FAQCategoryNo == 1  ? 'selected' : ''}>회원/계정 문의</option>
+                        <option value="2" ${map.boardDetail.FAQCategoryNo == 2 ? 'selected' : ''}>공동구매 문의</option>
+                        <option value="3" ${map.boardDetail.FAQCategoryNo == 3 ? 'selected' : ''}>결제/환불 문의</option>
+                        <option value="4" ${map.boardDetail.FAQCategoryNo == 4 ? 'selected' : ''}>수령/배송 문의</option>
+                        <option value="5" ${map.boardDetail.FAQCategoryNo == 5 ? 'selected' : ''}>기타 문의</option>
                     </select>
                 </c:if>
         
@@ -72,7 +72,7 @@
 
                 </c:forEach>
 
-                <c:if test="${boardCode == 3}">
+                <c:if test="${!empty map.boardDetail.isFixed}">
 
                     <div class="img-box">
 
@@ -108,7 +108,7 @@
    
                 
 
-                <c:if test="${boardCode == 6}">
+                <c:if test="${map.boardDetail.inquiryCategoryNo != 0}">
                     <div id="security-test">
                         <img src="" alt="captcha" id="captcha-img" class="c">
                         <input type="text" name="captchaInput" class="check-captcha-code" placeholder="보안문자를 입력하세요.">
