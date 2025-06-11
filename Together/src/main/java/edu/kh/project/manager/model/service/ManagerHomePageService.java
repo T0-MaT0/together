@@ -32,7 +32,7 @@ public interface ManagerHomePageService {
 	 * @param typeImg 
 	 * @return
 	 */
-	List<Image> promotionSelect(int typeImg);
+	List<Image> promotionSelect(String typeImg);
 
 	/** 광고 이미지 삭제
 	 * @param imageNo 

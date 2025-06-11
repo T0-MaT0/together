@@ -42,7 +42,7 @@
                     <div class="banner-product-group small-group">
                         <div class="new-banner">
                             <c:forEach var="image" items="${recruitmentList[0].imageList}" varStatus="status">
-                                <c:if test="${image.imageType eq 'MINI AD IMG'}">
+                                <c:if test="${image.imageType eq 'MINI _AD_IMG'}">
                                     <img src="${image.imagePath}${image.imageReName}" 
                                         class="banner-image ${status.first ? 'active' : ''}" 
                                         alt="NEW 공동구매 배너">
@@ -202,7 +202,7 @@
         <!-- 광고 배너 -->
         <div class="ad-banner">
             <c:forEach var="image" items="${recruitmentList[0].imageList}" varStatus="status">
-                <c:if test="${image.imageType eq 'MID AD IMG'}">
+                <c:if test="${image.imageType eq 'MID_AD_IMG'}">
                     <img src="${image.imagePath}${image.imageReName}" 
                          class="ad-image ${status.first ? 'active' : ''}" 
                          alt="광고 배너">

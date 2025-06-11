@@ -36,7 +36,7 @@ public class ManagerHomePageDAO {
 
 	
 	// 모든 수락한 광고 이미지 조회
-	public List<Image> promotionSelect(int typeImg) {
+	public List<Image> promotionSelect(String typeImg) {
 		return sqlSession.selectList("imageMapper.typeImageList", typeImg);
 	}
 
