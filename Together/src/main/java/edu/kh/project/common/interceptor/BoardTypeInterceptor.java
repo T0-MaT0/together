@@ -1,13 +1,9 @@
 package edu.kh.project.common.interceptor;
 
-import java.util.List;
-import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,7 +26,6 @@ public class BoardTypeInterceptor implements HandlerInterceptor{
 			throws Exception {
 		
 		// aplication scope 내장 객체 얻어오기
-		ServletContext application = request.getServletContext();
 		
 		// aplication scope에 BOARD_TYPE이 조회되어 세팅되지 않았다면
 		// == 서버 시작 후 누구도 요청한 적 X

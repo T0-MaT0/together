@@ -144,14 +144,14 @@ function deleteReply(replyNo, btn) {
 }
 
 /* 수정 버튼 */
-function openEditPopup(recruitmentNo) {
+function openEditPopup(recruitmentNo, productNo) {
     const width = 930;
     const height = 700;
     const left = (window.screen.width / 2) - (width / 2);
     const top = (window.screen.height / 2) - (height / 2);
     const options = `width=${width},height=${height},left=${left},top=${top},resizable=no,scrollbars=yes`;
 
-    window.open(`/group/edit?recruitmentNo=${recruitmentNo}`, "groupEditPopup", options);
+    window.open(`/group/edit?recruitmentNo=${recruitmentNo}&productNo=${productNo}`, "groupEditPopup", options);
 }
 
 //-------------------------------------------------------------------------//
@@ -310,7 +310,7 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
     modal.dataset.reportType = typeKey;
 
     document.getElementById("reportTitle").value = ""; // 사용자가 직접 입력하도록 초기화
-    document.getElementById("reporterName").innerText = loginMember.memberNick;
+    document.getElementById("reporterName").innerText = targetNick;
     document.getElementById("reportReason").innerText = "";
   }
 
@@ -326,6 +326,16 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
 
     let reportType = "";
     let reportTypeNo = 0;
+
+     const payload = {
+      reportTitle: reportTitle,
+      reportDetail: reportDetail,
+      reportedUserNo: modal.dataset.targetNo,
+      reportDate: new Date().toISOString(),
+      mReply: "",
+      reportType,
+      reportTypeNo
+    };
     
     if (modal.dataset.recruitmentNo) {
       payload.reportType = "RECRUITMENT";
@@ -340,16 +350,6 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
       alert("신고할 대상을 찾을 수 없습니다.");
       return;
     }
-
-    const payload = {
-      reportTitle: reportTitle,
-      reportDetail: reportDetail,
-      reportedUserNo: modal.dataset.targetNo,
-      reportDate: new Date().toISOString(),
-      mReply: "",
-      reportType,
-      reportTypeNo
-    };
 
     fetch("/report/submit", {
       method: "POST",

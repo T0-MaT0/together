@@ -234,7 +234,6 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         // 1. 모집방 정보 수정
         int result = dao.updateRecruitment(paramMap);
         if (result <= 0) throw new Exception("RECRUITMENT_ROOM 업데이트 실패");
-
         // 2. 상품 정보 수정
         result = dao.updateProduct(paramMap);
         if (result <= 0) throw new Exception("PRODUCT 업데이트 실패");

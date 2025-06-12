@@ -323,6 +323,7 @@ public class BusinessController {
 		
 		Map<String, Object> map = service.selectReviewList(paramMap, reviewCp);
 		
+		@SuppressWarnings("unchecked")
 		List<Review> reviewList = (List<Review>)map.get("reviewList");
 		for (Review review:reviewList) {
 			String content = review.getReviewContent();

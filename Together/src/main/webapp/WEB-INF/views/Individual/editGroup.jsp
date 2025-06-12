@@ -27,6 +27,7 @@
                 enctype="multipart/form-data">
                 
                 <input type="hidden" name="recruitmentNo" value="${recruitment.recruitmentNo}" />
+                <input type="hidden" name="productNo" value="${param.productNo}" />
 
                 <!-- 제목 -->
                 <div class="form-group title-row">

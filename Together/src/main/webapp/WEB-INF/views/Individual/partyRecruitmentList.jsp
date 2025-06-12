@@ -65,7 +65,6 @@
             <!-- 모집 정보 -->
             <div class="recruit-info-container">
                 <div class="product-details">
-                    <h3>${recruitmentDetail.productTitle}</h3>
                     <a href="${recruitmentDetail.productUrl}" class="product-link" target="_blank" rel="noopener noreferrer">🔗 링크 바로가기</a>
                 </div>
 
@@ -128,12 +127,11 @@
 
             <!-- 설명란 -->
             <div class="recruit-description">${recruitmentDetail.productContent}</div>
-
             <!-- 목록 버튼 -->
             <div class="button-container">
                 <!-- 수정 버튼 (로그인한 사용자의 닉네임과 hostName이 같을 때만 보임) -->
                 <c:if test="${not empty loginMember && loginMember.memberNick eq recruitmentDetail.hostName}">
-                    <button class="edit-btn2" onclick="openEditPopup(${recruitmentDetail.recruitmentNo})">수정</button>
+                    <button class="edit-btn2" onclick="openEditPopup(${recruitmentDetail.recruitmentNo}, ${recruitmentDetail.productNo})">수정</button>
                 </c:if>
                 <!-- 목록 버튼 (모든 사용자에게 보임) -->
                 <button class="list-btn" onclick="location.href='/individual'">목록</button>

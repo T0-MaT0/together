@@ -370,6 +370,7 @@ public class RecruitmentController {
  	public void editGroupSubmit(
  	        @RequestParam Map<String, Object> paramMap,
  	        @RequestParam("recruitmentNo") int recruitmentNo,
+ 	       @RequestParam("productNo") int productNo,
  	        @RequestParam(value = "images", required = false) List<MultipartFile> imageList,
  	        @SessionAttribute(name = "loginMember", required = false) Member loginMember,
  	        HttpServletResponse response,
@@ -387,6 +388,7 @@ public class RecruitmentController {
  	        // 수정 시 필요한 값 추가
  	        paramMap.put("memberNo", loginMember.getMemberNo());
  	        paramMap.put("recruitmentNo", recruitmentNo);
+ 	        paramMap.put("productNo", productNo);
 
  	        // 실제 수정 로직 호출 (서비스에서 UPDATE 처리)
  	        int result = service.updateRecruitment(paramMap, imageList);
