@@ -40,4 +40,5 @@ public interface ManagerHomePageService {
 	 */
 	int deletePromotionImage(int imageNo);
 
+
 }

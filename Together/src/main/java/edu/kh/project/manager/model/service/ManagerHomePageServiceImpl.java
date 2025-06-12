@@ -210,7 +210,7 @@ public class ManagerHomePageServiceImpl implements ManagerHomePageService{
 	
 	// 광고 이미지 조회하기
 	@Override
-	public List<Image> promotionSelect(int typeImg) {
+	public List<Image> promotionSelect(String typeImg) {
 		return dao.promotionSelect(typeImg);
 	}
 
