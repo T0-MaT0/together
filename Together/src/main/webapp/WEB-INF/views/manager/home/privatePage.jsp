@@ -85,7 +85,7 @@
             <h3>Mid 배너</h3>
             <div class="MidBannerArea">
                 <img class="bannerItem" src="/resources/images/image-manager/midPromotion.png" style="cursor: pointer;"
-                onclick="promotionCollection(7)"/>
+                onclick="promotionCollection('MID_AD_IMG')"/>
                 <!-- <input type="file" accept="image/*"> -->
             </div>
             <!-- <div class="btnArea">
@@ -99,7 +99,7 @@
             <div class="bottomBannerArea" src>
                 
                 <img class="bannerItem" src="/resources/images/image-manager/miniImage.png" style="cursor: pointer;"
-                onclick="promotionCollection(8)"/>
+                onclick="promotionCollection('MINI_AD_IMG')"/>
                 <!-- <input type="file" accept="image/*"> -->
 
             </div>

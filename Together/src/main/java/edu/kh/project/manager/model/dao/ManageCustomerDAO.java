@@ -376,7 +376,7 @@ public class ManageCustomerDAO {
 	public List<Image> reviewImageList(int no) {
 		Map <String, Object> map = new HashMap<>();
 		map.put("no", no);
-		map.put("imgType", 3);
+		map.put("imgType", "REVIEW");
 		return sqlSession.selectList("imageMapper.selectImageList", no);
 	}
 
