@@ -228,7 +228,7 @@
 	    ORDER BY p.READ_COUNT DESC
 	</select>
 	
-	<!-- 타입이 'AD_BANNER', 'MID_AD_IMG', 'MAIN_AD_IMG' 인 모든 이미지 조회 -->
+	<!-- 타입이 'AD BANNER', 'MID AD IMG', 'MAIN AD IMG' 인 모든 이미지 조회 -->
 	<select id="selectAllBannerImages" resultMap="image_rm">
 	    SELECT 
 	        I.IMG_NO,
@@ -239,7 +239,7 @@
 	        I.IMG_TYPE,
 	        I.IMG_TYPE_NO
 	    FROM IMG I
-	    WHERE I.IMG_TYPE IN ('AD_BANNER', 'MID_AD_IMG', 'MAIN_AD_IMG')
+	    WHERE I.IMG_TYPE IN ('AD BANNER', 'MID AD IMG', 'MINI AD IMG')
 	    ORDER BY I.IMG_LEVEL ASC
 	</select>
 

@@ -363,27 +363,33 @@ document.getElementById("reportUser")?.addEventListener("click", () => {
     const modal = document.getElementById("modal");
     const reportDetail = document.getElementById("reportReason").innerText;
     const reportTitle = document.getElementById("reportTitle").value;
-    const payload = {
+
+    let reportType = "";
+    let reportTypeNo = 0;
+
+     const payload = {
       reportTitle: reportTitle,
       reportDetail: reportDetail,
       reportedUserNo: modal.dataset.targetNo,
       reportDate: new Date().toISOString(),
       mReply: "",
+      reportType,
+      reportTypeNo
     };
     
     if (modal.dataset.recruitmentNo) {
-        payload.reportType = 2;
-        payload.reportTypeNo = Number(modal.dataset.recruitmentNo);
-      } else if (modal.dataset.replyNo) {
-        payload.reportType = 3;
-        payload.reportTypeNo = Number(modal.dataset.replyNo);
-      } else if (modal.dataset.messageNo) {
-        payload.reportType = 4;
-        payload.reportTypeNo = Number(modal.dataset.messageNo);
-      } else {
-        alert("신고할 대상을 찾을 수 없습니다.");
-        return;
-      }
+      payload.reportType = "RECRUITMENT";
+      payload.reportTypeNo = Number(modal.dataset.recruitmentNo);
+    } else if (modal.dataset.replyNo) {
+      payload.reportType = "REPLY";
+      payload.reportTypeNo = Number(modal.dataset.replyNo);
+    } else if (modal.dataset.messageNo) {
+      payload.reportType = "CHATTING";
+      payload.reportTypeNo = Number(modal.dataset.messageNo);
+    } else {
+      alert("신고할 대상을 찾을 수 없습니다.");
+      return;
+    }
 
     fetch("/report/submit", {
       method: "POST",

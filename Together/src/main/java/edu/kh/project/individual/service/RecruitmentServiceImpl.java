@@ -44,7 +44,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 	    // 메인 배너 조회 
 	    List<Image> mainBannerList = new ArrayList<>();
 	    for (Image img : bannerImages) {
-	        if ("AD_BANNER".equals(img.getImageType()) && img.getImageTypeNo() == 2) {
+	        if ("AD BANNER".equals(img.getImageType()) && img.getImageTypeNo() == 2) {
 	            mainBannerList.add(img);
 	        }
 	    }
@@ -68,7 +68,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 	    // 메인 배너 조회 
 	    List<Image> mainBannerList = new ArrayList<>();
 	    for (Image img : bannerImages) {
-	        if ("AD_BANNER".equals(img.getImageType()) && img.getImageTypeNo() == 2) {
+	        if ("AD BANNER".equals(img.getImageType()) && img.getImageTypeNo() == 2) {
 	            mainBannerList.add(img);
 	        }
 	    }
