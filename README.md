@@ -5,6 +5,13 @@
 ## 프로젝트 소개
 - 프로젝트명: ToGeher
 - 개발 기간: 2025.02.03~2025.04.01
+  - 1주차 : 주제선정 및 프로젝트 기획회의. 개발환경 세팅
+  - 2~3주차 : 기능 설계(와이어프레임, 요구사항 정의서, 유스케이스 다이어그램)
+  - 4주차 : DB 설계(ERD 작성, 테이블 정의서)
+  - 5~6주차 : 개인별 집중 개발 진행 후 통합 데스트 진행
+  - 7주차 : 세부기능/추가기능 등 피드백 후 수정 작업 진행
+  - 8주차 : 최종 통합 테스트 및 오류 수정, 발표자료 및 프레젠테이션 준비
+  - [개발 일정](https://docs.google.com/spreadsheets/d/1LQtex-sfUFBHT6WWB19N6orgbLp9UmrsVmDNQtMkeZ8/edit?gid=0#gid=0)
 - 서비스 특징 및 주요기능
   - 합리적인 가격과 공동구매 혜택을 원하는 소비자들을 위한 플랫폼 개발
   - 사업자가 상품을 등록하는 쇼핑몰 + 사용자가 직접 공동구매 모집 기능 결합
@@ -35,7 +42,6 @@
 - 
 [3.프로젝트 명세](#3-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EB%AA%85%EC%84%B8-)
 
-- 아키텍처
 - ERD
 - UI 프토로타입
 - Usecase Diagram
@@ -48,7 +54,7 @@
 | --- | --- |
 | [강현우]( "") | 모집 메인페이지, 모집 마이페이지, 사이드바(채팅), 조장 |
 | [정이레]( "") | 고객 관리, 브랜드 관리, 홈페이지 관리 |
-| [박규성](https://github.com/Park-ks117/workspace "박규성의 GitHub") | 상품 페이지, 상품 등록, 리뷰/Q&A 목록 페이지 |
+| [박규성](https://github.com/Park-ks117 "박규성의 GitHub") | 상품 페이지, 상품 등록, 리뷰/Q&A 목록 페이지 |
 | [박천상]( "") | 마이페이지, 사이드바(검색), 사이드바(장바구니) |
 | [정현이]( "") | 로그인/회원가입, 고객센터, 결제 |
 ## 2. 프로젝트 소개 🎁
@@ -121,19 +127,19 @@ guide
 채팅2
 
 ## 3. 프로젝트 명세 🛠
-### 3.1 아키텍처
-아키텍처
+### 3.1 ERD
+![image](https://github.com/user-attachments/assets/5d4baefd-5bee-4422-9841-d6ab547a0e5a)
 
-### 3.2 ERD
-entityManagerFactory(EntityManagerFactoryBuilder)
 
-### 3.3 UI 프로토타입
+### 3.2 UI 프로토타입
 [UI Prototype](https://www.figma.com/design/aScBFY71wbeBP5JF4dAH6J/ToMato?node-id=0-1&p=f&t=H8bLiCUZmxR8CHE3-0 "피그마")
 
-### 3.4 Usecase Diagram
+### 3.3 Usecase Diagram
+![image](https://github.com/user-attachments/assets/40300e09-aff3-4f2b-9030-328b3dae3cd5)
+
 [Usecase Diagram](https://app.diagrams.net/?splash=0#G1go5uIDLEzSdIX-5jOt6PUP8Ctspnnn89#%7B%22pageId%22%3A%22nUp9kfOkY5CyGq1PJfAQ%22%7D "유스케이스 다이어그램")
 
-### 3.5 요구사항 정의서
+### 3.4 요구사항 정의서
 | 대분류 | 소분류 |	요구사항명 | 요구사항 내용 |
 | --- | --- | --- | --- |
 | 비회원 | 공통 | 회원가입 | 비회원은 홈페이지에서 회원가입을 할 수 있어야 한다. |
