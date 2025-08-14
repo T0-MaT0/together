@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -604,6 +605,7 @@ public class BusinessController {
 		
 		paramMap.put("order", order);
 		paramMap.put("loginMember", loginMember);
+		paramMap.put("productNo", productNo);
 		
 		int result = service.insertOrder(paramMap);
 		
@@ -611,9 +613,8 @@ public class BusinessController {
 		String path = "redirect:/product/"+productNo+"/order/";
 		if (result>0) {
 			message = "주문이 완료되었습니다.";
-			path += "success";
+			path += "success?orderNo="+result;
 			session.setAttribute("recentOrder", order);
-			ra.addFlashAttribute("order", order);
 		} else {
 			message = "주문 실패";
 		}
@@ -627,6 +628,7 @@ public class BusinessController {
 	public String orderSuccess(
 			@PathVariable("productNo") int productNo,
 			@SessionAttribute(name = "loginMember", required = false) Member loginMember,
+			@RequestParam int orderNo,
 			Model model) {
 		Business business = service.selectBusiness(productNo);
 		
@@ -634,6 +636,8 @@ public class BusinessController {
 		map.put("productNo", productNo);
 		map.put("memberNo", loginMember.getMemberNo());
 		map.put("reviewNo", -1);
+		map.put("orderNo", orderNo);
+		
 		Order order = service.selectOrder(map);
 		
 		PointHistory usage = service.selectPointHistory(order.getOrderNo());

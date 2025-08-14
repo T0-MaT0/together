@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import edu.kh.project.member.model.dto.Board;
-import edu.kh.project.member.model.dto.FaqCategory;
 import edu.kh.project.member.model.dto.Member;
 import edu.kh.project.member.model.service.CustomerService;
 

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import edu.kh.project.business.model.dto.Business;
 import edu.kh.project.business.model.dto.BusinessOption;
 import edu.kh.project.business.model.dto.Order;
+import edu.kh.project.business.model.dto.OrderDetail;
 import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
 import edu.kh.project.common.model.dto.Pagination;
@@ -233,8 +234,8 @@ public class BusinessDao {
 		return sqlSession.delete("boardMapper.deleteProductPick", paramMap);
 	}
 
-	public int updateQuantity(Order order) {
-		return sqlSession.update("boardMapper.updateQuantity", order);
+	public int updateQuantity(OrderDetail orderDetail) {
+		return sqlSession.update("boardMapper.updateQuantity", orderDetail);
 	}
 
 	public int insertBoard(Board board) {
@@ -246,5 +247,9 @@ public class BusinessDao {
 		}
 		
 		return result;
+	}
+
+	public int insertOrderDetail(OrderDetail orderDetail) {
+		return sqlSession.insert("boardMapper.insertOrderDetail", orderDetail);
 	}
 }

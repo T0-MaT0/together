@@ -17,6 +17,7 @@ import edu.kh.project.business.model.dao.BusinessDao;
 import edu.kh.project.business.model.dto.Business;
 import edu.kh.project.business.model.dto.BusinessOption;
 import edu.kh.project.business.model.dto.Order;
+import edu.kh.project.business.model.dto.OrderDetail;
 import edu.kh.project.common.ImageDeleteException;
 import edu.kh.project.common.model.dto.Category;
 import edu.kh.project.common.model.dto.Image;
@@ -136,8 +137,12 @@ public class BusinessServiceIml implements BusinessService {
 		int result = dao.insertOrder(order);
 		
 		if (result>0) {
-			// 오더 디테일 삽입 예정
-			
+			OrderDetail orderDetail = new OrderDetail();
+			orderDetail.setQuantity(Integer.parseInt((String) paramMap.get("quantity")));
+			orderDetail.setOrderNo(order.getOrderNo());
+			orderDetail.setOptionNo(Integer.parseInt((String) paramMap.get("optionNo")));
+			orderDetail.setProductNo((Integer)paramMap.get("productNo"));
+			result = dao.insertOrderDetail(orderDetail);
 			
 			if (result>0) {
 				Member loginMember = (Member) paramMap.get("loginMember");
@@ -153,7 +158,10 @@ public class BusinessServiceIml implements BusinessService {
 					loginMember.setPoint(loginMember.getPoint()-totalPrice);
 					result = dao.updatePoint(loginMember);
 					if (result>0) {
-						result = dao.updateQuantity(order);
+						result = dao.updateQuantity(orderDetail);
+						if (result>0) {
+							result = order.getOrderNo();
+						}
 					}
 				}
 			}
