@@ -3,14 +3,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<c:set var="orderDetail" value="${order.orderDetailList[0]}"/>
 <c:set var="thumbnail" value="${business.imageList[0].imagePath}${business.imageList[0].imageReName}"/>
-<c:set var="price" value="${business.productPrice * order.quantity}"/>
+<c:set var="price" value="${business.productPrice * orderDetail.quantity}"/>
 <c:set var="totalPrice" value="${price + business.deliveryFee}"/>
 
 <fmt:parseDate value="${usage.usageDate}" var="parsedDate" pattern="yyyy-MM-dd HH:mm:ss" />
 
 <c:forEach var="option" items="${business.optionList}">
-    <c:if test="${option.optionNo==order.optionNo}">
+    <c:if test="${option.optionNo==orderDetail.optionNo}">
         <c:set var="optionName" value="${option.optionName}"/>
     </c:if>
 </c:forEach>
@@ -73,7 +74,7 @@
             <div class="content-box">
                 <div class="business-title">
                     <div>
-                        <span onclick="gotoDetail()">${business.boardTitle}</span>
+                        <span onclick="gotoDetail()">${business.productTitle}</span>
                         <span class="small">
                             배송비 
                             <c:if test="${empty business.deliveryFee}">
@@ -95,8 +96,8 @@
                 <div class="option-area">
                     <img src="${thumbnail}" onclick="gotoDetail()">
                     <div>
-                        <span onclick="gotoDetail()">${business.boardTitle}</span>
-                        <span class="small">${optionName} | ${order.quantity}개</span>
+                        <span onclick="gotoDetail()">${business.productTitle}</span>
+                        <span class="small">${optionName} | ${orderDetail.quantity}개</span>
                         <span>
                             <fmt:formatNumber value="${price}" type="number" maxFractionDigits="0"/>원
                         </span>

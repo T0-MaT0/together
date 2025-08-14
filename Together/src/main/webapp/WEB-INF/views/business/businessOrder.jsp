@@ -79,6 +79,7 @@
                         </div>
                         <input type="hidden" name="optionNo" value="${option[0]}">
                         <input type="hidden" name="quantity" value="${param.quantity}">
+                        <input type="hidden" name="optionNo" value="${param.optionNo}">
                         <input type="hidden" name="totalPrice" value="${totalPrice}">
                         <input type="hidden" name="memberNo" value="${loginMember.memberNo}">
                     </form>

@@ -127,10 +127,10 @@
 	
 	<!-- 포인트 사용 내역 resultMap -->
 	<resultMap type="PointHistory" id="history_rm">
-		<id property="historyNo" column="POINT_HISTORY_NO" />
+		<id property="pointHistoryNo" column="POINT_HISTORY_NO" />
 		<result property="usedDate" column="USED_DATE" />
 		<result property="pointAmount" column="POINT_AMOUNT" />
-		<result property="usedDetail" column="USAGE_DETAIL" />
+		<result property="usageDetail" column="USAGE_DETAIL" />
 		<result property="pointType" column="POINT_TYPE" />
 		<result property="pointTypeNo" column="POINT_TYPE_NO" />
 		<result property="memberNo" column="MEMBER_NO" />
@@ -538,26 +538,20 @@
 	</insert>
 	
 	<!-- 주문 상세 내역 삽입 -->
-	<insert id="insertOrderDetailList" parameterType="list">
-		INSERT INTO ORDER_DETAIL 
-		SELECT SEQ_ORDER_DETAIL_NO.NEXTVAL, A.*
-		FROM (
-			<foreach collection="list" item="orderDetail" separator=" UNION ALL ">
-				SELECT #{orderDetail.quantity} QUANTITY, 
-					#{orderDetail.orderNo} ORDER_NO, 
-					#{orderDetail.optionNo} OPTION_NO, 
-					#{orderDetail.productNo} PRODUCT_NO, 
-				FROM DUAL
-			</foreach>
-			) A
+	<insert id="insertOrderDetail" parameterType="OrderDetail" useGeneratedKeys="true">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="orderDetailNo">
+			SELECT SEQ_ORDER_DETAIL_NO.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO ORDER_DETAIL VALUES(#{orderDetailNo}, #{quantity}, 
+		#{orderNo}, #{optionNo}, #{productNo})
 	</insert>
 	
 	<!-- 포인트 사용 내역 삽입 -->
 	<insert id="insertPointHistory" parameterType="PointHistory" useGeneratedKeys="true">
-		<selectKey order="BEFORE" resultType="_int" keyProperty="historyNo">
+		<selectKey order="BEFORE" resultType="_int" keyProperty="pointHistoryNo">
 			SELECT SEQ_POINT_HISTORY_NO.NEXTVAL FROM DUAL
 		</selectKey>
-		INSERT INTO POINT_HISTORY VALUES(#{historyNo}, DEFAULT, 
+		INSERT INTO POINT_HISTORY VALUES(#{pointHistoryNo}, DEFAULT, 
 		#{pointAmount}, '상품구매', 'PRODUCT', #{pointTypeNo}, 
 		#{memberNo})
 	</insert>
@@ -583,7 +577,7 @@
 	<!-- 주문 내역 조회 -->
 	<select id="selectOrder" resultMap="order_rm">
 		SELECT * FROM "ORDER" O
-		WHERE O.MEMBER_NO = #{memberNo} AND O.ORDER_NO = #{orderNo}
+		WHERE O.MEMBER_NO = #{memberNo}
 		<if test="reviewNo!=-1">
 			AND O.ORDER_NO = (SELECT R.ORDER_NO FROM REVIEW R
 				WHERE R.REVIEW_NO = #{reviewNo})

@@ -3,11 +3,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<c:set var="orderDetail" value="${order.orderDetailList[0]}"/>
 <c:set var="thumbnail" value="${business.imageList[0].imagePath}${business.imageList[0].imageReName}"/>
 <c:set var="imageList" value="${review.imageList}"/>
 
 <c:forEach var="option" items="${business.optionList}">
-    <c:if test="${option.optionNo==order.optionNo}">
+    <c:if test="${option.optionNo==orderDetail.optionNo}">
         <c:set var="optionName" value="${option.optionName}"/>
     </c:if>
 </c:forEach>
