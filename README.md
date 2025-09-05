@@ -22,7 +22,7 @@
   | 항목 | 내용 |
   | --- | --- |
   | IDE | Eclipse, InteliJ IDEA |
-  | 개발 언어 | Javva 11, HTML5, CSS3, JavaScript, JSP |
+  | 개발 언어 | Java 11, HTML5, CSS3, JavaScript, JSP |
   | 백엔드 프레임워크 | Spring Framework(MVC) |
   | 데이터베이스 | Oracle 11g(Oracle Cloud Free Tier) |
   | ORM / 쿼리 매퍼 | MyBatis |
